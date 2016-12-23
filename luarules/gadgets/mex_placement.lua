@@ -109,18 +109,19 @@ function gadget:Initialize()
 		local teamID = Spring.GetUnitTeam(unitID)
 		gadget:UnitCreated(unitID, unitDefID, teamID)
 	end
-
-	if metalSpots then
-		local scalingFactor = 2 * Game.squareSize
-		for i = 1, #metalSpots do
-			local spot = metalSpots[i]
-			for x = -1, 1 do
-				for z = -1, 1 do
-					Spring.SetSquareBuildingMask(spot.x / scalingFactor + x, spot.z / scalingFactor + z, 2)
-				end
-			end
-		end
-	end
+	
+	-- This sets a building mask so that only mexDefID can be built on the mex spot
+	-- if metalSpots then
+		-- local scalingFactor = 2 * Game.squareSize
+		-- for i = 1, #metalSpots do
+			-- local spot = metalSpots[i]
+			-- for x = -3, 3 do
+				-- for z = -3, 3 do
+					-- Spring.SetSquareBuildingMask(spot.x / scalingFactor + x, spot.z / scalingFactor + z, 2)
+				-- end
+			-- end
+		-- end
+	-- end
 end
 
 --------------------------------------------------------------------------------
