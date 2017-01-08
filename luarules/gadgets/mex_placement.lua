@@ -24,7 +24,10 @@ include("LuaRules/Configs/customcmds.h.lua")
 -- Command Definition
 --------------------------------------------------------------------------------
 
-local mexDefID = UnitDefNames["cormex"].id
+local mexDefID = {
+	[UnitDefNames["cormex"].id] = true,
+	[UnitDefNames["armmex"].id] = true,
+}
 
 local cmdMex = {
 	id      = CMD_AREA_MEX,
@@ -39,7 +42,7 @@ local cmdMex = {
 local canMex = {}
 for udid, ud in ipairs(UnitDefs) do 
 	for i, option in ipairs(ud.buildOptions) do 
-		if mexDefID == option then
+		if mexDefID[option] then
 			canMex[udid] = true
 			--Spring.Echo(ud.name)
 		end
@@ -65,8 +68,13 @@ local MEX_DISTANCE = 500
 
 local sameOrder = {}
 
+
 function gadget:AllowCommand_GetWantedCommand()	
-	return {[-mexDefID] = true, [CMD.INSERT] = true}
+	local ret = { [CMD.INSERT] = true }
+	for id in pairs(mexDefID) do
+		ret[-id] = true
+	end
+	return ret
 end
 
 function gadget:AllowCommand_GetWantedUnitDefID()
@@ -74,7 +82,7 @@ function gadget:AllowCommand_GetWantedUnitDefID()
 end
 
 function gadget:AllowCommand(unitID, unitDefID, teamID, cmdID, cmdParams, cmdOptions)
-	if (cmdID == -mexDefID or (cmdID == CMD.INSERT and cmdParams and cmdParams[2] == -mexDefID)) and metalSpots then
+	if (mexDefID[-cmdID] or (cmdID == CMD.INSERT and cmdParams and mexDefID[-cmdParams[2]])) and metalSpots then
 		local x = math.ceil(cmdParams[1])
 		local z = math.ceil(cmdParams[3])
 		if x and z then
@@ -135,7 +143,7 @@ function gadget:UnitCreated(unitID, unitDefID, unitTeam)
 		Spring.InsertUnitCmdDesc(unitID, cmdMex)
 	end
 	
-	if unitDefID == mexDefID then
+	if mexDefID[unitDefID] then
 		local x,_,z = Spring.GetUnitPosition(unitID)
 		if metalSpots then
 			local spotID = metalSpotsByPos[x] and metalSpotsByPos[x][z]
@@ -181,7 +189,7 @@ function GetClosestMetalSpot(x, z) --is used by single mex placement, not used b
 end
 
 function gadget:UnitDestroyed(unitID, unitDefID, unitTeam)
-	if unitDefID == mexDefID and spotByID[unitID] then
+	if mexDefID[unitDefID] and spotByID[unitID] then
 		spotData[spotByID[unitID]] = nil
 		spotByID[unitID] = nil
 	end
