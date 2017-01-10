@@ -650,12 +650,14 @@ function calcMainMexDrawList()
 				glTexture(false)
 			else
 				-- Draws a metal bar at the center of the metal spot
+				--[[
 				glRotate(90,1,0,0)
 				glTranslate(0,0,-y)
 				glColor(1,1,1)
 				glTexture("LuaUI/Images/ibeam.png")
 				glTexRect(x-25, z-25, x+25, z+25,0,0,1,1)
 				glTexture(false)
+				]]--
 				
 				-- Draws the metal spot's base income "south" of the metal spot
 				glRotate(180,1,0,0)
