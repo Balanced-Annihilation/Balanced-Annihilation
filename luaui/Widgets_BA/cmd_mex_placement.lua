@@ -152,7 +152,11 @@ options = {
 -------------------------------------------------------------------------------------
 -- Mexes and builders
 
-local mexDefID = UnitDefNames["cormex"].id
+local mexDefID =
+	{ UnitDefNames["cormex"].id
+	, UnitDefNames["armmex"].id
+}
+
 local mexUnitDef = UnitDefNames["cormex"]
 local mexDefInfo = {
 	extraction = 0.001,
@@ -166,7 +170,7 @@ local mexBuilder = {}
 local mexBuilderDefs = {}
 for udid, ud in ipairs(UnitDefs) do 
 	for i, option in ipairs(ud.buildOptions) do 
-		if mexDefID == option then
+		if mexDefID[option] then
 			mexBuilderDefs[udid] = true
 		end
 	end
@@ -356,8 +360,8 @@ function widget:CommandNotify(cmdID, params, options)
 				local y = Spring.GetGroundHeight(x, z)
 
 				-- check if some other widget wants to handle the command before sending it to units.
-				if not WG.GlobalBuildCommand or not WG.GlobalBuildCommand.CommandNotifyMex(-mexDefID, {x, y, z, 0}, options, true) then
-					commandArrayToIssue[#commandArrayToIssue+1] = {-mexDefID, {x,y,z,0} , {"shift"}}
+				if not WG.GlobalBuildCommand or not WG.GlobalBuildCommand.CommandNotifyMex(-mexDefID[0], {x, y, z, 0}, options, true) then
+					commandArrayToIssue[#commandArrayToIssue+1] = {-mexDefID[0], {x,y,z,0} , {"shift"}}
 				end
 			end
 			
@@ -369,7 +373,7 @@ function widget:CommandNotify(cmdID, params, options)
 		return true
 	end
 
-	if -mexDefID == cmdID and WG.metalSpots then
+	if mexDefID[-cmdID] and WG.metalSpots then
 		
 		local bx, bz = params[1], params[3]
 		local closestSpot = GetClosestMetalSpot(bx, bz)
@@ -380,7 +384,7 @@ function widget:CommandNotify(cmdID, params, options)
 			for i = 1, #units do
 				local unitID = units[i]
 				local unitDefID = Spring.GetUnitDefID(unitID)
-				if unitDefID and mexDefID == unitDefID and spGetUnitAllyTeam(unitID) == myAlly then
+				if unitDefID and mexDefID[unitDefID] and spGetUnitAllyTeam(unitID) == myAlly then
 					foundUnit = unitID
 					break
 				end
@@ -413,7 +417,7 @@ function widget:UnitCreated(unitID, unitDefID)
 end
 
 function widget:UnitFinished(unitID, unitDefID, teamID)
-	if unitDefID == mexDefID and WG.metalSpots then
+	if mexDefID[unitDefID] and WG.metalSpots then
 		if spGetSpectatingState() then
 			local x,_,z = Spring.GetUnitPosition(unitID)
 			local spotID = WG.metalSpotsByPos[x] and WG.metalSpotsByPos[x][z]
@@ -435,7 +439,7 @@ function widget:UnitFinished(unitID, unitDefID, teamID)
 end
 
 function widget:UnitDestroyed(unitID, unitDefID)
-	if unitDefID == mexDefID and spotByID[unitID] then
+	if mexDefID[unitDefID] and spotByID[unitID] then
 		spotData[spotByID[unitID]] = nil
 		spotByID[unitID] = nil
 		updateMexDrawList()
@@ -446,7 +450,7 @@ function widget:UnitGiven(unitID, unitDefID, newTeamID, teamID)
 	if mexBuilderDefs[unitDefID] then
 		mexBuilder[unitID] = true
 	end
-	if unitDefID == mexDefID then
+	if mexDefID[unitDefID] then
 		local done = select(5, spGetUnitHealth(unitID))
 		if done == 1 then
 			widget:UnitFinished(unitID, unitDefID,unitDefID)
@@ -464,7 +468,7 @@ local function Initialize()
 	for i, unitID in ipairs(units) do 
 		local unitDefID = spGetUnitDefID(unitID)
 		widget:UnitCreated(unitID, unitDefID)
-		if unitDefID == mexDefID then
+		if mexDefID[unitDefID] then
 			local done = select(5, spGetUnitHealth(unitID))
 			if done == 1 then
 				widget:UnitFinished(unitID, unitDefID,team)
@@ -490,7 +494,7 @@ function widget:Update()
 		local units = spGetAllUnits()
 		for i, unitID in ipairs(units) do 
 			local unitDefID = spGetUnitDefID(unitID)
-		if unitDefID == mexDefID then
+		if mexDefID[unitDefID] then
 			local done = select(5, spGetUnitHealth(unitID))
 				if done == 1 then
 					widget:UnitFinished(unitID, unitDefID,team)
@@ -510,7 +514,7 @@ function widget:Update()
 		WG.mouseoverMex = mexSpotToDraw
 	else
 		local _, cmd_id = spGetActiveCommand()
-		if -mexDefID ~= cmd_id then
+		if not mexDefID[-cmd_id] then
 			return
 		end
 		local mx, my = spGetMouseState()
@@ -703,7 +707,7 @@ function widget:DrawWorldPreUnit()
 	local showecoMode = WG.showeco
 	local peruse = spGetGameFrame() < 1 or showecoMode or spGetMapDrawMode() == 'metal'
 	
-	drawMexSpots = WG.metalSpots and (-mexDefID == cmdID or CMD_AREA_MEX == cmdID or peruse)
+	drawMexSpots = WG.metalSpots and (mexDefID[-cmdID] or CMD_AREA_MEX == cmdID or peruse)
 
 	if drawMexSpots then
 			
@@ -729,14 +733,14 @@ function widget:DrawWorld()
 	
 	mexSpotToDraw = false
 	
-	if WG.metalSpots and pos and (-mexDefID == cmdID or peruse or CMD_AREA_MEX == cmdID) then
+	if WG.metalSpots and pos and (mexDefID[-cmdID] or peruse or CMD_AREA_MEX == cmdID) then
 	
 		-- Find build position and check if it is valid (Would get 100% metal)
-		local bx, by, bz = Spring.Pos2BuildPos(mexDefID, pos[1], pos[2], pos[3])
+		local bx, by, bz = Spring.Pos2BuildPos(mexDefID[0], pos[1], pos[2], pos[3])
 		local bface = Spring.GetBuildFacing()
 		local closestSpot, distance, index = GetClosestMetalSpot(bx, bz)
 		
-		if closestSpot and (-mexDefID == cmdID or not ((CMD_AREA_MEX == cmdID or peruse) and distance > 60)) and (not spotData[index]) then 
+		if closestSpot and (mexDefID[-cmdID] or not ((CMD_AREA_MEX == cmdID or peruse) and distance > 60)) and (not spotData[index]) then 
 		
 			mexSpotToDraw = closestSpot
 			
@@ -757,7 +761,7 @@ function widget:DrawWorld()
 			gl.PushMatrix()
 			gl.Translate(closestSpot.x, height, closestSpot.z)
 			gl.Rotate(90 * bface, 0, 1, 0)
-			gl.UnitShape(mexDefID, Spring.GetMyTeamID(), false, true, false)
+			gl.UnitShape(mexDefID[0], Spring.GetMyTeamID(), false, true, false)
 			gl.PopMatrix()
 			
 			gl.DepthTest(false)
@@ -769,8 +773,8 @@ function widget:DrawWorld()
 end
 
 function widget:DefaultCommand(type, id)
-	if mexSpotToDraw and WG.selectionEntirelyCons and not type and (Spring.TestBuildOrder(mexDefID, mexSpotToDraw.x, 0, mexSpotToDraw.z, 0) > 0) then
-		return -mexDefID
+	if mexSpotToDraw and WG.selectionEntirelyCons and not type and (Spring.TestBuildOrder(mexDefID[0], mexSpotToDraw.x, 0, mexSpotToDraw.z, 0) > 0) then
+		return -mexDefID[0]
 	end
 end
 
@@ -847,7 +851,7 @@ function widget:DrawScreen()
 		glColor(1, 1, 1, 1)
 	else
 		local _, cmd_id = spGetActiveCommand()
-		if -mexDefID ~= cmd_id then
+		if not mexDefID[-cmd_id] then
 			return
 		end
 		local mx, my = spGetMouseState()
