@@ -153,9 +153,6 @@ options = {
 -- Mexes and builders
 
 local mexDefID = UnitDefNames["cormex"].id
-local lltDefID = UnitDefNames["corllt"].id
-local solarDefID = UnitDefNames["armsolar"].id
-
 local mexUnitDef = UnitDefNames["cormex"]
 local mexDefInfo = {
 	extraction = 0.001,
@@ -174,13 +171,6 @@ for udid, ud in ipairs(UnitDefs) do
 		end
 	end
 end
-
-local addons = { -- coordinates of solars for the Alt modifier key
-	{ 16, -64 },
-	{ 64,  16 },
-	{-16,  64 },
-	{-64, -16 },
-}
 
 --------------------------------------------------------------------------------
 -- Variables
@@ -368,20 +358,6 @@ function widget:CommandNotify(cmdID, params, options)
 				-- check if some other widget wants to handle the command before sending it to units.
 				if not WG.GlobalBuildCommand or not WG.GlobalBuildCommand.CommandNotifyMex(-mexDefID, {x, y, z, 0}, options, true) then
 					commandArrayToIssue[#commandArrayToIssue+1] = {-mexDefID, {x,y,z,0} , {"shift"}}
-				end
-
-				if (options["alt"]) then
-					for i=1, #addons do
-						local addon = addons[i]
-						local xx = x+addon[1]
-						local zz = z+addon[2]
-						local yy = Spring.GetGroundHeight(xx, zz)
-						
-						-- check if some other widget wants to handle the command before sending it to units.
-						if not WG.GlobalBuildCommand or not WG.GlobalBuildCommand.CommandNotifyMex(-solarDefID, {xx, yy, zz, 0}, options, true) then
-							commandArrayToIssue[#commandArrayToIssue+1] = {-solarDefID, {xx,yy,zz,0}, {"shift"}}
-						end
-					end
 				end
 			end
 			
