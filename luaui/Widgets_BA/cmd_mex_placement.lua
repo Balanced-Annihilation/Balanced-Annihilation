@@ -347,17 +347,14 @@ function widget:CommandNotify(cmdID, params, options)
 				local z = command.z
 				local y = Spring.GetGroundHeight(x, z)
 
-				-- check if some other widget wants to handle the command before sending it to units.
-				if not WG.GlobalBuildCommand or not WG.GlobalBuildCommand.CommandNotifyMex(-mexDefID[0], {x, y, z, 0}, options, true) then
-					commandArrayToIssue[#commandArrayToIssue+1] = {-mexDefID[0], {x,y,z,0} , {"shift"}}
-				end
+				commandArrayToIssue[#commandArrayToIssue+1] = {-mexDefID[0], {x,y,z,0} , {"shift"}}
 			end
-			
+
 			if (#commandArrayToIssue > 0) then
 				Spring.GiveOrderArrayToUnitArray(unitArrayToReceive,commandArrayToIssue)
 			end
 		end
-  
+
 		return true
 	end
 
@@ -385,12 +382,8 @@ function widget:CommandNotify(cmdID, params, options)
 				end
 				return true
 			else
-				-- check if some other widget wants to handle the command before sending it to units.
 				local commandHeight = math.max(0, Spring.GetGroundHeight(closestSpot.x, closestSpot.z))
-				Spring.Echo("commandHeight", commandHeight)
-				if not WG.GlobalBuildCommand or not WG.GlobalBuildCommand.CommandNotifyMex(cmdID, {closestSpot.x, commandHeight, closestSpot.z, params[4]}, options, false) then
-					spGiveOrder(cmdID, {closestSpot.x, commandHeight, closestSpot.z, params[4]}, options.coded)
-				end
+				spGiveOrder(cmdID, {closestSpot.x, commandHeight, closestSpot.z, params[4]}, options.coded)
 				return true
 			end
 		end
