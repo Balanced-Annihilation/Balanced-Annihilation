@@ -168,10 +168,8 @@ local mexBuilder = {}
 
 local mexBuilderDefs = {}
 for udid, ud in ipairs(UnitDefs) do 
-	for i, option in ipairs(ud.buildOptions) do 
-		if mexDefID[option] then
-			mexBuilderDefs[udid] = true
-		end
+	if ud.customParams.area_mex_def then
+		mexBuilderDefs[udid] = UnitDefNames[ud.customParams.area_mex_def].id
 	end
 end
 
@@ -328,18 +326,22 @@ function widget:CommandNotify(cmdID, params, options)
 		end
 	
 		local shift = options.shift
-	
-		do --issue ordered order to unit(s)
-			local commandArrayToIssue={}
-			local unitArrayToReceive ={}
-			for i = 1, #units do --prepare unit list
-				local unitID = units[i]
-				if mexBuilder[unitID] then
-					unitArrayToReceive[#unitArrayToReceive+1] = unitID
-				end
+
+		local buildersByType = {}
+		for i = 1, #units do
+			local unitID = units[i]
+			local mexType = mexBuilder[unitID]
+			if mexType then
+				buildersByType[mexType] = buildersByType[mexType] or {}
+				local array = buildersByType[mexType]
+				array[#array + 1] = unitID
 			end
+		end
+		for mexType, unitArrayToReceive in pairs (buildersByType) do
+			local commandArrayToIssue={}
+
 			--prepare command list
-			if not shift then 
+			if not shift then
 				commandArrayToIssue[1] = {CMD.STOP, {} , {}}
 			end
 			for i, command in ipairs(orderedCommands) do
@@ -347,14 +349,13 @@ function widget:CommandNotify(cmdID, params, options)
 				local z = command.z
 				local y = Spring.GetGroundHeight(x, z)
 
-				commandArrayToIssue[#commandArrayToIssue+1] = {-mexDefID[0], {x,y,z,0} , {"shift"}}
+				commandArrayToIssue[#commandArrayToIssue+1] = {-mexType, {x,y,z,0} , {"shift"}}
 			end
 
 			if (#commandArrayToIssue > 0) then
 				Spring.GiveOrderArrayToUnitArray(unitArrayToReceive,commandArrayToIssue)
 			end
 		end
-
 		return true
 	end
 
@@ -392,9 +393,7 @@ function widget:CommandNotify(cmdID, params, options)
 end
 
 function widget:UnitCreated(unitID, unitDefID)
-	if mexBuilderDefs[unitDefID] then
-		mexBuilder[unitID] = true
-	end
+	mexBuilder[unitID] = mexBuilderDefs[unitDefID]
 end
 
 function widget:UnitFinished(unitID, unitDefID, teamID)
@@ -425,12 +424,11 @@ function widget:UnitDestroyed(unitID, unitDefID)
 		spotByID[unitID] = nil
 		updateMexDrawList()
 	end
+	mexBuilder[unitID] = nil
 end
 
 function widget:UnitGiven(unitID, unitDefID, newTeamID, teamID)
-	if mexBuilderDefs[unitDefID] then
-		mexBuilder[unitID] = true
-	end
+	mexBuilder[unitID] = mexBuilderDefs[unitDefID]
 	if mexDefID[unitDefID] then
 		local done = select(5, spGetUnitHealth(unitID))
 		if done == 1 then
