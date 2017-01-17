@@ -632,9 +632,8 @@ function widget:DrawWorldPreUnit()
 
 	-- Check command is to build a mex
 	local _, cmdID = spGetActiveCommand()
-	local showecoMode = WG.showeco
-	local peruse = spGetGameFrame() < 1 or showecoMode or spGetMapDrawMode() == 'metal'
-	
+	local peruse = spGetGameFrame() < 1 or spGetMapDrawMode() == 'metal'
+
 	drawMexSpots = WG.metalSpots and (mexDefID[-cmdID] or CMD_AREA_MEX == cmdID or peruse)
 
 	if drawMexSpots then
@@ -652,10 +651,8 @@ function widget:DrawWorld()
 	
 	-- Check command is to build a mex
 	local _, cmdID = spGetActiveCommand()
-	local showecoMode = WG.showeco
-	local peruse = spGetGameFrame() < 1 or showecoMode or spGetMapDrawMode() == 'metal'
-	
-	
+	local peruse = spGetGameFrame() < 1 or spGetMapDrawMode() == 'metal'
+
 	local mx, my = spGetMouseState()
 	local _, pos = spTraceScreenRay(mx, my, true)
 	
