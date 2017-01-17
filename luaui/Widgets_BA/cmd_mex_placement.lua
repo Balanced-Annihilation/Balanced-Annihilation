@@ -707,12 +707,6 @@ function widget:DrawWorld()
 	gl.Color(1, 1, 1, 1)
 end
 
-function widget:DefaultCommand(type, id)
-	if mexSpotToDraw and WG.selectionEntirelyCons and not type and (Spring.TestBuildOrder(mexDefID[0], mexSpotToDraw.x, 0, mexSpotToDraw.z, 0) > 0) then
-		return -mexDefID[0]
-	end
-end
-
 function widget:DrawInMiniMap()
 
 	if drawMexSpots then
