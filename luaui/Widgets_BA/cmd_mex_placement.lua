@@ -534,15 +534,9 @@ local function getSpotColor(x,y,z,id, specatate, t)
 				local alpha = t == 1 and 0.7 or 1.0 --Judging by colours set up top
 				return {r, g, b, alpha}
 			else
-				-- local r, g, b = Spring.GetTeamColor(allyTeams[spotData[id].allyTeam][1])
 				local r, g, b = Spring.GetTeamColor(Spring.GetTeamList(spotData[id].allyTeam)[1])
 				local alpha = t == 1 and 0.7 or 1.0 --Judging by colours set up top
 				return {r, g, b, alpha}
-				-- if spotData[id].allyTeam == spGetMyAllyTeamID() then
-				-- 	return allyMexColor[t]
-				-- else
-				-- 	return enemyMexColor[t]
-				-- end
 			end
 		else
 			return neutralMexColor[t]
@@ -551,12 +545,7 @@ local function getSpotColor(x,y,z,id, specatate, t)
 		if spotData[id] then
 			return allyMexColor[t]
 		else
-			--local _, inLos = spGetPositionLosState(x,y,z, myAllyTeam)
-			--if inLos then
-				return neutralMexColor[t]
-			--else
-			--	return enemyMexColor
-			--end
+			return neutralMexColor[t]
 		end
 	end
 end
@@ -587,9 +576,6 @@ function calcMainMexDrawList()
 			glLineWidth(spot.metal*1.5)
 			glDrawGroundCircle(x, 1, z, 40, 21)	
 			
-			--glColor(0,1,1)
-			--glRect(x-width/2, z+18, x+width/2, z+20)
-			--glDepthTest(false)
 			glPopMatrix()	
 			
 			glPushMatrix()
@@ -617,16 +603,6 @@ function calcMainMexDrawList()
 				glTexRect(x-width/2, z+40, x+width/2, z+40+size,0,0,metal,1)
 				glTexture(false)
 			else
-				-- Draws a metal bar at the center of the metal spot
-				--[[
-				glRotate(90,1,0,0)
-				glTranslate(0,0,-y)
-				glColor(1,1,1)
-				glTexture("LuaUI/Images/ibeam.png")
-				glTexRect(x-25, z-25, x+25, z+25,0,0,1,1)
-				glTexture(false)
-				]]--
-				
 				-- Draws the metal spot's base income "south" of the metal spot
 				glRotate(180,1,0,0)
 				glTranslate(x,-z-40-options.size.value, 0)
@@ -640,36 +616,7 @@ function calcMainMexDrawList()
 		glColor(1,1,1,1)
 	end
 end
---[[
-function calcMiniMexDrawList()
-	local specatate = spGetSpectatingState()
-	
-	glLoadIdentity()
-	glTranslate(0,1,0)
-	glScale(mapXinv , -mapZinv, 1)
-	glRotate(270,1,0,0)
 
-	for i = 1, #WG.metalSpots do
-		local spot = WG.metalSpots[i]
-		local x,z = spot.x, spot.z
-		local y = spGetGroundHeight(x,z)
-
-		local mexColor = getSpotColor(x,y,z,i,specatate)
-		
-		glLineWidth(spot.metal)
-		glColor(mexColor)
-		
-		glDrawGroundCircle(x, 0, z, 40, 32)
-		
-		glPushMatrix()
-		
-		glPopMatrix()
-	end
-
-	glLineWidth(1.0)
-	glColor(1,1,1,1)
-end
---]]
 function updateMexDrawList()
 	if (mainMexDrawList) then 
 		gl.DeleteList(mainMexDrawList); 
@@ -769,16 +716,6 @@ end
 function widget:DrawInMiniMap()
 
 	if drawMexSpots then
-		--[[
-		glPushMatrix()
-			glLoadIdentity()
-			glTranslate(0, 1, 0)
-			glScale(mapXinv , -mapZinv, 1)
-			
-			widget:DrawWorld()
-		glPopMatrix()
-		--]]
-		
 		local specatate = spGetSpectatingState()
 		
 		glLoadIdentity()
@@ -809,47 +746,3 @@ function widget:DrawInMiniMap()
 	end
 
 end
-
---[[
-local function DrawTextWithBackground(text, x, y, size, opt)
-	local width = glGetTextWidth(text) * size
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL)
-	
-	glColor(0.25, 0.25, 0.25, 0.75)
-	if (opt) then
-		if (strFind(opt, "r")) then
-			glRect(x, y, x - width, y + size * TEXT_CORRECT_Y)
-		elseif (strFind(opt, "c")) then
-			glRect(x + width * 0.5, y, x - width * 0.5, y + size * TEXT_CORRECT_Y)
-		else
-			glRect(x, y, x + width, y + size * TEXT_CORRECT_Y)
-		end
-	else
-		glRect(x, y, x + width, y + size * TEXT_CORRECT_Y)
-	end
-	glColor(0.75, 0.75, 0.75, 1)	
-	glText(text, x, y, size, opt)
-	
-end
-
-function widget:DrawScreen()
-	if mexSpotToDraw and WG.metalSpots then
-		local mx, my = spGetMouseState()
-		DrawTextWithBackground("\255\255\255\255Metal extraction: " .. strFormat("%.2f", mexSpotToDraw.metal), mx, my, TEXT_SIZE, "d")
-		glColor(1, 1, 1, 1)
-	else
-		local _, cmd_id = spGetActiveCommand()
-		if not mexDefID[-cmd_id] then
-			return
-		end
-		local mx, my = spGetMouseState()
-		local _, coords = spTraceScreenRay(mx, my, true, true)
-		if (not coords) then 
-			return 
-		end
-		IntegrateMetal(coords[1], coords[3])
-		DrawTextWithBackground("\255\255\255\255Metal extraction: " .. strFormat("%.2f", extraction), mx, my, TEXT_SIZE, "d")
-		glColor(1, 1, 1, 1)
-	end
-end
---]]
