@@ -632,7 +632,7 @@ function widget:DrawWorldPreUnit()
 	local _, cmdID = spGetActiveCommand()
 	local peruse = spGetGameFrame() < 1 or spGetMapDrawMode() == 'metal'
 
-	drawMexSpots = WG.metalSpots and (mexDefID[-cmdID] or CMD_AREA_MEX == cmdID or peruse)
+	drawMexSpots = WG.metalSpots and ((cmdID and mexDefID[-cmdID]) or CMD_AREA_MEX == cmdID or peruse)
 
 	if drawMexSpots then
 			
