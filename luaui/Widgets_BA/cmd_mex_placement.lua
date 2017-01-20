@@ -656,14 +656,14 @@ function widget:DrawWorld()
 	
 	mexSpotToDraw = false
 	
-	if WG.metalSpots and pos and (mexDefID[-cmdID] or peruse or CMD_AREA_MEX == cmdID) then
+	if WG.metalSpots and pos and ((cmdID and mexDefID[-cmdID]) or peruse or CMD_AREA_MEX == cmdID) then
 	
 		-- Find build position and check if it is valid (Would get 100% metal)
 		local bx, by, bz = Spring.Pos2BuildPos(mexDefID[0], pos[1], pos[2], pos[3])
 		local bface = Spring.GetBuildFacing()
 		local closestSpot, distance, index = GetClosestMetalSpot(bx, bz)
 		
-		if closestSpot and (mexDefID[-cmdID] or not ((CMD_AREA_MEX == cmdID or peruse) and distance > 60)) and (not spotData[index]) then 
+		if closestSpot and ((cmdID and mexDefID[-cmdID]) or not ((CMD_AREA_MEX == cmdID or peruse) and distance > 60)) and (not spotData[index]) then 
 		
 			mexSpotToDraw = closestSpot
 			
