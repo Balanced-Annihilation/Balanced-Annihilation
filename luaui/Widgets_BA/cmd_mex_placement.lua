@@ -493,7 +493,7 @@ function widget:Update()
 		WG.mouseoverMex = mexSpotToDraw
 	else
 		local _, cmd_id = spGetActiveCommand()
-		if not mexDefID[-cmd_id] then
+		if not cmd_id or not mexDefID[-cmd_id] then
 			return
 		end
 		local mx, my = spGetMouseState()
