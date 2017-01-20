@@ -41,14 +41,10 @@ local cmdMex = {
 
 local canMex = {}
 for udid, ud in ipairs(UnitDefs) do 
-	for i, option in ipairs(ud.buildOptions) do 
-		if mexDefID[option] then
-			canMex[udid] = true
-			--Spring.Echo(ud.name)
-		end
+	if ud.customParams.area_mex_def then
+		canMex[udid] = true
 	end
 end
-
 
 --------------------------------------------------------------------------------
 -- Variables
