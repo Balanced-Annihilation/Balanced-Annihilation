@@ -659,7 +659,7 @@ function widget:DrawWorld()
 	if WG.metalSpots and pos and ((cmdID and mexDefID[-cmdID]) or peruse or CMD_AREA_MEX == cmdID) then
 	
 		-- Find build position and check if it is valid (Would get 100% metal)
-		local bx, by, bz = Spring.Pos2BuildPos(mexDefID[0], pos[1], pos[2], pos[3])
+		local bx, by, bz = Spring.Pos2BuildPos(mexUnitDef.id, pos[1], pos[2], pos[3])
 		local bface = Spring.GetBuildFacing()
 		local closestSpot, distance, index = GetClosestMetalSpot(bx, bz)
 		
