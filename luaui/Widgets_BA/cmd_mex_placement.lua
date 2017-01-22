@@ -684,7 +684,7 @@ function widget:DrawWorld()
 			gl.PushMatrix()
 			gl.Translate(closestSpot.x, height, closestSpot.z)
 			gl.Rotate(90 * bface, 0, 1, 0)
-			if (cmdID < 0) then
+			if (cmdID and cmdID < 0) then
 				gl.UnitShape(-cmdID, Spring.GetMyTeamID(), false, true, false)
 			end
 			gl.PopMatrix()
