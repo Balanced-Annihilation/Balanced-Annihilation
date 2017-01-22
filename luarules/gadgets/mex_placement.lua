@@ -26,7 +26,9 @@ include("LuaRules/Configs/customcmds.h.lua")
 
 local mexDefID = {
 	[UnitDefNames["cormex"].id] = true,
+	[UnitDefNames["cormoho"].id] = true,
 	[UnitDefNames["armmex"].id] = true,
+	[UnitDefNames["armmoho"].id] = true,
 }
 
 local cmdMex = {
