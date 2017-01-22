@@ -379,15 +379,23 @@ function widget:CommandNotify(cmdID, params, options)
 			if foundUnit then
 				local build = select(5, spGetUnitHealth(foundUnit))
 				if build ~= 1 then
+					Spring.Echo("Found a mex in progress, assisting")
 					spGiveOrder(CMD.REPAIR, {foundUnit}, options.coded)
+				else
+					Spring.Echo("Found a finished mex, nothing to do")
 				end
 				return true
 			else
 				local commandHeight = math.max(0, Spring.GetGroundHeight(closestSpot.x, closestSpot.z))
 				spGiveOrder(cmdID, {closestSpot.x, commandHeight, closestSpot.z, params[4]}, options.coded)
+				Spring.Echo("Queueing a mex")
 				return true
 			end
+		else
+			Spring.Echo("No nearby mexspot found to snap to")
 		end
+	else
+		Spring.Echo(UnitDefs[-cmdID].humanName .. " is not a mex")
 	end
   
 end
