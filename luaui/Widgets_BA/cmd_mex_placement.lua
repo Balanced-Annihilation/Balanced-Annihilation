@@ -595,8 +595,9 @@ function calcMainMexDrawList()
 				glTexture(false)
 			else
 				-- Draws the metal spot's base income "south" of the metal spot
-				glRotate(180,1,0,0)
-				glTranslate(x,-z-40-options.size.value, 0)
+				glRotate(270,1,0,0)
+  				glColor(1,1,1)
+				glTranslate(x,-z-40-options.size.value, -y)
 				glText("+" .. ("%."..options.rounding.value.."f"):format(metal), 0.0, 0.0, options.size.value , "cno")
 			end	
 	
@@ -684,7 +685,7 @@ function widget:DrawWorld()
 			gl.PushMatrix()
 			gl.Translate(closestSpot.x, height, closestSpot.z)
 			gl.Rotate(90 * bface, 0, 1, 0)
-			if (cmdID < 0) then
+			if (cmdID and cmdID < 0) then
 				gl.UnitShape(-cmdID, Spring.GetMyTeamID(), false, true, false)
 			end
 			gl.PopMatrix()
