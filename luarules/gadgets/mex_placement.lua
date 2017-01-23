@@ -24,12 +24,12 @@ include("LuaRules/Configs/customcmds.h.lua")
 -- Command Definition
 --------------------------------------------------------------------------------
 
-local mexDefID = {
-	[UnitDefNames["cormex"].id] = true,
-	[UnitDefNames["cormoho"].id] = true,
-	[UnitDefNames["armmex"].id] = true,
-	[UnitDefNames["armmoho"].id] = true,
-}
+local mexDefID = {}
+for udid, ud in pairs(UnitDefs) do
+	if ud.isExtractor then
+		mexDefID[udid] = true
+	end
+end
 
 local cmdMex = {
 	id      = CMD_AREA_MEX,
