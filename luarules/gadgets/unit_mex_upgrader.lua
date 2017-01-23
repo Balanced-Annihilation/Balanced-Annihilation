@@ -92,7 +92,7 @@ local function GetClosestMetalSpot(x, z)
 			bestDist = dist
 		end
 	end
-	return bestSpot, sqrt(bestDist)
+	return bestSpot
 end
 
 function determine(ud, wd)
