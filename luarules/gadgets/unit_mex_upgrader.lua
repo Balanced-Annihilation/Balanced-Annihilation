@@ -80,6 +80,20 @@ local upgradeMexCmdDesc = {
   params  = {} 
 } 
 
+local function GetClosestMetalSpot(x, z)
+	local bestSpot
+	local bestDist = math.huge
+	for i = 1, #GG.metalSpots do
+		local spot = GG.metalSpots[i]
+		local dx, dz = x - spot.x, z - spot.z
+		local dist = dx*dx + dz*dz
+		if dist < bestDist then
+			bestSpot = spot
+			bestDist = dist
+		end
+	end
+	return bestSpot, sqrt(bestDist)
+end
 
 function determine(ud, wd)
   local tmpbuilders = {} 
@@ -261,9 +275,11 @@ function upgradeMex(unitID, mexID, teamID)
   
   builder.targetMex = mexID 
   builder.targetUpgrade = upgradePairs[mex.unitDefID] 
-  builder.targetX = mex.x 
+
+  local spot = GetClosestMetalSpot(mex.x, mex.z)
+  builder.targetX = spot.x
   builder.targetY = mex.y 
-  builder.targetZ = mex.z 
+  builder.targetZ = spot.z
   
   mex.assignedBuilder = unitID 
   
