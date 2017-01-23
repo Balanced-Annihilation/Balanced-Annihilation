@@ -152,12 +152,12 @@ options = {
 -------------------------------------------------------------------------------------
 -- Mexes and builders
 
-local mexDefID = {
-	[UnitDefNames["cormex"].id] = true,
-	[UnitDefNames["cormoho"].id] = true,
-	[UnitDefNames["armmex"].id] = true,
-	[UnitDefNames["armmoho"].id] = true
-}
+local mexDefID = {}
+for udid, ud in pairs(UnitDefs) do
+	if ud.isExtractor then
+		mexDefID[udid] = true
+	end
+end
 
 local mexUnitDef = UnitDefNames["cormex"] -- reference mex
 local mexDefInfo = {
