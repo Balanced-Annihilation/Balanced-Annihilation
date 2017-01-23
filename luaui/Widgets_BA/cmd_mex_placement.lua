@@ -153,10 +153,10 @@ options = {
 -- Mexes and builders
 
 local mexDefID = {
-	UnitDefNames["cormex"].id,
-	UnitDefNames["cormoho"].id,
-	UnitDefNames["armmex"].id,
-	UnitDefNames["armmoho"].id
+	[UnitDefNames["cormex"].id] = true,
+	[UnitDefNames["cormoho"].id] = true,
+	[UnitDefNames["armmex"].id] = true,
+	[UnitDefNames["armmoho"].id] = true
 }
 
 local mexUnitDef = UnitDefNames["cormex"] -- reference mex
