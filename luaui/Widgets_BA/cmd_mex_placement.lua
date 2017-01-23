@@ -143,7 +143,7 @@ options = {
 	specPlayerColours = {
 		name = "Use player colours when spectating",
 		type = "bool",
-		value = false,
+		value = true,
 		OnChange = function() updateMexDrawList() end
 	}
 }
@@ -417,7 +417,7 @@ function widget:UnitFinished(unitID, unitDefID, teamID)
 			local spotID = WG.metalSpotsByPos[x] and WG.metalSpotsByPos[x][z]
 			if spotID then
 				spotByID[unitID] = spotID
-				spotData[spotID] = {unitID = unitID}
+				spotData[spotID] = {unitID = unitID, team = Spring.GetUnitTeam(unitID)}
 				updateMexDrawList()
 			end
 		end
@@ -540,7 +540,9 @@ local function getSpotColor(x,y,z,id, specatate, t)
 		end
 	else
 		if spotData[id] then
-			return allyMexColor[t]
+			local r, g, b = Spring.GetTeamColor(spotData[id].team)
+			local alpha = t == 1 and 0.7 or 1.0 --Judging by colours set up top
+			return {r, g, b, alpha}
 		else
 			return neutralMexColor[t]
 		end
