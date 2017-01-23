@@ -362,7 +362,6 @@ function widget:CommandNotify(cmdID, params, options)
 	end
 
 	if mexDefID[-cmdID] and WG.metalSpots then
-		
 		local bx, bz = params[1], params[3]
 		local closestSpot = GetClosestMetalSpot(bx, bz)
 		if closestSpot then
@@ -396,10 +395,7 @@ function widget:CommandNotify(cmdID, params, options)
 		else
 			Spring.Echo("No nearby mexspot found to snap to")
 		end
-	else
-		Spring.Echo(UnitDefs[-cmdID].humanName .. " is not a mex")
 	end
-  
 end
 
 function widget:UnitCreated(unitID, unitDefID)
