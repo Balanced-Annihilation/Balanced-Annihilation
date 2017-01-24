@@ -81,26 +81,23 @@ end
 
 function gadget:AllowCommand(unitID, unitDefID, teamID, cmdID, cmdParams, cmdOptions)
 	if (mexDefID[-cmdID] or (cmdID == CMD.INSERT and cmdParams and mexDefID[-cmdParams[2]])) and metalSpots then
-		local x = math.ceil(cmdParams[1])
-		local z = math.ceil(cmdParams[3])
-Spring.Echo("trying mex @ " .. x .. "/" .. z)
+		local x = math.ceil(cmdParams[cmdID == CMD.INSERT and 4 or 1])
+		local z = math.ceil(cmdParams[cmdID == CMD.INSERT and 6 or 3])
 		if x and z then
 			if metalSpotsByPos[x] and metalSpotsByPos[x][z] then
 				return true
 			else
 				local _,_,_,isAI = Spring.GetTeamInfo(teamID)
---				if not isAI then 
---					return false;
---				else
+				if not isAI then 
+					return false;
+				else
 					local nearestspot, dist, spotindex = GetClosestMetalSpot(x, z)
 					if spotData[spotindex] == nil and dist < MEX_DISTANCE then
-Spring.Echo("found nearby mex @ " .. nearestspot.x .. "/" .. nearestspot.z)
-						return false
+						return true
 					else
-Spring.Echo("bummer")
 						return false
 					end
---				end
+				end
 			end
 		end
 	end
