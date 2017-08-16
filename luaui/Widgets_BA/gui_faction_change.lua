@@ -51,6 +51,8 @@ local spGetSpectatingState = Spring.GetSpectatingState
 
 local armcomDefID = UnitDefNames.armcom.id
 local corcomDefID = UnitDefNames.corcom.id
+local armseacomDefID = UnitDefNames.armseacom.id
+local corseacomDefID = UnitDefNames.armseacom.id
 
 local commanderDefID = spGetTeamRulesParam(myTeamID, 'startUnit')
 local amNewbie = (spGetTeamRulesParam(myTeamID, 'isNewbie') == 1)
@@ -170,7 +172,7 @@ function widget:DrawWorld()
 		local teamID = teamList[i]
 		local tsx, tsy, tsz = spGetTeamStartPosition(teamID)
 		if tsx and tsx > 0 then
-			if spGetTeamRulesParam(teamID, 'startUnit') == armcomDefID then
+			if spGetTeamRulesParam(teamID, 'startUnit') == armcomDefID or spGetTeamRulesParam(teamID, 'startUnit') == armseacomDefID then
 				glTexture('LuaUI/Images/arm.png')
 				glBeginEnd(GL_QUADS, QuadVerts, tsx, spGetGroundHeight(tsx, tsz), tsz, 80)
 			else
@@ -212,35 +214,42 @@ end
 function FactionChangeList()
 	-- Panel
 	glColor(0, 0, 0, 0.66)
-	RectRound(0, 0, 128*widgetScale, 80*widgetScale,6*widgetScale)
+	RectRound(0, 0, 128*widgetScale, 128*widgetScale,6*widgetScale)
 	glColor(1, 1, 1, 0.025)
-	RectRound(2*widgetScale, 2*widgetScale, 126*widgetScale, 78*widgetScale, 5*widgetScale)
+	RectRound(2*widgetScale, 2*widgetScale, 126*widgetScale, 126*widgetScale, 5*widgetScale)
 	
 	
 	if (WG['guishader_api'] ~= nil) then
-		WG['guishader_api'].InsertRect(2*widgetScale, 2*widgetScale, 126*widgetScale, 78*widgetScale, 'factionchange')
+		WG['guishader_api'].InsertRect(2*widgetScale, 2*widgetScale, 126*widgetScale, 126*widgetScale, 'factionchange')
 	end
 	
 		-- Highlight
 	glColor(0.8, 0.8, 0.8, 0.3)
 	if commanderDefID == armcomDefID then
 		RectRound(3*widgetScale, 3*widgetScale, 61*widgetScale, 61*widgetScale,4.5*widgetScale)
-	else
+	elseif commanderDefID == armseacomDefID then
+		RectRound(3*widgetScale, 65*widgetScale, 61*widgetScale, 125*widgetScale,4.5*widgetScale)
+	elseif commanderDefID == corcomDefID then
 		RectRound(65*widgetScale, 3*widgetScale, 125*widgetScale, 61*widgetScale,4.5*widgetScale)
+	elseif commanderDefID == corseacomDefID then
+		RectRound(65*widgetScale, 65*widgetScale, 125*widgetScale, 125*widgetScale,4.5*widgetScale)
 	end
 		-- Icons
 	glColor(1, 1, 1, 1)
 	glTexture('LuaUI/Images/ARM.png')
 	glTexRect(12*widgetScale, 17*widgetScale, 52*widgetScale, 59*widgetScale)
+	glTexRect(12*widgetScale, 65*widgetScale, 52*widgetScale, 123*widgetScale)	
 	glTexture('LuaUI/Images/CORE.png')
 	glTexRect(76*widgetScale, 20*widgetScale, 116*widgetScale, 60*widgetScale)
+	glTexRect(76*widgetScale, 68*widgetScale, 116*widgetScale, 123*widgetScale)
 	glTexture(false)
 	
 		-- Text
 	glBeginText()
-		glText('Choose Your Faction', 64*widgetScale, 64*widgetScale, 11.5*widgetScale, 'ocd')
-		glText('ARM', 32*widgetScale, 4*widgetScale, 12*widgetScale, 'ocd')
-		glText('CORE', 96*widgetScale, 4*widgetScale, 12*widgetScale, 'ocd')
+		glText('Bot', 32*widgetScale, 4*widgetScale, 12*widgetScale, 'ocd')
+		glText('Ship', 32*widgetScale, 68*widgetScale, 12*widgetScale, 'ocd')
+		glText('Bot', 96*widgetScale, 4*widgetScale, 12*widgetScale, 'ocd')
+		glText('Ship(NA)', 96*widgetScale, 68*widgetScale, 12*widgetScale, 'ocd')
 	glEndText()
 end
 
@@ -249,7 +258,7 @@ end
 function widget:MousePress(mx, my, mButton)
 
 	-- Check 3 of the 4 sides
-	if mx >= px and my >= py and my < py + (80*widgetScale) then
+	if mx >= px and my >= py and my < py + (128*widgetScale) then
 
 		-- Check buttons
 		if mButton == 1 then
@@ -263,9 +272,17 @@ function widget:MousePress(mx, my, mButton)
 			local newCom
 			-- Which button?
 			if mx < px + (64*widgetScale) then
+				if my < py + (64*widgetScale) then
 				newCom = armcomDefID
+				elseif my < py + (128*widgetScale) then
+				newCom = armseacomDefID
+				end
 			elseif mx < px + (128*widgetScale) then
+				if my < py + (64*widgetScale) then
 				newCom = corcomDefID
+				elseif my < py + (128*widgetScale) then
+				newCom = corseacomDefID
+				end
 			end
 			if newCom then
 				commanderDefID = newCom

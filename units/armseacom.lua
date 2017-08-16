@@ -6,7 +6,7 @@ if (Spring.GetModOptions) then
 end
 
 return {
-	armcom = {
+	armseacom = {
 		acceleration = 0.18,
 		activatewhenbuilt = true,
 		autoheal = 5,
@@ -25,16 +25,16 @@ return {
 		category = "ALL WEAPON NOTSUB COMMANDER NOTSHIP NOTAIR NOTHOVER SURFACE",
 		cloakcost = 100,
 		cloakcostmoving = 1000,
-		collisionvolumeoffsets = "0 -1 0",
-		collisionvolumescales = "27 39 27",
-		collisionvolumetype = "CylY",
+		collisionvolumeoffsets = "0 0 0",
+		collisionvolumescales = "33 33 130",
+		collisionvolumetype = "CylZ",
 		commander = true,
 		corpse = "DEAD",
 		description = "Commander",
 		energymake = 35,
 		explodeas = "commanderExplosion",
 		footprintx = 2,
-		footprintz = 2,
+		footprintz = 8,
 		hidedamage = true,
 		icontype = "armcommander",
 		idleautoheal = 5,
@@ -47,10 +47,11 @@ return {
 		maxwaterdepth = 35,
 		metalmake = 1.5,
 		mincloakdistance = 50,
-		movementclass = "AKBOT2",
+		movementclass = "HOVER3",
 		name = "Commander",
 		nochasecategory = "ALL",
-		objectname = "ARMCOM",
+		objectname = "ARMSEACOM",
+		script = "armseacom_lus.lua",
 		pushresistant = true,
 		radardistance = 700,
 		radaremitheight = 40,
@@ -64,9 +65,11 @@ return {
 		terraformspeed = 1500,
 		turninplaceanglelimit = 140,
 		turninplacespeedlimit = 0.825,
-		turnrate = 1148,
+		turnrate = 180,
 		upright = true,
 		workertime = 300,
+		waterline = 5,
+		
 		buildoptions = {
 			[1] = "armsolar",
 			[2] = "armwin",
@@ -111,14 +114,14 @@ return {
 				blocking = true,
 				collisionvolumeoffsets = "0 0 0",
 				collisionvolumescales = "47 10 47",
-				collisionvolumetype = "CylY",
+				collisionvolumetype = "CylZ",
 				damage = 10000,
 				description = "Commander Wreckage",
 				energy = 0,
 				featuredead = "HEAP",
 				featurereclamate = "SMUDGE01",
 				footprintx = 2,
-				footprintz = 2,
+				footprintz = 8,
 				height = 20,
 				hitdensity = 100,
 				metal = wreck_metal,
@@ -134,13 +137,13 @@ return {
 				energy = 0,
 				featurereclamate = "SMUDGE01",
 				footprintx = 2,
-				footprintz = 2,
+				footprintz = 8,
 				height = 4,
 				hitdensity = 100,
 				metal = wreck_metal / 2,
 				object = "2X2F",
                 collisionvolumescales = "35.0 4.0 6.0",
-                collisionvolumetype = "cylY",
+                collisionvolumetype = "CylZ",
 				reclaimable = true,
 				resurrectable = 0,
 				seqnamereclamate = "TREE1RECLAMATE",
@@ -195,7 +198,7 @@ return {
 				craterareaofeffect = 0,
 				craterboost = 0,
 				cratermult = 0,
-				--waterbounce = true, -- weapon will stick to the surface
+				waterbounce = true, -- weapon will stick to the surface
 				groundbounce = true,
 				bounceRebound = 0, --stick the explosion to ground with 0 vertical component
 				waterweapon = true, --dgun can pass trough water
@@ -310,10 +313,6 @@ return {
 			[1] = {
 				def = "ARMCOMLASER",
 				onlytargetcategory = "NOTSUB",
-			},
-			[2] = {
-				badtargetcategory = "VTOL",
-				def = "ARMCOMSEALASER",
 			},
 			[3] = {
 				def = "ARM_DISINTEGRATOR",

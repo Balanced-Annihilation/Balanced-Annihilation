@@ -42,10 +42,14 @@ local startUnitParamName = 'startUnit'
 ----------------------------------------------------------------
 local armcomDefID = UnitDefNames.armcom.id
 local corcomDefID = UnitDefNames.corcom.id
+local armseacomDefID = UnitDefNames.armseacom.id
+local corseacomDefID = UnitDefNames.armseacom.id
 
 local validStartUnits = {
 	[armcomDefID] = true,
 	[corcomDefID] = true,
+	[armseacomDefID] = true,
+	[corseacomDefID] = true,
 }
 local spawnTeams = {} -- spawnTeams[teamID] = allyID
 local nSpawnTeams
