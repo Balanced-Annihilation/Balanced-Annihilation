@@ -7,6 +7,7 @@ end
 
 return {
 	armcom2 = {
+		power = 1000*(4/3),
 		acceleration = 0.18,
 		activatewhenbuilt = true,
 		autoheal = 5*(4/3),
@@ -32,7 +33,7 @@ return {
 		corpse = "DEAD",
 		description = "Commander",
 		energymake = 35*(4/3),
-		explodeas = "commanderExplosion",
+		explodeas = "commanderExplosion2",
 		footprintx = 2,
 		footprintz = 2,
 		hidedamage = true,
@@ -51,6 +52,7 @@ return {
 		name = "Commander",
 		nochasecategory = "ALL",
 		objectname = "ARMCOMLVL2",
+		script = "ARMCOM_LUS.LUA",
 		pushresistant = true,
 		radardistance = 700*(11/10),
 		radaremitheight = 40,
@@ -251,7 +253,7 @@ return {
 				cratermult = 0,
 				cylindertargeting = 1,
 				edgeeffectiveness = 0.99,
-				explosiongenerator = "custom:laserhit-small-red",
+				explosiongenerator = "custom:laserhit-small-yellow",
 				firestarter = 70,
 				impactonly = 1,
 				impulseboost = 0,
@@ -265,7 +267,7 @@ return {
 				soundhitdry = "",
 				soundhitwet = "sizzle",
 				soundhitwetvolume = 0.5,
-				soundstart = "lasrfir1",
+				soundstart = "lasrfir3",
 				soundtrigger = 1,
 				targetmoveerror = 0.05,
 				thickness = 2,
@@ -327,10 +329,10 @@ return {
 				def = "ARMCOMLASER",
 				onlytargetcategory = "NOTSUB",
 			},
-			[2] = {
-				badtargetcategory = "VTOL",
-				def = "ARMCOMSEALASER",
-			},
+			-- [2] = {
+				-- badtargetcategory = "VTOL",
+				-- def = "ARMCOMSEALASER",
+			-- },
 			[3] = {
 				def = "ARM_DISINTEGRATOR",
 				onlytargetcategory = "NOTSUB",

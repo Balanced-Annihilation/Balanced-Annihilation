@@ -131,8 +131,8 @@ if (gadgetHandler:IsSyncedCode()) then
 
 			if eu >0 or mu >0 then
 				local a,oldexp = Spring.GetUnitExperience(unitID)
-							Spring.Echo(eu)
-			Spring.Echo(a)
+							-- Spring.Echo(eu)
+			-- Spring.Echo(a)
 					if ARMCOMMANDER1[unitID] then
 						newexp = a + (((eu/60) + mu)*0.000005)			
 					end

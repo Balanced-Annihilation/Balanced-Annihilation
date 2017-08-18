@@ -7,6 +7,7 @@ end
 
 return {
 	armcom = {
+		power = 1000,
 		acceleration = 0.18,
 		activatewhenbuilt = true,
 		autoheal = 5,
@@ -32,7 +33,7 @@ return {
 		corpse = "DEAD",
 		description = "Commander",
 		energymake = 35,
-		explodeas = "commanderExplosion",
+		explodeas = "commanderExplosion1",
 		footprintx = 2,
 		footprintz = 2,
 		hidedamage = true,
@@ -51,6 +52,7 @@ return {
 		name = "Commander",
 		nochasecategory = "ALL",
 		objectname = "ARMCOM",
+		script = "ARMCOM_LUS.LUA",
 		pushresistant = true,
 		radardistance = 700,
 		radaremitheight = 40,
@@ -64,7 +66,7 @@ return {
 		terraformspeed = 1500,
 		turninplaceanglelimit = 140,
 		turninplacespeedlimit = 0.825,
-		turnrate = 1148,
+		turnrate = 540,
 		upright = true,
 		workertime = 300,
 		buildoptions = {
@@ -311,10 +313,10 @@ return {
 				def = "ARMCOMLASER",
 				onlytargetcategory = "NOTSUB",
 			},
-			[2] = {
-				badtargetcategory = "VTOL",
-				def = "ARMCOMSEALASER",
-			},
+			-- [2] = {
+				-- badtargetcategory = "VTOL",
+				-- def = "ARMCOMSEALASER",
+			-- },
 			[3] = {
 				def = "ARM_DISINTEGRATOR",
 				onlytargetcategory = "NOTSUB",

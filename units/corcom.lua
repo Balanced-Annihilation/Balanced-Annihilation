@@ -7,6 +7,7 @@ end
 
 return {
 	corcom = {
+		power = 1000,
 		acceleration = 0.18,
 		activatewhenbuilt = true,
 		autoheal = 5,
@@ -32,7 +33,7 @@ return {
 		corpse = "DEAD",
 		description = "Commander",
 		energymake = 35,
-		explodeas = "commanderexplosion",
+		explodeas = "commanderexplosion1",
 		footprintx = 2,
 		footprintz = 2,
 		hidedamage = true,
@@ -51,6 +52,7 @@ return {
 		name = "Commander",
 		nochasecategory = "ALL",
 		objectname = "CORCOM",
+		script = "CORCOM_LUS.LUA",
 		pushresistant = true,
 		radardistance = 700,
 		radaremitheight = 40,
@@ -314,10 +316,10 @@ return {
 				def = "ARMCOMLASER",
 				onlytargetcategory = "NOTSUB",
 			},
-			[2] = {
-				badtargetcategory = "VTOL",
-				def = "ARMCOMSEALASER",
-			},
+			-- [2] = {
+				-- badtargetcategory = "VTOL",
+				-- def = "ARMCOMSEALASER",
+			-- },
 			[3] = {
 				def = "ARM_DISINTEGRATOR",
 				onlytargetcategory = "NOTSUB",

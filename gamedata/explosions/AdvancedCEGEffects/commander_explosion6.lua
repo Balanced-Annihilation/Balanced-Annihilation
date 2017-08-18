@@ -1,5 +1,4 @@
-return {
-	["COMMANDER_EXPLOSION"] = {
+return {	["COMMANDER_EXPLOSION6"] = {
 
 		GROUNDFLASH = {
 			flashsize=1000,
@@ -188,5 +187,5 @@ return {
 			},
 		},
 
-	},
+	}
 }

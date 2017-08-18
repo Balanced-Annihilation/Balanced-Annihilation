@@ -103,6 +103,26 @@ function gadget:Initialize()
         Spring.SetUnitDefIcon(udid, "armcom.user")
       elseif (ud.name=="corcom") or (ud.name=="cordecom") then
         Spring.SetUnitDefIcon(udid, "corcom.user")
+      elseif (ud.name=="armcom2") or (ud.name=="armdecom") then
+        Spring.SetUnitDefIcon(udid, "armcom.user")
+      elseif (ud.name=="corcom2") or (ud.name=="cordecom") then
+        Spring.SetUnitDefIcon(udid, "corcom.user")
+      elseif (ud.name=="armcom3") or (ud.name=="armdecom") then
+        Spring.SetUnitDefIcon(udid, "armcom.user")
+      elseif (ud.name=="corcom3") or (ud.name=="cordecom") then
+        Spring.SetUnitDefIcon(udid, "corcom.user")
+      elseif (ud.name=="armcom4") or (ud.name=="armdecom") then
+        Spring.SetUnitDefIcon(udid, "armcom.user")
+      elseif (ud.name=="corcom4") or (ud.name=="cordecom") then
+        Spring.SetUnitDefIcon(udid, "corcom.user")
+      elseif (ud.name=="armcom5") or (ud.name=="armdecom") then
+        Spring.SetUnitDefIcon(udid, "armcom.user")
+      elseif (ud.name=="corcom5") or (ud.name=="cordecom") then
+        Spring.SetUnitDefIcon(udid, "corcom.user")
+      elseif (ud.name=="armcom6") or (ud.name=="armdecom") then
+        Spring.SetUnitDefIcon(udid, "armcom.user")
+      elseif (ud.name=="corcom6") or (ud.name=="cordecom") then
+        Spring.SetUnitDefIcon(udid, "corcom.user")
       elseif (ud.name=="corkrog") then
         Spring.SetUnitDefIcon(udid, "krogoth.user")
       elseif (ud.isFactory) then

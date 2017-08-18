@@ -21,12 +21,6 @@ if (not gadgetHandler:IsSyncedCode()) then
 end
 
 -- remove gadget if modoption is not set
-function gadget:Initialize()
-	if (tonumber(Spring.GetModOptions().mo_preventcombomb) or 0) == 0 then
-		gadgetHandler:RemoveGadget(self)
-		return false
-	end
-end
 
 local GetTeamInfos = Spring.GetTeamInfos
 local GetUnitPosition = Spring.GetUnitPosition
@@ -36,18 +30,51 @@ local GetGameFrame = Spring.GetGameFrame
 local DestroyUnit = Spring.DestroyUnit
 
 
+function gadget:Initialize()
+	if (tonumber(Spring.GetModOptions().mo_preventcombomb) or 0) == 1 then
+	COM_BLAST = {
+	[WeaponDefNames['commanderexplosion'].id] = true,
+	[WeaponDefNames['commanderexplosion1'].id] = true,
+	[WeaponDefNames['commanderexplosion2'].id] = true,
+	[WeaponDefNames['commanderexplosion3'].id] = true,
+	[WeaponDefNames['commanderexplosion4'].id] = true,
+	[WeaponDefNames['commanderexplosion5'].id] = true,
+	[WeaponDefNames['commanderexplosion6'].id] = true,
+	}
+	else
+	COM_BLAST = {}
+	end
+end
 
-
-local COM_BLAST = WeaponDefNames['commanderexplosion'].id
 
 local DGUN = {
     [WeaponDefNames['armcom_arm_disintegrator'].id] = true,
     [WeaponDefNames['corcom_arm_disintegrator'].id] = true,
+    [WeaponDefNames['armcom2_arm_disintegrator'].id] = true,
+    [WeaponDefNames['corcom2_arm_disintegrator'].id] = true,
+    [WeaponDefNames['armcom3_arm_disintegrator'].id] = true,
+    [WeaponDefNames['corcom3_arm_disintegrator'].id] = true,
+    [WeaponDefNames['armcom4_arm_disintegrator'].id] = true,
+    [WeaponDefNames['corcom4_arm_disintegrator'].id] = true,
+    [WeaponDefNames['armcom5_arm_disintegrator'].id] = true,
+    [WeaponDefNames['corcom5_arm_disintegrator'].id] = true,
+    [WeaponDefNames['armcom6_arm_disintegrator'].id] = true,
+    [WeaponDefNames['corcom6_arm_disintegrator'].id] = true,
 }
 
 local COMMANDER = {
   [UnitDefNames["corcom"].id] = true,
   [UnitDefNames["armcom"].id] = true,
+  [UnitDefNames["corcom2"].id] = true,
+  [UnitDefNames["armcom2"].id] = true,
+  [UnitDefNames["corcom3"].id] = true,
+  [UnitDefNames["armcom3"].id] = true,
+  [UnitDefNames["corcom4"].id] = true,
+  [UnitDefNames["armcom4"].id] = true,
+  [UnitDefNames["corcom5"].id] = true,
+  [UnitDefNames["armcom5"].id] = true,
+  [UnitDefNames["corcom6"].id] = true,
+  [UnitDefNames["armcom6"].id] = true,
 }
 
 
@@ -77,7 +104,7 @@ function gadget:UnitPreDamaged(unitID, unitDefID, unitTeam, damage, paralyzer,
 			DestroyUnit(attackerID,false,false,unitID)
 			return combombDamage, 0
 		end
-	elseif weaponID == COM_BLAST and COMMANDER[unitDefID] then
+	elseif COM_BLAST[weaponID] and COMMANDER[unitDefID] then
 		if unitID ~= attackerID then
 			--prevent falling damage to the unitID, and lock position
 			MoveCtrl.Enable(unitID)
