@@ -754,6 +754,7 @@ function checkStatus()
 end
 
 function widget:GameFrame(n)
+	spec = spGetSpectatingState()
 	if n > 0 and not gameStarted then
 		gameStarted = true
 		checkStatus()
@@ -901,6 +902,8 @@ function widget:DrawScreen()
 	end
 	local now = os.clock()
 
+	local x,y,b = spGetMouseState()
+
 	local res = 'metal'
 	if dlistResbar[res][1] and dlistResbar[res][2] and dlistResbar[res][3] and dlistResbar[res][4] then
 		glCallList(dlistResbar[res][1])
@@ -937,7 +940,6 @@ function widget:DrawScreen()
 			glText("\255\255\255\255"..currentWind, windArea[1]+((windArea[3]-windArea[1])/2), windArea[2]+((windArea[4]-windArea[2])/2.1)-(fontSize/5), fontSize, 'oc') -- Wind speed text
 		end
 	end
-	
 	if dlistComs1 then
 		glCallList(dlistComs1)
 		if allyComs == 1 and (gameFrame % 12 < 6) then
@@ -951,11 +953,10 @@ function widget:DrawScreen()
 	if dlistRejoin and showRejoinUI then
 		glCallList(dlistRejoin)
 	end
-	
+
 	if dlistButtons1 then
 		glCallList(dlistButtons1)
 		-- hovered?
-		local x,y,b = spGetMouseState()
 		if buttonsArea['buttons'] ~= nil and IsOnRect(x, y, buttonsArea[1], buttonsArea[2], buttonsArea[3], buttonsArea[4]) then
 			buttonsAreaHovered = nil
 			for button, pos in pairs(buttonsArea['buttons']) do
@@ -971,6 +972,70 @@ function widget:DrawScreen()
 			end
 		end
 		glCallList(dlistButtons2)
+	end
+
+	if showQuitscreen ~= nil then
+		local fadeTime = 0.2
+		local fadeProgress = (os.clock() - showQuitscreen) / fadeTime
+		if fadeProgress > 1 then fadeProgress = 1 end
+
+		-- background
+		if (WG['guishader_api'] ~= nil) then
+			WG['guishader_api'].InsertRect(0,0,vsx,vsy, 'topbar_screenblur')
+		end
+		glColor(0,0,0,0.25*fadeProgress)
+		glRect( 0, 0, vsx, vsy)
+
+
+		local width = vsx/5.5
+		local height = vsy/11
+		local padding = 3.5*widgetScale
+		local buttonPadding = 2.5*widgetScale
+		local buttonMargin = width/32
+		local buttonHeight = height*0.55
+
+		quitscreenArea = {(vsx/2)-(width/2), (vsy/1.8)-(height/2), (vsx/2)+(width/2), (vsy/1.8)+(height/2)}
+		quitscreenResignArea = {(vsx/2)-(width/2)+buttonMargin, (vsy/1.8)-(height/2)+buttonMargin, (vsx/2)-(buttonMargin/2), (vsy/1.8)-(height/2)+buttonHeight-buttonMargin}
+		quitscreenQuitArea = {(vsx/2)+(buttonMargin/2), (vsy/1.8)-(height/2)+buttonMargin, (vsx/2)+(width/2)-buttonMargin, (vsy/1.8)-(height/2)+buttonHeight-buttonMargin}
+
+		glColor(1,1,1,0.5+(0.34*fadeProgress))
+		RectRound(quitscreenArea[1], quitscreenArea[2], quitscreenArea[3], quitscreenArea[4], 5.5*widgetScale)
+		glColor(0,0,0,0.035+(0.035*fadeProgress))
+		RectRound(quitscreenArea[1]+padding, quitscreenArea[2]+padding, quitscreenArea[3]-padding, quitscreenArea[4]-padding, 5*widgetScale)
+
+		local fontSize = height/5.5
+		if not spec then
+			glText("\255\000\000\000Want to resign or quit to desktop?", quitscreenArea[1]+((quitscreenArea[3]-quitscreenArea[1])/2), quitscreenArea[4]-padding-padding-padding-padding-fontSize, fontSize, "con")
+		else
+			glText("\255\000\000\000Really want to quit?", quitscreenArea[1]+((quitscreenArea[3]-quitscreenArea[1])/2), quitscreenArea[4]-padding-padding-padding-padding-fontSize, fontSize, "con")
+		end
+		if IsOnRect(x, y, quitscreenQuitArea[1], quitscreenQuitArea[2], quitscreenQuitArea[3], quitscreenQuitArea[4]) then
+			glColor(0.75,0.1,0.1,0.4+(0.4*fadeProgress))
+		else
+			glColor(0.55,0,0,0.35+(0.35*fadeProgress))
+		end
+
+		-- quit button
+		RectRound(quitscreenQuitArea[1], quitscreenQuitArea[2], quitscreenQuitArea[3], quitscreenQuitArea[4], 5*widgetScale)
+		glColor(0,0,0,0.06+(0.06*fadeProgress))
+		RectRound(quitscreenQuitArea[1]+buttonPadding, quitscreenQuitArea[2]+buttonPadding, quitscreenQuitArea[3]-buttonPadding, quitscreenQuitArea[4]-buttonPadding, 4*widgetScale)
+
+		local fontSize = fontSize*0.85
+		glText("\255\255\255\255Quit", quitscreenQuitArea[1]+((quitscreenQuitArea[3]-quitscreenQuitArea[1])/2), quitscreenQuitArea[2]+((quitscreenQuitArea[4]-quitscreenQuitArea[2])/2)-(fontSize/3), fontSize, "con")
+
+		-- resign button
+		if not spec then
+			if IsOnRect(x, y, quitscreenResignArea[1], quitscreenResignArea[2], quitscreenResignArea[3], quitscreenResignArea[4]) then
+				glColor(0.5,0.5,0.5,0.4+(0.4*fadeProgress))
+			else
+				glColor(0.3,0.3,0.3,0.35+(0.35*fadeProgress))
+			end
+			RectRound(quitscreenResignArea[1], quitscreenResignArea[2], quitscreenResignArea[3], quitscreenResignArea[4], 5*widgetScale)
+			glColor(0,0,0,0.06+(0.06*fadeProgress))
+			RectRound(quitscreenResignArea[1]+buttonPadding, quitscreenResignArea[2]+buttonPadding, quitscreenResignArea[3]-buttonPadding, quitscreenResignArea[4]-buttonPadding, 4*widgetScale)
+
+			glText("\255\255\255\255Resign", quitscreenResignArea[1]+((quitscreenResignArea[3]-quitscreenResignArea[1])/2), quitscreenResignArea[2]+((quitscreenResignArea[4]-quitscreenResignArea[2])/2)-(fontSize/3), fontSize, "con")
+		end
 	end
 end
 
@@ -1022,13 +1087,25 @@ local function hideWindows()
 	end
     if (WG['teamstats'] ~= nil) then
         WG['teamstats'].toggle(false)
-    end
+	end
+	showQuitscreen = nil
+	if (WG['guishader_api'] ~= nil) then
+		WG['guishader_api'].RemoveRect('topbar_screenblur')
+	end
 end
 
 local function applyButtonAction(button)
 	if button == 'quit' then
+		local oldShowQuitscreen
+		if showQuitscreen ~= nil then
+			oldShowQuitscreen = showQuitscreen
+		end
 		hideWindows()
-		Spring.SendCommands("QuitMenu")
+		if oldShowQuitscreen ~= nil then
+			showQuitscreen = oldShowQuitscreen
+		else
+			showQuitscreen = os.clock()
+		end
 	elseif button == 'options' then
 		hideWindows()
 		if (WG['options'] ~= nil) then
@@ -1057,6 +1134,12 @@ local function applyButtonAction(button)
 	end
 end
 
+function widget:KeyPress(key)
+	if key == 27 then	-- ESC
+		hideWindows()
+	end
+end
+
 function widget:MousePress(x, y, button)
 	if button == 1 then
 		if not spec then
@@ -1073,8 +1156,7 @@ function widget:MousePress(x, y, button)
 				return true
 			end
 		end
-	end
-	if button == 1 then
+
 		if buttonsArea['buttons'] ~= nil then
 			for button, pos in pairs(buttonsArea['buttons']) do
 				if IsOnRect(x, y, pos[1], pos[2], pos[3], pos[4]) then
@@ -1083,6 +1165,37 @@ function widget:MousePress(x, y, button)
 				end
 			end
 		end
+
+		if quitscreenArea ~= nil then
+
+			if IsOnRect(x, y, quitscreenArea[1], quitscreenArea[2], quitscreenArea[3], quitscreenArea[4]) then
+
+				if IsOnRect(x, y, quitscreenQuitArea[1], quitscreenQuitArea[2], quitscreenQuitArea[3], quitscreenQuitArea[4]) then
+					Spring.SendCommands("QuitForce")
+					showQuitscreen = nil
+					if (WG['guishader_api'] ~= nil) then
+						WG['guishader_api'].RemoveRect('topbar_screenblur')
+					end
+					return true
+				end
+				if not spec and IsOnRect(x, y, quitscreenResignArea[1], quitscreenResignArea[2], quitscreenResignArea[3], quitscreenResignArea[4]) then
+					Spring.SendCommands("spectator")
+					showQuitscreen = nil
+					if (WG['guishader_api'] ~= nil) then
+						WG['guishader_api'].RemoveRect('topbar_screenblur')
+					end
+					return true
+				end
+				return true
+			else
+				showQuitscreen = nil
+				if (WG['guishader_api'] ~= nil) then
+					WG['guishader_api'].RemoveRect('topbar_screenblur')
+				end
+			end
+		end
+
+
 	end
 end
 
@@ -1100,7 +1213,7 @@ function widget:MouseRelease(x, y, button)
 		if buttonsArea['buttons'] ~= nil then	-- reapply again because else the other widgets disable when there is a click outside of their window
 			for button, pos in pairs(buttonsArea['buttons']) do
 				if IsOnRect(x, y, pos[1], pos[2], pos[3], pos[4]) then
-					applyButtonAction(button)
+					applyButtonAction(button, true)
 				end
 			end
 		end
