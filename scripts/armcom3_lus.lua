@@ -390,7 +390,9 @@ end
 end
 
 function walklegs()
+
 		if( moving )then
+		if side == 0 then
 		Addangle = GetSurroundingTerrain("left")
 				Move (pelvis, 3, -10, 37.5*(currentSpeed/200)*0.75)
 		Turn (lthigh, 1, GetAngleSpeed(-45-Addangle,45))
@@ -399,10 +401,19 @@ function walklegs()
 		Turn (rleg, 1, GetAngleSpeed(-2.5+Addangle,2.5))
 		Turn (lfoot, 1, GetAngleSpeed(-Addangle,45))
 		Turn (rfoot, 1, GetAngleSpeed(-Addangle,45))
-		Sleep(420*1.5/2.5)
+		Move (rfoot, 2, 1, 5)
+		Move (lfoot, 2, -1, 5)
+		Move (rleg, 2, 1, 5)
+		Move (lleg, 2, -1, 5)
+		Move (rthigh, 2, 1, 5)
+		Move (lthigh, 2, -1, 5)
+		Move(pelvis, 2, -3 + addheight, 15) 
+		Sleep(420*(200+randomness*4)/(300+randomness*4))
 
 		end
+		end
 		if( moving )then
+		if side == 0 then
 		Addangle = GetSurroundingTerrain("left")
 		Move (pelvis, 3, 0, 37.5*(currentSpeed/200)*0.75/2)
 		Turn (lthigh, 1, GetAngleSpeed(-20-Addangle,25))
@@ -411,10 +422,19 @@ function walklegs()
 		Turn (rleg, 1, GetAngleSpeed(-5+Addangle,2.5))
 		Turn (lfoot, 1, GetAngleSpeed(-Addangle,45))
 		Turn (rfoot, 1, GetAngleSpeed(-Addangle,45))
-		Sleep(420*1.5/2.5)
+		Move (rfoot, 2, 0, 5)
+		Move (lfoot, 2, 0, 5)
+		Move (rleg, 2, 0, 5)
+		Move (lleg, 2, 0, 5)
+		Move (rthigh, 2, 0, 5)
+		Move (lthigh, 2, 0, 5)
+		Move(pelvis, 2, 0 + addheight, 15) 
+		Sleep(420*(200+randomness*4)/(300+randomness*4))
 		Emit(ldirt, 'dirtsmall')
 		end
+		end
 		if( moving )then
+		if side == 0 then
 		Addangle = GetSurroundingTerrain("none")
 		Turn (lthigh, 1, GetAngleSpeed(0-Addangle,30))
 		Turn (rthigh, 1, GetAngleSpeed(0-Addangle,22.5))
@@ -422,9 +442,19 @@ function walklegs()
 		Turn (rleg, 1, GetAngleSpeed(40+Addangle,45))
 		Turn (lfoot, 1, GetAngleSpeed(-Addangle,45))
 		Turn (rfoot, 1, GetAngleSpeed(-Addangle,45))
-		Sleep(420*1.5/2.5)
+		Move (rfoot, 2, -1, 5)
+		Move (lfoot, 2, 1, 5)
+		Move (rleg, 2, -1, 5)
+		Move (lleg, 2, 1, 5)
+		Move (rthigh, 2, -1, 5)
+		Move (lthigh, 2, 1, 5)
+		Move(pelvis, 2, -3 + addheight, 15) 
+		Sleep(420*(200+randomness*4)/(300+randomness*4))
+		side = 1
+		end
 		end
 		if( moving )then
+		if side == 1 then
 		Addangle = GetSurroundingTerrain("right")
 		Move (pelvis, 3, -10, 37.5*(currentSpeed/200)*0.75)
 		Turn (lthigh, 1, GetAngleSpeed(11.25-Addangle,11.25))
@@ -433,9 +463,18 @@ function walklegs()
 		Turn (rleg, 1, GetAngleSpeed(45+Addangle,5))
 		Turn (lfoot, 1, GetAngleSpeed(-Addangle,45))
 		Turn (rfoot, 1, GetAngleSpeed(-Addangle,45))
-		Sleep(420*1.5/2.5)
+		Move (rfoot, 2, -1, 5)
+		Move (lfoot, 2, 1, 5)
+		Move (rleg, 2, -1, 5)
+		Move (lleg, 2, 1, 5)
+		Move (rthigh, 2, -1, 5)
+		Move (lthigh, 2, 1, 5)
+		Move(pelvis, 2, -3 + addheight, 15) 
+		Sleep(420*(200+randomness*4)/(300+randomness*4))
+		end
 		end
 		if( moving )then
+		if side == 1 then
 		Addangle = GetSurroundingTerrain("right")
 				Move (pelvis, 3, 0, 37.5*(currentSpeed/200)*0.75/2)
 		Turn (lthigh, 1, GetAngleSpeed(22.5-Addangle,11.25))
@@ -444,10 +483,19 @@ function walklegs()
 		Turn (rleg, 1, GetAngleSpeed(0+Addangle,45))
 		Turn (lfoot, 1, GetAngleSpeed(-Addangle,45))
 		Turn (rfoot, 1, GetAngleSpeed(-Addangle,45))
-		Sleep(420*1.5/2.5)
+		Move (rfoot, 2, 0, 5)
+		Move (lfoot, 2, 0, 5)
+		Move (rleg, 2, 0, 5)
+		Move (lleg, 2, 0, 5)
+		Move (rthigh, 2, 0, 5)
+		Move (lthigh, 2, 0, 5)
+		Move(pelvis, 2, 0 + addheight, 15) 
+		Sleep(420*(200+randomness*4)/(300+randomness*4))
 		Emit(rdirt, 'dirtsmall')
 		end
+		end
 		if( moving )then
+		if side == 1 then
 		Addangle = GetSurroundingTerrain("none")
 		Turn (lthigh, 1, GetAngleSpeed(-0-Addangle,22.5))
 		Turn (rthigh, 1, GetAngleSpeed(0-Addangle,30))
@@ -455,7 +503,16 @@ function walklegs()
 		Turn (rleg, 1, GetAngleSpeed(0+Addangle,1))
 		Turn (lfoot, 1, GetAngleSpeed(-Addangle,45))
 		Turn (rfoot, 1, GetAngleSpeed(-Addangle,45))
-		Sleep(420*1.5/2.5)
+		Move (rfoot, 2, 1, 5)
+		Move (lfoot, 2, -1, 5)
+		Move (rleg, 2, 1, 5)
+		Move (lleg, 2, -1, 5)
+		Move (rthigh, 2, 1, 5)
+		Move (lthigh, 2, -1, 5)
+		Move(pelvis, 2, -3 + addheight, 15) 
+		Sleep(420*(200+randomness*4)/(300+randomness*4))
+		side = 0
+		end
 		end
 end
 
@@ -583,6 +640,7 @@ end
 function script.StartMoving()
 	moving = true
 	dgunning = false
+	building = false
 end
 	
 function script.StopMoving()
@@ -616,16 +674,16 @@ Sleep(3000)
 	Spring.UnitScript.WaitForTurn ( biggun, 1 )
 	Spring.UnitScript.WaitForTurn ( biggun, 2 )
 	Shield = false
-	Spring.UnitScript.WaitForTurn ( torso, 1 )
-	Spring.UnitScript.WaitForTurn ( torso, 2 )
-	Spring.UnitScript.WaitForTurn ( torso, 3 )
-	Spring.UnitScript.WaitForTurn ( pelvis, 1 )
-	Spring.UnitScript.WaitForTurn ( pelvis, 2 )
-	Spring.UnitScript.WaitForTurn ( pelvis, 3 )
-	Spring.UnitScript.WaitForTurn ( ruparm, 1 )
-	Spring.UnitScript.WaitForTurn ( ruparm, 3 )
-	Spring.UnitScript.WaitForTurn ( arm2, 3 )
-	Spring.UnitScript.WaitForTurn ( arm2, 1 )
+	-- Spring.UnitScript.WaitForTurn ( torso, 1 )
+	-- Spring.UnitScript.WaitForTurn ( torso, 2 )
+	-- Spring.UnitScript.WaitForTurn ( torso, 3 )
+	-- Spring.UnitScript.WaitForTurn ( pelvis, 1 )
+	-- Spring.UnitScript.WaitForTurn ( pelvis, 2 )
+	-- Spring.UnitScript.WaitForTurn ( pelvis, 3 )
+	-- Spring.UnitScript.WaitForTurn ( ruparm, 1 )
+	-- Spring.UnitScript.WaitForTurn ( ruparm, 3 )
+	-- Spring.UnitScript.WaitForTurn ( arm2, 3 )
+	-- Spring.UnitScript.WaitForTurn ( arm2, 1 )
 	dgunning = false
 	aiming = false
 end
@@ -644,7 +702,8 @@ function script.AimWeapon1( heading, pitch )
 if dgunning == true then
 	return (false)
 else
-
+	Spring.UnitScript.Signal(31)
+	Spring.UnitScript.StartThread(Restore)
 	aiming = true
 	Move (canonbarrel2, 3 , 0, 30)
 	Spring.UnitScript.Spin(canonbarrel2, 3, 20, 1)
@@ -664,6 +723,7 @@ else
 	WaitForTurn (cannonl, 1)
 	justfired = true
 	Shield = true
+	building = false
 	return (true)
 end
 end
@@ -683,6 +743,8 @@ return torso
  end
 
 function script.AimWeapon3( heading, pitch )
+	Spring.UnitScript.Signal(31)
+	Spring.UnitScript.StartThread(Restore)
 	dgunning = true
 	Turn (torso, 1, GetAngleSpeed(0,4))
 	Turn (torso, 2, heading, 3)
@@ -699,6 +761,7 @@ function script.AimWeapon3( heading, pitch )
 	WaitForTurn (biggun, 1)
 	WaitForTurn (ruparm, 2)
 	WaitForTurn (biggun, 2)
+	building = false
 	Shield = false
 	justfired = true
 	return (1)
@@ -711,6 +774,8 @@ function script.Shot3()
 	dgunning = false
 end
 function script.StartBuilding(heading, pitch)
+	Spring.UnitScript.Signal(31)
+	Spring.UnitScript.StartThread(Restore)
 	-- Spring.UnitScript.Signal(31)
 	aiming = true
 	building = true
@@ -724,6 +789,7 @@ function script.StartBuilding(heading, pitch)
 	WaitForTurn (arm2, 1)
 	WaitForTurn (cannonl, 1)
 	SetUnitValue(COB.INBUILDSTANCE, 1)
+		Spring.UnitScript.StartThread(Restore)
 end
 
 function script.StopBuilding()
@@ -738,4 +804,5 @@ for count, piece in pairs(piecetable) do
 Explode(piece, SFX.EXPLODE_ON_HIT)
 Hide(piece)
 end
+return 1
 end

@@ -101,7 +101,7 @@ function gadget:UnitPreDamaged(unitID, unitDefID, unitTeam, damage, paralyzer,
 		elseif COMMANDER[attackerDefID] and COMMANDER[unitDefID] then
 			-- make unitID immune to DGun, kill attackedID
 			immuneDgunList[unitID] = GetGameFrame() + 45
-			DestroyUnit(attackerID,false,false,unitID)
+			Spring.AddUnitDamage(attackerID,damage,0,unitID,weaponID)
 			return combombDamage, 0
 		end
 	elseif COM_BLAST[weaponID] and COMMANDER[unitDefID] then

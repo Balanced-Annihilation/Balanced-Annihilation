@@ -27,7 +27,7 @@ return {
 		cloakcost = 100*(4/3)*(4/3)*(4/3)*(4/3)*(4/3),
 		cloakcostmoving = 1000*(4/3)*(4/3)*(4/3)*(4/3)*(4/3),
 		collisionvolumeoffsets = "0 -1 0",
-		collisionvolumescales = "27 39 27",
+		collisionvolumescales = "45 65 45",
 		collisionvolumetype = "CylY",
 		commander = true,
 		corpse = "DEAD",
