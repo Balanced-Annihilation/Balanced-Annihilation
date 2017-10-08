@@ -41,6 +41,9 @@ local Config = {
 		cmovebackground = {0,1,0,0.5},
 		cmovecolor = {0.9,0.9,0.9,0.8},
 		
+		cradarbackground = {0,1,0,0.5},
+		cradarcolor = {0.9,0.9,0.9,0.8},
+		
 		cborder = {0,0,0,0},
 		cbackground = {0,0,0,0.55},
 		cbordersize = 2.25*widgetScale,
@@ -197,8 +200,30 @@ local function createminimap(r)
 			fadeout_at_deactivation = r.fadetime,
 		},
 	}
+	local radarbutton = {"rectangle",
+		px=r.px+r.sx-r.bsx*3+2 + offsetcorrection*2,py=r.py+r.sy-1,
+		sx=r.bsx*buttonScale,sy=r.bsy*buttonScale,
+		
+		color=r.cradarbackground,
+		texturecolor=r.cradarcolor,
+		texture="LuaUI/Images/RedMinimap/move.png",
+		
+		border=r.cborder,
+		movable= false,
+		obeyscreenedge = true,
+		overridecursor = true,
+		overrideclick = r.dragbutton,
+		roundedsize = math.floor(r.bsy*0.15),
+		onlyTweakUi = false,
+		
+		effects = {
+			fadein_at_activation = r.fadetime,
+			fadeout_at_deactivation = r.fadetime,
+		},
+	}
 	
 	New(movebutton)
+	New(radarbutton)
 	New(resizebutton)
 	New(minimap)
 	New(minimapbg)
@@ -206,6 +231,7 @@ local function createminimap(r)
 	resizebutton.mouseover = function(mx,my,self)
 		self.active = nil
 		movebutton.active = nil
+		radarbutton.active = nil
 		
 		if (not self._mouseover) then
 			self._color4 = self.color[4]
@@ -214,8 +240,34 @@ local function createminimap(r)
 		
 		self._mouseover = true
 	end
-	resizebutton.mousenotover = function(mx,my,self)
-		if ((not minimap._mouseover) and (not movebutton._mouseover)) then
+
+	radarbutton.mouseover = function(mx,my,self)
+		self.active = nil
+		resizebutton.active = nil
+		movebutton.active = nil
+		
+		if (not self._mouseover) then
+			self._color4 = self.color[4]
+			self.color[4] = 2
+		end
+		
+		self._mouseover = true
+	end
+			
+	movebutton.mouseover = function(mx,my,self)
+		self.active = nil
+		resizebutton.active = nil
+		radarbutton.active = nil
+		
+		if (not self._mouseover) then
+			self._color4 = self.color[4]
+			self.color[4] = 1
+		end
+		
+		self._mouseover = true
+	end
+		resizebutton.mousenotover = function(mx,my,self)
+		if ((not minimap._mouseover) and (not movebutton._mouseover) and (not radarbutton._mouseover)) then
 			self.active = false --deactivate
 		end
 		
@@ -225,20 +277,19 @@ local function createminimap(r)
 		
 		self._mouseover = nil
 	end
-	
-	movebutton.mouseover = function(mx,my,self)
-		self.active = nil
-		resizebutton.active = nil
-		
-		if (not self._mouseover) then
-			self._color4 = self.color[4]
-			self.color[4] = 1
+	radarbutton.mousenotover = function(mx,my,self)
+		if ((not minimap._mouseover) and (not resizebutton._mouseover) and (not movebutton._mouseover)) then
+			self.active = false --deactivate
 		end
 		
-		self._mouseover = true
+		if (self._mouseover) then
+			self.color[4] = self._color4
+		end
+		
+		self._mouseover = nil
 	end
 	movebutton.mousenotover = function(mx,my,self)
-		if ((not minimap._mouseover) and (not resizebutton._mouseover)) then
+		if ((not minimap._mouseover) and (not resizebutton._mouseover) and (not radarbutton._mouseover)) then
 			self.active = false --deactivate
 		end
 		
@@ -278,18 +329,21 @@ local function createminimap(r)
 	
 		movebutton.active = nil
 		resizebutton.active = nil
+		radarbutton.active = nil
 	end
 	
 	minimap.movableslaves = {
-		movebutton,
+		movebutton,radarbutton,
 	}
 	movebutton.movableslaves = {
-		minimap,resizebutton,
+		minimap,resizebutton,radarbutton,
 	}
 	resizebutton.movableslaves = {
-		movebutton,
+		movebutton,radarbutton,
 	}
-	
+	radarbutton.movableslaves = {
+		minimap,movebutton,resizebutton,
+	}
 	return minimap
 end
 
