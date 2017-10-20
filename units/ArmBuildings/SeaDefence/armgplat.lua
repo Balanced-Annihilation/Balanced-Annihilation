@@ -23,7 +23,7 @@ return {
 		icontype = "building",
 		idleautoheal = 5,
 		idletime = 1800,
-		maxdamage = 1080,
+		maxdamage = 1000,
 		minwaterdepth = 1,
 		name = "Gun Platform",
 		nochasecategory = "MOBILE",
