@@ -1,10 +1,10 @@
 return {
 	coresupp = {
 		buildangle = 16384,
-		buildcostenergy = 1400,
-		buildcostmetal = 165,
+		buildcostenergy = 1450,
+		buildcostmetal = 200,
 		buildpic = "CORESUPP.DDS",
-		buildtime = 1.5 * 2200,
+		buildtime = 1.5 * 2350,
 		canmove = true,
 		category = "ALL WEAPON SHIP NOTSUB NOTAIR NOTHOVER SURFACE",
 		collisionvolumeoffsets = "0 -4 -1",
@@ -20,7 +20,7 @@ return {
 		icontype = "sea",
 		idleautoheal = 5,
 		idletime = 1800,
-		maxdamage = 720,
+		maxdamage = 1050,
 		minwaterdepth = 12,
 		movementclass = "BOAT42X4",
 		name = "Supporter",
@@ -33,7 +33,7 @@ return {
 		--move
 		acceleration = 3.15/90,
 		brakerate = 3.15/15,
-		maxvelocity = 3.30,		
+		maxvelocity = 3.15,		
 		turninplace = true,
 		turninplaceanglelimit = 110,
 		turninplacespeedlimit = 0.64*3.15,

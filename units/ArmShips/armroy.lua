@@ -2,10 +2,10 @@ return {
 	armroy = {
 		activatewhenbuilt = true,
 		buildangle = 16384,
-		buildcostenergy = 4800,
-		buildcostmetal = 810,
+		buildcostenergy = 5750,
+		buildcostmetal = 970,
 		buildpic = "ARMROY.DDS",
-		buildtime = 1.1 * 10700,
+		buildtime = 1.1 * 12800,
 		canmove = true,
 		category = "ALL NOTLAND MOBILE WEAPON NOTSUB SHIP NOTAIR NOTHOVER SURFACE",
 		collisionvolumeoffsets = "0 -10 -2",
@@ -179,8 +179,8 @@ return {
 				weapontype = "TorpedoLauncher",
 				weaponvelocity = 190,
 				damage = {
-					default = 150,
-					subs = 390,
+					default = 170,
+					subs = 170,
 				},
 			},
 		},
@@ -193,7 +193,7 @@ return {
 			[2] = {
 				badtargetcategory = "NOTSUB",
 				def = "DEPTHCHARGE",
-				onlytargetcategory = "NOTHOVER",
+				onlytargetcategory = "UNDERWATER CANBEUW",
 			},
 		},
 	},

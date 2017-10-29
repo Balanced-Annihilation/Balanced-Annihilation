@@ -41,7 +41,6 @@ return {
 			"corch",
 			"corpt",
 			"coresupp",
-			"corpship",
 			"corrship",
 			"corsub",
 			"corroy",

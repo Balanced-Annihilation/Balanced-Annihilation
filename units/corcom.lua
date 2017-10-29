@@ -130,9 +130,9 @@ Radar = {700,700,800,1000,1200,1400,1600,2000,2400,2800,3200}
 			-- [22] = "corsonar",
 			[22] = "corfdrag",
 			[23] = "cortl",
-			[24] = "corgplat",
-			[25] = "corfrt",
-			[26] = "corfrad",
+			-- [24] = "corgplat",
+			[24] = "corfrt",
+			[25] = "corfrad",
 			-- [28] = "seaplatform",
 		},
 		customparams = {

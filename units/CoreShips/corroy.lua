@@ -2,10 +2,10 @@ return {
 	corroy = {
 		activatewhenbuilt = true,
 		buildangle = 16384,
-		buildcostenergy = 4800,
-		buildcostmetal = 880,
+		buildcostenergy = 6200,
+		buildcostmetal = 1050,
 		buildpic = "CORROY.DDS",
-		buildtime = 1.1 * 10700,
+		buildtime = 1.1 * 13800,
 		canmove = true,
 		category = "ALL NOTLAND MOBILE WEAPON SHIP NOTSUB NOTAIR NOTHOVER SURFACE",
 		collisionvolumeoffsets = "0 -5 0",
@@ -178,8 +178,8 @@ return {
 				weapontype = "TorpedoLauncher",
 				weaponvelocity = 200,
 				damage = {
-					default = 170,
-					subs = 410,
+					default = 250,
+					subs = 250,
 				},
 			},
 		},
@@ -192,7 +192,7 @@ return {
 			[2] = {
 				badtargetcategory = "NOTSUB",
 				def = "DEPTHCHARGE",
-				onlytargetcategory = "NOTHOVER",
+				onlytargetcategory = "UNDERWATER CANBEUW",
 			},
 		},
 	},
