@@ -36,7 +36,7 @@ return {
 		sonardistance = 350,
 		waterline = 3,
 		-- move
-		acceleration = 2.60/120,
+		acceleration = 2.20/120,
 		brakerate = 2.60/25,
 		maxvelocity = 2.60,
 		turninplace = true,
