@@ -23,7 +23,7 @@ return {
 		icontype = "building",
 		idleautoheal = 5,
 		idletime = 1800,
-		maxdamage = 725,
+		maxdamage = 870,
 		minwaterdepth = 1,
 		name = "Gun Platform",
 		nochasecategory = "MOBILE",
@@ -127,9 +127,9 @@ return {
 				stages = 20,
 				damage = {
 					bombers = 1*1.5*2.1,
-					default = 30*1.5*2.1,
-					heavyunits = 30*1.5*2.1*0.7,
-					fighters = 10*1.5*2.1,
+					default = 36*1.5*2.1,
+					heavyunits = 36*1.5*2.1*0.7,
+					fighters = 12*1.5*2.1,
 					subs = 1*1.5*2.1,
 					vtol = 1*1.5*2.1,
 

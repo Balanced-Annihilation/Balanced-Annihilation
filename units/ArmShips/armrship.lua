@@ -32,7 +32,7 @@ return {
 		objectname = "ARMRSHIP",
 		seismicsignature = 0,
 		selfdestructas = "mediumExplosionGenericSelfd",
-		sightdistance = 400,
+		sightdistance = 350,
 		sonardistance = 350,
 		waterline = 3,
 		-- move
@@ -194,8 +194,8 @@ return {
 				weapontype = "TorpedoLauncher",
 				weaponvelocity = 190,
 				damage = {
-					default = 140,
-					commanders = 140,
+					default = 170,
+					commanders = 170,
 				},
 			},
 		},
