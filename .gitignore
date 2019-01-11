@@ -4,4 +4,6 @@
 /.svn
 *.py
 *.pyc
+.DS_Store
+.idea
 bitmaps/loadpictures/destroyers.jpg
