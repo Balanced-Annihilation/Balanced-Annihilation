@@ -1,0 +1,207 @@
+#define TA			// This is a TA script
+
+#include "sfxtype.h"
+#include "exptype.h"
+
+#define SIG_AIM				2
+
+piece base, spinner, aimer, barrel1, barrel2, barrel3, barrel4, turret, fire1, sleeves, glowy;
+
+static-var spinner_state;
+
+SmokeUnit(healthpercent, sleeptime, smoketype)
+{
+	while( get BUILD_PERCENT_LEFT )
+	{
+		sleep 400;
+	}
+	while( TRUE )
+	{
+		healthpercent = get HEALTH;
+		if( healthpercent < 66 )
+		{
+			smoketype = 256 | 2;
+			if( Rand( 1, 66 ) < healthpercent )
+			{
+				smoketype = 256 | 1;
+			}
+			emit-sfx smoketype from base;
+		}
+		sleeptime = healthpercent * 50;
+		if( sleeptime < 200 )
+		{
+			sleeptime = 200;
+		}
+		sleep sleeptime;
+	}
+	return (0);
+	// Build by COBBLER Ver4.0 Copyright @1998 DIGITAL CONCEPT SOFTWARE (MANU@inext.fr) / http://www.annihilationcenter.com/DCS/  
+}
+
+Create()
+{
+	hide fire1;
+	dont-cache base;
+	dont-cache barrel1;
+	dont-cache barrel2;
+	dont-cache barrel3;
+	dont-cache barrel4;	
+	dont-cache turret;
+	dont-cache sleeves;	
+	dont-cache fire1;
+	dont-shade spinner;
+	spinner_state = 1;
+	start-script SmokeUnit();
+	return (0);
+}
+
+// We only actually aim and fire from Weapons 2 & 3 (1 is bogus)
+
+AimPrimary(heading, pitch)
+{
+	signal SIG_AIM;
+	set-signal-mask SIG_AIM;
+	if( spinner_state == 1 )
+	{
+		turn spinner to z-axis <0.00000> speed <400.00000>;
+	}
+	if( spinner_state == 2 )
+	{
+		turn spinner to z-axis <120.02747> speed <400.00000>;
+	}
+	if( spinner_state == 3 )
+	{
+		turn spinner to z-axis <-120.02747> speed <400.00000>;
+	}
+	turn turret to y-axis heading speed <450.00000>;
+	turn turret to x-axis <0.00000> - pitch speed <450.00000>;
+	wait-for-turn turret around y-axis;
+	wait-for-turn turret around x-axis;	
+	return (1);
+}
+
+
+
+// Anti-air weapon
+
+AimSecondary(heading, pitch)
+{
+	signal SIG_AIM;
+	set-signal-mask SIG_AIM;
+	if( spinner_state == 1 )
+	{
+		turn spinner to z-axis <0.00000> speed <400.00000>;
+	}
+	if( spinner_state == 2 )
+	{
+		turn spinner to z-axis <120.02747> speed <400.00000>;
+	}
+	if( spinner_state == 3 )
+	{
+		turn spinner to z-axis <-120.02747> speed <400.00000>;
+	}
+	turn turret to y-axis heading speed <450.00000>;
+	turn turret to x-axis <0.00000> - pitch speed <450.00000>;
+	wait-for-turn turret around y-axis;
+	wait-for-turn turret around x-axis;	
+	return (1);
+}
+
+// What to do after firing
+AfterFiring()
+{
+	++spinner_state;
+	if( spinner_state == 4 )
+	{
+		spinner_state = 1;
+	}
+	move spinner to z-axis [-1.000000] now;
+	move spinner to z-axis [0.000000] speed <320.00000>;
+}
+
+FirePrimary()
+{
+	start-script AfterFiring();	
+}
+
+FireSecondary()
+{
+	start-script AfterFiring();
+}
+
+//------------------
+
+
+
+// -- The piece that the bullet/laser/whatever comes out of.
+QueryPrimary(piecenum)
+{
+	piecenum = fire1;
+}
+
+// -- The unit looks from this piece down the QueryWeapon piece, to see whether it's aiming at anything.
+AimFromPrimary(piecenum)
+{
+	piecenum = aimer;
+}
+
+
+//--
+
+QuerySecondary(piecenum)
+{
+	piecenum = fire1;
+}
+
+AimFromSecondary(piecenum)
+{
+	piecenum = aimer;
+}
+
+//--
+
+SweetSpot(piecenum)
+{
+	piecenum = base;
+}
+
+Killed(severity, corpsetype)
+{
+	if( severity <= 25 )
+	{
+		corpsetype = 1;
+		explode spinner type BITMAPONLY | BITMAP1;
+		explode base type BITMAPONLY | BITMAP2;
+		explode glowy type BITMAPONLY | BITMAP3;
+		explode sleeves type BITMAPONLY | BITMAP4;
+		explode turret type BITMAPONLY | BITMAP5;
+		return (corpsetype);
+	}
+	if( severity <= 50 )
+	{
+		corpsetype = 2;
+		explode spinner type FALL | BITMAP1;
+		explode base type BITMAPONLY | BITMAP2;
+		explode glowy type FALL | BITMAP3;
+		explode sleeves type SHATTER | BITMAP4;
+		explode turret type FALL | BITMAP5;
+		return (corpsetype);
+	}
+	if( severity <= 99 )
+	{
+		corpsetype = 3;
+		explode spinner type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
+		explode base type BITMAPONLY | BITMAP2;
+		explode glowy type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
+		explode sleeves type SHATTER | BITMAP4;
+		explode turret type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP5;
+		return (corpsetype);
+	}
+	corpsetype = 3;
+	explode spinner type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
+	explode base type BITMAPONLY | BITMAP2;
+	explode glowy type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
+	explode sleeves type SHATTER | EXPLODE_ON_HIT | BITMAP4;
+	explode turret type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP5;
+	return (corpsetype);
+}
