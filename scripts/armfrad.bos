@@ -5,23 +5,8 @@
 
 piece  base, platform, post, tower, dish, ear1, ear2;
 
-static-var  statechg_DesiredState, statechg_StateChanging, rockframe, Xrot, Zrot, Ymove;
+static-var  statechg_DesiredState, statechg_StateChanging;
 
-RockOnWaves()
-{
-rockframe = 1;
-while ( TRUE )
-{
-	Xrot = (get KCOS (rockframe * 690)) * 360 / 1024 ;
-	Ymove = (get KSIN (rockframe * 650)) * 2;
-	Zrot = (get KSIN (rockframe * 560)) * 360 / 1024;
-	turn base to x-axis Xrot now;
-	turn base to z-axis Zrot now;
-	move base to y-axis Ymove now;
-	rockframe = rockframe + 1;
-	sleep 1;
-}
-}
 
 SmokeUnit(healthpercent, sleeptime, smoketype)
 {
@@ -120,7 +105,6 @@ Create()
 	dont-shade ear2;
 	call-script InitState();
 	start-script SmokeUnit();
-	start-script RockOnWaves();
 	return (0);
 }
 
@@ -147,31 +131,46 @@ Killed(severity, corpsetype)
 	if( severity <= 25 )
 	{
 		corpsetype = 1;
-		//explode base type NOHEATCLOUD;
+		explode base type BITMAPONLY | BITMAP1;
+		explode platform type BITMAPONLY | BITMAP2;
+		explode post type BITMAPONLY | BITMAP3;
+		explode tower type BITMAPONLY | BITMAP4;
+		explode dish type BITMAPONLY | BITMAP2;
+		explode ear1 type BITMAPONLY | BITMAP3;
+		explode ear2 type BITMAPONLY | BITMAP4;
 		return (corpsetype);
 	}
 	if( severity <= 50 )
 	{
 		corpsetype = 2;
-		//explode base type NOHEATCLOUD;
-		explode dish type BITMAP2 | NOHEATCLOUD;
-		explode ear1 type BITMAP3 | NOHEATCLOUD;
-		explode ear2 type BITMAP4 | NOHEATCLOUD;
+		explode base type BITMAPONLY | BITMAP1;
+		explode platform type BITMAPONLY | BITMAP2;
+		explode post type BITMAPONLY | BITMAP3;
+		explode tower type BITMAPONLY | BITMAP4;
+		explode dish type SHATTER | BITMAP2;
+		explode ear1 type FALL | BITMAP3;
+		explode ear2 type FALL | BITMAP4;
 		return (corpsetype);
 	}
 	if( severity <= 99 )
 	{
 		corpsetype = 3;
-		//explode base type NOHEATCLOUD;
-		explode dish type BITMAP2 | NOHEATCLOUD;
-		explode ear1 type SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-		explode ear2 type SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP4 | NOHEATCLOUD;
+		explode base type BITMAPONLY | BITMAP1;
+		explode platform type BITMAPONLY | BITMAP2;
+		explode post type BITMAPONLY | BITMAP3;
+		explode tower type BITMAPONLY | BITMAP4;
+		explode dish type SHATTER | BITMAP2;
+		explode ear1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
+		explode ear2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP4;
 		return (corpsetype);
 	}
 	corpsetype = 3;
-	//explode base type NOHEATCLOUD;
-	explode dish type EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
-	explode ear1 type SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-	explode ear2 type SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP4 | NOHEATCLOUD;
+	explode base type BITMAPONLY | BITMAP1;
+	explode platform type BITMAPONLY | BITMAP2;
+	explode post type BITMAPONLY | BITMAP3;
+	explode tower type BITMAPONLY | BITMAP4;
+	explode dish type SHATTER | EXPLODE_ON_HIT | BITMAP2;
+	explode ear1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
+	explode ear2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP4;
 	return (corpsetype);
 }

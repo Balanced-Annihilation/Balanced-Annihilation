@@ -5,26 +5,12 @@
 
 piece  flare1, turret, flare2, guns, base, sleeve;
 
-static-var  restore_delay, gun_1, rockframe, Xrot, Zrot, Ymove;
+static-var  restore_delay, gun_1;
 
 // Signal definitions
 #define SIG_AIM				2
 
-RockOnWaves()
-{
-rockframe = 1;
-while ( TRUE )
-{
-	Xrot = (get KCOS (rockframe * 690)) * 360 / 1024 ;
-	Ymove = (get KSIN (rockframe * 650)) * 2;
-	Zrot = (get KSIN (rockframe * 560)) * 360 / 1024;
-	turn base to x-axis Xrot now;
-	turn base to z-axis Zrot now;
-	move base to y-axis Ymove now;
-	rockframe = rockframe + 1;
-	sleep 1;
-}
-}
+
 SmokeUnit(healthpercent, sleeptime, smoketype)
 {
 	while( get BUILD_PERCENT_LEFT )
@@ -63,8 +49,8 @@ RockUnit(anglex, anglez)
 	turn base to z-axis <0.00000> - anglez speed <12.00000>;
 	wait-for-turn base around z-axis;
 	wait-for-turn base around x-axis;
-	turn base to x-axis anglex / <0.01099> speed <9.00000>;
-	turn base to z-axis anglez / <0.01099> speed <9.00000>;
+	turn base to x-axis anglex / <0.00549> speed <9.00000>;
+	turn base to z-axis anglez / <0.00549> speed <9.00000>;
 	wait-for-turn base around z-axis;
 	wait-for-turn base around x-axis;
 	turn base to x-axis <0.00000> speed <3.00000>;
@@ -90,7 +76,6 @@ Create()
 	restore_delay = 3000;
 	start-script SmokeUnit();
 	gun_1 = flare1;
-	start-script RockOnWaves();
 	return (0);
 }
 
@@ -124,16 +109,18 @@ FirePrimary()
 {
 	if( gun_1 == 0 )
 	{
-	    emit-sfx 1024 from flare1;
 		move guns to z-axis [-10.00000] now;
-		sleep 50;
+		show flare1;
+		sleep 150;
+		hide flare1;
 		move guns to z-axis [0.00000] speed [37.50000];
 	}
 	if( gun_1 == 1 )
 	{
-	    emit-sfx 1024 from flare2;
 		move guns to z-axis [-10.00000] now;
-		sleep 50;
+		show flare2;
+		sleep 150;
+		hide flare2;
 		move guns to z-axis [0.00000] speed [37.50000];
 	}
 	sleep 50;
@@ -169,32 +156,35 @@ Killed(severity, corpsetype)
 	if( severity <= 25 )
 	{
 		corpsetype = 1;
-		//explode base type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | NOHEATCLOUD;
+		explode guns type BITMAPONLY | BITMAP1;
+		explode base type BITMAPONLY | BITMAP2;
+		explode flare1 type BITMAPONLY | BITMAP3;
+		explode turret type BITMAPONLY | BITMAP5;
 		return (0);
 	}
 	if( severity <= 50 )
 	{
 		corpsetype = 2;
-		explode guns type FALL | BITMAP1 | NOHEATCLOUD;
-		////explode base type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | NOHEATCLOUD;
-		explode flare1 type FALL | BITMAP3 | NOHEATCLOUD;
-		//explode turret type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP5 | NOHEATCLOUD;
+		explode guns type FALL | BITMAP1;
+		explode base type BITMAPONLY | BITMAP2;
+		explode flare1 type FALL | BITMAP3;
+		explode turret type SHATTER | BITMAP5;
 		return (0);
 	}
 	if( severity <= 99 )
 	{
 		corpsetype = 3;
-		explode guns type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-		////explode base type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | NOHEATCLOUD;
-		explode flare1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-		explode turret type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP5 | NOHEATCLOUD;
+		explode guns type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
+		explode base type BITMAPONLY | BITMAP2;
+		explode flare1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
+		explode turret type SHATTER | BITMAP5;
 		return (0);
 	}
 	corpsetype = 3;
-	explode guns type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-	//explode base type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | NOHEATCLOUD;
-	explode flare1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-	explode turret type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | EXPLODE_ON_HIT | BITMAP5 | NOHEATCLOUD;
+	explode guns type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
+	explode base type BITMAPONLY | BITMAP2;
+	explode flare1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
+	explode turret type SHATTER | EXPLODE_ON_HIT | BITMAP5;
 	return (0);
 	var Func_Var_3, Func_Var_4, Func_Var_5;
 	while( get BUILD_PERCENT_LEFT )
@@ -304,31 +294,34 @@ Killed(severity, corpsetype)
 	if( severity <= 25 )
 	{
 		corpsetype = 1;
-		//explode base type SHATTER | NOHEATCLOUD;
+		explode guns type BITMAPONLY | BITMAP1;
+		explode base type BITMAPONLY | BITMAP2;
+		explode flare1 type BITMAPONLY | BITMAP3;
+		explode turret type BITMAPONLY | BITMAP5;
 		return (0);
 	}
 	if( severity <= 50 )
 	{
 		corpsetype = 2;
-		explode guns type FALL | BITMAP1 | NOHEATCLOUD;
-		//explode base type SHATTER | NOHEATCLOUD;
-		explode flare1 type FALL | BITMAP3 | NOHEATCLOUD;
-		explode turret type SHATTER | BITMAP5 | NOHEATCLOUD;
+		explode guns type FALL | BITMAP1;
+		explode base type BITMAPONLY | BITMAP2;
+		explode flare1 type FALL | BITMAP3;
+		explode turret type SHATTER | BITMAP5;
 		return (0);
 	}
 	if( severity <= 99 )
 	{
 		corpsetype = 3;
-		explode guns type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-		//explode base type SHATTER | NOHEATCLOUD;
-		explode flare1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-		explode turret type SHATTER | BITMAP5 | NOHEATCLOUD;
+		explode guns type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
+		explode base type BITMAPONLY | BITMAP2;
+		explode flare1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
+		explode turret type SHATTER | BITMAP5;
 		return (0);
 	}
 	corpsetype = 3;
-	explode guns type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-	//explode base type SHATTER | NOHEATCLOUD;
-	explode flare1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-	explode turret type SHATTER | EXPLODE_ON_HIT | BITMAP5 | NOHEATCLOUD;
+	explode guns type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
+	explode base type BITMAPONLY | BITMAP2;
+	explode flare1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
+	explode turret type SHATTER | EXPLODE_ON_HIT | BITMAP5;
 	return (0);
 }

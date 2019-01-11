@@ -43,14 +43,14 @@ fixGo()
 	dont-cache hand2;
 	dont-cache hand3;
 	dont-cache stand;
-	move stand to y-axis [6.750000] speed [5.000000];
+	move stand to y-axis [13.750000] speed [5.000000];
 	wait-for-move stand along y-axis;
-	spin arms around y-axis speed <-100> accelerate <1>;
+	spin arms around y-axis speed Static_Var_1 accelerate Static_Var_2;
 }
 
 Stop()
 {
-	stop-spin arms around y-axis decelerate <1>;
+	stop-spin arms around y-axis decelerate Static_Var_3;
 	wait-for-turn arms around y-axis;
 	turn arms to y-axis <0.000000> speed <70.000000>;
 	wait-for-turn arms around y-axis;
@@ -101,7 +101,6 @@ Create()
 	Static_Var_1 = 500;
 	Static_Var_2 = 80;
 	Static_Var_3 = 160;
-	move arms to y-axis [-1.75] now;
 	dont-shade arms;
 	dont-shade hand1;
 	dont-shade hand2;
@@ -140,33 +139,32 @@ Killed(severity, corpsetype)
 	if( severity <= 25 )
 	{
 		corpsetype = 1;
-		explode hand1 type FALL | BITMAP1 | NOHEATCLOUD;
-		//explode base type FALL | NOHEATCLOUD;
+		explode arms type BITMAPONLY | BITMAP1;
+		explode base type BITMAPONLY | BITMAP2;
 		return (corpsetype);
 	}
 	if( severity <= 50 )
 	{
 		corpsetype = 2;
-		explode arms type FALL | BITMAP1 | NOHEATCLOUD;
-		explode hand1 type FALL | BITMAP1 | NOHEATCLOUD;
-		explode hand2 type FALL | BITMAP1 | NOHEATCLOUD;
-		explode hand3 type FALL | BITMAP1 | NOHEATCLOUD;
-		//explode base type FALL | NOHEATCLOUD;
+		explode arms type FALL | BITMAP1;
+		explode hand1 type SHATTER | BITMAP1;
+		explode hand2 type SHATTER | BITMAP1;
+		explode hand3 type SHATTER | BITMAP1;
+		explode base type BITMAPONLY | BITMAP2;
 		return (corpsetype);
 	}
 	if( severity <= 99 )
 	{
 		corpsetype = 3;
-		explode arms type FALL | BITMAP1 | NOHEATCLOUD;
-		explode hand1 type FALL | BITMAP1 | NOHEATCLOUD;
-		explode hand2 type FALL | BITMAP1 | NOHEATCLOUD;
-		explode hand3 type FALL | BITMAP1 | NOHEATCLOUD;
-		//explode base type FALL | NOHEATCLOUD;
+		explode arms type FALL | BITMAP1;
+		explode hand1 type SHATTER | BITMAP1;
+		explode hand2 type FALL | BITMAP1;
+		explode hand3 type SHATTER | BITMAP1;
+		explode base type BITMAPONLY | BITMAP2;
 		return (corpsetype);
 	}
 	corpsetype = 3;
-	explode arms type FALL | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-	explode hand1 type FALL | BITMAP1 | NOHEATCLOUD;
-	//explode base type FALL | NOHEATCLOUD;
+	explode arms type SHATTER | EXPLODE_ON_HIT | BITMAP1;
+	explode base type BITMAPONLY | BITMAP2;
 	return corpsetype;
 }

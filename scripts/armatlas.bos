@@ -55,7 +55,7 @@ SmokeUnit(healthpercent, sleeptime, smoketype)
 	while( TRUE )
 	{
 		healthpercent = get HEALTH;
-		if( healthpercent < 66 and healthpercent > 0 )
+		if( healthpercent < 66 )
 		{
 			smoketype = 256 | 2;
 			if( Rand( 1, 66 ) < healthpercent )
@@ -107,11 +107,6 @@ RequestState(requestedstate, currentstate)
 
 Create()
 {
-	turn jet1 to x-axis <-90> now;
-	turn jet2 to x-axis <-90> now;
-	turn jet3 to x-axis <-90> now;
-	//turn jet2 to x-axis <180> now;
-	move jet2 to y-axis [-2] now;
 	unitviewer = FALSE;
 	Static_Var_1 = 0;
 	call-script InitState();
@@ -155,11 +150,25 @@ Deactivate()
 	}
 }
 
-EndTransport()
+EndTransport(Func_Var_1)
 {
+    move link to y-axis [0.000000] - Func_Var_1 now;
 	start-script RequestState(1);
 }
 
+ProcessFlames()
+{
+	while( TRUE )
+	{
+		if( Static_Var_1 == 1 OR Static_Var_1 == 2 )
+		{
+			emit-sfx 0 from jet1;
+			emit-sfx 0 from jet2;
+			emit-sfx 0 from jet3;
+		}
+		sleep 67;
+	}
+}
 
 StopMoving()
 {
@@ -167,42 +176,79 @@ StopMoving()
 	Static_Var_1 = 0;
 }
 
+MoveRate1()
+{
+	signal 2;
+	set-signal-mask 2;
+	start-script ProcessFlames();
+	Static_Var_1 = 1;
+}
+
+MoveRate2()
+{
+	signal 2;
+	set-signal-mask 2;
+	start-script ProcessFlames();
+	Static_Var_1 = 2;
+}
+
+MoveRate3()
+{
+	signal 2;
+	set-signal-mask 2;
+	start-script ProcessFlames();
+	Static_Var_1 = 3;
+}
+
 Killed(severity, corpsetype)
 {
 	if( severity <= 25 )
 	{
 		corpsetype = 1;
-		explode base type FALL | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
+		explode arm1 type BITMAPONLY | BITMAP1;
+		explode arm2 type BITMAPONLY | BITMAP2;
+		explode arm3 type BITMAPONLY | BITMAP3;
+		explode base type BITMAPONLY | BITMAP4;
+		explode jet1 type BITMAPONLY | BITMAP5;
+		explode jet2 type BITMAPONLY | BITMAP1;
+		explode jet3 type BITMAPONLY | BITMAP2;
+		explode link type BITMAPONLY | BITMAP3;
 		return (corpsetype);
 	}
 	if( severity <= 50 )
 	{
 		corpsetype = 2;
-		explode arm3 type FALL | BITMAP3 | NOHEATCLOUD;
-		explode base type FALL | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-		explode jet1 type FALL | BITMAP5 | NOHEATCLOUD;
-		explode jet2 type FALL | BITMAP1 | NOHEATCLOUD;
-		explode jet3 type FALL | BITMAP2 | NOHEATCLOUD;
-		explode link type FALL | BITMAP3 | NOHEATCLOUD;
+		explode arm1 type BITMAPONLY | BITMAP1;
+		explode arm2 type BITMAPONLY | BITMAP2;
+		explode arm3 type SHATTER | BITMAP3;
+		explode base type BITMAPONLY | BITMAP4;
+		explode jet1 type FALL | BITMAP5;
+		explode jet2 type FALL | BITMAP1;
+		explode jet3 type FALL | BITMAP2;
+		explode link type FALL | BITMAP3;
 		return (corpsetype);
 	}
 	if( severity <= 99 )
 	{
 		corpsetype = 3;
-		explode arm3 type FALL | BITMAP3 | NOHEATCLOUD;
-		explode base type FALL | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-		explode jet1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP5 | NOHEATCLOUD;
-		explode jet2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-		explode jet3 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
-		explode link type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
+		explode arm1 type BITMAPONLY | BITMAP1;
+		explode arm2 type BITMAPONLY | BITMAP2;
+		explode arm3 type SHATTER | BITMAP3;
+		explode base type BITMAPONLY | BITMAP4;
+		explode jet1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP5;
+		explode jet2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
+		explode jet3 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2;
+		explode link type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
 		return (corpsetype);
 	}
 	corpsetype = 3;
-	explode arm3 type FALL | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-	explode base type FALL | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-	explode jet1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP5 | NOHEATCLOUD;
-	explode jet2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-	explode jet3 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
-	explode link type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
+	explode arm1 type BITMAPONLY | BITMAP1;
+	explode arm2 type BITMAPONLY | BITMAP2;
+	explode arm3 type SHATTER | EXPLODE_ON_HIT | BITMAP3;
+	explode base type BITMAPONLY | BITMAP4;
+	explode jet1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP5;
+	explode jet2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
+	explode jet3 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2;
+	explode link type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
 	return corpsetype;
 }

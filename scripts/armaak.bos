@@ -7,7 +7,7 @@ piece  ground, pelvis, rthigh, rleg, lthigh, lleg, torso, turret,
        flak, flak_fire, turret_fire, rmiss, rmiss_fire, lmiss, lmiss_fire;
 
 static-var  bMoving, Static_Var_2, Static_Var_3, Static_Var_4, Static_Var_5,
-            Static_Var_6, Static_Var_7;
+            Static_Var_6, Static_Var_7, aim_piece, fire_piece;
 
 
 walk()
@@ -251,6 +251,8 @@ Create()
 	hide lmiss_fire;
 	hide rmiss_fire;
 	bMoving = FALSE;
+	aim_piece = rmiss;
+	fire_piece = rmiss_fire;
 	start-script MotionControl();
 	start-script SmokeUnit();
 }
@@ -274,174 +276,230 @@ RestoreAfterDelay()
 {
 	sleep 5000;
 	set-signal-mask 0;
+	turn turret to x-axis <0.000000> speed <90.000000>;	
 	turn turret to y-axis <0.000000> speed <90.000000>;
-	turn flak to x-axis <0.000000> speed <90.000000>;
+	turn flak to x-axis <0.000000> speed <90.000000>;	
 	turn lmiss to x-axis <0.000000> speed <90.000000>;
 	turn rmiss to x-axis <0.000000> speed <90.000000>;
 	turn torso to y-axis <0.000000> speed <90.000000>;
 }
 
+SwitchFirePieces()
+{
+	if (aim_piece == rmiss)
+	{
+		aim_piece = lmiss;
+		fire_piece = lmiss_fire; 				 
+ 	}
+ 	else
+ 	{
+ 		aim_piece = rmiss;
+		fire_piece = rmiss_fire; 		
+ 	}
+}
+
+//---- AG Weapons
+
 QueryWeapon1(piecenum)
 {
-	piecenum = turret_fire;
+	piecenum = fire_piece; //rmiss_fire;
 }
 
 AimFromWeapon1(piecenum)
 {
-	piecenum = turret;
+	piecenum = aim_piece; //rmiss;
 }
+
+AimWeapon1(heading, pitch)
+{
+	signal 16;
+	set-signal-mask 16;
+	turn torso to y-axis heading speed <400.000000>;
+	turn lmiss to x-axis <0.000000> - pitch speed <250.000000>;
+	wait-for-turn torso around y-axis;
+	wait-for-turn lmiss around x-axis;
+	start-script RestoreAfterDelay();
+	return (1);	
+}
+
+FireWeapon1()
+{
+	start-script SwitchFirePieces();
+}
+
+//QueryWeapon2(piecenum)
+//{
+//	piecenum = lmiss_fire;
+//}
+
+//AimFromWeapon2(piecenum)
+//{
+//	piecenum = torso;
+//}
+
+//AimWeapon2(heading, pitch)
+//{
+//	signal 2;
+//	set-signal-mask 2;
+//	turn torso to y-axis heading speed <400.000000>;
+//	turn rmiss to x-axis <0.000000> - pitch speed <250.000000>;
+//	wait-for-turn torso around y-axis;
+//	wait-for-turn rmiss around x-axis;
+//	start-script RestoreAfterDelay();
+//	return (1);
+//}
+
+//FireWeapon2()
+//{
+//}
+
+//----- AA weapons
 
 QueryWeapon2(piecenum)
 {
-	piecenum = turret_fire;
+	piecenum = fire_piece; //turret_fire;
 }
 
 AimFromWeapon2(piecenum)
 {
-	piecenum = turret;
+	piecenum = aim_piece; //turret;
 }
 
 AimWeapon2(heading, pitch)
 {
-	signal 2;
-	set-signal-mask 2;
-	turn turret to y-axis heading speed <250.000000>;
+	signal 4;
+	set-signal-mask 4;
+	turn turret to y-axis heading speed <300.000000>;
+	turn turret to x-axis <0.000000> - pitch speed <500.000000>;
 	wait-for-turn turret around y-axis;
+	wait-for-turn turret around x-axis;
 	start-script RestoreAfterDelay();
 	return (1);
 }
 
 FireWeapon2()
 {
+	start-script SwitchFirePieces();
 }
 
-QueryWeapon3(piecenum)
-{
-	piecenum = rmiss_fire;
-}
+//QueryWeapon4(piecenum)
+//{
+//	piecenum = flak_fire;
+//}
 
-AimFromWeapon3(piecenum)
-{
-	piecenum = torso;
-}
+//AimFromWeapon4(piecenum)
+//{
+//	piecenum = flak;
+//}
 
-AimWeapon3(heading, pitch)
-{
-	signal 4;
-	set-signal-mask 4;
-	turn torso to y-axis heading speed <300.000000>;
-	turn lmiss to x-axis <0.000000> - pitch speed <250.000000>;
-	wait-for-turn torso around y-axis;
-	wait-for-turn lmiss around x-axis;
-	start-script RestoreAfterDelay();
-	return (1);
-}
+//AimWeapon4(heading, pitch)
+//{
+//	signal 8;
+//	set-signal-mask 8;
+	//turn torso to y-axis heading speed <300.000000>;
+	//turn flak to x-axis <0.000000> - pitch speed <500.000000>;
+	//wait-for-turn torso around y-axis;
+	//wait-for-turn flak around x-axis;
+//	start-script RestoreAfterDelay();
+//	return (1);
+//}
 
-FireWeapon3()
-{
-}
+//FireWeapon4()
+//{
+//}
 
-QueryWeapon4(piecenum)
-{
-	piecenum = lmiss_fire;
-}
+//-----------------------
+//--- Flak (originally)
+//-----------------------
 
-AimFromWeapon4(piecenum)
-{
-	piecenum = torso;
-}
+//QueryWeapon5(piecenum)
+//{
+//	piecenum = flak_fire;
+//}
 
-AimWeapon4(heading, pitch)
-{
-	signal 8;
-	set-signal-mask 8;
-	turn torso to y-axis heading speed <300.000000>;
-	turn rmiss to x-axis <0.000000> - pitch speed <250.000000>;
-	wait-for-turn torso around y-axis;
-	wait-for-turn rmiss around x-axis;
-	start-script RestoreAfterDelay();
-	return (1);
-}
+//AimFromWeapon5(piecenum)
+//{
+//	piecenum = flak;
+//}
 
-FireWeapon4()
-{
-}
+//AimWeapon5(heading, pitch)
+//{
+//	signal 16;
+//	set-signal-mask 16;
+//	turn flak to x-axis <0.000000> - pitch speed <350.000000>;
+//	wait-for-turn flak around x-axis;
+//	start-script RestoreAfterDelay();
+//	return (1);
+//}
 
-QueryWeapon5(piecenum)
-{
-	piecenum = flak_fire;
-}
-
-AimFromWeapon5(piecenum)
-{
-	piecenum = flak;
-}
-
-AimWeapon5(heading, pitch)
-{
-	signal 16;
-	set-signal-mask 16;
-	turn flak to x-axis <0.000000> - pitch speed <350.000000>;
-	wait-for-turn flak around x-axis;
-	start-script RestoreAfterDelay();
-	return (1);
-}
-
-FireWeapon5()
-{
-	emit-sfx 1024 + 0 from flak_fire;
-}
+//FireWeapon5()
+//{
+//	show flak_fire;
+//	sleep 100;
+//	hide flak_fire;
+//}
 
 Killed(severity, corpsetype)
 {
 	if( severity <= 25 )
 	{
 		corpsetype = 1;
+		explode ground type BITMAPONLY | BITMAP1;
+		explode pelvis type BITMAPONLY | BITMAP2;
+		explode rthigh type BITMAPONLY | BITMAP3;
+		explode rleg type BITMAPONLY | BITMAP4;
+		explode lthigh type BITMAPONLY | BITMAP5;
+		explode lleg type BITMAPONLY | BITMAP1;
+		explode torso type BITMAPONLY | BITMAP2;
+		explode turret type BITMAPONLY | BITMAP4;
+		explode flak type BITMAPONLY | BITMAP5;
+		explode rmiss type BITMAPONLY | BITMAP1;
+		explode lmiss type BITMAPONLY | BITMAP2;
 		return (corpsetype);
 	}
 	if( severity <= 50 )
 	{
 		corpsetype = 2;
-		explode ground type FALL | BITMAP1 | NOHEATCLOUD;
-		explode pelvis type FALL | BITMAP2 | NOHEATCLOUD;
-		explode rthigh type FALL | BITMAP3 | NOHEATCLOUD;
-		explode rleg type FALL | BITMAP4 | NOHEATCLOUD;
-		explode lthigh type FALL | BITMAP5 | NOHEATCLOUD;
-		explode lleg type FALL | BITMAP1 | NOHEATCLOUD;
-		explode torso type FALL | BITMAP2 | NOHEATCLOUD;
-		explode turret type FALL | BITMAP3 | NOHEATCLOUD;
-		explode flak type FALL | BITMAP4 | NOHEATCLOUD;
-		explode rmiss type FALL | BITMAP5 | NOHEATCLOUD;
-		explode lmiss type FALL | BITMAP1 | NOHEATCLOUD;
+		explode ground type FALL | BITMAP1;
+		explode pelvis type FALL | BITMAP2;
+		explode rthigh type FALL | BITMAP3;
+		explode rleg type FALL | BITMAP4;
+		explode lthigh type FALL | BITMAP5;
+		explode lleg type FALL | BITMAP1;
+		explode torso type FALL | BITMAP2;
+		explode turret type FALL | BITMAP3;
+		explode flak type FALL | BITMAP4;
+		explode rmiss type FALL | BITMAP5;
+		explode lmiss type FALL | BITMAP1;
 		return (corpsetype);
 	}
 	if( severity <= 99 )
 	{
 		corpsetype = 3;
-		explode ground type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-		explode pelvis type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
-		explode rthigh type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-		explode rleg type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP4 | NOHEATCLOUD;
-		explode lthigh type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP5 | NOHEATCLOUD;
-		explode lleg type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-		explode torso type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
-		explode turret type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-		explode flak type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP4 | NOHEATCLOUD;
-		explode rmiss type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP5 | NOHEATCLOUD;
-		explode lmiss type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
+		explode ground type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
+		explode pelvis type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2;
+		explode rthigh type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
+		explode rleg type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP4;
+		explode lthigh type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP5;
+		explode lleg type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
+		explode torso type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2;
+		explode turret type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
+		explode flak type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP4;
+		explode rmiss type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP5;
+		explode lmiss type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
 		return (corpsetype);
 	}
 	corpsetype = 3;
-	explode ground type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-	explode pelvis type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
-	explode rthigh type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-	explode rleg type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP4 | NOHEATCLOUD;
-	explode lthigh type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP5 | NOHEATCLOUD;
-	explode lleg type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-	explode torso type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
-	explode turret type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-	explode flak type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP4 | NOHEATCLOUD;
-	explode rmiss type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP5 | NOHEATCLOUD;
-	explode lmiss type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
+	explode ground type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
+	explode pelvis type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2;
+	explode rthigh type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
+	explode rleg type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP4;
+	explode lthigh type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP5;
+	explode lleg type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
+	explode torso type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2;
+	explode turret type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
+	explode flak type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP4;
+	explode rmiss type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP5;
+	explode lmiss type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
 	return corpsetype;
 }

@@ -3,7 +3,7 @@
 #include "sfxtype.h"
 #include "exptype.h"
 
-piece  base, winga, wingb, thrusta1, thrusta2, emitnano;
+piece  base, winga, wingb, thrusta1, thrusta2;
 
 static-var  Static_Var_1, Static_Var_2;
 
@@ -37,7 +37,7 @@ SmokeUnit(healthpercent, sleeptime, smoketype)
 	while( TRUE )
 	{
 		healthpercent = get HEALTH;
-		if( healthpercent < 66 and healthpercent > 0 )
+		if( healthpercent < 66 )
 		{
 			smoketype = 258;
 			if( Rand( 1, 66 ) < healthpercent )
@@ -117,7 +117,7 @@ StopBuilding()
 
 QueryNanoPiece(piecenum)
 {
-	piecenum = emitnano;
+	piecenum = base;
 	return (0);
 }
 
@@ -132,24 +132,38 @@ Killed(severity, corpsetype)
 	if( severity <= 25 )
 	{
 		corpsetype = 1;
-	    explode wingb type FALL | BITMAP1 | NOHEATCLOUD;
+		explode base type BITMAPONLY | BITMAP1;
+		explode thrusta1 type BITMAPONLY | BITMAP1;
+		explode thrusta2 type BITMAPONLY | BITMAP2;
+		explode winga type BITMAPONLY | BITMAP5;
+		explode wingb type BITMAPONLY | BITMAP1;
 		return (corpsetype);
 	}
 	if( severity <= 50 )
 	{
 		corpsetype = 2;
-	    explode wingb type FALL | BITMAP2 | NOHEATCLOUD;
+		explode base type BITMAPONLY | BITMAP1;
+		explode thrusta1 type FALL | BITMAP1;
+		explode thrusta2 type FALL | BITMAP2;
+		explode winga type SHATTER | BITMAP5;
+		explode wingb type BITMAPONLY | BITMAP1;
 		return (corpsetype);
 	}
 	if( severity <= 99 )
 	{
 		corpsetype = 3;
-        explode winga type FALL | BITMAP1 | NOHEATCLOUD;
-        explode wingb type FALL | BITMAP2 | NOHEATCLOUD;
+		explode base type BITMAPONLY | BITMAP1;
+		explode thrusta1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
+		explode thrusta2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2;
+		explode winga type SHATTER | BITMAP5;
+		explode wingb type BITMAPONLY | BITMAP1;
 		return (corpsetype);
 	}
 	corpsetype = 3;
-	explode winga type FALL | BITMAP1 | NOHEATCLOUD;
-	explode wingb type FALL | BITMAP2 | NOHEATCLOUD;
+	explode base type BITMAPONLY | BITMAP1;
+	explode thrusta1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
+	explode thrusta2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2;
+	explode winga type SHATTER | EXPLODE_ON_HIT | BITMAP5;
+	explode wingb type BITMAPONLY | BITMAP1;
 	return (corpsetype);
 }

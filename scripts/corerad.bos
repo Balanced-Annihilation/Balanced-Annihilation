@@ -71,6 +71,7 @@ Create()
 	hide flare6;
 	gun_1 = flare1;
 	firstaim = 1;
+	turn sleeve to x-axis <-20.000000> speed <100.00000>; 	
 	start-script SmokeUnit();
 }
 
@@ -78,6 +79,7 @@ RestoreAfterDelay()
 {
 	sleep 1000;
     firstaim = 1;
+	turn sleeve to x-axis <-20.000000> speed <100>;    
 }
 
 AimPrimary(heading, pitch)
@@ -159,6 +161,88 @@ AimFromPrimary(piecenum)
 	piecenum = turret;
 }
 
+// Secondary
+
+AimSecondary(heading, pitch)
+{
+	signal SIG_AIM;
+	set-signal-mask SIG_AIM;
+	turn turret to y-axis heading speed <250>;
+	turn sleeve to x-axis <0.000000> - pitch speed <200>;
+	wait-for-turn turret around y-axis;
+	wait-for-turn sleeve around x-axis;
+	start-script RestoreAfterDelay();
+	return (1);
+}
+
+FireSecondary()
+{
+	if( gun_1 == 0 )
+	{
+		move barrel1 to z-axis [-6.000000] now;
+		show flare1;
+		sleep 50;
+		hide flare1;
+		move barrel1 to z-axis [0.000000] speed [5.000000];
+	}
+	if( gun_1 == 1 )
+	{
+		move barrel2 to z-axis [-6.000000] now;
+		show flare2;
+		sleep 50;
+		hide flare2;
+		move barrel2 to z-axis [0.000000] speed [5.000000];
+	}
+	if( gun_1 == 2 )
+	{
+		move barrel3 to z-axis [-6.000000] now;
+		show flare3;
+		sleep 50;
+		hide flare3;
+		move barrel3 to z-axis [0.000000] speed [5.000000];
+	}
+	if( gun_1 == 3 )
+	{
+		move barrel4 to z-axis [-6.000000] now;
+		show flare4;
+		sleep 50;
+		hide flare4;
+		move barrel4 to z-axis [0.000000] speed [5.000000];
+	}
+	if( gun_1 == 4 )
+	{
+		move barrel5 to z-axis [-6.000000] now;
+		show flare5;
+		sleep 50;
+		hide flare5;
+		move barrel5 to z-axis [0.000000] speed [5.000000];
+	}
+	if( gun_1 == 5 )
+	{
+		move barrel6 to z-axis [-6.000000] now;
+		show flare6;
+		sleep 50;
+		hide flare6;
+		move barrel6 to z-axis [0.000000] speed [5.000000];
+	}
+	++gun_1;
+	if( gun_1 == 6 )
+	{
+		gun_1 = flare1;
+	}
+}
+
+QuerySecondary(piecenum)
+{
+	piecenum = gun_1;
+}
+
+AimFromSecondary(piecenum)
+{
+	piecenum = turret;
+}
+
+
 SweetSpot(piecenum)
 {
 	piecenum = base;
@@ -169,61 +253,74 @@ Killed(severity, corpsetype)
 	if( severity <= 25 )
 	{
 		corpsetype = 1;
-		explode base type SHATTER | NOHEATCLOUD;
+		explode base type BITMAPONLY | BITMAP1;
+		explode flare1 type BITMAPONLY | BITMAP2;
+		explode flare2 type BITMAPONLY | BITMAP2;
+		explode flare3 type BITMAPONLY | BITMAP2;
+		explode flare4 type BITMAPONLY | BITMAP2;
+		explode flare5 type BITMAPONLY | BITMAP2;
+		explode flare6 type BITMAPONLY | BITMAP2;
+		explode barrel1 type BITMAPONLY | BITMAP3;
+		explode barrel2 type BITMAPONLY | BITMAP4;
+		explode barrel3 type BITMAPONLY | BITMAP5;
+		explode barrel4 type BITMAPONLY | BITMAP3;
+		explode barrel5 type BITMAPONLY | BITMAP4;
+		explode barrel6 type BITMAPONLY | BITMAP5;
+		explode turret type BITMAPONLY | BITMAP3;
 		return (corpsetype);
 	}
 	if( severity <= 50 )
 	{
 		corpsetype = 2;
-		explode base type SHATTER | NOHEATCLOUD;
-		explode flare1 type FALL | BITMAP2 | NOHEATCLOUD;
-		explode flare2 type FALL | BITMAP2 | NOHEATCLOUD;
-		explode flare3 type FALL | BITMAP2 | NOHEATCLOUD;
-		explode flare4 type FALL | BITMAP2 | NOHEATCLOUD;
-		explode flare5 type FALL | BITMAP2 | NOHEATCLOUD;
-		explode flare6 type FALL | BITMAP2 | NOHEATCLOUD;
-		explode barrel1 type FALL | BITMAP3 | NOHEATCLOUD;
-		explode barrel2 type FALL | BITMAP4 | NOHEATCLOUD;
-		explode barrel3 type FALL | BITMAP5 | NOHEATCLOUD;
-		explode barrel4 type FALL | BITMAP3 | NOHEATCLOUD;
-		explode barrel5 type FALL | BITMAP4 | NOHEATCLOUD;
-		explode barrel6 type FALL | BITMAP5 | NOHEATCLOUD;
-		explode turret type SHATTER | BITMAP3 | NOHEATCLOUD;
+		explode base type BITMAPONLY | BITMAP1;
+		explode flare1 type FALL | BITMAP2;
+		explode flare2 type FALL | BITMAP2;
+		explode flare3 type FALL | BITMAP2;
+		explode flare4 type FALL | BITMAP2;
+		explode flare5 type FALL | BITMAP2;
+		explode flare6 type FALL | BITMAP2;
+		explode barrel1 type FALL | BITMAP3;
+		explode barrel2 type FALL | BITMAP4;
+		explode barrel3 type FALL | BITMAP5;
+		explode barrel4 type FALL | BITMAP3;
+		explode barrel5 type FALL | BITMAP4;
+		explode barrel6 type FALL | BITMAP5;
+		explode turret type SHATTER | BITMAP3;
 		return (corpsetype);
 	}
 	if( severity <= 99 )
 	{
 		corpsetype = 3;
-		explode base type SHATTER | NOHEATCLOUD;
-		explode flare1 type FALL | SMOKE | gun_1 | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
-		explode flare2 type FALL | SMOKE | gun_1 | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
-		explode flare3 type FALL | SMOKE | gun_1 | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
-		explode flare4 type FALL | SMOKE | gun_1 | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
-		explode flare5 type FALL | SMOKE | gun_1 | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
-		explode flare6 type FALL | SMOKE | gun_1 | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
-		explode barrel1 type FALL | SMOKE | gun_1 | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-		explode barrel2 type FALL | SMOKE | gun_1 | EXPLODE_ON_HIT | BITMAP4 | NOHEATCLOUD;
-		explode barrel3 type FALL | SMOKE | gun_1 | EXPLODE_ON_HIT | BITMAP5 | NOHEATCLOUD;
-		explode barrel4 type FALL | SMOKE | gun_1 | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-		explode barrel5 type FALL | SMOKE | gun_1 | EXPLODE_ON_HIT | BITMAP4 | NOHEATCLOUD;
-		explode barrel6 type FALL | SMOKE | gun_1 | EXPLODE_ON_HIT | BITMAP5 | NOHEATCLOUD;
-		explode turret type SHATTER | BITMAP3 | NOHEATCLOUD;
+		explode base type BITMAPONLY | BITMAP1;
+		explode flare1 type FALL | SMOKE | gun_1 | EXPLODE_ON_HIT | BITMAP2;
+		explode flare2 type FALL | SMOKE | gun_1 | EXPLODE_ON_HIT | BITMAP2;
+		explode flare3 type FALL | SMOKE | gun_1 | EXPLODE_ON_HIT | BITMAP2;
+		explode flare4 type FALL | SMOKE | gun_1 | EXPLODE_ON_HIT | BITMAP2;
+		explode flare5 type FALL | SMOKE | gun_1 | EXPLODE_ON_HIT | BITMAP2;
+		explode flare6 type FALL | SMOKE | gun_1 | EXPLODE_ON_HIT | BITMAP2;
+		explode barrel1 type FALL | SMOKE | gun_1 | EXPLODE_ON_HIT | BITMAP3;
+		explode barrel2 type FALL | SMOKE | gun_1 | EXPLODE_ON_HIT | BITMAP4;
+		explode barrel3 type FALL | SMOKE | gun_1 | EXPLODE_ON_HIT | BITMAP5;
+		explode barrel4 type FALL | SMOKE | gun_1 | EXPLODE_ON_HIT | BITMAP3;
+		explode barrel5 type FALL | SMOKE | gun_1 | EXPLODE_ON_HIT | BITMAP4;
+		explode barrel6 type FALL | SMOKE | gun_1 | EXPLODE_ON_HIT | BITMAP5;
+		explode turret type SHATTER | BITMAP3;
 		return (corpsetype);
 	}
 	corpsetype = 3;
-	explode base type SHATTER | NOHEATCLOUD;
-	explode flare1 type FALL | SMOKE | gun_1 | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
-	explode flare2 type FALL | SMOKE | gun_1 | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
-	explode flare3 type FALL | SMOKE | gun_1 | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
-	explode flare4 type FALL | SMOKE | gun_1 | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
-	explode flare5 type FALL | SMOKE | gun_1 | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
-	explode flare6 type FALL | SMOKE | gun_1 | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
-	explode barrel1 type FALL | SMOKE | gun_1 | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-	explode barrel2 type FALL | SMOKE | gun_1 | EXPLODE_ON_HIT | BITMAP4 | NOHEATCLOUD;
-	explode barrel3 type FALL | SMOKE | gun_1 | EXPLODE_ON_HIT | BITMAP5 | NOHEATCLOUD;
-	explode barrel4 type FALL | SMOKE | gun_1 | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-	explode barrel5 type FALL | SMOKE | gun_1 | EXPLODE_ON_HIT | BITMAP4 | NOHEATCLOUD;
-	explode barrel6 type FALL | SMOKE | gun_1 | EXPLODE_ON_HIT | BITMAP5 | NOHEATCLOUD;
-	explode turret type SHATTER | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
+	explode base type BITMAPONLY | BITMAP1;
+	explode flare1 type FALL | SMOKE | gun_1 | EXPLODE_ON_HIT | BITMAP2;
+	explode flare2 type FALL | SMOKE | gun_1 | EXPLODE_ON_HIT | BITMAP2;
+	explode flare3 type FALL | SMOKE | gun_1 | EXPLODE_ON_HIT | BITMAP2;
+	explode flare4 type FALL | SMOKE | gun_1 | EXPLODE_ON_HIT | BITMAP2;
+	explode flare5 type FALL | SMOKE | gun_1 | EXPLODE_ON_HIT | BITMAP2;
+	explode flare6 type FALL | SMOKE | gun_1 | EXPLODE_ON_HIT | BITMAP2;
+	explode barrel1 type FALL | SMOKE | gun_1 | EXPLODE_ON_HIT | BITMAP3;
+	explode barrel2 type FALL | SMOKE | gun_1 | EXPLODE_ON_HIT | BITMAP4;
+	explode barrel3 type FALL | SMOKE | gun_1 | EXPLODE_ON_HIT | BITMAP5;
+	explode barrel4 type FALL | SMOKE | gun_1 | EXPLODE_ON_HIT | BITMAP3;
+	explode barrel5 type FALL | SMOKE | gun_1 | EXPLODE_ON_HIT | BITMAP4;
+	explode barrel6 type FALL | SMOKE | gun_1 | EXPLODE_ON_HIT | BITMAP5;
+	explode turret type SHATTER | EXPLODE_ON_HIT | BITMAP3;
 	return corpsetype;
 }

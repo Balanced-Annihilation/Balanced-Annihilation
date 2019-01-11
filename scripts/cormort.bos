@@ -7,7 +7,7 @@ piece  support, flare, Thigh1, Thigh2, Torso, Shoulder, Barrel, Foot2,
        Foot1, Forearm, Leg2, Leg1, ground;
 
 static-var  bMoving, bAiming, Static_Var_3, restore_delay, Static_Var_5,
-            Static_Var_6, wpn1_lasthead;
+            Static_Var_6;
 
 // Signal definitions
 #define SIG_AIM				2
@@ -354,8 +354,6 @@ Create()
 	bAiming = FALSE;
 	Static_Var_3 = 1;
 	hide flare;
-	turn flare to x-axis <-30> now;
-	move flare to z-axis [-0.8] now;
 	dont-cache flare;
 	restore_delay = 2000;
 	start-script SmokeUnit();
@@ -389,43 +387,38 @@ SweetSpot(piecenum)
 
 RestoreAfterDelay()
 {
-	set-signal-mask SIG_AIM;
 	sleep restore_delay;
 	turn Torso to y-axis <0.000000> speed <90.021978>;
 	turn support to x-axis <0.000000> speed <45.010989>;
-	wait-for-turn Torso around y-axis;
 	bAiming = FALSE;
-	wpn1_lasthead = 1000000;
 	return (0);
 }
 
 AimPrimary(heading, pitch)
 {
 	signal SIG_AIM;
+	set-signal-mask SIG_AIM;
 	bAiming = TRUE;
-	turn Torso to y-axis heading speed <190.043956>;
-	turn support to x-axis <0.000000> - pitch speed <150.032967>;
 	while( !Static_Var_3 )
 	{
-		return(0);
+		sleep 100;
 	}
-	if (((get ABS(wpn1_lasthead - heading)) > 65536) OR(((get ABS(wpn1_lasthead - heading)) > 1300) AND ((get ABS(wpn1_lasthead - heading)) < 64236)))
-	{
-		wpn1_lasthead = 1000000;
-		wait-for-turn Torso around y-axis;
-		wait-for-turn support around x-axis;
-	}
+	turn Torso to y-axis heading speed <190.043956>;
+	turn support to x-axis <0.000000> - pitch speed <150.032967>;
+	wait-for-turn Torso around y-axis;
+	wait-for-turn support around x-axis;
 	start-script RestoreAfterDelay();
-	wpn1_lasthead = heading;
 	return (1);
 }
 
 FirePrimary()
 {
-	move Barrel to z-axis [-8.500000] speed [1150.000000];
-	emit-sfx 1024 + 0 from flare;
+	move Barrel to z-axis [-12.500000] speed [1250.000000];
+	show flare;
 	sleep 150;
 	turn Torso to x-axis <-10.000000> speed <500.120879>;
+	sleep 150;
+	hide flare;
 	turn Torso to x-axis <0.000000> speed <20.000000>;
 	move Barrel to z-axis [0.000000] speed [7.500000];
 	return (0);
@@ -449,51 +442,66 @@ Killed(severity, corpsetype)
 	if( severity <= 25 )
 	{
 		corpsetype = 1;
+		explode ground type BITMAPONLY | BITMAP1;
+		explode Barrel type BITMAPONLY | BITMAP2;
+		explode Foot1 type BITMAPONLY | BITMAP4;
+		explode Foot2 type BITMAPONLY | BITMAP5;
+		explode Forearm type BITMAPONLY | BITMAP1;
+		explode Leg1 type BITMAPONLY | BITMAP2;
+		explode Leg2 type BITMAPONLY | BITMAP3;
+		explode Shoulder type BITMAPONLY | BITMAP4;
+		explode support type BITMAPONLY | BITMAP5;
+		explode Thigh1 type BITMAPONLY | BITMAP1;
+		explode Thigh2 type BITMAPONLY | BITMAP2;
+		explode Torso type BITMAPONLY | BITMAP5;
 		return (corpsetype);
 	}
 	if( severity <= 50 )
 	{
 		corpsetype = 2;
-		explode ground type FALL | BITMAP1 | NOHEATCLOUD;
-		explode Foot1 type FALL | BITMAP3 | NOHEATCLOUD;
-		explode Foot2 type FALL | BITMAP4 | NOHEATCLOUD;
-		explode Forearm type FALL | BITMAP5 | NOHEATCLOUD;
-		explode Leg1 type FALL | BITMAP1 | NOHEATCLOUD;
-		explode Leg2 type FALL | BITMAP2 | NOHEATCLOUD;
-		explode Shoulder type FALL | BITMAP3 | NOHEATCLOUD;
-		explode support type FALL | BITMAP4 | NOHEATCLOUD;
-		explode Thigh1 type FALL | BITMAP5 | NOHEATCLOUD;
-		explode Thigh2 type FALL | BITMAP1 | NOHEATCLOUD;
-		explode Torso type SHATTER | BITMAP5 | NOHEATCLOUD;
+		explode ground type FALL | BITMAP1;
+		explode Barrel type BITMAPONLY | BITMAP2;
+		explode Foot1 type FALL | BITMAP3;
+		explode Foot2 type FALL | BITMAP4;
+		explode Forearm type FALL | BITMAP5;
+		explode Leg1 type FALL | BITMAP1;
+		explode Leg2 type FALL | BITMAP2;
+		explode Shoulder type FALL | BITMAP3;
+		explode support type FALL | BITMAP4;
+		explode Thigh1 type FALL | BITMAP5;
+		explode Thigh2 type FALL | BITMAP1;
+		explode Torso type SHATTER | BITMAP5;
 		return (corpsetype);
 	}
 	if( severity <= 99 )
 	{
 		corpsetype = 3;
-		explode ground type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-		explode Foot1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-		explode Foot2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP4 | NOHEATCLOUD;
-		explode Forearm type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP5 | NOHEATCLOUD;
-		explode Leg1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-		explode Leg2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
-		explode Shoulder type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-		explode support type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP4 | NOHEATCLOUD;
-		explode Thigh1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP5 | NOHEATCLOUD;
-		explode Thigh2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-		explode Torso type SHATTER | BITMAP5 | NOHEATCLOUD;
+		explode ground type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
+		explode Barrel type BITMAPONLY | BITMAP2;
+		explode Foot1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
+		explode Foot2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP4;
+		explode Forearm type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP5;
+		explode Leg1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
+		explode Leg2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2;
+		explode Shoulder type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
+		explode support type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP4;
+		explode Thigh1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP5;
+		explode Thigh2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
+		explode Torso type SHATTER | BITMAP5;
 		return (corpsetype);
 	}
 	corpsetype = 3;
-	explode ground type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-	explode Foot1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-	explode Foot2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP4 | NOHEATCLOUD;
-	explode Forearm type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP5 | NOHEATCLOUD;
-	explode Leg1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-	explode Leg2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
-	explode Shoulder type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-	explode support type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP4 | NOHEATCLOUD;
-	explode Thigh1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP5 | NOHEATCLOUD;
-	explode Thigh2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-	explode Torso type SHATTER | BITMAP5 | NOHEATCLOUD;
+	explode ground type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
+	explode Barrel type BITMAPONLY | BITMAP2;
+	explode Foot1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
+	explode Foot2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP4;
+	explode Forearm type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP5;
+	explode Leg1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
+	explode Leg2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2;
+	explode Shoulder type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
+	explode support type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP4;
+	explode Thigh1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP5;
+	explode Thigh2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
+	explode Torso type SHATTER | BITMAP5;
 	return (corpsetype);
 }

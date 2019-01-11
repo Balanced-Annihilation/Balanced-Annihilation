@@ -6,13 +6,12 @@
 piece  pelvis, lfirept, rfirept, lcannon, rcannon, locase, lthigh, rthigh,
        torso, rleg, rfoot, lleg, lfoot, upcase2, canbase, ground;
 
-static-var  bMoving, Static_Var_2, Static_Var_3, Static_Var_4, gun_1,
+static-var  bMoving, IsAiming, CanShoot, FireNow, gun_1,
             restore_delay, statechg_DesiredState, statechg_StateChanging,
-            moveSpeed, currentSpeed, restore, wpn1_lasthead;
+            moveSpeed, currentSpeed;
 
 // Signal definitions
 #define SIG_AIM				2
-
 
 
 walk()
@@ -25,6 +24,10 @@ walk()
 		move rcannon to y-axis [0.000000] now;
 		move rcannon to z-axis [0.000000] now;
 		move locase to y-axis [0.000000] now;
+		move rfirept to y-axis [-0.300000] speed [2.560345] *  currentSpeed / 100;
+		move rfirept to z-axis [0.209998] speed [1.792224] *  currentSpeed / 100;
+		move lfirept to y-axis [-0.300000] speed [2.560345] *  currentSpeed / 100;
+		move lfirept to z-axis [0.209998] speed [1.792224] *  currentSpeed / 100;
 		turn lthigh to x-axis <-62.934066> speed <537.109701> *  currentSpeed / 100;
 		turn rthigh to x-axis <3.505495> speed <29.917587> *  currentSpeed / 100;
 		turn torso to z-axis <-4.560440> speed <38.920997> *  currentSpeed / 100;
@@ -203,6 +206,10 @@ walklegs()
 		move rcannon to y-axis [0.000000] now;
 		move rcannon to z-axis [0.000000] now;
 		move locase to y-axis [0.000000] now;
+		move rfirept to y-axis [-0.300000] now;
+		move rfirept to z-axis [0.209998] now;
+		move lfirept to y-axis [-0.300000] now;
+		move lfirept to z-axis [0.209998] now;
 		turn lthigh to x-axis <-62.934066> speed <3.048031> *  currentSpeed / 100;
 		turn rthigh to x-axis <3.505495> speed <116.997440> *  currentSpeed / 100;
 		turn rleg to x-axis <82.978022> speed <459.220820> *  currentSpeed / 100;
@@ -359,10 +366,10 @@ walklegs()
 
 Go()
 {
-	Static_Var_2 = 1;
-	if( !Static_Var_4 )
+	IsAiming = 1;
+	if( !FireNow )
 	{
-		while( !Static_Var_3 )
+		while( !CanShoot )
 		{
 			sleep 75;
 		}
@@ -373,6 +380,10 @@ Go()
 		move locase to y-axis [0.000000] now;
 		move locase to z-axis [0.000000] now;
 		move locase to z-axis [-0.739990] speed [0.000000];
+		move rfirept to y-axis [-0.300000] now;
+		move rfirept to z-axis [0.209998] now;
+		move lfirept to y-axis [-0.300000] now;
+		move lfirept to z-axis [0.209998] now;
 		turn upcase2 to x-axis <0.000000> now;
 		turn upcase2 to x-axis <-43.005495> speed <266.000000>;
 		turn locase to x-axis <0.000000> now;
@@ -396,15 +407,15 @@ Go()
 		turn locase to x-axis <64.005495> speed <1887.000000>;
 		sleep 5;
 		sleep 5;
-		Static_Var_4 = 1;
+		FireNow = 1;
 	}
 }
 
 Stop()
 {
-	if( Static_Var_4 )
+	if( FireNow )
 	{
-		Static_Var_4 = 0;
+		FireNow = 0;
 		move lcannon to y-axis [0.000000] now;
 		move lcannon to z-axis [0.000000] now;
 		move rcannon to y-axis [0.000000] now;
@@ -413,6 +424,10 @@ Stop()
 		move upcase2 to z-axis [0.950000] speed [22.000000];
 		move locase to y-axis [0.000000] now;
 		move locase to z-axis [-0.739990] speed [2.953992];
+		move rfirept to y-axis [-0.300000] now;
+		move rfirept to z-axis [0.209998] now;
+		move lfirept to y-axis [-0.300000] now;
+		move lfirept to z-axis [0.209998] now;
 		turn upcase2 to x-axis <-47.104396> speed <188.037710>;
 		turn locase to x-axis <61.527473> speed <245.613703>;
 		sleep 229;
@@ -426,7 +441,7 @@ Stop()
 		sleep 9;
 		sleep 5;
 	}
-	Static_Var_2 = 0;
+	IsAiming = 0;
 }
 
 RequestState(requestedstate, currentstate)
@@ -461,24 +476,24 @@ MotionControl(moving, aiming, justmoved)
 	while( TRUE )
 	{
 		moving = bMoving;
-		aiming = Static_Var_2;
+		aiming = IsAiming;
 		if( moving )
 		{
 			if( aiming )
 			{
-				Static_Var_3 = 1;
+				CanShoot = 1;
 				call-script walklegs();
 			}
 			else
 			{
-				Static_Var_3 = 0;
+				CanShoot = 0;
 				call-script walk();
 			}
 			justmoved = TRUE;
 		}
 		else
 		{
-			Static_Var_3 = 1;
+			CanShoot = 1;
 			if( justmoved )
 			{
 				move pelvis to y-axis [0.000000] speed [1.000000];
@@ -486,9 +501,6 @@ MotionControl(moving, aiming, justmoved)
 				turn rleg to x-axis <0.000000> speed <200.000000>;
 				turn lthigh to x-axis <0.000000> speed <200.000000>;
 				turn lleg to x-axis <0.000000> speed <200.000000>;
-				turn rfoot to x-axis <0.0000> speed <200.000000>;
-				turn rfoot to x-axis <0.0000> speed <200.000000>;
-				turn torso to z-axis <0.000000> speed <90.000000>;
 				if( !aiming )
 				{
 					turn torso to y-axis <0.000000> speed <90.000000>;
@@ -504,8 +516,8 @@ UnitSpeed()
 {
 	while(TRUE)
 	{
-		currentSpeed = 2 * (get CURRENT_SPEED)*100/moveSpeed;
-		if (currentSpeed<40) currentSpeed=40;
+		currentSpeed = (get CURRENT_SPEED)*100/moveSpeed;
+		if (currentSpeed<20) currentSpeed=20;
 		sleep 142;
 	}
 }
@@ -542,14 +554,13 @@ SmokeUnit(healthpercent, sleeptime, smoketype)
 Create()
 {
 	bMoving = FALSE;
-	Static_Var_2 = 0;
-	Static_Var_3 = 1;
-	Static_Var_4 = 0;
+	IsAiming = 0;
+	CanShoot = 1;
+	FireNow = 0;
 	gun_1 = pelvis;
 	restore_delay = 3000;
 	hide rfirept;
 	hide lfirept;
-	restore = TRUE;
 	dont-shade locase;
 	dont-shade lcannon;
 	dont-shade rcannon;
@@ -582,40 +593,28 @@ SweetSpot(piecenum)
 
 RestoreAfterDelay()
 {
-	set-signal-mask SIG_AIM;
-	while (restore == FALSE) // attempt to block restore when switching from 1 to 2 or 2 to 1.
-	{
-	    sleep 50;
-	}
-	sleep 50;
-	if (restore == TRUE)
-	{
-        sleep restore_delay;
-        turn torso to y-axis <0.000000> speed <90.000000>;
-        turn canbase to x-axis <0.000000> speed <45.000000>;
-        wpn1_lasthead = 1000000;
-        start-script RequestState(1);
-	}
+	sleep restore_delay;
+	set-signal-mask 0;
+	turn torso to y-axis <0.000000> speed <90.000000>;
+	turn canbase to x-axis <0.000000> speed <45.000000>;
+	start-script RequestState(1);
 }
 
 AimPrimary(heading, pitch)
 {
-    start-script RequestState(0);
-    signal SIG_AIM;
-    turn torso to y-axis heading speed <220.000000>;
-    turn canbase to x-axis <0.000000> - pitch speed <65.000000>;
-    while( !Static_Var_4 )
-    {
-        return(0);
-    }
-    if (((get ABS(wpn1_lasthead - heading)) > 65536) OR(((get ABS(wpn1_lasthead - heading)) > 2300) AND ((get ABS(wpn1_lasthead - heading)) < 63236)))
-    {
-        wait-for-turn torso around y-axis;
-        wait-for-turn canbase around x-axis;
-    }
-    start-script RestoreAfterDelay();
-    wpn1_lasthead = heading;
-    return (1);
+	start-script RequestState(0);
+	signal SIG_AIM;
+	set-signal-mask SIG_AIM;
+	while( !FireNow )
+	{
+		sleep 30;
+	}
+	turn torso to y-axis heading speed <128.000000>;
+	turn canbase to x-axis <0.000000> - pitch speed <65.000000>;
+	wait-for-turn torso around y-axis;
+	wait-for-turn canbase around x-axis;
+	start-script RestoreAfterDelay();
+	return (1);
 }
 
 AimFromPrimary(piecenum)
@@ -632,16 +631,18 @@ FirePrimary()
 {
 	if( gun_1 )
 	{
-		emit-sfx 1024 + 0 from rfirept;
+		show rfirept;
 		move rcannon to z-axis [-2.000000] speed [25.000000];
-		sleep 150;
+		sleep 100;
+		hide rfirept;
 		move rcannon to z-axis [0.000000] speed [4.000000];
 	}
 	else
 	{
-		emit-sfx 1024 + 0 from lfirept;
+		show lfirept;
 		move lcannon to z-axis [-2.000000] speed [25.000000];
-		sleep 150;
+		sleep 100;
+		hide lfirept;
 		move lcannon to z-axis [0.000000] speed [4.000000];
 	}
 	gun_1 = !gun_1;
@@ -649,67 +650,87 @@ FirePrimary()
 
 Killed(severity, corpsetype)
 {
+	hide rfirept;
+	hide lfirept;
 	if( severity <= 25 )
 	{
 		corpsetype = 1;
-		explode canbase type SHATTER | NOHEATCLOUD;
+		explode canbase type BITMAPONLY | BITMAP1;
+		explode ground type BITMAPONLY | BITMAP2;
+		explode lcannon type BITMAPONLY | BITMAP3;
+		explode lfirept type BITMAPONLY | BITMAP4;
+		explode lfoot type BITMAPONLY | BITMAP5;
+		explode lleg type BITMAPONLY | BITMAP1;
+		explode locase type BITMAPONLY | BITMAP2;
+		explode lthigh type BITMAPONLY | BITMAP3;
+		explode pelvis type BITMAPONLY | BITMAP4;
+		explode rcannon type BITMAPONLY | BITMAP5;
+		explode rfirept type BITMAPONLY | BITMAP2;
+		explode rfoot type BITMAPONLY | BITMAP3;
+		explode rleg type BITMAPONLY | BITMAP4;
+		explode upcase2 type BITMAPONLY | BITMAP5;
+		explode rthigh type BITMAPONLY | BITMAP1;
+		explode torso type BITMAPONLY | BITMAP2;
 		return (corpsetype);
 	}
 	if( severity <= 50 )
 	{
 		corpsetype = 2;
-		explode canbase type SHATTER | NOHEATCLOUD;
-		explode ground type FALL | BITMAP2 | NOHEATCLOUD;
-		explode lcannon type SHATTER | BITMAP3 | NOHEATCLOUD;
-		explode lfirept type FALL | BITMAP4 | NOHEATCLOUD;
-		explode lfoot type FALL | BITMAP5 | NOHEATCLOUD;
-		explode lleg type FALL | BITMAP1 | NOHEATCLOUD;
-		explode locase type FALL | BITMAP2 | NOHEATCLOUD;
-		explode lthigh type FALL | BITMAP3 | NOHEATCLOUD;
-		explode pelvis type FALL | BITMAP4 | NOHEATCLOUD;
-		explode rcannon type SHATTER | BITMAP5 | NOHEATCLOUD;
-		explode rfirept type FALL | BITMAP1 | NOHEATCLOUD;
-		explode rfoot type FALL | BITMAP2 | NOHEATCLOUD;
-		explode rleg type FALL | BITMAP3 | NOHEATCLOUD;
-		explode upcase2 type FALL | BITMAP4 | NOHEATCLOUD;
-		explode rthigh type FALL | BITMAP5 | NOHEATCLOUD;
+		explode canbase type BITMAPONLY | BITMAP1;
+		explode ground type FALL | BITMAP2;
+		explode lcannon type SHATTER | BITMAP3;
+		explode lfirept type FALL | BITMAP4;
+		explode lfoot type FALL | BITMAP5;
+		explode lleg type FALL | BITMAP1;
+		explode locase type FALL | BITMAP2;
+		explode lthigh type FALL | BITMAP3;
+		explode pelvis type FALL | BITMAP4;
+		explode rcannon type SHATTER | BITMAP5;
+		explode rfirept type FALL | BITMAP1;
+		explode rfoot type FALL | BITMAP2;
+		explode rleg type FALL | BITMAP3;
+		explode upcase2 type FALL | BITMAP4;
+		explode rthigh type FALL | BITMAP5;
+		explode torso type BITMAPONLY | BITMAP1;
 		return (corpsetype);
 	}
 	if( severity <= 99 )
 	{
 		corpsetype = 3;
-		explode canbase type SHATTER | NOHEATCLOUD;
-		explode ground type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
-		explode lcannon type SHATTER | BITMAP3 | NOHEATCLOUD;
-		explode lfirept type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP4 | NOHEATCLOUD;
-		explode lfoot type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP5 | NOHEATCLOUD;
-		explode lleg type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-		explode locase type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
-		explode lthigh type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-		explode pelvis type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP4 | NOHEATCLOUD;
-		explode rcannon type SHATTER | BITMAP5 | NOHEATCLOUD;
-		explode rfirept type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-		explode rfoot type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
-		explode rleg type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-		explode upcase2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP4 | NOHEATCLOUD;
-		explode rthigh type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP5 | NOHEATCLOUD;
+		explode canbase type BITMAPONLY | BITMAP1;
+		explode ground type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2;
+		explode lcannon type SHATTER | BITMAP3;
+		explode lfirept type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP4;
+		explode lfoot type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP5;
+		explode lleg type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
+		explode locase type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2;
+		explode lthigh type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
+		explode pelvis type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP4;
+		explode rcannon type SHATTER | BITMAP5;
+		explode rfirept type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
+		explode rfoot type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2;
+		explode rleg type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
+		explode upcase2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP4;
+		explode rthigh type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP5;
+		explode torso type BITMAPONLY | BITMAP1;
 		return (corpsetype);
 	}
 	corpsetype = 3;
-	explode canbase type SHATTER | NOHEATCLOUD;
-	explode ground type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
-	explode lcannon type SHATTER | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-	explode lfirept type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP4 | NOHEATCLOUD;
-	explode lfoot type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP5 | NOHEATCLOUD;
-	explode lleg type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-	explode locase type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
-	explode lthigh type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-	explode pelvis type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP4 | NOHEATCLOUD;
-	explode rcannon type SHATTER | EXPLODE_ON_HIT | BITMAP5 | NOHEATCLOUD;
-	explode rfirept type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-	explode rfoot type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
-	explode rleg type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-	explode upcase2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP4 | NOHEATCLOUD;
-	explode rthigh type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP5 | NOHEATCLOUD;
+	explode canbase type BITMAPONLY | BITMAP1;
+	explode ground type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2;
+	explode lcannon type SHATTER | EXPLODE_ON_HIT | BITMAP3;
+	explode lfirept type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP4;
+	explode lfoot type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP5;
+	explode lleg type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
+	explode locase type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2;
+	explode lthigh type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
+	explode pelvis type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP4;
+	explode rcannon type SHATTER | EXPLODE_ON_HIT | BITMAP5;
+	explode rfirept type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
+	explode rfoot type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2;
+	explode rleg type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
+	explode upcase2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP4;
+	explode rthigh type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP5;
+	explode torso type BITMAPONLY | BITMAP1;
 	return corpsetype;
 }

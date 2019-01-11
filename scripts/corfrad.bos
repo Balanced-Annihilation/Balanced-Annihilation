@@ -5,23 +5,8 @@
 
 piece  base, tower, dish;
 
-static-var  statechg_DesiredState, statechg_StateChanging, rockframe, Xrot, Zrot, Ymove;
+static-var  statechg_DesiredState, statechg_StateChanging;
 
-RockOnWaves()
-{
-rockframe = 1;
-while ( TRUE )
-{
-	Xrot = (get KCOS (rockframe * 690)) * 360 / 1024 ;
-	Ymove = (get KSIN (rockframe * 650)) * 2;
-	Zrot = (get KSIN (rockframe * 560)) * 360 / 1024;
-	turn base to x-axis Xrot now;
-	turn base to z-axis Zrot now;
-	move base to y-axis Ymove now;
-	rockframe = rockframe + 1;
-	sleep 1;
-}
-}
 
 SmokeUnit(healthpercent, sleeptime, smoketype)
 {
@@ -108,7 +93,6 @@ Create()
 	dont-shade dish;
 	call-script InitState();
 	start-script SmokeUnit();
-	start-script RockOnWaves();
 	return (0);
 }
 
@@ -135,25 +119,30 @@ Killed(severity, corpsetype)
 	if( severity <= 25 )
 	{
 		corpsetype = 1;
-		////explode base type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
+		explode base type BITMAPONLY | BITMAP1;
+		explode tower type BITMAPONLY | BITMAP4;
+		explode dish type BITMAPONLY | BITMAP2;
 		return (corpsetype);
 	}
 	if( severity <= 50 )
 	{
 		corpsetype = 2;
-		////explode base type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-		explode dish type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
+		explode base type BITMAPONLY | BITMAP1;
+		explode tower type BITMAPONLY | BITMAP4;
+		explode dish type SHATTER | BITMAP2;
 		return (corpsetype);
 	}
 	if( severity <= 99 )
 	{
 		corpsetype = 3;
-		//explode base type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-		explode dish type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
+		explode base type BITMAPONLY | BITMAP1;
+		explode tower type BITMAPONLY | BITMAP4;
+		explode dish type SHATTER | BITMAP2;
 		return (corpsetype);
 	}
 	corpsetype = 3;
-	//explode base type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-	explode dish type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
+	explode base type BITMAPONLY | BITMAP1;
+	explode tower type BITMAPONLY | BITMAP4;
+	explode dish type SHATTER | EXPLODE_ON_HIT | BITMAP2;
 	return (corpsetype);
 }

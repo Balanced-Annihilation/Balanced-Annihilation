@@ -30,8 +30,8 @@ activatescr()
 	}
 	if( TRUE )
 	{
-		move rsonar to x-axis [-2.25000] speed [5.50000];
-		move lsonar to x-axis [2.25000] speed [5.50000];
+		move rsonar to y-axis [16.25000] speed [32.50000];
+		move lsonar to y-axis [16.25000] speed [32.50000];
 		sleep 491;
 	}
 	sleep 25;
@@ -43,8 +43,10 @@ deactivatescr()
 {
 	if( TRUE )
 	{
-		move rsonar to x-axis [0.00000] speed [5.50000];
-		move lsonar to x-axis [0.00000] speed [5.50000];
+		move rsonar to y-axis [16.25000] now;
+		move rsonar to y-axis [0.00000] speed [32.50000];
+		move lsonar to y-axis [16.25000] now;
+		move lsonar to y-axis [0.00000] speed [32.50000];
 		turn lwing to z-axis <90.02198> now;
 		turn rwing to z-axis <-90.02198> now;
 		turn ltail to z-axis <45.26923> now;
@@ -76,7 +78,7 @@ SmokeUnit(healthpercent, sleeptime, smoketype)
 	while( TRUE )
 	{
 		healthpercent = get HEALTH;
-		if( healthpercent < 66 and healthpercent > 0 )
+		if( healthpercent < 66 )
 		{
 			smoketype = 256 | 2;
 			if( Rand( 1, 66 ) < healthpercent )
@@ -220,42 +222,54 @@ Killed(severity, corpsetype)
 	if( severity <= 25 )
 	{
 		corpsetype = 1;
-		//explode base type SHATTER | NOHEATCLOUD;
-		explode ltail type FALL | BITMAP3 | NOHEATCLOUD;
-		explode rsonar type FALL | BITMAP5 | NOHEATCLOUD;
+		explode base type BITMAPONLY | BITMAP1;
+		explode lsonar type BITMAPONLY | BITMAP2;
+		explode ltail type BITMAPONLY | BITMAP3;
+		explode lwing type BITMAPONLY | BITMAP4;
+		explode rsonar type BITMAPONLY | BITMAP5;
+		explode rtail type BITMAPONLY | BITMAP1;
+		explode rwing type BITMAPONLY | BITMAP2;
+		explode wake1 type BITMAPONLY | BITMAP3;
+		explode wake1 type BITMAPONLY | BITMAP4;
 		return (corpsetype);
 	}
 	if( severity <= 50 )
 	{
 		corpsetype = 2;
-		//explode base type SHATTER | NOHEATCLOUD;
-		//explode lsonar type SHATTER | BITMAP2 | NOHEATCLOUD;
-		//explode ltail type FALL | BITMAP3 | NOHEATCLOUD;
-		explode rsonar type FALL | BITMAP5 | NOHEATCLOUD;
-		explode rtail type FALL | BITMAP1 | NOHEATCLOUD;
-		//explode wake1 type FALL | BITMAP3 | NOHEATCLOUD;
-		explode wake1 type FALL | BITMAP4 | NOHEATCLOUD;
+		explode base type BITMAPONLY | BITMAP1;
+		explode lsonar type SHATTER | BITMAP2;
+		explode ltail type FALL | BITMAP3;
+		explode lwing type BITMAPONLY | BITMAP4;
+		explode rsonar type FALL | BITMAP5;
+		explode rtail type FALL | BITMAP1;
+		explode rwing type BITMAPONLY | BITMAP2;
+		explode wake1 type FALL | BITMAP3;
+		explode wake1 type FALL | BITMAP4;
 		return (corpsetype);
 	}
 	if( severity <= 99 )
 	{
 		corpsetype = 3;
-		//explode base type SHATTER | NOHEATCLOUD;
-		//explode lsonar type SHATTER | BITMAP2 | NOHEATCLOUD;
-		explode ltail type FALL | FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-		explode rsonar type FALL | FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP5 | NOHEATCLOUD;
-		explode rtail type FALL | FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-		//explode wake1 type FALL | FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-		explode wake1 type FALL | FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP4 | NOHEATCLOUD;
+		explode base type BITMAPONLY | BITMAP1;
+		explode lsonar type SHATTER | BITMAP2;
+		explode ltail type FALL | FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP3;
+		explode lwing type BITMAPONLY | BITMAP4;
+		explode rsonar type FALL | FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP5;
+		explode rtail type FALL | FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP1;
+		explode rwing type BITMAPONLY | BITMAP2;
+		explode wake1 type FALL | FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP3;
+		explode wake1 type FALL | FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP4;
 		return (corpsetype);
 	}
 	corpsetype = 3;
-	//explode base type SHATTER | NOHEATCLOUD;
-	//explode lsonar type SHATTER | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
-	explode ltail type FALL | FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-	explode rsonar type FALL | FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP5 | NOHEATCLOUD;
-	explode rtail type FALL | FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-	explode wake1 type FALL | FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-	explode wake1 type FALL | FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP4 | NOHEATCLOUD;
+	explode base type BITMAPONLY | BITMAP1;
+	explode lsonar type SHATTER | EXPLODE_ON_HIT | BITMAP2;
+	explode ltail type FALL | FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP3;
+	explode lwing type BITMAPONLY | BITMAP4;
+	explode rsonar type FALL | FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP5;
+	explode rtail type FALL | FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP1;
+	explode rwing type BITMAPONLY | BITMAP2;
+	explode wake1 type FALL | FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP3;
+	explode wake1 type FALL | FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP4;
 	return (corpsetype);
 }

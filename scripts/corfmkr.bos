@@ -6,23 +6,7 @@
 piece  base, float1, float2, float3, float4, float5, float6, door1,
        door2, door3, door4, glow;
        
-static-var Active, mmState, rockframe, Xrot, Zrot, Ymove;
-
-RockOnWaves()
-{
-rockframe = 1;
-while ( TRUE )
-{
-	Xrot = (get KCOS (rockframe * 690)) * 360 / 1024 ;
-	Ymove = (get KSIN (rockframe * 650)) * 2;
-	Zrot = (get KSIN (rockframe * 560)) * 360 / 1024;
-	turn base to x-axis Xrot now;
-	turn base to z-axis Zrot now;
-	move base to y-axis Ymove now;
-	rockframe = rockframe + 1;
-	sleep 1;
-}
-};
+static-var Active, mmState;
 
 activatescr()
 {
@@ -199,7 +183,6 @@ Create()
 	dont-shade glow;
 	start-script SmokeUnit();
 	start-script ImAMetalMaker();
-	start-script RockOnWaves();
 }
 
 SweetSpot(piecenum)
@@ -212,54 +195,65 @@ Killed(severity, corpsetype)
 	if( severity <= 25 )
 	{
 		corpsetype = 1;
-		//explode base type SHATTER | NOHEATCLOUD;
+		explode base type BITMAPONLY | BITMAP1;
+		explode door1 type BITMAPONLY | BITMAP2;
+		explode door2 type BITMAPONLY | BITMAP3;
+		explode door3 type BITMAPONLY | BITMAP4;
+		explode door4 type BITMAPONLY | BITMAP5;
+		explode float1 type BITMAPONLY | BITMAP1;
+		explode float2 type BITMAPONLY | BITMAP2;
+		explode float3 type BITMAPONLY | BITMAP3;
+		explode float4 type BITMAPONLY | BITMAP4;
+		explode float5 type BITMAPONLY | BITMAP5;
+		explode float6 type BITMAPONLY | BITMAP1;
+		explode glow type BITMAPONLY | BITMAP2;
 		return corpsetype;
 	}
 	if( severity <= 50 )
 	{
 		corpsetype = 2;
-		//explode base type SHATTER | NOHEATCLOUD;
-		//explode door1 type FALL | BITMAP2 | NOHEATCLOUD;
-		explode door2 type FALL | BITMAP3 | NOHEATCLOUD;
-		explode door3 type FALL | BITMAP4 | NOHEATCLOUD;
-		//explode door4 type FALL | BITMAP5 | NOHEATCLOUD;
-		explode float1 type FALL | BITMAP1 | NOHEATCLOUD;
-		//explode float2 type FALL | BITMAP2 | NOHEATCLOUD;
-		explode float3 type FALL | BITMAP3 | NOHEATCLOUD;
-		//explode float4 type FALL | BITMAP4 | NOHEATCLOUD;
-		//explode float5 type FALL | BITMAP5 | NOHEATCLOUD;
-		explode float6 type FALL | BITMAP1 | NOHEATCLOUD;
-		explode glow type SHATTER | BITMAP2 | NOHEATCLOUD;
+		explode base type BITMAPONLY | BITMAP1;
+		explode door1 type FALL | BITMAP2;
+		explode door2 type FALL | BITMAP3;
+		explode door3 type FALL | BITMAP4;
+		explode door4 type FALL | BITMAP5;
+		explode float1 type FALL | BITMAP1;
+		explode float2 type FALL | BITMAP2;
+		explode float3 type FALL | BITMAP3;
+		explode float4 type FALL | BITMAP4;
+		explode float5 type FALL | BITMAP5;
+		explode float6 type FALL | BITMAP1;
+		explode glow type SHATTER | BITMAP2;
 		return corpsetype;
 	}
 	if( severity <= 99 )
 	{
 		corpsetype = 3;
-		//explode base type SHATTER | NOHEATCLOUD;
-		explode door1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
-		//explode door2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-		explode door3 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP4 | NOHEATCLOUD;
-		explode door4 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP5 | NOHEATCLOUD;
-		//explode float1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-		explode float2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
-		explode float3 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-		//explode float4 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP4 | NOHEATCLOUD;
-		explode float5 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP5 | NOHEATCLOUD;
-		explode float6 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-		explode glow type SHATTER | BITMAP2 | NOHEATCLOUD;
+		explode base type BITMAPONLY | BITMAP1;
+		explode door1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2;
+		explode door2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
+		explode door3 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP4;
+		explode door4 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP5;
+		explode float1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
+		explode float2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2;
+		explode float3 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
+		explode float4 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP4;
+		explode float5 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP5;
+		explode float6 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
+		explode glow type SHATTER | BITMAP2;
 		return corpsetype;
 	}
 	corpsetype = 3;
-	//explode base type SHATTER | NOHEATCLOUD;
-	//explode door1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
-	explode door2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-	explode door3 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP4 | NOHEATCLOUD;
-	explode door4 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP5 | NOHEATCLOUD;
-	explode float1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-	//explode float2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
-	explode float3 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-	explode float4 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP4 | NOHEATCLOUD;
-	explode float5 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP5 | NOHEATCLOUD;
-	explode float6 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-	explode glow type SHATTER | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
+	explode base type BITMAPONLY | BITMAP1;
+	explode door1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2;
+	explode door2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
+	explode door3 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP4;
+	explode door4 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP5;
+	explode float1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
+	explode float2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2;
+	explode float3 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
+	explode float4 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP4;
+	explode float5 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP5;
+	explode float6 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
+	explode glow type SHATTER | EXPLODE_ON_HIT | BITMAP2;
 }

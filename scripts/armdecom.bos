@@ -5,6 +5,29 @@
 
 piece  torso, ruparm, luparm, rbigflash, nanospray, pelvis, lfirept, head,
        lthigh, rthigh, nanolath, biggun, rleg, lleg;
+       
+Killed(severity, corpsetype)
+{
+	explode torso type SHATTER | EXPLODE_ON_HIT | BITMAP2;
+	explode torso type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
+	explode pelvis type SHATTER | EXPLODE_ON_HIT | BITMAP2;
+	explode pelvis type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
+	explode rthigh type SHATTER | EXPLODE_ON_HIT | BITMAP2;
+	explode rthigh type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2;
+	explode rleg type SHATTER | EXPLODE_ON_HIT | BITMAP2;
+	explode rleg type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
+	explode lthigh type SHATTER | EXPLODE_ON_HIT | BITMAP2;
+	explode lthigh type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
+	explode lleg type SHATTER | EXPLODE_ON_HIT | BITMAP2;
+	explode lleg type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2;
+	explode luparm type SHATTER | EXPLODE_ON_HIT | BITMAP2;
+	explode luparm type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2;
+	explode ruparm type SHATTER | EXPLODE_ON_HIT | BITMAP2;
+	explode ruparm type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2;
+	explode biggun type SHATTER | EXPLODE_ON_HIT | BITMAP2;
+	explode biggun type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
+	return (corpsetype);
+}
 
 static-var  bMoving, bAiming, Static_Var_3, Static_Var_4, justfired,
 			building, buildx, buildy, moveSpeed, currentSpeed;
@@ -404,7 +427,7 @@ MotionControl(moving, aiming, justmoved)
 				turn lleg to x-axis <0.000000> speed <200.000000>;
 				if( !aiming )
 				{
-					turn torso to x-axis <0.000000> speed <110.000000>;
+					turn torso to x-axis <0.000000> speed <90.000000>;
 				}
 				justmoved = FALSE;
 			}
@@ -417,12 +440,6 @@ Create()
 {
 	hide rbigflash;
 	hide lfirept;
-	turn lfirept to x-axis <90> now;
-	move lfirept to x-axis [0.5] now;
-	move lfirept to z-axis [0.25] now;
-	turn rbigflash to x-axis <90> now;
-	move rbigflash to x-axis [0.5] now;
-	move rbigflash to y-axis [-0.35] now;
 	hide nanospray;
 	bMoving = FALSE;
 	bAiming = FALSE;
@@ -461,7 +478,7 @@ QueryNanoPiece(piecenum)
 
 RestorePosition()
 {
-	turn torso to y-axis <0.000000> speed <110.000000>;
+	turn torso to y-axis <0.000000> speed <90.000000>;
 	turn ruparm to x-axis <0.000000> speed <45.000000>;
 	turn luparm to x-axis <0.000000> speed <45.000000>;
 	wait-for-turn torso around y-axis;
@@ -473,12 +490,12 @@ RestorePosition()
 
 ResumeBuilding()
 {
-	sleep 400;
-	if ((building) AND (NOT justfired))
-	{
-		turn torso to y-axis buildy speed <170.000000>;
-		turn luparm to x-axis <-30.000000> - buildx speed <45.000000>;
-	}
+     sleep 400;
+     if ((building) AND (NOT justfired))
+     {
+           turn torso to y-axis buildy speed <150.000000>;
+           turn luparm to x-axis <-30.000000> - buildx speed <45.000000>;
+     }
 }
 
 AimFromPrimary(piecenum)
@@ -486,7 +503,7 @@ AimFromPrimary(piecenum)
 	piecenum = torso;
 }
 
-QueryPrimary(piecenum)
+QuerySecondary(piecenum)
 {
 	piecenum = lfirept;
 }
@@ -500,8 +517,8 @@ AimPrimary(heading, pitch)
 	signal SIG_AIM;
 	set-signal-mask SIG_AIM;
 	bAiming = TRUE;
-	turn torso to y-axis heading speed <400.000000>;
-	turn luparm to x-axis <-45.000000> - pitch speed <250.000000>;
+	turn torso to y-axis heading speed <300.000000>;
+	turn luparm to x-axis <-30.000000> - pitch speed <200.000000>;
 	wait-for-turn torso around y-axis;
 	wait-for-turn luparm around x-axis;
 	justfired = TRUE;
@@ -516,57 +533,6 @@ FirePrimary()
 {
 	show lfirept;
 	sleep 100;
-	hide lfirept;
-	sleep 400;
-	justfired = FALSE;
-}
-
-
-AimFromSecondary(piecenum)
-{
-	piecenum = lfirept;
-}
-
-QuerySecondary(piecenum)
-{
-	piecenum = lfirept;
-}
-
-AimSecondary(heading, pitch)
-{
-    if ( get PIECE_Y(head) > -7 )
-    {
-     	return (0);
-    }
-	if( Static_Var_4 == 1 )
-	{
-		return (0);
-	}
-	if ( building )
-	{
-		return (0);
-	}
-	signal SIG_AIM;
-	set-signal-mask SIG_AIM;
-	bAiming = TRUE;
-	turn torso to y-axis heading speed <400.000000>;
-	turn luparm to x-axis <-70.000000> - pitch speed <250.000000>;
-	wait-for-turn torso around y-axis;
-	wait-for-turn luparm around x-axis;
-	justfired = TRUE;
-	if (building == TRUE) 
-	{
-	    start-script ResumeBuilding();
-	}
-	return (1);
-}
-
-FireSecondary()
-{
-	show lfirept;
-	emit-sfx 1024 + 0 from lfirept;
-	sleep 100;
-	emit-sfx 1024 + 0 from lfirept;
 	hide lfirept;
 	sleep 400;
 	justfired = FALSE;
@@ -588,7 +554,7 @@ AimTertiary(heading, pitch)
 	set-signal-mask SIG_AIM;
 	Static_Var_4 = 1;
 	bAiming = TRUE;
-	turn torso to y-axis heading speed <400.000000>;
+	turn torso to y-axis heading speed <300.000000>;
 	turn ruparm to x-axis <-24.000000> - pitch speed <90.000000>;
 	wait-for-turn torso around y-axis;
 	wait-for-turn ruparm around x-axis;
@@ -597,8 +563,9 @@ AimTertiary(heading, pitch)
 
 FireTertiary()
 {
-	emit-sfx 1024 + 1 from rbigflash;
+	show rbigflash;
 	sleep 100;
+	hide rbigflash;
 	Static_Var_4 = 0;
 }
 
@@ -607,7 +574,7 @@ StartBuilding(Func_Var_1, Func_Var_2)
 	Static_Var_4 = 0;
 	bAiming = TRUE;
 	building = TRUE;
-	turn torso to y-axis Func_Var_1 speed <400.000000>;
+	turn torso to y-axis Func_Var_1 speed <300.000000>;
 	turn luparm to x-axis <-30.000000> - Func_Var_2 speed <90.000000>;
 	buildy = Func_Var_1;
 	buildx = Func_Var_2;
@@ -625,51 +592,9 @@ TargetCleared(Func_Var_1)
 
 StopBuilding()
 {
-  building = FALSE;
+    building = FALSE;
 	set INBUILDSTANCE to 0;
 	signal SIG_AIM;
-	set-signal-mask SIG_AIM;
-	sleep 3000;
-	if (building) return;
+	set-signal-mask SIG_AIM;;
 	call-script RestorePosition();
-}
-
-
-Killed(severity, corpsetype)
-{
-	if( severity <= 25 )
-	{
-		corpsetype = 1;
-        explode luparm type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-        explode ruparm type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
-        explode head type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP5 | NOHEATCLOUD;
-		return (corpsetype);
-	}
-	if( severity <= 50 )
-	{
-		corpsetype = 2;
-        explode luparm type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-        explode ruparm type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
-        explode rleg type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-        explode head type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP5 | NOHEATCLOUD;
-		return (corpsetype);
-	}
-	if( severity <= 99 )
-	{
-		corpsetype = 3;
-        explode luparm type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-        explode ruparm type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
-        explode rleg type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-	    explode lleg type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP4 | NOHEATCLOUD;
-        explode head type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP5 | NOHEATCLOUD;
-		return (corpsetype);
-	}
-	corpsetype = 3;
-	explode luparm type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-	explode ruparm type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
-	explode rleg type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-	explode lleg type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP4 | NOHEATCLOUD;
-	explode head type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP5 | NOHEATCLOUD;
-	explode biggun type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-	return corpsetype;
 }

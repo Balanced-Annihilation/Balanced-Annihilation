@@ -4,7 +4,7 @@
 #include "exptype.h"
 
 piece  base, launch, Door1, Door2, Frame1, Frame2, Frame3, Frame4,
-       Cover2, Cover1, dummy, arm;
+       Cover2, Cover1, dummy;
 
 static-var  gun_1, restore_delay, statechg_DesiredState, statechg_StateChanging;
 
@@ -52,14 +52,6 @@ activatescr()
 		move Cover1 to x-axis [7.50000] speed [3.61969];
 		turn Cover2 to z-axis <-90.02198> speed <14.25275>;
 		turn Cover1 to z-axis <90.02198> speed <14.25275>;
-		wait-for-move Cover1 along x-axis;
-		wait-for-move Cover2 along x-axis;
-		wait-for-move Cover1 along z-axis;
-		wait-for-move Cover2 along z-axis;
-		move arm to y-axis [24.00000] speed [11.84639];
-		move launch to y-axis [2] speed [11.84639];
-		wait-for-move Dummy along y-axis;
-		wait-for-move launch along y-axis;
 		sleep 1036;
 	}
 	sleep 22;
@@ -70,10 +62,6 @@ deactivatescr()
 {
 	if( TRUE )
 	{
-		move Dummy to y-axis [0.00000] speed [11.84639];
-		move launch to y-axis [0.00000] speed [11.84639];
-		wait-for-move Dummy along y-axis;
-		wait-for-move launch along y-axis;
 		move Door1 to x-axis [7.25000] now;
 		move Door2 to x-axis [-7.25000] now;
 		move Frame1 to x-axis [14.50000] now;
@@ -208,6 +196,7 @@ Create()
 	dont-shade base;
 	dont-shade Door1;
 	dont-shade Door2;
+	dont-shade dummy;
 	dont-shade Frame1;
 	dont-shade Frame2;
 	dont-shade Frame3;
@@ -216,6 +205,7 @@ Create()
 	dont-shade Cover2;
 	dont-cache Door1;
 	dont-cache Door2;
+	dont-cache dummy;
 	dont-cache Frame1;
 	dont-cache Frame2;
 	dont-cache Frame3;
@@ -292,34 +282,62 @@ Killed(severity, corpsetype)
 	if( severity <= 25 )
 	{
 		corpsetype = 1;
-		explode base type SHATTER | NOHEATCLOUD;
+		explode base type BITMAPONLY | BITMAP1;
+		explode Door1 type BITMAPONLY | BITMAP2;
+		explode Door2 type BITMAPONLY | BITMAP3;
+		explode dummy type BITMAPONLY | BITMAP4;
+		explode Frame1 type BITMAPONLY | BITMAP5;
+		explode Frame2 type BITMAPONLY | BITMAP1;
+		explode Frame3 type BITMAPONLY | BITMAP2;
+		explode Frame4 type BITMAPONLY | BITMAP3;
+		explode Cover1 type BITMAPONLY | BITMAP4;
+		explode Cover2 type BITMAPONLY | BITMAP5;
+		explode launch type BITMAPONLY | BITMAP1;
 		return (corpsetype);
 	}
 	if( severity <= 50 )
 	{
 		corpsetype = 2;
-		explode base type SHATTER | NOHEATCLOUD;
-		explode Frame4 type SHATTER | BITMAP3 | NOHEATCLOUD;
-		explode Cover1 type FALL | BITMAP4 | NOHEATCLOUD;
-		explode Cover2 type FALL | BITMAP5 | NOHEATCLOUD;
-		explode launch type FALL | BITMAP1 | NOHEATCLOUD;
+		explode base type BITMAPONLY | BITMAP1;
+		explode Door1 type BITMAPONLY | BITMAP2;
+		explode Door2 type BITMAPONLY | BITMAP3;
+		explode dummy type BITMAPONLY | BITMAP4;
+		explode Frame1 type BITMAPONLY | BITMAP5;
+		explode Frame2 type BITMAPONLY | BITMAP1;
+		explode Frame3 type BITMAPONLY | BITMAP2;
+		explode Frame4 type SHATTER | BITMAP3;
+		explode Cover1 type FALL | BITMAP4;
+		explode Cover2 type FALL | BITMAP5;
+		explode launch type FALL | BITMAP1;
 		return (corpsetype);
 	}
 	if( severity <= 99 )
 	{
 		corpsetype = 3;
-		explode base type SHATTER | NOHEATCLOUD;
-		explode Frame4 type SHATTER | BITMAP3 | NOHEATCLOUD;
-		explode Cover1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP4 | NOHEATCLOUD;
-		explode Cover2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP5 | NOHEATCLOUD;
-		explode launch type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
+		explode base type BITMAPONLY | BITMAP1;
+		explode Door1 type BITMAPONLY | BITMAP2;
+		explode Door2 type BITMAPONLY | BITMAP3;
+		explode dummy type BITMAPONLY | BITMAP4;
+		explode Frame1 type BITMAPONLY | BITMAP5;
+		explode Frame2 type BITMAPONLY | BITMAP1;
+		explode Frame3 type BITMAPONLY | BITMAP2;
+		explode Frame4 type SHATTER | BITMAP3;
+		explode Cover1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP4;
+		explode Cover2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP5;
+		explode launch type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
 		return (corpsetype);
 	}
 	corpsetype = 3;
-	explode base type SHATTER | NOHEATCLOUD;
-	explode Frame4 type SHATTER | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-	explode Cover1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP4 | NOHEATCLOUD;
-	explode Cover2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP5 | NOHEATCLOUD;
-	explode launch type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
+	explode base type BITMAPONLY | BITMAP1;
+	explode Door1 type BITMAPONLY | BITMAP2;
+	explode Door2 type BITMAPONLY | BITMAP3;
+	explode dummy type BITMAPONLY | BITMAP4;
+	explode Frame1 type BITMAPONLY | BITMAP5;
+	explode Frame2 type BITMAPONLY | BITMAP1;
+	explode Frame3 type BITMAPONLY | BITMAP2;
+	explode Frame4 type SHATTER | EXPLODE_ON_HIT | BITMAP3;
+	explode Cover1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP4;
+	explode Cover2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP5;
+	explode launch type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
 	return (corpsetype);
 }

@@ -7,6 +7,7 @@ piece  base, winga, wingb, thrustb;
 
 static-var  statechg_DesiredState, statechg_StateChanging;
 
+lua_BombsAway() { return 0; }
 
 activatescr()
 {
@@ -95,42 +96,14 @@ Deactivate()
 	start-script RequestState(1);
 }
 
-AimPrimary(heading, pitch)
-{
-	return (1);
-}
-AimSecondary(heading, pitch)
-{
-	return (1);
-}
-AimTertiary(heading, pitch)
-{
-	return (1);
-}
-AimWeapon4(heading, pitch)
-{
-	return (1);
-}
-FirePrimary()
-{
-	return (0);
-}
-FireSecondary()
-{
-	return (0);
-}
-FireTertiary()
-{
-	return (0);
-}
-FireWeapon4()
-{
-	return (0);
-}
-
 QueryPrimary(piecenum)
 {
 	piecenum = winga;
+}
+
+FirePrimary()
+{
+	call-script lua_BombsAway();
 }
 
 QuerySecondary(piecenum)
@@ -138,15 +111,35 @@ QuerySecondary(piecenum)
 	piecenum = wingb;
 }
 
-QueryWeapon3(piecenum)
+FireSecondary()
+{
+	//call-script lua_BombsAway();
+}
+
+// A2G Weapon
+
+QueryTertiary(piecenum)
 {
 	piecenum = winga;
+}
+
+FireTertiary()
+{
+	call-script lua_BombsAway();
 }
 
 QueryWeapon4(piecenum)
 {
 	piecenum = wingb;
 }
+
+FireWeapon4()
+{
+	//call-script lua_BombsAway();
+}
+
+
+// ---
 
 SweetSpot(piecenum)
 {
@@ -158,28 +151,34 @@ Killed(severity, corpsetype)
 	if( severity <= 25 )
 	{
 		corpsetype = 1;
-		//explode base type SHATTER | NOHEATCLOUD;
+		explode base type BITMAPONLY | BITMAP1;
+		explode thrustb type BITMAPONLY | BITMAP2;
+		explode winga type BITMAPONLY | BITMAP3;
+		explode wingb type BITMAPONLY | BITMAP4;
 		return (corpsetype);
 	}
 	if( severity <= 50 )
 	{
 		corpsetype = 2;
-		//explode base type SHATTER | NOHEATCLOUD;
-		//explode thrustb type FALL | BITMAP2 | NOHEATCLOUD;
-		//explode winga type SHATTER | BITMAP3 | NOHEATCLOUD;
+		explode base type BITMAPONLY | BITMAP1;
+		explode thrustb type FALL | BITMAP2;
+		explode winga type SHATTER | BITMAP3;
+		explode wingb type BITMAPONLY | BITMAP4;
 		return (corpsetype);
 	}
 	if( severity <= 99 )
 	{
 		corpsetype = 3;
-		//explode base type SHATTER | NOHEATCLOUD;
-		//explode thrustb type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
-		//explode winga type SHATTER | BITMAP3 | NOHEATCLOUD;
+		explode base type BITMAPONLY | BITMAP1;
+		explode thrustb type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2;
+		explode winga type SHATTER | BITMAP3;
+		explode wingb type BITMAPONLY | BITMAP4;
 		return (corpsetype);
 	}
 	corpsetype = 3;
-	//explode base type SHATTER | NOHEATCLOUD;
-	//explode thrustb type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
-	//explode winga type SHATTER | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
+	explode base type BITMAPONLY | BITMAP1;
+	explode thrustb type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2;
+	explode winga type SHATTER | EXPLODE_ON_HIT | BITMAP3;
+	explode wingb type BITMAPONLY | BITMAP4;
 	return corpsetype;
 }

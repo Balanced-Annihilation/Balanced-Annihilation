@@ -6,7 +6,7 @@
 piece  base, treads, arms, weight, sleeve, sk_barrel, barrel, end,
        emit, flare, turret;
 
-static-var  restore_delay, wpn1_lasthead;
+static-var  restore_delay;
 
 // Signal definitions
 #define SIG_AIM				2
@@ -66,6 +66,7 @@ RockUnit(anglex, anglez)
 Create()
 {
 	hide flare;
+	dont-cache flare;
 	restore_delay = 3000;
 	start-script SmokeUnit();
 	return (0);
@@ -79,7 +80,6 @@ SetMaxReloadTime(Func_Var_1)
 
 RestoreAfterDelay()
 {
-	set-signal-mask SIG_AIM;
 	sleep restore_delay;
 	turn turret to y-axis <0.00000> speed <70.00000>;
 	turn sleeve to y-axis <0.00000> speed <70.00000>;
@@ -87,33 +87,32 @@ RestoreAfterDelay()
 	wait-for-turn arms around y-axis;
 	wait-for-turn sleeve around y-axis;
 	wait-for-turn sleeve around x-axis;
-	wpn1_lasthead = 1000000;
 	return (0);
 }
 
 AimPrimary(heading, pitch)
 {
 	signal SIG_AIM;
+	set-signal-mask SIG_AIM;
 	turn turret to y-axis heading speed <110.00000>;
 	turn sleeve to x-axis <0.00000> - pitch speed <90.00000>;
-	if (((get ABS(wpn1_lasthead - heading)) > 65536) OR(((get ABS(wpn1_lasthead - heading)) > 1300) AND ((get ABS(wpn1_lasthead - heading)) < 64236)))
-	{
-		wpn1_lasthead = 1000000;
-		wait-for-turn turret around y-axis;
-		wait-for-turn sleeve around x-axis;
-	}
-	wpn1_lasthead = heading;
+	wait-for-turn turret around y-axis;
+	wait-for-turn sleeve around x-axis;
 	start-script RestoreAfterDelay();
 	return (1);
 }
 
 FirePrimary()
 {
-	emit-sfx 1024 + 0 from flare;
-	move barrel to z-axis [-16] speed [1250.00000];
+	show flare;
+	move barrel to z-axis [-10.00000] speed [1250.00000];
+	move sk_barrel to z-axis [-7.50000] speed [500.00000];
 	turn arms to y-axis <-50.01099> speed <500.00000>;
+	turn sleeve to y-axis <50.01099> speed <500.00000>;
 	sleep 100;
-	move barrel to z-axis [0.00000] speed [8.00000];
+	hide flare;
+	move barrel to z-axis [0.00000] speed [5.00000];
+	move sk_barrel to z-axis [0.00000] speed [7.50000];
 	turn arms to y-axis <0.00000> speed <23.00000>;
 	turn sleeve to y-axis <0.00000> speed <23.00000>;
 	return (0);
@@ -142,39 +141,42 @@ Killed(severity, corpsetype)
 	if( severity <= 25 )
 	{
 		corpsetype = 1;
-		explode base type SHATTER | NOHEATCLOUD;
-		explode sleeve type SHATTER | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-		explode sk_barrel type SHATTER | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
+		explode base type BITMAPONLY | BITMAP2;
+		explode treads type BITMAPONLY | BITMAP3;
+		explode arms type BITMAPONLY | BITMAP3;
+		explode sleeve type SHATTER | EXPLODE_ON_HIT | BITMAP3;
+		explode sk_barrel type SHATTER | EXPLODE_ON_HIT | BITMAP3;
+		explode barrel type BITMAPONLY | BITMAP2;
 		return (corpsetype);
 	}
 	if( severity <= 50 )
 	{
 		corpsetype = 2;
-		explode base type SHATTER | NOHEATCLOUD;
-		explode treads type SHATTER | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-		explode arms type FALL | SMOKE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-		explode sleeve type SHATTER | SMOKE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-		explode sk_barrel type SHATTER | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-		explode barrel type SHATTER | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
+		explode base type BITMAPONLY | BITMAP2;
+		explode treads type SHATTER | EXPLODE_ON_HIT | BITMAP3;
+		explode arms type FALL | SMOKE | EXPLODE_ON_HIT | BITMAP3;
+		explode sleeve type SHATTER | SMOKE | EXPLODE_ON_HIT | BITMAP3;
+		explode sk_barrel type SHATTER | EXPLODE_ON_HIT | BITMAP3;
+		explode barrel type SHATTER | EXPLODE_ON_HIT | BITMAP2;
 		return (corpsetype);
 	}
 	if( severity <= 99 )
 	{
 		corpsetype = 3;
-		explode base type SHATTER | NOHEATCLOUD;
-		explode treads type SHATTER | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-		explode arms type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-		explode sleeve type SHATTER | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-		explode sk_barrel type SHATTER | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-		explode barrel type SHATTER | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
+		explode base type BITMAPONLY | BITMAP2;
+		explode treads type SHATTER | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
+		explode arms type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
+		explode sleeve type SHATTER | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
+		explode sk_barrel type SHATTER | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
+		explode barrel type SHATTER | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2;
 		return (corpsetype);
 	}
 	corpsetype = 3;
-	explode base type SHATTER | NOHEATCLOUD;
-	explode treads type SHATTER | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-	explode arms type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-	explode sleeve type SHATTER | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-	explode sk_barrel type SHATTER | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-	explode barrel type SHATTER | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
+	explode base type BITMAPONLY | BITMAP2;
+	explode treads type SHATTER | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
+	explode arms type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
+	explode sleeve type SHATTER | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
+	explode sk_barrel type SHATTER | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
+	explode barrel type SHATTER | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2;
 	return (corpsetype);
 }

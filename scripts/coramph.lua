@@ -251,7 +251,6 @@ end
 function script.Create()
 	Hide( gunflare)
 	Hide( laserflare)
-	wpn1_lasthead = 10000
 	StartThread(SmokeUnit)
 end
 
@@ -269,7 +268,6 @@ local function RestoreAfterDelay()
 	Sleep( 3000)
 	Turn( head , y_axis, 0, math.rad(90.000000))
 	WaitForTurn(head, y_axis)
-	wpn1_lasthead = 10000
 end
 
 function script.AimWeapon(num, heading, pitch)
@@ -278,13 +276,10 @@ function script.AimWeapon(num, heading, pitch)
 		Signal( SIG_AIM)
 		SetSignalMask( SIG_AIM)
 		Turn( head , y_axis, heading , math.rad(200.000000) )
-		if (math.abs(wpn1_lasthead - heading) > 6.3) or (math.abs(wpn1_lasthead - heading) >= 0.1) and (math.abs(wpn1_lasthead - heading) <= 6.18) then
-			WaitForTurn(head, y_axis)
-		end
+		WaitForTurn(head, y_axis)
 		--Spring.Echo("Weapon one position :" .. basepos)
 		StartThread(RestoreAfterDelay)
 		if basepos > -18 then
-			wpn1_lasthead = heading
 			return true
 		else
 			return false
@@ -293,12 +288,9 @@ function script.AimWeapon(num, heading, pitch)
 		Signal( SIG_AIM_3)
 		SetSignalMask( SIG_AIM_3)
 		Turn( head , y_axis, heading , math.rad(60.000000) )
-		if (math.abs(wpn1_lasthead - heading) > 6.3) or (math.abs(wpn1_lasthead - heading) >= 0.1) and (math.abs(wpn1_lasthead - heading) <= 6.18) then
-			WaitForTurn(head, y_axis)
-		end
+		WaitForTurn(head, y_axis)
 		--Spring.Echo("Weapon two position :" .. basepos)
 		if basepos < -16 then
-			wpn1_lasthead = heading
 			return true
 		else
 			return false
@@ -355,23 +347,23 @@ function script.Killed(recentDamage, maxHealth)
 	
 	elseif  (severity <= .50)  then
 		Explode(body, SFX.NONE)
-		Explode(gun, SFX.FALL + SFX.NO_HEATCLOUD)
-		Explode(head, SFX.SHATTER + SFX.NO_HEATCLOUD)
-		Explode(hips, SFX.FALL + SFX.NO_HEATCLOUD)
-		Explode(lfoot, SFX.FALL + SFX.NO_HEATCLOUD)
-		Explode(lleg, SFX.FALL + SFX.NO_HEATCLOUD)
-		Explode(rfoot, SFX.FALL + SFX.NO_HEATCLOUD)
-		Explode(rleg, SFX.FALL + SFX.NO_HEATCLOUD)
+		Explode(gun, SFX.FALL)
+		Explode(head, SFX.SHATTER)
+		Explode(hips, SFX.FALL)
+		Explode(lfoot, SFX.FALL)
+		Explode(lleg, SFX.FALL)
+		Explode(rfoot, SFX.FALL)
+		Explode(rleg, SFX.FALL)
 		return 2
 	else
 		Explode(body, SFX.NONE)
-		Explode(gun, SFX.FALL + SFX.NO_HEATCLOUD)
-		Explode(head, SFX.SHATTER + SFX.NO_HEATCLOUD)
-		Explode(hips, SFX.FALL + SFX.NO_HEATCLOUD)
-		Explode(lfoot, SFX.FALL + SFX.NO_HEATCLOUD)
-		Explode(lleg, SFX.FALL + SFX.NO_HEATCLOUD)
-		Explode(rfoot, SFX.FALL + SFX.NO_HEATCLOUD)
-		Explode(rleg, SFX.FALL + SFX.NO_HEATCLOUD)
+		Explode(gun, SFX.FALL + SFX.SMOKE  + SFX.FIRE  + SFX.EXPLODE_ON_HIT )
+		Explode(head, SFX.SHATTER)
+		Explode(hips,  SFX.FALL + SFX.SMOKE  + SFX.FIRE  + SFX.EXPLODE_ON_HIT )
+		Explode(lfoot,  SFX.FALL + SFX.SMOKE  + SFX.FIRE  + SFX.EXPLODE_ON_HIT )
+		Explode(lleg,  SFX.FALL + SFX.SMOKE  + SFX.FIRE  + SFX.EXPLODE_ON_HIT )
+		Explode(rfoot,  SFX.FALL + SFX.SMOKE  + SFX.FIRE  + SFX.EXPLODE_ON_HIT )
+		Explode(rleg,  SFX.FALL + SFX.SMOKE  + SFX.FIRE  + SFX.EXPLODE_ON_HIT )
 
 	return 3
 	end

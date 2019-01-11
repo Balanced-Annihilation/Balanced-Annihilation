@@ -15,7 +15,7 @@ SmokeUnit(healthpercent, sleeptime, smoketype)
 	while( TRUE )
 	{
 		healthpercent = get HEALTH;
-		if( healthpercent < 66 and healthpercent > 0 )
+		if( healthpercent < 66 )
 		{
 			smoketype = 256 | 2;
 			if( Rand( 1, 66 ) < healthpercent )
@@ -62,29 +62,30 @@ Killed(severity, corpsetype)
 	if( severity <= 25 )
 	{
 		corpsetype = 1;
-		//explode base type SHATTER | NOHEATCLOUD;
-		explode Lwing type SHATTER | BITMAP5 | NOHEATCLOUD;
+		explode base type BITMAPONLY | BITMAP1;
+		explode Lwing type BITMAPONLY | BITMAP5;
+		explode Rwing type BITMAPONLY | BITMAP1;
 		return (corpsetype);
 	}
 	if( severity <= 50 )
 	{
 		corpsetype = 2;
-		//explode base type SHATTER | NOHEATCLOUD;
-		explode Lwing type SHATTER | BITMAP5 | NOHEATCLOUD;
-		explode Rwing type SHATTER | BITMAP1 | NOHEATCLOUD;
+		explode base type BITMAPONLY | BITMAP1;
+		explode Lwing type SHATTER | BITMAP5;
+		explode Rwing type SHATTER | BITMAP1;
 		return (corpsetype);
 	}
 	if( severity <= 99 )
 	{
 		corpsetype = 3;
-		//explode base type SHATTER | NOHEATCLOUD;
-		explode Lwing type SHATTER | BITMAP5 | NOHEATCLOUD;
-		explode Rwing type SHATTER | BITMAP1 | NOHEATCLOUD;
+		explode base type BITMAPONLY | BITMAP1;
+		explode Lwing type SHATTER | BITMAP5;
+		explode Rwing type SHATTER | BITMAP1;
 		return (corpsetype);
 	}
 	corpsetype = 3;
-	//explode base type SHATTER | NOHEATCLOUD;
-	explode Lwing type SHATTER | EXPLODE_ON_HIT | BITMAP5 | NOHEATCLOUD;
-	explode Rwing type SHATTER | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
+	explode base type BITMAPONLY | BITMAP1;
+	explode Lwing type SHATTER | EXPLODE_ON_HIT | BITMAP5;
+	explode Rwing type SHATTER | EXPLODE_ON_HIT | BITMAP1;
 	return corpsetype;
 }

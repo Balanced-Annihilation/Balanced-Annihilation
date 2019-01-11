@@ -3,13 +3,13 @@
 #include "sfxtype.h"
 #include "exptype.h"
 
-piece  flare1, flare2, base, gun;
+piece  base, flash, turret, sleeve, barrel;
 
-static-var  restore_delay, gun_1;
+static-var  restore_delay, statechg_DesiredState, statechg_StateChanging, CurrentHeading, bMoving, ShouldBuild, IsBuilding, TransitionToBuild;
 
 // Signal definitions
 #define SIG_AIM				2
-
+#define SIG_BUILD	4
 
 SmokeUnit(healthpercent, sleeptime, smoketype)
 {
@@ -37,25 +37,73 @@ SmokeUnit(healthpercent, sleeptime, smoketype)
 		sleep sleeptime;
 	}
 	return (0);
-	// Build by COBBLER Ver4.0 Copyright @1998 DIGITAL CONCEPT SOFTWARE (MANU@inext.fr) / http://www.annihilationcenter.com/DCS/  
+}
+
+RockUnit(anglex, anglez)
+{
+	turn base to x-axis anglex speed <50.01099>;
+	turn base to z-axis anglez speed <50.01099>;
+	wait-for-turn base around z-axis;
+	wait-for-turn base around x-axis;
+	turn base to z-axis <0.00000> speed <20.00000>;
+	turn base to x-axis <0.00000> speed <20.00000>;
+	return (0);
 }
 
 HitByWeapon(anglex, anglez)
 {
-	turn base to z-axis anglez speed <105.00000>;
-	turn base to x-axis anglex speed <105.00000>;
+	turn base to z-axis anglez speed <105.02198>;
+	turn base to x-axis anglex speed <105.02198>;
 	wait-for-turn base around z-axis;
 	wait-for-turn base around x-axis;
-	turn base to z-axis <0.00000> speed <30.00000>;
-	turn base to x-axis <0.00000> speed <30.00000>;
+	turn base to z-axis <0.00000> speed <30.00549>;
+	turn base to x-axis <0.00000> speed <30.00549>;
 	return (0);
+}
+
+RestoreAfterDelay()
+{
+	if (IsBuilding) {
+		sleep restore_delay / 2;
+		start-script RestoreAfterDelay();
+		return (0);
+	}		
+	sleep restore_delay;
+	turn turret to y-axis <0.00000> speed <90.02198>;
+	turn sleeve to x-axis <0.00000> speed <50.01099>;
+	return (0);
+}
+
+RequestState()
+{
+	while( ( !TransitionToBuild ) AND ShouldBuild != IsBuilding )
+	{
+		TransitionToBuild = 1;
+		if( ShouldBuild AND ( !IsBuilding ) )
+		{
+			set INBUILDSTANCE to 1;
+			IsBuilding = 1;		
+		}
+		if( ( !ShouldBuild ) AND IsBuilding )
+		{
+			IsBuilding = 0;
+			set INBUILDSTANCE to 0;
+			start-script RestoreAfterDelay();			
+		}
+		TransitionToBuild = 0;				
+	}
 }
 
 Create()
 {
-	hide flare1;
-	hide flare2;
-	gun_1 = flare1;
+	CurrentHeading = 0;
+	ShouldBuild = 0;
+	IsBuilding = 0;
+	TransitionToBuild = 0;	
+	
+	statechg_DesiredState = TRUE;
+	statechg_StateChanging = FALSE;	
+	hide flash;
 	restore_delay = 3000;
 	start-script SmokeUnit();
 	return (0);
@@ -67,62 +115,99 @@ SetMaxReloadTime(Func_Var_1)
 	return (0);
 }
 
-RestoreAfterDelay()
+Activate()
 {
-	sleep restore_delay;
-	turn gun to y-axis <0.00000> speed <90.00000>;
-	turn gun to x-axis <0.00000> speed <50.00000>;
-	return (0);
+	start-script RequestState(0); 
 }
+
+Deactivate()
+{
+	start-script RequestState(1);
+}
+
+//-------- Mine building
+
+StartBuilding(heading)
+{
+	CurrentHeading = heading;
+	ShouldBuild = 1;
+	turn turret to y-axis CurrentHeading speed <600.000000>;
+	turn sleeve to x-axis <0.00000> speed <300.000000>;
+	wait-for-turn turret around y-axis;	
+	start-script RequestState();
+	
+//	start-script RequestState(0);
+//	while( notBuilding ) sleep 100;
+//	signal SIG_BUILD;
+//	turn turret to y-axis heading speed <600.000000>;
+//	//turn sleeve to x-axis <0.00000>-pitch speed <600.000000>;	
+//	wait-for-turn turret around y-axis;
+//	//wait-for-turn sleeve around x-axis;
+//	set INBUILDSTANCE to 1;
+}
+
+StopBuilding()
+{
+	ShouldBuild = 0;
+	sleep 3000;
+	if( !ShouldBuild )
+	{
+		start-script RequestState();
+	}
+//	signal SIG_BUILD;	
+//	set-signal-mask SIG_BUILD;
+//	sleep 3000;
+//	set-signal-mask 0;	
+//	signal SIG_BUILD;
+//	start-script RequestState(1);
+//	set INBUILDSTANCE to 0;
+//	
+//	isbuilding = 0;		
+//	turn turret to y-axis <0.00000> speed <90.02198>;
+//	turn sleeve to x-axis <0.00000> speed <50.01099>;
+//	wait-for-turn turret around y-axis;
+//	wait-for-turn sleeve around x-axis;
+}
+
+QueryNanoPiece(piecenum)
+{
+	piecenum = flash;
+}
+
+//--------
 
 AimPrimary(heading, pitch)
 {
 	signal SIG_AIM;
 	set-signal-mask SIG_AIM;
-	turn gun to y-axis heading speed <200.00000>;
-	turn gun to x-axis <0.00000> - pitch speed <200.00000>;
-	wait-for-turn gun around y-axis;
-	wait-for-turn gun around x-axis;
-	start-script RestoreAfterDelay();
+	turn turret to y-axis heading speed <600.00000>; //200 was too slow
+	turn sleeve to x-axis <0.00000> - pitch speed <200.00000>;
+	wait-for-turn turret around y-axis;
+	wait-for-turn sleeve around x-axis;
 	return (1);
 }
 
 FirePrimary()
 {
-	if( gun_1 == 0 )
-	{
-		show flare1;
-		sleep 150;
-		hide flare1;
-		gun_1 = flare2;
-		return (0);
-	}
-	if( gun_1 == 1 )
-	{
-		show flare2;
-		sleep 150;
-		hide flare2;
-		gun_1 = flare1;
-	}
+	show flash;
+	move barrel to z-axis [-6.00000] speed [1250.00000];
+	sleep 150;
+	hide flash;
+	wait-for-move barrel along z-axis;
+	move barrel to z-axis [0.00000] speed [7.50000];
 	return (0);
+	start-script RestoreAfterDelay();	
 }
 
 AimFromPrimary(piecenum)
 {
-	piecenum = gun;
+	piecenum = turret;
 	return (0);
 }
 
 QueryPrimary(piecenum)
 {
-	if( gun_1 == 0 )
-	{
-		piecenum = flare1;
-	}
-	if( gun_1 == 1 )
-	{
-		piecenum = flare2;
-	}
+	piecenum = flash;
 	return (0);
 }
 
@@ -134,36 +219,42 @@ SweetSpot(piecenum)
 
 Killed(severity, corpsetype)
 {
-	hide flare1;
-	hide flare2;
+	hide flash;
 	if( severity <= 25 )
 	{
 		corpsetype = 1;
-		explode base type SHATTER | NOHEATCLOUD;
+		explode barrel type BITMAPONLY | BITMAP1;
+		explode sleeve type BITMAPONLY | BITMAP1;
+		explode base type BITMAPONLY | BITMAP2;
+		explode flash type BITMAPONLY | BITMAP3;
+		explode turret type BITMAPONLY | BITMAP4;
 		return (corpsetype);
 	}
 	if( severity <= 50 )
 	{
 		corpsetype = 2;
-		explode base type SHATTER | NOHEATCLOUD;
-		//explode flare1 type FALL | BITMAP2 | NOHEATCLOUD;
-		//explode flare2 type FALL | BITMAP3 | NOHEATCLOUD;
-		explode gun type SHATTER | BITMAP4 | NOHEATCLOUD;
+		explode barrel type FALL | BITMAP1;
+		explode sleeve type FALL | BITMAP1;
+		explode base type BITMAPONLY | BITMAP2;
+		explode flash type FALL | BITMAP3;
+		explode turret type SHATTER | BITMAP4;
 		return (corpsetype);
 	}
 	if( severity <= 99 )
 	{
 		corpsetype = 3;
-		explode base type SHATTER | NOHEATCLOUD;
-		explode flare1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
-		//explode flare2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-		explode gun type SHATTER | BITMAP4 | NOHEATCLOUD;
+		explode barrel type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
+		explode sleeve type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
+		explode base type BITMAPONLY | BITMAP2;
+		explode flash type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
+		explode turret type SHATTER | BITMAP4;
 		return (corpsetype);
 	}
 	corpsetype = 3;
-	explode base type SHATTER | NOHEATCLOUD;
-	explode flare1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
-	//explode flare2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-	explode gun type SHATTER | EXPLODE_ON_HIT | BITMAP4 | NOHEATCLOUD;
+	explode barrel type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
+	explode sleeve type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
+	explode base type BITMAPONLY | BITMAP2;
+	explode flash type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
+	explode turret type SHATTER | EXPLODE_ON_HIT | BITMAP4;
 	return (corpsetype);
 }
