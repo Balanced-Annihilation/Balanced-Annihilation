@@ -31,8 +31,8 @@ local modConfig = {}
 -- BA
 --to support other mods
 --table initialized and unitList is needed!
-modConfig["BA"] = {}
-modConfig["BA"]["unitList"] = {
+modConfig["TAP"] = {}
+modConfig["TAP"]["unitList"] = {
 	armclaw = { weapons = { 1 } },
 	cormaw = { weapons = { 1 } },
 	armllt = { weapons = { 1 } },
@@ -93,16 +93,16 @@ modConfig["BA"]["unitList"] = {
 
 --implement this if you want dps-depending ring-colors
 --colors will be interpolated by dps scores between min and max values. values outside range will be set to nearest value in range -> min or max
-modConfig["BA"]["armorTags"] = {}
-modConfig["BA"]["armorTags"]["air"] = "vtol"
-modConfig["BA"]["armorTags"]["ground"] = "else"
-modConfig["BA"]["dps"] = {}
-modConfig["BA"]["dps"]["ground"] = {}
-modConfig["BA"]["dps"]["air"] = {}
-modConfig["BA"]["dps"]["ground"]["min"] = 50
-modConfig["BA"]["dps"]["ground"]["max"] = 500
-modConfig["BA"]["dps"]["air"]["min"] = 80
-modConfig["BA"]["dps"]["air"]["max"] = 500
+modConfig["TAP"]["armorTags"] = {}
+modConfig["TAP"]["armorTags"]["air"] = "vtol"
+modConfig["TAP"]["armorTags"]["ground"] = "else"
+modConfig["TAP"]["dps"] = {}
+modConfig["TAP"]["dps"]["ground"] = {}
+modConfig["TAP"]["dps"]["air"] = {}
+modConfig["TAP"]["dps"]["ground"]["min"] = 50
+modConfig["TAP"]["dps"]["ground"]["max"] = 500
+modConfig["TAP"]["dps"]["air"]["min"] = 80
+modConfig["TAP"]["dps"]["air"]["max"] = 500
 --end of dps-colors
 
 

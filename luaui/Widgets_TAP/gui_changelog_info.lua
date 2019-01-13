@@ -187,7 +187,7 @@ function DrawSidebar(x,y,width,height)
 			local line = changelogLines[versions[lineKey]]
 			
 			-- version button title
-			line = " " .. string.match(line, '( %d*%d.?%d+)')
+			line = " " .. (string.match(line, '( %d*%d.?%d+)') or "N/A")
 			local textY = y-((fontSize+fontOffsetY)*j)-20
 			font:Print(line, x+9+fontOffsetX, textY, fontSize, "on")
 			

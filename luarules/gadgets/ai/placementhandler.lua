@@ -13,8 +13,10 @@ function PlacementHandler:Init()
 end
 
 function snap_to_grid( pos , gridsize )
-    pos.x = pos.x - (pos.x % gridsize )
-    pos.z = pos.z - (pos.z % gridsize )
+    if type(pos) == "table" then
+        pos.x = pos.x - (pos.x % gridsize )
+        pos.z = pos.z - (pos.z % gridsize )
+    end
     return pos
 end
 
