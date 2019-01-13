@@ -108,15 +108,6 @@ Create()
 	hide flare1;
 	hide flare2;
 	hide flare3;
-	turn flare1 to x-axis <190> now;
-	turn flare2 to x-axis <190> now;
-	turn flare3 to x-axis <190> now;
-	move flare1 to z-axis [5.7] now;
-	move flare2 to z-axis [5.7] now;
-	move flare3 to z-axis [5.7] now;
-	move flare1 to y-axis [-1.1] now;
-	move flare2 to y-axis [-1.1] now;
-	move flare3 to y-axis [-1.1] now;
 	dont-cache barrel1;
 	dont-cache barrel2;
 	dont-cache barrel3;
@@ -193,24 +184,27 @@ FirePrimary()
 {
 	if( bAiming == 0 )
 	{
-		emit-sfx 1024 + 0 from flare1;
+		show flare1;
 		move barrel1 to z-axis [-7.50000] now;
 		sleep 150;
+		hide flare1;
 		move barrel1 to z-axis [0.00000] speed [2.50000];
 	}
 	if( bAiming == 1 )
 	{
-		emit-sfx 1024 + 0 from flare2;
+		show flare2;
 		move barrel2 to z-axis [-7.50000] now;
 		sleep 150;
+		hide flare2;
 		move barrel2 to z-axis [0.00000] speed [2.50000];
 	}
 	if( bAiming == 2 )
 	{
 		gun_1 = fanbox;
-		emit-sfx 1024 + 0 from flare3;
+		show flare3;
 		move barrel3 to z-axis [-7.50000] now;
 		sleep 150;
+		hide flare3;
 		move barrel3 to z-axis [0.00000] speed [2.50000];
 	}
 	++bAiming;
@@ -262,29 +256,54 @@ Killed(severity, corpsetype)
 	if( severity <= 25 )
 	{
 		corpsetype = 1;
-		explode base type SHATTER | BITMAP3 | NOHEATCLOUD;
-		explode fan type FALL | BITMAP1 | NOHEATCLOUD;
+		explode base type SHATTER | BITMAP3;
+		explode fanbox type BITMAPONLY | BITMAP1;
+		explode vent1 type BITMAPONLY | BITMAP1;
+		explode vent2 type BITMAPONLY | BITMAP1;
+		explode fan type FALL | BITMAP1;
+		explode turret type BITMAPONLY | BITMAP3;
+		explode barrel1 type BITMAPONLY | BITMAP2;
+		explode barrel2 type BITMAPONLY | BITMAP2;
+		explode barrel3 type BITMAPONLY | BITMAP2;
 		return (corpsetype);
 	}
 	if( severity <= 50 )
 	{
 		corpsetype = 2;
-		explode base type SHATTER | BITMAP3 | NOHEATCLOUD;
-		explode fan type FALL | BITMAP1 | NOHEATCLOUD;
-		explode turret type FALL | SMOKE | BITMAP3 | NOHEATCLOUD;
+		explode base type SHATTER | BITMAP3;
+		explode fanbox type BITMAPONLY | BITMAP2;
+		explode vent1 type BITMAPONLY | BITMAP2;
+		explode vent2 type BITMAPONLY | BITMAP2;
+		explode fan type FALL | BITMAP1;
+		explode turret type FALL | SMOKE | BITMAP3;
+		explode barrel1 type BITMAPONLY | BITMAP3;
+		explode barrel2 type BITMAPONLY | BITMAP3;
+		explode barrel3 type BITMAPONLY | BITMAP3;
 		return (corpsetype);
 	}
 	if( severity <= 99 )
 	{
 		corpsetype = 3;
-		explode base type SHATTER | BITMAP3 | NOHEATCLOUD;
-		explode fan type FALL | BITMAP2 | NOHEATCLOUD;
-		explode turret type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
+		explode base type SHATTER | BITMAP3;
+		explode fanbox type BITMAPONLY | BITMAP2;
+		explode vent1 type BITMAPONLY | BITMAP2;
+		explode vent2 type BITMAPONLY | BITMAP2;
+		explode fan type FALL | BITMAP2;
+		explode turret type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
+		explode barrel1 type BITMAPONLY | BITMAP3;
+		explode barrel2 type BITMAPONLY | BITMAP3;
+		explode barrel3 type BITMAPONLY | BITMAP3;
 		return (corpsetype);
 	}
 	corpsetype = 3;
-	explode base type SHATTER | BITMAP3 | NOHEATCLOUD;
-	explode fan type FALL | BITMAP2 | NOHEATCLOUD;
-	explode turret type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
+	explode base type SHATTER | BITMAP3;
+	explode fanbox type BITMAPONLY | BITMAP2;
+	explode vent1 type BITMAPONLY | BITMAP2;
+	explode vent2 type BITMAPONLY | BITMAP2;
+	explode fan type FALL | BITMAP2;
+	explode turret type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
+	explode barrel1 type BITMAPONLY | BITMAP3;
+	explode barrel2 type BITMAPONLY | BITMAP3;
+	explode barrel3 type BITMAPONLY | BITMAP3;
 	return (corpsetype);
 }

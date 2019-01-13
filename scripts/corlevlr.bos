@@ -3,13 +3,44 @@
 #include "sfxtype.h"
 #include "exptype.h"
 
-piece  base, flash, turret, sleeve, barrel;
+piece  base, flash, turret, sleeve, barrel, link;
 
-static-var  restore_delay;
+static-var  restore_delay, Static_Var_1, unitviewer, statechg_DesiredState, statechg_StateChanging;
 
 // Signal definitions
 #define SIG_AIM				2
 
+InitState()
+{
+	statechg_DesiredState = TRUE;
+	statechg_StateChanging = FALSE;
+}
+
+RequestState(requestedstate, currentstate)
+{
+	if( statechg_StateChanging )
+	{
+		statechg_DesiredState = requestedstate;
+		return (0);
+	}
+	statechg_StateChanging = TRUE;
+	currentstate = statechg_DesiredState;
+	statechg_DesiredState = requestedstate;
+	while( statechg_DesiredState != currentstate )
+	{
+		if( statechg_DesiredState == 0 )
+		{
+			//call-script activatescr();
+			currentstate = 0;
+		}
+		if( statechg_DesiredState == 1 )
+		{
+			//call-script deactivatescr();
+			currentstate = 1;
+		}
+	}
+	statechg_StateChanging = FALSE;
+}
 
 SmokeUnit(healthpercent, sleeptime, smoketype)
 {
@@ -64,10 +95,9 @@ HitByWeapon(anglex, anglez)
 Create()
 {
 	hide flash;
-	turn flash to y-axis <90> now;
-	move flash to x-axis [9] now;
-	move flash to z-axis [-0.5] now;
 	restore_delay = 3000;
+	Static_Var_1 = 0;
+	call-script InitState();	
 	start-script SmokeUnit();
 	return (0);
 }
@@ -100,8 +130,10 @@ AimPrimary(heading, pitch)
 
 FirePrimary()
 {
-	emit-sfx 1024 + 0 from flash;
+	show flash;
 	move barrel to z-axis [-6.00000] speed [1250.00000];
+	sleep 150;
+	hide flash;
 	wait-for-move barrel along z-axis;
 	move barrel to z-axis [0.00000] speed [7.50000];
 	return (0);
@@ -125,40 +157,55 @@ SweetSpot(piecenum)
 	return (0);
 }
 
+QueryTransport(Func_Var_1)
+{
+	Func_Var_1 = 1;
+}
+
+BeginTransport(Func_Var_1)
+{
+	move link to x-axis [0.000000] - (4 * Func_Var_1) now;
+	start-script RequestState(0);
+}
+
 Killed(severity, corpsetype)
 {
 	hide flash;
 	if( severity <= 25 )
 	{
 		corpsetype = 1;
-		explode base type SHATTER | NOHEATCLOUD;
+		explode barrel type BITMAPONLY | BITMAP1;
+		explode sleeve type BITMAPONLY | BITMAP1;
+		explode base type BITMAPONLY | BITMAP2;
+		explode flash type BITMAPONLY | BITMAP3;
+		explode turret type BITMAPONLY | BITMAP4;
 		return (corpsetype);
 	}
 	if( severity <= 50 )
 	{
 		corpsetype = 2;
-		explode barrel type FALL | BITMAP1 | NOHEATCLOUD;
-		explode sleeve type FALL | BITMAP1 | NOHEATCLOUD;
-		explode base type SHATTER | NOHEATCLOUD;
-		explode flash type FALL | BITMAP3 | NOHEATCLOUD;
-		explode turret type SHATTER | BITMAP4 | NOHEATCLOUD;
+		explode barrel type FALL | BITMAP1;
+		explode sleeve type FALL | BITMAP1;
+		explode base type BITMAPONLY | BITMAP2;
+		explode flash type FALL | BITMAP3;
+		explode turret type SHATTER | BITMAP4;
 		return (corpsetype);
 	}
 	if( severity <= 99 )
 	{
 		corpsetype = 3;
-		explode barrel type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-		explode sleeve type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-		explode base type SHATTER | NOHEATCLOUD;
-		explode flash type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-		explode turret type SHATTER | BITMAP4 | NOHEATCLOUD;
+		explode barrel type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
+		explode sleeve type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
+		explode base type BITMAPONLY | BITMAP2;
+		explode flash type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
+		explode turret type SHATTER | BITMAP4;
 		return (corpsetype);
 	}
 	corpsetype = 3;
-	explode barrel type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-	explode sleeve type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-	explode base type SHATTER | NOHEATCLOUD;
-	explode flash type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-	explode turret type SHATTER | EXPLODE_ON_HIT | BITMAP4 | NOHEATCLOUD;
+	explode barrel type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
+	explode sleeve type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
+	explode base type BITMAPONLY | BITMAP2;
+	explode flash type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
+	explode turret type SHATTER | EXPLODE_ON_HIT | BITMAP4;
 	return (corpsetype);
 }

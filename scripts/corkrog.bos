@@ -5,10 +5,10 @@
 
 piece  head, torso, hips, mpack, rgunflare, lgunflare, eyeflare, rmispoint,
        lmispoint, rleg, rthigh, lthigh, lleg, ltoes, lheel, rtoes,
-       rheel, luparm, ruparm, rarm, larm, eyegun, rmissle2, lmissle2, weapon1aimpoint, rstomp, lstomp;
+       rheel, luparm, ruparm, rarm, larm, eyegun, rmissle2, lmissle2;
 
 static-var  Static_Var_1, Static_Var_2, bMoving, Static_Var_4, Static_Var_5, foot, notrdyStomp,
-            restore_delay, Static_Var_7, Static_Var_8, statechg_DesiredState, statechg_StateChanging, wpn1_lasthead, wpn2_lasthead;
+            restore_delay, Static_Var_7, Static_Var_8, statechg_DesiredState, statechg_StateChanging;
 
 #define SIG_FOOTSTOMP_L 8
 #define SIG_FOOTSTOMP_R 16
@@ -40,7 +40,6 @@ walk()
 		turn rarm to x-axis <-16.000000> speed <4.000000>;
 		turn larm to x-axis <-22.000000> speed <40.000000>;
 		foot=TRUE;
-
 		notrdyStomp=0;
 		sleep 212;
 	}
@@ -105,9 +104,7 @@ walk()
 		turn ruparm to x-axis <-27.000000> speed <13.000000>;
 		turn rarm to x-axis <-43.000000> speed <129.000000>;
 		turn larm to x-axis <-42.000000> speed <18.000000>;
-
 		sleep 188;
-
 		notrdyStomp=1;
 	}
 	if( bMoving )
@@ -130,7 +127,6 @@ walk()
 		turn rarm to x-axis <-6.000000> speed <198.000000>;
 		turn larm to x-axis <-15.000000> speed <147.000000>;
 		sleep 186;
-						emit-sfx 2052 from lstomp;
 	}
 	if( bMoving )
 	{
@@ -214,7 +210,6 @@ walk()
 		turn rarm to x-axis <-37.000000> speed <13.000000>;
 		turn larm to x-axis <-22.000000> speed <41.000000>;
 		foot=FALSE;
-
 		notrdyStomp=0;
 		sleep 182;
 	}
@@ -280,7 +275,6 @@ walk()
 		turn ruparm to x-axis <37.000000> speed <5.000000>;
 		turn rarm to x-axis <-46.000000> speed <3.000000>;
 		turn larm to x-axis <-24.000000> speed <7.000000>;
-
 		sleep 189;
 		notrdyStomp=1;
 	}
@@ -303,8 +297,6 @@ walk()
 		turn rarm to x-axis <-13.000000> speed <259.000000>;
 		turn larm to x-axis <-3.000000> speed <157.000000>;
 		sleep 129;
-						emit-sfx 2052 from rstomp;
-
 	}
 	if( bMoving )
 	{
@@ -435,8 +427,6 @@ walklegs()
 		turn rtoes to x-axis <-10.000000> speed <86.000000>;
 		turn rheel to x-axis <-32.000000> speed <59.000000>;
 		sleep 186;
-		emit-sfx 2052 from lstomp;
-
 	}
 	if( bMoving )
 	{
@@ -559,7 +549,6 @@ walklegs()
 		turn rtoes to x-axis <11.000000> speed <62.000000>;
 		turn rheel to x-axis <11.000000> speed <44.000000>;
 		sleep 129;
-		emit-sfx 2052 from rstomp;
 	}
 	if( bMoving )
 	{
@@ -813,31 +802,26 @@ setSFXoccupy(Func_Var_1)
 }
 
 RestoreBody()
-{	
-	set-signal-mask 2;
+{
 	sleep 10000;
+	set-signal-mask 0;
 	start-script RequestState(1);
 	turn torso to y-axis <0.000000> speed <90.000000>;
-	wpn1_lasthead = 1000000;
 }
 
 RestoreHead()
 {
-	set-signal-mask 4;
 	sleep 9000;
+	set-signal-mask 0;
 	turn head to y-axis <0.000000> speed <110.000000>;
-	wpn2_lasthead = 1000000;
 }
 
 AimWeapon2(heading, pitch)
 {
 	signal 4;
+	set-signal-mask 4;
 	turn head to y-axis heading speed <130.000000>;
-	if (((get ABS(wpn2_lasthead - heading)) > 65536) OR(((get ABS(wpn2_lasthead - heading)) > 5000) AND ((get ABS(wpn2_lasthead - heading)) < 65536 - 5000)))
-	{
-		wait-for-turn head around y-axis;
-	}
-	wpn2_lasthead = heading;
+	wait-for-turn head around y-axis;
 	start-script RestoreHead();
 	return (1);
 }
@@ -851,7 +835,7 @@ FireWeapon2()
 
 AimFromWeapon2(piecenum)
 {
-	piecenum = eyeflare;
+	piecenum = 1;
 }
 
 QueryWeapon2(piecenum)
@@ -882,18 +866,14 @@ QueryWeapon3(piecenum)
 AimWeapon1(heading, pitch)
 {
 	start-script RequestState(0);
-	if( !Static_Var_8 )
-	{
-		return (0);
-	}
 	signal 2;
-	turn torso to y-axis heading speed <50.000000>;
-	if (((get ABS(wpn1_lasthead - heading)) > 65536) OR(((get ABS(wpn1_lasthead - heading)) > <5>) AND ((get ABS(wpn1_lasthead - heading)) < 65536 - <5>)))
+	set-signal-mask 2;
+	while( !Static_Var_8 )
 	{
-		wpn1_lasthead = 1000000;
-		wait-for-turn torso around y-axis;
+		sleep 250;
 	}
-	wpn1_lasthead = heading;
+	turn torso to y-axis heading speed <50.000000>;
+	wait-for-turn torso around y-axis;
 	start-script RestoreBody();
 	return (1);
 }
@@ -925,7 +905,7 @@ FireWeapon1()
 
 AimFromWeapon1(piecenum)
 {
-	piecenum = weapon1aimpoint;
+	piecenum = torso;
 }
 
 QueryWeapon1(piecenum)
@@ -943,7 +923,7 @@ AimWeapon4(heading, pitch)
 	signal SIG_FOOTSTOMP_L;
 	set-signal-mask SIG_FOOTSTOMP_L;
 	while(notrdyStomp OR !foot) sleep 65;
-	return (0);
+	return (1);
 }
 
 AimFromWeapon4(piecenum)
@@ -961,7 +941,7 @@ AimWeapon5(heading, pitch)
 	signal SIG_FOOTSTOMP_R;
 	set-signal-mask SIG_FOOTSTOMP_R;
 	while(notrdyStomp OR foot) sleep 65;
-	return (0);
+	return (1);
 }
 
 AimFromWeapon5(piecenum)
@@ -983,78 +963,102 @@ Killed(severity, corpsetype)
 	if( severity <= 25 )
 	{
 		corpsetype = 1;
+		explode eyeflare type BITMAPONLY | BITMAP1;
+		explode eyegun type BITMAPONLY | BITMAP2;
+		explode head type BITMAPONLY | BITMAP3;
+		explode hips type BITMAPONLY | BITMAP4;
+		explode larm type BITMAPONLY | BITMAP5;
+		explode lgunflare type BITMAPONLY | BITMAP1;
+		explode lheel type BITMAPONLY | BITMAP2;
+		explode lleg type BITMAPONLY | BITMAP3;
+		explode lmispoint type BITMAPONLY | BITMAP4;
+		explode lthigh type BITMAPONLY | BITMAP5;
+		explode luparm type BITMAPONLY | BITMAP1;
+		explode mpack type BITMAPONLY | BITMAP2;
+		explode rarm type BITMAPONLY | BITMAP3;
+		explode rgunflare type BITMAPONLY | BITMAP4;
+		explode rheel type BITMAPONLY | BITMAP5;
+		explode rleg type BITMAPONLY | BITMAP1;
+		explode rmispoint type BITMAPONLY | BITMAP2;
+		explode rthigh type BITMAPONLY | BITMAP3;
+		explode rtoes type BITMAPONLY | BITMAP4;
+		explode ruparm type BITMAPONLY | BITMAP5;
+		explode torso type BITMAPONLY | BITMAP1;
 		return (corpsetype);
 	}
 	if( severity <= 50 )
 	{
 		corpsetype = 2;
-		explode eyeflare type FALL | BITMAP1 | NOHEATCLOUD;
-		explode eyegun type FALL | BITMAP2 | NOHEATCLOUD;
-		explode head type SHATTER | BITMAP3 | NOHEATCLOUD;
-		explode hips type FALL | BITMAP4 | NOHEATCLOUD;
-		explode larm type FALL | BITMAP5 | NOHEATCLOUD;
-		explode lgunflare type FALL | BITMAP1 | NOHEATCLOUD;
-		explode lheel type FALL | BITMAP2 | NOHEATCLOUD;
-		explode lleg type FALL | BITMAP3 | NOHEATCLOUD;
-		explode lmispoint type FALL | BITMAP4 | NOHEATCLOUD;
-		explode lthigh type FALL | BITMAP5 | NOHEATCLOUD;
-		explode luparm type FALL | BITMAP1 | NOHEATCLOUD;
-		explode mpack type FALL | BITMAP2 | NOHEATCLOUD;
-		explode rarm type FALL | BITMAP3 | NOHEATCLOUD;
-		explode rgunflare type FALL | BITMAP4 | NOHEATCLOUD;
-		explode rheel type FALL | BITMAP5 | NOHEATCLOUD;
-		explode rleg type FALL | BITMAP1 | NOHEATCLOUD;
-		explode rmispoint type FALL | BITMAP2 | NOHEATCLOUD;
-		explode rthigh type FALL | BITMAP3 | NOHEATCLOUD;
-		explode rtoes type FALL | BITMAP4 | NOHEATCLOUD;
-		explode ruparm type FALL | BITMAP5 | NOHEATCLOUD;
+		explode eyeflare type FALL | BITMAP1;
+		explode eyegun type FALL | BITMAP2;
+		explode head type SHATTER | BITMAP3;
+		explode hips type FALL | BITMAP4;
+		explode larm type FALL | BITMAP5;
+		explode lgunflare type FALL | BITMAP1;
+		explode lheel type FALL | BITMAP2;
+		explode lleg type FALL | BITMAP3;
+		explode lmispoint type FALL | BITMAP4;
+		explode lthigh type FALL | BITMAP5;
+		explode luparm type FALL | BITMAP1;
+		explode mpack type FALL | BITMAP2;
+		explode rarm type FALL | BITMAP3;
+		explode rgunflare type FALL | BITMAP4;
+		explode rheel type FALL | BITMAP5;
+		explode rleg type FALL | BITMAP1;
+		explode rmispoint type FALL | BITMAP2;
+		explode rthigh type FALL | BITMAP3;
+		explode rtoes type FALL | BITMAP4;
+		explode ruparm type FALL | BITMAP5;
+		explode torso type BITMAPONLY | BITMAP1;
 		return (corpsetype);
 	}
 	if( severity <= 99 )
 	{
 		corpsetype = 3;
-		explode eyeflare type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-		explode eyegun type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
-		explode head type SHATTER | BITMAP3 | NOHEATCLOUD;
-		explode hips type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP4 | NOHEATCLOUD;
-		explode larm type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP5 | NOHEATCLOUD;
-		explode lgunflare type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-		explode lheel type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
-		explode lleg type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-		explode lmispoint type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP4 | NOHEATCLOUD;
-		explode lthigh type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP5 | NOHEATCLOUD;
-		explode luparm type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-		explode mpack type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
-		explode rarm type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-		explode rgunflare type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP4 | NOHEATCLOUD;
-		explode rheel type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP5 | NOHEATCLOUD;
-		explode rleg type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-		explode rmispoint type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
-		explode rthigh type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-		explode rtoes type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP4 | NOHEATCLOUD;
-		explode ruparm type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP5 | NOHEATCLOUD;
+		explode eyeflare type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
+		explode eyegun type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2;
+		explode head type SHATTER | BITMAP3;
+		explode hips type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP4;
+		explode larm type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP5;
+		explode lgunflare type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
+		explode lheel type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2;
+		explode lleg type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
+		explode lmispoint type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP4;
+		explode lthigh type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP5;
+		explode luparm type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
+		explode mpack type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2;
+		explode rarm type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
+		explode rgunflare type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP4;
+		explode rheel type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP5;
+		explode rleg type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
+		explode rmispoint type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2;
+		explode rthigh type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
+		explode rtoes type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP4;
+		explode ruparm type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP5;
+		explode torso type BITMAPONLY | BITMAP1;
 		return (corpsetype);
 	}
 	corpsetype = 3;
-	explode eyeflare type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-	explode eyegun type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
-	explode head type SHATTER | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-	explode hips type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP4 | NOHEATCLOUD;
-	explode larm type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP5 | NOHEATCLOUD;
-	explode lgunflare type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-	explode lheel type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
-	explode lleg type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-	explode lmispoint type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP4 | NOHEATCLOUD;
-	explode lthigh type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP5 | NOHEATCLOUD;
-	explode luparm type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-	explode mpack type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
-	explode rarm type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-	explode rgunflare type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP4 | NOHEATCLOUD;
-	explode rheel type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP5 | NOHEATCLOUD;
-	explode rleg type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-	explode rmispoint type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
-	explode rthigh type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-	explode rtoes type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP4 | NOHEATCLOUD;
-	explode ruparm type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP5 | NOHEATCLOUD;
+	explode eyeflare type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
+	explode eyegun type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2;
+	explode head type SHATTER | EXPLODE_ON_HIT | BITMAP3;
+	explode hips type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP4;
+	explode larm type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP5;
+	explode lgunflare type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
+	explode lheel type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2;
+	explode lleg type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
+	explode lmispoint type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP4;
+	explode lthigh type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP5;
+	explode luparm type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
+	explode mpack type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2;
+	explode rarm type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
+	explode rgunflare type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP4;
+	explode rheel type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP5;
+	explode rleg type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
+	explode rmispoint type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2;
+	explode rthigh type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
+	explode rtoes type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP4;
+	explode ruparm type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP5;
+	explode torso type BITMAPONLY | BITMAP1;
 	return corpsetype;
 }

@@ -3,9 +3,13 @@
 #include "sfxtype.h"
 #include "exptype.h"
 
-piece  missle1, missle2, base, thrusta1, thrusta2;
+#define SIG_AIM				2
+#define SIG_AIM2			4
+#define SIG_RESTORE			8
 
-static-var  Static_Var_1, Static_Var_2, statechg_DesiredState, statechg_StateChanging;
+piece  missile1, missile2, barrel1, barrel2, base, thrusta1, thrusta2;
+
+static-var  Static_Var_1, Static_Var_2, OpenClosed, restore_delay, statechg_DesiredState, statechg_StateChanging;
 
 
 activatescr()
@@ -18,6 +22,24 @@ deactivatescr()
 {
 	sleep 24;
 	return (0);
+}
+
+Go()
+{
+	turn barrel1 to y-axis <0.00000> speed <400.00000>;
+	turn barrel1 to x-axis <0.00000> speed <400.00000>;
+	wait-for-turn barrel1 around y-axis;
+	wait-for-turn barrel1 around x-axis;
+	OpenClosed = 1;
+}
+
+Stop()
+{
+	OpenClosed = 0;
+	turn barrel1 to y-axis <0.00000> speed <400.00000>;
+	turn barrel1 to x-axis <0.00000> speed <400.00000>;
+	wait-for-turn barrel1 around y-axis;
+	wait-for-turn barrel1 around x-axis;
 }
 
 SmokeUnit(healthpercent, sleeptime, smoketype)
@@ -67,15 +89,15 @@ RequestState(requestedstate, currentstate)
 	statechg_DesiredState = requestedstate;
 	while( statechg_DesiredState != currentstate )
 	{
-		if( statechg_DesiredState == 0 )
+		if( statechg_DesiredState )
 		{
-			call-script activatescr();
-			currentstate = 0;
-		}
-		if( statechg_DesiredState == 1 )
-		{
-			call-script deactivatescr();
+			call-script Stop();
 			currentstate = 1;
+		}
+		else
+		{
+			call-script Go();
+			currentstate = 0;
 		}
 	}
 	statechg_StateChanging = FALSE;
@@ -101,6 +123,8 @@ Create()
 {
 	Static_Var_1 = 0;
 	Static_Var_2 = 0;
+	restore_delay = 300;
+	OpenClosed = 1;	
 	call-script InitState();
 	start-script SmokeUnit();
 	return (0);
@@ -118,14 +142,42 @@ Deactivate()
 	return (0);
 }
 
+RestoreAfterDelay()
+{
+	signal SIG_RESTORE;
+	set-signal-mask SIG_RESTORE;
+	sleep restore_delay;
+	set-signal-mask 0;
+	start-script RequestState(1);
+}
+
+//======
+
 AimPrimary(heading, pitch)
 {
+	signal SIG_AIM;
+	set-signal-mask SIG_AIM;
+
+	turn barrel1 to y-axis heading speed <600.00000>;
+	turn barrel1 to x-axis <0.00000> - pitch speed <600.00000>;
+	wait-for-turn barrel1 around y-axis;
+	wait-for-turn barrel1 around x-axis;
+	start-script RestoreAfterDelay();		
 	return (1);
 }
 
-AimSecondary(heading, pitch)
+
+// -- The piece that the bullet/laser/whatever comes out of.
+QueryPrimary(piecenum)
 {
-	return (1);
+	piecenum = Static_Var_2;
+	return (0);
+}
+
+// -- The unit looks from this piece down the QueryWeapon piece, to see whether it's aiming at anything.
+AimFromPrimary(piecenum)
+{
+	piecenum = barrel1;
 }
 
 FirePrimary(Func_Var_1)
@@ -134,11 +186,35 @@ FirePrimary(Func_Var_1)
 	return (0);
 }
 
-QueryPrimary(piecenum)
+//---------
+//  A2G
+//---------
+
+AimSecondary(heading, pitch)
+{
+	signal SIG_AIM2;
+	set-signal-mask SIG_AIM2;
+
+	turn barrel2 to y-axis heading speed <600.00000>;
+	turn barrel2 to x-axis <0.00000> - pitch speed <600.00000>;
+	wait-for-turn barrel2 around y-axis;
+	wait-for-turn barrel2 around x-axis;
+	start-script RestoreAfterDelay();		
+	return (1);
+}
+
+
+QuerySecondary(piecenum)
 {
 	piecenum = Static_Var_2;
 	return (0);
 }
+
+AimFromSecondary(piecenum)
+{
+	piecenum = barrel2;
+}
+
 
 FireSecondary(Func_Var_1)
 {
@@ -146,11 +222,8 @@ FireSecondary(Func_Var_1)
 	return (0);
 }
 
-QuerySecondary(piecenum)
-{
-	piecenum = Static_Var_2;
-	return (0);
-}
+
+//----------------
 
 SweetSpot(piecenum)
 {
@@ -163,34 +236,38 @@ Killed(severity, corpsetype)
 	if( severity <= 25 )
 	{
 		corpsetype = 1;
-		//explode base type SHATTER | NOHEATCLOUD;
+		explode base type BITMAPONLY | BITMAP1;
+		explode missile1 type BITMAPONLY | BITMAP1;
+		explode missile2 type BITMAPONLY | BITMAP1;
+		explode thrusta1 type BITMAPONLY | BITMAP1;
+		explode thrusta2 type BITMAPONLY | BITMAP1;
 		return (corpsetype);
 	}
 	if( severity <= 50 )
 	{
 		corpsetype = 2;
-		//explode base type SHATTER | NOHEATCLOUD;
-		//explode missle1 type FALL | BITMAP1 | NOHEATCLOUD;
-		//explode missle2 type FALL | BITMAP1 | NOHEATCLOUD;
-		//explode thrusta1 type FALL | BITMAP1 | NOHEATCLOUD;
-		//explode thrusta2 type FALL | BITMAP1 | NOHEATCLOUD;
+		explode base type BITMAPONLY | BITMAP1;
+		explode missile1 type FALL | BITMAP1;
+		explode missile2 type FALL | BITMAP1;
+		explode thrusta1 type FALL | BITMAP1;
+		explode thrusta2 type FALL | BITMAP1;
 		return (corpsetype);
 	}
 	if( severity <= 99 )
 	{
 		corpsetype = 3;
-		//explode base type SHATTER | NOHEATCLOUD;
-		//explode missle1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-		//explode missle2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-		//explode thrusta1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-		//explode thrusta2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
+		explode base type BITMAPONLY | BITMAP1;
+		explode missile1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
+		explode missile2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
+		explode thrusta1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
+		explode thrusta2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
 		return (corpsetype);
 	}
 	corpsetype = 3;
-	//explode base type SHATTER | NOHEATCLOUD;
-	//explode missle1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-	//explode missle2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-	//explode thrusta1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-	//explode thrusta2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
+	explode base type BITMAPONLY | BITMAP1;
+	explode missile1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
+	explode missile2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
+	explode thrusta1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
+	explode thrusta2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
 	return (corpsetype);
 }

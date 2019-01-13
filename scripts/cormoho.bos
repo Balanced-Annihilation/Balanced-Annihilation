@@ -37,29 +37,63 @@ SmokeUnit(healthpercent, sleeptime, smoketype)
 
 activatescr()
 {
-    move stands to y-axis [0.000000] now;
-    move stands to y-axis [7.5] speed [32.500000];
-    sleep 772;
-    sleep 198;
-    turn shell to x-axis <-180.038462> speed <261.000000>;
-    sleep 688;
+	if( TRUE )
+	{
+		move stands to y-axis [0.000000] now;
+		move stands to y-axis [25.875000] speed [32.500000];
+		sleep 772;
+	}
+	if( TRUE )
+	{
+		sleep 198;
+	}
+	if( TRUE )
+	{
+		turn shell to x-axis <-180.038462> speed <261.000000>;
+		sleep 688;
+	}
 	set ARMORED to 0;
-    sleep 201;
-    move stands to y-axis [0.000000] speed [27.500000];
+	if( TRUE )
+	{
+		sleep 201;
+	}
+	if( TRUE )
+	{
+		move stands to y-axis [0.000000] speed [27.500000];
+		sleep 911;
+	}
+	sleep 34;
 }
 
 deactivatescr()
 {
-    move stands to y-axis [0.000000] now;
-    move stands to y-axis [7.5] speed [32.500000];
-    turn shell to x-axis <-180.038462> now;
-    sleep 768;
-    sleep 199;
-    turn shell to x-axis <0.000000> speed <261.000000>;
-    sleep 689;
-    sleep 201;
-    move stands to y-axis [0.000000] speed [27.500000];
-    set ARMORED to 1;
+	if( TRUE )
+	{
+		move stands to y-axis [0.000000] now;
+		move stands to y-axis [25.875000] speed [32.500000];
+		turn shell to x-axis <-180.038462> now;
+		sleep 768;
+	}
+	if( TRUE )
+	{
+		sleep 199;
+	}
+	if( TRUE )
+	{
+		turn shell to x-axis <0.000000> speed <261.000000>;
+		sleep 689;
+	}
+	if( TRUE )
+	{
+		sleep 201;
+	}
+	if( TRUE )
+	{
+		move stands to y-axis [0.000000] speed [27.500000];
+		set ARMORED to 1;
+		sleep 911;
+	}
+	sleep 33;
 }
 
 fixedGo()
@@ -73,16 +107,16 @@ fixedGo()
 	dont-cache shell;
 	dont-cache stands;
 	call-script activatescr();
-	spin rotary around y-axis speed <-300> accelerate <1>;
-	spin dingle1 around y-axis speed <-50>;
-	spin dingle2 around y-axis speed <50>;
+	spin rotary around y-axis speed Static_Var_1 accelerate Static_Var_2;
+	spin dingle1 around y-axis speed Static_Var_1;
+	spin dingle2 around y-axis speed Static_Var_1;
 }
 
 Stop()
 {
-	stop-spin rotary around y-axis decelerate <1>;
-	stop-spin dingle1 around y-axis decelerate <1>;
-	stop-spin dingle2 around y-axis decelerate <1>;
+	stop-spin rotary around y-axis decelerate Static_Var_3;
+	stop-spin dingle1 around y-axis decelerate Static_Var_3;
+	stop-spin dingle2 around y-axis decelerate Static_Var_3;
 	wait-for-turn rotary around y-axis;
 	wait-for-turn dingle1 around y-axis;
 	wait-for-turn dingle2 around y-axis;
@@ -178,34 +212,42 @@ Killed(severity, corpsetype)
 	if( severity <= 25 )
 	{
 		corpsetype = 1;
-		explode base type SHATTER | NOHEATCLOUD;
+		explode base type BITMAPONLY | BITMAP1;
+		explode dingle1 type BITMAPONLY | BITMAP2;
+		explode dingle2 type BITMAPONLY | BITMAP3;
+		explode rotary type BITMAPONLY | BITMAP4;
+		explode shell type BITMAPONLY | BITMAP5;
+		explode stands type BITMAPONLY | BITMAP1;
 		return (corpsetype);
 	}
 	if( severity <= 50 )
 	{
 		corpsetype = 2;
-		explode base type SHATTER | NOHEATCLOUD;
-		explode dingle1 type FALL | BITMAP2 | NOHEATCLOUD;
-		explode dingle2 type FALL | BITMAP3 | NOHEATCLOUD;
-		explode rotary type FALL | BITMAP4 | NOHEATCLOUD;
-		explode stands type SHATTER | BITMAP1 | NOHEATCLOUD;
+		explode base type BITMAPONLY | BITMAP1;
+		explode dingle1 type FALL | BITMAP2;
+		explode dingle2 type FALL | BITMAP3;
+		explode rotary type FALL | BITMAP4;
+		explode shell type BITMAPONLY | BITMAP5;
+		explode stands type SHATTER | BITMAP1;
 		return (corpsetype);
 	}
 	if( severity <= 99 )
 	{
 		corpsetype = 3;
-		explode base type SHATTER | NOHEATCLOUD;
-		explode dingle1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
-		explode dingle2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-		explode rotary type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP4 | NOHEATCLOUD;
-		explode stands type SHATTER | BITMAP2 | NOHEATCLOUD;
+		explode base type BITMAPONLY | BITMAP1;
+		explode dingle1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2;
+		explode dingle2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
+		explode rotary type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP4;
+		explode shell type BITMAPONLY | BITMAP5;
+		explode stands type SHATTER | BITMAP2;
 		return (corpsetype);
 	}
 	corpsetype = 3;
-	explode base type SHATTER | NOHEATCLOUD;
-	explode dingle1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
-	explode dingle2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-	explode rotary type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP4 | NOHEATCLOUD;
-	explode stands type SHATTER | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
+	explode base type BITMAPONLY | BITMAP1;
+	explode dingle1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2;
+	explode dingle2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
+	explode rotary type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP4;
+	explode shell type BITMAPONLY | BITMAP5;
+	explode stands type SHATTER | EXPLODE_ON_HIT | BITMAP2;
 	return corpsetype;
 }

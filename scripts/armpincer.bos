@@ -61,8 +61,6 @@ RockUnit(anglex, anglez)
 
 Create()
 {
-	turn emit to y-axis <-90> now;
-	move emit to z-axis [0.5] now;
 	restore_delay = 3000;
 	start-script SmokeUnit();
 }
@@ -93,7 +91,6 @@ AimPrimary(heading, pitch)
 
 FirePrimary()
 {
-	emit-sfx 1024 + 0 from emit;
 	move barrel to z-axis [-2.700000] speed [1000.000000];
 	sleep 150;
 	move barrel to z-axis [0.000000] speed [6.000000];
@@ -119,30 +116,34 @@ Killed(severity, corpsetype)
 	if( severity <= 25 )
 	{
 		corpsetype = 1;
-		explode barrel type FALL | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-		explode base type SHATTER | NOHEATCLOUD;
+		explode barrel type FALL | EXPLODE_ON_HIT | BITMAP1;
+		explode base type BITMAPONLY | BITMAP3;
+		explode turret type BITMAPONLY | BITMAP2;
+		explode treads type BITMAPONLY | BITMAP3;
 		return (corpsetype);
 	}
 	if( severity <= 50 )
 	{
 		corpsetype = 2;
-		explode barrel type FALL | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-		explode base type SHATTER | NOHEATCLOUD;
-		explode turret type FALL | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
+		explode barrel type FALL | EXPLODE_ON_HIT | BITMAP1;
+		explode base type BITMAPONLY | BITMAP3;
+		explode turret type FALL | EXPLODE_ON_HIT | BITMAP2;
+		explode treads type BITMAPONLY | BITMAP2;
 		return (corpsetype);
 	}
 	if( severity <= 99 )
 	{
 		corpsetype = 3;
-		explode barrel type SHATTER | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-		explode base type SHATTER | NOHEATCLOUD;
-		explode turret type SHATTER | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
+		explode barrel type SHATTER | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
+		explode base type BITMAPONLY | BITMAP3;
+		explode turret type SHATTER | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2;
+		explode treads type BITMAPONLY | BITMAP2;
 		return (corpsetype);
 	}
 	corpsetype = 3;
-	explode barrel type SHATTER | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-	explode base type SHATTER | NOHEATCLOUD;
-	explode turret type SHATTER | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
-	explode treads type SHATTER | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
+	explode barrel type SHATTER | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
+	explode base type BITMAPONLY | BITMAP3;
+	explode turret type SHATTER | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2;
+	explode treads type SHATTER | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2;
 	return corpsetype;
 }

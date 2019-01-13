@@ -137,12 +137,12 @@ BoomExtend()
 	start-script StartDoorOpen();
 	turn tower to y-axis Static_Var_3 speed <200.>;
 	wait-for-turn tower around y-axis;
-	move boom1 to z-axis Static_Var_2 / [0.000043] speed [60.];
-	move boom2 to z-axis Static_Var_2 / [0.000043] speed [60.];
-	move boom3 to z-axis Static_Var_2 / [0.000043] speed [60.];
-	move boom4 to z-axis Static_Var_2 / [0.000043] speed [60.];
-	move boom5 to z-axis Static_Var_2 / [0.000043] speed [60.];
-	move boom6 to z-axis Static_Var_2 / [0.000043] speed [60.];
+	move boom1 to z-axis Static_Var_2 / [0.] speed [60.];
+	move boom2 to z-axis Static_Var_2 / [0.] speed [60.];
+	move boom3 to z-axis Static_Var_2 / [0.] speed [60.];
+	move boom4 to z-axis Static_Var_2 / [0.] speed [60.];
+	move boom5 to z-axis Static_Var_2 / [0.] speed [60.];
+	move boom6 to z-axis Static_Var_2 / [0.] speed [60.];
 	wait-for-move boom1 along z-axis;
 	wait-for-move boom2 along z-axis;
 	wait-for-move boom3 along z-axis;
@@ -239,31 +239,50 @@ Killed(severity, corpsetype)
 	if( severity <= 25 )
 	{
 		corpsetype = 1;
-		explode base type SHATTER | NOHEATCLOUD;
+		explode boom1 type BITMAPONLY | BITMAP1;
+		explode boom2 type BITMAPONLY | BITMAP2;
+		explode boom3 type BITMAPONLY | BITMAP5;
+		explode base type BITMAPONLY | BITMAP3;
+		explode rdoor type BITMAPONLY | BITMAP4;
+		explode ldoor type BITMAPONLY | BITMAP5;
+		explode link type BITMAPONLY | BITMAP1;
+		explode arm type BITMAPONLY | BITMAP2;
 		return (corpsetype);
 	}
 	if( severity <= 50 )
 	{
 		corpsetype = 2;
-		explode boom2 type SHATTER | BITMAP2 | NOHEATCLOUD;
-		explode boom3 type SHATTER | BITMAP4 | NOHEATCLOUD;
-		explode base type SHATTER | NOHEATCLOUD;
-		explode link type FALL | BITMAP1 | NOHEATCLOUD;
+		explode boom1 type BITMAPONLY | BITMAP1;
+		explode boom2 type SHATTER | BITMAP2;
+		explode boom3 type SHATTER | BITMAP4;
+		explode base type BITMAPONLY | BITMAP3;
+		explode rdoor type BITMAPONLY | BITMAP4;
+		explode ldoor type BITMAPONLY | BITMAP5;
+		explode link type FALL | BITMAP1;
+		explode arm type BITMAPONLY | BITMAP2;
 		return (corpsetype);
 	}
 	if( severity <= 99 )
 	{
 		corpsetype = 3;
-		explode boom2 type SHATTER | BITMAP2 | NOHEATCLOUD;
-		explode boom3 type SHATTER | BITMAP4 | NOHEATCLOUD;
-		explode base type SHATTER | NOHEATCLOUD;
-		explode link type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
+		explode boom1 type BITMAPONLY | BITMAP1;
+		explode boom2 type SHATTER | BITMAP2;
+		explode boom3 type SHATTER | BITMAP4;
+		explode base type BITMAPONLY | BITMAP3;
+		explode rdoor type BITMAPONLY | BITMAP4;
+		explode ldoor type BITMAPONLY | BITMAP5;
+		explode link type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
+		explode arm type BITMAPONLY | BITMAP2;
 		return (corpsetype);
 	}
 	corpsetype = 3;
-	explode boom2 type SHATTER | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
-	explode boom3 type SHATTER | BITMAP4 | NOHEATCLOUD;
-	explode base type SHATTER | NOHEATCLOUD;
-	explode link type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
+	explode boom1 type BITMAPONLY | BITMAP1;
+	explode boom2 type SHATTER | EXPLODE_ON_HIT | BITMAP2;
+	explode boom3 type SHATTER | BITMAP4;
+	explode base type BITMAPONLY | BITMAP3;
+	explode rdoor type BITMAPONLY | BITMAP4;
+	explode ldoor type BITMAPONLY | BITMAP5;
+	explode link type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
+	explode arm type BITMAPONLY | BITMAP2;
 	return (corpsetype);
 }

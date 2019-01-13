@@ -81,10 +81,10 @@ Go()
 {
 	set ARMORED to 0;
 	start-script SteamVents();
-	move dome to y-axis [20.00000] speed [12.50000];
+	move dome to y-axis [25.00000] speed [12.50000]; //y=20
 	call-script OpenDoors();
 	wait-for-move dome along y-axis;
-	move post to y-axis [12.50000] speed [10.00000];
+	move post to y-axis [10.00000] speed [10.00000]; //y=12.5
 	turn post to y-axis <60.01099> speed <55.00000>;
 	wait-for-move post along y-axis;
 	wait-for-turn post around y-axis;
@@ -173,40 +173,69 @@ SweetSpot(piecenum)
 	return (0);
 }
 
-Killed(severity, corpsetype)
+Killed( severity, corpsetype )
 {
-	if( severity <= 25 )
-	{
-		corpsetype = 1;
-		explode base type SHATTER | NOHEATCLOUD;
-		return (corpsetype);
-	}
-	if( severity <= 50 )
-	{
-		corpsetype = 2;
-		explode base type SHATTER | BITMAP1 | NOHEATCLOUD;
-		explode fan type FALL | BITMAP2 | NOHEATCLOUD;
-		explode door1 type FALL | BITMAP1 | NOHEATCLOUD;
-		explode door4 type FALL | BITMAP2 | NOHEATCLOUD;
-		return (corpsetype);
-	}
-	if( severity <= 99 )
-	{
-		corpsetype = 3;
-		explode base type SHATTER | BITMAP4 | NOHEATCLOUD;
-		explode fan type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-		explode globe type FALL | BITMAP3 | NOHEATCLOUD;
-		explode door1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-		explode door3 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-		explode door4 type FALL | BITMAP2 | NOHEATCLOUD;
-		return (corpsetype);
-	}
-	corpsetype = 3;
-	explode base type SHATTER | BITMAP4 | NOHEATCLOUD;
-	explode fan type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-	explode globe type FALL | BITMAP3 | NOHEATCLOUD;
-	explode door1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-	explode door3 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-	explode door4 type FALL | BITMAP2 | NOHEATCLOUD;
-	return (corpsetype);
+	corpsetype = 2;
+	return(corpsetype);
 }
+
+//Killed(severity, corpsetype)
+//{
+//	if( severity <= 25 )
+//	{
+//		corpsetype = 1;
+//		explode base type BITMAPONLY | BITMAP1;
+//		explode fan type BITMAPONLY | BITMAP2;
+//		explode pipes type BITMAPONLY | BITMAP1;
+//		explode dome type BITMAPONLY | BITMAP2;
+//		explode post type BITMAPONLY | BITMAP1;
+//		explode globe type BITMAPONLY | BITMAP2;
+//		explode door1 type BITMAPONLY | BITMAP1;
+//		explode door2 type BITMAPONLY | BITMAP2;
+//		explode door3 type BITMAPONLY | BITMAP1;
+//		explode door4 type BITMAPONLY | BITMAP2;
+//		return (corpsetype);
+//	}
+//	if( severity <= 50 )
+//	{
+//		corpsetype = 2;
+//		explode base type SHATTER | BITMAP1;
+//		explode fan type FALL | BITMAP2;
+//		explode pipes type BITMAPONLY | BITMAP3;
+//		explode dome type BITMAPONLY | BITMAP2;
+//		explode post type BITMAPONLY | BITMAP1;
+//		explode globe type BITMAPONLY | BITMAP3;
+//		explode door1 type FALL | BITMAP1;
+//		explode door2 type BITMAPONLY | BITMAP2;
+//		explode door3 type BITMAPONLY | BITMAP3;
+//		explode door4 type FALL | BITMAP2;
+//		return (corpsetype);
+//	}
+//	if( severity <= 99 )
+//	{
+//		corpsetype = 3;
+//		explode base type SHATTER | BITMAP4;
+//		explode fan type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
+//		explode pipes type BITMAPONLY | BITMAP3;
+//		explode dome type BITMAPONLY | BITMAP2;
+//		explode post type BITMAPONLY | BITMAP1;
+//		explode globe type FALL | BITMAP3;
+//		explode door1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
+//		explode door2 type BITMAPONLY | BITMAP2;
+//		explode door3 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
+//		explode door4 type FALL | BITMAP2;
+//		return (corpsetype);
+//	}
+//	corpsetype = 3;
+//	explode base type SHATTER | BITMAP4;
+//	explode fan type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
+//	explode pipes type BITMAPONLY | BITMAP3;
+//	explode dome type BITMAPONLY | BITMAP2;
+//	explode post type BITMAPONLY | BITMAP1;
+//	explode globe type FALL | BITMAP3;
+//	explode door1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
+//	explode door2 type BITMAPONLY | BITMAP2;
+//	explode door3 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
+//	explode door4 type FALL | BITMAP2;
+//	return (corpsetype);
+//}

@@ -16,9 +16,9 @@ activatescr()
 	if( TRUE )
 	{
 		move LWing to x-axis [0.00000] now;
-		move LWing to x-axis [-11.00000] speed [12.04819];
+		move LWing to x-axis [-12.00000] speed [12.04819];
 		move RWing to x-axis [0.00000] now;
-		move RWing to x-axis [11.00000] speed [12.04819];
+		move RWing to x-axis [11.99998] speed [12.04819];
 		sleep 996;
 	}
 	sleep 6;
@@ -29,9 +29,9 @@ deactivatescr()
 {
 	if( TRUE )
 	{
-		move LWing to x-axis [-11.00000] now;
+		move LWing to x-axis [-12.00000] now;
 		move LWing to x-axis [0.00000] speed [14.58080];
-		move RWing to x-axis [11.00000] now;
+		move RWing to x-axis [11.99998] now;
 		move RWing to x-axis [0.00000] speed [14.58080];
 		sleep 823;
 	}
@@ -48,7 +48,7 @@ SmokeUnit(healthpercent, sleeptime, smoketype)
 	while( TRUE )
 	{
 		healthpercent = get HEALTH;
-		if( healthpercent < 66 and  healthpercent > 0 )
+		if( healthpercent < 66 )
 		{
 			smoketype = 256 | 2;
 			if( Rand( 1, 66 ) < healthpercent )
@@ -160,7 +160,7 @@ StopBuilding()
 
 QueryNanoPiece(piecenum)
 {
-	piecenum = nanopoint;
+	piecenum = base;
 	return (0);
 }
 
@@ -175,37 +175,47 @@ Killed(severity, corpsetype)
 	if( severity <= 25 )
 	{
 		corpsetype = 1;
-		//explode base type SHATTER | NOHEATCLOUD;
-		explode nanopoint type FALL | BITMAP5 | NOHEATCLOUD;
-		explode wake1 type FALL | BITMAP1 | NOHEATCLOUD;
+		explode base type BITMAPONLY | BITMAP1;
+		explode LWing type BITMAPONLY | BITMAP2;
+		explode RWing type BITMAPONLY | BITMAP3;
+		explode cab type BITMAPONLY | BITMAP4;
+		explode nanopoint type BITMAPONLY | BITMAP5;
+		explode wake1 type BITMAPONLY | BITMAP1;
+		explode wake2 type BITMAPONLY | BITMAP2;
 		return (corpsetype);
 	}
 	if( severity <= 50 )
 	{
 		corpsetype = 2;
-		explode base type SHATTER | NOHEATCLOUD;
-		explode cab type SHATTER | BITMAP4 | NOHEATCLOUD;
-		explode nanopoint type FALL | BITMAP5 | NOHEATCLOUD;
-		explode wake1 type FALL | BITMAP1 | NOHEATCLOUD;
-		//explode wake2 type FALL | BITMAP2 | NOHEATCLOUD;
+		explode base type BITMAPONLY | BITMAP1;
+		explode LWing type BITMAPONLY | BITMAP2;
+		explode RWing type BITMAPONLY | BITMAP3;
+		explode cab type SHATTER | BITMAP4;
+		explode nanopoint type FALL | BITMAP5;
+		explode wake1 type FALL | BITMAP1;
+		explode wake2 type FALL | BITMAP2;
 		return (corpsetype);
 	}
 	if( severity <= 99 )
 	{
 		corpsetype = 3;
-		//explode base type SHATTER | NOHEATCLOUD;
-		//explode cab type SHATTER | BITMAP4 | NOHEATCLOUD;
-		explode nanopoint type FALL | FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP5 | NOHEATCLOUD;
-		explode wake1 type FALL | FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-		explode wake2 type FALL | FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
+		explode base type BITMAPONLY | BITMAP1;
+		explode LWing type BITMAPONLY | BITMAP2;
+		explode RWing type BITMAPONLY | BITMAP3;
+		explode cab type SHATTER | BITMAP4;
+		explode nanopoint type FALL | FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP5;
+		explode wake1 type FALL | FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP1;
+		explode wake2 type FALL | FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP2;
 		return (corpsetype);
 	}
 	corpsetype = 3;
-	//explode base type SHATTER | NOHEATCLOUD;
-	//explode cab type SHATTER | EXPLODE_ON_HIT | BITMAP4 | NOHEATCLOUD;
-	explode nanopoint type FALL | FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP5 | NOHEATCLOUD;
-	explode wake1 type FALL | FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-	explode wake2 type FALL | FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
+	explode base type BITMAPONLY | BITMAP1;
+	explode LWing type BITMAPONLY | BITMAP2;
+	explode RWing type BITMAPONLY | BITMAP3;
+	explode cab type SHATTER | EXPLODE_ON_HIT | BITMAP4;
+	explode nanopoint type FALL | FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP5;
+	explode wake1 type FALL | FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP1;
+	explode wake2 type FALL | FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP2;
 	return (corpsetype);
 }
 

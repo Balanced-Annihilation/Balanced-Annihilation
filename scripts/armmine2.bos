@@ -26,11 +26,6 @@ Deactivate()
 	set ARMORED to 0;
 }
 
-AimWeapon1()
-{
-	return (1);
-}
-
 FireWeapon1()
 {
 	sleep 500; //A slight delay

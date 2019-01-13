@@ -13,7 +13,6 @@ static-var  restore_delay;
 #define SIG_AIM				4
 #define SIG_AIM_2			8
 #define SIG_AIM_3			16
-#define SIG_MOVE			32
 
 
 SmokeUnit(healthpercent, sleeptime, smoketype)
@@ -25,7 +24,7 @@ SmokeUnit(healthpercent, sleeptime, smoketype)
 	while( TRUE )
 	{
 		healthpercent = get HEALTH;
-		if( healthpercent < 66 and healthpercent > 0 )
+		if( healthpercent < 66 )
 		{
 			smoketype = 256 | 2;
 			if( Rand( 1, 66 ) < healthpercent )
@@ -86,7 +85,7 @@ RestoreAfterDelay()
 	turn body to x-axis <0.000000> speed <150.000000>;
 }
 
-MoveRate2()
+StartMoving()
 {
 	spin bladestop around y-axis speed <600.357143> accelerate <50.005495>;
 	spin bladesbottom around y-axis speed <-600.357143> accelerate <50.005495>;
@@ -95,15 +94,7 @@ MoveRate2()
 	sleep 1000;
 }
 
-MoveRate1()
-{
-	spin bladestop around y-axis speed <300.357143> accelerate <50.005495>;
-	spin bladesbottom around y-axis speed <-300.357143> accelerate <50.005495>;
-	turn wing2top to z-axis <45.016484> speed <30.000000>;
-	turn wing3top to z-axis <-45.016484> speed <30.000000>;
-}
-
-MoveRate0()
+StopMoving()
 {
 	stop-spin bladestop around y-axis decelerate <20.005495>;
 	stop-spin bladesbottom around y-axis decelerate <20.005495>;
@@ -167,38 +158,38 @@ Killed(severity, corpsetype)
 	if( severity <= 99 )
 	{
 		corpsetype = 3;
-		explode base type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAPNUKE | NOHEATCLOUD;
-		explode ring type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAPNUKE | NOHEATCLOUD;
-		explode wing1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAPNUKE | NOHEATCLOUD;
-		explode wing2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAPNUKE | NOHEATCLOUD;
-		explode wing3 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAPNUKE | NOHEATCLOUD;
-		explode sphere1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAPNUKE | NOHEATCLOUD;
-		explode sphere2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAPNUKE | NOHEATCLOUD;
-		explode sphere3 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAPNUKE | NOHEATCLOUD;
-		explode wing2top type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAPNUKE | NOHEATCLOUD;
-		explode wing3top type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAPNUKE | NOHEATCLOUD;
-		explode Turret1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAPNUKE | NOHEATCLOUD;
-		explode Turret2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAPNUKE | NOHEATCLOUD;
-		explode Turret3 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAPNUKE | NOHEATCLOUD;
-		explode bladestop type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAPNUKE | NOHEATCLOUD;
-		explode bladesbottom type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAPNUKE | NOHEATCLOUD;
+		explode base type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAPNUKE;
+		explode ring type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAPNUKE;
+		explode wing1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAPNUKE;
+		explode wing2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAPNUKE;
+		explode wing3 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAPNUKE;
+		explode sphere1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAPNUKE;
+		explode sphere2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAPNUKE;
+		explode sphere3 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAPNUKE;
+		explode wing2top type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAPNUKE;
+		explode wing3top type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAPNUKE;
+		explode Turret1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAPNUKE;
+		explode Turret2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAPNUKE;
+		explode Turret3 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAPNUKE;
+		explode bladestop type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAPNUKE;
+		explode bladesbottom type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAPNUKE;
 		return (corpsetype);
 	}
 	corpsetype = 3;
-	explode base type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAPNUKE | NOHEATCLOUD;
-	explode ring type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAPNUKE | NOHEATCLOUD;
-	explode wing1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAPNUKE | NOHEATCLOUD;
-	explode wing2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAPNUKE | NOHEATCLOUD;
-	explode wing3 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAPNUKE | NOHEATCLOUD;
-	explode sphere1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAPNUKE | NOHEATCLOUD;
-	explode sphere2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAPNUKE | NOHEATCLOUD;
-	explode sphere3 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAPNUKE | NOHEATCLOUD;
-	explode wing2top type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAPNUKE | NOHEATCLOUD;
-	explode wing3top type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAPNUKE | NOHEATCLOUD;
-	explode Turret1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAPNUKE | NOHEATCLOUD;
-	explode Turret2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAPNUKE | NOHEATCLOUD;
-	explode Turret3 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAPNUKE | NOHEATCLOUD;
-	explode bladestop type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAPNUKE | NOHEATCLOUD;
-	explode bladesbottom type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAPNUKE | NOHEATCLOUD;
+	explode base type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAPNUKE;
+	explode ring type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAPNUKE;
+	explode wing1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAPNUKE;
+	explode wing2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAPNUKE;
+	explode wing3 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAPNUKE;
+	explode sphere1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAPNUKE;
+	explode sphere2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAPNUKE;
+	explode sphere3 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAPNUKE;
+	explode wing2top type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAPNUKE;
+	explode wing3top type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAPNUKE;
+	explode Turret1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAPNUKE;
+	explode Turret2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAPNUKE;
+	explode Turret3 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAPNUKE;
+	explode bladestop type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAPNUKE;
+	explode bladesbottom type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAPNUKE;
 	return corpsetype;
 }

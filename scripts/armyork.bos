@@ -98,6 +98,60 @@ RestoreAfterDelay()
 	return (1);
 }
 
+AimSecondary(heading, pitch)
+{
+	signal SIG_AIM_3;
+	set-signal-mask SIG_AIM_3;
+	turn turret to y-axis heading speed <650.000000>;
+	turn turret to x-axis <0.000000> - pitch speed <600.000000>;
+	wait-for-turn turret around y-axis;
+	wait-for-turn turret around x-axis;
+	start-script RestoreAfterDelay();
+	return (1);
+}
+
+FireSecondary()
+{
+	if( gun_3 == 0 )
+	{
+		move gun1 to z-axis [-4.000000] now;
+		show flare1;
+		sleep 150;
+		hide flare1;
+		move gun1 to z-axis [0.000000] speed [15.000000];
+	}
+	if( gun_3 == 1 )
+	{
+		move gun4 to z-axis [-4.000000] now;
+		show flare4;
+		sleep 150;
+		hide flare4;
+		move gun4 to z-axis [0.000000] speed [15.000000];
+	}
+	if( gun_3 == 2 )
+	{
+		move gun2 to z-axis [-4.000000] now;
+		show flare2;
+		sleep 150;
+		hide flare2;
+		move gun2 to z-axis [0.000000] speed [15.000000];
+	}
+	if( gun_3 == 3 )
+	{
+		move gun3 to z-axis [-4.000000] now;
+		show flare3;
+		sleep 150;
+		hide flare3;
+		move gun3 to z-axis [0.000000] speed [15.000000];
+	}
+	sleep 50;
+	++gun_3;
+	if( gun_3 == 4 )
+	{
+		gun_3 = flare1;
+	}
+}
+
 AimTertiary(heading, pitch)
 {
 	signal SIG_AIM_3;
@@ -114,30 +168,34 @@ FireTertiary()
 {
 	if( gun_3 == 0 )
 	{
-	    emit-sfx 1024 from flare1;
 		move gun1 to z-axis [-4.000000] now;
-		sleep 50;
+		show flare1;
+		sleep 150;
+		hide flare1;
 		move gun1 to z-axis [0.000000] speed [15.000000];
 	}
 	if( gun_3 == 1 )
 	{
-	    emit-sfx 1024 from flare4;
 		move gun4 to z-axis [-4.000000] now;
-		sleep 50;
+		show flare4;
+		sleep 150;
+		hide flare4;
 		move gun4 to z-axis [0.000000] speed [15.000000];
 	}
 	if( gun_3 == 2 )
 	{
-	    emit-sfx 1024 from flare2;
 		move gun2 to z-axis [-4.000000] now;
-		sleep 50;
+		show flare2;
+		sleep 150;
+		hide flare2;
 		move gun2 to z-axis [0.000000] speed [15.000000];
 	}
 	if( gun_3 == 3 )
 	{
-	    emit-sfx 1024 from flare3;
 		move gun3 to z-axis [-4.000000] now;
-		sleep 50;
+		show flare3;
+		sleep 150;
+		hide flare3;
 		move gun3 to z-axis [0.000000] speed [15.000000];
 	}
 	sleep 50;
@@ -154,6 +212,16 @@ QueryWeapon1(piecenum)
 }
 
 AimFromWeapon1(piecenum)
+{
+	piecenum = gun_3;
+}
+
+AimFromSecondary(piecenum)
+{
+	piecenum = turret;
+}
+
+QuerySecondary(piecenum)
 {
 	piecenum = gun_3;
 }
@@ -178,25 +246,26 @@ Killed(severity, corpsetype)
 	if( severity <= 25 )
 	{
 		corpsetype = 1;
-		explode base type SHATTER | NOHEATCLOUD;
+		explode base type BITMAPONLY | BITMAP1;
+		explode turret type BITMAPONLY | BITMAP4;
 		return (corpsetype);
 	}
 	if( severity <= 50 )
 	{
 		corpsetype = 2;
-		explode base type SHATTER | NOHEATCLOUD;
-		explode turret type SHATTER | BITMAP4 | NOHEATCLOUD;
+		explode base type BITMAPONLY | BITMAP1;
+		explode turret type SHATTER | BITMAP4;
 		return (corpsetype);
 	}
 	if( severity <= 99 )
 	{
 		corpsetype = 3;
-		explode base type SHATTER | NOHEATCLOUD;
-		explode turret type SHATTER | BITMAP4 | NOHEATCLOUD;
+		explode base type BITMAPONLY | BITMAP1;
+		explode turret type SHATTER | BITMAP4;
 		return (corpsetype);
 	}
 	corpsetype = 3;
-	explode base type SHATTER | NOHEATCLOUD;
-	explode turret type SHATTER | EXPLODE_ON_HIT | BITMAP4 | NOHEATCLOUD;
+	explode base type BITMAPONLY | BITMAP1;
+	explode turret type SHATTER | EXPLODE_ON_HIT | BITMAP4;
 	return corpsetype;
 }

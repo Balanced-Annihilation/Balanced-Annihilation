@@ -5,7 +5,7 @@
 
 piece  hole1, hole2, turret, launcher, base;
 
-static-var  restore_delay, gun_2, wpn1_lasthead, wpn2_lasthead;
+static-var  restore_delay, gun_2;
 
 // Signal definitions
 #define SIG_AIM				2
@@ -67,35 +67,28 @@ SetMaxReloadTime(Func_Var_1)
 
 RestoreAfterDelay()
 {
-	set-signal-mask SIG_AIM;
 	sleep restore_delay;
 	turn turret to y-axis <0.000000> speed <80.000000>;
 	turn launcher to x-axis <0.000000> speed <50.000000>;
-	wpn1_lasthead = 1000000;
-	wpn2_lasthead = 1000000;
 }
 
 AimPrimary(heading, pitch)
 {
 	signal SIG_AIM;
+	set-signal-mask SIG_AIM;
 	turn turret to y-axis heading speed <80.000000>;
 	turn launcher to x-axis <0.000000> - pitch speed <50.000000>;
-	if (((get ABS(wpn1_lasthead - heading)) > 65536) OR(((get ABS(wpn1_lasthead - heading)) > 1300) AND ((get ABS(wpn1_lasthead - heading)) < 64236)))
-	{
-		wpn1_lasthead = 1000000;
-		wait-for-turn turret around y-axis;
-		wait-for-turn launcher around x-axis;
-	}
+	wait-for-turn turret around y-axis;
+	wait-for-turn launcher around x-axis;
 	start-script RestoreAfterDelay();
-	wpn1_lasthead = heading;
 	return (1);
 }
 
 FirePrimary()
 {
-	//show hole1;
+	show hole1;
 	sleep 150;
-	//hide hole1;
+	hide hole1;
 	gun_2 = !gun_2;
 }
 
@@ -112,24 +105,20 @@ QueryPrimary(piecenum)
 AimSecondary(heading, pitch)
 {
 	signal SIG_AIM_2;
+	set-signal-mask SIG_AIM_2;
 	turn turret to y-axis heading speed <80.000000>;
 	turn launcher to x-axis <0.000000> - pitch speed <50.000000>;
-	if (((get ABS(wpn2_lasthead - heading)) > 65536) OR(((get ABS(wpn2_lasthead - heading)) > 5000) AND ((get ABS(wpn2_lasthead - heading)) < 60536)))
-
-	{
-		wait-for-turn turret around y-axis;
-		wait-for-turn launcher around x-axis;
-	}
+	wait-for-turn turret around y-axis;
+	wait-for-turn launcher around x-axis;
 	start-script RestoreAfterDelay();
-	wpn2_lasthead = heading;
 	return (1);
 }
 
 FireSecondary()
 {
-	//show hole2;
+	show hole2;
 	sleep 150;
-	//hide hole2;
+	hide hole2;
 	gun_2 = !gun_2;
 }
 
@@ -155,34 +144,38 @@ Killed(severity, corpsetype)
 	if( severity <= 25 )
 	{
 		corpsetype = 1;
-		explode base type SHATTER | NOHEATCLOUD;
+		explode base type BITMAPONLY | BITMAP2;
+		explode hole1 type BITMAPONLY | BITMAP3;
+		explode hole2 type BITMAPONLY | BITMAP3;
+		explode launcher type BITMAPONLY | BITMAP4;
+		explode turret type BITMAPONLY | BITMAP3;
 		return (corpsetype);
 	}
 	if( severity <= 50 )
 	{
 		corpsetype = 2;
-		explode base type SHATTER | NOHEATCLOUD;
-		explode hole1 type FALL | BITMAP3 | NOHEATCLOUD;
-		explode hole2 type FALL | BITMAP3 | NOHEATCLOUD;
-		explode launcher type SHATTER | BITMAP4 | NOHEATCLOUD;
-		explode turret type FALL | BITMAP3 | NOHEATCLOUD;
+		explode base type BITMAPONLY | BITMAP2;
+		explode hole1 type FALL | BITMAP3;
+		explode hole2 type FALL | BITMAP3;
+		explode launcher type SHATTER | BITMAP4;
+		explode turret type FALL | BITMAP3;
 		return (corpsetype);
 	}
 	if( severity <= 99 )
 	{
 		corpsetype = 3;
-		explode base type SHATTER | NOHEATCLOUD;
-		explode hole1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-		explode hole2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-		explode launcher type SHATTER | BITMAP4 | NOHEATCLOUD;
-		explode turret type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
+		explode base type BITMAPONLY | BITMAP2;
+		explode hole1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
+		explode hole2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
+		explode launcher type SHATTER | BITMAP4;
+		explode turret type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
 		return (corpsetype);
 	}
 	corpsetype = 3;
-	explode base type SHATTER | NOHEATCLOUD;
-	explode hole1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-	explode hole2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-	explode launcher type SHATTER | EXPLODE_ON_HIT | BITMAP4 | NOHEATCLOUD;
-	explode turret type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
+	explode base type BITMAPONLY | BITMAP2;
+	explode hole1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
+	explode hole2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
+	explode launcher type SHATTER | EXPLODE_ON_HIT | BITMAP4;
+	explode turret type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
 	return corpsetype;
 }

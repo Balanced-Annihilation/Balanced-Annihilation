@@ -5,7 +5,7 @@
 
 piece  base, extractor;
 
-static-var  Static_Var_1, statechg_DesiredState, statechg_StateChanging;
+static-var  RotateSpeed, statechg_DesiredState, statechg_StateChanging;
 
 
 SmokeUnit(healthpercent, sleeptime, smoketype)
@@ -37,12 +37,12 @@ SmokeUnit(healthpercent, sleeptime, smoketype)
 
 fixGo()
 {
-	spin extractor around y-axis speed <300> accelerate <1>;
+	spin extractor around y-axis speed RotateSpeed accelerate <0.500000>;
 }
 
 Stop()
 {
-	stop-spin extractor around y-axis decelerate <1>;
+	stop-spin extractor around y-axis decelerate <1.000000>;
 	wait-for-turn extractor around y-axis;
 }
 
@@ -78,18 +78,19 @@ RequestState(requestedstate, currentstate)
 	statechg_StateChanging = FALSE;
 }
 
+Activate()
+{
+	start-script RequestState(0);
+}
+
 Create()
 {
 	dont-shade extractor;
 	dont-cache extractor;
-	Static_Var_1 = 500;
+	RotateSpeed = 500;
 	call-script InitState();
 	start-script SmokeUnit();
-}
-
-Activate()
-{
-	start-script RequestState(0);
+	start-script Activate();	//Morph fix
 }
 
 Deactivate()
@@ -99,7 +100,8 @@ Deactivate()
 
 SetSpeed(Func_Var_1)
 {
-	Static_Var_1 = Func_Var_1 * 10;
+	RotateSpeed = Func_Var_1 * 15; //*10
+	//RotateSpeed = 500;
 }
 
 SweetSpot(piecenum)
@@ -112,25 +114,26 @@ Killed(severity, corpsetype)
 	if( severity <= 25 )
 	{
 		corpsetype = 1;
-		explode base type SHATTER | NOHEATCLOUD;
+		explode extractor type BITMAPONLY | BITMAP1;
+		explode base type BITMAPONLY | BITMAP2;
 		return (corpsetype);
 	}
 	if( severity <= 50 )
 	{
 		corpsetype = 2;
-		explode extractor type SHATTER | BITMAP1 | NOHEATCLOUD;
-		explode base type SHATTER | NOHEATCLOUD;
+		explode extractor type SHATTER | BITMAP1;
+		explode base type BITMAPONLY | BITMAP2;
 		return (corpsetype);
 	}
 	if( severity <= 99 )
 	{
 		corpsetype = 3;
-		explode extractor type SHATTER | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-		explode base type SHATTER | NOHEATCLOUD;
+		explode extractor type SHATTER | EXPLODE_ON_HIT | BITMAP1;
+		explode base type BITMAPONLY | BITMAP2;
 		return (corpsetype);
 	}
 	corpsetype = 3;
-	explode extractor type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-	explode base type SHATTER | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
+	explode extractor type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
+	explode base type SHATTER | EXPLODE_ON_HIT | BITMAP2;
 	return corpsetype;
 }

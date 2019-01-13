@@ -4,15 +4,14 @@
 #include "exptype.h"
 
 piece  base, turret, barrel1, flare1, barrel2, flare2, cannon1, cannon2,
-       wake1, wake2, foreturret, foregun, forecannon, foreflare, aftturret, aftcannon, aftgun, aftflare, foregun2, forecannon2, foreflare2, aftcannon2, aftgun2, aftflare2, ground;
+       wake1, wake2, foreturret, foregun, foreflare, aftturret, aftgun, aftflare, ground;
 
-static-var  gun_1, restore_delay, gun_2, Static_Var_7, Static_Var_8, aimDir, oldHead, aft_gun, fore_gun;
+static-var  gun_1, restore_delay, gun_2, Static_Var_7, Static_Var_8, aimDir, oldHead;
 
 // Signal definitions
-#define SIG_AIM_3			2
-#define SIG_AIM_2			4
-#define SIG_AIM				8
-#define SIG_MOVE			16
+#define SIG_AIM_2			2
+#define SIG_AIM				4
+#define SIG_MOVE			8
 
 
 SetDirection(heading)
@@ -69,8 +68,8 @@ ProjXPW(Func_Var_1, Func_Var_2)
 
 RockZ(Func_Var_1, Func_Var_2)
 {
-	signal 32;
-	set-signal-mask 32;
+	signal 16;
+	set-signal-mask 16;
 	call-script ProjXPW(10920 / Func_Var_2,Func_Var_1);
 	Static_Var_8 = Static_Var_8 + Static_Var_7;
 	Static_Var_7 = get ABS(Static_Var_8);
@@ -118,8 +117,6 @@ Create()
 	hide flare2;
 	hide foreflare;
 	hide aftflare;
-	aft_gun = 1;
-	fore_gun = 1;
 	gun_1 = base;
 	gun_2 = base;
 	restore_delay = 3000;
@@ -190,134 +187,83 @@ AimSecondary(heading, pitch)
 {
 	signal SIG_AIM_2;
 	set-signal-mask SIG_AIM_2;
-		if (aft_gun == 1)
-			{
-			turn aftturret to y-axis heading speed <300.000000>;
-			turn aftgun to x-axis <0.000000> - pitch speed <200.000000>;
-			wait-for-turn aftturret around y-axis;
-			wait-for-turn aftgun around x-axis;
-			start-script RestoreDeckLaser();
-			return (1);
-			}
-		else
-			{
-			turn aftturret to y-axis heading speed <300.000000>;
-			turn aftgun2 to x-axis <0.000000> - pitch speed <200.000000>;
-			wait-for-turn aftturret around y-axis;
-			wait-for-turn aftgun2 around x-axis;
-			start-script RestoreDeckLaser();
-			return (1);
-			}
+	if( gun_2 )
+	{
+		turn aftturret to y-axis heading speed <300.000000>;
+		turn aftgun to x-axis <0.000000> - pitch speed <200.000000>;
+		wait-for-turn aftturret around y-axis;
+		wait-for-turn aftgun around x-axis;
+		start-script RestoreDeckLaser();
+		return (1);
+	}
+	else
+	{
+		turn foreturret to y-axis heading speed <300.000000>;
+		turn foregun to x-axis <0.000000> - pitch speed <200.000000>;
+		wait-for-turn foreturret around y-axis;
+		wait-for-turn foregun around x-axis;
+		start-script RestoreDeckLaser();
+		return (1);
+	}
 }
 
 FireSecondary()
 {
-
-			if (aft_gun == 2)
-			{
-				move aftcannon to z-axis [-2] now;
-				move aftcannon to z-axis [0] speed [50];
-				aft_gun = 1;
-			}
-			else
-			{
-				move aftcannon2 to z-axis [-2] now;
-				move aftcannon2 to z-axis [0] speed [50];
-				aft_gun = 2;
-			}
+	if( gun_2 )
+	{
+		show aftflare;
+		sleep 150;
+		hide aftflare;
+	}
+	else
+	{
+		show foreflare;
+		sleep 150;
+		hide foreflare;
+	}
+	gun_2 = !gun_2;
 }
 
 AimFromSecondary(piecenum)
 {
-		piecenum = aftturret;
+	if( gun_2 )
+	{
+		piecenum = aftgun;
+	}
+	else
+	{
+		piecenum = foregun;
+	}
 }
 
 QuerySecondary(piecenum)
 {
-	if (aft_gun == 1)
-		{
+	if( gun_2 )
+	{
 		piecenum = aftflare;
-		}
-		else
-		{
-		piecenum = aftflare2;
-		}
+	}
+	else
+	{
+		piecenum = foreflare;
+	}
 }
 
 AimTertiary(heading, pitch)
 {
-	signal SIG_AIM_3;
-	set-signal-mask SIG_AIM_3;
-		if (fore_gun == 1)
-			{
-			turn foreturret to y-axis heading speed <300.000000>;
-			turn foregun to x-axis <0.000000> - pitch speed <200.000000>;
-			wait-for-turn foreturret around y-axis;
-			wait-for-turn foregun around x-axis;
-			start-script RestoreDeckLaser();
-			return (1);
-			}
-		else
-			{
-			turn foreturret to y-axis heading speed <300.000000>;
-			turn foregun2 to x-axis <0.000000> - pitch speed <200.000000>;
-			wait-for-turn foreturret around y-axis;
-			wait-for-turn foregun2 around x-axis;
-			start-script RestoreDeckLaser();
-			return (1);
-			}
+	return (1);
 }
 
 FireTertiary()
 {
-
-			if (fore_gun == 2)
-			{
-				move forecannon to z-axis [-2] now;
-				move forecannon to z-axis [0] speed [50];
-				fore_gun = 1;
-			}
-			else
-			{
-				move forecannon2 to z-axis [-2] now;
-				move forecannon2 to z-axis [0] speed [50];
-				fore_gun = 2;
-			}
+	sleep 150;
 }
 
 AimFromTertiary(piecenum)
 {
-		piecenum = foreturret;
-}
-
-QueryTertiary(piecenum)
-{
-	if (fore_gun == 1)
-		{
-		piecenum = foreflare;
-		}
-		else
-		{
-		piecenum = foreflare2;
-		}
-}
-
-AimWeapon4(heading, pitch)
-{
-	return (1);
-}
-
-FireWeapon4()
-{
-	sleep 150;
-}
-
-AimFromWeapon4(piecenum)
-{
 	piecenum = base;
 }
 
-QueryWeapon4(piecenum)
+QueryTertiary(piecenum)
 {
 	piecenum = base;
 }
@@ -339,24 +285,28 @@ AimPrimary(heading, pitch)
 
 FirePrimary()
 {
-	start-script RockZ(-5, aimDir);
+	start-script RockZ(-7, aimDir);
 	if( gun_1 )
 	{
-		emit-sfx 1024 + 0 from flare2;
+		show flare2;
 		move barrel2 to z-axis [-2.300000] now;
-		move barrel2 to z-axis [0.000000] speed [2.50000];
+		sleep 150;
+		hide flare2;
+		move barrel2 to z-axis [0.000000] speed [1.500000];
 	}
 	else
 	{
-		emit-sfx 1024 + 0 from flare1;
+		show flare1;
 		move barrel1 to z-axis [-2.300000] now;
-		move barrel1 to z-axis [0.000000] speed [2.500000];
+		sleep 150;
+		hide flare1;
+		move barrel1 to z-axis [0.000000] speed [1.500000];
 	}
+	gun_1 = !gun_1;
 }
 
 AimFromPrimary(piecenum)
 {
-	gun_1 = !gun_1;
 	piecenum = turret;
 }
 
@@ -386,34 +336,43 @@ Killed(severity, corpsetype)
 	if( severity <= 25 )
 	{
 		corpsetype = 1;
-		//explode base type FALL | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
+		explode barrel1 type BITMAPONLY | BITMAP1;
+		explode barrel2 type BITMAPONLY | BITMAP1;
+		explode base type BITMAPONLY | BITMAP3;
+		explode turret type BITMAPONLY | BITMAP1;
+		explode foreturret type BITMAPONLY | BITMAP2;
+		explode aftturret type BITMAPONLY | BITMAP1;
+		explode foregun type BITMAPONLY | BITMAP3;
+		explode aftgun type BITMAPONLY | BITMAP1;
+		explode wake1 type BITMAPONLY | BITMAP2;
+		explode wake2 type BITMAPONLY | BITMAP3;
 		return (corpsetype);
 	}
 	if( severity <= 50 )
 	{
 		corpsetype = 2;
-		explode barrel1 type FALL | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-		explode barrel2 type FALL | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-		//explode base type FALL | NOHEATCLOUD;
-		//explode turret type FALL | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-		//explode foreturret type FALL | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
-		//explode aftturret type FALL | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-		explode foregun type FALL | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-		explode aftgun type FALL | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
-		explode wake1 type FALL | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
-		explode wake2 type FALL | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
+		explode barrel1 type FALL | EXPLODE_ON_HIT | BITMAP1;
+		explode barrel2 type FALL | EXPLODE_ON_HIT | BITMAP1;
+		explode base type BITMAPONLY | BITMAP3;
+		explode turret type SHATTER | EXPLODE_ON_HIT | BITMAP1;
+		explode foreturret type SHATTER | EXPLODE_ON_HIT | BITMAP2;
+		explode aftturret type SHATTER | EXPLODE_ON_HIT | BITMAP1;
+		explode foregun type FALL | EXPLODE_ON_HIT | BITMAP3;
+		explode aftgun type FALL | EXPLODE_ON_HIT | BITMAP2;
+		explode wake1 type FALL | EXPLODE_ON_HIT | BITMAP2;
+		explode wake2 type FALL | EXPLODE_ON_HIT | BITMAP3;
 		return (corpsetype);
 	}
 	corpsetype = 3;
-	explode barrel1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-	explode barrel2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-	//explode base type FALL | NOHEATCLOUD;
-	//explode turret type FALL | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-	//explode foreturret type FALL | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
-	//explode aftturret type FALL | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-	explode foregun type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-	explode aftgun type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-	explode wake1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
-	explode wake2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
+	explode barrel1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
+	explode barrel2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
+	explode base type BITMAPONLY | BITMAP3;
+	explode turret type SHATTER | EXPLODE_ON_HIT | BITMAP1;
+	explode foreturret type SHATTER | EXPLODE_ON_HIT | BITMAP2;
+	explode aftturret type SHATTER | EXPLODE_ON_HIT | BITMAP1;
+	explode foregun type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
+	explode aftgun type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
+	explode wake1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2;
+	explode wake2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
 	return corpsetype;
 }

@@ -14,7 +14,7 @@ static-var  Static_Var_1, restore_delay, Static_Var_3, Static_Var_4, Static_Var_
 
 SmokeUnit(healthpercent, sleeptime, smoketype)
 {
-	while( get BUILD_PERCENT_LEFT ) 
+	while( get BUILD_PERCENT_LEFT )
 	{
 		sleep 400;
 	}
@@ -39,32 +39,116 @@ SmokeUnit(healthpercent, sleeptime, smoketype)
 	}
 }
 
-Go()
+fixGo()
 {
+	spin arms around y-axis speed Static_Var_3 accelerate Static_Var_4;
+	spin ear1 around x-axis speed Static_Var_3 accelerate Static_Var_4;
+	spin ear2 around x-axis speed Static_Var_3 accelerate Static_Var_4;
 }
 
 Stop()
 {
+	stop-spin arms around y-axis decelerate Static_Var_5;
+	stop-spin ear1 around x-axis decelerate Static_Var_5;
+	stop-spin ear2 around x-axis decelerate Static_Var_5;
+}
+
+InitState()
+{
+	statechg_DesiredState = TRUE;
+	statechg_StateChanging = FALSE;
+}
+
+RequestState(requestedstate, currentstate)
+{
+	if( statechg_StateChanging )
+	{
+		statechg_DesiredState = requestedstate;
+		return (0);
+	}
+	statechg_StateChanging = TRUE;
+	currentstate = statechg_DesiredState;
+	statechg_DesiredState = requestedstate;
+	while( statechg_DesiredState != currentstate )
+	{
+		if( statechg_DesiredState == 0 )
+		{
+			call-script fixGo();
+			currentstate = 0;
+		}
+		if( statechg_DesiredState == 1 )
+		{
+			call-script Stop();
+			currentstate = 1;
+		}
+	}
+	statechg_StateChanging = FALSE;
 }
 
 Create()
 {
+	Static_Var_3 = 0;
+	Static_Var_4 = 91;
+	Static_Var_5 = 182;
+	Static_Var_7 = 0;
+	Static_Var_8 = 0;
 	gun_1 = base;
+	Static_Var_1 = 1;
 	hide flare1;
 	hide flare2;
-	spin arms around y-axis speed <-100> accelerate <1>;
-	spin ear1 around x-axis speed <50> accelerate <1>;
-	spin ear2 around x-axis speed <50> accelerate <1>;
+	dont-cache arms;
+	dont-cache ear1;
+	dont-cache ear2;
+	dont-cache turret;
+	dont-cache sleeve;
+	dont-cache flare1;
+	dont-cache flare2;
+	dont-shade flare1;
+	dont-shade flare2;
+	call-script InitState();
 	start-script SmokeUnit();
 }
 
+Activate()
+{
+	start-script RequestState(0);
+}
+
+Deactivate()
+{
+	start-script RequestState(1);
+}
+
+SetMaxReloadTime(Func_Var_1)
+{
+	restore_delay = Func_Var_1 * 8;
+}
+
+RestoreAfterDelay()
+{
+	sleep restore_delay;
+	set-signal-mask 0;
+	start-script RequestState(1);
+}
+
+SetSpeed(Func_Var_1)
+{
+	Static_Var_3 = Func_Var_1 * 45;
+	Static_Var_7 = Func_Var_1 * 400;
+	Static_Var_8 = Func_Var_1 * 400;
+}
+
+SweetSpot(piecenum)
+{
+	piecenum = base;
+}
 
 AimPrimary(heading, pitch)
 {
 	signal SIG_AIM;
 	set-signal-mask SIG_AIM;
-	turn turret to y-axis heading speed <300>;
-	turn sleeve to x-axis <0.000000> - pitch speed <100>;
+	turn turret to y-axis heading speed Static_Var_7;
+	turn sleeve to x-axis <0.000000> - pitch speed Static_Var_8;
 	wait-for-turn turret around y-axis;
 	wait-for-turn sleeve around x-axis;
 	return (1);
@@ -115,36 +199,42 @@ Killed(severity, corpsetype)
 	if( severity <= 25 )
 	{
 		corpsetype = 1;
-		explode base type SHATTER | NOHEATCLOUD;
+		explode arms type BITMAPONLY | BITMAP1;
+		explode ear1 type BITMAPONLY | BITMAP2;
+		explode ear2 type BITMAPONLY | BITMAP1;
+		explode base type BITMAPONLY | BITMAP2;
+		explode turret type BITMAPONLY | BITMAP2;
+		explode sleeve type BITMAPONLY | BITMAP2;
 		return (corpsetype);
 	}
 	if( severity <= 50 )
 	{
 		corpsetype = 2;
-		explode arms type SHATTER | BITMAP2 | NOHEATCLOUD;
-		explode ear1 type FALL | BITMAP3 | NOHEATCLOUD;
-		explode ear2 type FALL | BITMAP2 | NOHEATCLOUD;
-		explode base type SHATTER | NOHEATCLOUD;
-		explode sleeve type FALL | BITMAP2 | NOHEATCLOUD;
+		explode arms type SHATTER | BITMAP2;
+		explode ear1 type FALL | BITMAP3;
+		explode ear2 type FALL | BITMAP2;
+		explode base type BITMAPONLY | BITMAP3;
+		explode turret type BITMAPONLY | BITMAP2;
+		explode sleeve type FALL | BITMAP2;
 		return (corpsetype);
 	}
 	if( severity <= 99 )
 	{
 		corpsetype = 3;
-		explode arms type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-		explode ear1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
-		explode ear2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-		explode base type SHATTER | NOHEATCLOUD;
-		explode turret type SHATTER | BITMAP3 | NOHEATCLOUD;
-		explode sleeve type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
+		explode arms type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
+		explode ear1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2;
+		explode ear2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
+		explode base type BITMAPONLY | BITMAP2;
+		explode turret type SHATTER | BITMAP3;
+		explode sleeve type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
 		return (corpsetype);
 	}
 	corpsetype = 3;
-	explode arms type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-	explode ear1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
-	explode ear2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-	explode base type SHATTER | NOHEATCLOUD;
-	explode turret type SHATTER | BITMAP3 | NOHEATCLOUD;
-	explode sleeve type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
+	explode arms type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
+	explode ear1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2;
+	explode ear2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
+	explode base type BITMAPONLY | BITMAP2;
+	explode turret type SHATTER | BITMAP3;
+	explode sleeve type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
 	return corpsetype;
 }

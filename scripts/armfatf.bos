@@ -6,22 +6,8 @@
 piece  base, floater1, floater2, floater3, floater4, arml, lightl, armt,
        lightt, armr, lightr, armb, lightb, dome, centerlight;
 
-static-var  statechg_DesiredState, statechg_StateChanging, rockframe, Xrot, Zrot, Ymove;
-RockOnWaves()
-{
-rockframe = 1;
-while ( TRUE )
-{
-	Xrot = (get KCOS (rockframe * 690)) * 360 / 1024 ;
-	Ymove = (get KSIN (rockframe * 650)) * 2;
-	Zrot = (get KSIN (rockframe * 560)) * 360 / 1024;
-	turn base to x-axis Xrot now;
-	turn base to z-axis Zrot now;
-	move base to y-axis Ymove now;
-	rockframe = rockframe + 1;
-	sleep 1;
-}
-}
+static-var  statechg_DesiredState, statechg_StateChanging;
+
 
 activatescr()
 {
@@ -140,7 +126,6 @@ Create()
 {
 	call-script InitState();
 	start-script SmokeUnit();
-	start-script RockOnWaves();
 	return (0);
 }
 
@@ -167,55 +152,78 @@ Killed(severity, corpsetype)
 	if( severity <= 25 )
 	{
 		corpsetype = 1;
-		//explode base type NOHEATCLOUD;
+		explode base type BITMAPONLY | BITMAP5;
+		explode floater1 type BITMAPONLY | BITMAP2;
+		explode floater2 type BITMAPONLY | BITMAP3;
+		explode floater3 type BITMAPONLY | BITMAP4;
+		explode floater4 type BITMAPONLY | BITMAP5;
+		explode centerlight type BITMAPONLY | BITMAP2;
+		explode dome type BITMAPONLY | BITMAP2;
+		explode lightl type BITMAPONLY | BITMAP3;
+		explode lightr type BITMAPONLY | BITMAP4;
+		explode lightt type BITMAPONLY | BITMAP5;
+		explode lightb type BITMAPONLY | BITMAP1;
+		explode arml type BITMAPONLY | BITMAP2;
+		explode armr type BITMAPONLY | BITMAP3;
+		explode armt type BITMAPONLY | BITMAP4;
+		explode armb type BITMAPONLY | BITMAP5;
 		return (corpsetype);
 	}
 	if( severity <= 50 )
 	{
 		corpsetype = 2;
-		//explode base type NOHEATCLOUD;
-		explode floater1 type BITMAP2 | NOHEATCLOUD;
-		explode floater2 type BITMAP3 | NOHEATCLOUD;
-		explode floater3 type BITMAP4 | NOHEATCLOUD;
-		explode floater4 type BITMAP5 | NOHEATCLOUD;
-		explode centerlight type BITMAP2 | NOHEATCLOUD;
-		explode dome type BITMAP2 | NOHEATCLOUD;
-		explode lightl type BITMAP3 | NOHEATCLOUD;
-		explode lightr type BITMAP4 | NOHEATCLOUD;
-		explode lightt type BITMAP5 | NOHEATCLOUD;
-		explode lightb type BITMAP1 | NOHEATCLOUD;
-		explode arml type BITMAP2 | NOHEATCLOUD;
+		explode base type BITMAPONLY | BITMAP5;
+		explode floater1 type FALL | BITMAP2;
+		explode floater2 type FALL | BITMAP3;
+		explode floater3 type FALL | BITMAP4;
+		explode floater4 type FALL | BITMAP5;
+		explode centerlight type FALL | BITMAP2;
+		explode dome type FALL | BITMAP2;
+		explode lightl type FALL | BITMAP3;
+		explode lightr type FALL | BITMAP4;
+		explode lightt type FALL | BITMAP5;
+		explode lightb type FALL | BITMAP1;
+		explode arml type SHATTER | BITMAP2;
+		explode armr type BITMAPONLY | BITMAP3;
+		explode armt type BITMAPONLY | BITMAP4;
+		explode armb type BITMAPONLY | BITMAP5;
 		return (corpsetype);
 	}
 	if( severity <= 99 )
 	{
 		corpsetype = 3;
-		//explode base type NOHEATCLOUD;
-		explode floater1 type FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
-		explode floater2 type FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-		explode floater3 type FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP4 | NOHEATCLOUD;
-		explode floater4 type FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP5 | NOHEATCLOUD;
-		explode centerlight type FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
-		explode dome type FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
-		explode lightl type FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-		explode lightr type FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP4 | NOHEATCLOUD;
-		explode lightt type FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP5 | NOHEATCLOUD;
-		explode lightb type FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-		explode arml type BITMAP2 | NOHEATCLOUD;
+		explode base type BITMAPONLY | BITMAP5;
+		explode floater1 type FALL | FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP2;
+		explode floater2 type FALL | FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP3;
+		explode floater3 type FALL | FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP4;
+		explode floater4 type FALL | FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP5;
+		explode centerlight type FALL | FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP2;
+		explode dome type FALL | FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP2;
+		explode lightl type FALL | FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP3;
+		explode lightr type FALL | FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP4;
+		explode lightt type FALL | FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP5;
+		explode lightb type FALL | FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP1;
+		explode arml type SHATTER | BITMAP2;
+		explode armr type BITMAPONLY | BITMAP3;
+		explode armt type BITMAPONLY | BITMAP4;
+		explode armb type BITMAPONLY | BITMAP5;
 		return (corpsetype);
 	}
 	corpsetype = 3;
-	//explode base type NOHEATCLOUD;
-	explode floater1 type FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
-	explode floater2 type FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-	explode floater3 type FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP4 | NOHEATCLOUD;
-	explode floater4 type FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP5 | NOHEATCLOUD;
-	explode centerlight type FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
-	explode dome type FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
-	explode lightl type FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-	explode lightr type FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP4 | NOHEATCLOUD;
-	explode lightt type FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP5 | NOHEATCLOUD;
-	explode lightb type FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-	explode arml type BITMAP2 | NOHEATCLOUD;
+	explode base type BITMAPONLY | BITMAP5;
+	explode floater1 type FALL | FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP2;
+	explode floater2 type FALL | FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP3;
+	explode floater3 type FALL | FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP4;
+	explode floater4 type FALL | FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP5;
+	explode centerlight type FALL | FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP2;
+	explode dome type FALL | FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP2;
+	explode lightl type FALL | FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP3;
+	explode lightr type FALL | FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP4;
+	explode lightt type FALL | FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP5;
+	explode lightb type FALL | FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP1;
+	explode arml type SHATTER | BITMAP2;
+	explode armr type BITMAPONLY | BITMAP3;
+	explode armt type BITMAPONLY | BITMAP4;
+	explode armb type BITMAPONLY | BITMAP5;
 	return (corpsetype);
 }

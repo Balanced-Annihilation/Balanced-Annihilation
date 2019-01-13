@@ -4,10 +4,12 @@
 #include "exptype.h"
 
 piece  base, Left_Back_Leg, Left_Back_Foot, Right_Back_Leg, Righ_Back_Foot, Left_Front_Leg, Left_Front_Foot, Right_Front_Leg,
-       Right_Front_Foot, Hump, Tail;
+       Right_Front_Foot, Hump, Firepoint, Tail;
 
-static-var  bMoving;
+static-var  bMoving, restore_delay;
 
+// Signal definitions
+#define SIG_AIM				4
 
 MotionControl()
 {
@@ -40,6 +42,7 @@ MotionControl()
 Create()
 {
 	bMoving = FALSE;
+	restore_delay = 2100;
 	start-script MotionControl();
 }
 
@@ -63,59 +66,83 @@ StopMoving()
 	sleep 150;
 }
 
-AimWeapon1()
+//AimPrimary(heading, pitch)
+//{
+//	return (1);
+//}
+
+RestoreAfterDelay()
 {
-	return (TRUE);
+	sleep restore_delay;
+	set-signal-mask 0;
+	turn Hump to y-axis <0.000000> speed <1600.000000>;
+	turn Hump to x-axis <0.000000> speed <1600.000000>;	
+	wait-for-turn Hump around y-axis;
+	wait-for-turn Hump around x-axis;
+	return (1);
 }
 
-AimWeapon2()
+AimPrimary(heading, pitch)
 {
-	return (TRUE);
+	signal SIG_AIM;
+	set-signal-mask SIG_AIM;
+	turn Hump to y-axis heading speed <2500.000000>;
+	turn Hump to x-axis heading speed <2500.000000>;
+	wait-for-turn Hump around y-axis;
+	wait-for-turn Hump around x-axis;	
+	start-script RestoreAfterDelay();	
+	return (1);
 }
 
-QueryWeapon1(piecenum)
+QueryPrimary(piecenum)
 {
-	piecenum = base;
+	piecenum = Hump; //Firepoint;
+	return (0);
 }
 
-AimFromWeapon1(piecenum)
-{
-	piecenum = base;
-}
+//AimFromWeapon1(piecenum)
+//{
+//	piecenum = Hump;
+//}
 
-QueryWeapon2(piecenum)
-{
-	piecenum = base;
-}
+//QueryWeapon1(piecenum)
+//{
+//	piecenum = base;
+//}
 
-AimFromWeapon2(piecenum)
-{
-	piecenum = base;
-}
+//AimFromWeapon1(piecenum)
+//{
+//	piecenum = base;
+//}
 
-FireWeapon2()
-{
-}
+//QueryWeapon2(piecenum)
+//{
+//	piecenum = base;
+//}
 
-SweetSpot(piecenum)
-{
-	piecenum = base;
-}
+//AimFromWeapon2(piecenum)
+//{
+//	piecenum = base;
+//}
+
+//FireWeapon2()
+//{
+//}
 
 Killed(severity, corpsetype)
 {
 	corpsetype = 3;
-	explode base type SHATTER | NOHEATCLOUD;
-	explode Left_Back_Leg type SHATTER | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
-	explode Left_Back_Foot type SHATTER | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-	explode Right_Back_Leg type SHATTER | EXPLODE_ON_HIT | BITMAP4 | NOHEATCLOUD;
-	explode Righ_Back_Foot type SHATTER | EXPLODE_ON_HIT | BITMAP5 | NOHEATCLOUD;
-	explode Left_Front_Leg type SHATTER | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
-	explode Left_Front_Foot type SHATTER | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-	explode Right_Front_Foot type SHATTER | EXPLODE_ON_HIT | BITMAP4 | NOHEATCLOUD;
-	explode Right_Front_Leg type SHATTER | EXPLODE_ON_HIT | BITMAP5 | NOHEATCLOUD;
-	explode Tail type FALL | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
-	explode Hump type FALL | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
+	explode base type BITMAPONLY | BITMAP1;
+	explode Left_Back_Leg type SHATTER | EXPLODE_ON_HIT | BITMAP2;
+	explode Left_Back_Foot type SHATTER | EXPLODE_ON_HIT | BITMAP3;
+	explode Right_Back_Leg type SHATTER | EXPLODE_ON_HIT | BITMAP4;
+	explode Righ_Back_Foot type SHATTER | EXPLODE_ON_HIT | BITMAP5;
+	explode Left_Front_Leg type SHATTER | EXPLODE_ON_HIT | BITMAP2;
+	explode Left_Front_Foot type SHATTER | EXPLODE_ON_HIT | BITMAP3;
+	explode Right_Front_Foot type SHATTER | EXPLODE_ON_HIT | BITMAP4;
+	explode Right_Front_Leg type SHATTER | EXPLODE_ON_HIT | BITMAP5;
+	explode Tail type FALL | EXPLODE_ON_HIT | BITMAP2;
+	explode Hump type FALL | EXPLODE_ON_HIT | BITMAP2;
 	return (corpsetype);
 }
 
@@ -127,7 +154,7 @@ Stop()
 {
 }
 
-FireWeapon1()
-{
-	emit-sfx 4096 + 1 from base; //Weapon2 detonates the crawling bomb once weapon1 fires
-}
+//FireWeapon1()
+//{
+	//emit-sfx 4096 + 1 from base; //Weapon2 detonates the crawling bomb once weapon1 fires
+//}

@@ -148,8 +148,8 @@ AimPrimary(heading, pitch)
 {
 	signal SIG_AIM;
 	set-signal-mask SIG_AIM;
-	turn turret1 to y-axis heading speed <80.000000>;
-	turn turret1 to x-axis <0.000000> - pitch speed <45.000000>;
+	turn turret1 to y-axis heading speed <55.000000>;
+	turn turret1 to x-axis <0.000000> - pitch speed <30.000000>;
 	wait-for-turn turret1 around y-axis;
 	wait-for-turn turret1 around x-axis;
 	while( gun_1 )
@@ -168,8 +168,8 @@ AimSecondary(heading, pitch)
 {
 	signal SIG_AIM_2;
 	set-signal-mask SIG_AIM_2;
-	turn turret2 to y-axis heading speed <80.000000>;
-	turn turret2 to x-axis <0.000000> - pitch speed <45.000000>;
+	turn turret2 to y-axis heading speed <55.000000>;
+	turn turret2 to x-axis <0.000000> - pitch speed <30.000000>;
 	wait-for-turn turret2 around y-axis;
 	wait-for-turn turret2 around x-axis;
 	while( gun_2 )
@@ -188,24 +188,27 @@ FirePrimary()
 {
 	if( bAiming == 1 )
 	{
-		emit-sfx 1024 + 0 from flare1a;
+		show flare1a;
 		move barrel1a to z-axis [-2.500000] now;
 		sleep 150;
+		hide flare1a;
 		move barrel1a to z-axis [0.000000] speed [1.000000];
 	}
 	if( bAiming == 2 )
 	{
-		emit-sfx 1024 + 0 from flare1b;
+		show flare1b;
 		move barrel1b to z-axis [-2.500000] now;
 		sleep 150;
+		hide flare1b;
 		move barrel1b to z-axis [0.000000] speed [1.000000];
 	}
 	if( bAiming == 3 )
 	{
 		gun_1 = flare1b;
-		emit-sfx 1024 + 0 from flare1c;
+		show flare1c;
 		move barrel1c to z-axis [-2.500000] now;
 		sleep 150;
+		hide flare1c;
 		move barrel1c to z-axis [0.000000] speed [1.000000];
 	}
 	++bAiming;
@@ -215,24 +218,27 @@ FireSecondary()
 {
 	if( Static_Var_2 == 1 )
 	{
-		emit-sfx 1024 + 0 from flare2a;
+		show flare2a;
 		move barrel2a to z-axis [-2.500000] now;
 		sleep 150;
+		hide flare2a;
 		move barrel2a to z-axis [0.000000] speed [1.000000];
 	}
 	if( Static_Var_2 == 2 )
 	{
-		emit-sfx 1024 + 0 from flare2b;
+		show flare2b;
 		move barrel2b to z-axis [-2.500000] now;
 		sleep 150;
+		hide flare2b;
 		move barrel2b to z-axis [0.000000] speed [1.000000];
 	}
 	if( Static_Var_2 == 3 )
 	{
 		gun_2 = flare1b;
-		emit-sfx 1024 + 0 from flare2c;
+		show flare2c;
 		move barrel2c to z-axis [-2.500000] now;
 		sleep 150;
+		hide flare2c;
 		move barrel2c to z-axis [0.000000] speed [1.000000];
 	}
 	++Static_Var_2;
@@ -296,46 +302,64 @@ Killed(severity, corpsetype)
 	if( severity <= 25 )
 	{
 		corpsetype = 1;
-		//explode base type NOHEATCLOUD;
+		explode barrel1a type BITMAPONLY | BITMAP1;
+		explode barrel1b type BITMAPONLY | BITMAP2;
+		explode barrel1c type BITMAPONLY | BITMAP3;
+		explode barrel2a type BITMAPONLY | BITMAP4;
+		explode barrel2b type BITMAPONLY | BITMAP5;
+		explode barrel2c type BITMAPONLY | BITMAP1;
+		explode base type BITMAPONLY | BITMAP2;
+		explode flare1a type BITMAPONLY | BITMAP3;
+		explode flare1b type BITMAPONLY | BITMAP4;
+		explode flare1c type BITMAPONLY | BITMAP5;
+		explode flare2a type BITMAPONLY | BITMAP1;
+		explode flare2b type BITMAPONLY | BITMAP2;
+		explode flare2c type BITMAPONLY | BITMAP3;
+		explode turret1 type BITMAPONLY | BITMAP4;
+		explode turret2 type BITMAPONLY | BITMAP5;
+		explode wake1 type BITMAPONLY | BITMAP1;
+		explode wake2 type BITMAPONLY | BITMAP2;
 		return (corpsetype);
 	}
 	if( severity <= 50 )
 	{
 		corpsetype = 2;
-		explode barrel1a type EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-		explode barrel1b type EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
-		explode barrel1c type EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-		explode barrel2a type EXPLODE_ON_HIT | BITMAP4 | NOHEATCLOUD;
-		explode barrel2b type EXPLODE_ON_HIT | BITMAP5 | NOHEATCLOUD;
-		explode barrel2c type EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-		//explode base type NOHEATCLOUD;
-		explode flare1a type EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-		explode flare1b type EXPLODE_ON_HIT | BITMAP4 | NOHEATCLOUD;
-		explode flare1c type EXPLODE_ON_HIT | BITMAP5 | NOHEATCLOUD;
-		explode flare2a type EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-		explode flare2b type EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
-		explode flare2c type EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-		explode turret2 type BITMAP5 | NOHEATCLOUD;
-		explode wake1 type EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-		explode wake2 type EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
+		explode barrel1a type FALL | EXPLODE_ON_HIT | BITMAP1;
+		explode barrel1b type FALL | EXPLODE_ON_HIT | BITMAP2;
+		explode barrel1c type FALL | EXPLODE_ON_HIT | BITMAP3;
+		explode barrel2a type FALL | EXPLODE_ON_HIT | BITMAP4;
+		explode barrel2b type FALL | EXPLODE_ON_HIT | BITMAP5;
+		explode barrel2c type FALL | EXPLODE_ON_HIT | BITMAP1;
+		explode base type BITMAPONLY | BITMAP2;
+		explode flare1a type FALL | EXPLODE_ON_HIT | BITMAP3;
+		explode flare1b type FALL | EXPLODE_ON_HIT | BITMAP4;
+		explode flare1c type FALL | EXPLODE_ON_HIT | BITMAP5;
+		explode flare2a type FALL | EXPLODE_ON_HIT | BITMAP1;
+		explode flare2b type FALL | EXPLODE_ON_HIT | BITMAP2;
+		explode flare2c type FALL | EXPLODE_ON_HIT | BITMAP3;
+		explode turret1 type BITMAPONLY | BITMAP4;
+		explode turret2 type SHATTER | BITMAP5;
+		explode wake1 type FALL | EXPLODE_ON_HIT | BITMAP1;
+		explode wake2 type FALL | EXPLODE_ON_HIT | BITMAP2;
 		return (corpsetype);
 	}
 	corpsetype = 3;
-	explode barrel1a type SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-	explode barrel1b type SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
-	explode barrel1c type SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-	explode barrel2a type SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP4 | NOHEATCLOUD;
-	explode barrel2b type SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP5 | NOHEATCLOUD;
-	explode barrel2c type SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-	//explode base type NOHEATCLOUD;
-	explode flare1a type SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-	explode flare1b type SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP4 | NOHEATCLOUD;
-	explode flare1c type SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP5 | NOHEATCLOUD;
-	explode flare2a type SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-	explode flare2b type SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
-	explode flare2c type SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
-	explode turret2 type EXPLODE_ON_HIT | BITMAP5 | NOHEATCLOUD;
-	explode wake1 type SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-	explode wake2 type SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
+	explode barrel1a type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
+	explode barrel1b type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2;
+	explode barrel1c type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
+	explode barrel2a type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP4;
+	explode barrel2b type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP5;
+	explode barrel2c type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
+	explode base type BITMAPONLY | BITMAP2;
+	explode flare1a type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
+	explode flare1b type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP4;
+	explode flare1c type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP5;
+	explode flare2a type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
+	explode flare2b type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2;
+	explode flare2c type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
+	explode turret1 type BITMAPONLY | BITMAP4;
+	explode turret2 type SHATTER | EXPLODE_ON_HIT | BITMAP5;
+	explode wake1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
+	explode wake2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2;
 	return corpsetype;
 }
