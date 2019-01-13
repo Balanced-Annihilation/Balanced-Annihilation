@@ -7,14 +7,14 @@
     },
     "game" : "generic",
 
-    "games" : ["ba:test", "chobby:test"],
+    "games" : ["tap:test", "chobby:test"],
     "maps" : [],
-    "engines" : [ "104.0.1-743-g9e82927 maintenance" ],
+    "engines" : [ "103.0" ],
 
 	"auto_download" : true,
 	"auto_start" : true,
     "no_downloads" : false,
 
-	"game_title": "Balanced Annihilation",
+	"game_title": "TA Prime",
     "start_args" : ["--menu", "rapid://chobby:test"]
 }

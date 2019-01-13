@@ -1,12 +1,12 @@
 return {
-  name = 'Balanced Annihilation',
-  description = 'Balanced Annihilation',
-  shortname = 'BA',
-  version = '$VERSION',
-  mutator = 'Official',
-  game = 'Balanced Annihilation',
-  shortGame = 'BA',
-  modtype = 1,
-  url = "https://www.balancedannihilation.com",
-  engine = "104.0.1-853-ge0ab082 maintenance",    -- for chobby
+  name='Total Annihilation Prime',
+  description='Prequel to Total Annihilation with an advanced RPS countering system',
+  shortname='TAP',
+  version='$VERSION',
+  mutator='Official',
+  game='Total Annihilation Prime',
+  shortgame='TAP',
+  modtype=1,
+  url = "https://www.fluidplaystudios.com",
+  engine = "103.0",    -- for chobby  
 }

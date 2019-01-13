@@ -5,7 +5,7 @@ function shard_include( file )
 		return nil
 	end
 	subdir = Game.gameShortName
-	if Game.gameShortName == "BAR" then
+	if Game.gameShortName == "BAR" or Game.gameShortName == "TAPrime" then
 		-- AI for BA / BAR is (atm) the same
 		subdir = "BA"
 	end

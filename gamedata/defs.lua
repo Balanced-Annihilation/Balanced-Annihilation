@@ -48,18 +48,31 @@ end
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 
-Spring.TimeCheck('Loading all definitions: ', function()
+Spring.TimeCheck('[defs.lua] loading all *Defs tables: ', function()
 
   DEFS.unitDefs    = LoadDefs('unitDefs')
-
   DEFS.featureDefs = LoadDefs('featureDefs')
-
   DEFS.weaponDefs  = LoadDefs('weaponDefs')
-
   DEFS.armorDefs   = LoadDefs('armorDefs')
-
   DEFS.moveDefs    = LoadDefs('moveDefs')
 
+    -- TA Prime
+    if (VFS.FileExists('gamedata/alldefs_post.lua')) then
+        UnitDefs = DEFS.unitDefs
+        FeatureDefs = DEFS.featureDefs
+        WeaponDefs = DEFS.weaponDefs
+        ArmorDefs = DEFS.armorDefs
+        MoveDefs = DEFS.moveDefs
+        VFS.Include('gamedata/alldefs_post.lua')
+        if (VFS.FileExists('gamedata/alldefs_post_post.lua')) then
+            VFS.Include('gamedata/alldefs_post_post.lua')
+        end
+        UnitDefs = nil
+        FeatureDefs = nil
+        WeaponDefs = nil
+        ArmorDefs = nil
+        MoveDefs = nil
+    end
 end)
 
 

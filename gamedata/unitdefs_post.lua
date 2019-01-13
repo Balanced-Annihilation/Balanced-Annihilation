@@ -37,16 +37,16 @@ if not (Spring.GetModOptions and (tonumber(Spring.GetModOptions().barmodels) or 
             corgantuw = 'corgant',
             armshltxuw = 'armshltx',
         }
-        local barUnitDefs = {}
-        for name,uDef in pairs(UnitDefs) do
-            local barUnitName = oldUnitName[name] and oldUnitName[name] or name
-            if VFS.FileExists('objects3d/BAR/'..uDef.objectname..'.s3o') or VFS.FileExists('objects3d/BAR/'..barUnitName..'.s3o') then
-                barUnitDefs[name..'_bar'] = deepcopy(uDef)
-            end
-        end
-        for name,ud in pairs(barUnitDefs) do
-            UnitDefs[name] = ud
-        end
+        --local barUnitDefs = {}
+        --for name,uDef in pairs(UnitDefs) do
+        --    local barUnitName = oldUnitName[name] and oldUnitName[name] or name
+        --    if VFS.FileExists('objects3d/BAR/'..uDef.objectname..'.s3o') or VFS.FileExists('objects3d/BAR/'..barUnitName..'.s3o') then
+        --        barUnitDefs[name..'_bar'] = deepcopy(uDef)
+        --    end
+        --end
+        --for name,ud in pairs(barUnitDefs) do
+        --    UnitDefs[name] = ud
+        --end
     end
 end
 

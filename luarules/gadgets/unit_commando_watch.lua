@@ -9,7 +9,7 @@ function gadget:GetInfo()
     date      = "Aug 17, 2010",
     license   = "GNU GPL, v2 or later",
     layer     = 0,
-    enabled   = true
+    enabled   = false --true [by MaDDoX]
   }
 end
 

@@ -39,7 +39,7 @@ if LUA_NAME == "LuaUI" then
 
 	ADDON_DIRS     = {
 		LUA_DIRNAME .. 'Addons/';
-		LUA_DIRNAME .. 'Widgets_BA/';
+		LUA_DIRNAME .. 'Widgets_TAP/';
 		LUA_DIRNAME .. 'SystemAddons/';
 		LUA_DIRNAME .. 'SystemWidgets/';
 		LUA_DIRNAME .. 'chili/';
@@ -51,7 +51,6 @@ if LUA_NAME == "LuaUI" then
 	handler:Load(LUAUI_DIRNAME .. "SystemWidgets/BlockUserWidgets.lua" --[[, VFS.ZIP]])
 else
 	AddonNames = handler.AddonName .. "s/"
-
 	ADDON_DIRS     = {
 		LUA_DIRNAME .. 'Addons/';
 		LUA_DIRNAME .. AddonNames;

@@ -5,7 +5,7 @@ function gadget:GetInfo()
 		author	= "Floris",
 		date	= "May 2018",
 		layer	= 0,
-		enabled = true,
+		enabled = false, --true,
 	}
 end
 
@@ -52,7 +52,10 @@ else
 	local updateTimer = 0
 
 	function gadget:Initialize()
-		gadgetHandler:AddSyncAction("gpumemBroadcast", handleEvent)
+        local engineVersion = tonumber((Game and Game.version) or (Engine and Engine.version))
+        if engineVersion >= 104 then
+            gadgetHandler:AddSyncAction("gpumemBroadcast", handleEvent)
+        end
 	end
 
 	function gadget:Shutdown()
