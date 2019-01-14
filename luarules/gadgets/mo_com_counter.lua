@@ -13,17 +13,21 @@ end
 -------------------------------------------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------------------------------------------
 
+local enabled = (tostring(Spring.GetModOptions().mo_enemycomcount) == "1") or false
+if not enabled then 
+  return false
+end
+
 if not (gadgetHandler:IsSyncedCode()) then --synced only
 	return false
 end
 
 local teamComs = {} -- format is enemyComs[teamID] = total # of coms in enemy teams
-local armcomDefID = UnitDefNames.armcom.id
-local corcomDefID = UnitDefNames.corcom.id
-if UnitDefNames.armcom_bar then
-	local armcom_barDefID = UnitDefNames.armcom_bar.id
-	local corcom_barDefID = UnitDefNames.corcom_bar.id
-end
+
+-- This could be improved by initializing the array automatically, with the isCom method
+local comDefIDs = { UnitDefNames.armcom.id, UnitDefNames.armcom2.id, UnitDefNames.armcom3.id,
+					UnitDefNames.corcom.id, UnitDefNames.corcom2.id, UnitDefNames.corcom3.id, }
+
 local countChanged  = true 
 
 function isCom(unitID,unitDefID)
@@ -60,14 +64,21 @@ end
 
 -- BA does not allow sharing to enemy, so no need to check Given, Taken, etc
 
+local function CountCommanders(teamID)
+	local count = 0
+	for i = 1, #comDefIDs do
+		if Spring.GetTeamUnitDefCount(teamID, comDefIDs[i]) then
+			i = i + 1
+		end
+	end
+	return count
+end
+
 local function ReCheck()
 	-- occasionally, recheck just to make sure...
 	local teamList = Spring.GetTeamList()
 	for _,teamID in pairs(teamList) do
-		local newCount = Spring.GetTeamUnitDefCount(teamID, armcomDefID) + Spring.GetTeamUnitDefCount(teamID, corcomDefID)
-		if armcom_barDefID then
-			newCount = newCount + Spring.GetTeamUnitDefCount(teamID, armcom_barDefID) + Spring.GetTeamUnitDefCount(teamID, corcom_barDefID)
-		end
+		local newCount = CountCommanders(teamID) --Spring.GetTeamUnitDefCount(teamID, armcomDefID) + Spring.GetTeamUnitDefCount(teamID, corcomDefID)
 		if newCount ~= teamComs[teamID] then
 			countChanged = true
 			teamComs[teamID] = newCount
@@ -76,7 +87,7 @@ local function ReCheck()
 end
 
 function gadget:GameFrame(n)
-	if n%30==0 then
+	if n%30 < 0.001 then
 		ReCheck()
 	end
 

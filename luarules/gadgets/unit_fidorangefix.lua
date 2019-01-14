@@ -7,11 +7,11 @@ function gadget:GetInfo()
 	date	= "01/09/2018",
 	license	= "GNU GPL, v2 or later",
 	layer	= 0,
-	enabled = true,
+	enabled = false, --true,
   }
 end
 
-local FIDOID = UnitDefNames["armfido"].id
+local FIDOID = UnitDefNames["cormort"].id --UnitDefNames["armfido"].id
 local wDef2 = WeaponDefs[UnitDefs[FIDOID].weapons[1].weaponDef]
 
 local Ranges = {}

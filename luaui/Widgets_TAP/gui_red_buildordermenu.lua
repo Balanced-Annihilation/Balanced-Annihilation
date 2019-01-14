@@ -1,14 +1,14 @@
 function widget:GetInfo()
 	return {
-	version   = "9.1",
-	name      = "Red Build/Order Menu",
-	desc      = "Requires Red UI Framework",
-	author    = "Regret, modified by CommonPlayer",
-	date      = "29 may 2015", --modified by CommonPlayer, Oct 2016
-	license   = "GNU GPL, v2 or later",
-	layer     = 0,
-	enabled   = true, --enabled by default
-	handler   = true, --can use widgetHandler:x()
+        version   = "9.1",
+        name      = "Red Build/Order Menu",
+        desc      = "Requires Red UI Framework",
+        author    = "Regret, modified by CommonPlayer",
+        date      = "29 may 2015", --modified by CommonPlayer, Oct 2016
+        license   = "GNU GPL, v2 or later",
+        layer     = 0,
+        enabled   = false, --disabled by default
+        handler   = true, --can use widgetHandler:x()
 	}
 end
 

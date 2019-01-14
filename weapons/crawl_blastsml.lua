@@ -4,7 +4,7 @@ return {
 		craterboost = 0,
 		cratermult = 0,
 		edgeeffectiveness = 0.34999999403954,
-		explosiongenerator = "custom:genericunitexplosion-medium-dirty",
+		explosiongenerator = "custom:FLASHNUKE280",
 		impulseboost = 0,
 		impulsefactor = 0,
 		name = "WimpyCrawlingBomb",
@@ -13,11 +13,12 @@ return {
 		soundhit = "xplonuk3",
 		soundstart = "largegun",
 		turret = 1,
-		weaponvelocity = 250,
+		weaponvelocity = 900, --250
 		damage = {
-			commanders = 900,
-			crawlingbombs = 99,
+			--commander = 900, --commanders
+			--crawlingbombs = 99,
 			default = 1800,
 		},
+		customparams = { damagetype = "explosive"},
 	},
 }

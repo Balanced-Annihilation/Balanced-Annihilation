@@ -1,7 +1,7 @@
 --[[   Morph Definition File
 
 Morph parameters description
-local morphDefs = {		--beginig of morphDefs
+local morphDefs = {		--begining of morphDefs
 	unitname = {		--unit being morphed
 		into = 'newunitname',		--unit in that will morphing unit morph into
 		time = 12,			--time required to complete morph process (in seconds)
@@ -20,149 +20,217 @@ local morphDefs = {		--beginig of morphDefs
 --]]
 --------------------------------------------------------------------------------
 
+-- TODO: Cleanup
 
 local devolution = (-1 > 0)
 
-local modOptions = Spring.GetModOptions()
-local requiredTechLevel = tonumber(modOptions.requiredtechlevel) or 1
-local morphPenalty = tonumber(modOptions.morphpenalty) or 1.25
+local metalCost_ecommander = 100
+local timeToBuild_ecommander = metalCost_ecommander * 0.25
+
+local metalCost_ecommandercloak = 100
+local timeToBuild_ecommandercloak = metalCost_ecommandercloak * 0.25
+
+local metalCost_ecommandershield = 100
+local timeToBuild_ecommandershield = metalCost_ecommandershield * 0.25
+
+local metalCost_ecommanderbuild = 100
+local timeToBuild_ecommanderbuild = metalCost_ecommanderbuild * 0.25
+
+local metalCost_ecommanderfactory = 100
+local timeToBuild_ecommanderfactory = metalCost_ecommanderfactory * 0.25
+
+local metalCost_ecommanderbattle = 100
+local timeToBuild_ecommanderbattle = metalCost_ecommanderbattle * 0.25
+
+local metalCost_factory_up1 = 240
+local timeToBuild_factory_up1 = metalCost_factory_up1 * 0.25
+
+local metalCost_etech2 = 200
+local timeToBuild_etech2 = metalCost_etech2 * 0.25
+
+local metalCost_etech3 = 300
+local timeToBuild_etech3 = metalCost_etech3 * 0.25
+
 
 local morphDefs = {
+----------------------------------------------------------
+---- Commanders
+----------------------------------------------------------
 
-	armmex = 	{
-		{
-			into = 'armmoho',
-			time = 59.7 * morphPenalty,
-			cmdname = [[Upgrade]],
-			metal = 600 * morphPenalty,
-			energy = 8000 * morphPenalty,
-			tech = requiredTechLevel,
-			text = 'Morph into an Advanced Metal Extractor / Storage. +' .. morphPenalty * 100 .. '% of normal buildtime, metal and energy costs.',
-		},
-	},
-	cormex = 	{
-		{
-			into = 'cormoho',
-			time = 56.5 * morphPenalty,
-			cmdname = [[Upgrade]],
-			metal = 600 * morphPenalty,
-			energy = 8500 * morphPenalty,
-			tech = requiredTechLevel,
-			text = 'Morph into an Advanced Metal Extractor / Storage. +' .. morphPenalty * 100 .. '% of normal buildtime, metal and energy costs.',
-		},
-	},
-	armck = 	{
-		{
-			into = 'armack',
-			time = 31.44 * morphPenalty,
-			cmdname = [[Upgrade]],
-			metal = 340 * morphPenalty,
-			energy = 6500 * morphPenalty,
-			tech = requiredTechLevel,
-			text = 'Morph into a Level 2 Constructor. +' .. morphPenalty * 100 .. '% of normal buildtime, metal and energy costs.',
-		},
-	},
-	armcv = 	{
-		{
-			into = 'armacv',
-			time = 41.32 * morphPenalty,
-			cmdname = [[Upgrade]],
-			metal = 550 * morphPenalty,
-			energy = 6700 * morphPenalty,
-			tech = requiredTechLevel,
-			text = 'Morph into a Level 2 Constructor. +' .. morphPenalty * 100 .. '% of normal buildtime, metal and energy costs.',
-		},
-	},
-	armca = 	{
-		{
-			into = 'armaca',
-			time = 88.81 * morphPenalty,
-			cmdname = [[Upgrade]],
-			metal = 282 * morphPenalty,
-			energy = 11642 * morphPenalty,
-			tech = requiredTechLevel,
-			text = 'Morph into a Level 2 Constructor. +' .. morphPenalty * 100 .. '% of normal buildtime, metal and energy costs.',
-		},
-	},
-	armcs = 	{
-		{
-			into = 'armacsub',
-			time = 59.75 * morphPenalty,
-			cmdname = [[Upgrade]],
-			metal = 850 * morphPenalty,
-			energy = 11500 * morphPenalty,
-			tech = requiredTechLevel,
-			text = 'Morph into a Level 2 Constructor. +' .. morphPenalty * 100 .. '% of normal buildtime, metal and energy costs.',
-		},
-	},
+--	ecommander = 	{
+--		{
+--			into = 'ecommandercloak',
+--			time = timeToBuild_ecommandercloak,
+--			cmdname = [[Cloaking Overseer]],
+--			metal = metalCost_ecommandercloak,
+--			text = 'Morph to Cloaking Overseer: Gains a large cloaking field which also cloaks the Overseer.',
+--		},
+--	},
+
+----------------------------------------------------------
+---- Resources
+----------------------------------------------------------
+
+--	armmex = 	{
+--		{
+--			into = 'armmoho',
+--			--time = timeToBuild_ecommandercloak,
+--			cmdname = [[Moho Mine]],
+--			--metal = metalCost_ecommandercloak,
+--			text = 'Morph to Moho Mine: Superior metal extraction speed.',
+--		},
+--	},
+
+--------------------------------------------------------------
+---- Kbots
+--------------------------------------------------------------
+
+--    armpw = 	{
+--        {
+--            into = 'armwar',
+--            --time = 600,
+--            cmdname = [[Warrior]],
+--            require = 'armtech',
+--            --metal = 250, --temp
+--            --energy = 2000,
+--            text = 'Morph to Warrior: Stalwart armor class.',
+--        },
+--    },
+
+--------------------------------------------------------------
+---- Tech Structures
+--------------------------------------------------------------
+
+--    armtech = {
+--        {
+--            into = 'armtech2',
+--            time = 20,
+--            cmdname = [[Level 2]],
+--            metal = 100, --temp
+--            energy = 100, --temp
+--            text = 'Upgrade to Tech Center Level 2',
+--        },
+--    },
+--
+--    armtech2 = {
+--        {
+--            into = 'armtech3',
+--            time = 20,
+--            cmdname = [[Level 3]],
+--            metal = 100, --temp
+--            energy = 100, --temp
+--            text = 'Upgrade to Tech Center Level 3',
+--        },
+--    },
+--
+--    armtech3 = {
+--        {
+--            into = 'armtech4',
+--            time = 20,
+--            cmdname = [[Level 4]],
+--            metal = 100, --temp
+--            energy = 100, --temp
+--            text = 'Upgrade to Tech Center Level 4',
+--        },
+--    },
+    
+--    armoutpost = {
+--        {
+--            into = 'armoutpost2',
+--            time = 10,
+--            cmdname = [[Level 2]],
+--            metal = 100, --temp
+--            energy = 100, --temp
+--            text = 'Upgrade to Outpost Level 2',
+--        },
+--    },
+--
+--    armoutpost2 = {
+--        {
+--            into = 'armoutpost3',
+--            time = 10,
+--            cmdname = [[Level 3]],
+--            metal = 100, --temp
+--            energy = 100, --temp
+--            text = 'Upgrade to Outpost Level 3',
+--        },
+--    },
+--
+--    armoutpost3 = {
+--        {
+--            into = 'armoutpost4',
+--            time = 10,
+--            cmdname = [[Level 4]],
+--            metal = 100, --temp
+--            energy = 100, --temp
+--            text = 'Upgrade to Outpost Level 4',
+--        },
+--    },
+    
+    ----------------------------------------------------------
+---- Factories
+----------------------------------------------------------
+--	ebasefactory = 	{
+--		{
+--			into = 'ebasefactory_up1',
+--			time = timeToBuild_factory_up1,
+--			cmdname = [[Upgrade]],
+--			metal = metalCost_factory_up1,
+--			text = [[+20% damage/hp buff, +15% faster reload, -5% speed]],
+--		},
+--	},
+--	ebasefactory_up1 = 	{
+--		{
+--			into = 'ebasefactory_up2',
+--			time = timeToBuild_factory_up1,
+--			cmdname = [[Upgrade]],
+--			metal = metalCost_factory_up1,
+--			text = [[+15% damage/hp buff, +15% faster reload, -5% speed]],
+--		},
+--	},
+
+----------------------------------------------------------
+---- Kbots
+----------------------------------------------------------
 	
-	corck = 	{
-		{
-			into = 'corack',
-			time = 32.36 * morphPenalty,
-			cmdname = [[Upgrade]],
-			metal = 410 * morphPenalty,
-			energy = 7000 * morphPenalty,
-			tech = requiredTechLevel,
-			text = 'Morph into a Level 2 Constructor. +' .. morphPenalty * 100 .. '% of normal buildtime, metal and energy costs.',
-		},
-	},
-	corcv = 	{
-		{
-			into = 'coracv',
-			time = 42.94 * morphPenalty,
-			cmdname = [[Upgrade]],
-			metal = 580 * morphPenalty,
-			energy = 7000 * morphPenalty,
-			tech = requiredTechLevel,
-			text = 'Morph into a Level 2 Constructor. +' .. morphPenalty * 100 .. '% of normal buildtime, metal and energy costs.',
-		},
-	},
-	corca = 	{
-		{
-			into = 'coraca',
-			time = 90 * morphPenalty,
-			cmdname = [[Upgrade]],
-			metal = 295 * morphPenalty,
-			energy = 11294 * morphPenalty,
-			tech = requiredTechLevel,
-			text = 'Morph into a Level 2 Constructor. +' .. morphPenalty * 100 .. '% of normal buildtime, metal and energy costs.',
-		},
-	},
-	corcs = 	{
-		{
-			into = 'coracsub',
-			time = 60.51 * morphPenalty,
-			cmdname = [[Upgrade]],
-			metal = 840 * morphPenalty,
-			energy = 11500 * morphPenalty,
-			tech = requiredTechLevel,
-			text = 'Morph into a Level 2 Constructor. +' .. morphPenalty * 100 .. '% of normal buildtime, metal and energy costs.',
-		},
-	},
+--	ehbotpeewee = 	{
+--		{
+--			into = 'ehbotpeewee_turret',
+--			time = 12.5,
+--			cmdname = [[Deploy]],
+--			metal = 50,
+--			text = 'Morph into a stationary turret that gains 4x health.',
+--		},
+--	},
+--
+--	ehbotpeewee_up1 = 	{
+--		{
+--			into = 'ehbotpeewee_turret_up1',
+--			time = 12.5,
+--			cmdname = [[Deploy]],
+--			metal = 50,
+--			text = 'Morph into a stationary turret that gains 4x health.',
+--		},
+--	},
 	
-	armsolar = 	{
-		{
-			into = 'armadvsol',
-			time = 88.27 * morphPenalty,
-			cmdname = [[Upgrade]],
-			metal = 360 * morphPenalty,
-			energy = 5050 * morphPenalty,
-			tech = requiredTechLevel,
-			text = 'Morph into an Advanced Solar Collector. +' .. morphPenalty * 100 .. '% of normal buildtime, metal and energy costs.',
-		},
-	},
-	corsolar = 	{
-		{
-			into = 'coradvsol',
-			time = 90.47 * morphPenalty,
-			cmdname = [[Upgrade]],
-			metal = 370 * morphPenalty,
-			energy = 4000 * morphPenalty,
-			tech = requiredTechLevel,
-			text = 'Morph into an Advanced Solar Collector. +' .. morphPenalty * 100 .. '% of normal buildtime, metal and energy costs.',
-		},
-	},
+----------------------------------------------------------
+---- Tech Facility
+----------------------------------------------------------
+	
+--	etech1 = 	{
+--		{
+--			into = 'etech2',
+--			time = timeToBuild_etech2,
+--			cmdname = [[Tech 2
+--Upgrade]],
+--			metal = metalCost_etech2,
+--			text = 'Morph into a Tech Level 2 Facility.',
+--		},
+--	},
+
+----------------------------------------------------------
+---- End of Data
+----------------------------------------------------------
 }
 
 --

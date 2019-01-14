@@ -5,7 +5,7 @@ return {
 		craterboost = 0,
 		cratermult = 0,
 		edgeeffectiveness = 0.75,
-		explosiongenerator = "custom:genericshellexplosion-huge-lightning",
+		explosiongenerator = "custom:EMPFLASH360",
 		firestarter = 90,
 		impulseboost = 0,
 		impulsefactor = 0,
@@ -19,14 +19,10 @@ return {
 		soundstart = "bombrel",
 		tolerance = 7000,
 		turret = 1,
+		weaponvelocity = 900,
 		damage = {
 			default = 50000,
 		},
-		customparams = {
-			expl_light_radius_mult = 1.2,
-			expl_light_mult = 1.2,
-			expl_light_color = "0.5 0.5 1",
-			expl_light_life_mult = 1.4,
-		},
+		customparams = { damagetype = "explosive"},
 	},
 }

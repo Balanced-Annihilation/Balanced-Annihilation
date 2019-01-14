@@ -4,7 +4,7 @@ return {
 		craterboost = 0,
 		cratermult = 0,
 		edgeeffectiveness = 0.40000000596046,
-		explosiongenerator = "custom:genericunitexplosion-large-dirty",
+		explosiongenerator = "custom:FLASHSKTL", --FLASHNUKE360
 		impulseboost = 0.12300000339746,
 		impulsefactor = 0.12300000339746,
 		name = "CrawlingBomb",
@@ -13,11 +13,10 @@ return {
 		soundhit = "xplonuk3",
 		soundstart = "largegun",
 		turret = 1,
-		weaponvelocity = 250,
+		weaponvelocity = 900, --250,
 		damage = {
-			commanders = 1250,
-			crawlingbombs = 199,
-			default = 3000,
+			default = 500, --3000
 		},
+		customparams = { damagetype = "explosive"},
 	},
 }

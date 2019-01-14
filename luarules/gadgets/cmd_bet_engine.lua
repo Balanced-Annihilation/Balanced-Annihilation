@@ -519,11 +519,12 @@ local myPlayerID = Spring.GetMyPlayerID()
 local oldspectatingstate = false
 
 function gadget:Initialize()
-
-	playerScores = SYNCED[_G_INDEX].playerScores
-	betStats = SYNCED[_G_INDEX].betStats
-	timeBets = SYNCED[_G_INDEX].timeBets
-	playerBets = SYNCED[_G_INDEX].playerBets
+    if SYNCED[G_INDEX] then
+        playerScores = SYNCED[_G_INDEX].playerScores
+        betStats = SYNCED[_G_INDEX].betStats
+        timeBets = SYNCED[_G_INDEX].timeBets
+        playerBets = SYNCED[_G_INDEX].playerBets
+    end
 
 	gadgetHandler:AddSyncAction("betOverCallback", handleBetOverCallback)
 	gadgetHandler:AddSyncAction("receivedBetCallback", handleReceivedBetCallback)

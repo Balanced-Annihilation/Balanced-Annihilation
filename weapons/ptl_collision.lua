@@ -4,7 +4,7 @@ return {
 		craterboost = 0,
 		cratermult = 0,
 		edgeeffectiveness = 0,
-		explosiongenerator = "custom:genericbuildingexplosion-small",
+		explosiongenerator = "custom:FLASHSMALLBUILDINGEX",
 		impulseboost = 1,
 		impulsefactor = 1,
 		name = "Smallbuilding",
@@ -13,9 +13,10 @@ return {
 		soundhit = "xplosml3",
 		soundstart = "largegun",
 		turret = 1,
-		weaponvelocity = 70,
+		weaponvelocity = 900, --70
 		damage = {
 			default = 600,
 		},
+		customparams = { damagetype = "explosive"},
 	},
 }

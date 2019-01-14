@@ -343,7 +343,6 @@ local zipOnly = {
 }
 
 function widgetHandler:Initialize()
-  Spring.Echo("1...")
   self:LoadConfigData()
 
   -- do we allow userland widgets?
@@ -365,7 +364,6 @@ function widgetHandler:Initialize()
 
   -- stuff the raw widgets into unsortedWidgets
   if self.allowUserWidgets and allowuserwidgets then
-      Spring.Echo("2...")
     local widgetFiles = VFS.DirList(WIDGET_DIRNAME, "*.lua", VFS.RAW)
     for k,wf in ipairs(widgetFiles) do
       GetWidgetInfo(wf, VFS.RAW)
