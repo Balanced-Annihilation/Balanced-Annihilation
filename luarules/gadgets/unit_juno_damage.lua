@@ -44,19 +44,19 @@ local tokillUnits = {
     [UnitDefNames.corshroud.id] = true,
     [UnitDefNames.corsjam.id] = true,
     [UnitDefNames.corsonar.id] = true,
-    [UnitDefNames.corspec.id] = true,
-    [UnitDefNames.corvoyr.id] = true,
+    --[UnitDefNames.corspec.id] = true,
+    --[UnitDefNames.corvoyr.id] = true,
     [UnitDefNames.corvrad.id] = true,
 	
     [UnitDefNames.corfav.id] = true, 
     [UnitDefNames.armfav.id] = true,
-    [UnitDefNames.armflea.id] = true,
+    --[UnitDefNames.armflea.id] = true,
 }
 
 local todenyUnits = {
     [UnitDefNames.corfav.id] = true, 
     [UnitDefNames.armfav.id] = true,
-    [UnitDefNames.armflea.id] = true,
+    --[UnitDefNames.armflea.id] = true,
 }
 
 --config -- see also in unsynced

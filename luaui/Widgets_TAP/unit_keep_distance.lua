@@ -41,7 +41,7 @@ unitArray["radarunitArray"] = {
   "armseer",
   "armmark",
   "corvrad",
-  "corvoyr",
+  --"corvoyr",
 }
 
 unitArray["jammerunitArray"] = {

@@ -15,7 +15,7 @@ local damageTypes = {
 
 	rocket={"armfig","armlance","armmerl","armsb","armblade","corcrw","corsb","cortitan","armseap","corape","corseap","corvipe","armtl","corptl","cortl","armclaw","armdl","armpb","corerad","cordl","armah","corcat","armrock","armjeth","coraak","corcrash","armaak","corstorm","armbanth","corbuzz","armmship","cormship","armptl","armaas","corarch","armsptk","corfrt","packo","armsub","corssub","tawf009","cormh","armmh","corah","armfrt","madsam",},
 
-	laser={"armfast","armflea","armwar","cormando","corfav","armsubk","corshark","armjanus","corgator",},
+	laser={"armfast","armwar","cormando","corfav","armsubk","corshark","armjanus","corgator",},
 
 	hflaser={"armllt","corllt","armhlt","corhlt","corexp","corhllt","armfhlt","corfhlt",},
 
@@ -41,7 +41,7 @@ local damageTypes = {
 
 	nuke={"cortron","armliche","corsilo","armsilo",},
 
-	none={"armpeep","armatlas","armdfly","corseah","corvalk","armsehak","corawac","armawac","corhunt","cormuskrat","cormls","armack","armacsub","armacv","armcv","armmls","coracsub","coracv","corfast","armconsul","coraca","corack","corch","corck","armch","armck","armcs","corcs","armaca","armca","armcsa","corca","corcsa","armbeaver","critter_ant","critter_duck","critter_goldfish","critter_gull","critter_penguin","cormakr","armmark","corspec","armrectr","corvoyr","cornecro","corspy","armnanotc","cornanotc","tllmedfusion","armmex","armmmkr","armuwes","armuwfus","armuwmex","armuwmme","armuwmmm","armuwms","armafus","armageo","armadvsol","armamex","armckfus","armdf","armfmkr","armfus","armgeo","armgmm","armmakr","armsolar","armtide","armwin","corafus","corageo","coradvsol","corfmkr","corfus","corgeo","cormex","cormmkr","cormoho","corsolar","cortide","coruwfus","coruwmex","coruwmme","coruwmmm","corwin","coreyes","corsjam","armsjam","armason","armsonar","corason","corsonar","armmoho","armmstor","armestor","armuwadves","armuwadvms","corestor","cormstor","coruwadves","coruwadvms","coruwes","coruwms","corfrad","armarad","armfrad","armrad","corarad","corrad","corfatf","armasp","armeyes","armfatf","armtarg","corasp","cortarg","armrecl","correcl","armjam","corcv","armseer","corvrad","cormlv","armdrag","armfdrag","armfort","cordrag","corfdrag","corfort",},
+	none={"armpeep","armatlas","armdfly","corseah","corvalk","armsehak","corawac","armawac","corhunt","cormuskrat","cormls","armack","armacsub","armacv","armcv","armmls","coracsub","coracv","corfast","armconsul","coraca","corack","corch","corck","armch","armck","armcs","corcs","armaca","armca","armcsa","corca","corcsa","armbeaver","critter_ant","critter_duck","critter_goldfish","critter_gull","critter_penguin","cormakr","armmark","armrectr","cornecro","corspy","armnanotc","cornanotc","tllmedfusion","armmex","armmmkr","armuwes","armuwfus","armuwmex","armuwmme","armuwmmm","armuwms","armafus","armageo","armadvsol","armamex","armckfus","armdf","armfmkr","armfus","armgeo","armgmm","armmakr","armsolar","armtide","armwin","corafus","corageo","coradvsol","corfmkr","corfus","corgeo","cormex","cormmkr","cormoho","corsolar","cortide","coruwfus","coruwmex","coruwmme","coruwmmm","corwin","coreyes","corsjam","armsjam","armason","armsonar","corason","corsonar","armmoho","armmstor","armestor","armuwadves","armuwadvms","corestor","cormstor","coruwadves","coruwadvms","coruwes","coruwms","corfrad","armarad","armfrad","armrad","corarad","corrad","corfatf","armasp","armeyes","armfatf","armtarg","corasp","cortarg","armrecl","correcl","armjam","corcv","armseer","corvrad","cormlv","armdrag","armfdrag","armfort","cordrag","corfdrag","corfort",},
 
 	["else"] = {},
 }

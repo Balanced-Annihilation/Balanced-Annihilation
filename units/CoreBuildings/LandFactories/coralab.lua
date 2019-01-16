@@ -55,7 +55,7 @@ return {
 			[11] = "corroach",
 			[12] = "corsktl",
 			[13] = "cordecom",
-			[14] = "corvoyr",
+			--[14] = "corvoyr",
 			[15] = "corspy",
 			[16] = "corspec",
 			[17] = "cormando",

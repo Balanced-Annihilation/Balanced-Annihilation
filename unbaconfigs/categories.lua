@@ -55,7 +55,7 @@ categories = {
 -- KBOTS
 -- T1 ARM
 	armck = "kbot",
-	armflea = "kbot",
+	--armflea = "kbot",
 	armham = "kbot",
 	armjeth = "kbot",
 	armpw = "kbot",
@@ -106,11 +106,11 @@ categories = {
 	corpyro = "kbot",
 	corrouch = "kbot",
 	corsktl = "kbot",
-	corspec = "kbot",
+	--corspec = "kbot",
 	corspy = "kbot",
 	corsumo = "kbot",
 	cortermite = "kbot",
-	corvoyr = "kbot",
+	--corvoyr = "kbot",
 -- T3 CORE
 	corcat = "kbot",
 	corjugg = "kbot",

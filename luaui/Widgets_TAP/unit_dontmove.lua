@@ -87,7 +87,7 @@ local unitArray = {
   "cormort",
   
   --scouts
-  "armflea",
+  --"armflea",
   "armfav",
   "corfav",
   "armspy",
@@ -98,12 +98,12 @@ local unitArray = {
   --shields/jammers/radars
   "armaser",
   "armjam",
-  "corspec",
+  --"corspec",
   
   "armseer",
   "armmark",
   "corvrad",
-  "corvoyr",
+  --"corvoyr",
   
   --antinukes
   "armscab",

@@ -6,7 +6,7 @@ function widget:GetInfo()
     date      = "April 1st",
     license   = "GNU GPL, v2 or later",
     layer     = 0,
-    enabled   = true,
+    enabled   = false, --true, [TODO: Adapt to Spring camera]
     reason_for_existence = "laughable"
   }
 end

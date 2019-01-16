@@ -55,7 +55,7 @@ taxvalues = {
 -- KBOTS
 -- T1 ARM
 	armck = 1.025,
-	armflea = 1.025,
+	--armflea = 1.025,
 	armham = 1.025,
 	armjeth = 1.025,
 	armpw = 1.025,
@@ -106,11 +106,11 @@ taxvalues = {
 	corpyro = 1.025,
 	corrouch = 1.025,
 	corsktl = 1.025,
-	corspec = 1.025,
+	--corspec = 1.025,
 	corspy = 1.025,
 	corsumo = 1.025,
 	cortermite = 1.025,
-	corvoyr = 1.025,
+	--corvoyr = 1.025,
 -- T3 CORE
 	corcat = 1.1,
 	corjugg = 1.1,

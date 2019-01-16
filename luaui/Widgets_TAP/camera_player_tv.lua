@@ -92,7 +92,7 @@ end
 
 function GetSkill(playerID)
 	local customtable = select(11,Spring.GetPlayerInfo(playerID)) -- player custom table
-	local tsMu = customtable.skill
+	local tsMu = customtable and customtable.skill or nil
 	local tskill = ""
 	if tsMu then
 		tskill = tsMu and tonumber(tsMu:match("%d+%.?%d*")) or 0
@@ -305,7 +305,9 @@ function updatePosition(force)
 	left = parentPos[2]
 	bottom = parentPos[1]
 	right = parentPos[4]
-	top = parentPos[1]+(widgetHeight*parentPos[5])
+	if parentPos and parentPos[1] and widgetHeight and parentPos[5] then
+		top = parentPos[1]+(widgetHeight*parentPos[5])
+	end
 	widgetScale = parentPos[5]
 
 	if (prevPos[1] == nil or prevPos[1] ~= parentPos[1] or prevPos[2] ~= parentPos[2] or prevPos[5] ~= parentPos[5]) or force then

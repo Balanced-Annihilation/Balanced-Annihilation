@@ -45,7 +45,7 @@ artillerylist = {
 	"armseer",	--	Seer			/	Radar Vehicle	
 	"corvrad",	--	Informer		/	Radar Vehicle	
 	"armmark",  --  Marky           /   Radar Kbot	
-	"corvoyr",	--	Voyeur			/	Radar Kbot
+	--"corvoyr",	--	Voyeur			/	Radar Kbot
 }
 
 attackerlist = {

@@ -17,7 +17,7 @@ local StompedUnits = {
     [UnitDefNames["armfav"].id] = true,
     [UnitDefNames["corak"].id] = true,
     [UnitDefNames["armpw"].id] = true,
-    [UnitDefNames["armflea"].id] = true,
+    --[UnitDefNames["armflea"].id] = true,
 }
 
 function gadget:UnitPreDamaged(unitID, unitDefID, unitTeam, damage, paralyzer, weaponDefID, projectileID, attackerID, attackerDefID, attackerTeam)

@@ -80,7 +80,7 @@ local titleColor = "\255\215\255\215"
 local contentColor = "\255\255\255\255"
 local unit_descs = {
 	"armck.dds "..titleColor.."Construction Kbot (ARM T1)\n"..contentColor.."Slightly slower and weaker than vehicle constructor, this constructor can climb steeper hills, effective in expansion on mountainous terrain.",
-	"armflea.dds "..titleColor.."Flea (ARM T1 Kbot)\n"..contentColor.."Supercheap and fast, used for scouting and raiding enemy structures in early-game stages. Avoid laser towers and destroy metal extractors to slow down your foe’s expansion!",
+	--"armflea.dds "..titleColor.."Flea (ARM T1 Kbot)\n"..contentColor.."Supercheap and fast, used for scouting and raiding enemy structures in early-game stages. Avoid laser towers and destroy metal extractors to slow down your foe’s expansion!",
 	"armham.dds "..titleColor.."Hammer (ARM T1 Kbot)\n"..contentColor.."Deals significant damage with relatively low cost. Used in large numbers to destroy T1 defences. Combine with resurrection Kbots (Rector/Necro) for an almost invincible army.",
 	"armjeth.dds "..titleColor.."Jethro (ARM T1 Amphibious Kbot)\n"..contentColor.."Amphibious mobile anti-air to take down light aircraft. Always send a few with your army to protect it from EMP drones and gunships.",
 	"armpw.dds "..titleColor.."Peewee (ARM T1 Kbot)\n"..contentColor.."Cheap and having high top speeds but low health. Can be useful for scouting and taking down unguarded metal extractors and eco. In big numbers used to ambush Commanders.",
