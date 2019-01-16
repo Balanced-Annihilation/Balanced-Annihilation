@@ -65,7 +65,7 @@ taxvalues = {
 -- T2 ARM
 	armaak = 1.025,
 	armack = 1.025,
-	armamph = 1.025,
+	--armamph = 1.025,
 	armaser = 1.025,
 	armdecom = 1.025,
 	armfark = 1.025,

@@ -157,7 +157,7 @@ raiderlist = {
 	"armspkt",  --  Recluse         /   All-Terrain Rocket Spider
 	"armpw", 	--	Peewee 			/ 	Fast Infantry
 	"armwar",	--	Warrior			/	Medium Infantry
-	"armamph",  --  Pelican         /   Amphibious Kbot
+	--"armamph",  --  Pelican         /   Amphibious Kbot
 	"armspid",  --  Spider          /   All-Terrain EMP Spider
 	"armzeus",  --  Zeus            /   Assault Kbot
 	"armpincer",--	Pincer			/	Light Amphibious Tank
@@ -173,7 +173,7 @@ raiderlist = {
 	"armpship",	--	Ellysaw			/	Assault Frigate
 	"armcrus",	--	Conqueror		/	Cruiser
 	"corak",	--	A.K.			/	Fast Infantry
-	"coramph",	--	Gimp			/	Amphibious Kbot
+	--"coramph",	--	Gimp			/	Amphibious Kbot
 	"corcan",	--	Can				/	Armored Assault Kbot
 	"corpyro",	--	Pyro			/	Fast Assault Kbot
 	"cortermite", -- Termite		/	Heavy All-Terrain Assault Spider

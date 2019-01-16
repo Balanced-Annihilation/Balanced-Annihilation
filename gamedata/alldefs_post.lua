@@ -24,9 +24,11 @@ SaveDefsToCustomParams = false
 
 -- Might be commented out, only meant for generating this table and feed weapondamagetypes.lua (@weapondefs_post)
 WeaponDamageTypes = {}
-local damageTypes = {}
-local damageMults = {}
-local weaponDmgTypes = {}
+
+local damageTypes = VFS.Include("gamedata/configs/damagetypes.lua")
+local damageMults = VFS.Include("gamedata/configs/damagemultipliers.lua")
+local weaponDmgTypes = VFS.Include("gamedata/configs/weapondamagetypes.lua")
+
 
 -- [DEPRECATED with v1 lua core] Spring.Utilities setup
     --Spring.Utilities = Spring.Utilities or {}
@@ -136,19 +138,18 @@ function WeaponDef_Post(name, wDef, udName)
 
     wDef.cratermult = (wDef.cratermult or 1) * 0.3 -- modify cratermult cause Spring v103 made too big craters
 
-	damageTypes = VFS.Include("gamedata/configs/damagetypes.lua")
-	damageMults = VFS.Include("gamedata/configs/damagemultipliers.lua")
-	weaponDmgTypes = VFS.Include("gamedata/configs/weapondamagetypes.lua")
+	--damageTypes = VFS.Include("gamedata/configs/damagetypes.lua")
+	--damageMults = VFS.Include("gamedata/configs/damagemultipliers.lua")
+	--weaponDmgTypes = VFS.Include("gamedata/configs/weapondamagetypes.lua")
 
 	if not istable(damageTypes) then
+        Spring.Echo("error: Damage Types table not found!")
 		return
 	end
 
 	local baseDamage = tonumber(wDef.damage.default)
-
 	if not baseDamage or baseDamage <= 0 then
-		return
-	end
+		return end
 
 	--  --> Uncomment below only when needing to regenerate the weapondamagetypes.lua table
 	--damageType = GetBaseDamageType(udName)
@@ -158,9 +159,9 @@ function WeaponDef_Post(name, wDef, udName)
 	if (udName == nil) then									-- It's a standalone weapon, check customparams
 		damageType = (wDef.customparams and wDef.customparams.damagetype)
 				and wDef.customparams.damagetype or "none"
-		--if damageType ~= "none" then
-		--	Spring.Echo("Standalone Weapon: "..name.." "..wDef.name.." type: "..damageType)
-		--end
+		if damageType ~= "none" then
+			Spring.Echo("Standalone Weapon: "..name.." "..wDef.name.." type: "..damageType)
+		end
 	elseif (weaponDmgTypes[udName] ~= nil) then				-- otherwise, check if it's defined in weaponDmgTypes
 		damageType = weaponDmgTypes[udName][wDef.name]
 	end

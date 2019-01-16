@@ -6,11 +6,14 @@
 
 local SIG_STATECHG = {}
 
-local base = piece 'base'
-local body = piece 'body'
-local aim = piece 'aim'
-local tower1, tower2, tower3 = piece('tower1', 'tower2', 'tower3')
-local emitnano = piece 'emitnano'
+--local base = piece 'base'
+--local body = piece 'body'
+--local aim = piece 'aim'
+--local tower1, tower2, tower3 = piece('tower1', 'tower2', 'tower3')
+--local emitnano = piece 'emitnano'
+
+local base, body, aim, tower1, tower2, tower3, emitnano = piece('base', 'body', 'aim', 'tower1', 'tower2', 'tower3', 'emitnano')
+
 --local TA = -- This is a TA script
 
 --#include "sfxtype.h"

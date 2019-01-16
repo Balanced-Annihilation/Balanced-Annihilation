@@ -20,13 +20,14 @@ end
 
 VFS.Include("unbaconfigs/buildoptions.lua")
 
-for ct,name in pairs (armlevel1buildoptions) do
-	armlevel1buildoptions[ct] = UnitDefNames[name].id
-end
-
-for ct,name in pairs (corlevel1buildoptions) do
-	corlevel1buildoptions[ct] = UnitDefNames[name].id
-end
+--- Not using this for now
+--for ct,name in pairs (armlevel1buildoptions) do
+--	armlevel1buildoptions[ct] = UnitDefNames[name].id
+--end
+--
+--for ct,name in pairs (corlevel1buildoptions) do
+--	corlevel1buildoptions[ct] = UnitDefNames[name].id
+--end
 
 local ui_opacity = Spring.GetConfigFloat("ui_opacity",0.66)
 

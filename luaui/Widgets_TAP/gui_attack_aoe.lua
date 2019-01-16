@@ -682,11 +682,9 @@ function widget:DrawWorld()
 
   if (weaponType == "ballistic") then
     local states = GetUnitStates(aoeUnitID)
-    local trajectory
-    if (states.trajectory) then
+    local trajectory = -1
+    if states and states.trajectory then
       trajectory = 1
-    else
-      trajectory = -1
     end
     DrawAoE(tx, ty, tz, info.aoe, info.ee, info.requiredEnergy)
     DrawBallisticScatter(info.scatter, info.v, fx, fy, fz, tx, ty, tz, trajectory, info.range)

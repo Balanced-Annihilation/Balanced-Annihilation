@@ -6,7 +6,7 @@
         date      = "April 2018",
         license   = "Whatever works",
         layer     = 0,
-        enabled   = true, -- When we will move on 105 :)
+        enabled   = false, --true, -- When we will move on 105 :)
       }
     end
 if (not gadgetHandler:IsSyncedCode()) then return end
@@ -42,11 +42,9 @@ if Spring.GetModOptions and (tonumber(Spring.GetModOptions().barmodels) or 0) ~=
 		--[UnitDefNames.armfido.id] = true,
 		[UnitDefNames.armfboy.id] = true,
 		[UnitDefNames.armfast.id] = true,
-		[UnitDefNames.armamph.id] = true,
 		[UnitDefNames.armmav.id] = true,
 		[UnitDefNames.armspid.id] = true,
 		[UnitDefNames.armzeus.id] = true,
-		[UnitDefNames.coramph.id] = true,
 		[UnitDefNames.corcan.id] = true,
 		[UnitDefNames.corhrk.id] = true,
 		[UnitDefNames.cormando.id] = true,

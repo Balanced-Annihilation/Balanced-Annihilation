@@ -65,7 +65,7 @@ categories = {
 -- T2 ARM
 	armaak = "kbot",
 	armack = "kbot",
-	armamph = "kbot",
+	--armamph = "kbot",
 	armaser = "kbot",
 	armdecom = "kbot",
 	armfark = "kbot",

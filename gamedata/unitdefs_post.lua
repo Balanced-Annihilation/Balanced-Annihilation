@@ -66,3 +66,7 @@ for name,ud in pairs(UnitDefs) do
       SaveDefToCustomParams("UnitDefs", name, ud)    
   end
 end
+
+---- TAPrime ::
+-- We use unitdefs_data.lua as a lua table, generated from the units gsheet, which may be easily replace-able anytime
+-- So the defs.lua should preprocess UnitDefs from whatever's in unitdefs_data (!)

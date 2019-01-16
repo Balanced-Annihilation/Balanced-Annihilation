@@ -14,14 +14,14 @@
 	
 if uDef.weapons[1] and uDef.weapons[1].mainDirX == 0 and uDef.weapons[1].mainDirY == 0 and uDef.weapons[1].maxAngleDif ~= -1 then
 	local maxDiffDeg = uDef.weapons[1].maxAngleDif*360*65536*2
-	local maxDiffRad = math.rad(maxDiffDeg)
+	--local maxDiffRad = math.rad(maxDiffDeg)
 	allowedHeadings1 = {}
 	allowedHeadings1 = {0 - maxDiffDeg, 2*math.pi + maxDiffDeg}
 end
 
 if uDef.weapons[2] and uDef.weapons[2].mainDirX == 0 and uDef.weapons[2].mainDirY == 0 and uDef.weapons[2].maxAngleDif ~= -1 then
 	local maxDiffDeg = uDef.weapons[2].maxAngleDif
-	local maxDiffRad = math.rad(maxDiffDeg)
+	--local maxDiffRad = math.rad(maxDiffDeg)
 	allowedHeadings2 = {}
 	allowedHeadings2 = {0 - maxDiffDeg, 2*math.pi + maxDiffDeg}
 end

@@ -60,7 +60,6 @@ local weaponDamageTypes = {
 	armfido = { ["GaussCannon"] = "siege", ["BallisticCannon"] = "siege", },
 	armpw = { ["peewee"] = "bullet", },
 	armmart = { ["PlasmaCannon"] = "siege", },
-	armamph = { ["Laser"] = "bullet", ["Missiles"] = "bullet", },
 	coramph = { ["HighEnergyLaser"] = "bullet", ["Torpedo"] = "bullet", },
 	armcom = { ["Disintegrator"] = "omni", ["J7Laser"] = "omni", ["J7NSLaser"] = "omni", },
 	armcom2 = { ["Disintegrator"] = "omni", ["J7Laser"] = "omni", ["J7NSLaser"] = "omni", },

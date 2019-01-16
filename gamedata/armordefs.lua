@@ -24,7 +24,7 @@ local armorDefs = {
 
 	heavyveh={"armsam", "cormist", "armmanni", "armjam", "corban",},
 
-	peon={"armack", "armamph","armch","armck","armcs","armfark","armpt","armpw","armrecl","armrectr","armsubk","armconsul","coraca","corack","corak","coramph","corch","corck","corcs","cornecro","corpt","correcl","corshark","corspy","corsub","corvoyr",},
+	peon={"armack","armch","armck","armcs","armfark","armpt","armpw","armrecl","armrectr","armsubk","armconsul","coraca","corack","corak","coramph","corch","corck","corcs","cornecro","corpt","correcl","corshark","corspy","corsub","corvoyr",},
 
 	fighter={"armaca","armawac","armca","armcsa","armfig","armhawk","armsehak","armsfig","corawac","corca","corcsa","corhunt","corsfig","corvamp","corveng",},
 
