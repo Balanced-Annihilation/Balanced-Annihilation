@@ -25,8 +25,7 @@ end
 
 -- Ammo Reference: https://github.com/spring1944/spring1944/blob/master/LuaRules/Gadgets/game_ammo.lua
 
---- [Deprecated] new lua core is added)
---VFS.Include("LuaRules/Utilities/utilities_emul.lua")
+VFS.Include("gamedata/taptools.lua")
 
 ---------------------------------------------------------------------------------
 local CMD_LAND_AT_AIRBASE = 35430

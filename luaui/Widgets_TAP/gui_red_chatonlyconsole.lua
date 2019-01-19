@@ -492,9 +492,9 @@ local function processLine(line,g,cfg,newlinecolor)
 			linetype = 3 --playerpoint
 			name = ssub(line,1,sfind(line," added point: ")-1)
 			text = ssub(line,slen(name.." added point: ")+1)
-			if text == "" then
-				text = "Look here!"
-			end
+			--if text == "" then
+			--	text = "Look here!"
+			--end
 		elseif (ssub(line,1,1) == ">") then
 			linetype = 4 --gamemessage
 			text = ssub(line,3)
