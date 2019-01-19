@@ -1239,6 +1239,9 @@ end
 function GetSkill(playerID)
 
 	local customtable = select(11,Spring.GetPlayerInfo(playerID))
+    if not customtable or type(customtable) ~= "table" then
+        return 0
+    end
 	local tsMu = customtable.skill
 	local tsSigma = customtable.skilluncertainty
 	local tskill = ""
