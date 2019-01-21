@@ -164,20 +164,33 @@ assert(type(maxRange) == "number","Argument maxRange is of invalid type - expect
 return  numberMock
  end
 
-function Spring.SetUnitBlocking    (  unitID, blocking, collide, crushable)
-assert(type(unitID) == "number","Argument unitID is of invalid type - expected number");
-assert(type(blocking) == "boolean","Argument blocking is of invalid type - expected boolean");
-assert(type(collide) == "boolean","Argument collide is of invalid type - expected boolean");
-assert(type(crushable) == "boolean","Argument crushable is of invalid type - expected boolean");
-return  numberMock
- end
 
-function Spring.SetUnitBlocking    (  unitID, depth, range)
-assert(type(unitID) == "number","Argument unitID is of invalid type - expected number");
-assert(type(depth) == "number","Argument depth is of invalid type - expected number");
-assert(type(range) == "number","Argument range is of invalid type - expected number");
-return  numberMock
- end
+function Spring.SetUnitBlocking    (  unitID, isBlocking, isSolidObjectCollidable, isProjectileCollidable, isRaySegmentCollidable, crushable, blockEnemyPushing, blockHeightChanges)
+ assert(type(unitID) == "number","Argument unitID is of invalid type - expected number");
+ assert(type(isBlocking) == "boolean","Argument isBlocking is of invalid type - expected boolean");
+ assert(type(isSolidObjectCollidable) == "boolean","Argument isSolidObjectCollidable is of invalid type - expected boolean");
+ assert(type(isProjectileCollidable) == "boolean","Argument isProjectileCollidable is of invalid type - expected boolean");
+ assert(type(isRaySegmentCollidable) == "boolean","Argument isRaySegmentCollidable is of invalid type - expected boolean");
+ assert(type(crushable) == "boolean","Argument crushable is of invalid type - expected boolean");
+ assert(type(blockEnemyPushing) == "boolean","Argument blockEnemyPushing is of invalid type - expected boolean");
+ assert(type(blockHeightChanges) == "boolean","Argument blockHeightChanges is of invalid type - expected boolean");
+ return  numberMock
+end
+
+--function Spring.SetUnitBlocking    (  unitID, blocking, collide, crushable)
+--assert(type(unitID) == "number","Argument unitID is of invalid type - expected number");
+--assert(type(blocking) == "boolean","Argument blocking is of invalid type - expected boolean");
+--assert(type(collide) == "boolean","Argument collide is of invalid type - expected boolean");
+--assert(type(crushable) == "boolean","Argument crushable is of invalid type - expected boolean");
+--return  numberMock
+-- end
+
+--function Spring.SetUnitBlocking    (  unitID, depth, range)
+--assert(type(unitID) == "number","Argument unitID is of invalid type - expected number");
+--assert(type(depth) == "number","Argument depth is of invalid type - expected number");
+--assert(type(range) == "number","Argument range is of invalid type - expected number");
+--return  numberMock
+-- end
 
 function Spring.SetUnitBuildSpeed   ( )
 return  numberMock

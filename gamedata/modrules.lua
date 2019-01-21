@@ -9,22 +9,22 @@ local modrules  = {
   reclaim = {
     multiReclaim  = 1,
     reclaimMethod = 0,
-    unitMethod    = 1,
+    unitMethod    = 1,    -- 0 = gradual, 1 = all reclaimed at the end
 
     unitEnergyCostFactor    = 0,  -- defaults to 0
     unitEfficiency          = 1,  -- defaults to 1
     featureEnergyCostFactor = 0,  -- defaults to 0
 	
     allowEnemies = true,  -- defaults to true
-    allowAllies  = true,  -- defaults to true
+    allowAllies  = false, -- defaults to true (Can allied units be reclaimed?)
   },
 
   repair = {
-    energyCostFactor = 0,   -- default: 0
+    energyCostFactor = 0.5,   -- default: 0
   },
 
   resurrect = {
-    energyCostFactor = 0.5,   -- default: 0.5
+    energyCostFactor = 0.75,  -- default: 0.5
   },
 
   capture = {
@@ -37,7 +37,7 @@ local modrules  = {
 
   sensors = {
     separateJammers = true,  -- default: true
-    requireSonarUnderWater = true,  -- default: tru.e If true then when underwater, units only get LOS if they also have sonar.
+    requireSonarUnderWater = true,  -- default: true. If true then when underwater, units only get LOS if they also have sonar.
     alwaysVisibleOverridesCloaked = false,  -- default: false.  If true then units will be visible even when cloaked (probably?).
 
     los = {
@@ -54,11 +54,11 @@ local modrules  = {
 
   movement = {
 	allowUnitCollisionDamage  = false,  -- default: true if using QTPFS pathfinder.  Do unit-unit (skidding) collisions cause damage?
-	allowUnitCollisionOverlap = false,   -- can mobile units collision volumes overlap one another? Allows unit movement like this (video http://www.youtube.com/watch?v=mRtePUdVk2o ) at the cost of more 'clumping'.
-    allowCrushingAlliedUnits  = true,   -- default: false.  Can allied ground units crush each other during collisions? Units still have to be explicitly set as crushable using the crushable parameter of Spring.SetUnitBlocking.
+	allowUnitCollisionOverlap = true,   -- can mobile units collision volumes overlap one another? Allows unit movement like this (video http://www.youtube.com/watch?v=mRtePUdVk2o ) at the cost of more 'clumping'.
+    allowCrushingAlliedUnits  = false,  -- default: false.  Can allied ground units crush each other during collisions? Units still have to be explicitly set as crushable using the crushable parameter of Spring.SetUnitBlocking.
 	allowGroundUnitGravity    = false,
 
-    allowAirPlanesToLeaveMap  = true,   -- default: true.  Are (gunship) aircraft allowed to fly outside the bounds of the map?
+    allowAirPlanesToLeaveMap  = false,   -- default: true.  Are (gunship) aircraft allowed to fly outside the bounds of the map?
     allowAircraftToHitGround  = true,   -- default: true.  Are aircraft allowed to hit the ground whilst manoeuvring?
     allowPushingEnemyUnits    = false,  -- default: false.  Can enemy ground units push each other during collisions?
     allowHoverUnitStrafing    = true,   -- default: true.  Allows hovercraft units to slide in turns.
@@ -70,7 +70,8 @@ local modrules  = {
 
   system = {
   	pathFinderSystem = (Spring.GetModOptions and (Spring.GetModOptions().pathfinder == "qtpfs") and 1) or 0,
-    pathFinderUpdateRate = 0.007,   -- default 0.007, higher means more updates
+    pathFinderUpdateRate = 0.005,   -- default 0.007, higher means more updates
+    pathFinderRawDistMult = 1.25,
   },
 
   transportability = {
@@ -83,10 +84,11 @@ local modrules  = {
 
   paralyze = {
     paralyzeOnMaxHealth = true,    -- default: true. Are units paralyzed when the level of emp is greater than their current health or their maximum health?
+    unitParalysisDeclineScale = 40, -- Time in seconds to go from 100% to 0% emp
   },
 
   experience = {
-    experienceMult = 1,    -- Controls the amount of experience gained by units engaging in combat. The formulae used are: xp for damage = 0.1 * experienceMult * damage / target_HP * target_power / attacker_power.  xp for kill = 0.1 * experienceMult * target_power / attacker_power. Where power can be set by the UnitDef tag.
+    experienceMult = 0.4,  -- (default: 1) Controls the amount of experience gained by units engaging in combat. The formulae used are: xp for damage = 0.1 * experienceMult * damage / target_HP * target_power / attacker_power.  xp for kill = 0.1 * experienceMult * target_power / attacker_power. Where power can be set by the UnitDef tag.
     powerScale     = 1,    -- Controls how gaining experience changes the relative power of the unit. The formula used is Power multiplier = powerScale * (1 + xp / (xp + 1)).
     healthScale    = 0.7,  -- Controls how gaining experience increases the maxDamage (total hitpoints) of the unit. The formula used is Health multiplier = healthScale * (1 + xp / (xp + 1)).
     reloadScale    = 0.4,  -- Controls how gaining experience decreases the reloadTime of the unit's weapons. The formula used is Rate of fire multiplier = reloadScale * (1 + xp / (xp + 1)).
