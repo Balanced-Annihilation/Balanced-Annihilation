@@ -3,10 +3,14 @@
 #include "sfxtype.h"
 #include "exptype.h"
 
+#define SIG_AIM				2
+//#define SIG_AIM2			4
+#define SIG_RESTORE			8
+
 piece  flare1b, flare2b, base, wing1, wing2, tail1, tail2, weapon1,
        weapon2, flare1a, flare2a, thrust1, thrust2;
 
-static-var  gun_1, statechg_DesiredState, statechg_StateChanging;
+static-var  gun_1, restore_delay, statechg_DesiredState, statechg_StateChanging;
 
 
 activatescr()
@@ -120,6 +124,7 @@ RequestState(requestedstate, currentstate)
 
 Create()
 {
+	restore_delay = 300;
 	gun_1 = flare1b;
 	call-script InitState();
 	start-script SmokeUnit();
@@ -138,6 +143,28 @@ Deactivate()
 SweetSpot(piecenum)
 {
 	piecenum = base;
+}
+
+RestoreAfterDelay()
+{
+	signal SIG_RESTORE;
+	set-signal-mask SIG_RESTORE;
+	sleep restore_delay;
+	set-signal-mask 0;
+	start-script RequestState(1);
+}
+
+AimPrimary(heading, pitch)
+{
+	signal SIG_AIM;
+	set-signal-mask SIG_AIM;
+
+	turn weapon1 to x-axis <0.00000> - pitch speed <600.00000>;
+	turn weapon2 to x-axis <0.00000> - pitch speed <600.00000>;
+	wait-for-turn weapon1 around y-axis;
+	wait-for-turn weapon2 around x-axis;
+	start-script RestoreAfterDelay();		
+	return (1);
 }
 
 FirePrimary()
