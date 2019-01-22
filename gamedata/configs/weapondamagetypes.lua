@@ -175,7 +175,6 @@ local weaponDamageTypes = {
 	armpt = { ["Laser"] = "bullet", ["Missiles"] = "bullet", },
 	coratl = { ["LongRangeTorpedo"] = "homing", },
 	armcarry = { ["Rocket"] = "omni", },
-	armdl = { ["DepthCharge"] = "rocket", },
 	armjeth = { ["Missiles"] = "rocket", },
 	corkrog = { ["KrogCrush"] = "omni", ["HeavyRockets"] = "rocket", ["GaussCannon"] = "plasma", ["KrogHeatRay"] = "thermo", },
 	corgator = { ["Laser"] = "laser", },

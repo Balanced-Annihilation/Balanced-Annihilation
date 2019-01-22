@@ -7,7 +7,7 @@ function widget:GetInfo()
         date      = "WIP",
         license   = "GNU GPL, v2 or later",
         layer     = -100,
-        enabled   = false,
+        enabled   = true,
         handler   = true,
     }
 end
@@ -92,12 +92,13 @@ local function updateTooltipText()
 end --updateSelection
 --------------------------------------------------------------------------------
 function widget:Initialize()
+    sSetDrawSelectionInfo(false) --disables springs default display of selected units count
+    sSendCommands("tooltip 0")
+
     if not WG.Chili then
         widgetHandler:RemoveWidget()
         return
     end
-    sSetDrawSelectionInfo(false) --disables springs default display of selected units count
-    sSendCommands("tooltip 0")
 
     Chili = WG.Chili
     Window = Chili.Window

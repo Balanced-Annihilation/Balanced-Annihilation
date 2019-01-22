@@ -208,28 +208,30 @@ local function GetUnitFinalPosition(uID)
     local ux, uy, uz = spGetUnitPosition(uID)
 
     local cmds = spGetCommandQueue(uID,5000)
-    for i = #cmds, 1, -1 do
+    if cmds then
+        for i = #cmds, 1, -1 do
 
-        local cmd = cmds[i]
-        if (cmd.id < 0) or positionCmds[cmd.id] then
+            local cmd = cmds[i]
+            if (cmd.id < 0) or positionCmds[cmd.id] then
 
-            local params = cmd.params
-            if #params >= 3 then
-                return params[1], params[2], params[3]
-            else
-                if #params == 1 then
+                local params = cmd.params
+                if #params >= 3 then
+                    return params[1], params[2], params[3]
+                else
+                    if #params == 1 then
 
-                    local pID = params[1]
-                    local px, py, pz
+                        local pID = params[1]
+                        local px, py, pz
 
-                    if pID > maxUnits then
-                        px, py, pz = spGetFeaturePosition(pID - maxUnits)
-                    else
-                        px, py, pz = spGetUnitPosition(pID)
-                    end
+                        if pID > maxUnits then
+                            px, py, pz = spGetFeaturePosition(pID - maxUnits)
+                        else
+                            px, py, pz = spGetUnitPosition(pID)
+                        end
 
-                    if px then
-                        return px, py, pz
+                        if px then
+                            return px, py, pz
+                        end
                     end
                 end
             end

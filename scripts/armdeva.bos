@@ -60,6 +60,31 @@ Create()
 
 // We only actually aim and fire from Weapons 2 & 3 (1 is bogus)
 
+AimPrimary(heading, pitch)
+{
+	signal SIG_AIM;
+	set-signal-mask SIG_AIM;
+	if( gun_1 == 1 )
+	{
+		turn canonbarrel to z-axis <0.00000> speed <400.00000>;
+	}
+	if( gun_1 == 2 )
+	{
+		turn canonbarrel to z-axis <120.02747> speed <400.00000>;
+	}
+	if( gun_1 == 3 )
+	{
+		turn canonbarrel to z-axis <-120.02747> speed <400.00000>;
+	}
+	turn turret to y-axis heading speed <450.00000>;
+	turn sleeve to x-axis <0.00000> - pitch speed <450.00000>;
+	wait-for-turn canonbarrel around z-axis;
+	wait-for-turn turret around y-axis;
+	wait-for-turn sleeve around x-axis;
+	return (1);
+}
+
+
 AimSecondary(heading, pitch)
 {
 	signal SIG_AIM;
@@ -122,6 +147,11 @@ AfterFiring()
 	}
 	move canonbarrel to z-axis [-1.000000] now;
 	move canonbarrel to z-axis [0.000000] speed <320.00000>;
+}
+
+FirePrimary()
+{
+	start-script AfterFiring();	
 }
 
 FireSecondary()
