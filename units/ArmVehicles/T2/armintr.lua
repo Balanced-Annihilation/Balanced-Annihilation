@@ -1,11 +1,11 @@
 return {
-	corintr = {
+	armintr = {
 		acceleration = 0.33,
 		brakerate = 0.495,
 		buildangle = 16384,
 		buildcostenergy = 16000,
 		buildcostmetal = 1400,
-		buildpic = "CORINTR.DDS",
+		buildpic = "ARMINTR.DDS",
 		buildtime = 14177,
 		canmove = true,
 		cantbetransported = true,
@@ -30,7 +30,7 @@ return {
 		maxwaterdepth = 255,
 		movementclass = "ATANK3",
 		name = "Intruder",
-		objectname = "CORINTR",
+		objectname = "ARMINTR",
 		releaseheld = true,
 		seismicsignature = 0,
 		selfdestructas = "hugeExplosionGenericSelfd-phib",
@@ -71,7 +71,7 @@ return {
 				height = 20,
 				hitdensity = 100,
 				metal = 822,
-				object = "CORINTR_DEAD",
+				object = "ARMINTR_DEAD",
 				reclaimable = true,
 				seqnamereclamate = "TREE1RECLAMATE",
 				world = "All Worlds",

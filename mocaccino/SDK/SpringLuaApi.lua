@@ -828,35 +828,41 @@ return  stringMock
  end
 
 function Spring.GetGameRulesParam   (  ruleIndex)
-assert(type(ruleIndex) == "number","Argument ruleIndex is of invalid type - expected number");
-return  numberMock
- end
+ assert(type(ruleIndex) == "number","Argument ruleIndex is of invalid type - expected number");
+ return  numberMock
+end
 
 function Spring.GetGameRulesParams   ( )
-return  numberMock
- end
+ return  numberMock
+end
 
-function Spring.GetTeamRulesParam   (  index, teamID)
-assert(type(index) == "number","Argument index is of invalid type - expected number");
-assert(type(teamID) == "number","Argument teamID, is of invalid type - expected number");
-return  numberMock
- end
+function Spring.GetTeamRulesParam   (index, teamID)
+ assert(type(index) == "number","Argument index is of invalid type - expected number");
+ assert(type(teamID) == "number","Argument teamID, is of invalid type - expected number");
+ return  numberMock
+end
 
-function Spring.GetTeamRulesParams   (  teamID)
-assert(type(teamID) == "number","Argument teamID is of invalid type - expected number");
-return  numberMock
- end
+function Spring.GetTeamRulesParams   (teamID)
+ assert(type(teamID) == "number","Argument teamID is of invalid type - expected number");
+ return  numberMock
+end
 
-function Spring.GetUnitRulesParam   (  index, unitID )
-assert(type(index) == "number","Argument index is of invalid type - expected number");
-assert(type(unitID) == "number","Argument unitID, is of invalid type - expected number");
-return  numberMock
- end
+function Spring.GetUnitRulesParam   (unitID, ruleName)
+ assert(type(unitID) == "number","Argument index is of invalid type - expected number");
+ assert(type(ruleName) == "string","Argument param is of invalid type - expected string");
+ return  numberMock
+end
 
-function Spring.GetUnitRulesParams   (  unitID)
-assert(type(unitID) == "number","Argument unitID is of invalid type - expected number");
-return  numberMock
- end
+function Spring.GetUnitRulesParam   (unitID, index)
+ assert(type(unitID) == "number","Argument index is of invalid type - expected number");
+ assert(type(index) == "number","Argument index is of invalid type - expected number");
+ return  numberMock
+end
+
+function Spring.GetUnitRulesParams   (unitID)
+ assert(type(unitID) == "number","Argument unitID is of invalid type - expected number");
+ return  numberMock
+end
 
 function Spring.GetModOptions   ( )
 return  stringMock

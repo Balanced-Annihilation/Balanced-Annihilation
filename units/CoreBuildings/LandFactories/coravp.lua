@@ -48,7 +48,6 @@ return {
 			[4] = "corparrow",
 			[5] = "corgol",
 			[6] = "corban",
-			[7] = "corintr",
 			[8] = "cormart",
 			[9] = "corvroc",
 			[10] = "cortrem",

@@ -325,6 +325,71 @@ local moveDatas = {
 		maxslope = 18,
 		maxwaterdepth = 0,
 	},
+
+	--- Chicken Movedefs
+	CHICKENNANO = {
+		crushstrength = 0,
+		footprintx = 3,
+		footprintz = 3,
+		maxslope = 18,
+		maxwaterdepth = 0,
+	},
+	CHICKQUEEN = {
+		footprintx=3,
+		footprintz=3,
+		maxwaterdepth=72,
+		maxslope=40,
+		crushstrength=15000,
+		avoidMobilesOnPath=false,
+	},
+	CHICKENHKBOT1 = {
+		footprintx=1,
+		footprintz=1,
+		maxwaterdepth=22,
+		maxslope=36,
+		crushstrength=100,
+	},
+	CHICKENHKBOT2 = {
+		footprintx=2,
+		footprintz=2,
+		maxwaterdepth=22,
+		maxslope=36,
+		crushstrength=200,
+	},
+	CHICKENHKBOT3 = {
+		footprintx=3,
+		footprintz=3,
+		maxwaterdepth=22,
+		maxslope=36,
+		crushstrength=500,
+	},
+	CHICKENHKBOT4 = {
+		footprintx=4,
+		footprintz=4,
+		maxwaterdepth=22,
+		maxslope=36,
+		crushstrength=900,
+	},
+	CHICKENHKBOT5 = {
+		footprintx=5,
+		footprintz=5,
+		maxwaterdepth=22,
+		maxslope=36,
+		crushstrength=2000,
+	},
+	CHICKENHKBOT6 = {
+		footprintx=6,
+		footprintz=6,
+		maxwaterdepth=22,
+		maxslope=36,
+		crushstrength=6000,
+	},
+	CHICKENHOVERDODO = {
+		footprintx = 1,
+		footprintz = 1,
+		maxslope = 30,
+		maxwaterslope = 255,
+	},
 }
 
 --------------------------------------------------------------------------------

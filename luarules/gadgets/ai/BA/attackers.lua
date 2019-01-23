@@ -79,7 +79,7 @@ unusedlist = {
 	"corroach",	--	Roach			/	Amphibious Crawling Bomb
 	"corsktl",	--	Skuttle			/	Advanced Amphibious Crawling Bomb
 	"corthovr",	--	Turtle			/	Transport Hovercraft
-	"corintr",	--	Intruder		/	Amphibious Assault Transport
+	"armintr",	--	Intruder		/	Amphibious Assault Transport
 	"armthovr",	--	Bear			/	Transport Hovercraft
 	"corseah",	--	Seahook			/	Assault Transport
 	"cormabm",	--	Hedgehog		/	Mobile Anti Nuke

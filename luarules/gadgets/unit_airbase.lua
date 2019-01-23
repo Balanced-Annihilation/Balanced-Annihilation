@@ -293,7 +293,7 @@ function gadget:UnitCreated(unitID, unitDefID, unitTeam, builderID)
       Spring.InsertUnitCmdDesc(unitID, landAtAnyAirbaseCmd)
    end
 
-   -- (MaDDoX) Not sure below is needed..
+   -- (MaDDoX) Not sure if below is needed..
    local _, _, _, _, buildProgress = Spring.GetUnitHealth(unitID)
    if buildProgress == 1.0 then
       gadget:UnitFinished(unitID, unitDefID, unitTeam)

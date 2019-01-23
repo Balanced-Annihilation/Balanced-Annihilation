@@ -106,7 +106,7 @@ local weaponDamageTypes = {
 	corblackhy = { ["HighEnergyLaser"] = "plasma", ["BattleshipCannon"] = "plasma", ["RapidSamMissile"] = "plasma", },
 	corgate = { ["PlasmaRepulsor"] = "none", },
 	corhlt = { ["HighEnergyLaser"] = "hflaser", },
-	blade = { ["Sabotrocket"] = "rocket", },
+	armblade = { ["Sabotrocket"] = "rocket", },
 	armguard = { ["PlasmaCannon"] = "plasma", },
 	cormh = { ["Rocket"] = "rocket", },
 	tawf013 = { ["LightArtillery"] = "siege", },

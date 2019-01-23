@@ -111,10 +111,10 @@ if Spring.GetModOptions and (tonumber(Spring.GetModOptions().barmodels) or 0) ~=
 		on={63,112,63,0,12,0,1,1,1},
 		off={45,87,45,0,0,0,2,1,0},
 	}
-	unitCollisionVolume["corplat"] = {
-		on={112,60,112,0,28,0,1,1,1},
-		off={112,35,112,0,0,0,1,1,1},
-	}
+	--unitCollisionVolume["corplat"] = {
+	--	on={112,60,112,0,28,0,1,1,1},
+	--	off={112,35,112,0,0,0,1,1,1},
+	--}
 	unitCollisionVolume["cormaw"] = {
 		on={35,57,35,0,-5,-3,0,1,0},
 		off={35,31,35,0,-5,-3,0,1,0},
@@ -192,10 +192,10 @@ else
 		on={39,78,39,0,-11,0,1,1,1,0,23,0},
 		off={39,40,39,0,-20,0,1,1,1,0,10,0},
 	}
-	unitCollisionVolume["armplat"] = {
-		on={105,66,105,0,33,0,2,1,0,0,45,0},
-		off={105,44,105,0,0,0,2,1,0,0,20,0},
-	}
+	--unitCollisionVolume["armplat"] = {
+	--	on={105,66,105,0,33,0,2,1,0,0,45,0},
+	--	off={105,44,105,0,0,0,2,1,0,0,20,0},
+	--}
 	unitCollisionVolume["armsolar"] = {
 		on={83,76,83,0,-18,1,1,1,1},
 		off={50,76,50,0,-18,1,1,1,1},

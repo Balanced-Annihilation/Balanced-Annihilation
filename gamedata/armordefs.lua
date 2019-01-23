@@ -37,15 +37,15 @@ local armorDefs = {
 	structure={"armoutpost","armoutpost2","armoutpost3","armoutpost4","coroutpost","coroutpost2","coroutpost3","coroutpost4","armtech","armtech2", "armtech3","armtech4",
 		"cortech","cortech2", "cortech3","cortech4","armawin","corawin","armjuno","armaap","armadvsol","armalab","armap","armarad","armaser","armason",
 		"armasp","armasy","armavp","armbeaver","armckfus","armdf","armestor","armeyes","armfatf","armfdrag","armfgate","armfhp","armfmine3","armfmkr","armfort","armfrad",
-		"armgate","armhp","armjamt","armlab","armmakr","armmine1","armmine2","armmine3","armnanotc","armplat","armrad","armsd","armshltx",
+		"armgate","armhp","armjamt","armlab","armmakr","armmine1","armmine2","armmine3","armnanotc","armrad","armsd","armshltx",
 		"armshltxuw","armsilo","armsonar","armsy","armtarg","armtide","armuwadves","armuwadvms","armuwes","armuwfus","armuwmex","armuwmme","armuwmmm","armuwms",
 		"armveil","armvp","armwin","asubpen","corjuno","corageo","coraap","coradvsol","coralab","corap","corarad","corason","corasp","corasy","coravp",
 		"cordrag","corestor","coreyes","corfatf","corfdrag","corfhp","corfmine3","corfmkr","corfort","corfrad","corgant","corgantuw","corgeo","corhp",
-		"corjamt","corlab","cormakr","cormexp","cormine1","cormine2","cormine3","cormine4","cormmkr","cormstor","cornanotc","corplat","corrad","corsd",
+		"corjamt","corlab","cormakr","cormexp","cormine1","cormine2","cormine3","cormine4","cormmkr","cormstor","cornanotc","corrad","corsd",
 		"corshroud","corsonar","corsy","cortarg","cortide","cortron","coruwadves","coruwadvms","coruwes","coruwfus","coruwmex","coruwmme","coruwmmm","coruwms",
 		"corvp","corwin","csubpen","tllmedfusion",},
 
-	tank={"armanac","armbull","armcroc","armcrus","armlun","armpincer","armroy","armscab","armseer","armsjam","armst","armstump","armthovr","armtship","corblackhy","corcrus","cordl","coreter","corgarp","corgol","cormabm","cormlv","corparrow","corraid","correap","corroy","corseal","corsilo","corsjam","corsnap","corsok","cortship","corintr",},
+	tank={"armanac","armbull","armcroc","armcrus","armlun","armpincer","armroy","armscab","armseer","armsjam","armst","armstump","armthovr","armtship","corblackhy","corcrus","cordl","coreter","corgarp","corgol","cormabm","cormlv","corparrow","corraid","correap","corroy","corseal","corsilo","corsjam","corsnap","corsok","cortship","armintr",},
 
 	["else"] = {},
 }
