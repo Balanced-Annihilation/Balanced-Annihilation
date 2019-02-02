@@ -99,7 +99,6 @@ local UtilBuilders = {
 	armack = true,
 	armaca = true,
 	armch = true,
-	armbeaver = true,
 	corcv = true,
 	corca = true,
 	corck = true,
@@ -107,7 +106,6 @@ local UtilBuilders = {
 	coraca = true,
 	corack = true,
 	corch = true,
-	cormuskrat = true,
 	armfark = true,
 	corfast = true,
 	armconsul = true,
@@ -210,12 +208,12 @@ end
 function GetTechLevelRate(ai, unit, name)
 	local rate
 	if unit:Name() == "armalab" or unit:Name() == "armavp" or unit:Name() == "armaap" or unit:Name() == "coralab" or unit:Name() == "coravp" or unit:Name() == "coraap" then
-		rate = math.max(0.2,math.min(1, 3 - income(ai, "energy")/1500))
+		rate = math.max(0.4,math.min(1, 3 - income(ai, "energy")/1500))
 		if name == "armaca" or name == "armack" or name == "armacv" or name == "coraca" or name == "coracv" or name == "corack" then
 			rate = 1	
 		end
 	elseif unit:Name() == "armlab" or unit:Name() == "armvp" or unit:Name() == "armap" or unit:Name() == "corlab" or unit:Name() == "corvp" or unit:Name() == "corap" then
-		rate = math.max(0.001,math.min(1, 1 - income(ai, "energy")/1500))
+		rate = math.max(0.7,math.min(1, 1 - income(ai, "energy")/1500))
 		if name == "armca" or name == "armck" or name == "armcv" or name == "corca" or name == "corcv" or name == "corck" then
 			rate = 1	
 		end
@@ -1149,7 +1147,6 @@ function FindBest(unitoptions,ai)
 		return unitoptions[math.random(1,#unitoptions)]
 	end
 end
-
 function ProcessUnitName(unitName,tqb,ai,unit)
 	local defs = UnitDefs[UnitDefNames[unitName].id]
 	local canBuild = defs.buildSpeed > 0
@@ -1195,27 +1192,48 @@ end
 function TryRequest(tqb,ai,unit)
 	local requestList = ai.buildersquadshandler.requests
 	for i, req in pairs (requestList) do
-		if req.sentToTaskQueues == true and req.queued ~= true then
-			local list1 = FindPossibilitiesFromRequest(tqb,ai,unit, req.domain, req.role)
-			if list1[1] then
-				local list = {}
-				local count = 0
-				for ct, unitName in pairs(list1) do
-					local defs = UnitDefs[UnitDefNames[unitName].id]
-					if ResourceCheck(tqb, ai, unit, unitName) then
-						count = count + 1
-						list[count] = unitName
+		if req.sentToTaskQueues == true and ((req.queued == nil) or (req.queued + 3600 < Spring.GetGameFrame())) then
+			if req.domain == "military" and req.role == "leader" then
+				local choice = nil
+				if string.find(unit:Name(), "arm") then
+					if tqb.ai.buildersquadshandler.currentTechLevel >= 2 then
+						choice = ArmExpandRandomLab(tqb,ai,unit)
+					else
+						choice = ArmTech(tqb,ai,unit)
+					end
+				elseif string.find(unit:Name(), "cor") then
+					if tqb.ai.buildersquadshandler.currentTechLevel >= 2 then
+						choice = CorExpandRandomLab(tqb,ai,unit)
+					else
+						choice = CorTech(tqb,ai,unit)
 					end
 				end
-				if list[1] then
-					if req.domain == "military" and req.role == "helper" then
-						if ai.buildersquadshandler.squads[req.domain][req.squadn]["leader"][1] then
-							ai.buildersquadshandler.requests[i].queued = true
-							return {action = "nanosupport", name = FindBest(list, ai), target = ai.buildersquadshandler.squads[req.domain][req.squadn]["leader"][1].unit.id}
+				if choice then
+					ai.buildersquadshandler.requests[i].queued = Spring.GetGameFrame()
+					return choice
+				end
+			else
+				local list1 = FindPossibilitiesFromRequest(tqb,ai,unit, req.domain, req.role)
+				if list1[1] then
+					local list = {}
+					local count = 0
+					for ct, unitName in pairs(list1) do
+						local defs = UnitDefs[UnitDefNames[unitName].id]
+						if ResourceCheck(tqb, ai, unit, unitName) then
+							count = count + 1
+							list[count] = unitName
 						end
 					end
-					ai.buildersquadshandler.requests[i].queued = true
-					return FindBest(list, ai)
+					if list[1] then
+						if req.domain == "military" and req.role == "helper" then
+							if ai.buildersquadshandler.squads[req.domain][req.squadn]["leader"][1] then
+								ai.buildersquadshandler.requests[i].queued = Spring.GetGameFrame()
+								return {action = "nanosupport", name = FindBest(list, ai), target = ai.buildersquadshandler.squads[req.domain][req.squadn]["leader"][1].unit.id}
+							end
+						end
+						ai.buildersquadshandler.requests[i].queued = Spring.GetGameFrame()
+						return FindBest(list, ai)
+					end
 				end
 			end
 		end
@@ -1230,6 +1248,7 @@ end
 lab = {
 	TryRequest,
 	Scout,
+	OffensiveUnit,
 	OffensiveUnit,
 	OffensiveUnit,
 	OffensiveUnit,
@@ -1308,10 +1327,8 @@ end
 
 function CorEnT1( tqb, ai, unit )	
 	local countEstore = UDC(ai.id, UDN.corestor.id) + UDC(ai.id, UDN.armestor.id)
-	if (income(ai, "energy") < ai.aimodehandler.eincomelimiterpretech2) and realincome(ai, "energy") < 0 and curstorperc(ai, "energy") < 80 then
+	if realincome(ai, "energy") < 0 and curstorperc(ai, "energy") < 80 then
         return (CorWindOrSolar(tqb, ai, unit))
-	elseif (income(ai, "energy") < ai.aimodehandler.eincomelimiterposttech2) and realincome(ai, "energy") < 0 and curstorperc(ai, "energy") < 80 and GetFinishedAdvancedLabs(tqb, ai, unit) >= 1 then
-		return (CorWindOrSolar(tqb, ai, unit))
     elseif Spring.GetTeamRulesParam(ai.id, "mmCapacity") < income(ai, "energy") and curstorperc(ai, "energy") > 30 then
         return "cormakr"
 	elseif storabletime(ai, "energy") < 8 and curstorperc(ai, "energy") > 80 then
@@ -1324,10 +1341,6 @@ function CorEnT1( tqb, ai, unit )
 end
 
 function CorEnT2( tqb, ai, unit )
-	--if storabletime(ai, "energy") < 10 and not (GetPlannedAndUnfinishedType(tqb,ai,unit, {UDN.coruwadves.id, UDN.armuwadves.id }) > 0) then
-		--return "coruwadves"
-	--elseif storabletime(ai, "metal") < 5 and not (GetPlannedAndUnfinishedType(tqb,ai,unit, {UDN.coruwadvms.id, UDN.armuwadvms.id }) > 0)then
-		--return "coruwadvms"
 	if income(ai, "energy") > 6000 and income(ai, "metal") > 100 and Spring.GetTeamRulesParam(ai.id, "mmCapacity") > income(ai, "energy")-3000 and income(ai, "energy") < ((math.max((Spring.GetGameSeconds() / 60) - 5, 1)/6) ^ 2) * 1000 and unit:Name() == "coracv" then
        	if GG.AiHelpers.NanoTC.GetClosestNanoTC(unit.id) then
 			local x, y, z = GG.AiHelpers.NanoTC.GetClosestNanoTC(unit.id)
@@ -1405,13 +1418,13 @@ function CorTech(tqb, ai, unit)
 				ai.firstT2 = true
 				return "coravp"
 			else 
-				return skip
+				return nil
 			end
 		else
-			return skip
+			return nil
 		end
 	else
-		return skip
+		return nil
 	end
 end
 
@@ -1422,12 +1435,12 @@ function CorExpandRandomLab(tqb, ai, unit)
 		if timetostore(ai, "metal", defs.metalCost) < defs.buildTime/UnitDefs[UnitDefNames[unit:Name()].id].buildSpeed and timetostore(ai, "energy", defs.energyCost) < defs.buildTime/UnitDefs[UnitDefNames[unit:Name()].id].buildSpeed and AllAdvancedLabs(tqb,ai,unit) > 0 and GetPlannedAndUnfinishedLabs(tqb,ai,unit) <1 then
 			labtype = labtype
 		else
-			labtype = skip
+			labtype = nil
 		end
 	else
-		labtype = skip
+		labtype = nil
 	end
-	if labtype == skip then
+	if labtype == nil then
 		return labtype
 	elseif GG.AiHelpers.NanoTC.GetClosestNanoTC(unit.id) then
 		local x, y, z = GG.AiHelpers.NanoTC.GetClosestNanoTC(unit.id)
@@ -1708,9 +1721,7 @@ end
 
 function ArmEnT1( tqb, ai, unit)
 	local countEstore = UDC(ai.id, UDN.corestor.id) + UDC(ai.id, UDN.armestor.id)
-	if (income(ai, "energy") < ai.aimodehandler.eincomelimiterpretech2) and realincome(ai, "energy") < 0 and curstorperc(ai, "energy") < 80 then
-		return (ArmWindOrSolar(tqb, ai, unit))
-	elseif (income(ai, "energy") < ai.aimodehandler.eincomelimiterposttech2) and realincome(ai, "energy") < 0 and curstorperc(ai, "energy") < 80 and GetFinishedAdvancedLabs(tqb, ai, unit) >= 1 then
+	if realincome(ai, "energy") < 0 and curstorperc(ai, "energy") < 80 then
 		return (ArmWindOrSolar(tqb, ai, unit))
 	elseif Spring.GetTeamRulesParam(ai.id, "mmCapacity") < income(ai, "energy") and curstorperc(ai, "energy") > 30 then
 		return "armmakr"
@@ -1724,10 +1735,6 @@ function ArmEnT1( tqb, ai, unit)
 end
 
 function ArmEnT2( tqb, ai, unit )
-	--if storabletime(ai, "energy") < 10 and not (GetPlannedAndUnfinishedType(tqb,ai,unit, {UDN.coruwadves.id, UDN.armuwadves.id }) > 0)then
-		--return "armuwadves"
-	--elseif storabletime(ai, "metal") < 5 and not (GetPlannedAndUnfinishedType(tqb,ai,unit, {UDN.coruwadvms.id, UDN.armuwadvms.id }) > 0)then
-		--return "armuwadvms"
 	if income(ai, "energy") > 6000 and income(ai, "metal") > 100 and Spring.GetTeamRulesParam(ai.id, "mmCapacity") > income(ai, "energy")-3000 and income(ai, "energy") < ((math.max((Spring.GetGameSeconds() / 60) - 5, 1)/6) ^ 2) * 1000 and unit:Name() == "armacv" then
        	if GG.AiHelpers.NanoTC.GetClosestNanoTC(unit.id) then
 			local x, y, z = GG.AiHelpers.NanoTC.GetClosestNanoTC(unit.id)
@@ -1798,13 +1805,13 @@ function ArmTech(tqb, ai, unit)
 				ai.firstT2 = true
 				return "armavp"
 			else 
-				return skip
+				return nil
 			end
 		else
-			return skip
+			return nil
 		end
 	else
-		return skip	
+		return nil	
 	end
 end
 
@@ -1815,12 +1822,12 @@ function ArmExpandRandomLab(tqb, ai, unit)
 		if timetostore(ai, "metal", defs.metalCost) < defs.buildTime/UnitDefs[UnitDefNames[unit:Name()].id].buildSpeed and timetostore(ai, "energy", defs.energyCost) < defs.buildTime/UnitDefs[UnitDefNames[unit:Name()].id].buildSpeed and AllAdvancedLabs(tqb,ai,unit) > 0  and GetPlannedAndUnfinishedLabs(tqb,ai,unit) <1 then
 			labtype = labtype
 		else
-			labtype = skip
+			labtype = nil
 		end
 	else
-		labtype = skip
+		labtype = nil
 	end
-	if labtype == skip then
+	if labtype == nil then
 		return labtype
 	elseif GG.AiHelpers.NanoTC.GetClosestNanoTC(unit.id) then
 		local x, y, z = GG.AiHelpers.NanoTC.GetClosestNanoTC(unit.id)

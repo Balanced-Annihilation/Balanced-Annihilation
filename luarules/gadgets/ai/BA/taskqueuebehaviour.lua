@@ -263,7 +263,8 @@ function TaskQueueBehaviour:BuildNanoSupport(unitName, target)
 			p = {x = targetPos.x - v.z, y = targetPos.y, z = targetPos.z + v.x}
 		end
 		if self.game.map:CanBuildHere(utype,p) == true then
-			self.unit:Internal():ExecuteCustomCommand(-nanoDefs.id, {p.x, Spring.GetGroundHeight(p.x, p.z), p.z}, {})
+			self.ai.newplacementhandler:CreateNewPlanNoSearch(self.unit:Internal(),utype,p)
+			self.unit:Internal():ExecuteCustomCommand(-nanoDefs.id, {p.x, Spring.GetGroundHeight(p.x, p.z), p.z}, {"shift"})
 			return true
 		end
 	end

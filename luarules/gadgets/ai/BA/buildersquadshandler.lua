@@ -93,7 +93,6 @@ local UtilBuilders = {
 	armack = true,
 	armaca = true,
 	armch = true,
-	armbeaver = true,
 	corcv = true,
 	corca = true,
 	corck = true,
@@ -101,11 +100,11 @@ local UtilBuilders = {
 	coraca = true,
 	corack = true,
 	corch = true,
-	cormuskrat = true,
 	armfark = true,
 	corfast = true,
 	armconsul = true,
 }
+
 local MilLeaders = {
 	armlab = true,
 	armalab = true,
@@ -137,7 +136,7 @@ local function squadtable(domain)
 	elseif domain == "expand" then
 		maxallowedbp = 400
 	elseif domain == "util" then
-		maxallowedbp = 600
+		maxallowedbp = 300
 	else
 		maxallowedbp = 300
 	end
@@ -185,11 +184,16 @@ function BuilderSquadsHandler:Init()
 	self:AddRequest(nil, "commander", "leader")
 	self:AddRequest(nil, "military", "leader")
 	self:AddRequest(nil, "expand", "leader")
+	self:AddRequest(nil, "expand", "leader")
+	self:AddRequest(nil, "expand", "leader")
 	self:AddRequest(nil, "economy", "leader")
+	self:AddRequest(nil, "util", "leader")
 	self:AddRequest(nil, "util", "leader")
 	self:AddRequest(nil, "expand", "leader")
 	self:AddRequest(nil, "expand", "leader")
+	self:AddRequest(nil, "expand", "leader")
 	self:AddRequest(nil, "economy", "leader")
+	self:AddRequest(nil, "util", "leader")
 	self:AddRequest(nil, "util", "leader")
 	self.currentTechLevel = 1
 	-- self:AddRequest(nil, "util", "leader")
@@ -298,6 +302,7 @@ end
 
 function BuilderSquadsHandler:AddRecruit(tqb)
 	local unit = tqb.unit:Internal()
+	local state = self:GetState(tqb,unit)
 	self:RemoveIdleRecruit(tqb, unit)
 	local unitName, canBe = self:ProcessUnit(unit)
 	for i = 1, #self.requests do
@@ -321,10 +326,12 @@ end
 function BuilderSquadsHandler:RemoveRecruit(tqb)
 	local unit = tqb.unit:Internal()
 	local state = self:GetState(tqb, unit)
-	if state.state == "squad" then
-		self:RemoveFromSquad(tqb, unit, state.params.domain, state.params.role, state.params.squadn)
-	elseif state.state == "idle" then
-		self:RemoveIdleRecruit(tqb, unit)
+	if state and state.state then
+		if state.state == "squad" then
+			self:RemoveFromSquad(tqb, unit, state.params.domain, state.params.role, state.params.squadn)
+		elseif state.state == "idle" then
+			self:RemoveIdleRecruit(tqb, unit)
+		end
 	end
 	self:SetState(tqb, unit, "dead",_, tqb.unit:Internal().id)
 	tqb:Deactivate()
@@ -351,6 +358,7 @@ function BuilderSquadsHandler:RemoveIdleRecruit(tqb, unit)
 end
 
 function BuilderSquadsHandler:AssignToSquad(tqb, unit, domain, role, squadn)
+	Spring.Echo(domain, role, squadn)
 	local squadrole = self.squads[domain][squadn][role]
 	self.squads[domain][squadn][role][#self.squads[domain][squadn][role] + 1] = {tqb = tqb, unit = unit}
 	self:SetState(tqb, unit, "squad", {domain = domain, role = role, squadn = squadn})
