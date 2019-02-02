@@ -129,16 +129,22 @@ local Commander = {
 
 local function squadtable(domain)
 	local maxallowedbp
+	local maxpendingrequests
 	if domain == "military" then
 		maxallowedbp = 2000
+		maxpendingrequests = 3
 	elseif domain == "economy" then
 		maxallowedbp = 1500
+		maxpendingrequests = 2
 	elseif domain == "expand" then
 		maxallowedbp = 400
+		maxpendingrequests = 1
 	elseif domain == "util" then
-		maxallowedbp = 300
+		maxallowedbp = 150
+		maxpendingrequests = 1
 	else
 		maxallowedbp = 300
+		maxpendingrequests = 1
 	end
 	local stable = {
 		leader = {},
@@ -147,6 +153,8 @@ local function squadtable(domain)
 		curbp = 0,
 		maxbp = 0,
 		maxallowedbp = maxallowedbp,
+		maxpendingrequests = maxpendingrequests,
+		hasPendingRequest = 0,
 		}
 	return stable
 end
@@ -180,7 +188,7 @@ function BuilderSquadsHandler:Init()
 	self.requests = {} -- [i] = {domain  = domain, role = role, [squadn = squadn]}
 	self.idle = {} -- [i] = tqb
 	self.states = {} -- [unitID] = {state = state, [params = params]}
-	self.coeff = {economy = 0.2, military = 0.2, expand = 0.2, util = 0.2, commander = 0.2}
+	self.coeff = {economy = 0.4, military = 0.4, expand = 0.1, util = 0.05, commander = 0.05}
 	self:AddRequest(nil, "commander", "leader")
 	self:AddRequest(nil, "military", "leader")
 	self:AddRequest(nil, "expand", "leader")
@@ -232,8 +240,11 @@ end
 
 function BuilderSquadsHandler:RemoveRequest(i)
 	if self.requests[i] and self.requests[i].domain and self.requests[i].squadn then
-		if self.squads[self.requests[i].domain][self.requests[i].squadn].hasPendingRequest == true then
-			self.squads[self.requests[i].domain][self.requests[i].squadn].hasPendingRequest = false
+		if not self.squads[self.requests[i].domain][self.requests[i].squadn].hasPendingRequest then
+			self.squads[self.requests[i].domain][self.requests[i].squadn].hasPendingRequest = 0
+		end
+		if self.squads[self.requests[i].domain][self.requests[i].squadn].hasPendingRequest >= 1 then
+			self.squads[self.requests[i].domain][self.requests[i].squadn].hasPendingRequest = self.squads[self.requests[i].domain][self.requests[i].squadn].hasPendingRequest - 1
 		end
 	end
 	for k = i, #self.requests - 1 do
@@ -264,7 +275,6 @@ function BuilderSquadsHandler:RemoveSquad(domain, i)
 		for k,v in pairs(self.requests) do
 			if v.squadn == i then
 				self:RemoveRequest(k)
-				break
 			end
 		end
 		self.squads[domain][i] = {helper = {}, leader = {}}
@@ -282,7 +292,7 @@ function BuilderSquadsHandler:ProcessUnit(unit)
 	local canBuildExp = ExpBuilders[self.currentTechLevel][defs.name] == true
 	local militaryhelper = defs.name == "armnanotc" or defs.name == "cornanotc"
 	local militaryleader = canBuildMil
-	local utilhelper = false
+	local utilhelper = canBuildUtil
 	local utilleader = canBuildUtil
 	local economyhelper = canAssist
 	local economyleader = canBuildEco
@@ -307,17 +317,25 @@ function BuilderSquadsHandler:AddRecruit(tqb)
 	local unitName, canBe = self:ProcessUnit(unit)
 	for i = 1, #self.requests do
 		local req = self.requests[i]
-		if req.role == "leader" then
-			if canBe[req.domain][req.role] == true then
-				req.squadn = self:CreateSquad(req.domain)
-				self:AssignToSquad(tqb, unit, req.domain, req.role, req.squadn)
+		if req then
+			if req.role == "leader" then
+				if canBe[req.domain][req.role] == true then
+					req.squadn = self:CreateSquad(req.domain)
+					local success = self:AssignToSquad(tqb, unit, req.domain, req.role, req.squadn)
+					self:RemoveRequest(i)
+					if success then
+						return true
+					end
+					self:RemoveSquad(req.domain, req.squadn)
+				end
+			elseif canBe[req.domain][req.role] == true then
+				local success = self:AssignToSquad(tqb, unit, req.domain, req.role, req.squadn)
 				self:RemoveRequest(i)
-				return true
+				if success then
+					return true
+				end
+				self:RemoveSquad(req.domain, req.squadn)
 			end
-		elseif canBe[req.domain][req.role] == true then
-			self:AssignToSquad(tqb, unit, req.domain, req.role, req.squadn)
-			self:RemoveRequest(i)
-			return true
 		end
 	end
 	self:RegisterIdleRecruit(tqb, unit)
@@ -358,10 +376,13 @@ function BuilderSquadsHandler:RemoveIdleRecruit(tqb, unit)
 end
 
 function BuilderSquadsHandler:AssignToSquad(tqb, unit, domain, role, squadn)
-	Spring.Echo(domain, role, squadn)
-	local squadrole = self.squads[domain][squadn][role]
-	self.squads[domain][squadn][role][#self.squads[domain][squadn][role] + 1] = {tqb = tqb, unit = unit}
-	self:SetState(tqb, unit, "squad", {domain = domain, role = role, squadn = squadn})
+	if self.squads[domain] and self.squads[domain][squadn] and self.squads[domain][squadn][role] then
+		self.squads[domain][squadn][role][#self.squads[domain][squadn][role] + 1] = {tqb = tqb, unit = unit}
+		self:SetState(tqb, unit, "squad", {domain = domain, role = role, squadn = squadn})
+		return true
+	else
+		return false
+	end
 end
 
 function BuilderSquadsHandler:RemoveFromSquad(tqb, unit, domain, role, squadn)
@@ -391,7 +412,7 @@ function BuilderSquadsHandler:Update()
 	if not (Spring.GetGameFrame()%60 == 0) then
 		return
 	end
-	Spring.Echo("//////////////////////"..self.ai.id)
+	-- Spring.Echo("//////////////////////"..self.ai.id)
 	self:WatchTechLevel()
 	local curResources = {energy = self.ai.aimodehandler.resources["energy"], metal = self.ai.aimodehandler.resources["metal"]}
 	local m = curResources.metal
@@ -410,9 +431,9 @@ function BuilderSquadsHandler:Update()
 			self:AddRecruit(self.idle[i])
 		end
 	end
-		Spring.Echo("//////////////Requests")
+		-- Spring.Echo("//////////////Requests")
 	for k,v in pairs(self.requests) do -- requests that are not completed after checking all idles will probably need to be sent to task queues
-		Spring.Echo(v.domain, v.role, v.squadn, v.sentToTaskQueues, v.queued)	
+		-- Spring.Echo(v.domain, v.role, v.squadn, v.sentToTaskQueues, v.queued)	
 		if v.sentToTaskQueues ~= true then
 			v.sentToTaskQueues = true
 		end
@@ -426,10 +447,10 @@ function BuilderSquadsHandler:Update()
 			self:SquadUpdate(domain, k, 1/nSquads)
 		end
 	end
-		Spring.Echo("/////////////////Active Squads")
+		-- Spring.Echo("/////////////////Active Squads")
 	for domain, squads in pairs(self.squads) do
 		for k, v in pairs(squads) do
-			Spring.Echo(domain,k,v)
+			-- Spring.Echo(domain,k,v)
 			if (not v.leader[1]) and (not v.helper[1]) then
 				self.squads[domain][k] = nil
 			end
@@ -476,9 +497,12 @@ function BuilderSquadsHandler:SquadUpdate(domain, i, coeff)
 	if curUsedMetalTot < allocatedToThisSquad.m and curUsedEnergyTot < allocatedToThisSquad.e then
 		if curBPrate == 1.0  and domain ~= "commander" then
 			if theoricMaxBPTot < self.squads[domain][i].maxallowedbp then
-				if self.squads[domain][i].hasPendingRequest ~= true then
+				if not self.squads[domain][i].hasPendingRequest then
+					self.squads[domain][i].hasPendingRequest = 0
+				end
+				if self.squads[domain][i].hasPendingRequest < self.squads[domain][i].maxpendingrequests then
 					self:AddRequest(_, domain, "helper", i)
-					self.squads[domain][i].hasPendingRequest = true
+					self.squads[domain][i].hasPendingRequest = self.squads[domain][i].hasPendingRequest + 1
 				end
 			elseif self:CheckIfExistingNewSquadRequest(_,domain, "leader") ~= true then
 				self:AddRequest(_, domain, "leader")

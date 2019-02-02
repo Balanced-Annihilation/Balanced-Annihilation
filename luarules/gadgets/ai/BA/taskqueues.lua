@@ -206,22 +206,7 @@ function CanBuild(tqb, ai, unit, name)
 end
 
 function GetTechLevelRate(ai, unit, name)
-	local rate
-	if unit:Name() == "armalab" or unit:Name() == "armavp" or unit:Name() == "armaap" or unit:Name() == "coralab" or unit:Name() == "coravp" or unit:Name() == "coraap" then
-		rate = math.max(0.4,math.min(1, 3 - income(ai, "energy")/1500))
-		if name == "armaca" or name == "armack" or name == "armacv" or name == "coraca" or name == "coracv" or name == "corack" then
-			rate = 1	
-		end
-	elseif unit:Name() == "armlab" or unit:Name() == "armvp" or unit:Name() == "armap" or unit:Name() == "corlab" or unit:Name() == "corvp" or unit:Name() == "corap" then
-		rate = math.max(0.7,math.min(1, 1 - income(ai, "energy")/1500))
-		if name == "armca" or name == "armck" or name == "armcv" or name == "corca" or name == "corcv" or name == "corck" then
-			rate = 1	
-		end
-	elseif unit:Name() == "corgant" or unit:Name() == "armshltx" then
-		rate = 1
-	else
-		rate = 1
-	end
+	local rate = 1
 	return rate
 end
 
@@ -1157,7 +1142,7 @@ function ProcessUnitName(unitName,tqb,ai,unit)
 	local canBuildExp = ExpBuilders[ai.buildersquadshandler.currentTechLevel][defs.name] == true
 	local militaryhelper = defs.name == "armnanotc" or defs.name == "cornanotc"
 	local militaryleader = canBuildMil
-	local utilhelper = false
+	local utilhelper = canBuildUtil
 	local utilleader = canBuildUtil
 	local economyhelper = canAssist
 	local economyleader = canBuildEco
@@ -1272,7 +1257,7 @@ economy = {
 
 util = {
 	TryRequest,
-	-- RequestedAction,
+	RequestedAction,
 }
 
 function Economy(tqb,ai,unit)
@@ -1432,11 +1417,7 @@ function CorExpandRandomLab(tqb, ai, unit)
 	local labtype = ai.aimodehandler:CorExpandRandomLab(tqb,ai,unit)
 	if UnitDefNames[labtype] then
 		local defs = UnitDefs[UnitDefNames[labtype].id]
-		if timetostore(ai, "metal", defs.metalCost) < defs.buildTime/UnitDefs[UnitDefNames[unit:Name()].id].buildSpeed and timetostore(ai, "energy", defs.energyCost) < defs.buildTime/UnitDefs[UnitDefNames[unit:Name()].id].buildSpeed and AllAdvancedLabs(tqb,ai,unit) > 0 and GetPlannedAndUnfinishedLabs(tqb,ai,unit) <1 then
-			labtype = labtype
-		else
-			labtype = nil
-		end
+		labtype = labtype
 	else
 		labtype = nil
 	end
@@ -1819,11 +1800,7 @@ function ArmExpandRandomLab(tqb, ai, unit)
 	local labtype = ai.aimodehandler:ArmExpandRandomLab(tqb,ai,unit)
 	if UnitDefNames[labtype] then
 		local defs = UnitDefs[UnitDefNames[labtype].id]
-		if timetostore(ai, "metal", defs.metalCost) < defs.buildTime/UnitDefs[UnitDefNames[unit:Name()].id].buildSpeed and timetostore(ai, "energy", defs.energyCost) < defs.buildTime/UnitDefs[UnitDefNames[unit:Name()].id].buildSpeed and AllAdvancedLabs(tqb,ai,unit) > 0  and GetPlannedAndUnfinishedLabs(tqb,ai,unit) <1 then
-			labtype = labtype
-		else
-			labtype = nil
-		end
+		labtype = labtype
 	else
 		labtype = nil
 	end
