@@ -3241,3 +3241,5 @@ nanoLayers.corlab = nanoLayers.armlab
 nanoLayers.coralab = nanoLayers.armvp
 nanoLayers.corvp = nanoLayers.armvp
 nanoLayers.coravp = nanoLayers.armvp
+nanoLayers.armshltx = nanoLayers.armavp
+nanoLayers.corgant = nanoLayers.armavp

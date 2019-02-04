@@ -1,131 +1,18 @@
+-- In this module we:
+--1) split builders in "domains": eco, mil, util, comm, expand
+--2) split domains into squads = a leader (if possible the highest tech unit available) + one or multiple helpers that are requested through AddRequest()
+--3) Manage a pool of requests, these requests are solely builders related (ie: labs, cons, helpers, nanos). Other requests like "reclaim something", "send repairers here" are managed by the request handler.
+--4) Attempt to create a certain dergee of retro control bp <=> request builders: If builders are using too much resources, they slow down their buildspeed, if a squad doesn't have enough bp to use up all it has available, it will request supplementary bp (or creating of a new squad) via AddRequest.
+--5) Requests are forwarded to taskqueues via TryRequest() function. If one of the builders that have a tryrequest function can produce the requested item, the request is queued. If it hasn't been finished 2 minutes after it has been queued, it can be requeued.
+-- The priority to be assigned to a squad goes for the existing builders first so request are only forwarded after the module cycled through all available idle builders and haven't found one that could fulfill the request.
+-- Some specificities:
+-- Military squads consist of a lab + nanos only (no mobile builder can be assigned to a military squad
+-- Economy/expand squads leaders can only be the highest available tech builders (t1 < t2bots/air < t2 veh) Squads leaders are replaced once a higher tier exists
+-- Util squads perform both buildersquads requests and requesthandler requests
+-- Commander squad can't have any helper. There can only be one commander squad at a time, this isn't really useful for now (beside retrocontrol on comm's bp) but might be useful if we want to give certain particular tasks to the "last com" to ensure its survival, while others could be sent to front (ie revived comms)
+
 BuilderSquadsHandler = class(Module)
-
-local TechLevel = {
-	armcv = 1,
-	armca = 1,
-	armck = 1,
-	armacv = 3,
-	armack = 2,
-	armaca = 2,
-	armch = 1,
-	armbeaver = 1,
-	corcv = 1,
-	corca = 1,
-	corck = 1,
-	coracv = 3,
-	coraca = 2,
-	corack = 2,
-	corch = 1,
-	cormuskrat = 1,
-}
-
-local EcoBuilders = {
-	{
-	armcv = true,
-	armca = true,
-	armck = true,
-	armacv = true,
-	armack = true,
-	armaca = true,
-	armch = true,
-	armbeaver = true,
-	corcv = true,
-	corca = true,
-	corck = true,
-	coracv = true,
-	coraca = true,
-	corack = true,
-	corch = true,
-	cormuskrat = true,
-	},
-	{
-	armacv = true,
-	armack = true,
-	armaca = true,
-	coracv = true,
-	coraca = true,
-	corack = true,
-	},
-	{
-	armacv = true,
-	coracv = true,
-	},
-}
-
-local ExpBuilders = {
-	{
-	armcv = true,
-	armca = true,
-	armck = true,
-	armacv = true,
-	armack = true,
-	armaca = true,
-	armch = true,
-	armbeaver = true,
-	corcv = true,
-	corca = true,
-	corck = true,
-	coracv = true,
-	coraca = true,
-	corack = true,
-	corch = true,
-	cormuskrat = true,
-	},
-	{
-	armacv = true,
-	armack = true,
-	armaca = true,
-	coracv = true,
-	coraca = true,
-	corack = true,
-	},
-	{
-	armacv = true,
-	coracv = true,
-	},
-}
-
-local UtilBuilders = {
-	armcv = true,
-	armca = true,
-	armck = true,
-	armacv = true,
-	armack = true,
-	armaca = true,
-	armch = true,
-	corcv = true,
-	corca = true,
-	corck = true,
-	coracv = true,
-	coraca = true,
-	corack = true,
-	corch = true,
-	armfark = true,
-	corfast = true,
-	armconsul = true,
-}
-
-local MilLeaders = {
-	armlab = true,
-	armalab = true,
-	armvp = true,
-	armavp = true,
-	armap = true,
-	armaap = true,
-	armshltx = true,
-	corlab = true,
-	coralab = true,
-	corvp = true,
-	coravp = true,
-	corap = true,
-	coraap = true,
-	corgant = true,
-}
-
-local Commander = {
-	armcom = true,
-	corcom = true,
-}
+shard_include('buildersquadsdefs')
 
 local function squadtable(domain)
 	local maxallowedbp
@@ -188,17 +75,18 @@ function BuilderSquadsHandler:Init()
 	self.requests = {} -- [i] = {domain  = domain, role = role, [squadn = squadn]}
 	self.idle = {} -- [i] = tqb
 	self.states = {} -- [unitID] = {state = state, [params = params]}
-	self.coeff = {economy = 0.4, military = 0.4, expand = 0.1, util = 0.05, commander = 0.05}
+	-- Initial setup, later this should become mapdependant and difficulty level dependant
+	self.coeff = self.coeff or {economy = 0.2, military = 0.2, expand = 0.2, util = 0.2, commander = 0.2}
 	self:AddRequest(nil, "commander", "leader")
 	self:AddRequest(nil, "military", "leader")
 	self:AddRequest(nil, "expand", "leader")
 	self:AddRequest(nil, "expand", "leader")
+	self:AddRequest(nil, "economy", "leader")
 	self:AddRequest(nil, "expand", "leader")
 	self:AddRequest(nil, "economy", "leader")
 	self:AddRequest(nil, "expand", "leader")
 	self:AddRequest(nil, "expand", "leader")
-	self:AddRequest(nil, "expand", "leader")
-	self:AddRequest(nil, "economy", "leader")
+	-- Initial requests for all builderstypes, to ensure that DAI will always have an available con for all the different labs (provided that they don't die and get replaced by the wrong con...
 	self:AddRequest('armck', "util", "leader")
 	self:AddRequest('armack', "util", "leader")
 	self:AddRequest('armcv', "util", "leader")
@@ -211,8 +99,12 @@ function BuilderSquadsHandler:Init()
 	self:AddRequest('corcv', "util", "leader")
 	self:AddRequest('coraca', "util", "leader")
 	self:AddRequest('corca', "util", "leader")
+	--
 	self.currentTechLevel = 1
-	-- self:AddRequest(nil, "util", "leader")
+end
+
+function BuilderSquadsHandler:SetCoeffs(economy, military, expand, util, commander)
+	self.coeff = {economy = economy, military = military, expand = expand, util = util, commander = commander}
 end
 
 function BuilderSquadsHandler:SetState(tqb, unit, state, params, unitID)
@@ -421,7 +313,7 @@ function BuilderSquadsHandler:RemoveFromSquad(tqb, unit, domain, role, squadn)
 end
 
 function BuilderSquadsHandler:AllowedExpense(res)
-	local storedPart = (math.max(0,(res.c - res.s*0.1))) -- Can expend 90% of storage
+	local storedPart = (math.max(0,(res.c - res.s*0.1)))
 	local producedPart = res.i
 	return storedPart + producedPart
 end
@@ -430,7 +322,6 @@ function BuilderSquadsHandler:Update()
 	if not (Spring.GetGameFrame()%60 == 0) then
 		return
 	end
-	-- Spring.Echo("//////////////////////"..self.ai.id)
 	self:WatchTechLevel()
 	local curResources = {energy = self.ai.aimodehandler.resources["energy"], metal = self.ai.aimodehandler.resources["metal"]}
 	local m = curResources.metal
@@ -444,14 +335,12 @@ function BuilderSquadsHandler:Update()
 	util = {e = self.coeff.util * aee, m = self.coeff.util * ame},
 	commander = {e = self.coeff.commander * aee, m = self.coeff.commander * ame},
 	}
-	for i, v in pairs(self.idle) do -- Try to assign idle recruits to a squad
+	for i, v in pairs(self.idle) do
 		if self.idle[i] and self.idle[i].unit then
 			self:AddRecruit(self.idle[i])
 		end
 	end
-		-- Spring.Echo("//////////////Requests")
-	for k,v in pairs(self.requests) do -- requests that are not completed after checking all idles will probably need to be sent to task queues
-		-- Spring.Echo(v.domain, v.role, v.squadn, v.sentToTaskQueues, v.queued)	
+	for k,v in pairs(self.requests) do
 		if v.sentToTaskQueues ~= true then
 			v.sentToTaskQueues = true
 		end
@@ -465,10 +354,8 @@ function BuilderSquadsHandler:Update()
 			self:SquadUpdate(domain, k, 1/nSquads)
 		end
 	end
-		-- Spring.Echo("/////////////////Active Squads")
 	for domain, squads in pairs(self.squads) do
 		for k, v in pairs(squads) do
-			-- Spring.Echo(domain,k,v)
 			if (not v.leader[1]) and (not v.helper[1]) then
 				self.squads[domain][k] = nil
 			end

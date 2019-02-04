@@ -129,6 +129,11 @@ function TaskQueueBehaviour:Update()
 				self:CompareWithOldPos() -- still register current position
 			end		
 		end
+		if self.unit:Internal():Type():IsFactory() then
+			if not(self:IsBusy() and self:IsRunningAQueue()) then
+				self:OwnerIdle()
+			end
+		end
 	end
 	if not self:IsActive() then
 		self:DebugPoint("nothing")
