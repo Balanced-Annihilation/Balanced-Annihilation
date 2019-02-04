@@ -195,14 +195,22 @@ function BuilderSquadsHandler:Init()
 	self:AddRequest(nil, "expand", "leader")
 	self:AddRequest(nil, "expand", "leader")
 	self:AddRequest(nil, "economy", "leader")
-	self:AddRequest(nil, "util", "leader")
-	self:AddRequest(nil, "util", "leader")
 	self:AddRequest(nil, "expand", "leader")
 	self:AddRequest(nil, "expand", "leader")
 	self:AddRequest(nil, "expand", "leader")
 	self:AddRequest(nil, "economy", "leader")
-	self:AddRequest(nil, "util", "leader")
-	self:AddRequest(nil, "util", "leader")
+	self:AddRequest('armck', "util", "leader")
+	self:AddRequest('armack', "util", "leader")
+	self:AddRequest('armcv', "util", "leader")
+	self:AddRequest('armacv', "util", "leader")
+	self:AddRequest('armaca', "util", "leader")
+	self:AddRequest('armca', "util", "leader")
+	self:AddRequest('corck', "util", "leader")
+	self:AddRequest('corack', "util", "leader")
+	self:AddRequest('coracv', "util", "leader")
+	self:AddRequest('corcv', "util", "leader")
+	self:AddRequest('coraca', "util", "leader")
+	self:AddRequest('corca', "util", "leader")
 	self.currentTechLevel = 1
 	-- self:AddRequest(nil, "util", "leader")
 end
@@ -233,18 +241,20 @@ function BuilderSquadsHandler:CheckIfExistingNewSquadRequest(techlevel, domain, 
 	return false
 end
 
-function BuilderSquadsHandler:AddRequest(techlevel, domain, role, squadn)
-	self.requests[#self.requests + 1] = { domain = domain, role = role, squadn = squadn}
+function BuilderSquadsHandler:AddRequest(unitName, domain, role, squadn)
+	self.requests[#self.requests + 1] = { domain = domain, role = role, squadn = squadn, name = unitName}
 	return true
 end
 
 function BuilderSquadsHandler:RemoveRequest(i)
 	if self.requests[i] and self.requests[i].domain and self.requests[i].squadn then
-		if not self.squads[self.requests[i].domain][self.requests[i].squadn].hasPendingRequest then
-			self.squads[self.requests[i].domain][self.requests[i].squadn].hasPendingRequest = 0
-		end
-		if self.squads[self.requests[i].domain][self.requests[i].squadn].hasPendingRequest >= 1 then
-			self.squads[self.requests[i].domain][self.requests[i].squadn].hasPendingRequest = self.squads[self.requests[i].domain][self.requests[i].squadn].hasPendingRequest - 1
+		if self.squads[self.requests[i].domain] and self.squads[self.requests[i].domain][self.requests[i].squadn] then
+			if not self.squads[self.requests[i].domain][self.requests[i].squadn].hasPendingRequest then
+				self.squads[self.requests[i].domain][self.requests[i].squadn].hasPendingRequest = 0
+			end
+			if self.squads[self.requests[i].domain][self.requests[i].squadn].hasPendingRequest >= 1 then
+				self.squads[self.requests[i].domain][self.requests[i].squadn].hasPendingRequest = self.squads[self.requests[i].domain][self.requests[i].squadn].hasPendingRequest - 1
+			end
 		end
 	end
 	for k = i, #self.requests - 1 do
@@ -319,7 +329,15 @@ function BuilderSquadsHandler:AddRecruit(tqb)
 		local req = self.requests[i]
 		if req then
 			if req.role == "leader" then
-				if canBe[req.domain][req.role] == true then
+				if req.name and unitName == req.name then
+					req.squadn = self:CreateSquad(req.domain)
+					local success = self:AssignToSquad(tqb, unit, req.domain, req.role, req.squadn)
+					self:RemoveRequest(i)
+					if success then
+						return true
+					end
+					self:RemoveSquad(req.domain, req.squadn)					
+				elseif (not req.name) and canBe[req.domain][req.role] == true then
 					req.squadn = self:CreateSquad(req.domain)
 					local success = self:AssignToSquad(tqb, unit, req.domain, req.role, req.squadn)
 					self:RemoveRequest(i)
@@ -471,7 +489,7 @@ function BuilderSquadsHandler:SquadUpdate(domain, i, coeff)
 		local defs = UnitDefs[UnitDefNames[unit:Name()].id]
 		local theoricMaxBP = defs.buildSpeed
 		local _,curUsedMetal,_,curUsedEnergy = Spring.GetUnitResources(unitID)
-		local curUsedBP = (Spring.GetUnitCurrentBuildPower(unitID) or 0) * defs.buildSpeed
+		local curUsedBP = (Spring.GetUnitCurrentBuildPower(unitID) or 0) * defs.buildSpeed * wantedBPrate
 		curUsedBPTot = curUsedBPTot + curUsedBP
 		curUsedEnergyTot = curUsedEnergyTot + (curUsedEnergy or 0 )
 		curUsedMetalTot = curUsedMetalTot + (curUsedMetal or 0)
@@ -487,7 +505,7 @@ function BuilderSquadsHandler:SquadUpdate(domain, i, coeff)
 		end
 		local theoricMaxBP = defs.buildSpeed
 		local _,curUsedMetal,_,curUsedEnergy = Spring.GetUnitResources(unitID)
-		local curUsedBP = (Spring.GetUnitCurrentBuildPower(unitID) or 0) * defs.buildSpeed
+		local curUsedBP = (Spring.GetUnitCurrentBuildPower(unitID) or 0) * defs.buildSpeed * wantedBPrate -- curentBuildPower is displayed as a 0;1 relative value based on current maxbp (not necessarily the defs.buildSpeed so we gotta take the current rate into account.
 		curUsedBPTot = curUsedBPTot + curUsedBP
 		curUsedEnergyTot = curUsedEnergyTot + (curUsedEnergy or 0)
 		curUsedMetalTot = curUsedMetalTot + (curUsedMetal or 0)

@@ -1160,14 +1160,16 @@ function ProcessUnitName(unitName,tqb,ai,unit)
 	return canBe
 end
 
-function FindPossibilitiesFromRequest(tqb, ai, unit, domain, role)
+function FindPossibilitiesFromRequest(tqb, ai, unit, domain, role, name)
 	local defs = UnitDefs[UnitDefNames[unit:Name()].id]
 	local buildOptions = defs.buildOptions
 	local list = {}
 	for i = 1 , #buildOptions do
 		local optionName = UnitDefs[buildOptions[i]].name
 		local canBe = ProcessUnitName(optionName, tqb,ai,unit)
-		if canBe[domain][role] then
+		if name and optionName == name then
+			list[#list + 1] = optionName
+		elseif (not name) and canBe[domain][role] then
 			list[#list + 1] = optionName
 		end
 	end
@@ -1198,7 +1200,7 @@ function TryRequest(tqb,ai,unit)
 					return choice
 				end
 			else
-				local list1 = FindPossibilitiesFromRequest(tqb,ai,unit, req.domain, req.role)
+				local list1 = FindPossibilitiesFromRequest(tqb,ai,unit, req.domain, req.role, req.name)
 				if list1[1] then
 					local list = {}
 					local count = 0
@@ -1226,11 +1228,29 @@ function TryRequest(tqb,ai,unit)
 	return skip
 end
 			
+function TechCon(tqb,ai,unit)
+	local curTech = tqb.ai.buildersquadshandler.currentTechLevel
+	if curTech == 1 then
+		local typeName = unit:Name()
+		local prefix = (string.find(typeName, "arm") and "arm") or "cor"
+		local suffix = ""
+		if string.find(typeName, "avp") then -- advanced vehicle plant)
+			suffix = "acv"
+		elseif string.find(typeName, "alab") then -- advanced lab
+			suffix = "ack"
+		elseif string.find(typeName, "aap") then -- advanced aircraft plant
+			suffix = "aca"
+		end
+		return prefix..suffix
+	end
+	return skip
+end
 			
 
 -- COMMON QUEUES --
 
 lab = {
+	TechCon,
 	TryRequest,
 	Scout,
 	OffensiveUnit,
@@ -1554,7 +1574,7 @@ local cort1expand = {
 	-- CorNanoT,
 	-- CorExpandRandomLab,
 	CorMexT1,
-	ShortDefense,
+	-- ShortDefense,
 	CorMexT1,
 	ShortDefense,
 	CorMexT1,
@@ -1933,7 +1953,7 @@ local armt1eco = {
 local armt1expand = {
 	-- ArmExpandRandomLab,
 	ArmMexT1,
-	ShortDefense,
+	-- ShortDefense,
 	ArmMexT1,
 	ShortDefense,
 	ArmMexT1,
