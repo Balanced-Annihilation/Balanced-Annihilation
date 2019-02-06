@@ -102,10 +102,31 @@ function ApplyUnitDefs_Data(name, uDef)
 				--Spring.Echo("Processed unit: "..name)
 				local newData = uData[2]
 				for k, v in pairs (newData) do
-					local was = uDef[k]
-					local new = v
-					--if not shouldIgnore(was, new) then    --TODO: Check if working fine
-						uDef[k] = new
+					local oldDefVal = uDef[k]
+					local newDefVal = v
+                    if k == "weapondefs" then
+                        if oldDefVal then
+                            -- weapondefs={[[new or v]]vtol_emg2={craterboost=0,
+                            -- If we find matching weapondefs in source lua, we keep the orig cegtag and explosiongenerator
+                            for weapID, weapData in pairs (newDefVal) do
+                                local oldWeaponDef = oldDefVal[weapID]
+                                if oldWeaponDef then
+                                    local oldcegtag = oldWeaponDef.cegtag
+                                    if oldcegtag then
+                                        newDefVal[weapID].cegtag = oldcegtag
+                                    end
+                                    local oldexpgen = oldWeaponDef.explosiongenerator
+                                    if oldexpgen then
+                                        newDefVal[weapID].explosiongenerator = oldexpgen
+                                    end
+                                else
+                                    Spring.Echo("alldefs_post warning: couldn't find "..tostring(weapID).." weapon in new "..name.." data.")
+                                end
+                            end
+                        end
+                    end
+					--if not shouldIgnore(was, new) then    --[Deprecated]
+					uDef[k] = newDefVal
 					--end
 					--Spring.Echo("   Property: "..k.." was: "..tostring(was).." now: "..tostring(v))
 				end
