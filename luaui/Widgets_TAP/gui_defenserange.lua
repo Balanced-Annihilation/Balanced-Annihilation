@@ -401,7 +401,9 @@ function UnitDetected( unitID, allyTeam, teamId )
 				if ( tag ~= nil ) then
 					--printDebug("Salvo: " .. weaponDef.salvoSize 	)
 					damage = dam[Game.armorTypes[tag]]
-					dps = damage * weaponDef.salvoSize / weaponDef.reload		
+                    if weaponDef and weaponDef.salvoSize and weaponDef.reload then
+					    dps = damage * weaponDef.salvoSize / weaponDef.reload
+                    end
 					--printDebug("DPS: " .. dps 	)
 				end
 						
