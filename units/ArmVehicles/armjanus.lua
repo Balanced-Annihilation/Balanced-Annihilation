@@ -7,7 +7,7 @@ return {
 		buildpic = "ARMJANUS.DDS",
 		buildtime = 3545,
 		canmove = true,
-		category = "ALL TANK WEAPON NOTSUB NOTSHIP NOTAIR NOTHOVER SURFACE",
+		category = "ALL TANK WEAPON NOTSUB NOTSHIP NOTAIR SURFACE",
 		collisionvolumeoffsets = "0 0 0",
 		collisionvolumescales = "25 22 33",
 		collisionvolumetype = "Box",

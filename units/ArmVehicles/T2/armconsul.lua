@@ -10,7 +10,7 @@ return {
 		buildpic = "ARMCONSUL.DDS",
 		buildtime = 6793,
 		canmove = true,
-		category = "ALL TANK MOBILE NOTSUB NOWEAPON NOTSHIP NOTAIR NOTHOVER SURFACE",
+		category = "ALL TANK MOBILE NOTSUB NOWEAPON NOTSHIP NOTAIR SURFACE",
 		collisionvolumeoffsets = "0 0 2",
 		collisionvolumescales = "33 17 33",
 		collisionvolumetype = "CylY",

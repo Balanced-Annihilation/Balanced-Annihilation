@@ -8,7 +8,7 @@ return {
 		buildpic = "CORPSHIP.DDS",
 		buildtime = 4450,
 		canmove = true,
-		category = "ALL NOTLAND MOBILE WEAPON NOTSUB SHIP NOTAIR NOTHOVER SURFACE",
+		category = "ALL NOTLAND MOBILE WEAPON NOTSUB SHIP NOTAIR SURFACE",
 		collisionvolumeoffsets = "0 -4 -2",
 		collisionvolumescales = "28 28 79",
 		collisionvolumetype = "CylZ",
@@ -27,7 +27,7 @@ return {
 		minwaterdepth = 6,
 		movementclass = "BOAT44X4",
 		name = "Era",
-		nochasecategory = "VTOL UNDERWATER",
+		nochasecategory = "VTOL",
 		objectname = "CORPSHIP",
 		seismicsignature = 0,
 		selfdestructas = "mediumExplosionGenericSelfd",
@@ -151,7 +151,7 @@ return {
 		},
 		weapons = {
 			[1] = {
-				badtargetcategory = "LIGHTAIRSCOUT UNDERWATER",
+				badtargetcategory = "LIGHTAIRSCOUT",
 				def = "PLASMA",
 				onlytargetcategory = "NOTSUB",
 			},

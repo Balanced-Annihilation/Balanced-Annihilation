@@ -12,7 +12,7 @@ return {
 		buildinggrounddecaltype = "armtarg_aoplane.dds",
 		buildpic = "ARMTARG.DDS",
 		buildtime = 8707,
-		category = "ALL NOTLAND NOTSUB NOWEAPON NOTSHIP NOTAIR NOTHOVER SURFACE",
+		category = "ALL NOTLAND NOTSUB NOWEAPON NOTSHIP NOTAIR SURFACE",
 		corpse = "DEAD",
 		description = "Technology Research Facility Lvl3",
 		energyuse = 100,

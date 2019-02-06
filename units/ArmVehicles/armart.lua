@@ -7,7 +7,7 @@ return {
 		buildpic = "armart.DDS",
 		buildtime = 2998,
 		canmove = true,
-		category = "ALL TANK WEAPON NOTSUB NOTSHIP NOTAIR NOTHOVER SURFACE",
+		category = "ALL TANK WEAPON NOTSUB NOTSHIP NOTAIR SURFACE",
 		collisionvolumeoffsets = "0 0 3",
 		collisionvolumescales = "31 20 39",
 		collisionvolumetype = "Box",

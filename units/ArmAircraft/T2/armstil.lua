@@ -8,7 +8,7 @@ return {
 		buildtime = 21522,
 		canfly = true,
 		canmove = true,
-		category = "ALL MOBILE WEAPON VTOL NOTSUB NOTHOVER",
+		category = "ALL MOBILE WEAPON VTOL NOTSUB",
 		collide = true,
 		collisionvolumeoffsets = "0 -3 0",
 		collisionvolumescales = "24 9 24",

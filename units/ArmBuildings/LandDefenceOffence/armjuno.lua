@@ -10,7 +10,7 @@ return {
 		buildinggrounddecaltype = "armjuno_aoplane.dds",
 		buildpic = "ARMJUNO.DDS",
 		buildtime = 21833,
-		category = "ALL NOTLAND WEAPON NOTSUB NOTSHIP NOTAIR NOTHOVER SURFACE",
+		category = "ALL NOTLAND WEAPON NOTSUB NOTSHIP NOTAIR SURFACE",
 		collisionvolumeoffsets = "0 -2 0",
 		collisionvolumescales = "44 88 44",
 		collisionvolumetype = "CylY",

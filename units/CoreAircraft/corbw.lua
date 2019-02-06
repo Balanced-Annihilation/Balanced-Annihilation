@@ -8,7 +8,7 @@ return {
 		buildtime = 2073,
 		canfly = true,
 		canmove = true,
-		category = "ALL WEAPON VTOL NOTSUB NOTHOVER",
+		category = "ALL WEAPON VTOL NOTSUB",
 		collide = true,
 		cruisealt = 78,
 		cantbetransported = false,

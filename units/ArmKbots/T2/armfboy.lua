@@ -7,7 +7,7 @@ return {
 		buildpic = "ARMFBOY.DDS",
 		buildtime = 22397,
 		canmove = true,
-		category = "KBOT WEAPON ALL NOTSUB NOTAIR NOTHOVER SURFACE",
+		category = "KBOT WEAPON ALL NOTSUB NOTAIR SURFACE",
 		collisionvolumeoffsets = "0 0 -6",
 		collisionvolumescales = "26 37 55",
 		collisionvolumetype = "Box",

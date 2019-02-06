@@ -8,7 +8,7 @@ return {
 		buildpic = "ARMPINCER.DDS",
 		buildtime = 2613,
 		canmove = true,
-		category = "ALL TANK PHIB WEAPON NOTSUB NOTAIR NOTHOVER SURFACE CANBEUW",
+		category = "ALL TANK WEAPON NOTSUB NOTAIR SURFACE",
 		collisionvolumeoffsets = "0 0 1",
 		collisionvolumescales = "31 13 31",
 		collisionvolumetype = "Box",

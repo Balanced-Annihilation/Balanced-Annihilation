@@ -7,7 +7,7 @@ return {
 		buildpic = "CORAK.DDS",
 		buildtime = 1279,
 		canmove = true,
-		category = "KBOT MOBILE WEAPON ALL NOTSUB NOTSHIP NOTAIR NOTHOVER SURFACE",
+		category = "KBOT MOBILE WEAPON ALL NOTSUB NOTSHIP NOTAIR SURFACE",
 		collisionvolumeoffsets = "0 -2 -3",
 		collisionvolumescales = "24 28 24",
 		collisionvolumetype = "CylY",

@@ -29,9 +29,9 @@ end
 
 -- Random tips we can show
 local tips = {
-	"To build unit factories you need an Outpost. Outposts can morph up to Tier4, with increasingly better build range and LOS",
-	"To tech up, build a Tech Center, the upgrade it progressively until Tech Tier4. When under attack, tech centers can become 70% more resistant if disabled (ON/OFF button)",
-	"Metal Extractors can be morphed into Adv. Metal Extractors at Tier 1, Moho Mexes at Tier 2 and Uber Mexes at Tier 3, with increasingly higher metal output",
+	"armoutpost.dds ".."To build unit factories you need an Outpost. Outposts can morph up to Tier4, with increasingly better build range and LOS",
+	"armtech.dds ".."To tech up, build a Tech Center, the upgrade it progressively until Tech Tier4. When under attack, tech centers can become 70% more resistant if disabled (ON/OFF button)",
+	"armmex.dds ".."Metal Extractors can be morphed into Adv. Metal Extractors at Tier 1, Moho Mexes at Tier 2 and Uber Mexes at Tier 3, with increasingly higher metal output",
 	--"Have trouble finding metal spots?\nPress F4 to switch to the metal map.",
 	--"Queue-up multiple consecutive unit actions by holding SHIFT.",
 	--"Tweak graphic preferences in options (top right corner of the screen).\nWhen your FPS drops, switch to a lower graphic preset.",
@@ -82,13 +82,13 @@ local tips = {
 local titleColor = "\255\215\255\215"
 local contentColor = "\255\255\255\255"
 local unit_descs = {
-	"armck.dds "..titleColor.."Construction Kbot (ARM T1)\n"..contentColor.."Slightly slower and weaker than the Dozer, this builder can climb steeper hills, effective in expansion on mountainous terrain.",
+	"armck.dds "..titleColor.."Construction Kbot (ARM T1)\n"..contentColor.."Slightly slower and weaker than the Dozer, this builder can climb steeper hills, effective for expansion especially in mountainous terrain.",
 	--"armflea.dds "..titleColor.."Flea (ARM T1 Kbot)\n"..contentColor.."Supercheap and fast, used for scouting and raiding enemy structures in early-game stages. Avoid laser towers and destroy metal extractors to slow down your foe’s expansion!",
-	"armham.dds "..titleColor.."Hammer (ARM T1 Kbot)\n"..contentColor.."Plams kbots have a minimum attack range but are the sturdiest basic kbots, extremely resistant to defenses and excellent at taking out commanders. Besides their long-ranged projectiles fly over dragon teeth.",
+	"armham.dds "..titleColor.."Hammer (ARM T1 Kbot)\n"..contentColor.."Plasma kbots are the sturdiest basic kbots, extremely resistant to defenses and excellent at taking out commanders. They have a minimum attack range, but their mid-ranged arced projectiles can fly over dragon teeth.",
 	--"armjeth.dds "..titleColor.."Jethro (ARM T1 Amphibious Kbot)\n"..contentColor.."Amphibious mobile anti-air to take down light aircraft. Always send a few with your army to protect it from EMP drones and gunships.",
-	"armpw.dds "..titleColor.."Peewee (ARM T1 Kbot)\n"..contentColor.."Cheap and having high top speeds, average-to-low health and built in groups of 4 at a time. With its good LOS, it's effective for scouting and early economy harassment. Excellent vs missile kbots.",
+	"armpw.dds "..titleColor.."Peewee (ARM T1 Kbot)\n"..contentColor.."Cheap and fast moving, average-to-low health and built in groups of 4 at a time. With its good LOS, it's effective for scouting and early economy harassment. Excellent vs missile kbots.",
 	"armrectr.dds "..titleColor.."Rector (ARM T1 Kbot)\n"..contentColor.."Fast Kbot which can rapidly heal and ressurect destroyed units. Extends the lifetime and adds a snowballing effect to your attack forces",
-	"armrock.dds "..titleColor.."Rocko (ARM T1 Kbot)\n"..contentColor.."Light rocket Kbot excellent vs tanks and with good damage against defenses. Mixed with plasma kbots forms a great combo vs defense towers. Watch out for peon bots (A.K./Peewee)",
+	"armrock.dds "..titleColor.."Rocko (ARM T1 Kbot)\n"..contentColor.."Light rocket Kbot excellent vs tanks and with good damage against defenses. Mixed with plasma kbots they form a great combo vs defense towers. Watch out for peon bots (A.K./Peewee)",
 	--"armwar.dds "..titleColor.."Warrior (ARM T1 Kbot)\n"..contentColor.."Durable Kbot armed with a rapid firing double laser. Has high health and can take down multiple light assault units. Combine with resurrection Kbots for quick repairing.",
 	--"corak.dds "..titleColor.."A.K. (CORE T1 Kbot)\n"..contentColor.."Light infantry Kbot which is cheap and quick to build. It is armed with a light, but precise laser which outranges the PeeWee.",
 	--"corcrash.dds "..titleColor.."Crasher (CORE T1 Amphibious Kbot)\n"..contentColor.."Amphibious mobile anti-air (AA) Kbot that can easily take down light aircraft. Send a few with your army to protect it from EMP drones and gunships.",

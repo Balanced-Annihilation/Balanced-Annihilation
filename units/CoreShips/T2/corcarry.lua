@@ -13,7 +13,7 @@ return {
 		canmove = true,
 		canreclaim = false,
 		canrepair = false,
-		category = "ALL NOTLAND MOBILE NOTSUB SHIP NOWEAPON NOTAIR NOTHOVER SURFACE",
+		category = "ALL NOTLAND MOBILE NOTSUB SHIP NOWEAPON NOTAIR SURFACE",
 		collisionvolumeoffsets = "-1 -7 0",
 		collisionvolumescales = "61 61 153",
 		collisionvolumetype = "CylZ",

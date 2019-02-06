@@ -8,7 +8,7 @@ return {
 		buildtime = 21000,
 		canfly = true,
 		canmove = true,
-		category = "ALL NOTLAND MOBILE WEAPON NOTSUB VTOL NOTSHIP NOTHOVER",
+		category = "ALL NOTLAND MOBILE WEAPON NOTSUB VTOL NOTSHIP",
 		collide = true,
 		cruisealt = 220,
 		description = "Strategic Bomber",

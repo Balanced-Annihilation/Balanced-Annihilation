@@ -96,47 +96,86 @@ Deactivate()
 	start-script RequestState(1);
 }
 
+//======== Weapons
+
 QueryPrimary(piecenum)
 {
 	piecenum = winga;
+	return (1);	
+}
+
+//AimFromPrimary(piecenum)
+//{
+//	piecenum = base;
+//}
+
+AimPrimary()
+{
+	return (1);
 }
 
 FirePrimary()
 {
 	call-script lua_BombsAway();
+	return (1);		
 }
 
-QuerySecondary(piecenum)
+
+QueryWeapon2(piecenum)
 {
 	piecenum = wingb;
 }
 
-FireSecondary()
+AimSecondary()
 {
-	//call-script lua_BombsAway();
+	return (1);
 }
 
-// A2G Weapon
+FireWeapon2()
+{
+	//call-script lua_BombsAway();
+	return (1);	
+}
 
-QueryTertiary(piecenum)
+
+// A2G Weapon
+// =================
+
+
+QueryWeapon3(piecenum)
 {
 	piecenum = winga;
 }
 
-FireTertiary()
+AimWeapon3()
+{
+	return (1);
+}
+
+FireWeapon3()
 {
 	call-script lua_BombsAway();
 }
+
 
 QueryWeapon4(piecenum)
 {
 	piecenum = wingb;
 }
 
+AimWeapon4()
+{
+	return (1);
+}
+
 FireWeapon4()
 {
 	//call-script lua_BombsAway();
 }
+
+
+
+
 
 
 // ---

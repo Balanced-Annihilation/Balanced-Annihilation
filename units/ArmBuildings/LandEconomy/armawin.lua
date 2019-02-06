@@ -11,7 +11,7 @@ return {
 		buildinggrounddecaltype = "armwin_aoplane.dds",
 		buildpic = "ARMWIN.DDS",
 		buildtime = 1603,
-		category = "ALL NOTLAND NOTSUB NOWEAPON NOTSHIP NOTAIR NOTHOVER SURFACE",
+		category = "ALL NOTLAND NOTSUB NOWEAPON NOTSHIP NOTAIR SURFACE",
 		collisionvolumeoffsets = "0 1 0",
 		collisionvolumescales = "40 87 40",
 		collisionvolumetype = "CylY",

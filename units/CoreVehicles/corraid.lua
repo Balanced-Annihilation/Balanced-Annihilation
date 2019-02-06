@@ -7,7 +7,7 @@ return {
 		buildpic = "CORRAID.DDS",
 		buildtime = 3312,
 		canmove = true,
-		category = "ALL TANK MOBILE WEAPON NOTSUB NOTSHIP NOTAIR NOTHOVER SURFACE",
+		category = "ALL TANK MOBILE WEAPON NOTSUB NOTSHIP NOTAIR SURFACE",
 		collisionvolumeoffsets = "0 -1 0",
 		collisionvolumescales = "32 16 32",
 		collisionvolumetype = "Box",

@@ -7,7 +7,7 @@ return {
 		buildpic = "ARMST.DDS",
 		buildtime = 6704,
 		canmove = true,
-		category = "ALL TANK MOBILE WEAPON NOTSUB NOTSHIP NOTAIR NOTHOVER SURFACE",
+		category = "ALL TANK MOBILE WEAPON NOTSUB NOTSHIP NOTAIR SURFACE",
 		cloakcost = 5,
 		cloakcostmoving = 20,
 		collisionvolumeoffsets = "0 1 0",

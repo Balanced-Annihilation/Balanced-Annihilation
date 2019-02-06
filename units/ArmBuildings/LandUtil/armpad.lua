@@ -14,7 +14,7 @@ return {
 		buildinggrounddecaltype = "armasp_aoplane.dds",
 		buildpic = "ARMASP.DDS",
 		buildtime = 9090,
-		category = "ALL NOTLAND NOTSUB NOWEAPON NOTSHIP NOTAIR NOTHOVER SURFACE",
+		category = "ALL NOTLAND NOTSUB NOWEAPON NOTSHIP NOTAIR SURFACE",
 		collisionvolumeoffsets = "0 -10 0",
 		collisionvolumescales = "135 27 135",
 		collisionvolumetype = "Box",

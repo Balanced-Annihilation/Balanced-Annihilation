@@ -9,7 +9,7 @@ return {
 		buildpic = "CORSEAL.DDS",
 		buildtime = 12051,
 		canmove = true,
-		category = "ALL TANK MOBILE WEAPON NOTSUB NOTSHIP NOTAIR NOTHOVER SURFACE CANBEUW",
+		category = "ALL TANK MOBILE WEAPON NOTSUB NOTSHIP NOTAIR SURFACE",
 		collisionvolumeoffsets = "0 -7 0",
 		collisionvolumescales = "31 31 31",
 		collisionvolumetype = "CylZ",

@@ -5,7 +5,7 @@ return {
         buildpic = "ARMNANOTC.DDS",
         buildtime = 5312,
         cantbetransported = true,
-        category = "NOTSUB NOWEAPON NOTAIR NOTHOVER",
+        category = "NOTSUB NOWEAPON NOTAIR",
         collisionvolumeoffsets = "0 -1 0",
         collisionvolumescales = "1 1 1",
         collisionvolumetype = "CylY",

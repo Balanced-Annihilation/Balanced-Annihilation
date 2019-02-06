@@ -7,7 +7,7 @@ return {
 		buildpic = "ARMFAV.DDS",
 		buildtime = 950,
 		canmove = true,
-		category = "ALL TANK MOBILE WEAPON NOTSUB NOTSHIP NOTAIR NOTHOVER SURFACE GROUNDSCOUT",
+		category = "ALL TANK MOBILE WEAPON NOTSUB NOTSHIP NOTAIR SURFACE GROUNDSCOUT",
 		collisionvolumeoffsets = "0 -2 0",
 		collisionvolumescales = "25 18 32",
 		collisionvolumetype = "Box",

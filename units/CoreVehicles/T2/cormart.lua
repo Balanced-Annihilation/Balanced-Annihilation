@@ -7,7 +7,7 @@ return {
 		buildpic = "CORMART.DDS",
 		buildtime = 4270,
 		canmove = true,
-		category = "ALL TANK MOBILE WEAPON NOTSUB NOTSHIP NOTAIR NOTHOVER SURFACE",
+		category = "ALL TANK MOBILE WEAPON NOTSUB NOTSHIP NOTAIR SURFACE",
 		collisionvolumeoffsets = "0 -1 0",
 		collisionvolumescales = "36 22 38",
 		collisionvolumetype = "Box",

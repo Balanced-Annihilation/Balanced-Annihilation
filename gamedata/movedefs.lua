@@ -300,6 +300,87 @@ local moveDatas = {
 		maxwaterdepth = 5000,
 		maxwaterslope = 30,
 	},
+
+	-- Ships
+	BOAT4 = {
+		crushstrength = 9,
+		footprintx = 3,
+		footprintz = 3,
+		minwaterdepth = 8,
+	},
+
+	BOAT42X2 = {
+		crushstrength = 9,
+		footprintx = 2,
+		footprintz = 2,
+		minwaterdepth = 8,
+	},
+	BOAT43X3 = {
+		crushstrength = 9,
+		footprintx = 3,
+		footprintz = 3,
+		minwaterdepth = 8,
+	},
+
+	BOAT44X4 = {
+		crushstrength = 9,
+		footprintx = 4,
+		footprintz = 4,
+		minwaterdepth = 8,
+	},
+	BOAT45X5 = {
+		crushstrength = 9,
+		footprintx = 5,
+		footprintz = 5,
+		minwaterdepth = 8,
+	},
+
+	BOAT46X6 = {
+		crushstrength = 9,
+		footprintx = 6,
+		footprintz = 6,
+		minwaterdepth = 8,
+	},
+
+	BOAT47X7 = {
+		crushstrength = 9,
+		footprintx = 7,
+		footprintz = 7,
+		minwaterdepth = 8,
+	},
+
+	BOAT5 = {
+		crushstrength = 16,
+		footprintx = 4,
+		footprintz = 4,
+		minwaterdepth = 10,
+	},
+
+	BOAT53X3 = {
+		crushstrength = 16,
+		footprintx = 3,
+		footprintz = 3,
+		minwaterdepth = 10,
+	},
+	BOAT54X4 = {
+		crushstrength = 16,
+		footprintx = 4,
+		footprintz = 4,
+		minwaterdepth = 10,
+	},
+	BOAT55X5 = {
+		crushstrength = 16,
+		footprintx = 5,
+		footprintz = 5,
+		minwaterdepth = 10,
+	},
+
+	BOAT56X6 = {
+		crushstrength = 16,
+		footprintx = 6,
+		footprintz = 6,
+		minwaterdepth = 10,
+	},
 	
 	-- Subs
 	UBOAT3 = {

@@ -7,7 +7,7 @@ return {
 		buildpic = "ARMFLASH.DDS",
 		buildtime = 1963,
 		canmove = true,
-		category = "ALL TANK MOBILE WEAPON NOTSUB NOTSHIP NOTAIR NOTHOVER SURFACE",
+		category = "ALL TANK MOBILE WEAPON NOTSUB NOTSHIP NOTAIR SURFACE",
 		collisionvolumeoffsets = "0 0 -1",
 		collisionvolumescales = "24 9 31",
 		collisionvolumetype = "Box",

@@ -6,7 +6,7 @@ return {
 		buildpic = "CORBATS.DDS",
 		buildtime = 35000,
 		canmove = true,
-		category = "ALL NOTLAND MOBILE WEAPON SHIP NOTSUB NOTAIR NOTHOVER SURFACE",
+		category = "ALL NOTLAND MOBILE WEAPON SHIP NOTSUB NOTAIR SURFACE",
 		collisionvolumeoffsets = "0 -15 -3",
 		collisionvolumescales = "62 62 194",
 		collisionvolumetype = "CylZ",

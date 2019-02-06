@@ -7,7 +7,7 @@ return {
 		buildpic = "ARMMANNI.DDS",
 		buildtime = 25706,
 		canmove = true,
-		category = "ALL TANK MOBILE WEAPON NOTSUB NOTSHIP NOTAIR NOTHOVER SURFACE",
+		category = "ALL TANK MOBILE WEAPON NOTSUB NOTSHIP NOTAIR SURFACE",
 		collisionvolumeoffsets = "0 -6 -7",
 		collisionvolumescales = "39 49 39",
 		collisionvolumetype = "box",
