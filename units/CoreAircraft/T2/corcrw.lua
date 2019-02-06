@@ -9,7 +9,7 @@ return {
 		buildtime = 84229,
 		canfly = true,
 		canmove = true,
-		category = "ALL WEAPON VTOL NOTSUB NOTHOVER",
+		category = "ALL WEAPON VTOL NOTSUB",
 		collide = true,
 		cruisealt = 80,
 		description = "Flying Fortress",

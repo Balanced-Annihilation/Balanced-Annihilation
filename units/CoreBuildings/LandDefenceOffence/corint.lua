@@ -12,7 +12,7 @@ return {
 		buildpic = "CORINT.DDS",
 		buildtime = 93237,
 		canrepeat = false,
-		category = "ALL NOTLAND WEAPON NOTSUB NOTSHIP NOTAIR NOTHOVER SURFACE",
+		category = "ALL NOTLAND WEAPON NOTSUB NOTSHIP NOTAIR SURFACE",
 		corpse = "DEAD",
 		description = "Long Range Plasma Cannon",
 		explodeas = "hugeBuildingExplosionGeneric",

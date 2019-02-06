@@ -8,7 +8,7 @@ return {
 		buildtime = 2400,
 		canfly = true,
 		canmove = true,
-		category = "ALL MOBILE NOTLAND NOTSUB VTOL NOWEAPON NOTSHIP NOTHOVER LIGHTAIRSCOUT",
+		category = "ALL MOBILE NOTLAND NOTSUB VTOL NOWEAPON NOTSHIP LIGHTAIRSCOUT",
 		collide = false,
 		cruisealt = 110,
 		description = "Scout Plane",

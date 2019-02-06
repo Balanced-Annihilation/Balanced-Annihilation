@@ -12,7 +12,7 @@ return {
 		canassist = false,
 		canmove = true,
 		canresurrect = true,
-		category = "KBOT MOBILE ALL NOTSUB NOWEAPON NOTSHIP NOTAIR NOTHOVER SURFACE",
+		category = "KBOT MOBILE ALL NOTSUB NOWEAPON NOTSHIP NOTAIR SURFACE",
 		collisionvolumeoffsets = "0 -2 1",
 		collisionvolumescales = "30.5 36 30.5",
 		collisionvolumetype = "CylY",

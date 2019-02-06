@@ -11,7 +11,7 @@ return {
 		canattack = false,
 		canrepeat = false,
 		canrepeat = false,
-		category = "ALL NOTLAND NOTSUB NOWEAPON NOTSHIP NOTAIR NOTHOVER SURFACE",
+		category = "ALL NOTLAND NOTSUB NOWEAPON NOTSHIP NOTAIR SURFACE",
 		collisionvolumeoffsets = "0 -10 0",
 		collisionvolumescales = "37 70 37",
 		collisionvolumetype = "box",

@@ -16,7 +16,7 @@ return {
 		canpatrol = true,
 		canstop = "1",
 		capturable = false,
-		category = "MOBILE NOTLAND NOTSUB VTOL NOTSHIP NOTHOVER",
+		category = "MOBILE NOTLAND NOTSUB VTOL NOTSHIP",
 		collide = false,
 		collision = false,
 		cruisealt = 200,

@@ -9,7 +9,7 @@
 		buildpic = "COROMEX.DDS",
 		buildtime = 1887,
 		canrepeat = false,
-		category = "ALL NOTLAND NOTSUB NOWEAPON NOTSHIP NOTAIR NOTHOVER SURFACE UNDERWATER",
+		category = "ALL NOTLAND NOTSUB NOWEAPON NOTSHIP NOTAIR SURFACE",
 		corpse = "DEAD",
 		usepiececollisionvolumes = true,
 		collisionvolumeoffsets = "0 -55 0",

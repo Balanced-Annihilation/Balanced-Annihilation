@@ -10,7 +10,7 @@ return {
 		buildpic = "ARMCK.DDS",
 		buildtime = 3453,
 		canmove = true,
-		category = "KBOT MOBILE ALL NOTSUB NOWEAPON NOTSHIP NOTAIR NOTHOVER SURFACE",
+		category = "KBOT MOBILE ALL NOTSUB NOWEAPON NOTSHIP NOTAIR SURFACE",
 		collisionvolumeoffsets = "0 -1 0",
 		collisionvolumescales = "27 27 27",
 		collisionvolumetype = "CylY",

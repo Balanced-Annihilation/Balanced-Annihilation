@@ -8,7 +8,7 @@ return {
 		--buildtime = 13500,
 		--canfly = true,
 		--canmove = true,
-		--category = "ALL NOTLAND MOBILE WEAPON NOTSUB VTOL NOTSHIP NOTHOVER",
+		--category = "ALL NOTLAND MOBILE WEAPON NOTSUB VTOL NOTSHIP",
 		--collide = true,
 		--cruisealt = 100,
 		--description = "Gunship",

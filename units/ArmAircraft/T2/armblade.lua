@@ -8,7 +8,7 @@ return {
 		buildtime = 23964,
 		canfly = true,
 		canmove = true,
-		category = "ALL WEAPON NOTSUB VTOL NOTHOVER",
+		category = "ALL WEAPON NOTSUB VTOL",
 		collide = true,
 		cruisealt = 110,
 		description = "Rapid Assault Gunship",

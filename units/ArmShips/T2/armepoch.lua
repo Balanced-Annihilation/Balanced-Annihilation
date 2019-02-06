@@ -7,7 +7,7 @@ return {
 		buildpic = "ARMEPOCH.DDS",
 		buildtime = 169800,
 		canmove = true,
-		category = "ALL WEAPON NOTSUB SHIP NOTAIR NOTHOVER SURFACE",
+		category = "ALL WEAPON NOTSUB SHIP NOTAIR SURFACE",
 		collisionvolumeoffsets = "0 -6 3",
 		collisionvolumescales = "71 71 162",
 		collisionvolumetype = "CylZ",

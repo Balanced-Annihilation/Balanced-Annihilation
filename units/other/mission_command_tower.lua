@@ -17,7 +17,7 @@ return {
 		buildpic = "MISSION_COMMAND_TOWER.DDS",
 		buildtime = 100000,
 		canrepeat = false,
-		category = "ALL NOTLAND NOTSUB NOWEAPON NOTSHIP NOTAIR NOTHOVER SURFACE",
+		category = "ALL NOTLAND NOTSUB NOWEAPON NOTSHIP NOTAIR SURFACE",
 		description = "",
 		energymake = 250,
 		energyuse = 0,

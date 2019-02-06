@@ -8,7 +8,7 @@ return {
 		buildpic = "ARMYORK.DDS",
 		buildtime = 9964,
 		canmove = true,
-		category = "ALL TANK MOBILE WEAPON NOTSUB NOTSHIP NOTAIR NOTHOVER SURFACE",
+		category = "ALL TANK MOBILE WEAPON NOTSUB NOTSHIP NOTAIR SURFACE",
 		collisionvolumeoffsets = "0 -2 -2",
 		collisionvolumescales = "31 31 38",
 		collisionvolumetype = "CylZ",

@@ -13,7 +13,7 @@ return {
 		buildpic = "ARMCIR.DDS",
 		buildtime = 12000,
 		canrepeat = false,
-		category = "ALL WEAPON NOTSUB NOTAIR NOTHOVER SURFACE",
+		category = "ALL WEAPON NOTSUB NOTAIR SURFACE",
 		corpse = "DEAD",
 		description = "Bomb-Resistant Medium-Range Missile Battery",
 		explodeas = "mediumBuildingExplosionGeneric",

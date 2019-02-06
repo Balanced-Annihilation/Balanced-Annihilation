@@ -14,7 +14,7 @@ return {
 		buildpic = "COREXP.DDS",
 		buildtime = 2724,
 		canrepeat = false,
-		category = "ALL NOTLAND NOTSUB NOWEAPON NOTSHIP NOTAIR NOTHOVER SURFACE",
+		category = "ALL NOTLAND NOTSUB NOWEAPON NOTSHIP NOTAIR SURFACE",
 		canattack = true,
 		collisionvolumeoffsets = "0 -5 0",
 		collisionvolumescales = "40 51 40",

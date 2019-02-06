@@ -16,7 +16,7 @@ return {
 		canreclaim = true,
 		canrepair = true,
 		canrestore = false,
-		category = "ALL MOBILE WEAPON NOTSUB NOTSHIP NOTAIR NOTHOVER SURFACE KBOT",
+		category = "ALL MOBILE WEAPON NOTSUB NOTSHIP NOTAIR SURFACE KBOT",
 		collisionvolumeoffsets = "0 -6 0",
 		collisionvolumescales = "38 45 22",
 		collisionvolumetype = "box",

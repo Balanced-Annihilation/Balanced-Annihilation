@@ -9,7 +9,7 @@ return {
 		buildpic = "ARMTL.DDS",
 		buildtime = 4680,
 		canrepeat = false,
-		category = "ALL NOTLAND WEAPON NOTSUB NOTSHIP NOTAIR NOTHOVER SURFACE",
+		category = "ALL NOTLAND WEAPON NOTSUB NOTSHIP NOTAIR SURFACE",
 		corpse = "DEAD",
 		description = "Offshore Torpedo Launcher",
 		energymake = 0.1,

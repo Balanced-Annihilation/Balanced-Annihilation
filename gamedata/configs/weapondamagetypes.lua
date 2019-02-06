@@ -217,7 +217,7 @@ local weaponDamageTypes = {
 	coresupp = { ["LightLaser"] = "homing", },
 	cormist = { ["Missiles"] = "rocket", ["AAMissiles"] = "rocket", },
 	armfgate = { ["NavalPlasmaRepulsor"] = "plasma", },
-	armclaw = { ["LightningGun"] = "rocket", },
+	--armclaw = { ["LightningGun"] = "rocket", },
 	cordl = { ["DepthCharge"] = "rocket", },
 	corseap = { ["TorpedoLauncher"] = "rocket", },
 	corveng = { ["Machinegun"] = "bullet", ["MachinegunA2G"] = "bullet", },

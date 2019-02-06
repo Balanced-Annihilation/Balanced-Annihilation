@@ -7,7 +7,7 @@ return {
 		buildpic = "CORBAN.DDS",
 		buildtime = 23129,
 		canmove = true,
-		category = "ALL TANK WEAPON NOTSUB NOTAIR NOTHOVER SURFACE",
+		category = "ALL TANK WEAPON NOTSUB NOTAIR SURFACE",
 		collisionvolumeoffsets = "0 -9 1",
 		collisionvolumescales = "42 42 42",
 		collisionvolumetype = "CylZ",

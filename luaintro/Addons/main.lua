@@ -29,9 +29,9 @@ end
 
 -- Random tips we can show
 local tips = {
-	"To build unit factories you need an Outpost. Outposts can morph up to Tier4, with increasingly better build range and LOS",
-	"To tech up, build a Tech Center, the upgrade it progressively until Tech Tier4. When under attack, tech centers can become 70% more resistant if disabled (ON/OFF button)",
-	"Metal Extractors can be morphed into Adv. Metal Extractors at Tier 1, Moho Mexes at Tier 2 and Uber Mexes at Tier 3, with increasingly higher metal output",
+	"armoutpost.dds ".."To build unit factories you need an Outpost. Outposts can morph up to Tier4, with increasingly better build range and LOS",
+	"armtech.dds ".."To tech up, build a Tech Center, the upgrade it progressively until Tech Tier4. When under attack, tech centers can become 70% more resistant if disabled (ON/OFF button)",
+	"armmex.dds ".."Metal Extractors can be morphed into Adv. Metal Extractors at Tier 1, Moho Mexes at Tier 2 and Uber Mexes at Tier 3, with increasingly higher metal output",
 	--"Have trouble finding metal spots?\nPress F4 to switch to the metal map.",
 	--"Queue-up multiple consecutive unit actions by holding SHIFT.",
 	--"Tweak graphic preferences in options (top right corner of the screen).\nWhen your FPS drops, switch to a lower graphic preset.",
@@ -84,7 +84,7 @@ local contentColor = "\255\255\255\255"
 local unit_descs = {
 	"armck.dds "..titleColor.."Construction Kbot (ARM T1)\n"..contentColor.."Slightly slower and weaker than the Dozer, this builder can climb steeper hills, effective for expansion especially in mountainous terrain.",
 	--"armflea.dds "..titleColor.."Flea (ARM T1 Kbot)\n"..contentColor.."Supercheap and fast, used for scouting and raiding enemy structures in early-game stages. Avoid laser towers and destroy metal extractors to slow down your foe’s expansion!",
-	"armham.dds "..titleColor.."Hammer (ARM T1 Kbot)\n"..contentColor.."Plasma kbots have a minimum attack range but are the sturdiest basic kbots, extremely resistant to defenses and excellent at taking out commanders. They have a minimum attack range, but their mid-ranged projectiles fly over dragon teeth.",
+	"armham.dds "..titleColor.."Hammer (ARM T1 Kbot)\n"..contentColor.."Plasma kbots are the sturdiest basic kbots, extremely resistant to defenses and excellent at taking out commanders. They have a minimum attack range, but their mid-ranged arced projectiles can fly over dragon teeth.",
 	--"armjeth.dds "..titleColor.."Jethro (ARM T1 Amphibious Kbot)\n"..contentColor.."Amphibious mobile anti-air to take down light aircraft. Always send a few with your army to protect it from EMP drones and gunships.",
 	"armpw.dds "..titleColor.."Peewee (ARM T1 Kbot)\n"..contentColor.."Cheap and fast moving, average-to-low health and built in groups of 4 at a time. With its good LOS, it's effective for scouting and early economy harassment. Excellent vs missile kbots.",
 	"armrectr.dds "..titleColor.."Rector (ARM T1 Kbot)\n"..contentColor.."Fast Kbot which can rapidly heal and ressurect destroyed units. Extends the lifetime and adds a snowballing effect to your attack forces",

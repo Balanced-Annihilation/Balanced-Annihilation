@@ -8,7 +8,7 @@ return {
 		buildpic = "ARMPSHIP.DDS",
 		buildtime = 4350,
 		canmove = true,
-		category = "ALL NOTLAND MOBILE WEAPON NOTSUB SHIP NOTAIR NOTHOVER SURFACE",
+		category = "ALL NOTLAND MOBILE WEAPON NOTSUB SHIP NOTAIR SURFACE",
 		collisionvolumeoffsets = "0 -4 1",
 		collisionvolumescales = "26 26 76",
 		collisionvolumetype = "CylZ",
@@ -27,7 +27,7 @@ return {
 		minwaterdepth = 6,
 		movementclass = "BOAT44X4",
 		name = "Ellysaw",
-		nochasecategory = "VTOL UNDERWATER",
+		nochasecategory = "VTOL",
 		objectname = "ARMPSHIP",
 		seismicsignature = 0,
 		selfdestructas = "mediumExplosionGenericSelfd",
@@ -150,12 +150,12 @@ return {
 		},
 		weapons = {
 			[1] = {
-				badtargetcategory = "LIGHTAIRSCOUT UNDERWATER",
+				badtargetcategory = "LIGHTAIRSCOUT",
 				def = "PLASMA",
 				onlytargetcategory = "NOTSUB",
 			},
 			[2] = {
-				badtargetcategory = "LIGHTAIRSCOUT UNDERWATER",
+				badtargetcategory = "LIGHTAIRSCOUT",
 				def = "PLASMA",
 				onlytargetcategory = "NOTSUB",
 				maindir = "0 0 1",

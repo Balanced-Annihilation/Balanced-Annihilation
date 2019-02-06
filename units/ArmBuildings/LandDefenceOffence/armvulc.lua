@@ -12,7 +12,7 @@ return {
 		buildpic = "ARMVULC.DDS",
 		buildtime = 1400000,
         canrepeat = false,
-		category = "ALL NOTLAND WEAPON NOTSUB NOTSHIP NOTAIR NOTHOVER SURFACE",
+		category = "ALL NOTLAND WEAPON NOTSUB NOTSHIP NOTAIR SURFACE",
 		corpse = "DEAD",
 		description = "Rapid-Fire Long-Range Plasma Cannon",
 		explodeas = "advancedFusionExplosion",

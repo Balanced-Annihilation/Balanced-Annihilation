@@ -11,7 +11,7 @@ return {
 		buildpic = "ARMFARK.DDS",
 		buildtime = 4302,
 		canmove = true,
-		category = "KBOT MOBILE ALL NOTSUB NOWEAPON NOTAIR NOTHOVER SURFACE",
+		category = "KBOT MOBILE ALL NOTSUB NOWEAPON NOTAIR SURFACE",
 		collisionvolumeoffsets = "0 -1 -1",
 		collisionvolumescales = "21 24 17",
 		collisionvolumetype = "box",

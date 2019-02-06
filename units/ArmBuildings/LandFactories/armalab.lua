@@ -14,7 +14,7 @@ return {
 		buildpic = "ARMALAB.DDS",
 		buildtime = 16224,
 		canmove = true,
-		category = "ALL NOTLAND NOTSUB NOWEAPON NOTSHIP NOTAIR NOTHOVER SURFACE",
+		category = "ALL NOTLAND NOTSUB NOWEAPON NOTSHIP NOTAIR SURFACE",
 		collisionvolumescales = "75 32 91",
 		collisionvolumetype = "Box",
 		corpse = "DEAD",
