@@ -635,24 +635,24 @@ function widget:DrawWorld()
     if (not fx) then return end
     local angle = math.atan2(fx-tx,fz-tz) + (math.pi/2.1)
     local dx,dz,offset_x,offset_z
-    if Spring.GetModOptions ~= nil and (tonumber(Spring.GetModOptions().barmodels) or 0) == 1 then
-      if dgunInfo[dgunUnitDefID].unitname == 'armcom' then
-        offset_x = (sin(angle)*10)
-        offset_z = (cos(angle)*10)
-        dx = fx - offset_x
-        dz = fz - offset_z
-      else
-        offset_x = (sin(angle)*14)
-        offset_z = (cos(angle)*14)
-        dx = fx + offset_x
-        dz = fz + offset_z
-      end
-    else
-      offset_x = (sin(angle)*13)
-      offset_z = (cos(angle)*13)
-      dx = fx + offset_x
-      dz = fz + offset_z
-    end
+    --if Spring.GetModOptions ~= nil and (tonumber(Spring.GetModOptions().barmodels) or 0) == 1 then
+    --  if dgunInfo[dgunUnitDefID].unitname == 'armcom' then
+    --    offset_x = (sin(angle)*10)
+    --    offset_z = (cos(angle)*10)
+    --    dx = fx - offset_x
+    --    dz = fz - offset_z
+    --  else
+    --    offset_x = (sin(angle)*14)
+    --    offset_z = (cos(angle)*14)
+    --    dx = fx + offset_x
+    --    dz = fz + offset_z
+    --  end
+    --else
+    offset_x = (sin(angle)*13)
+    offset_z = (cos(angle)*13)
+    dx = fx + offset_x
+    dz = fz + offset_z
+    --end
     DrawNoExplode(info.aoe, dx, fy, dz, tx, ty, tz, info.range+(info.aoe*0.7), 500) --info.requiredEnergy, returns 26700 somehow so we put 500 manually now
     glColor(1, 0, 0, 0.75)
     glLineWidth(1.5)

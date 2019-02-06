@@ -676,7 +676,8 @@ local function UpdateGrid(g,cmds,ordertype)
 		}
 		
 		if (ordertype == 1) then --build icons
-			if Spring.GetModOptions ~= nil and (tonumber(Spring.GetModOptions().barmodels) or 0) == 1 and oldUnitpics and UnitDefs[cmd.id*-1] ~= nil and VFS.FileExists(oldUnitpicsDir..UnitDefs[cmd.id*-1].name..'.dds') then
+			if --Spring.GetModOptions ~= nil and (tonumber(Spring.GetModOptions().barmodels) or 0) == 1 and
+               oldUnitpics and UnitDefs[cmd.id*-1] ~= nil and VFS.FileExists(oldUnitpicsDir..UnitDefs[cmd.id*-1].name..'.dds') then
 				icon.texture = oldUnitpicsDir..UnitDefs[cmd.id*-1].name..'.dds'
 			else
 				icon.texture = "#"..cmd.id*-1

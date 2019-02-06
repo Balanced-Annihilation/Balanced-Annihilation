@@ -1,7 +1,7 @@
 local enabled = true
-if Spring.GetModOptions and (tonumber(Spring.GetModOptions().barmodels) or 0) ~= 0 then
-    enabled = false
-end
+--if Spring.GetModOptions and (tonumber(Spring.GetModOptions().barmodels) or 0) ~= 0 then
+--    enabled = false
+--end
 if Spring.GetModOptions and (Spring.GetModOptions().unba or "disabled") == "enabled" then
     enabled = false
 end

@@ -1044,9 +1044,9 @@ function applyOptionValue(i, skipRedrawWindow)
 			Spring.SendCommands("AdvModelShading "..value)
 			Spring.SetConfigInt("AdvModelShading",value)
 		elseif id == 'normalmapping' then
-			if (Spring.GetModOptions and (tonumber(Spring.GetModOptions().barmodels) or 0) ~= 0) or UnitDefNames["armcom_bar"] then
+			--if (Spring.GetModOptions and (tonumber(Spring.GetModOptions().barmodels) or 0) ~= 0) or UnitDefNames["armcom_bar"] then
 				Spring.SendCommands("luarules normalmapping "..value)
-			end
+			--end
 			Spring.SetConfigInt("NormalMapping",value)
 		elseif id == 'lupsdynamic' then
 			Spring.SetConfigInt("DynamicLups",value)
@@ -2289,10 +2289,11 @@ function init()
 		options[getOptionByID('cursor')].value = cursor
 	end
 
-	if (Spring.GetModOptions and (tonumber(Spring.GetModOptions().barmodels) or 0) == 0) and not UnitDefNames["armcom_bar"] then
-		options[getOptionByID('normalmapping')] = nil
-		options[getOptionByID('oldicons')] = nil
-	end
+    -- [MaDDoX] not sure we should keep the normalmapping toggle since new models simply use the pbr shader normal..
+	--if (Spring.GetModOptions and (tonumber(Spring.GetModOptions().barmodels) or 0) == 0) and not UnitDefNames["armcom_bar"] then
+	--	options[getOptionByID('normalmapping')] = nil
+	--	options[getOptionByID('oldicons')] = nil
+	--end
 
 	if (WG['healthbars'] == nil) then
 		options[getOptionByID('healthbarsscale')] = nil

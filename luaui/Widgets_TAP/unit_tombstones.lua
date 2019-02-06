@@ -56,9 +56,9 @@ function widget:UnitDestroyed(unitID, unitDefID, unitTeam)
     elseif ud.name == 'armcom_bar' then
       tombstoneUdefID = armstone_barUdefID
     end
-    if Spring.GetModOptions ~= nil and (tonumber(Spring.GetModOptions().barmodels) or 0) == 1 then
-      z = z - 50
-    end
+    --if Spring.GetModOptions ~= nil and (tonumber(Spring.GetModOptions().barmodels) or 0) == 1 then
+    --  z = z - 50
+    --end
     tombstones[#tombstones+1] = {tombstoneUdefID, unitTeam, x,Spring.GetGroundHeight(x,z),z, ((math.random()-0.5)*25), (14 + (math.random()*14)), ((math.random()-0.5)*18)}
   end
 end

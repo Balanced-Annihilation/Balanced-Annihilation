@@ -1,6 +1,6 @@
-if Spring.GetModOptions and (tonumber(Spring.GetModOptions().barmodels) or 0) == 0 then
-	return {}
-end
+--if Spring.GetModOptions and (tonumber(Spring.GetModOptions().barmodels) or 0) == 0 then
+--	return {}
+--end
 
 return {
 	mission_command_tower = {
