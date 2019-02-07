@@ -6,15 +6,13 @@
 piece  ground, pelvis, rthigh, rleg, lthigh, lleg, torso, turret,
        flak, flak_fire, turret_fire, rmiss, rmiss_fire, lmiss, lmiss_fire;
 
-static-var  bMoving, Static_Var_2, Static_Var_3, Static_Var_4, Static_Var_5,
-            Static_Var_6, Static_Var_7;
+static-var  bMoving, bAiming;
 
-
-walk()
+CycleWalk()
 {
 	while( bMoving )
 	{
-		if( bMoving )
+		if( !bMoving ) {return;}
 		{
 			move pelvis to y-axis [0.000000] now;
 			move lleg to y-axis [0.000000] now;
@@ -25,22 +23,22 @@ walk()
 			turn rleg to x-axis <26.000000> now;
 			sleep 20;
 		}
-		if( bMoving )
+		if( !bMoving ) {return;}
 		{
 			move torso to y-axis [0.000000] now;
 			sleep 20;
 		}
-		if( bMoving )
+		if( !bMoving ) {return;}
 		{
 			move torso to y-axis [0.000000] now;
 			sleep 50;
 		}
-		if( bMoving )
+		if( !bMoving ) {return;}
 		{
 			move torso to y-axis [0.000000] now;
 			sleep 20;
 		}
-		if( bMoving )
+		if( !bMoving ) {return;}
 		{
 			move pelvis to y-axis [0.000000] now;
 			move torso to y-axis [0.000000] now;
@@ -51,7 +49,7 @@ walk()
 			turn rleg to x-axis <27.000000> speed <230.428571>;
 			sleep 70;
 		}
-		if( bMoving )
+		if( !bMoving ) {return;}
 		{
 			move pelvis to y-axis [0.000000] now;
 			move rleg to y-axis [1.000000] speed [11.927710];
@@ -61,7 +59,7 @@ walk()
 			turn rleg to x-axis <27.000000> now;
 			sleep 60;
 		}
-		if( bMoving )
+		if( !bMoving ) {return;}
 		{
 			move pelvis to y-axis [-1.000000] speed [11.927710];
 			turn rthigh to x-axis <-12.000000> speed <250.478022>;
@@ -70,7 +68,7 @@ walk()
 			turn rleg to x-axis <26.000000> speed <11.923077>;
 			sleep 50;
 		}
-		if( bMoving )
+		if( !bMoving ) {return;}
 		{
 			move pelvis to y-axis [0.000000] speed [11.927710];
 			move rleg to y-axis [1.000000] now;
@@ -80,28 +78,28 @@ walk()
 			turn rleg to x-axis <26.000000> now;
 			sleep 40;
 		}
-		if( bMoving )
+		if( !bMoving ) {return;}
 		{
 			move pelvis to y-axis [0.000000] now;
 			turn rthigh to x-axis <-29.000000> speed <95.417582>;
 			turn lthigh to x-axis <16.000000> speed <131.203297>;
 			sleep 50;
 		}
-		if( bMoving )
+		if( !bMoving ) {return;}
 		{
 			move pelvis to y-axis [0.000000] now;
 			turn rthigh to x-axis <-44.000000> speed <178.912088>;
 			turn lthigh to x-axis <19.000000> speed <35.780220>;
 			sleep 60;
 		}
-		if( bMoving )
+		if( !bMoving ) {return;}
 		{
 			move pelvis to y-axis [0.000000] now;
 			turn rthigh to x-axis <-54.000000> speed <85.340659>;
 			turn lthigh to x-axis <26.000000> speed <59.736264>;
 			sleep 70;
 		}
-		if( bMoving )
+		if( !bMoving ) {return;}
 		{
 			move pelvis to y-axis [0.000000] now;
 			move rleg to y-axis [0.000000] now;
@@ -111,22 +109,22 @@ walk()
 			turn rleg to x-axis <36.000000> now;
 			sleep 20;
 		}
-		if( bMoving )
+		if( !bMoving ) {return;}
 		{
 			move torso to y-axis [0.000000] now;
 			sleep 20;
 		}
-		if( bMoving )
+		if( !bMoving ) {return;}
 		{
 			move torso to y-axis [0.000000] now;
 			sleep 50;
 		}
-		if( bMoving )
+		if( !bMoving ) {return;}
 		{
 			move torso to y-axis [0.000000] now;
 			sleep 20;
 		}
-		if( bMoving )
+		if( !bMoving ) {return;}
 		{
 			move pelvis to y-axis [0.000000] now;
 			move torso to y-axis [0.000000] now;
@@ -137,7 +135,7 @@ walk()
 			turn rleg to x-axis <28.000000> speed <17.065934>;
 			sleep 70;
 		}
-		if( bMoving )
+		if( !bMoving ) {return;}
 		{
 			move pelvis to y-axis [0.000000] now;
 			turn rthigh to x-axis <-22.000000> speed <71.565934>;
@@ -146,7 +144,7 @@ walk()
 			turn rleg to x-axis <22.000000> speed <71.565934>;
 			sleep 60;
 		}
-		if( bMoving )
+		if( !bMoving ) {return;}
 		{
 			move pelvis to y-axis [0.000000] now;
 			turn rthigh to x-axis <-16.000000> speed <71.565934>;
@@ -154,7 +152,7 @@ walk()
 			turn rleg to x-axis <17.000000> speed <59.637363>;
 			sleep 50;
 		}
-		if( bMoving )
+		if( !bMoving ) {return;}
 		{
 			move pelvis to y-axis [0.000000] now;
 			move lleg to y-axis [1.000000] now;
@@ -164,25 +162,35 @@ walk()
 			turn rleg to x-axis <25.000000> speed <95.417582>;
 			sleep 40;
 		}
-		if( bMoving )
+		if( !bMoving ) {return;}
 		{
 			move pelvis to y-axis [0.000000] now;
 			turn rthigh to x-axis <3.000000> speed <119.274725>;
 			turn lthigh to x-axis <-26.000000> speed <131.203297>;
 			sleep 50;
 		}
-		if( bMoving )
+		if( !bMoving ) {return;}
 		{
 			move pelvis to y-axis [0.000000] now;
 			turn rthigh to x-axis <10.000000> speed <83.489011>;
 			turn lthigh to x-axis <-35.000000> speed <107.346154>;
 			sleep 60;
 		}
+	}
+}
+
+InitialPosition()
+{
 		move pelvis to y-axis [0.000000] now;
 		turn rthigh to x-axis <21.000000> speed <93.879121>;
 		turn lthigh to x-axis <-56.000000> speed <179.219780>;
 		sleep 70;
-	}
+}
+
+walk()
+{
+    call-script CycleWalk();
+    call-script InitialPosition();
 }
 
 MotionControl(moving, aiming, justmoved)
@@ -191,7 +199,7 @@ MotionControl(moving, aiming, justmoved)
 	while( TRUE )
 	{
 		moving = bMoving;
-		aiming = Static_Var_2;
+                aiming = bAiming; //\todo FIXME - bAiming not change in script.
 		if( moving )
 		{
 			call-script walk();
