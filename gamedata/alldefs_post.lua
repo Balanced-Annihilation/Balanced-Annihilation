@@ -104,26 +104,34 @@ function ApplyUnitDefs_Data(name, uDef)
 				for k, v in pairs (newData) do
 					local oldDefVal = uDef[k]
 					local newDefVal = v
-                    if k == "weapondefs" then
-                        if oldDefVal then
-                            -- weapondefs={[[new or v]]vtol_emg2={craterboost=0,
-                            -- If we find matching weapondefs in source lua, we keep the orig cegtag and explosiongenerator
-                            for weapID, weapData in pairs (newDefVal) do
-                                local oldWeaponDef = oldDefVal[weapID]
-                                if oldWeaponDef then
-                                    local oldcegtag = oldWeaponDef.cegtag
-                                    if oldcegtag then
-                                        newDefVal[weapID].cegtag = oldcegtag
-                                    end
-                                    local oldexpgen = oldWeaponDef.explosiongenerator
-                                    if oldexpgen then
-                                        newDefVal[weapID].explosiongenerator = oldexpgen
-                                    end
-                                else
-                                    Spring.Echo("alldefs_post warning: couldn't find "..tostring(weapID).." weapon in new "..name.." data.")
-                                end
-                            end
-                        end
+                    if oldDefVal and k == "weapondefs" then
+						-- weapondefs={[[new or v]]vtol_emg2={craterboost=0,
+						-- If we find matching weapondefs in source lua, we keep the orig cegtag and explosiongenerator
+						for weapID, weapData in pairs (newDefVal) do
+							local oldWeaponDef = oldDefVal[weapID]
+							local oldcegtag, oldexpgen
+							if oldWeaponDef then
+								oldcegtag = oldWeaponDef.cegtag
+								oldexpgen = oldWeaponDef.explosiongenerator
+							else
+								-- We can't know which old weapon corresponds to the new one, so we just grab whatever
+								for ok, ov in pairs(oldDefVal) do
+									if ov.cegtag then
+										oldcegtag = ov.cegtag end
+									if ov.explosiongenerator then
+										oldexpgen = ov.explosiongenerator end
+								end
+								--Spring.Echo("Warning: couldn't find newWeap "..tostring(weapID)..
+								--		" in "..name.."'s current data.")
+								if oldcegtag or oldexpgen then
+									Spring.Echo("Warning: 'Guessed' explosiongenerator and/or cegtag for unit "..name..", as: "
+											..(oldexpgen or "nil").." and ceg: ".. (oldcegtag or "nil")) end
+							end
+							if oldcegtag then
+								newDefVal[weapID].cegtag = oldcegtag end
+							if oldexpgen then
+								newDefVal[weapID].explosiongenerator = oldexpgen end
+						end
                     end
 					--if not shouldIgnore(was, new) then    --[Deprecated]
 					uDef[k] = newDefVal

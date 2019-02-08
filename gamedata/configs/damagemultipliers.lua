@@ -80,7 +80,7 @@ local damageMultipliers = {
 				invader = 1, 	heavybot = 1, 	assault = 1,	heavyveh = 1,		resource = 1,
 	}
 	,
-	nuke={ 		peon = 1, 		rpg = 1, 		stalwart = 1, 	aiv = 1, 			tank = 1, 		artillery = 1,
+	nuke={ 		peon = 1, 		rpg = 1, 		stalwart = 1, 	aiv = 1, 			tank = 1.1,		artillery = 1,
 				fighter = 1, 	gunship = 1, 	bomber = 1, 	structure = 1, 		defense = 1, 	defenseaa = 1, 		commander = 0.5,
 				invader = 1, 	heavybot = 1, 	assault = 1,	heavyveh = 1,		resource = 1,
 	}

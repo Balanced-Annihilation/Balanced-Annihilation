@@ -401,7 +401,7 @@ function UnitDetected( unitID, allyTeam, teamId )
 				if ( tag ~= nil ) then
 					--printDebug("Salvo: " .. weaponDef.salvoSize 	)
 					damage = dam[Game.armorTypes[tag]]
-                    if weaponDef and weaponDef.salvoSize and weaponDef.reload then
+                    if weaponDef and weaponDef.salvoSize and weaponDef.reload and damage then
 					    dps = damage * weaponDef.salvoSize / weaponDef.reload
                     end
 					--printDebug("DPS: " .. dps 	)
@@ -479,6 +479,8 @@ end
 
 --linear interpolates between min and max color
 function GetColorByDps( dps, isEnemy, typeStr )
+	if not dps then
+		dps = 100 end
 	local color = { 0.0, 0.0, 0.0 }
 	local team = "ally"
 	if ( isEnemy ) then team = "enemy" end

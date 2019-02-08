@@ -30,7 +30,8 @@ end
 -- Random tips we can show
 local tips = {
 	"armoutpost.dds ".."To build unit factories you need an Outpost. Outposts can morph up to Tier4, with increasingly better build range and LOS",
-	"armtech.dds ".."To tech up, build a Tech Center, the upgrade it progressively until Tech Tier4. When under attack, tech centers can become 70% more resistant if disabled (ON/OFF button)",
+	"armtech.dds ".."To tech up, build a Tech Center, then upgrade it progressively until Tech Tier4. This unlocks high-tier upgrades in factories and outposts as well."
+	"armtech.dds ".."When under attack, Tech Centers can become 70% more resistant if disabled (ON/OFF button)",
 	"armmex.dds ".."Metal Extractors can be morphed into Adv. Metal Extractors at Tier 1, Moho Mexes at Tier 2 and Uber Mexes at Tier 3, with increasingly higher metal output",
 	--"Have trouble finding metal spots?\nPress F4 to switch to the metal map.",
 	--"Queue-up multiple consecutive unit actions by holding SHIFT.",

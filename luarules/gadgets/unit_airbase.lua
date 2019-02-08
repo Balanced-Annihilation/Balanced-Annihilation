@@ -627,7 +627,10 @@ function gadget:GameFrame(n)
                RemoveOrderFromQueue(unitID, CMD_LAND_AT_SPECIFIC_AIRBASE)
             else
                -- fly towards pad (the pad may move!)
-               spSetUnitLandGoal(unitID, px, py, pz, r)
+               local uDefID = spGetUnitDefID(unitID)
+               if UnitDefs[uDefID].canFly then
+                  spSetUnitLandGoal(unitID, px, py, pz, r)
+               end
             end
          end
       end

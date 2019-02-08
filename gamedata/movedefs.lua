@@ -248,6 +248,18 @@ local moveDatas = {
 			maxValue = 0.7,
 		}
 	},
+    KBOT12X2 = {
+        crushstrength = 5,
+        footprintx = 2,
+        footprintz = 2,
+        maxslope = 36,
+        maxwaterdepth = 5,
+        depthModParams = {
+            minHeight = 4,
+            linearCoeff = 0.03,
+            maxValue = 0.7,
+        }
+    },
 	KBOT2 = {		-- All basic kbots really
 		crushstrength = 1,		--10
 		footprintx = 3,
@@ -390,6 +402,13 @@ local moveDatas = {
 		crushstrength = 5,
 		subMarine = 1,
 	},
+    UBOAT33X3 = {
+        footprintx = 3,
+        footprintz = 3,
+        minwaterdepth = 15,
+        crushstrength = 5,
+        subMarine = 1,
+    },
 	--[[
 	UBOAT4 = {
 		footprintx = 4,
