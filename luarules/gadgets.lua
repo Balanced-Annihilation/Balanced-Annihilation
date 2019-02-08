@@ -1741,6 +1741,12 @@ function gadgetHandler:DrawWorld()
   return
 end
 
+function gadgetHandler:DrawGroundPreForward()
+  for _,g in ipairs(self.DrawGroundPreForwardList) do
+    g:DrawGroundPreForward()
+  end
+  return
+end
 
 function gadgetHandler:DrawWorldPreUnit()
   for _,g in ipairs(self.DrawWorldPreUnitList) do
@@ -1914,6 +1920,13 @@ end
 function gadgetHandler:Load(zip)
   for _,g in ipairs(self.LoadList) do
     g:Load(zip)
+  end
+  return
+end
+
+function gadgetHandler:UnsyncedHeightMapUpdate(x1, z1, x2, z2)
+  for _,g in ipairs(self.UnsyncedHeightMapUpdateList) do
+    g:UnsyncedHeightMapUpdate(x1, z1, x2, z2)
   end
   return
 end
