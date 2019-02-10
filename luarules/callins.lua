@@ -54,7 +54,7 @@ CallInsList = {
   "UnitUnloaded",
   "UnitCloaked",
   "UnitDecloaked",
-  
+
   "ShieldPreDamaged",
 
   "FeatureCreated",
@@ -65,6 +65,7 @@ CallInsList = {
 
   "DrawGenesis",
   "DrawWorld",
+  "DrawGroundPreForward",
   "DrawWorldPreUnit",
   "DrawWorldShadow",
   "DrawWorldReflection",
@@ -95,6 +96,8 @@ CallInsList = {
   "AllowResourceTransfer",
   "MoveCtrlNotify",
   "TerraformComplete",
+
+  "UnsyncedHeightMapUpdate",
 }
 
 
