@@ -20,7 +20,7 @@ local damageMultipliers = {
 	}
     ,
 	homing={ 	peon = 0.25, 	rpg = 0.25, 	stalwart = 0.65,aiv = 0.75, 		tank = 2.3, 	artillery = 1.25,
-				fighter = 1.25, gunship = 3, 	bomber = 1.5, 	structure = 0.6, 	defense = 0.75, defenseaa = 0.2, 	commander = 0.3,
+				fighter = 1.25, gunship = 3, 	bomber = 1.5, 	structure = 0.6, 	defense = 0.75, defenseaa = 0.2, 	commander = 0.25,
 				invader = 0.4,  heavybot = 0.2,	assault = 0.75,	heavyveh = 0.6,		resource = 0.75,
 	}
     ,

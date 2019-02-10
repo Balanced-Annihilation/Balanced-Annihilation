@@ -13,6 +13,8 @@ end
 
 -- table of stuff that we unbind on load
 local unbinds={
+    "bind any+q",
+    "bind q",
     "bind any+c controlunit",
     "bind c controlunit",
     "bind any+x  buildspacing dec",
@@ -30,6 +32,18 @@ local unbinds={
     "bind Any+i gameinfo",
     "bind any+m move",          -- Leaving 'M' for morph. Who uses M to move anyways?
     "bind m move",
+    -- Below are new, from former uikeys.txt
+    "bind Ctrl+b",
+    "bind Ctrl+a",
+    "bind Ctrl+d", 		--selfd
+    "bind Ctrl+w", 		--FPS camera
+    "bind Ctrl+shift+w", 	--FPS camera
+    "bind Ctrl+Shift+d", 	--selfd queued
+    "bind Ctrl+Shift+a",
+    "bind Ctrl+alt+w",
+    "bind alt+v",
+    "bind alt+shift+v",
+    "bind Any+i",		--gameinfo
     --"bind ` drawinmap",
 }
 
@@ -376,6 +390,23 @@ function MakeBindsTable (swapYZ)
 
         "bind ctrl+f fight",
 
+        -- New in v.0.998
+        "bind Ctrl+Alt+d selfd",
+        "bind Ctrl+Alt+a select AllMap++_ClearSelection_SelectAll+",
+
+        "bind Ctrl+Alt+s SpecFullView",
+        "bind Ctrl+Alt+m minimap simplecolors 1",
+
+        -- Modified to select all builders in MaDDPack. You can filter the type
+        --   the bottom row selector, and get only idle ones with the left row selector.
+        "bind Ctrl+b select AllMap+_Not_Building_Not_NameContain_Nano_Builder_Not_NameContain_Commander+_ClearSelection_SelectAll+",
+        "bind Ctrl+Alt+w select AllMap+_Aircraft_Weapons+_ClearSelection_SelectAll+",
+
+        "bind space deselect",
+        "bind Ctrl+p pause",
+        "bind Ctrl+Alt+z areamex",
+        "bind Alt+z select Visible+_InPrevSel+_ClearSelection_SelectAll+",
+        "bind Any+f9 showhealthbars",
     }
 
     binds = _binds

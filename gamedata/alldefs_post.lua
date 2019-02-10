@@ -65,14 +65,17 @@ function UnitDef_Post(name, uDef)
 	ApplyUnitDefs_Data(name, uDef)
 	-- Any post processing after unitdefs_data.lua is applied should come after this
 	ApplyGroupSizeCosts(name, uDef)
-	-- Add reverse move to units with customDef allowreversemove defined as true
-	if uDef.speed and uDef.customParams then -- and uDef.customParams.allowreversemove == "1"
-		Spring.Echo(name.." has allowreversemove.")
-		uDef.rSpeed = uDef.speed * 0.6
-	end
+	-- [deprecated, now done straight in ssheet] Add reverse move to units with customDef allowreversemove defined as true
+	--if uDef.speed and uDef.customParams then -- and uDef.customParams.allowreversemove == "1"
+	--	Spring.Echo(name.." has allowreversemove.")
+	--	uDef.rSpeed = uDef.speed * 0.6
+	--end
     --Set a minimum for builddistance
     if uDef.builddistance ~= nil and uDef.builddistance < minimumbuilddistancerange then
         uDef.builddistance = minimumbuilddistancerange
+    end
+    if uDef.maxreversevelocity ~= nil then
+        Spring.Echo("Found reverse velocity "..tonumber(uDef.maxreversevelocity).." on unit "..name)
     end
 end
 

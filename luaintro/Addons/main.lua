@@ -30,13 +30,14 @@ end
 -- Random tips we can show
 local tips = {
 	"armoutpost.dds ".."To build unit factories you need an Outpost. Outposts can morph up to Tier4, with increasingly better build range and LOS",
-	"armtech.dds ".."To tech up, build a Tech Center, then upgrade it progressively until Tech Tier4. This unlocks high-tier upgrades in factories and outposts as well."
+	"armtech.dds ".."To tech up, build a Tech Center, then upgrade it progressively until Tech Tier4. This unlocks high-tier upgrades in factories and outposts as well.",
 	"armtech.dds ".."When under attack, Tech Centers can become 70% more resistant if disabled (ON/OFF button)",
 	"armmex.dds ".."Metal Extractors can be morphed into Adv. Metal Extractors at Tier 1, Moho Mexes at Tier 2 and Uber Mexes at Tier 3, with increasingly higher metal output",
 	--"Have trouble finding metal spots?\nPress F4 to switch to the metal map.",
 	--"Queue-up multiple consecutive unit actions by holding SHIFT.",
 	--"Tweak graphic preferences in options (top right corner of the screen).\nWhen your FPS drops, switch to a lower graphic preset.",
-	--"Radars are cheap. Make them early in the game to effectively counter initial strikes.",
+	"armrad.dds ".."Radars are cheap and their detection range is much larger than their vision range. Commanders and Outposts are your best static options early one for true vision range.",
+    "armgeo.dds ".."Abandoned/Neutral Geothermals might be scattered around the map and provide plenty of energy. You can capture them with commanders or with builders, after you research the 'capture' upgrade in the Tech Center.",
 	--"To see detailed info about each unit in-game switch on \"Extensive unit info\" via Options menu",
 	--"In general, vehicles are a good choice for flat and open battlefields. Kbots are better on hills.",
 	--"For wind generators to be worth building, the average wind speed should be over 7. Current, minimum, and maximum wind speeds are shown to the right of the energy bar.",
