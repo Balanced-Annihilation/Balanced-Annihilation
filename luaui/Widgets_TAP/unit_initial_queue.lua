@@ -18,45 +18,30 @@ end
 -- june 2015: guishader + rounded corners + hover effect + widget scales with resolution + remembers queue after /luaui reload (Floris)
 
 
-VFS.Include("unbaconfigs/buildoptions.lua")
-
---- Not using this for now
---for ct,name in pairs (armlevel1buildoptions) do
---	armlevel1buildoptions[ct] = UnitDefNames[name].id
---end
---
---for ct,name in pairs (corlevel1buildoptions) do
---	corlevel1buildoptions[ct] = UnitDefNames[name].id
---end
-
-local ui_opacity = Spring.GetConfigFloat("ui_opacity",0.66)
-
 ------------------------------------------------------------
 -- Config
 ------------------------------------------------------------
 -- Panel
-
 local iconWidth = 50
-local iconHeight = 50
+local iconHeight = 47
 local iconPadding = 2
 local borderSize = 0
 local maxCols = 5
 local fontSize = 17
 local margin = 6
-local drawTooltip = true		-- drawBigTooltip = true... this needs to be true aswell
-local drawBigTooltip = false
 
 local borderPadding = 2.5
+local borderColor = {1,1,1,0.022}
 
+local backgroundColor = {0,0,0,0.6}
 local hoverColor = {1,1,1,0.25}
 local pushedColor = {1,0.1,0,0.33}
 local clickColor = {0.66,1,0,0.25}
 --local pressColor = {1,0,0,0.44}
-local bgcorner = "LuaUI/Images/bgcorner.png"
-local buttonhighlight = ":n:LuaUI/Images/button-highlight.dds"
-local buttonpushed = ":n:LuaUI/Images/button-pushed.dds"
+local bgcorner = ":n:"..LUAUI_DIRNAME.."Images/bgcorner.png"
+local buttonhighlight = ":n:"..LUAUI_DIRNAME.."Images/button-highlight.dds"
+local buttonpushed = ":n:"..LUAUI_DIRNAME.."Images/button-pushed.dds"
 local customScale = 0.95
-local oldUnitpics = false
 
 -- Colors
 local buildDistanceColor = {0.3, 1.0, 0.3, 0.6}
@@ -72,6 +57,7 @@ local energyColor = '\255\255\255\128' -- Light yellow
 local buildColor = '\255\128\255\128' -- Light green
 local whiteColor = '\255\255\255\255' -- White
 
+local spGetSpectatingState = Spring.GetSpectatingState
 local vsx, vsy = gl.GetViewSizes()
 local widgetScale = 1	-- will adjust based on resolution
 
@@ -83,6 +69,9 @@ local glBlending               = gl.Blending
 -- Building ids
 local ARMCOM = UnitDefNames["armcom"].id
 local CORCOM = UnitDefNames["corcom"].id
+
+local ARMOUTPOST = UnitDefNames["armoutpost"].id
+local COROUTPOST = UnitDefNames["coroutpost"].id
 
 local ARMMEX = UnitDefNames["armmex"].id
 local CORMEX = UnitDefNames["cormex"].id
@@ -133,8 +122,8 @@ local COREYES = UnitDefNames["coreyes"].id
 local ARMDRAG = UnitDefNames["armdrag"].id
 local CORDRAG = UnitDefNames["cordrag"].id
 
---local ARMDL = UnitDefNames["armdl"].id
---local CORDL = UnitDefNames["cordl"].id
+local ARMDL = UnitDefNames["armdl"].id
+local CORDL = UnitDefNames["cordl"].id
 
 local ARMAP = UnitDefNames["armap"].id
 local CORAP = UnitDefNames["corap"].id
@@ -218,6 +207,7 @@ local areDragging = false
 
 local isMex = {} -- isMex[uDefID] = true / nil
 local weaponRange = {} -- weaponRange[uDefID] = # / nil
+local buildRange = {} -- buildRange[uDefID] = # / nil
 
 local changeStartUnitRegex = '^\138(%d+)$'
 local startUnitParamName = 'startUnit'
@@ -232,28 +222,6 @@ local totalTime
 -- Local functions
 ------------------------------------------------------------
 
-function wrap(str, limit)
-	limit = limit or 72
-	local here = 1
-	local buf = ""
-	local t = {}
-	str:gsub("(%s*)()(%S+)()",
-		function(sp, st, word, fi)
-			if fi-here > limit then
-				--# Break the line
-				here = st
-				table.insert(t, buf)
-				buf = word
-			else
-				buf = buf..sp..word  --# Append
-			end
-		end)
-	--# Tack on any leftovers
-	if(buf ~= "") then
-		table.insert(t, buf)
-	end
-	return t
-end
 
 local function RectQuad(px,py,sx,sy)
 	local o = 0.008		-- texture offset, because else grey line might show at the edges
@@ -284,6 +252,7 @@ local function GetBuildingDimensions(uDefID, facing)
 		return 4 * bDef.xsize, 4 * bDef.zsize
 	end
 end
+
 local function DrawBuilding(buildData, borderColor, buildingAlpha, drawRanges)
 
 	local bDefID, bx, by, bz, facing = buildData[1], buildData[2], buildData[3], buildData[4], buildData[5]
@@ -301,13 +270,19 @@ local function DrawBuilding(buildData, borderColor, buildingAlpha, drawRanges)
 
 		if isMex[bDefID] then
 			gl.Color(1.0, 0.3, 0.3, 0.7)
-			gl.DrawGroundCircle(bx, by, bz, Game.extractorRadius, 50)
+			gl.DrawGroundCircle(bx, by, bz, Game.extractorRadius, 40)
 		end
 
 		local wRange = weaponRange[bDefID]
 		if wRange then
 			gl.Color(1.0, 0.3, 0.3, 0.7)
 			gl.DrawGroundCircle(bx, by, bz, wRange, 40)
+		end
+
+		local bRange = buildRange[bDefID]
+		if bRange then
+			gl.Color(buildDistanceColor)
+			gl.DrawGroundCircle(bx, by, bz, bRange, 40)
 		end
 	end
 
@@ -326,6 +301,7 @@ local function DrawBuilding(buildData, borderColor, buildingAlpha, drawRanges)
 	gl.DepthTest(false)
 	gl.DepthMask(false)
 end
+
 local function DrawUnitDef(uDefID, uTeam, ux, uy, uz)
 
 	gl.Color(1.0, 1.0, 1.0, 1.0)
@@ -342,6 +318,7 @@ local function DrawUnitDef(uDefID, uTeam, ux, uy, uz)
 	gl.DepthTest(false)
 	gl.DepthMask(false)
 end
+
 local function DoBuildingsClash(buildData1, buildData2)
 
 	local w1, h1 = GetBuildingDimensions(buildData1[1], buildData1[5])
@@ -350,6 +327,7 @@ local function DoBuildingsClash(buildData1, buildData2)
 	return math.abs(buildData1[2] - buildData2[2]) < w1 + w2 and
 	       math.abs(buildData1[4] - buildData2[4]) < h1 + h2
 end
+
 local function SetSelDefID(defID)
 
 	selDefID = defID
@@ -358,6 +336,7 @@ local function SetSelDefID(defID)
 		Spring.SendCommands("ShowMetalMap")
 	end
 end
+
 local function GetUnitCanCompleteQueue(uID)
 
 	local uDefID = Spring.GetUnitDefID(uID)
@@ -381,6 +360,7 @@ local function GetUnitCanCompleteQueue(uID)
 
 	return true
 end
+
 local function GetQueueBuildTime()
 	local t = 0
 	for i = 1, #buildQueue do
@@ -388,6 +368,7 @@ local function GetQueueBuildTime()
 	end
 	return t / sDef.buildSpeed
 end
+
 local function GetQueueCosts()
 	local mCost = 0
 	local eCost = 0
@@ -406,46 +387,29 @@ end
 ------------------------------------------------------------
 
 function widget:Initialize()
-	WG['initialqueue'] = {}
-	WG['initialqueue'].getOldUnitIcons = function()
-		return oldUnitpics
-	end
-	WG['initialqueue'].setOldUnitIcons = function(value)
-		oldUnitpics = value
-		local _, _, _, _, mySide = Spring.GetTeamInfo(myTeamID)
-		InitializeFaction(UnitDefNames[Spring.GetSideData(mySide)].id)
-	end
-	if (Game.startPosType == 1) or			-- Don't run if start positions are random
-	   (Spring.GetGameFrame() > 0) or		-- Don't run if game has already started
-	   (amNewbie) or						-- Don't run if i'm a newbie
-	   (Spring.GetSpectatingState()) then	-- Don't run if we are a spec
-		widgetHandler:RemoveWidget(self)
-		return
+	if Game.startPosType == 1 or		-- Don't run if start positions are random
+	   Spring.GetGameFrame() > 0 or		-- Don't run if game has already started
+	   amNewbie or						-- Don't run if i'm a newbie
+	   Spring.GetSpectatingState() then	-- Don't run if we are a spec
+			widgetHandler:RemoveWidget(self)
+			return
 	end
 	-- Get our starting unit
 	local _, _, _, _, mySide = Spring.GetTeamInfo(myTeamID)
 	if mySide == "" then -- Don't run unless we know what faction the player is
 		widgetHandler:RemoveWidget(self)
 		return
-	else
-		local startUnitName = Spring.GetSideData(mySide)
-		sDefID = UnitDefNames[startUnitName].id
-		InitializeFaction(sDefID)
-		WG["faction_change"] = InitializeFaction
 	end
+    local startUnitName = Spring.GetSideData(mySide)
+    sDefID = UnitDefNames[startUnitName].id
+    InitializeFaction(sDefID)
+    WG["faction_change"] = InitializeFaction
 	processGuishader()
 end
 
 function processGuishader()
 	if (WG['guishader_api'] ~= nil) then
 		local sBuilds = UnitDefs[sDefID].buildOptions
-		if (Spring.GetModOptions().unba or "disabled") == "enabled" then
-			if sDef.name == "armcom" then
-				sBuilds = armlevel1buildoptions
-			elseif sDef.name == "corcom" then
-				sBuilds = corlevel1buildoptions
-			end
-		end
 		local numCols = math.min(#sBuilds, maxCols)
 		local numRows = math.ceil(#sBuilds / numCols)
 		local bgheight = ((numRows*iconHeight)+margin)*widgetScale
@@ -482,17 +446,9 @@ function InitializeFaction(sDefID)
 	sDef = UnitDefs[sDefID]
 	-- Don't run if theres nothing to show
 	local sBuilds = sDef.buildOptions
-	if (Spring.GetModOptions().unba or "disabled") == "enabled" then
-		if sDef.name == "armcom" then
-			sBuilds = armlevel1buildoptions
-		elseif sDef.name == "corcom" then
-			sBuilds = corlevel1buildoptions
-		end
-	end
 	if not sBuilds or (#sBuilds == 0) then
 		return
 	end
-
 
 	-- Set up cells
 	local numCols = math.min(#sBuilds, maxCols)
@@ -503,8 +459,7 @@ function InitializeFaction(sDefID)
 	for b = 0, #sBuilds - 1 do
 		cellRows[1 + math.floor(b / numCols)][1 + b % numCols] = sBuilds[b + 1]
 	end
-	
-			
+
 	-- Set up drawing function
 	local drawFunc = function()
 
@@ -514,9 +469,9 @@ function InitializeFaction(sDefID)
 			-- background
 			local bgheight = ((#cellRows*iconHeight)+margin)
 			local bgwidth = ((maxCols*iconWidth)+margin)
-			gl.Color(0,0,0,ui_opacity)
+			gl.Color(backgroundColor)
 			RectRound(-(margin), -bgheight, bgwidth, margin, ((iconWidth+iconPadding+iconPadding)/7))
-			gl.Color(1,1,1,ui_opacity*0.04)
+			gl.Color(borderColor)
 			RectRound(-(margin)+borderPadding, -bgheight+borderPadding, bgwidth-borderPadding, margin-borderPadding, ((iconWidth+iconPadding+iconPadding)/9))
 
 			for r = 1, #cellRows do
@@ -531,13 +486,8 @@ function InitializeFaction(sDefID)
 						--gl.Rect(-borderSize, -borderSize, iconWidth + borderSize, iconHeight + borderSize)
 
 						gl.Color(1, 1, 1, 1)
-
-						if oldUnitpics and UnitDefs[cellRow[c]] ~= nil and VFS.FileExists('unitpics/'..UnitDefs[cellRow[c]].name..'.dds') then
-							gl.Texture('unitpics/'..UnitDefs[cellRow[c]].name..'.dds')
-						else
-							gl.Texture('#' .. cellRow[c])
-						end
-						DrawRect(iconPadding, iconPadding, (iconWidth-iconPadding), (iconHeight-iconPadding))
+						gl.Texture("#" .. cellRow[c])
+							DrawRect(iconPadding, iconPadding, (iconWidth-iconPadding), (iconHeight-iconPadding))
 						gl.Texture(false)
 
 						gl.Translate((iconWidth + borderSize), 0, 0)
@@ -561,6 +511,10 @@ function InitializeFaction(sDefID)
 			isMex[uDefID] = true
 		end
 
+		if uDef.buildDistance > 0 then
+			buildRange[uDefID] = uDef.buildDistance
+		end
+
 		if uDef.maxWeaponRange > 16 then
 			weaponRange[uDefID] = uDef.maxWeaponRange
 		end
@@ -568,14 +522,13 @@ function InitializeFaction(sDefID)
 end
 
 function widget:Shutdown()
-	WG['initialqueue'] = nil
 	if panelList then
 		gl.DeleteList(panelList)
 	end
+	WG["faction_change"] = nil
 	if (WG['guishader_api'] ~= nil) then
 		WG['guishader_api'].RemoveRect('initialqueue')
 	end
-	WG["faction_change"] = nil
 end
 
 
@@ -584,8 +537,6 @@ end
 ------------------------------------------------------------
 
 function widget:GetConfigData()
-	savedTable = {}
-	savedTable.oldUnitpics	= oldUnitpics
 	if (Spring.GetSpectatingState()) then return end
 	--local wWidth, wHeight = Spring.GetWindowGeometry()
 	--return {wl / wWidth, wt / wHeight}
@@ -594,35 +545,26 @@ function widget:GetConfigData()
 		local startUnitName = Spring.GetSideData(mySide)
 		local sDefID = UnitDefNames[startUnitName].id
 		local sBuilds = UnitDefs[sDefID].buildOptions
-		if (Spring.GetModOptions().unba or "disabled") == "enabled" then
-			if UnitDefs[sDefID].name == "armcom" then
-				sBuilds = armlevel1buildoptions
-			elseif UnitDefs[sDefID].name == "corcom" then
-				sBuilds = corlevel1buildoptions
-			end
-		end
 		local numCols = math.min(#sBuilds, maxCols)
 		local numRows = math.ceil(#sBuilds / numCols)
 		local bgheight = ((numRows*iconHeight)+margin)*widgetScale
 		local bgwidth = ((numCols*iconWidth)+margin)*widgetScale
-
+		
+		savedTable = {}
 		savedTable.buildQueue	= buildQueue
 		savedTable.wt			= wt
 		savedTable.wl			= wl
 		savedTable.bgheight		= bgheight
 		savedTable.bgwidth		= bgwidth
 		savedTable.gameid		= Game.gameID
+		return savedTable
 	end
-	return savedTable
 end
 function widget:SetConfigData(data)
 	--if (Spring.GetSpectatingState()) then return end
 	--local wWidth, wHeight = Spring.GetWindowGeometry()
 	--wl = math.floor(wWidth * (data[1] or 0.40))
 	--wt = math.floor(wHeight * (data[2] or 0.10))
-	if data.oldUnitpics ~= nil then
-		oldUnitpics = data.oldUnitpics
-	end
 	if data.wt ~= nil and data.wl ~= nil and data.bgwidth ~= nil and data.bgheight ~= nil then
 		wt = data.wt
 		wl = data.wl
@@ -655,9 +597,6 @@ local queueTimeFormat = whiteColor .. 'Queued ' .. metalColor .. '%dm ' .. energ
 
 -- "Queued 23.9 seconds (820m / 2012e)" (I think this one is the best. Time first emphasises point and goodness of widget)
 	-- Also, it is written like english and reads well, none of this colon stuff or figures stacked together
-
-
-
 
 function widget:DrawScreen()
 	gl.PushMatrix()
@@ -698,24 +637,6 @@ function widget:DrawScreen()
 			end
 			gl.Texture(false)
 			gl.Translate(((iconWidth*widgetScale)*col), ((iconHeight*widgetScale)*row), 0)
-
-			if drawTooltip and WG['tooltip'] ~= nil then
-				local udefid = TraceDefID(CurMouseState[1], CurMouseState[2])
-				local text = "\255\215\255\215"..UnitDefs[udefid].humanName.."\n\255\240\240\240"
-				if drawBigTooltip and UnitDefs[udefid].customParams.description_long ~= nil then
-					local lines = wrap(UnitDefs[udefid].customParams.description_long, 58)
-					local description = ''
-					local newline = ''
-					for i, line in ipairs(lines) do
-						description = description..newline..line
-						newline = '\n'
-					end
-					text = text..description
-				else
-					text = text..UnitDefs[udefid].tooltip
-				end
-				WG['tooltip'].ShowTooltip('initialqueue', text)
-			end
 		end
 		if selDefID ~= nil and lastClickedRow ~= nil and lastClickedCol ~= nil then
 			local row, col = lastClickedRow, lastClickedCol
@@ -822,16 +743,8 @@ end
 -- Game start
 ------------------------------------------------------------
 
-local uiOpacitySec = 0
-function widget:Update(dt)
-	uiOpacitySec = uiOpacitySec + dt
-	if uiOpacitySec>0.5 then
-		uiOpacitySec = 0
-		if ui_opacity ~= Spring.GetConfigFloat("ui_opacity",0.66) then
-			ui_opacity = Spring.GetConfigFloat("ui_opacity",0.66)
-		end
-	end
-end
+--if comgate is on, all orders are blocked before frame 105
+local comGate = tonumber(Spring.GetModOptions().mo_comgate) or 0
 
 function widget:GameFrame(n)
 
@@ -839,53 +752,49 @@ function widget:GameFrame(n)
 		gameStarted = true
 	end
 
-	-- Don't run if we are a spec
-	local areSpec = Spring.GetSpectatingState()
-	if areSpec then
-		widgetHandler:RemoveWidget(self)
-		return
-	end
-	
-	-- Don't run if we didn't queue anything
-	if (#buildQueue == 0) then
+	-- Don't run if we are a spec or if we didn't queue anything
+	if spGetSpectatingState() or #buildQueue == 0 then
 		widgetHandler:RemoveWidget(self)
 		return
 	end
 
-	if (n < 2) then return end -- Give the unit frames 0 and 1 to spawn
+	if (n < 2) then
+        return end -- Give the unit frames 0 and 1 to spawn
 	
 	--inform gadget how long is our queue
 	local buildTime = GetQueueBuildTime()
 	Spring.SendCommands("luarules initialQueueTime " .. buildTime)
 	
-	if (n == 107) then
+	if n == 107 then
 		--Spring.Echo("> Starting unit never spawned !")
 		widgetHandler:RemoveWidget(self)
 		return
 	end
 	
 
-    local tasker
-    -- Search for our starting unit
-    local units = Spring.GetTeamUnits(Spring.GetMyTeamID())
-    for u = 1, #units do
-        local uID = units[u]
-        if GetUnitCanCompleteQueue(uID) then --Spring.GetUnitDefID(uID) == sDefID then
-            tasker = uID
-            if Spring.GetUnitRulesParam(uID,"startingOwner") == Spring.GetMyPlayerID() then
-                --we found our com even if cooping, assigning queue to this particular unit
-                break
-            end
-        end
-    end
-    if tasker then
-        --Spring.Echo("sending queue to unit")
-        for b = 1, #buildQueue do
-            local buildData = buildQueue[b]
-            Spring.GiveOrderToUnit(tasker, -buildData[1], {buildData[2], buildData[3], buildData[4], buildData[5]}, {"shift"})
-        end
-        widgetHandler:RemoveWidget(self)
-    end
+	if comGate == 0 or Spring.GetGameFrame() == 106 then --comGate takes up until frame 105
+		local tasker
+		-- Search for our starting unit
+		local units = Spring.GetTeamUnits(Spring.GetMyTeamID())
+		for u = 1, #units do
+			local uID = units[u]
+			if GetUnitCanCompleteQueue(uID) then --Spring.GetUnitDefID(uID) == sDefID then
+				tasker = uID
+				if Spring.GetUnitRulesParam(uID,"startingOwner") == Spring.GetMyPlayerID() then
+					--we found our com even if cooping, assigning queue to this particular unit
+					break
+				end
+			end
+		end
+		if tasker then
+			--Spring.Echo("sending queue to unit")
+			for b = 1, #buildQueue do
+				local buildData = buildQueue[b]
+				Spring.GiveOrderToUnit(tasker, -buildData[1], {buildData[2], buildData[3], buildData[4], buildData[5]}, {"shift"})
+			end
+			widgetHandler:RemoveWidget(self)
+		end
+	end
 end
 
 ------------------------------------------------------------
@@ -895,6 +804,7 @@ function widget:IsAbove(mx, my)
 	return TraceDefID(mx, my)
 end
 local tooltipFormat = 'Build %s\n%s\n' .. metalColor .. '%d m ' .. whiteColor .. '/ ' .. energyColor .. '%d e ' .. whiteColor .. '/ ' .. buildColor .. '%.1f sec'
+
 function widget:GetTooltip(mx, my)
 	local bDefID = TraceDefID(mx, my)
 	local bDef = UnitDefs[bDefID]
@@ -1021,7 +931,6 @@ function widget:MouseMove(mx, my, dx, dy, mButton)
 	end
 end
 
-
 function widget:MouseRelease(mx, my, mButton)
 	areDragging = false
 	local tracedDefID = TraceDefID(mx, my)
@@ -1038,7 +947,7 @@ function widget:MouseRelease(mx, my, mButton)
 end
 
 ------------------------------------------------------------
--- Keyboard -- This will only work with BA!
+-- Keyboard -- This will only work with TAP
 ------------------------------------------------------------
 local ZKEY = 122
 local XKEY = 120
@@ -1053,26 +962,28 @@ function widget:KeyPress(key,mods,isrepeat)
 			else								SetSelDefID(ARMMEX)
 			end		
 		elseif key == XKEY then
-			if 		selDefID == RMSOLAR then	SetSelDefID(ARMWIN)
+			if 		selDefID == ARMSOLAR then	SetSelDefID(ARMWIN)
 			elseif 	selDefID == ARMWIN then		SetSelDefID(ARMTIDE)
 			elseif 	selDefID == ARMTIDE then	SetSelDefID(ARMSOLAR)
 			else 								SetSelDefID(ARMSOLAR)
 			end
 		elseif key == CKEY then
 			if		selDefID == ARMLLT then		SetSelDefID(ARMRAD)
-			elseif 	selDefID == ARMRAD then		SetSelDefID(ARMRL)
 			elseif 	selDefID == ARMRL then 		SetSelDefID(ARMTL)
+            elseif 	selDefID == ARMRAD then		SetSelDefID(ARMRL)
 			elseif 	selDefID == ARMTL then 		SetSelDefID(ARMSONAR)
 			elseif 	selDefID == ARMSONAR then	SetSelDefID(ARMFRT)
 			elseif 	selDefID == ARMFRT then		SetSelDefID(ARMLLT)
 			else 								SetSelDefID(ARMLLT)
 			end
 		elseif key == VKEY then
-			if		selDefID == ARMLAB then		SetSelDefID(ARMVP)
-			elseif 	selDefID == ARMVP then		SetSelDefID(ARMSY)
-			elseif 	selDefID == ARMSY then		SetSelDefID(ARMLAB)
-			else 								SetSelDefID(ARMLAB)
-			end			
+            if selDefID == ARMOUTPOST then      SetSelDefID(ARMOUTPOST)
+            end
+			--if		selDefID == ARMLAB then		SetSelDefID(ARMVP)
+			--elseif 	selDefID == ARMVP then		SetSelDefID(ARMSY)
+			--elseif 	selDefID == ARMSY then		SetSelDefID(ARMLAB)
+			--else 								SetSelDefID(ARMLAB)
+			--end
 		end	
 	elseif sDef == UnitDefs[CORCOM] then
 		if key == ZKEY then
@@ -1088,19 +999,22 @@ function widget:KeyPress(key,mods,isrepeat)
 			end
 		elseif key == CKEY then
 			if		selDefID == CORLLT then		SetSelDefID(CORRAD)
-			elseif 	selDefID == CORRAD then		SetSelDefID(CORRL)
 			elseif 	selDefID == CORRL then 		SetSelDefID(CORTL)
+			elseif 	selDefID == CORRAD then		SetSelDefID(CORRL)
 			elseif 	selDefID == CORTL then 		SetSelDefID(CORSONAR)
 			elseif 	selDefID == CORSONAR then	SetSelDefID(CORFRT)
 			elseif 	selDefID == CORFRT then		SetSelDefID(CORLLT)
 			else 								SetSelDefID(CORLLT)
 			end
 		elseif key == VKEY then
-			if		selDefID == CORLAB then		SetSelDefID(CORVP)
-			elseif 	selDefID == CORVP then		SetSelDefID(CORSY)
-			elseif 	selDefID == CORSY then		SetSelDefID(CORLAB)
-			else 								SetSelDefID(CORLAB)		
-			end
+            if selDefID == COROUTPOST then
+                SetSelDefID(COROUTPOST)
+            end
+			--if		selDefID == CORLAB then		SetSelDefID(CORVP)
+			--elseif 	selDefID == CORVP then		SetSelDefID(CORSY)
+			--elseif 	selDefID == CORSY then		SetSelDefID(CORLAB)
+			--else 								SetSelDefID(CORLAB)
+			--end
 		end	
 	end
 end
@@ -1111,13 +1025,6 @@ function widget:ViewResize(newX,newY)
 	processGuishader()
 	
 	local sBuilds = UnitDefs[sDefID].buildOptions
-	if (Spring.GetModOptions().unba or "disabled") == "enabled" then
-		if sDef.name == "armcom" then
-			sBuilds = armlevel1buildoptions
-		elseif sDef.name == "corcom" then
-			sBuilds = corlevel1buildoptions
-		end
-	end
 	local numCols = math.min(#sBuilds, maxCols)
 	local numRows = math.ceil(#sBuilds / numCols)
 	local bgheight = ((numRows*iconHeight)+margin)*widgetScale

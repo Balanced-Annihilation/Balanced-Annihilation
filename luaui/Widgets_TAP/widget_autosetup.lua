@@ -1,0 +1,182 @@
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--
+--  file:    widget_autosetup.lua
+--  brief:   Auto-widget initializer. Enables/disables widgets according to MaddPack
+--  author:  Breno 'MaDDoX' Azevedo
+--
+--  Copyright (C) 2017.
+--  Licensed under the terms of the GNU GPL, v2 or later.
+--
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+-- changes:
+--   First Release (28/8/2017) - added to BA's MaddPack
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+
+function widget:GetInfo()
+    return {
+        name      = "Widget Auto-setup",
+        desc      = "Widget automatic initializer",
+        author    = "Breno 'MaDDoX' Azevedo",
+        date      = "Aug 8, 2017",
+        license   = "GNU GPL, v2 or later",
+        layer     = 0,
+        handler   = true,   -- Allows this to run 'SendCommands'
+        enabled   = false,
+    }
+end
+
+function widget:Initialize()
+    Spring.Echo("Auto-initializing widgets (TAPrime)")
+ 
+    Spring.SendCommands("luaui enablewidget Spy move/reclaim defaults")
+    Spring.SendCommands("luaui enablewidget Widget Selector")
+    Spring.SendCommands("luaui enablewidget Defense Range")
+    Spring.SendCommands("luaui enablewidget Red_UI_Framework")
+    Spring.SendCommands("luaui enablewidget Metalspot Finder")
+    Spring.SendCommands("luaui enablewidget FactoryQ Manager")
+    Spring.SendCommands("luaui enablewidget MexUpg Helper")
+    Spring.SendCommands("luaui enablewidget Red Tooltip")
+    Spring.SendCommands("luaui enablewidget TAPrime cmdcolors")
+    Spring.SendCommands("luaui enablewidget Faction Change")
+    Spring.SendCommands("luaui enablewidget Snow")
+    Spring.SendCommands("luaui enablewidget Red Minimap")
+    Spring.SendCommands("luaui enablewidget Health Bars")
+    Spring.SendCommands("luaui enablewidget Map Info")
+    Spring.SendCommands("luaui enablewidget FollowMouse")
+    Spring.SendCommands("luaui enablewidget AdvPlayersList")
+    Spring.SendCommands("luaui enablewidget Map External VR Grid")
+    Spring.SendCommands("luaui enablewidget Clearmapmarks button")
+    Spring.SendCommands("luaui enablewidget Unit Info")
+    Spring.SendCommands("luaui enablewidget BuildETA")
+    Spring.SendCommands("luaui enablewidget Changelog Info")
+    Spring.SendCommands("luaui enablewidget Commands info")
+    Spring.SendCommands("luaui enablewidget Ecostats")
+    Spring.SendCommands("luaui enablewidget active player mode")
+    Spring.SendCommands("luaui enablewidget Keybind/Mouse Info")
+    Spring.SendCommands("luaui enablewidget Projectile lights")
+    Spring.SendCommands("luaui enablewidget Options")
+    Spring.SendCommands("luaui enablewidget Initial Queue")
+    Spring.SendCommands("luaui enablewidget Alternate Chat Keys")
+    Spring.SendCommands("luaui enablewidget Area Mex")
+    Spring.SendCommands("luaui enablewidget Attack target on mouse release")
+    Spring.SendCommands("luaui enablewidget Autoquit")
+    Spring.SendCommands("luaui enablewidget DontMove")
+    Spring.SendCommands("luaui enablewidget EMP + decloak range")
+    Spring.SendCommands("luaui enablewidget Easy mouse targeting")
+    Spring.SendCommands("luaui enablewidget Energy Conversion Info")
+    Spring.SendCommands("luaui enablewidget Highlight Geos")
+    Spring.SendCommands("luaui enablewidget Holdfire Fix")
+    Spring.SendCommands("luaui enablewidget Ignore List API")
+    Spring.SendCommands("luaui enablewidget LOS View")
+    Spring.SendCommands("luaui enablewidget Load Own Moving")
+    Spring.SendCommands("luaui enablewidget Loop Select")
+    Spring.SendCommands("luaui enablewidget Mex Snap")
+    Spring.SendCommands("luaui enablewidget Pause Screen")
+    Spring.SendCommands("luaui enablewidget Persistent Build Spacing")
+    Spring.SendCommands("luaui enablewidget Protective Guard")
+    Spring.SendCommands("luaui enablewidget ReclaimInfo")
+    Spring.SendCommands("luaui enablewidget Red Console")
+    Spring.SendCommands("luaui enablewidget Red Resource Bars")
+    Spring.SendCommands("luaui enablewidget Red_Drawing")
+    Spring.SendCommands("luaui enablewidget Rejoin Progress Bar")
+    Spring.SendCommands("luaui enablewidget Auto group")
+    --Spring.SendCommands("luaui enablewidget RelativeMinimap")
+    Spring.SendCommands("luaui enablewidget SelectionButtons")
+    Spring.SendCommands("luaui enablewidget Share Tracker")
+    Spring.SendCommands("luaui enablewidget Show Orders")
+    Spring.SendCommands("luaui enablewidget SmartSelect")
+    Spring.SendCommands("luaui enablewidget Spectate Selected")
+    Spring.SendCommands("luaui enablewidget State Reverse Toggle")
+    Spring.SendCommands("luaui enablewidget Stop means Stop")
+    Spring.SendCommands("luaui enablewidget Take Proxy")
+    Spring.SendCommands("luaui enablewidget Unit Finished Sounds")
+    Spring.SendCommands("luaui enablewidget Build Split")
+    Spring.SendCommands("luaui enablewidget Volume OSD")
+    Spring.SendCommands("luaui enablewidget Wind Speed")
+    Spring.SendCommands("luaui enablewidget Z Selector")
+    Spring.SendCommands("luaui enablewidget gui_transport_weight_limit")
+    Spring.SendCommands("luaui enablewidget Blast Radius")
+    Spring.SendCommands("luaui enablewidget Factory hold position")
+    Spring.SendCommands("luaui enablewidget FactoryGuard")
+    Spring.SendCommands("luaui enablewidget Ghost Site")
+    Spring.SendCommands("luaui enablewidget Pause/Unpause sounds")
+    Spring.SendCommands("luaui enablewidget SmartAreaReclaim")
+    --Spring.SendCommands("luaui enablewidget State Remover")
+    Spring.SendCommands("luaui enablewidget Group Label")
+    Spring.SendCommands("luaui enablewidget Red Build/Order Menu")
+    Spring.SendCommands("luaui enablewidget TAPrime LOS colors")
+    Spring.SendCommands("luaui enablewidget Auto First Build Facing")
+    Spring.SendCommands("luaui enablewidget Build costs 1.02")
+    Spring.SendCommands("luaui enablewidget Com DontBreakCloak")
+    Spring.SendCommands("luaui enablewidget MinimapEvents")
+    Spring.SendCommands("luaui enablewidget AllyCursors")
+    Spring.SendCommands("luaui enablewidget Idle Builders")
+    Spring.SendCommands("luaui enablewidget Krow Setup")
+    Spring.SendCommands("luaui enablewidget Comblast & Dgun Range")
+    Spring.SendCommands("luaui enablewidget NoDuplicateOrders")
+    Spring.SendCommands("luaui enablewidget Ghost Radar")
+    Spring.SendCommands("luaui enablewidget Transport AI")
+    Spring.SendCommands("luaui enablewidget Com Counter")
+    Spring.SendCommands("luaui enablewidget DGun Stall Assist")
+    Spring.SendCommands("luaui enablewidget BuildBar")
+    Spring.SendCommands("luaui enablewidget Unit Marker")
+    Spring.SendCommands("luaui enablewidget GameTypeInfo")
+    Spring.SendCommands("luaui enablewidget Specific Unit Reclaimer")
+    Spring.SendCommands("luaui enablewidget Stockpiler (dynamic)")
+    Spring.SendCommands("luaui enablewidget Auto Reclaim/Heal/Assist")
+    Spring.SendCommands("luaui enablewidget ImmobileBuilder")
+    Spring.SendCommands("luaui enablewidget Reclaim stopper")
+    Spring.SendCommands("luaui enablewidget Unit Mover")
+    Spring.SendCommands("luaui enablewidget Attack AoE")
+    Spring.SendCommands("luaui enablewidget TAPrime Hotkeys")
+    Spring.SendCommands("luaui enablewidget Context Build")
+    Spring.SendCommands("luaui enablewidget Prospector")
+    Spring.SendCommands("luaui enablewidget Cursors")
+    Spring.SendCommands("luaui enablewidget Smooth Scroll")
+    Spring.SendCommands("luaui enablewidget Attack and Move Notification")
+    Spring.SendCommands("luaui enablewidget Windcheck v1.1")
+    Spring.SendCommands("luaui enablewidget Commands FX")
+    Spring.SendCommands("luaui enablewidget Mapmarks FX")
+    Spring.SendCommands("luaui enablewidget Mouse FX")
+    Spring.SendCommands("luaui enablewidget Commander Name Tags")
+    Spring.SendCommands("luaui enablewidget Anti Ranges")
+    Spring.SendCommands("luaui enablewidget Bomber control")
+    Spring.SendCommands("luaui enablewidget CommandInsert")
+    Spring.SendCommands("luaui enablewidget Given Units")
+    Spring.SendCommands("luaui enablewidget Rank Icons")
+    Spring.SendCommands("luaui enablewidget Resurrection Halos")
+    Spring.SendCommands("luaui enablewidget Self-Destruct icons")
+    Spring.SendCommands("luaui enablewidget Waypoint Dragger")
+    Spring.SendCommands("luaui enablewidget FastSwitch v2.1")
+    Spring.SendCommands("luaui enablewidget Highlight Unit")
+    Spring.SendCommands("luaui enablewidget Quick Unload")
+    Spring.SendCommands("luaui enablewidget Spotter")
+    Spring.SendCommands("luaui enablewidget Select n Center!")
+    Spring.SendCommands("luaui enablewidget Obedient constructors v5")
+    Spring.SendCommands("luaui enablewidget Unit Stats")
+    Spring.SendCommands("luaui enablewidget Bloom Shader")
+    Spring.SendCommands("luaui enablewidget replay buttons")
+    Spring.SendCommands("luaui enablewidget LupsManager")
+    Spring.SendCommands("luaui enablewidget Dynamic Avoidance System")
+    Spring.SendCommands("luaui enablewidget Mouse Buildspacing")
+    Spring.SendCommands("luaui enablewidget Lups")
+    Spring.SendCommands("luaui enablewidget CustomFormations2")
+    Spring.SendCommands("luaui enablewidget Constructor locater")
+    Spring.SendCommands("luaui enablewidget LOS Spec Toggle")
+    Spring.SendCommands("luaui enablewidget Set Fly Mode")
+    Spring.SendCommands("luaui enablewidget Extra Console Commands")
+    Spring.SendCommands("luaui enablewidget Outpost Auto Fight")
+    Spring.SendCommands("luaui enablewidget Armageddon Countdown")
+    Spring.SendCommands("luaui enablewidget Highlight Selected Units")
+    Spring.SendCommands("luaui enablewidget Keep Morpheds Selected")
+    Spring.SendCommands("luaui enablewidget Start Boxes")
+
+    Spring.SendCommands("luaui enablewidget Completed unit notifier")
+    Spring.SendCommands("luaui enablewidget Easy Facing")
+
+
+    --Spring.SendCommands("luaui disablewidget Diligent Constructors") --breaking BA 9.5x test
+end

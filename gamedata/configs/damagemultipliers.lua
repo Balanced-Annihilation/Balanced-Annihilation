@@ -9,27 +9,29 @@
 --
 local damageMultipliers = {
 
-	bullet={ 	peon = 1,		rpg = 1.4,		stalwart = 0.6,	aiv = 0.45,			tank = 0.3,		artillery = 0.5,
+	bullet={ 	peon = 1,		rpg = 1.5,		stalwart = 0.6,	aiv = 0.45,			tank = 0.3,		artillery = 0.5,
 				fighter = 0.4,	gunship = 2,	bomber = 1.5, 	structure = 0.25, 	defense = 0.25, defenseaa = 0.35, 	commander = 0.42,
 				invader = 0.75,	heavybot = 0.6,	assault = 0.25,	heavyveh = 0.25,	resource = 0.25,
 	}
     ,
-	rocket={ 	peon = 0.22, 	rpg = 0.5, 		stalwart = 0.65,aiv = 0.6, 			tank = 2.36, 	artillery = 0.85,
+	rocket={ 	peon = 0.35, 	rpg = 0.5, 		stalwart = 0.65,aiv = 0.6, 			tank = 2.36, 	artillery = 0.85,
 				fighter = 0.3, 	gunship = 2.55, bomber = 0.5, 	structure = 0.8, 	defense = 0.6, 	defenseaa = 0.5, 	commander = 0.4,
 				invader = 0.3,	heavybot = 0.25,assault = 0.8,	heavyveh = 1.3,		resource = 0.8,
-	},
+	}
+    ,
 	homing={ 	peon = 0.25, 	rpg = 0.25, 	stalwart = 0.65,aiv = 0.75, 		tank = 2.3, 	artillery = 1.25,
-				fighter = 1.25, gunship = 3, 	bomber = 1.5, 	structure = 0.75, 	defense = 0.75, defenseaa = 0.25, 	commander = 0.5,
+				fighter = 1.25, gunship = 3, 	bomber = 1.5, 	structure = 0.6, 	defense = 0.75, defenseaa = 0.2, 	commander = 0.3,
 				invader = 0.4,  heavybot = 0.2,	assault = 0.75,	heavyveh = 0.6,		resource = 0.75,
 	}
     ,
 	laser={ 	peon = 2, 		rpg = 1.2, 		stalwart = 1.1, aiv = 0.6, 			tank = 0.33, 	artillery = 0.65,
-			    fighter = 1.25, gunship = 0.75,bomber = 1, 	structure = 0.75,	defense = 0.7, 	defenseaa = 0.8, 	commander = 0.68,
+			    fighter = 1.25, gunship = 0.75, bomber = 1, 	structure = 0.75,	defense = 0.7, 	defenseaa = 0.8, 	commander = 0.68,
 			    invader = 0.9,	heavybot = 0.6,	assault = 0.5,	heavyveh = 0.2,		resource = 0.5,
-	},
-	hflaser={ 	peon = 2, 		rpg = 0.75,		stalwart = 0.7,	aiv = 0.5, 			tank = 0.225, 		artillery = 0.3,
-				 fighter = 1.25, gunship = 0.5, 	bomber = 1, 	structure = 0.75, 	defense = 0.6,	defenseaa = 0.5, 	commander = 0.85,
-				 invader = 0.6, 	heavybot = 0.4,	assault = 0.75,	heavyveh = 0.3,		resource = 0.75,
+	}
+    ,
+	hflaser={ 	peon = 2, 		rpg = 0.75,		stalwart = 0.7,	aiv = 0.5, 			tank = 0.225, 	artillery = 0.3,
+				fighter = 1.25, gunship = 0.5, 	bomber = 1, 	structure = 0.75, 	defense = 0.6,	defenseaa = 0.5, 	commander = 0.85,
+				invader = 0.6, 	heavybot = 0.4,	assault = 0.75,	heavyveh = 0.3,		resource = 0.75,
 	},
 	plasma={ 	peon = 1.05, 	rpg = 0.45, 	stalwart = 1.1, aiv = 0.4, 			tank = 0.8, 	artillery = 1,
 				fighter = 0.75, gunship = 1.25, bomber = 1.5, 	structure = 1, 		defense = 0.275,defenseaa = 0.6, 	commander = 1.33,
@@ -39,7 +41,8 @@ local damageMultipliers = {
 	cannon={ 	peon = 0.75, 	rpg = 0.25, 	stalwart = 0.7, aiv = 2, 			tank = 1.1, 	artillery = 2,
 				fighter = 1.5, 	gunship = 2, 	bomber = 1.25, 	structure = 1, 		defense = 1.2, 	defenseaa = 0.5, 	commander = 1,
 				invader = 0.3, 	heavybot = 0.2,	assault = 0.5,	heavyveh = 0.75,	resource = 1,
-	},
+	}
+    ,
 	thermo={ 	peon = 0.4, 	rpg = 1.25, 	stalwart = 0.5, aiv = 0.2, 			tank = 1.2, 	artillery = 1.25,
 				fighter = 1.3, 	gunship = 1.0, 	bomber = 1.25, 	structure = 0.75, 	defense = 1.25, defenseaa = 0.5, 	commander = 0.5,
 				invader = 0.65,	heavybot = 1.2, assault = 0.6,	heavyveh = 1,		resource = 0.45,
@@ -76,7 +79,7 @@ local damageMultipliers = {
 	}
 	,
 	omni={ 		peon = 1.25, 	rpg = 1, 		stalwart = 1, 	aiv = 1, 			tank = 1, 		artillery = 1.5,
-		        fighter = 1, 	gunship = 1, 	bomber = 1, 	structure = 1, 		defense = 1, 	defenseaa = 1, 		commander = 1.5,
+		        fighter = 2, 	gunship = 2, 	bomber = 2, 	structure = 1, 		defense = 1, 	defenseaa = 1, 		commander = 1.5,
 				invader = 1, 	heavybot = 1, 	assault = 1,	heavyveh = 1,		resource = 1,
 	}
 	,

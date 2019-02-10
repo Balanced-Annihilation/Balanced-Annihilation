@@ -17,6 +17,7 @@ local initialized = false
 local spGetMyTeamID		= Spring.GetMyTeamID
 local spGetTeamUnits	= Spring.GetTeamUnits
 local spGetCameraState = Spring.GetCameraState
+local spSetCameraState = Spring.SetCameraState
 local spGetPlayerInfo = Spring.GetPlayerInfo
 local myPlayerID = Spring.GetMyPlayerID()
 local spGetGameFrame = Spring.GetGameFrame
@@ -26,7 +27,15 @@ local spSetCameraTarget = Spring.SetCameraTarget
 function widget:Initialize()
 	local camState = spGetCameraState()
 	camState.mode = 2
-	Spring.SetCameraState(camState,0)
+	spSetCameraState(camState,0)
+            --"luaui enablewidget Spy move/reclaim defaults"
+    local _, _, spec = spGetPlayerInfo(myPlayerID)
+    -- Only enable MMB-hold scroll-lock if it's in spec mode
+    if not spec then
+        Spring.SendCommands("/set MouseDragScrollThreshold -1")
+    else
+        Spring.SendCommands("/set MouseDragScrollThreshold 0.3")
+    end
 end
 
 function widget:GameFrame(n)
@@ -46,7 +55,7 @@ function widget:GameFrame(n)
         --end
         camState.mode = 2
         camState.rx = camAngle
-        Spring.SetCameraState(camState,0)
+        spSetCameraState(camState,0)
 		spSetCameraTarget(x, y, z)
 		--local camState = Spring.GetCameraState()
 		--camState.py = y-500
