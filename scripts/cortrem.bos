@@ -190,6 +190,11 @@ QueryPrimary(piecenum)
 	return (0);
 }
 
+AimWeapon1(heading, pitch)
+{
+	return (1);
+}
+
 AimFromPrimary(piecenum)
 {
 	piecenum = spindle;

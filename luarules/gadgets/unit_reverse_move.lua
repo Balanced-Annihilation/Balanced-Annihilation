@@ -35,7 +35,6 @@ if (gadgetHandler:IsSyncedCode()) then
 	end
 	
 	function gadget:UnitCommand(unitID, unitDefID, unitTeam, cmdID, cmdParams, cmdOptions, cmdTag, synced)
-        Spring.Echo(cmdID)
         if reverseUnit[unitID] and
             cmdID == CMD.MOVE or cmdID == CMD.ATTACK or cmdID == CMD_AREAATTACK then
 			refreshList[unitID] = unitDefID
