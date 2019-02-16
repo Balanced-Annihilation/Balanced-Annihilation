@@ -8,5 +8,5 @@ return {
   shortgame='TAP',
   modtype=1,
   url = "https://www.fluidplaystudios.com",
-  engine = "104.0.1-972-gb2624e5",    -- for chobby  
+  engine = "104.0.1-996-g30c07c5",    -- for chobby  
 }
