@@ -112,6 +112,8 @@ local weaponDamageTypes = {
 	tawf013 = { ["LightArtillery"] = "siege", },
 	cormship = { ["Rocket"] = "rocket", ["Missiles"] = "rocket", },
 	armaak = { ["Missiles"] = "rocket", ["MissilesAA"] = "homing", },
+    armpship = { ["Missiles"] = "rocket", ["MissilesAA"] = "homing", },
+    corpship = { ["Missiles"] = "rocket", ["MissilesAA"] = "homing", },
 	armvulc = { ["RapidfireLRPC"] = "plasma", },
 	corstorm = { ["Rockets"] = "rocket", ["AARockets"] = "rocket", },
 	armamb = { ["PopupCannon"] = "plasma", },

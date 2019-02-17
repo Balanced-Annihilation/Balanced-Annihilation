@@ -181,7 +181,7 @@ AimWeapon1(heading, pitch)
 	return (1);
 }
 
-Shot1()
+DoShot()
 {
 	start-script RockZ(-9,aimDir);
 	if( gun_1 == 1 )
@@ -209,6 +209,12 @@ Shot1()
 	}
 }
 
+Shot1()
+{
+    start-script DoShot();
+	return (1);    
+}
+
 
 
 AimFromWeapon1(piecenum)
@@ -216,7 +222,7 @@ AimFromWeapon1(piecenum)
 	piecenum = turret;
 }
 
-QueryWeapon1(piecenum)
+SwitchGun(piecenum)
 {
 	if( gun_1 == 1 )
 	{
@@ -232,19 +238,38 @@ QueryWeapon1(piecenum)
 	}
 }
 
+QueryWeapon1(piecenum)
+{
+    start-script SwitchGun(piecenum);
+}
+
 AimWeapon2(heading, pitch)
 {
+	signal SIG_AIM;
+	set-signal-mask SIG_AIM;
+	turn turret to y-axis heading speed <130.000000>;
+	turn sleeve to x-axis <0.000000> - pitch speed <65.00000>;
+	wait-for-turn turret around y-axis;
+	wait-for-turn sleeve around x-axis;
+	aimDir = heading;
+	start-script RestoreAfterDelay();
 	return (1);
 }
 
 AimFromWeapon2(piecenum)
 {
-	piecenum = base;
+	piecenum = turret;
 }
 
 QueryWeapon2(piecenum)
 {
-	piecenum = flare3;
+    start-script SwitchGun(piecenum);
+}
+
+Shot2()
+{
+    start-script DoShot();
+	return (1);
 }
 
 SweetSpot(piecenum)
@@ -257,31 +282,31 @@ Killed(severity, corpsetype)
 	if( severity <= 25 )
 	{
 		corpsetype = 1;
-		explode barrel1 type BITMAPONLY | BITMAP1 | NOHEATCLOUD;
-		explode barrel2 type BITMAPONLY | BITMAP1 | NOHEATCLOUD;
-		//explode base type BITMAPONLY | BITMAP3 | NOHEATCLOUD;
-		explode turret type BITMAPONLY | BITMAP1 | NOHEATCLOUD;
-		explode wake1 type BITMAPONLY | BITMAP2 | NOHEATCLOUD;
-		explode wake2 type BITMAPONLY | BITMAP3 | NOHEATCLOUD;
+		explode barrel1 type BITMAPONLY | BITMAP1;// | NOHEATCLOUD;
+		explode barrel2 type BITMAPONLY | BITMAP1;// | NOHEATCLOUD;
+		//explode base type BITMAPONLY | BITMAP3;// | NOHEATCLOUD;
+		explode turret type BITMAPONLY | BITMAP1;// | NOHEATCLOUD;
+		explode wake1 type BITMAPONLY | BITMAP2;// | NOHEATCLOUD;
+		explode wake2 type BITMAPONLY | BITMAP3;// | NOHEATCLOUD;
 		return (corpsetype);
 	}
 	if( severity <= 50 )
 	{
 		corpsetype = 2;
-		explode barrel1 type FALL | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-		explode barrel2 type FALL | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-		//explode base type BITMAPONLY | BITMAP3 | NOHEATCLOUD;
-		explode turret type FALL | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
-		explode wake1 type FALL | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
-		explode wake2 type FALL | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
+		explode barrel1 type FALL | EXPLODE_ON_HIT | BITMAP1;// | NOHEATCLOUD;
+		explode barrel2 type FALL | EXPLODE_ON_HIT | BITMAP1;// | NOHEATCLOUD;
+		//explode base type BITMAPONLY | BITMAP3;// | NOHEATCLOUD;
+		explode turret type FALL | EXPLODE_ON_HIT | BITMAP2;// | NOHEATCLOUD;
+		explode wake1 type FALL | EXPLODE_ON_HIT | BITMAP2;// | NOHEATCLOUD;
+		explode wake2 type FALL | EXPLODE_ON_HIT | BITMAP3;// | NOHEATCLOUD;
 		return (corpsetype);
 	}
 	corpsetype = 3;
-	explode barrel1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-	explode barrel2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-	//explode base type BITMAPONLY | BITMAP3 | NOHEATCLOUD;
-	explode turret type FALL | EXPLODE_ON_HIT | BITMAP1 | NOHEATCLOUD;
-	explode wake1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2 | NOHEATCLOUD;
-	explode wake2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3 | NOHEATCLOUD;
+	explode barrel1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;// | NOHEATCLOUD;
+	explode barrel2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;// | NOHEATCLOUD;
+	//explode base type BITMAPONLY | BITMAP3;// | NOHEATCLOUD;
+	explode turret type FALL | EXPLODE_ON_HIT | BITMAP1;// | NOHEATCLOUD;
+	explode wake1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2;// | NOHEATCLOUD;
+	explode wake2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;// | NOHEATCLOUD;
 	return corpsetype;
 }
