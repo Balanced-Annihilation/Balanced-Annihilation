@@ -8,10 +8,9 @@ void main(void) {
 	// Take the best depth pixel
 	float mapdepth = texture2D(mapdepths, C0).x;
 	float modeldepth = texture2D(modeldepths, C0).x;
-	if(mapdepth < modeldepth){
-		gl_FragColor = texture2D(mapnormals, C0);
-	}
-	else{
-		gl_FragColor = texture2D(modelnormals, C0);
-	}
+	gl_FragColor = mix(
+		texture2D(modelnormals, C0),
+		texture2D(mapnormals, C0),
+		float(mapdepth < modeldepth)
+	);
 }

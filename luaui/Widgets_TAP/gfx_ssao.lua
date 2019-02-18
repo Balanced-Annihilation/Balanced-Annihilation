@@ -166,8 +166,12 @@ function widget:Initialize()
 
     -- The SSAO oclussion map computation
     -- ==================================
+	local ssaoFrag = VFS.LoadFile([[LuaUI\Widgets_TAP\shaders\ssao.fs]], VFS.ZIP)
+	ssaoFrag = ssaoFrag:gsub("###DEPTH_CLIP_RANGE###",
+		((Platform.glSupportClipSpaceControl and "DEPTH_CLIP_RANGE01") or "DEPTH_CLIP_RANGE11")
+	)
     ssaoShader = ssaoShader or glCreateShader({
-        fragment = VFS.LoadFile([[LuaUI\Widgets_TAP\shaders\ssao.fs]], VFS.ZIP),
+        fragment = ssaoFrag,
         uniformInt = {normals = 0, depths = 1, texNoise = 2},
     })
     if not ssaoShader then

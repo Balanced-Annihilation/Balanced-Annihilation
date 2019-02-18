@@ -11,8 +11,15 @@ uniform mat4 samplesY;
 uniform mat4 samplesZ;
 uniform vec2 noiseScale;
 
-#define RADIUS 40.0 //5
+#define RADIUS 15.0 //5
 #define BIAS 0.05
+
+#define DEPTH_CLIP_RANGE11 0 //from minus one to one
+#define DEPTH_CLIP_RANGE01 1 //from zero to 1
+#define DEPTH_CLIP_RANGE ###DEPTH_CLIP_RANGE###
+
+const float almostZero = 0.0 + 1e-3;
+const float almostOne = 1.0 - almostZero;
 
 void main(void) {
 	vec2 C0 = gl_TexCoord[0].st;
@@ -35,7 +42,12 @@ void main(void) {
 	normal = (vec4(normal, 0.0) * viewMat).xyz;
 
 	// Get the fragment view-space coordinates
-	vec4 viewPos = vec4(vec3(C0, depth) * 2.0 - 1.0, 1.0);
+		#if (DEPTH_CLIP_RANGE == DEPTH_CLIP_RANGE11)
+			vec4 viewPos = vec4(vec3(C0, depth) * 2.0 - 1.0, 1.0);
+		#elif (DEPTH_CLIP_RANGE == DEPTH_CLIP_RANGE01)
+			vec4 viewPos = vec4(C0 * 2.0 - 1.0, depth, 1.0);
+		#endif
+
 	viewPos = projectionMatInv * viewPos;
 	viewPos.xyz = viewPos.xyz / viewPos.w;
 
@@ -62,12 +74,21 @@ void main(void) {
 		offset      = projectionMat * offset;
 		offset.xy  /= offset.w;
 		offset.xy   = offset.xy * 0.5 + 0.5;
+		
+		float saneOffset = float( all(bvec4(
+			greaterThanEqual(offset.xy, vec2(almostZero)),
+			lessThanEqual(offset.xy, vec2(almostOne))
+		)) );
 
 		// Get the sample depth
 		float sampleDepth = texture2D(depths, offset.xy).x;
 
 		// Get its view-space coordinates
-		vec4 samplePos = vec4(vec3(offset.xy, sampleDepth) * 2.0 - 1.0, 1.0);
+		#if (DEPTH_CLIP_RANGE == DEPTH_CLIP_RANGE11)
+			vec4 samplePos = vec4(vec3(offset.xy, sampleDepth) * 2.0 - 1.0, 1.0);
+		#elif (DEPTH_CLIP_RANGE == DEPTH_CLIP_RANGE01)
+			vec4 samplePos = vec4(offset.xy * 2.0 - 1.0, sampleDepth, 1.0);
+		#endif
 		samplePos = projectionMatInv * samplePos;
 		samplePos.xyz = samplePos.xyz / samplePos.w;
 
@@ -80,7 +101,7 @@ void main(void) {
 		// occlusion += (dot(samplePos.xyz - sample.xyz, normal) > BIAS ? 1.0 : 0.0) * rangeCheck;
 
 		// And accumulate oclussion
-		occlusion += (samplePos.z >= sample.z + BIAS ? 1.0 : 0.0) * rangeCheck;
+		occlusion += (samplePos.z >= sample.z + BIAS ? 1.0 : 0.0) * rangeCheck * saneOffset;
 	}
 	}
 
