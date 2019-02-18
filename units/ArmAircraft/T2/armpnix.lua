@@ -3,7 +3,7 @@ return {
 		acceleration = 0.04,
 		blocking = false,
 		brakerate = 0.045,
-		buildcostenergy = 16500,
+		buildcostenergy = 12500,
 		buildcostmetal = 230,
 		buildpic = "ARMPNIX.DDS",
 		buildtime = 21000,
@@ -34,6 +34,7 @@ return {
 		sightdistance = 260,
 		turnrate = 450,
 		customparams = {
+			model_author = "FireStorm",
 			subfolder = "armaircraft/t2",
 			techlevel = 2,
 			wingsurface = 0.4,

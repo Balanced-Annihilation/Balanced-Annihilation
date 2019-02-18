@@ -22,7 +22,7 @@ return {
 		idletime = 1800,
 		maxdamage = 1377,
 		maxslope = 16,
-		maxvelocity = 2.53,
+		maxvelocity = 2.23,
 		maxwaterdepth = 0,
 		movementclass = "HOVER3",
 		name = "Anaconda",
@@ -36,6 +36,7 @@ return {
 		turninplacespeedlimit = 1.6698,
 		turnrate = 525,
 		customparams = {
+			model_author = "Beherith",
 			subfolder = "armhovercraft",
 		},
 		featuredefs = {

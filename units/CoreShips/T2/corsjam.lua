@@ -3,8 +3,8 @@ return {
 		acceleration = 0.068,
 		activatewhenbuilt = true,
 		brakerate = 0.081,
-		buildcostenergy = 2400,
-		buildcostmetal = 145,
+		buildcostenergy = 1800,
+		buildcostmetal = 120,
 		buildpic = "CORSJAM.DDS",
 		buildtime = 6322.50049,
 		canmove = true,
@@ -40,6 +40,7 @@ return {
 		turnrate = 256,
 		waterline = 0,
 		customparams = {
+			model_author = "Beherith",
 			subfolder = "coreships/t2",
 			techlevel = 2,
 		},

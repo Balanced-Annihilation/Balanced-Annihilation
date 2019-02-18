@@ -2,7 +2,7 @@ return {
 	corhp = {
 		acceleration = 0,
 		brakerate = 0,
-		buildcostenergy = 4300,
+		buildcostenergy = 4200,
 		buildcostmetal = 1100,
 		builder = true,
 		buildinggrounddecaldecayspeed = 30,
@@ -49,6 +49,7 @@ return {
 			[7] = "corthovr",
 		},
 		customparams = {
+			model_author = "Mr Bob",
 			subfolder = "corebuildings/landfactories",
 		},
 		featuredefs = {

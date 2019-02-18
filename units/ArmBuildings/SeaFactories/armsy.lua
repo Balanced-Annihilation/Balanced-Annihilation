@@ -2,8 +2,8 @@ return {
 	armsy = {
 		acceleration = 0,
 		brakerate = 0,
-		buildcostenergy = 830,
-		buildcostmetal = 450,
+		buildcostenergy = 1200,
+		buildcostmetal = 600,
 		builder = true,
 		buildpic = "ARMSY.DDS",
 		buildtime = 6655,
@@ -37,16 +37,16 @@ return {
 		buildoptions = {
 			[1] = "armcs",
 			[2] = "armrecl",
-			[3] = "armpt",
-			[4] = "armdecade",
+			[3] = "armdecade",
+			[4] = "armpt",
 			[5] = "armpship",
 			[6] = "armroy",
 			[7] = "armsub",
-			[8] = "armdship",
-			[9] = "armtship",
+			[8] = "armtship",
 		},
 		customparams = {
 			bar_waterline = 1,
+			model_author = "FireStorm",
 			subfolder = "armbuildings/seafactories",
 		},
 		featuredefs = {

@@ -5,7 +5,7 @@ return {
 		brakerate = 0,
 		buildangle = 8192,
 		buildcostenergy = 2600,
-		buildcostmetal = 175,
+		buildcostmetal = 170,
 		buildinggrounddecaldecayspeed = 30,
 		buildinggrounddecalsizex = 6,
 		buildinggrounddecalsizey = 6,
@@ -39,6 +39,7 @@ return {
 		usebuildinggrounddecal = true,
 		yardmap = "yooy oooo oooo yooy",
 		customparams = {
+			model_author = "FireStorm",
 			removestop = true,
 			removewait = true,
 			subfolder = "armbuildings/seautil",

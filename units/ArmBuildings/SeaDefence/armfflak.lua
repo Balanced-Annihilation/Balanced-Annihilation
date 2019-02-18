@@ -4,8 +4,8 @@ return {
 		airsightdistance = 1000,
 		brakerate = 0,
 		buildangle = 16384,
-		buildcostenergy = 24000,
-		buildcostmetal = 860,
+		buildcostenergy = 23000,
+		buildcostmetal = 850,
 		buildpic = "ARMFFLAK.DDS",
 		buildtime = 21855,
 		canrepeat = false,
@@ -33,6 +33,7 @@ return {
 		customparams = {
 			bar_collisionvolumeoffsets = "0 -10 0",
 			bar_collisionvolumescales = "42 64 42",
+			model_author = "FireStorm",
 			prioritytarget = "air",
 			removewait = true,
 			subfolder = "armbuildings/seadefence",

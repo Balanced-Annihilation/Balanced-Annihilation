@@ -2,8 +2,8 @@ return {
 	armsb = {
 		acceleration = 0.055,
 		brakerate = 1.5,
-		buildcostenergy = 31000,
-		buildcostmetal = 310,
+		buildcostenergy = 7500,
+		buildcostmetal = 240,
 		buildpic = "ARMSB.DDS",
 		buildtime = 8000,
 		canfly = true,
@@ -34,6 +34,7 @@ return {
 		sightdistance = 455,
 		turnrate = 600,
 		customparams = {
+			model_author = "FireStorm",
 			subfolder = "armseaplanes",
 		},
 		sfxtypes = {

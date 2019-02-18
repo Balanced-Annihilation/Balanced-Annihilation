@@ -2,7 +2,7 @@ return {
 	armamsub = {
 		acceleration = 0,
 		brakerate = 0,
-		buildcostenergy = 5400,
+		buildcostenergy = 5500,
 		buildcostmetal = 1200,
 		builder = true,
 		buildinggrounddecaldecayspeed = 30,
@@ -49,6 +49,7 @@ return {
 			[6] = "armdecom",
 		},
 		customparams = {
+			model_author = "FireStorm",
 			subfolder = "armbuildings/seafactories",
 		},
 		featuredefs = {

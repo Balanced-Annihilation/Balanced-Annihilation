@@ -4,8 +4,8 @@ return {
 		activatewhenbuilt = true,
 		brakerate = 0.057,
 		buildangle = 16384,
-		buildcostenergy = 23000,
-		buildcostmetal = 1700,
+		buildcostenergy = 17000,
+		buildcostmetal = 1400,
 		builder = true,
 		buildpic = "CORCARRY.DDS",
 		buildtime = 20000,
@@ -55,6 +55,7 @@ return {
 		waterline = 8,
 		workertime = 1000,
 		customparams = {
+			model_author = "Beherith",
 			subfolder = "coreships/t2",
 			techlevel = 2,
 		},

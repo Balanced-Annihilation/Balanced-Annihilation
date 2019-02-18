@@ -2,8 +2,8 @@ return {
 	corsh = {
 		acceleration = 0.12,
 		brakerate = 0.336,
-		buildcostenergy = 1550,
-		buildcostmetal = 76,
+		buildcostenergy = 1500,
+		buildcostmetal = 75,
 		buildpic = "CORSH.DDS",
 		buildtime = 4079,
 		canmove = true,
@@ -36,6 +36,7 @@ return {
 		turninplacespeedlimit = 2.8116,
 		turnrate = 615,
 		customparams = {
+			model_author = "Beherith",
 			subfolder = "corehovercraft",
 		},
 		featuredefs = {

@@ -4,7 +4,7 @@ return {
 		activatewhenbuilt = true,
 		brakerate = 0,
 		buildangle = 16384,
-		buildcostenergy = 1150,
+		buildcostenergy = 1000,
 		buildcostmetal = 130,
 		buildpic = "CORFRAD.DDS",
 		buildtime = 1800,
@@ -40,6 +40,7 @@ return {
 		waterline = 4,
 		yardmap = "wwwwwwwww",
 		customparams = {
+			model_author = "Mr Bob",
 			removestop = true,
 			removewait = true,
 			subfolder = "corebuildings/seautil",

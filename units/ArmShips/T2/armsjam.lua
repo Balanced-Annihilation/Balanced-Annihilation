@@ -3,8 +3,8 @@ return {
 		acceleration = 0.073,
 		activatewhenbuilt = true,
 		brakerate = 0.88,
-		buildcostenergy = 2100,
-		buildcostmetal = 140,
+		buildcostenergy = 1600,
+		buildcostmetal = 110,
 		buildpic = "ARMSJAM.DDS",
 		buildtime = 6037.2002,
 		canmove = true,
@@ -40,6 +40,7 @@ return {
 		turnrate = 270,
 		waterline = 0,
 		customparams = {
+			model_author = "FireStorm",
 			subfolder = "armships/t2",
 			techlevel = 2,
 		},

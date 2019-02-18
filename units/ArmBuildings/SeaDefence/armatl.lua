@@ -4,8 +4,8 @@ return {
 		activatewhenbuilt = true,
 		brakerate = 0,
 		buildangle = 16384,
-		buildcostenergy = 4400,
-		buildcostmetal = 390,
+		buildcostenergy = 8500,
+		buildcostmetal = 1000,
 		buildpic = "ARMATL.DDS",
 		buildtime = 9262,
 		canrepeat = false,
@@ -31,6 +31,7 @@ return {
 		yardmap = "oooooooooooooooo",
 		customparams = {
 			bar_waterline = 2,
+			model_author = "FireStorm",
 			removewait = true,
 			subfolder = "armbuildings/seadefence",
 			techlevel = 2,

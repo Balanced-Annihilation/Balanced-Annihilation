@@ -3,7 +3,7 @@ return {
 		acceleration = 0.072,
 		brakerate = 0.336,
 		buildcostenergy = 3300,
-		buildcostmetal = 195,
+		buildcostmetal = 200,
 		buildpic = "CORMH.DDS",
 		buildtime = 3500,
 		canmove = true,
@@ -22,7 +22,7 @@ return {
 		idletime = 1800,
 		maxdamage = 495,
 		maxslope = 16,
-		maxvelocity = 2.42,
+		maxvelocity = 2.13,
 		maxwaterdepth = 0,
 		movementclass = "HOVER3",
 		name = "Nixer",
@@ -36,6 +36,7 @@ return {
 		turninplacespeedlimit = 1.5972,
 		turnrate = 455,
 		customparams = {
+			model_author = "Beherith",
 			subfolder = "corehovercraft",
 		},
 		featuredefs = {

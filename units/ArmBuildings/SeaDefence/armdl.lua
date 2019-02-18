@@ -3,8 +3,8 @@ return {
 		acceleration = 0,
 		brakerate = 0,
 		buildangle = 16384,
-		buildcostenergy = 2500,
-		buildcostmetal = 290,
+		buildcostenergy = 2200,
+		buildcostmetal = 240,
 		buildinggrounddecaldecayspeed = 30,
 		buildinggrounddecalsizex = 4,
 		buildinggrounddecalsizey = 4,
@@ -37,6 +37,7 @@ return {
 		usebuildinggrounddecal = true,
 		yardmap = "oooo",
 		customparams = {
+			model_author = "Beherith",
 			removewait = true,
 			subfolder = "armbuildings/seadefence",
 		},

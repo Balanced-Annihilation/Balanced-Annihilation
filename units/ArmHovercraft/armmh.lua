@@ -22,7 +22,7 @@ return {
 		idletime = 1800,
 		maxdamage = 477,
 		maxslope = 16,
-		maxvelocity = 2.42,
+		maxvelocity = 2.13,
 		maxwaterdepth = 0,
 		movementclass = "HOVER3",
 		name = "Wombat",
@@ -36,6 +36,7 @@ return {
 		turninplacespeedlimit = 1.5972,
 		turnrate = 470,
 		customparams = {
+			model_author = "Beherith",
 			subfolder = "armhovercraft",
 		},
 		featuredefs = {

@@ -29,9 +29,8 @@ end
 -- /guishader				-- toggles different styles!
 
 --------------------------------------------------------------------------------
---------------------------------------------------------------------------------
+-------------------------------------------------------------------
 
-local imageDirectory			 = ":n:LuaUI/Images/guishader/"
 local defaultBlurIntensity = 0.0014
 
 --------------------------------------------------------------------------------
@@ -104,7 +103,6 @@ end
 
 function widget:UpdateCallIns()
   self:ViewResize(vsx, vsy)
-
   self.DrawScreenEffects = DrawScreenEffectsBlur
   widgetHandler:UpdateCallIn("DrawScreenEffects")
 end
@@ -188,14 +186,13 @@ local function CheckHardware()
     return false
   end
 
-  if Platform ~= nil then
-     if Platform.gpuVendor == 'Intel' then
-         Spring.Echo("guishader api: you use an Intel GPU, it will malfunction so we'll disable")
-         widgetHandler:RemoveWidget(self)
-         --Spring.SendCommands("luaui disablewidget "..widgetName)
-         return false
-     end
-  end
+  --if Platform ~= nil then
+  --   if Platform.gpuVendor == 'Intel' then
+  --       widgetHandler:RemoveWidget(self)
+  --       Spring.SendCommands("luaui disablewidget "..widgetName)
+  --       return false
+  --   end
+  --end
   return true
 end
 
@@ -254,43 +251,44 @@ function CreateShaders()
     gl.DeleteShader(blurShader or 0)
   end
   
-  local str_blurShader_part1 = [[
-      uniform sampler2D tex0;
-      uniform float intensity;
-      
-      void main(void)
-      {
-        vec2 texCoord = vec2(gl_TextureMatrix[0] * gl_TexCoord[0]);
-  ]]
-  
-  local str_blurShader_part2 = [[
-		gl_FragColor = vec4(0.0,0.0,0.0,1.0);
-      
-		gl_FragColor.rgb += 0.11 * texture2D(tex0, texCoord + vec2(-intensity, -intensity)).rgb;
-		gl_FragColor.rgb += 0.11 * texture2D(tex0, texCoord + vec2(-intensity,  0.0)).rgb;
-		gl_FragColor.rgb += 0.11 * texture2D(tex0, texCoord + vec2(-intensity,  intensity)).rgb;
-		
-		gl_FragColor.rgb += 0.11 * texture2D(tex0, texCoord + vec2( 0.0,    -intensity)).rgb;
-		gl_FragColor.rgb += 0.11 * texture2D(tex0, texCoord + vec2( 0.0,     0.0)).rgb;
-		gl_FragColor.rgb += 0.11 * texture2D(tex0, texCoord + vec2( 0.0,     intensity)).rgb;
-		
-		gl_FragColor.rgb += 0.11 * texture2D(tex0, texCoord + vec2( intensity, -intensity)).rgb;
-		gl_FragColor.rgb += 0.11 * texture2D(tex0, texCoord + vec2( intensity,  0.0)).rgb;
-		gl_FragColor.rgb += 0.11 * texture2D(tex0, texCoord + vec2( intensity,  intensity)).rgb;
-	  }
-  ]]
-  
   -- create blur shaders
   blurShader = gl.CreateShader({
-    fragment = "uniform sampler2D tex2; " .. str_blurShader_part1 .. 
-               " float stencil = texture2D(tex2, texCoord).a; if (stencil<0.01) {gl_FragColor = texture2D(tex0, texCoord); return;} " ..
-               str_blurShader_part2,
-    uniform = {
-      intensity = blurIntensity,
-    },
+    fragment = [[
+        uniform sampler2D tex2;
+        uniform sampler2D tex0;
+        uniform float intensity;
+
+        void main(void)
+        {
+            vec2 texCoord = vec2(gl_TextureMatrix[0] * gl_TexCoord[0]);
+            float stencil = texture2D(tex2, texCoord).a;
+            if (stencil<0.01)
+            {
+                gl_FragColor = texture2D(tex0, texCoord);
+                return;
+            }
+            gl_FragColor = vec4(0.0,0.0,0.0,1.0);
+
+            gl_FragColor.rgb += 0.11 * texture2D(tex0, texCoord + vec2(-intensity, -intensity)).rgb;
+            gl_FragColor.rgb += 0.11 * texture2D(tex0, texCoord + vec2(-intensity,  0.0)).rgb;
+            gl_FragColor.rgb += 0.11 * texture2D(tex0, texCoord + vec2(-intensity,  intensity)).rgb;
+
+            gl_FragColor.rgb += 0.11 * texture2D(tex0, texCoord + vec2( 0.0,    -intensity)).rgb;
+            gl_FragColor.rgb += 0.11 * texture2D(tex0, texCoord + vec2( 0.0,     0.0)).rgb;
+            gl_FragColor.rgb += 0.11 * texture2D(tex0, texCoord + vec2( 0.0,     intensity)).rgb;
+
+            gl_FragColor.rgb += 0.11 * texture2D(tex0, texCoord + vec2( intensity, -intensity)).rgb;
+            gl_FragColor.rgb += 0.11 * texture2D(tex0, texCoord + vec2( intensity,  0.0)).rgb;
+            gl_FragColor.rgb += 0.11 * texture2D(tex0, texCoord + vec2( intensity,  intensity)).rgb;
+        }
+    ]],
+
     uniformInt = {
       tex0 = 0,
       tex2 = 2,
+    },
+    uniformFloat = {
+      intensity = blurIntensity,
     }
   })
 	
@@ -354,8 +352,8 @@ end
 --------------------------------------------------------------------------------
 
 function widget:DrawScreenEffectsBlur()
-	if Spring.IsGUIHidden() then return end
-	
+  if Spring.IsGUIHidden() then return end
+
   if not screenBlur or not allowScreenBlur then
 	  if not next(guishaderRects) then return end
 

@@ -5,7 +5,7 @@ return {
 		brakerate = 0,
 		buildangle = 32768,
 		buildcostenergy = 9800,
-		buildcostmetal = 640,
+		buildcostmetal = 650,
 		buildinggrounddecaldecayspeed = 30,
 		buildinggrounddecalsizex = 8,
 		buildinggrounddecalsizey = 8,
@@ -40,6 +40,7 @@ return {
 		customparams = {
 			cvbuildable = true,
 			metal_extractor = 4,
+			model_author = "FireStorm",
 			removestop = true,
 			removewait = true,
 			subfolder = "armbuildings/seaeconomy",

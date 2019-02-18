@@ -3,8 +3,8 @@ return {
 		acceleration = 0.04,
 		blocking = false,
 		brakerate = 0.045,
-		buildcostenergy = 26000,
-		buildcostmetal = 320,
+		buildcostenergy = 18500,
+		buildcostmetal = 310,
 		buildpic = "CORHURC.DDS",
 		buildtime = 31000,
 		canfly = true,
@@ -34,6 +34,7 @@ return {
 		sightdistance = 221,
 		turnrate = 400,
 		customparams = {
+			model_author = "Mr Bob",
 			subfolder = "coreaircraft/t2",
 			techlevel = 2,
 			wingsurface = 0.4,

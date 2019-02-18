@@ -4,8 +4,8 @@ return {
 		airsightdistance = 950,
 		blocking = false,
 		brakerate = 0.1,
-		buildcostenergy = 3800,
-		buildcostmetal = 68,
+		buildcostenergy = 4600,
+		buildcostmetal = 90,
 		buildpic = "CORSFIG.DDS",
 		buildtime = 5200,
 		canfly = true,
@@ -31,6 +31,7 @@ return {
 		sightdistance = 230,
 		turnrate = 680,
 		customparams = {
+			model_author = "Beherith",
 			subfolder = "coreseaplanes",
 		},
 		sfxtypes = {

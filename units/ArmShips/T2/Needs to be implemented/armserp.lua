@@ -4,7 +4,7 @@ return {
 		activatewhenbuilt = true,
 		brakerate = 0.105,
 		buildcostenergy = 12000,
-		buildcostmetal = 1800,
+		buildcostmetal = 1700,
 		buildpic = "ARMSERP.DDS",
 		buildtime = 22770,
 		canmove = true,
@@ -40,6 +40,7 @@ return {
 		upright = true,
 		waterline = 45,
 		customparams = {
+			model_author = "FireStorm",
 			subfolder = "armships/t2/needs to be implemented",
 			techlevel = 2,
 		},

@@ -1,4 +1,33 @@
-﻿10.21 -> 10.22
+﻿10.23 -> 10.24
+XX/XX/2019
+
+ • Reverted Packo/Sam change to be like 9.46
+ • Restored small (short range) AA missile speeds/range to be that of 9.46
+
+Sea
+ • Destroyer: reverted plasma weapon damages, accuracy, reloadtime to 9.46 values, restored DC damages and firerate to 9.46 values, increased speed +15%, decreased hp -10%
+ • Patrol Boat/ligh anti air/sonar: +15% size, hp 120 -> 700, speed -30%, dps +60%, aa damages +66%, aa reloadTime -40%, mcost + 190%, ecost +70%, buildTime +100%)
+ • Corvettes: sizes -5%, ARM: hp -15%, m/e costs -15%, CORE: hp -10%, m/e costs -7%
+ • Removed Depthcharge Ships
+ • T2 submarines: -10%speed and -6% reloadTime
+ • Battleships: +10% aoe on plasma cannons
+ • Arm Offshore Mex: model "base" piece sized up a bit
+ • Missile Ships: Cluster Missiles +25% aoe and +16% damages
+ • Ships accelerations/brakerates now based on maxSpeed and turnrate
+ • Sea aircons same buildpower (+10%) as regular t1 aircons
+
+
+10.22 -> 10.23
+06/02/2019
+
+ • Hovercraft movement correction due to 104 engine (same as vehicle correction in 10.20)
+ • Rock/storm rocket speed as it was in 9.46
+ • Resource bars are showing 'expense' value again
+ • Advplayerlist spec-color fix when AI teams are present
+ • More deathmessages and loadscreens
+
+
+10.21 -> 10.22
 23/01/2019
 
 NOTE: Requires 104.0.1.969 or later engine versions
@@ -990,7 +1019,7 @@ FFA
 Balance changes:
 • Gremlin (Stealth Tank) harder to EMP
 • Annihilator, Doomsday Machine damage reduced by 10% (all weapons)
-• Re• implement Sniper weapon using "cannon" (was "riffle"). Snipers will not kill each other anymore
+• Re implement Sniper weapon using "cannon" (was "riffle"). Snipers will not kill each other anymore
 
 Others:
 • Added workaround for bug with "camera scroll at the beginning of the game"
@@ -1282,7 +1311,7 @@ Others:
 07/08/2015
 
 Balance changes:
-• Area• of• effect for "Dominator Heavy Rocket Kbot" increased, but edge-effectiveness was decreased a little
+• Area of effect for "Dominator Heavy Rocket Kbot" increased, but edge-effectiveness was decreased a little
 • Max paralysis time of mobile units was increased to 20 seconds
 • HP was increased for "Spider All Terrain EMP Spider"
 • Increased metal cost of t1 air scouts

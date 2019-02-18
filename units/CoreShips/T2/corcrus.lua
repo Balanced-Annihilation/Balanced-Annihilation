@@ -4,8 +4,8 @@ return {
 		activatewhenbuilt = true,
 		brakerate = 0.087,
 		buildangle = 16384,
-		buildcostenergy = 14500,
-		buildcostmetal = 1900,
+		buildcostenergy = 12000,
+		buildcostmetal = 1000,
 		buildpic = "CORCRUS.DDS",
 		buildtime = 17000,
 		canmove = true,
@@ -40,6 +40,7 @@ return {
 		turnrate = 177,
 		waterline = 0,
 		customparams = {
+			model_author = "Beherith",
 			subfolder = "coreships/t2",
 			techlevel = 2,
 		},

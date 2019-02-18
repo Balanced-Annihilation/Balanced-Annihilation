@@ -3,8 +3,8 @@ return {
 		acceleration = 0.146,
 		autoheal = 2,
 		brakerate = 0.073,
-		buildcostenergy = 4400,
-		buildcostmetal = 420,
+		buildcostenergy = 3000,
+		buildcostmetal = 210,
 		builddistance = 140,
 		builder = true,
 		buildpic = "ARMRECL.DDS",
@@ -42,6 +42,7 @@ return {
 		waterline = 17,
 		workertime = 150,
 		customparams = {
+			model_author = "FireStorm",
 			subfolder = "armships",
 		},
 		sfxtypes = {

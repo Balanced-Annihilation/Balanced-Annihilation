@@ -2,8 +2,8 @@ return {
 	armsh = {
 		acceleration = 0.132,
 		brakerate = 0.336,
-		buildcostenergy = 1450,
-		buildcostmetal = 93,
+		buildcostenergy = 1400,
+		buildcostmetal = 95,
 		buildpic = "ARMSH.DDS",
 		buildtime = 3896,
 		canmove = true,
@@ -36,6 +36,7 @@ return {
 		turninplacespeedlimit = 2.9634,
 		turnrate = 640,
 		customparams = {
+			model_author = "Beherith",
 			subfolder = "armhovercraft",
 		},
 		featuredefs = {

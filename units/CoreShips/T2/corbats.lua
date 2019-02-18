@@ -3,8 +3,8 @@ return {
 		acceleration = 0.0152,
 		brakerate = 0.0665,
 		buildangle = 16000,
-		buildcostenergy = 23000,
-		buildcostmetal = 5800,
+		buildcostenergy = 22000,
+		buildcostmetal = 3300,
 		buildpic = "CORBATS.DDS",
 		buildtime = 35000,
 		canmove = true,
@@ -38,6 +38,7 @@ return {
 		turnrate = 118,
 		waterline = 0,
 		customparams = {
+			model_author = "Beherith",
 			subfolder = "coreships/t2",
 			techlevel = 2,
 		},
@@ -114,7 +115,7 @@ return {
 		weapondefs = {
 			cor_bats = {
 				accuracy = 400,
-				areaofeffect = 128,
+				areaofeffect = 140,
 				avoidfeature = false,
 				craterareaofeffect = 128,
 				craterboost = 0,

@@ -4,8 +4,8 @@ return {
 		activatewhenbuilt = true,
 		brakerate = 0,
 		buildangle = 4096,
-		buildcostenergy = 310,
-		buildcostmetal = 86,
+		buildcostenergy = 300,
+		buildcostmetal = 85,
 		buildpic = "CORTIDE.DDS",
 		buildtime = 2094,
 		canrepeat = false,
@@ -36,6 +36,7 @@ return {
 		yardmap = "wwwwwwwww",
 		customparams = {
 			bar_waterline = 7,
+			model_author = "Mr Bob",
 			removestop = true,
 			removewait = true,
 			subfolder = "corebuildings/seaeconomy",

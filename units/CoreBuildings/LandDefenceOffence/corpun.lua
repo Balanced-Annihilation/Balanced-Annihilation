@@ -4,7 +4,7 @@ return {
 		brakerate = 0,
 		buildangle = 8192,
 		buildcostenergy = 13500,
-		buildcostmetal = 1350,
+		buildcostmetal = 1300,
 		buildinggrounddecaldecayspeed = 30,
 		buildinggrounddecalsizex = 6,
 		buildinggrounddecalsizey = 6,
@@ -39,6 +39,7 @@ return {
 		customparams = {
 			bar_buildinggrounddecalsizex = 5.7,
 			bar_buildinggrounddecalsizey = 5.7,
+			model_author = "Mr Bob",
 			removewait = true,
 			subfolder = "corebuildings/landdefenceoffence",
 			techlevel = 2,

@@ -2,8 +2,8 @@ return {
 	coracsub = {
 		acceleration = 0.036,
 		brakerate = 0.108,
-		buildcostenergy = 12000,
-		buildcostmetal = 840,
+		buildcostenergy = 9000,
+		buildcostmetal = 700,
 		builddistance = 160,
 		builder = true,
 		buildpic = "CORACSUB.DDS",
@@ -59,6 +59,7 @@ return {
 		},
 		customparams = {
 			area_mex_def = "coruwmme",
+			model_author = "Beherith",
 			subfolder = "coreships/t2",
 			techlevel = 2,
 		},

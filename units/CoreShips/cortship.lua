@@ -4,8 +4,8 @@ return {
 		autoheal = 5,
 		brakerate = 0.048,
 		buildangle = 16384,
-		buildcostenergy = 6700,
-		buildcostmetal = 760,
+		buildcostenergy = 3700,
+		buildcostmetal = 350,
 		buildpic = "CORTSHIP.DDS",
 		buildtime = 6400,
 		canattack = false,
@@ -43,6 +43,7 @@ return {
 		unloadspread = 1,
 		waterline = 0,
 		customparams = {
+			model_author = "Beherith",
 			subfolder = "coreships",
 		},
 		featuredefs = {

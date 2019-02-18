@@ -33,6 +33,24 @@ local vehAccelerationMultiplier = 1
 local vehAdditionalVelocity = 0
 local vehVelocityMultiplier = 1
 
+local hoverAdditionalTurnrate = 0
+local hoverTurnrateMultiplier = 1.0
+
+local hoverAdditionalAcceleration = 0.00
+local hoverAccelerationMultiplier = 1
+
+local hoverAdditionalVelocity = 0
+local hoverVelocityMultiplier = 1
+
+local shipAdditionalTurnrate = 0
+local shipTurnrateMultiplier = 1.0
+
+local shipAdditionalAcceleration = 0.00
+local shipAccelerationMultiplier = 1
+
+local shipAdditionalVelocity = 0
+local shipVelocityMultiplier = 1
+
 local kbotAdditionalTurnrate = 0
 local kbotTurnrateMultiplier = 1.15
 
@@ -221,7 +239,7 @@ function UnitDef_Post(name, uDef)
 		end
 	end
 
-	
+
 	if uDef.icontype and uDef.icontype == "sea" then
 		if uDef.featuredefs and uDef.featuredefs.dead and uDef.featuredefs.dead.metal and uDef.buildcostmetal then
 			uDef.featuredefs.dead.metal = uDef.buildcostmetal * 0.5
@@ -236,6 +254,7 @@ function UnitDef_Post(name, uDef)
 			uDef.featuredefs.heap.damage = uDef.featuredefs.heap.damage*2
 		end
 	end
+	
 	--Aircraft movements here:
 	if uDef.canfly == true and not uDef.hoverattack == true then
 		turn = (((uDef.turnrate)*0.16)/360)/30
@@ -296,6 +315,52 @@ function UnitDef_Post(name, uDef)
 		uDef.turninplaceanglelimit = 90
 	end
 
+	-- hovers
+	if uDef.category and string.find(uDef.category, "HOVER") then
+		if uDef.turnrate ~= nil then
+			uDef.turnrate = (uDef.turnrate + hoverAdditionalTurnrate) * hoverTurnrateMultiplier
+		end
+
+		if uDef.acceleration ~= nil then
+			uDef.acceleration = (uDef.acceleration + hoverAdditionalAcceleration) * hoverAccelerationMultiplier
+		end
+
+		if uDef.maxvelocity ~= nil then
+			uDef.maxvelocity = (uDef.maxvelocity + hoverAdditionalVelocity) * hoverVelocityMultiplier
+		end
+
+		if uDef.turnrate and uDef.maxvelocity and uDef.brakerate and uDef.acceleration then
+			local k = 1800/(0.164 * uDef.turnrate)
+			uDef.acceleration = uDef.maxvelocity / (2*k)
+			uDef.brakerate = uDef.maxvelocity / (2*k)
+			uDef.turninplaceanglelimit = 90
+			uDef.turninplace = true
+		end
+	end
+	
+		if uDef.movementclass and string.find(uDef.movementclass, "BOAT") then
+			--Spring.Echo(name)
+			if uDef.turnrate ~= nil then
+				uDef.turnrate = (uDef.turnrate + shipAdditionalTurnrate) * shipTurnrateMultiplier
+			end
+
+			if uDef.acceleration ~= nil then
+				uDef.acceleration = (uDef.acceleration + shipAdditionalAcceleration) * shipAccelerationMultiplier
+			end
+
+			if uDef.maxvelocity ~= nil then
+				uDef.maxvelocity = (uDef.maxvelocity + shipAdditionalVelocity) * shipVelocityMultiplier
+			end
+
+			if uDef.turnrate and uDef.maxvelocity and uDef.brakerate and uDef.acceleration then
+				local k = 1800/(0.164 * uDef.turnrate)
+				uDef.acceleration = uDef.maxvelocity / (2*k)
+				uDef.brakerate = uDef.maxvelocity / (2*k)
+				uDef.turninplaceanglelimit = 90
+				uDef.turninplace = true
+			end
+		end
+
 	-- add unit category: EMPABLE
 	if uDef.category and string.find(uDef.category, "SURFACE") then
 		if uDef.customparams and uDef.customparams.paralyzemultiplier and uDef.customparams.paralyzemultiplier == 0 then
@@ -306,18 +371,57 @@ function UnitDef_Post(name, uDef)
 	end
 
 	-- import csv unitdef changes
-	local file = VFS.LoadFile("costs_revision.csv")
-	if file then
-		local fileLines = lines(file)
-		for i, line in ipairs(fileLines) do
-			local t = Split(line, ';')
-			if t[1] and t[2] and t[3] and name == t[1] then
-				uDef.buildcostmetal = tonumber(t[2])
-				uDef.buildcostenergy = tonumber(t[3])
-				Spring.Echo('imported:  '..t[1]..':  '..t[2]..'  ,  '..t[3])
-			end
-		end
-	end
+	--local file = VFS.LoadFile("modelauthors.csv")
+	--if file then
+	--	local fileLines = lines(file)
+	--	local found = false
+	--	for i, line in ipairs(fileLines) do
+	--		local t = Split(line, ';')
+	--		if t[1] and t[2] and t[3] then
+	--			if t[1] == name then
+	--				if uDef.customparams == nil then
+	--					uDef.customparams = {}
+	--				end
+	--				uDef.customparams.model_author = t[3]
+	--				Spring.Echo('imported:  '..t[1]..':  '..t[2]..'  ,  '..t[3])
+	--				found = true
+	--				break
+	--			end
+	--		end
+	--	end
+	--	if not found then
+	--		for i, line in ipairs(fileLines) do
+	--			local t = Split(line, ';')
+	--			if t[1] and t[2] and t[3] then
+	--				if t[2] == uDef.name then
+	--					if uDef.customparams == nil then
+	--						uDef.customparams = {}
+	--					end
+	--					uDef.customparams.model_author = t[3]
+	--					Spring.Echo('imported2:  '..t[1]..':  '..t[2]..'  ,  '..t[3])
+	--					found = true
+	--					break
+	--				end
+	--			end
+	--		end
+	--	end
+	--end
+
+	--local filename = "unitlist_checked.csv"
+	--local file = VFS.LoadFile(filename)
+	--if file then
+	--	local fileLines = lines(file)
+	--	for i, line in ipairs(fileLines) do
+	--		local t = Split(line, ';')
+	--		if t[1] and t[2] and t[3] and name == t[1] then
+	--			uDef.buildcostmetal = tonumber(t[2])
+	--			uDef.buildcostenergy = tonumber(t[3])
+	--			Spring.Echo('imported:  '..t[1]..':  '..t[2]..'  ,  '..t[3])
+	--		end
+	--	end
+	--else
+	--	Spring.Echo('import file not found: '..filename)
+	--end
 
 	-- usable when baking ... keeping subfolder structure
 	if SaveDefsToCustomParams then

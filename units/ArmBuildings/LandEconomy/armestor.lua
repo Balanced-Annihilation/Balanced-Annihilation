@@ -29,7 +29,7 @@ return {
 		maxdamage = 1700,
 		maxslope = 10,
 		maxwaterdepth = 0,
-		name = "Karate Energy Storage",
+		name = "Energy Storage",
 		objectname = "ARMESTOR",
 		seismicsignature = 0,
 		selfdestructas = "energystorageSelfd",
@@ -37,6 +37,7 @@ return {
 		usebuildinggrounddecal = true,
 		yardmap = "ooooooooo",
 		customparams = {
+			model_author = "Cremuss",
 			removestop = true,
 			removewait = true,
 			subfolder = "armbuildings/landeconomy",

@@ -4,8 +4,8 @@ return {
 		activatewhenbuilt = true,
 		autoheal = 2,
 		brakerate = 0.105,
-		buildcostenergy = 4000,
-		buildcostmetal = 690,
+		buildcostenergy = 3500,
+		buildcostmetal = 500,
 		buildpic = "ARMSUB.DDS",
 		buildtime = 6600,
 		canmove = true,
@@ -39,6 +39,7 @@ return {
 		upright = true,
 		waterline = 30,
 		customparams = {
+			model_author = "FireStorm",
 			subfolder = "armships",
 		},
 		featuredefs = {

@@ -4,8 +4,8 @@ return {
 		activatewhenbuilt = true,
 		brakerate = 0.095,
 		buildangle = 16384,
-		buildcostenergy = 14000,
-		buildcostmetal = 1850,
+		buildcostenergy = 12000,
+		buildcostmetal = 1000,
 		buildpic = "ARMCRUS.DDS",
 		buildtime = 17000,
 		canmove = true,
@@ -40,6 +40,7 @@ return {
 		turnrate = 180,
 		waterline = 0,
 		customparams = {
+			model_author = "FireStorm",
 			subfolder = "armships/t2",
 			techlevel = 2,
 		},

@@ -4,8 +4,8 @@ return {
 		activatewhenbuilt = true,
 		brakerate = 0,
 		buildangle = 8192,
-		buildcostenergy = 310,
-		buildcostmetal = 87,
+		buildcostenergy = 300,
+		buildcostmetal = 90,
 		buildpic = "ARMTIDE.DDS",
 		buildtime = 2188,
 		canrepeat = false,
@@ -36,6 +36,7 @@ return {
 		yardmap = "wwwwwwwww",
 		customparams = {
 			bar_waterline = 2.5,
+			model_author = "FireStorm",
 			removestop = true,
 			removewait = true,
 			subfolder = "armbuildings/seaeconomy",

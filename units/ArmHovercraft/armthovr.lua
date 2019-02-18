@@ -3,8 +3,8 @@ return {
 		acceleration = 0.043,
 		brakerate = 0.186,
 		buildangle = 16384,
-		buildcostenergy = 8400,
-		buildcostmetal = 710,
+		buildcostenergy = 8300,
+		buildcostmetal = 700,
 		buildpic = "ARMTHOVR.DDS",
 		buildtime = 20341,
 		canmove = true,
@@ -24,7 +24,7 @@ return {
 		idleautoheal = 5,
 		idletime = 1800,
 		maxdamage = 5160,
-		maxvelocity = 2.07,
+		maxvelocity = 1.77,
 		minwaterdepth = 12,
 		movementclass = "HOVER4",
 		name = "Bear",
@@ -43,6 +43,7 @@ return {
 		turnrate = 370,
 		waterline = 4,
 		customparams = {
+			model_author = "Beherith",
 			subfolder = "armhovercraft",
 		},
 		featuredefs = {

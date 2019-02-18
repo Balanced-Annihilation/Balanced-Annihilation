@@ -2,8 +2,8 @@ return {
 	armacsub = {
 		acceleration = 0.053,
 		brakerate = 0.12,
-		buildcostenergy = 11000,
-		buildcostmetal = 850,
+		buildcostenergy = 9000,
+		buildcostmetal = 700,
 		builddistance = 160,
 		builder = true,
 		buildpic = "ARMACSUB.DDS",
@@ -59,6 +59,7 @@ return {
 		},
 		customparams = {
 			area_mex_def = "armuwmme",
+			model_author = "FireStorm",
 			subfolder = "armships/t2",
 			techlevel = 2,
 		},

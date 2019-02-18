@@ -4,8 +4,8 @@ return {
 		activatewhenbuilt = true,
 		brakerate = 0.051,
 		buildangle = 16384,
-		buildcostenergy = 255000,
-		buildcostmetal = 34000,
+		buildcostenergy = 158000,
+		buildcostmetal = 17000,
 		buildpic = "ARMEPOCH.DDS",
 		buildtime = 169800,
 		canmove = true,
@@ -44,6 +44,7 @@ return {
 		turnrate = 90,
 		waterline = 0,
 		customparams = {
+			model_author = "FireStorm",
 			paralyzemultiplier = 0,
 			subfolder = "armships/t2",
 			techlevel = 2,

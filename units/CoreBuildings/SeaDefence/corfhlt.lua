@@ -4,8 +4,8 @@ return {
 		activatewhenbuilt = true,
 		brakerate = 0,
 		buildangle = 16384,
-		buildcostenergy = 6100,
-		buildcostmetal = 600,
+		buildcostenergy = 6200,
+		buildcostmetal = 480,
 		buildpic = "CORFHLT.DDS",
 		buildtime = 11386,
 		canrepeat = false,
@@ -35,6 +35,7 @@ return {
 		waterline = 3,
 		yardmap = "wwwwwwwww",
 		customparams = {
+			model_author = "Mr Bob",
 			removewait = true,
 			subfolder = "corebuildings/seadefence",
 		},

@@ -4,8 +4,8 @@ return {
 		activatewhenbuilt = true,
 		autoheal = 2,
 		brakerate = 0.107,
-		buildcostenergy = 4200,
-		buildcostmetal = 720,
+		buildcostenergy = 3600,
+		buildcostmetal = 530,
 		buildpic = "CORSUB.DDS",
 		buildtime = 6530,
 		canmove = true,
@@ -39,6 +39,7 @@ return {
 		upright = true,
 		waterline = 30,
 		customparams = {
+			model_author = "Mr Bob",
 			subfolder = "coreships",
 		},
 		featuredefs = {

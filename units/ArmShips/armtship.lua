@@ -4,8 +4,8 @@ return {
 		autoheal = 5,
 		brakerate = 0.05,
 		buildangle = 16384,
-		buildcostenergy = 6700,
-		buildcostmetal = 780,
+		buildcostenergy = 3500,
+		buildcostmetal = 350,
 		buildpic = "ARMTSHIP.DDS",
 		buildtime = 6500,
 		canattack = false,
@@ -43,6 +43,7 @@ return {
 		unloadspread = 1,
 		waterline = 8,
 		customparams = {
+			model_author = "FireStorm",
 			subfolder = "armships",
 		},
 		featuredefs = {

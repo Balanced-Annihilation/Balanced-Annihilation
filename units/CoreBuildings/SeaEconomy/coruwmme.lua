@@ -4,7 +4,7 @@ return {
 		activatewhenbuilt = true,
 		brakerate = 0,
 		buildangle = 32768,
-		buildcostenergy = 11000,
+		buildcostenergy = 10500,
 		buildcostmetal = 810,
 		buildinggrounddecaldecayspeed = 30,
 		buildinggrounddecalsizex = 8,
@@ -41,6 +41,7 @@ return {
 		customparams = {
 			cvbuildable = true,
 			metal_extractor = 4,
+			model_author = "Mr Bob",
 			removestop = true,
 			removewait = true,
 			subfolder = "corebuildings/seaeconomy",

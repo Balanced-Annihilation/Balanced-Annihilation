@@ -2,8 +2,8 @@ return {
 	corsy = {
 		acceleration = 0,
 		brakerate = 0,
-		buildcostenergy = 800,
-		buildcostmetal = 440,
+		buildcostenergy = 1200,
+		buildcostmetal = 600,
 		builder = true,
 		buildpic = "CORSY.DDS",
 		buildtime = 6600,
@@ -37,18 +37,18 @@ return {
 		buildoptions = {
 			[1] = "corcs",
 			[2] = "correcl",
-			[3] = "corpt",
-			[4] = "coresupp",
+			[3] = "coresupp",
+			[4] = "corpt",
 			[5] = "corpship",
 			[6] = "corroy",
 			[7] = "corsub",
-			[8] = "cordship",
-			[9] = "cortship",
+			[8] = "cortship",
 		},
 		customparams = {
 			bar_collisionvolumeoffsets = "0 0 2",
 			bar_collisionvolumescales = "124 59 122",
 			bar_waterline = 1,
+			model_author = "Mr Bob",
 			subfolder = "corebuildings/seafactories",
 		},
 		featuredefs = {

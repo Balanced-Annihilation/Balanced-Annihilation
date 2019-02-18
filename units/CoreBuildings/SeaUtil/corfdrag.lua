@@ -4,8 +4,8 @@ return {
 		blocking = true,
 		brakerate = 0,
 		buildangle = 8192,
-		buildcostenergy = 670,
-		buildcostmetal = 21,
+		buildcostenergy = 300,
+		buildcostmetal = 15,
 		buildpic = "CORFDRAG.DDS",
 		buildtime = 400,
 		canattack = false,
@@ -31,6 +31,7 @@ return {
 		waterline = 3,
 		yardmap = "oooo",
 		customparams = {
+			model_author = "Mr Bob",
 			removestop = true,
 			removewait = true,
 			subfolder = "corebuildings/seautil",

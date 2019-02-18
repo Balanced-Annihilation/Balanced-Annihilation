@@ -3,8 +3,8 @@ return {
 		acceleration = 0.055,
 		blocking = false,
 		brakerate = 0.045,
-		buildcostenergy = 29000,
-		buildcostmetal = 270,
+		buildcostenergy = 8200,
+		buildcostmetal = 200,
 		buildpic = "CORSB.DDS",
 		buildtime = 7000,
 		canfly = true,
@@ -35,6 +35,7 @@ return {
 		sightdistance = 455,
 		turnrate = 600,
 		customparams = {
+			model_author = "Beherith",
 			subfolder = "coreseaplanes",
 		},
 		sfxtypes = {

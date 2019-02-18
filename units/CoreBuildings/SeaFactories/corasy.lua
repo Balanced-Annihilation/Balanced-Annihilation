@@ -2,7 +2,7 @@ return {
 	corasy = {
 		acceleration = 0,
 		brakerate = 0,
-		buildcostenergy = 10500,
+		buildcostenergy = 10000,
 		buildcostmetal = 3100,
 		builder = true,
 		buildpic = "CORASY.DDS",
@@ -50,6 +50,7 @@ return {
 			bar_collisionvolumeoffsets = "0 10 -2",
 			bar_collisionvolumescales = "186 78 183",
 			bar_waterline = 19,
+			model_author = "Mr Bob",
 			subfolder = "corebuildings/seafactories",
 			techlevel = 2,
 		},

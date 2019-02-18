@@ -22,7 +22,7 @@ return {
 		idletime = 1800,
 		maxdamage = 1462,
 		maxslope = 16,
-		maxvelocity = 2.3,
+		maxvelocity = 2.03,
 		maxwaterdepth = 0,
 		movementclass = "HOVER3",
 		name = "Snapper",
@@ -36,6 +36,7 @@ return {
 		turninplacespeedlimit = 1.518,
 		turnrate = 500,
 		customparams = {
+			model_author = "Beherith",
 			subfolder = "corehovercraft",
 		},
 		featuredefs = {

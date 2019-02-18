@@ -3,8 +3,8 @@ return {
 		acceleration = 0.072,
 		blocking = false,
 		brakerate = 0.4275,
-		buildcostenergy = 2300,
-		buildcostmetal = 270,
+		buildcostenergy = 8200,
+		buildcostmetal = 140,
 		builddistance = 136,
 		builder = true,
 		buildpic = "CORCSA.DDS",
@@ -41,7 +41,7 @@ return {
 		terraformspeed = 300,
 		turninplaceanglelimit = 360,
 		turnrate = 240,
-		workertime = 55,
+		workertime = 60,
 		buildoptions = {
 			[1] = "corsolar",
 			[2] = "coradvsol",
@@ -90,6 +90,7 @@ return {
 		},
 		customparams = {
 			area_mex_def = "coruwmex",
+			model_author = "Beherith",
 			subfolder = "coreseaplanes",
 		},
 		sfxtypes = {

@@ -4,8 +4,8 @@ return {
 		activatewhenbuilt = true,
 		brakerate = 0,
 		buildangle = 8192,
-		buildcostenergy = 720,
-		buildcostmetal = 59,
+		buildcostenergy = 500,
+		buildcostmetal = 60,
 		buildingmask = 0,
 		buildpic = "ARMOMEX.DDS",
 		buildtime = 1875,
@@ -41,6 +41,7 @@ return {
 		customparams = {
 			cvbuildable = true,
 			metal_extractor = 1,
+			model_author = "FireStorm",
 			removestop = true,
 			removewait = true,
 			subfolder = "armbuildings/seaeconomy",

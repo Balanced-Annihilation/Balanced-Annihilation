@@ -3,8 +3,8 @@ return {
 		acceleration = 0.07,
 		blocking = false,
 		brakerate = 0.4275,
-		buildcostenergy = 26000,
-		buildcostmetal = 270,
+		buildcostenergy = 7800,
+		buildcostmetal = 150,
 		builddistance = 136,
 		builder = true,
 		buildpic = "ARMCSA.DDS",
@@ -41,7 +41,7 @@ return {
 		terraformspeed = 300,
 		turninplaceanglelimit = 360,
 		turnrate = 240,
-		workertime = 55,
+		workertime = 60,
 		buildoptions = {
 			[1] = "armsolar",
 			[2] = "armadvsol",
@@ -90,6 +90,7 @@ return {
 		},
 		customparams = {
 			area_mex_def = "armuwmex",
+			model_author = "FireStorm",
 			subfolder = "armseaplanes",
 		},
 		sfxtypes = {

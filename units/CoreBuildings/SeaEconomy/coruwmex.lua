@@ -4,7 +4,7 @@ return {
 		activatewhenbuilt = true,
 		brakerate = 0,
 		buildangle = 8192,
-		buildcostenergy = 550,
+		buildcostenergy = 500,
 		buildcostmetal = 60,
 		buildingmask = 0,
 		buildpic = "COROMEX.DDS",
@@ -41,6 +41,7 @@ return {
 		customparams = {
 			cvbuildable = true,
 			metal_extractor = 1,
+			model_author = "Mr Bob",
 			removestop = true,
 			removewait = true,
 			subfolder = "corebuildings/seaeconomy",

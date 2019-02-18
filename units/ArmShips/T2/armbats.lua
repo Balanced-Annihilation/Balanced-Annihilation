@@ -3,8 +3,8 @@ return {
 		acceleration = 0.0171,
 		brakerate = 0.0722,
 		buildangle = 16384,
-		buildcostenergy = 23000,
-		buildcostmetal = 5500,
+		buildcostenergy = 22000,
+		buildcostmetal = 3300,
 		buildpic = "ARMBATS.DDS",
 		buildtime = 35000,
 		canmove = true,
@@ -38,6 +38,7 @@ return {
 		turnrate = 120,
 		waterline = 0,
 		customparams = {
+			model_author = "FireStorm",
 			subfolder = "armships/t2",
 			techlevel = 2,
 		},
@@ -114,7 +115,7 @@ return {
 		weapondefs = {
 			arm_bats = {
 				accuracy = 350,
-				areaofeffect = 128,
+				areaofeffect = 140,
 				avoidfeature = false,
 				craterareaofeffect = 128,
 				craterboost = 0,

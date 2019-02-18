@@ -116,7 +116,7 @@ local presetNames = {'lowest','low','medium','high','ultra'}	-- defined so these
 local presets = {
 	lowest = {
 		bloom = false,
-		bloomhighlights = false,
+		bloomdeferred = false,
 		water = 1,
 		mapedgeextension = false,
 		lighteffects = false,
@@ -125,7 +125,6 @@ local presets = {
 		lups = false,
 		lupsreflectionrefraction = false,
 		snow = false,
-		xrayshader = false,
 		particles = 10000,
 		nanoparticles = 1500,
 		nanobeamamount = 2,
@@ -146,7 +145,7 @@ local presets = {
 	},
 	low = {
 		bloom = false,
-		bloomhighlights = false,
+		bloomdeferred = false,
 		water = 2,
 		mapedgeextension = false,
 		lighteffects = true,
@@ -155,7 +154,6 @@ local presets = {
 		lups = true,
 		lupsreflectionrefraction = false,
 		snow = false,
-		xrayshader = false,
 		particles = 15000,
 		nanoparticles = 3000,
 		nanobeamamount = 4,
@@ -175,8 +173,8 @@ local presets = {
 		enemyspotter_highlight = false,
 	},
 	medium = {
-		bloom = true,
-		bloomhighlights = false,
+		bloom = false,
+		bloomdeferred = true,
 		water = 4,
 		mapedgeextension = true,
 		lighteffects = true,
@@ -185,7 +183,6 @@ local presets = {
 		lups = true,
 		lupsreflectionrefraction = false,
 		snow = true,
-		xrayshader = false,
 		particles = 20000,
 		nanoparticles = 5000,
 		nanobeamamount = 7,
@@ -206,7 +203,7 @@ local presets = {
 	},
 	high = {
 		bloom = true,
-		bloomhighlights = false,
+		bloomdeferred = true,
 		water = 3,
 		mapedgeextension = true,
 		lighteffects = true,
@@ -215,7 +212,6 @@ local presets = {
 		lups = true,
 		lupsreflectionrefraction = true,
 		snow = true,
-		xrayshader = false,
 		particles = 30000,
 		nanoparticles = 9000,
 		nanobeamamount = 12,
@@ -236,7 +232,7 @@ local presets = {
 	},
 	ultra = {
 		bloom = true,
-		bloomhighlights = true,
+		bloomdeferred = true,
 		water = 5,
 		mapedgeextension = true,
 		lighteffects = true,
@@ -245,7 +241,6 @@ local presets = {
 		lups = true,
 		lupsreflectionrefraction = true,
 		snow = true,
-		xrayshader = false,
 		particles = 40000,
 		nanoparticles = 15000,
 		nanobeamamount = 20,
@@ -471,7 +466,6 @@ function orderOptions()
 	options = deepcopy(newOptions)
 end
 
---local currentGroupTab = 'ui'
 
 function mouseoverGroupTab(id)
 	if optionGroups[id].id == currentGroupTab then return end
@@ -1136,8 +1130,6 @@ function applyOptionValue(i, skipRedrawWindow)
 			saveOptionValue('Red Build/Order Menu', 'red_buildmenu', 'setConfigLargeUnitIcons', {'largeUnitIons'}, options[i].value)
 		elseif id == 'sameteamcolors' then
 			saveOptionValue('Player Color Palette', 'playercolorpalette', 'setSameTeamColors', {'useSameTeamColors'}, options[i].value)
-		elseif id == 'bloomhighlights' then
-			saveOptionValue('Bloom Shader', 'bloom', 'setAdvBloom', {'drawHighlights'}, options[i].value)
 		elseif id == 'commandsfxfilterai' then
 			saveOptionValue('Commands FX', 'commandsfx', 'setFilterAI', {'filterAIteams'}, options[i].value)
 		elseif id == 'snowmap' then
@@ -1258,7 +1250,7 @@ function applyOptionValue(i, skipRedrawWindow)
 
 		if options[i].widget ~= nil then
 			if value == 1 then
-				if id == 'bloom' or id == 'guishader' or id == 'xrayshader' or id == 'snow' or id == 'mapedgeextension' then
+				if id == 'bloom' or id == 'bloomdeferred' or id == 'guishader' or id == 'xrayshader' or id == 'snow' or id == 'mapedgeextension' then
 					if luaShaders ~= 1 and not enabledLuaShaders then
 						Spring.SetConfigInt("ForceShaders", 1)
 						enabledLuaShaders = true
@@ -1371,8 +1363,14 @@ function applyOptionValue(i, skipRedrawWindow)
 			saveOptionValue('Darken map', 'darkenmap', 'setMapDarkness', {'maps',Game.mapName:lower()}, value)
 		elseif id == 'healthbarsscale' then
 			saveOptionValue('Health Bars', 'healthbars', 'setScale', {'barScale'}, value)
+		elseif id == 'bloomdeferredbrightness' then
+			saveOptionValue('Bloom Shader Deferred', 'bloomdeferred', 'setBrightness', {'glowAmplifier'}, value)
+		elseif id == 'bloomdeferredsize' then
+			saveOptionValue('Bloom Shader Deferred', 'bloomdeferred', 'setBlursize', {'globalBlursizeMult'}, value)
 		elseif id == 'bloombrightness' then
 			saveOptionValue('Bloom Shader', 'bloom', 'setBrightness', {'basicAlpha'}, value)
+		elseif id == 'bloomsize' then
+			saveOptionValue('Bloom Shader', 'bloom', 'setBlursize', {'globalBlursizeMult'}, value)
 		elseif id == 'consolemaxlines' then
 			saveOptionValue('Red Console (In-game chat only)', 'red_chatonlyconsole', 'setMaxLines', {'Config','console','maxlines'}, value)
 			saveOptionValue('Red Console (old)', 'red_console', 'setMaxLines', {'Config','console','maxlines'}, value)
@@ -1452,6 +1450,10 @@ function applyOptionValue(i, skipRedrawWindow)
 			end
 		elseif id == 'iconset' then
 			Spring.SendCommands("luarules uniticonset "..options[i].options[value])
+		elseif id == 'bloomdeferredquality' then
+			saveOptionValue('Bloom Shader Deferred', 'bloomdeferred', 'setPreset', {'qualityPreset'}, value)
+		elseif id == 'bloomquality' then
+			saveOptionValue('Bloom Shader', 'bloom', 'setPreset', {'qualityPreset'}, value)
 		elseif id == 'camera' then
 			Spring.SetConfigInt("CamMode",(value-1))
 			if value == 1 then
@@ -1483,7 +1485,7 @@ function applyOptionValue(i, skipRedrawWindow)
 				Spring.SetConfigInt("YResolutionWindowed", tonumber(resolutionY))
 				Spring.SendCommands("Fullscreen 0")
 			end
-			options[i].value = 0
+			--options[i].value = 0
 		end
 	end
 	if skipRedrawWindow == nil then
@@ -1751,8 +1753,8 @@ function mouseEvent(x, y, button, release)
 				end
 			-- on title
 			elseif titleRect ~= nil and IsOnRect(x, y, (titleRect[1] * widgetScale) - ((vsx * (widgetScale-1))/2), (titleRect[2] * widgetScale) - ((vsy * (widgetScale-1))/2), (titleRect[3] * widgetScale) - ((vsx * (widgetScale-1))/2), (titleRect[4] * widgetScale) - ((vsy * (widgetScale-1))/2)) then
-				currentGroupTab = nil
-				startColumn = 1
+				--currentGroupTab = nil
+				--startColumn = 1
 				returnTrue = true
 			elseif not tabClicked then
 				if release and draggingSlider == nil then
@@ -1829,8 +1831,13 @@ function loadAllWidgetData()
 	loadWidgetData("Shadow Quality Manager", "shadows_minquality", {'minQuality'})
 	loadWidgetData("Shadow Quality Manager", "shadows_disablefps", {'disableFps'})
 
+	loadWidgetData("Bloom Shader Deferred", "bloomdeferredbrightness", {'glowAmplifier'})
+	loadWidgetData("Bloom Shader Deferred", "bloomdeferredsize", {'qualityBlursizeMult'})
+	loadWidgetData("Bloom Shader Deferred", "bloomdeferredquality", {'qualityPreset'})
+
 	loadWidgetData("Bloom Shader", "bloombrightness", {'basicAlpha'})
-	loadWidgetData("Bloom Shader", "bloomhighlights", {'drawHighlights'})
+	loadWidgetData("Bloom Shader", "bloomsize", {'globalBlursizeMult'})
+	loadWidgetData("Bloom Shader", "bloomquality", {'qualityPreset'})
 
 	loadWidgetData("Red Console (In-game chat only)", "consolemaxlines", {'Config','console','maxlines'})
 	loadWidgetData("Red Console (In-game chat only)", "consolefontsize", {'fontsizeMultiplier'})
@@ -1951,6 +1958,22 @@ function init()
 		{id='control', name='Control'},
 		{id='game', name='Game'},
 	}
+	if not currentGroupTab or Spring.GetGameFrame() == 0 then
+		currentGroupTab = optionGroups[1].id
+	else
+		-- check if group exists
+		local found = false
+		for id,group in pairs(optionGroups) do
+			if group.id == currentGroupTab then
+				found = true
+				break
+			end
+		end
+		if not found then
+			currentGroupTab = optionGroups[1].id
+		end
+	end
+
 	options = {
 		-- PRESET
 		{id="preset", group="gfx", name="Load graphics preset", type="select", options=presetNames, value=0, description='This wont set the preset every time you restart a game. So feel free to adjust things.\n\nSave custom preset with /savepreset name\nRightclick to delete a custom preset'},
@@ -1973,30 +1996,37 @@ function init()
 		{id="shadows_minquality", group="gfx", name=widgetOptionColor.."   min quality", min=2000, max=8000, step=500, type="slider", value=2000, description='Minimum shadow detail when having low Frames Per Second'},
 		{id="shadows_disablefps", group="gfx", name=widgetOptionColor.."   disable at FPS", min=0, max=30, step=1, type="slider", value=0, description='Automaticly disables shadows at this average FPS value'},
 
-		{id="advsky", group="gfx", name="Advanced sky", type="bool", value=tonumber(Spring.GetConfigInt("AdvSky",1) or 1) == 1, description='Enables high resolution clouds\n\nChanges will be applied next game'},
-
-		{id="decals", group="gfx", name="Ground decals", type="slider", min=0, max=5, step=1, value=tonumber(Spring.GetConfigInt("GroundDecals",1) or 1), description='Set how long map decals will stay.\n\nDecals are ground scars, footsteps/tracks and shading under buildings'},
-		{id="grounddetail", group="gfx", name="Ground detail", type="slider", min=60, max=200, step=1, value=tonumber(Spring.GetConfigInt("GroundDetail",1) or 1), description='Set how detailed the map mesh/model is'},
-		{id="mapedgeextension", group="gfx", widget="Map Edge Extension", name="Map edge extension", type="bool", value=GetWidgetToggleValue("Map Edge Extension"), description='Mirrors the map at screen edges and darkens and decolorizes them\n\nEnable shaders for best result'},
-		{id="grassdetail", group="gfx", name="Grass", type="slider", min=0, max=10, step=1, value=tonumber(Spring.GetConfigInt("GrassDetail",1) or 5), description='Amount of grass rendered\n\nChanges will be applied next game'},
 		{id="water", group="gfx", name="Water type", type="select", options={'basic','reflective','dynamic','reflective&refractive','bump-mapped'}, value=(tonumber(Spring.GetConfigInt("Water",1) or 1)+1)},
 
-		{id="particles", group="gfx", name="Max particles", type="slider", min=10000, max=40000, step=1000, value=tonumber(Spring.GetConfigInt("MaxParticles",1) or 15000), description='Particles used for explosions, smoke, fire and missiletrails\n\nSetting a low value will mean that various effects wont show properly'},
+		{id="advsky", group="gfx", name="Advanced sky", type="bool", value=tonumber(Spring.GetConfigInt("AdvSky",1) or 1) == 1, description='Enables high resolution clouds\n\nChanges will be applied next game'},
+
+		{id="darkenmap", group="gfx", name="Darken map", min=0, max=0.5, step=0.01, type="slider", value=0, description='Darkens the whole map (not the units)\n\nRemembers setting per map\nUse /resetmapdarkness if you want to reset all stored map settings'},
+		{id="darkenmap_darkenfeatures", group="gfx", name=widgetOptionColor.."   darken features", type="bool", value=false, description='Darkens features (trees, wrecks, ect..) along with darken map slider above\n\nNOTE: This setting can be CPU intensive because it cycles through all visible features \nand renders then another time.'},
+
+		{id="bloomdeferred", group="gfx", widget="Bloom Shader Deferred", name="Bloom (unit)", type="bool", value=GetWidgetToggleValue("Bloom Shader Deferred"), description='Unit highlights and lights will glow.\n\n(via deferred rendering = less lag)'},
+		{id="bloomdeferredbrightness", group="gfx", name=widgetOptionColor.."   brightness", type="slider", min=0.4, max=1.1, step=0.05, value=1, description=''},
+		--{id="bloomdeferredsize", group="gfx", name=widgetOptionColor.."   size", type="slider", min=0.8, max=1.5, step=0.05, value=1, description=''},
+		--{id="bloomdeferredquality", group="gfx", name=widgetOptionColor.."   quality", type="select", options={'low','medium'}, value=1, description='Render quality'},
+
+		{id="bloom", group="gfx", widget="Bloom Shader", name="Bloom (global)", type="bool", value=GetWidgetToggleValue("Bloom Shader"), description='Bloom will make the map and units glow\n\n(might result in more laggy experience)'},
+		{id="bloombrightness", group="gfx", name=widgetOptionColor.."   brightness", type="slider", min=0.15, max=0.5, step=0.05, value=0.3, description=''},
+		{id="bloomsize", group="gfx", name=widgetOptionColor.."   size", type="slider", min=0.75, max=1.5, step=0.05, value=1, description=''},
+		--{id="bloomquality", group="gfx", name=widgetOptionColor.."   quality", type="select", options={'low','medium'}, value=1, description='Render quality'},
+
+		{id="outline", group="gfx", widget="Outline", name="Unit outline (expensive)", type="bool", value=GetWidgetToggleValue("Outline"), description='Adds a small outline to all units which makes them crisp\n\nLimits total outlined units to 1000.\nStops rendering outlines when average fps falls below 13.'},
+		{id="outline_size", group="gfx", name=widgetOptionColor.."   thickness", min=0.8, max=1.5, step=0.05, type="slider", value=1, description='Set the size of the outline'},
 
 		{id="iconset", group="gfx", name="Icon set", type="select", options={'old','modern','modern_simplified'}, value=1, description='NOTE: when icon edges look jagged: enable more Anti-Aliasing\n...or pick the \'old\' iconset'},
 		{id="disticon", group="gfx", name=widgetOptionColor.."   render distance", type="slider", min=0, max=900, step=10, value=tonumber(Spring.GetConfigInt("UnitIconDist",1) or 400), description='Set a lower value to get better performance'},
 		{id="iconscale", group="gfx", name=widgetOptionColor.."   scale", type="slider", min=0.85, max=1.35, step=0.05, value=tonumber(Spring.GetConfigFloat("UnitIconScale",1.15) or 1.05), description='Note that the minimap icon size is affected as well'},
 		{id="minimapiconsize", group="gfx", name=widgetOptionColor.."   minimap scale", type="slider", min=1.5, max=5, step=0.25, value=tonumber(Spring.GetConfigFloat("MinimapIconScale",3.5) or 1), description=''},
 
-		{id="outline", group="gfx", widget="Outline", name="Unit outline (expensive)", type="bool", value=GetWidgetToggleValue("Outline"), description='Adds a small outline to all units which makes them crisp\n\nLimits total outlined units to 1000.\nStops rendering outlines when average fps falls below 13.'},
-		{id="outline_size", group="gfx", name=widgetOptionColor.."   thickness", min=0.8, max=1.5, step=0.05, type="slider", value=1, description='Set the size of the outline'},
+		{id="decals", group="gfx", name="Ground decals", type="slider", min=0, max=5, step=1, value=tonumber(Spring.GetConfigInt("GroundDecals",1) or 1), description='Set how long map decals will stay.\n\nDecals are ground scars, footsteps/tracks and shading under buildings'},
+		{id="grounddetail", group="gfx", name="Ground detail", type="slider", min=60, max=200, step=1, value=tonumber(Spring.GetConfigInt("GroundDetail",1) or 1), description='Set how detailed the map mesh/model is'},
+		{id="mapedgeextension", group="gfx", widget="Map Edge Extension", name="Map edge extension", type="bool", value=GetWidgetToggleValue("Map Edge Extension"), description='Mirrors the map at screen edges and darkens and decolorizes them\n\nEnable shaders for best result'},
 
-		{id="bloom", group="gfx", widget="Bloom Shader", name="Bloom", type="bool", value=GetWidgetToggleValue("Bloom Shader"), description='Bloom will make the map and units glow'},
-		{id="bloombrightness", group="gfx", name=widgetOptionColor.."   brightness", type="slider", min=0.25, max=0.55, step=0.05, value=0.4, description=''},
-		{id="bloomhighlights", group="gfx", name=widgetOptionColor.."   highlights", type="bool", value=false, description=''},
-
-		{id="darkenmap", group="gfx", name="Darken map", min=0, max=0.5, step=0.01, type="slider", value=0, description='Darkens the whole map (not the units)\n\nRemembers setting per map\nUse /resetmapdarkness if you want to reset all stored map settings'},
-		{id="darkenmap_darkenfeatures", group="gfx", name=widgetOptionColor.."   darken features", type="bool", value=false, description='Darkens features (trees, wrecks, ect..) along with darken map slider above\n\nNOTE: This setting can be CPU intensive because it cycles through all visible features \nand renders then another time.'},
+		{id="particles", group="gfx", name="Max particles", type="slider", min=10000, max=40000, step=1000, value=tonumber(Spring.GetConfigInt("MaxParticles",1) or 15000), description='Particles used for explosions, smoke, fire and missiletrails\n\nSetting a low value will mean that various effects wont show properly'},
+		{id="grassdetail", group="gfx", name="Grass", type="slider", min=0, max=10, step=1, value=tonumber(Spring.GetConfigInt("GrassDetail",1) or 5), description='Amount of grass rendered\n\nChanges will be applied next game'},
 
 		{id="lighteffects", group="gfx", name="Lights", type="bool", value=GetWidgetToggleValue("Light Effects"), description='Adds lights to projectiles, lasers and explosions.\n\nRequires shaders.'},
 		{id="lighteffects_deferred", group="gfx", name=widgetOptionColor.."   real lights", type="bool", value=true, description='Otherwise simple ground flashes instead of actual map and model lighting.\n\nExpensive for the gpu when lots of (big) lights are there or when you zoom in on them.'},
@@ -2174,6 +2204,7 @@ function init()
 		{id="dgunnogroundenemies", group="game", widget="DGun no ground enemies", name="Dont snap DGun to ground units", type="bool", value=GetWidgetToggleValue("DGun no ground enemies"), description='Prevents dgun aim to snap onto enemy ground units, holding SHIFT will still target units\n\nWill still snap to air, ships and hovers (when on water)'},
 	}
 
+
 	-- fsaa is deprecated in 104.x
 	if tonumber(Spring.GetConfigInt("FSAALevel",0)) > 0 then
 		local fsaa = tonumber(Spring.GetConfigInt("FSAALevel",0))
@@ -2235,6 +2266,13 @@ function init()
 
 	if #supportedResolutions < 2 then
 		options[getOptionByID('resolution')] = nil
+	else
+		for id,res in pairs(options[getOptionByID('resolution')].options) do
+			if res == vsx..' x '..vsy then
+				options[getOptionByID('resolution')].value = id
+				break
+			end
+		end
 	end
 
 	-- add sound notification widget sound toggle options
@@ -2292,6 +2330,17 @@ function init()
 	if (Spring.GetModOptions and (tonumber(Spring.GetModOptions().barmodels) or 0) == 0) and not UnitDefNames["armcom_bar"] then
 		options[getOptionByID('normalmapping')] = nil
 		options[getOptionByID('oldicons')] = nil
+	end
+
+	if widgetHandler.knownWidgets["Bloom Shader"] == nil then
+		options[getOptionByID('bloombrightness')] = nil
+		options[getOptionByID('bloomsize')] = nil
+		options[getOptionByID('bloomquality')] = nil
+	end
+	if widgetHandler.knownWidgets["Bloom Shader Deferred"] == nil then
+		options[getOptionByID('bloomdeferredbrightness')] = nil
+		options[getOptionByID('bloomdeferredsize')] = nil
+		options[getOptionByID('bloomdeferredquality')] = nil
 	end
 
 	if (WG['healthbars'] == nil) then
@@ -2446,7 +2495,7 @@ function init()
 			insert = false
 		end
 		if luaShaders ~= 1 then
-			if option.id == "advmapshading" or option.id == "advmodelshading" or option.id == "bloom" or option.id == "guishader" or option.id == "xrayshader" or option.id == "mapedgeextension" or option.id == "snow" then
+			if option.id == "advmapshading" or option.id == "advmodelshading" or option.id == "bloom" or option.id == "bloomdeferred" or option.id == "guishader" or option.id == "xrayshader" or option.id == "mapedgeextension" or option.id == "snow" then
 				option.description = 'You dont have shaders enabled, we will enable it for you but...\n\nChanges will be applied next game'
 			end
 		end
@@ -2625,6 +2674,7 @@ function widget:GetConfigData(data)
 	savedTable.customPresets = customPresets
 	savedTable.cameraTransitionTime = cameraTransitionTime
 	savedTable.maxNanoParticles = maxNanoParticles
+	savedTable.currentGroupTab = currentGroupTab
 	savedTable.savedConfig = {
 		vsync = {'VSync', tonumber(Spring.GetConfigInt("VSync",1) or 1)},
 		water = {'Water', tonumber(Spring.GetConfigInt("Water",1) or 1)},
@@ -2660,6 +2710,9 @@ function widget:SetConfigData(data)
 	end
 	if data.maxNanoParticles ~= nil then
 		maxNanoParticles = data.maxNanoParticles
+	end
+	if data.currentGroupTab ~= nil then
+		currentGroupTab = data.currentGroupTab
 	end
 	if data.savedConfig ~= nil then
 		savedConfig = data.savedConfig

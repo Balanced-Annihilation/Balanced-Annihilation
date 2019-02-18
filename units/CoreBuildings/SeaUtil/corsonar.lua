@@ -4,8 +4,8 @@ return {
 		activatewhenbuilt = true,
 		brakerate = 0,
 		buildangle = 8192,
-		buildcostenergy = 430,
-		buildcostmetal = 21,
+		buildcostenergy = 450,
+		buildcostmetal = 20,
 		buildpic = "CORSONAR.DDS",
 		buildtime = 900,
 		canattack = false,
@@ -36,6 +36,7 @@ return {
 		sonardistance = 1200,
 		yardmap = "oooo",
 		customparams = {
+			model_author = "Mr Bob",
 			removestop = true,
 			removewait = true,
 			subfolder = "corebuildings/seautil",

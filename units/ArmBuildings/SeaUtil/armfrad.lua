@@ -4,8 +4,8 @@ return {
 		activatewhenbuilt = true,
 		brakerate = 0,
 		buildangle = 16384,
-		buildcostenergy = 1050,
-		buildcostmetal = 135,
+		buildcostenergy = 1000,
+		buildcostmetal = 130,
 		buildpic = "ARMFRAD.DDS",
 		buildtime = 1800,
 		canattack = false,
@@ -42,6 +42,7 @@ return {
 		customparams = {
 			bar_collisionvolumeoffsets = "0 15 0",
 			bar_collisionvolumescales = "36 59 36",
+			model_author = "FireStorm",
 			removestop = true,
 			removewait = true,
 			subfolder = "armbuildings/seautil",

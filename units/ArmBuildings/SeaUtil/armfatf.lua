@@ -4,8 +4,8 @@ return {
 		activatewhenbuilt = true,
 		brakerate = 0,
 		buildangle = 16400,
-		buildcostenergy = 7200,
-		buildcostmetal = 810,
+		buildcostenergy = 7300,
+		buildcostmetal = 800,
 		buildpic = "ARMFATF.DDS",
 		buildtime = 9886,
 		canrepeat = false,
@@ -35,6 +35,7 @@ return {
 		waterline = 3,
 		yardmap = "wwwwwwwwwwwwwwww",
 		customparams = {
+			model_author = "Cremuss",
 			removestop = true,
 			removewait = true,
 			subfolder = "armbuildings/seautil",
