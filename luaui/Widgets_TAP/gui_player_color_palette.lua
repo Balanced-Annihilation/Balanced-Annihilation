@@ -11,12 +11,12 @@ function widget:GetInfo()
 	}
 end
 
-local randomize = false					-- randomize player colors
+local randomize = false				-- randomize player colors
 local offsetstartcolor = true		-- when false it will always use red as start color, when true it starts with an offset towards center of rgb hue palette more in effect with small playernumbers
 local useSameTeamColors = false
 
 local GaiaTeam = Spring.GetGaiaTeamID()
-local GaiaTeamColor = {255,0,0 }
+local GaiaTeamColor = {0.5,0.5,0.5}
 
 local myTeamID = Spring.GetMyTeamID()
 

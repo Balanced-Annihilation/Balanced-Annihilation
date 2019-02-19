@@ -22,13 +22,13 @@ local armorDefs = {
 
 	heavybot={"corkrog","armmav","corcan","armsptk","armsnipe", "armmark", "armzeus", "armfboy", "cortermite", "corsumo",},
 
-	heavyveh={"armsam", "cormist", "armmanni", "armjam", "corban",},
+	heavyveh={"armsam", "cormist", "armmanni", "armjam", "corban","armpship","corpship",},
 
 	peon={"armack","armch","armck","armcs","armfark","armpt","armpw","armrecl","armrectr","armsubk","armconsul","coraca","corack","corak","coramph","corch","corck","corcs","cornecro","corpt","correcl","corshark","corspy","corsub","corvoyr",},
 
 	fighter={"armaca","armawac","armca","armcsa","armfig","armhawk","armsehak","armsfig","corawac","corca","corcsa","corhunt","corsfig","corvamp","corveng",},
 
-	rpg={"armaak","armpship","corpship","armaas","armah","armjeth","armmh","armrock","armsub","coraak","corah","corarch","corcrash","corstorm",},
+	rpg={"armaak","armaas","armah","armjeth","armmh","armrock","armsub","coraak","corah","corarch","corcrash","corstorm",},
 
 	stalwart={"armbanth","armbats","armcarry","armham","armorco","armraz","armvader","armwar","armepoch","corbats","corcarry","corkarg","corroach","corssub","corthud","corthovr","krogtaar","meteor","tawf009",},
 

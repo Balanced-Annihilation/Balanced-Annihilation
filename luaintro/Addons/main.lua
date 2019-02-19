@@ -38,7 +38,7 @@ local tips = {
 	--"Have trouble finding metal spots?\nPress F4 to switch to the metal map.",
 	--"Queue-up multiple consecutive unit actions by holding SHIFT.",
 	--"Tweak graphic preferences in options (top right corner of the screen).\nWhen your FPS drops, switch to a lower graphic preset.",
-    "corgol.dds ".."Tanks can crush lighter enemy kbots, like rifle and missile kbots. Tier 2 tanks can crush dragon teeth, and the ",
+    "corgol.dds ".."Tanks can crush lighter enemy kbots, like rifle and missile kbots. Tier 2 tanks can crush dragon teeth, and the Tier 3 Goliath can even crush Tier 2 Tanks.",
     "armmine3.dds ".."Pokers, Arm's basic assault vehicle, can build land mines, great vs kbots, and bar mines, excellent vs vehicles.",
 	"armrad.dds ".."Radars are cheap and their detection range is much larger than their vision range. In the beginning, Commanders and Outposts are your best options for true vision range.",
     "armgeo.dds ".."Abandoned/Neutral Geothermals might be scattered around the map and provide plenty of energy. You can capture them with commanders or with builders, after you research the 'capture' upgrade in the Tech Center.",
