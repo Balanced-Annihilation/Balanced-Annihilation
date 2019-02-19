@@ -3,10 +3,10 @@ uniform vec2 texelSize;
 
 //declare stuff
 
-#define HALF_KERNEL_WIDTH 3
-#define KERNEL_WIDTH (HALF_KERNEL_WIDTH * 2 + 1)
+#define HALF_KERNEL_WIDTH 1 //3
+#define KERNEL_WIDTH (HALF_KERNEL_WIDTH * 16 + 1) //*2 + 1
 
-#define SIGMA 3.0
+#define SIGMA 0.5 //3.0 //0.5
 
 float kernel[KERNEL_WIDTH];
 

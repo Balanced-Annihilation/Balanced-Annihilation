@@ -11,7 +11,8 @@ uniform mat4 samplesY;
 uniform mat4 samplesZ;
 uniform vec2 noiseScale;
 
-#define RADIUS 15.0 //5
+#define RADIUS 92 //15.0 //5
+#define OCCLUSION_SMOOTH 0.075 //10 //16
 #define BIAS 0.05
 
 #define DEPTH_CLIP_RANGE11 0 //from minus one to one
@@ -105,7 +106,7 @@ void main(void) {
 	}
 	}
 
-	occlusion = 1.0 - (occlusion / 16.0);
+	occlusion = 1.0 - (occlusion * OCCLUSION_SMOOTH );// 1 - (occ / 16.0)
 
 	gl_FragColor = vec4(vec3(occlusion), alpha);
 }
