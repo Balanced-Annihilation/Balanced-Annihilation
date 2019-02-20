@@ -189,7 +189,7 @@ local MorphWorkerTime = { 75, 340, 430, 1120, 3000 }
 --local MorphWorkerTime = { 1500, 2000, 3500, 7000, 15000 } --debug
 
 local MaxMorphTimeBonus = 3.2 --3
-local XpScale = 1.0
+local XpScale = 1.0                --// Multiplier of previous unit's experience to apply to new unit
 
 local XpMorphUnits = {}
 
@@ -212,6 +212,7 @@ local spGiveOrderArrayToUnitArray = Spring.GiveOrderArrayToUnitArray
 local spSetUnitHealth = Spring.SetUnitHealth
 local spGetUnitShieldState = Spring.GetUnitShieldState
 local spSetUnitShieldState = Spring.SetUnitShieldState
+local spSetUnitRulesParam    = Spring.SetUnitRulesParam
 local spGetUnitHealth = Spring.GetUnitHealth
 local spSetUnitBlocking = Spring.SetUnitBlocking
 local spUseUnitResource = Spring.UseUnitResource
@@ -223,6 +224,7 @@ local morphDefs  = {}         --// made global in Initialize()
 local extraUnitMorphDefs = {} -- stores mainly planetwars morphs
 local hostName = nil          -- planetwars hostname
 local PWUnits = {}            -- planetwars units
+--local cleanRulesParam = {}    -- used to clean up temporary 'wasmorphed' unitRulesParam
 
 --  morphingUnits[unitID] = {  def = morphDef, progress = 0.0, increment = morphDef.increment,
 --                             morphID = morphID, pauseID, queueID, teamID = teamID, paused = false }
@@ -936,7 +938,9 @@ local function FinishMorph(unitID, morphData)
   local h = spGetUnitHeading(unitID)
   spSetUnitBlocking(unitID, false)
   morphingUnits[unitID] = nil
-  --teamJustMorphed[morphData.teamID] = unitID  -- To be used by checkQueue (::Deprecated)
+  spSetUnitRulesParam(unitID, "wasmorphed", 1)
+    --[Deprecated] After 10 frames, we'll clean up this unitRulesParam, to allow explosions after this time frame
+    --cleanRulesParam[unitID] = Spring.GetGameFrame()+10
 
   local oldHealth,oldMaxHealth,paralyzeDamage,captureProgress,buildProgress = spGetUnitHealth(unitID)
   local isBeingBuilt = false
@@ -1025,12 +1029,24 @@ local function FinishMorph(unitID, morphData)
     { CMD.TRAJECTORY, { states.trajectory and 1 or 0 }, { } },
   })
 
-  --//copy command queue        FIX : removed 04/2012, caused erros
-  --local cmds = Spring.GetUnitCommands(unitID)
-  --for i = 2, cmds.n do  -- skip the first command (CMD_MORPH)
-    --local cmd = cmds[i]
-    --Spring.GiveOrderToUnit(newUnit, cmd.id, cmd.params, cmd.options.coded)
-  --end
+  --//Copy command queue        [deprecated]FIX : removed 04/2012, caused erros
+  --Now copies only move/patrol commands from queue, shouldn't pose any issues
+    local cmdqueuesize = Spring.GetUnitCommands(unitID, 0)
+    if type(cmdqueuesize) == "number" then
+        local cmds = Spring.GetUnitCommands(unitID)
+        for i = 2, cmdqueuesize do  -- skip the first command (CMD_MORPH)
+            local cmd = cmds[i]
+            if cmd.id == CMD.MOVE or cmd.id == CMD.PATROL then
+                local m = { x = cmd.params[1], z = cmd.params[3] }
+                if m.x and m.z then
+                    local y = Spring.GetGroundHeight(m.x, m.z)
+                    Spring.GiveOrderToUnit(newUnit, CMD.INSERT,
+                            {-1, cmd.id, CMD.OPT_SHIFT, m.x, y, m.z}, {"alt"}
+                    )
+                end
+            end
+        end
+    end
 
   --//reassign assist commands to new unit
   ReAssignAssists(newUnit,unitID)
@@ -1120,7 +1136,7 @@ end
 --------------------------------------------------------------------------------
   
   --// Add MorphDefs from customData entries (TODO: allow data merge, currently only overrides)
-  local function AddCustomMorphDefs()
+local function AddCustomMorphDefs()
 --    -- Standard .fbi method: (needs testing, TA Prime uses UnitDefsData)
 --    for id,unitDef in pairs(UnitDefs) do
 --      if unitDef.customParams.morphdef and type(unitDef.customParams.morphdef) == "table" then
@@ -1150,7 +1166,6 @@ end
     end
 
   end
-
 
 function gadget:Initialize()
   --// RankApi linking
@@ -1451,6 +1466,13 @@ function gadget:GameFrame(n)
     end
   end
 
+  --if n % 5 < 0.01 then
+  --    for uID, frame in pairs(cleanRulesParam) do
+  --        if n >= frame then
+  --            spSetUnitRulesParam(uID, "wasmorphed", 0)
+  --        end
+  --    end
+  --end
 
   if (n+24)%45 < 0.01 then --%150
     --AddCustomMorphDefs()

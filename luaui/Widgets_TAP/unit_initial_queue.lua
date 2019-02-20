@@ -122,8 +122,8 @@ local COREYES = UnitDefNames["coreyes"].id
 local ARMDRAG = UnitDefNames["armdrag"].id
 local CORDRAG = UnitDefNames["cordrag"].id
 
-local ARMDL = UnitDefNames["armdl"].id
-local CORDL = UnitDefNames["cordl"].id
+--local ARMDL = UnitDefNames["armdl"].id
+--local CORDL = UnitDefNames["cordl"].id
 
 local ARMAP = UnitDefNames["armap"].id
 local CORAP = UnitDefNames["corap"].id

@@ -20,17 +20,17 @@ booleanMock =true
 functionMock =function (bar) return bar; end
 --==================================================================================================
 
-function Spring.SetUnitRulesParam (  unitID, paramName)
-assert(type(unitID) == "number","Argument unitID is of invalid type - expected number");
-assert(type(paramName) == "string","Argument paramName is of invalid type - expected string");
-return  numberMock
- end
+function Spring.SetUnitRulesParam (unitID, paramName)
+    assert(type(unitID) == "number","Argument unitID is of invalid type - expected number");
+    assert(type(paramName) == "string" or type(paramName) == "number","Argument paramName is of invalid type - expected string or number");
+    return numberMock
+end
 
-function Spring.SetTeamRulesParam   (  teamID, paramName)
-assert(type(teamID) == "number","Argument teamID is of invalid type - expected number");
-assert(type(paramName) == "string","Argument paramName is of invalid type - expected string");
-return  numberMock
- end
+function Spring.SetTeamRulesParam (teamID, paramName)
+    assert(type(teamID) == "number","Argument teamID is of invalid type - expected number");
+    assert(type(paramName) == "string" or type(paramName) == "number","Argument paramName is of invalid type - expected string or number");
+    return numberMock
+end
 
 function Spring.SetGameRulesParam   (  paramName)
 assert(type(paramName) == "string","Argument paramName is of invalid type - expected string");

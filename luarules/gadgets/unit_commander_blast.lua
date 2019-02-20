@@ -4,12 +4,12 @@
 function gadget:GetInfo()
   return {
     name      = "Commander Blast",
-    desc      = "Spawns commander blast CEG, dependent upon skillclass",
-    author    = "Bluestone",
+    desc      = "Spawns commander blast CEG according to skillclass, adds EMP explosion",
+    author    = "Bluestone, updated by MaDDoX",
     date      = "June 2014",
     license   = "GNU GPL, v2 or later",
     layer     = 0,
-    enabled   = false --true  --  loaded by default? [TOFIX]
+    enabled   = true  --  loaded by default?
   }
 end
 
@@ -25,8 +25,9 @@ local COMMANDER_EXPLOSION = "COMMANDER_EXPLOSION"
 local COMMANDER_EXPLOSION_YELLOW = "COMMANDER_EXPLOSION_YELLOW"
 local COMMANDER_EXPLOSION_BLUE = "COMMANDER_EXPLOSION_BLUE"
 
+local spGetUnitRulesParam = Spring.GetUnitRulesParam
 
--- MaDDoX: Added Commanders level 2 and 3 to list
+-- MaDDoX: Added Commanders level 2 through 4 to list
 local COMMANDER = {
   [UnitDefNames["corcom"].id] = true,
   [UnitDefNames["corcom2"].id] = true,
@@ -37,6 +38,14 @@ local COMMANDER = {
   [UnitDefNames["armcom3"].id] = true,
   [UnitDefNames["armcom4"].id] = true,
 }
+
+local commanderExplosionEMPparams = {weaponDef = WeaponDefNames['commanderexplosionemp'].id,
+                                     hitUnit = 1,
+                                     hitFeature = 1,
+                                     craterAreaOfEffect = 50,
+                                     damageAreaOfEffect = 720,
+                                     edgeEffectiveness = 1,
+                                     explosionSpeed = 450,}
 
 local teamCEG = {} --teamCEG[tID] = cegID of commander blast for that team
 
@@ -51,9 +60,11 @@ function gadget:Initialize()
             local playerList = Spring.GetPlayerList(tID)
             local teamSkillClass = 5
             for _,pID in pairs(playerList) do
-                local customtable = select(10,Spring.GetPlayerInfo(pID))
-                local skillClass = customtable.skillclass -- 1 (1st), 2 (top5), 3 (top10), 4 (top20), 5 (other) 
-                teamSkillClass = math.min(teamSkillClass, skillClass or 5)
+                local customtable = select(10, Spring.GetPlayerInfo(pID))
+                if type(customtable) == "table" then
+                    local skillClass = customtable.skillclass -- 1 (1st), 2 (top5), 3 (top10), 4 (top20), 5 (other)
+                    teamSkillClass = math.min(teamSkillClass, skillClass or 5)
+                end
             end
             if teamSkillClass >= 5 then
                 teamCEG[tID] = COMMANDER_EXPLOSION
@@ -69,13 +80,17 @@ end
 function gadget:UnitDestroyed(unitID, unitDefID, teamID, attackerID, attackerDefID, attackerTeam)
     if not COMMANDER[unitDefID] then return end
 
-    -- If it was destroyed with no attacker, that means it was simply morphed into => No explosion FX.
-    -- TODO: This is not working for selfD. Add a "wasmorphed" unit customParam in the morph gadget to replace this.
-    if attackerID == nil then
-        return end
-
     local x,y,z = Spring.GetUnitBasePosition(unitID)
-    Spring.SpawnCEG(teamCEG[teamID], x,y,z, 0,0,0, 0, 0) --spawn CEG, cause no damage
+    -- If it was simply morphed into => No explosion FX, just "level up" fx.
+    if spGetUnitRulesParam(unitID, "wasmorphed") == 1 then
+        -- TODO: spawnCEG of promotion fx
+        Spring.SpawnCEG("commander-levelup", x,y,z, 0,0,0, 0, 0)
+        return
+    end
+    -- If it was actually killed/selfD-ed, spawn CEG and EMP explosion
+    Spring.SpawnCEG(teamCEG[teamID], x,y,z, 0,0,0, 0, 0)
+    --Spring.SpawnExplosion(firex, firey, firez, 0, 0, 0, treefireExplosion[featureinfo.size])
+    Spring.SpawnExplosion (x,y,z, 0, 0, 0, commanderExplosionEMPparams)
 end
 
 
