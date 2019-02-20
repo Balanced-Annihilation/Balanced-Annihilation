@@ -40,7 +40,7 @@ local COMMANDER = {
 }
 
 local commanderExplosionEMPparams = {weaponDef = WeaponDefNames['commanderexplosionemp'].id,
-                                     hitUnit = 1,
+                                     hitUnit = 999999,
                                      hitFeature = 1,
                                      craterAreaOfEffect = 50,
                                      damageAreaOfEffect = 720,
