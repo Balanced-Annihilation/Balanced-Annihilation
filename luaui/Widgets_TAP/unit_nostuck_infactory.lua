@@ -7,7 +7,7 @@ function widget:GetInfo()
     license   = "none",
 	handler   = false,
     layer     = 1,
-    enabled   = true,  --  loaded by default?
+    enabled   = false, --true,  --  loaded by default?
   }
 end
 

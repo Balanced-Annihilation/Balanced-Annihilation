@@ -118,6 +118,54 @@ QueryPrimary(piecenum)
 	return (0);
 }
 
+//----------------
+
+AimSecondary(heading, pitch)
+{
+	signal SIG_AIM;
+	set-signal-mask SIG_AIM;
+	turn turret to y-axis heading speed <450.00000>;
+	turn turret to x-axis <0.00000> - pitch speed <450.00000>;
+	wait-for-turn turret around y-axis;
+	wait-for-turn turret around x-axis;
+	return (1);
+}
+
+FireSecondary()
+{
+	++gun_1;
+	if( gun_1 == 4 )
+	{
+		gun_1 = flare2;
+	}
+	return (0);
+}
+
+AimFromSecondary(piecenum)
+{
+	piecenum = turret;
+	return (0);
+}
+
+QuerySecondary(piecenum)
+{
+	if( gun_1 == 1 )
+	{
+		piecenum = flare1;
+	}
+	if( gun_1 == 2 )
+	{
+		piecenum = flare2;
+	}
+	if( gun_1 == 3 )
+	{
+		piecenum = flare3;
+	}
+	return (0);
+}
+
+//----------------
+
 SweetSpot(piecenum)
 {
 	piecenum = base;
