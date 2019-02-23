@@ -43,7 +43,7 @@ local hoverAdditionalVelocity = 0
 local hoverVelocityMultiplier = 1
 
 local shipAdditionalTurnrate = 0
-local shipTurnrateMultiplier = 1.0
+local shipTurnrateMultiplier = 1.5
 
 local shipAdditionalAcceleration = 0.00
 local shipAccelerationMultiplier = 1
@@ -458,13 +458,6 @@ function WeaponDef_Post(name, wDef)
 	-- Target borders of unit hitboxes rather than center (-1 = far border, 0 = center, 1 = near border)
 	-- wDef.targetborder = 1.0
 
-  -- artificial Armordefs tree: Default < heavyunits < hvyboats, allows me to specify bonus damages towards ships
-	if (not (wDef["damage"].hvyboats)) and (wDef["damage"].heavyunits) then
-		wDef["damage"].hvyboats = wDef["damage"].heavyunits
-	elseif (not (wDef["damage"].hvyboats)) and (not wDef["damage"].heavyunits) then
-		wDef["damage"].hvyboats = wDef["damage"].default
-	end
-  -- end of artificial ArmorDefs tree
 
 	if wDef.weapontype == "Cannon" then
 		if wDef.stages == nil then
