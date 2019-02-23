@@ -10,7 +10,7 @@
 local damageMultipliers = {
 
 	bullet={ 	peon = 1,		rpg = 1.5,		stalwart = 0.6,	aiv = 0.45,			tank = 0.3,		artillery = 0.5,
-				fighter = 0.4,	gunship = 2,	bomber = 1.5, 	structure = 0.25, 	defense = 0.25, defenseaa = 0.35, 	commander = 0.42,
+				fighter = 0.4,	gunship = 2,	bomber = 1.5, 	structure = 0.75, 	defense = 0.25, defenseaa = 0.35, 	commander = 0.42,
 				invader = 0.75,	heavybot = 0.6,	assault = 0.25,	heavyveh = 1,	    resource = 0.25,
 	}
     ,
@@ -25,7 +25,7 @@ local damageMultipliers = {
 	}
     ,
 	laser={ 	peon = 2, 		rpg = 1.2, 		stalwart = 1.1, aiv = 0.6, 			tank = 0.33, 	artillery = 0.65,
-			    fighter = 1.25, gunship = 0.75, bomber = 1, 	structure = 0.75,	defense = 0.7, 	defenseaa = 0.8, 	commander = 0.68,
+			    fighter = 1.25, gunship = 0.75, bomber = 1, 	structure = 1,		defense = 0.7, 	defenseaa = 0.8, 	commander = 0.68,
 			    invader = 0.9,	heavybot = 0.6,	assault = 0.5,	heavyveh = 0.75,	resource = 0.5,
 	}
     ,
