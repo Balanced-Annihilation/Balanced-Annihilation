@@ -151,7 +151,6 @@ return {
 				weapontype = "MissileLauncher",
 				weaponvelocity = 230,
 				customparams = {
-					bar_model = "catapultmissile.s3o",
 					expl_light_color = "1 0.5 0.05",
 					expl_light_radius_mult = 1.05,
 					light_color = "1 0.6 0.05",

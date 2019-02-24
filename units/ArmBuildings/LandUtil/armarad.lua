@@ -41,8 +41,6 @@ return {
 		usepiececollisionvolumes = 1,
 		yardmap = "oooo",
 		customparams = {
-			bar_buildinggrounddecalsizex = 3.6,
-			bar_buildinggrounddecalsizey = 3.6,
 			model_author = "Cremuss",
 			removestop = true,
 			removewait = true,

@@ -28,7 +28,6 @@ return {
 		waterline = 24,
 		yardmap = "wwwwwwwww",
 		customparams = {
-			bar_waterline = 3.5,
 			model_author = "Mr Bob",
 			removestop = true,
 			removewait = true,

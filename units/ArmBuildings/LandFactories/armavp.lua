@@ -56,8 +56,6 @@ return {
 			[12] = "armjam",
 		},
 		customparams = {
-			bar_buildinggrounddecalsizex = 8.35,
-			bar_buildinggrounddecalsizey = 8.35,
 			model_author = "Cremuss",
 			subfolder = "armbuildings/landfactories",
 			techlevel = 2,

@@ -41,7 +41,6 @@ return {
 			[6] = "armsehak",
 		},
 		customparams = {
-			bar_waterline = 39,
 			model_author = "FireStorm",
 			subfolder = "armbuildings/seafactories",
 		},

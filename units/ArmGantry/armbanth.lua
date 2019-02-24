@@ -191,7 +191,6 @@ return {
 				weapontype = "StarburstLauncher",
 				weaponvelocity = 1500,
 				customparams = {
-					bar_model = "corkbmissl1.s3o",
 					expl_light_color = "1 0.5 0.05",
 					expl_light_heat_radius_mult = 1.5,
 					expl_light_life_mult = 1.15,
@@ -218,7 +217,7 @@ return {
 				explosiongenerator = "custom:genericshellexplosion-medium-beam",
 				impulseboost = 0,
 				impulsefactor = 0,
-				laserflaresize = 11,
+				laserflaresize = 12.1,
 				name = "High-energy long-range g2g/g2a lazor of DEEEEEEWWWWWWMMMMMM",
 				noselfdamage = true,
 				range = 800,

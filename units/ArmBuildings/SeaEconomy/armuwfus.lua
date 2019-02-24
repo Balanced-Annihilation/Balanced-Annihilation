@@ -35,9 +35,6 @@ return {
 		usebuildinggrounddecal = true,
 		yardmap = "oooooooooooooooooooo",
 		customparams = {
-			bar_footprintx = 6,
-			bar_footprintz = 4,
-			bar_yardmap = "oooooo oooooo oooooo oooooo",
 			model_author = "FireStorm",
 			removestop = true,
 			removewait = true,

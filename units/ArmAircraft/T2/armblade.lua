@@ -38,7 +38,6 @@ return {
 			model_author = "FireStorm",
 			subfolder = "armaircraft/t2",
 			techlevel = 2,
-			wingsurface = 0.2,
 		},
 		sfxtypes = {
 			crashexplosiongenerators = {
@@ -112,9 +111,7 @@ return {
 				weapontimer = 3,
 				weapontype = "MissileLauncher",
 				weaponvelocity = 1000,
-				customparams = {
-					bar_model = "cormissile2.s3o",
-				},
+				customparams = {},
 				damage = {
 					commanders = 95,
 					default = 190,

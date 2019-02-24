@@ -48,7 +48,6 @@ return {
 			description_long = "The Shadow is a bomber, designed for destroying buildings. Its DPS is higher than that of ARM T1 bomber. It drops bombs over the target and makes a flyby to reload ammunition. It can strike every 9 seconds. Always scout first and combine with fighters to eliminate enemy's airwall before  bombing. Click A for attack and drag your RMB to execute a carpet bombing, or use area attack command to strike targets within a circle.",
 			model_author = "Mr Bob",
 			subfolder = "coreaircraft",
-			wingsurface = 0.3,
 		},
 		sfxtypes = {
 			crashexplosiongenerators = {
@@ -114,7 +113,6 @@ return {
 				sprayangle = 300,
 				weapontype = "AircraftBomb",
 				customparams = {
-					bar_model = "airbomb.s3o",
 					expl_light_color = "1 0.5 0.05",
 					expl_light_heat_radius_mult = 1.3,
 				},

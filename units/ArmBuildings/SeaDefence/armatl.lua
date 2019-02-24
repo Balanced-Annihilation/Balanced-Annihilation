@@ -30,7 +30,6 @@ return {
 		waterline = 30,
 		yardmap = "oooooooooooooooo",
 		customparams = {
-			bar_waterline = 2,
 			model_author = "FireStorm",
 			removewait = true,
 			subfolder = "armbuildings/seadefence",
@@ -113,9 +112,7 @@ return {
 				weapontimer = 10,
 				weapontype = "TorpedoLauncher",
 				weaponvelocity = 380,
-				customparams = {
-					bar_model = "torpedo.s3o",
-				},
+				customparams = {},
 				damage = {
 					default = 780,
 				},

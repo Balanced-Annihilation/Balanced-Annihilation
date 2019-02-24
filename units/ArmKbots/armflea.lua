@@ -127,7 +127,7 @@ return {
 				impactonly = 1,
 				impulseboost = 0,
 				impulsefactor = 0,
-				laserflaresize = 1.5,
+				laserflaresize = 1.65,
 				name = "Light close-quarters g2g laser",
 				noselfdamage = true,
 				range = 140,

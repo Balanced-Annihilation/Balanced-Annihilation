@@ -41,9 +41,6 @@ return {
 		turninplacespeedlimit = 0.792,
 		turnrate = 520.29999,
 		customparams = {
-			bar_trackstrength = 8,
-			bar_tracktype = "corwidetracks",
-			bar_trackwidth = 40,
 			model_author = "Beherith",
 			subfolder = "corevehicles/t2",
 			techlevel = 2,
@@ -154,7 +151,6 @@ return {
 				weapontype = "StarburstLauncher",
 				weaponvelocity = 415,
 				customparams = {
-					bar_model = "corvrocket.s3o",
 					expl_light_color = "1 0.5 0.05",
 					expl_light_life_mult = 1.3,
 					expl_light_mult = 1.25,

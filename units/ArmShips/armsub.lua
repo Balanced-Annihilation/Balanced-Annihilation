@@ -142,9 +142,7 @@ return {
 				weapontimer = 3.25,
 				weapontype = "TorpedoLauncher",
 				weaponvelocity = 160,
-				customparams = {
-					bar_model = "torpedo.s3o",
-				},
+				customparams = {},
 				damage = {
 					commanders = 600,
 					default = 650,

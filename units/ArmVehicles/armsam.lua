@@ -158,9 +158,7 @@ return {
 				weapontimer = 5,
 				weapontype = "MissileLauncher",
 				weaponvelocity = 670,
-				customparams = {
-					bar_model = "cormissile.s3o",
-				},
+				customparams = {},
 				damage = {
 					bombers = 80,
 					commanders = 22,

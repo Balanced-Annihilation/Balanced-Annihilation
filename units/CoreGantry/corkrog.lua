@@ -170,7 +170,7 @@ return {
 				firestarter = 90,
 				impulseboost = 0,
 				impulsefactor = 0,
-				laserflaresize = 7.5,
+				laserflaresize = 8.25,
 				name = "KrogHeatRay",
 				noselfdamage = true,
 				proximitypriority = -1,
@@ -235,7 +235,6 @@ return {
 				weapontype = "StarburstLauncher",
 				weaponvelocity = 2600,
 				customparams = {
-					bar_model = "corkbmissl1.s3o",
 					expl_light_color = "1 0.5 0.05",
 					expl_light_heat_radius_mult = 1.25,
 					expl_light_life_mult = 1.3,

@@ -39,7 +39,6 @@ return {
 			model_author = "Mr Bob",
 			subfolder = "coreaircraft/t2",
 			techlevel = 2,
-			wingsurface = 0.8,
 		},
 		sfxtypes = {
 			crashexplosiongenerators = {
@@ -92,7 +91,7 @@ return {
 				firestarter = 90,
 				impulseboost = 0,
 				impulsefactor = 0,
-				laserflaresize = 5.5,
+				laserflaresize = 6.05,
 				name = "HighEnergyLaser",
 				noselfdamage = true,
 				proximitypriority = 1,
@@ -133,7 +132,7 @@ return {
 				firestarter = 90,
 				impulseboost = 0,
 				impulsefactor = 0,
-				laserflaresize = 7,
+				laserflaresize = 7.7,
 				name = "High energy a2g laser",
 				noselfdamage = true,
 				range = 525,

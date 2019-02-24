@@ -48,7 +48,6 @@ return {
 			model_author = "FireStorm",
 			subfolder = "armaircraft/t2",
 			techlevel = 2,
-			wingsurface = 0.8,
 		},
 		sfxtypes = {
 			crashexplosiongenerators = {
@@ -122,7 +121,6 @@ return {
 				weapontype = "MissileLauncher",
 				weaponvelocity = 420,
 				customparams = {
-					bar_model = "catapultmissile.s3o",
 					expl_light_life_mult = 1.7,
 					expl_light_mult = 1.3,
 					expl_light_radius_mult = 1.3,
@@ -170,7 +168,6 @@ return {
 				weapontype = "MissileLauncher",
 				weaponvelocity = 0,
 				customparams = {
-					bar_model = "catapultmissile.s3o",
 					expl_light_color = "1 0.9 0.7",
 					expl_light_life_mult = 1.7,
 					expl_light_mult = 1.3,

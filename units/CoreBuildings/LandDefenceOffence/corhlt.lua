@@ -37,8 +37,6 @@ return {
 		usebuildinggrounddecal = true,
 		yardmap = "oooo",
 		customparams = {
-			bar_collisionvolumeoffsets = "0 -8 0",
-			bar_collisionvolumescales = "38 90 38",
 			model_author = "Mr Bob",
 			removewait = true,
 			subfolder = "corebuildings/landdefenceoffence",
@@ -131,7 +129,7 @@ return {
 				impactonly = 1,
 				impulseboost = 0,
 				impulsefactor = 0,
-				laserflaresize = 8,
+				laserflaresize = 8.8,
 				name = "High energy g2g laser",
 				noselfdamage = true,
 				range = 620,

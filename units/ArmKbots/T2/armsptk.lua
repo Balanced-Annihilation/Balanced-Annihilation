@@ -153,7 +153,6 @@ return {
 				weaponvelocity = 450,
 				wobble = 2500,
 				customparams = {
-					bar_model = "cormissile2.s3o",
 					light_mult = "0.66",
 				},
 				damage = {

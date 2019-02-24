@@ -36,8 +36,6 @@ return {
 		usebuildinggrounddecal = true,
 		yardmap = "ooooooooooooooooooooooooo",
 		customparams = {
-			bar_buildinggrounddecalsizex = 7,
-			bar_buildinggrounddecalsizey = 7,
 			model_author = "Mr Bob",
 			removestop = true,
 			removewait = true,

@@ -78,9 +78,6 @@ return {
 		},
 		customparams = {
 			area_mex_def = "cormoho",
-			bar_trackstrength = 6,
-			bar_tracktype = "corwidetracks",
-			bar_trackwidth = 28,
 			model_author = "Mr Bob",
 			subfolder = "corevehicles/t2",
 			techlevel = 2,

@@ -42,8 +42,6 @@ return {
 		stealth = true,
 		waterline = 1,
 		customparams = {
-			bar_collisionvolumescales = "18 5 18",
-			bar_yardmap = "w",
 			detonaterange = "64",
 			model_author = "Beherith",
 			removestop = true,

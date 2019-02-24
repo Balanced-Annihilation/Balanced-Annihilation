@@ -48,10 +48,6 @@ return {
 			[6] = "corcrash",
 		},
 		customparams = {
-			bar_buildinggrounddecalsizex = 5.85,
-			bar_buildinggrounddecalsizey = 5.85,
-			bar_collisionvolumeoffsets = "4 0 2",
-			bar_collisionvolumescales = "93 92 87",
 			model_author = "Mr Bob",
 			subfolder = "corebuildings/landfactories",
 		},

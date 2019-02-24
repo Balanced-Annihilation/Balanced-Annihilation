@@ -153,7 +153,6 @@ return {
 				weapontype = "StarburstLauncher",
 				weaponvelocity = 380,
 				customparams = {
-					bar_model = "corshiprocket.s3o",
 					expl_light_color = "1 0.5 0.05",
 					expl_light_heat_radius_mult = 2.2,
 					expl_light_life_mult = 1.3,

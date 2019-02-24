@@ -135,7 +135,7 @@ return {
 				impulseboost = 0,
 				impulsefactor = 0,
 				largebeamlaser = true,
-				laserflaresize = 5,
+				laserflaresize = 5.5,
 				name = "Heavy long-range g2g tachyon accelerator beam",
 				noselfdamage = true,
 				range = 1400,

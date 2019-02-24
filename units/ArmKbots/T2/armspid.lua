@@ -131,7 +131,7 @@ return {
 				impactonly = 1,
 				impulseboost = 0,
 				impulsefactor = 0,
-				laserflaresize = 8,
+				laserflaresize = 8.8,
 				name = "Close-quarters light EMP laser",
 				noselfdamage = true,
 				paralyzer = true,

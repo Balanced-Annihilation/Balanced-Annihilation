@@ -44,10 +44,6 @@ return {
 		turninplacespeedlimit = 1.7457,
 		turnrate = 487,
 		customparams = {
-			bar_trackoffset = 6,
-			bar_trackstrength = 5,
-			bar_tracktype = "corwidetracks",
-			bar_trackwidth = 30,
 			basename = "base",
 			cannon1name = "barrel1",
 			cannon2name = "barrel2",

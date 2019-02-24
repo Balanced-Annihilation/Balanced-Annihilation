@@ -123,9 +123,7 @@ return {
 				weapontimer = 3,
 				weapontype = "TorpedoLauncher",
 				weaponvelocity = 135,
-				customparams = {
-					bar_model = "cortorpedo.s3o",
-				},
+				customparams = {},
 				damage = {
 					default = 250,
 				},
@@ -144,7 +142,7 @@ return {
 				impactonly = 1,
 				impulseboost = 0,
 				impulsefactor = 0,
-				laserflaresize = 7,
+				laserflaresize = 7.7,
 				name = "HighEnergyLaser",
 				noselfdamage = true,
 				range = 300,

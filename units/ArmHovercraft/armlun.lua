@@ -177,9 +177,7 @@ return {
 				weapontimer = 3,
 				weapontype = "MissileLauncher",
 				weaponvelocity = 230,
-				customparams = {
-					bar_model = "catapultmissile.s3o",
-				},
+				customparams = {},
 				damage = {
 					bombers = 35,
 					default = 330,

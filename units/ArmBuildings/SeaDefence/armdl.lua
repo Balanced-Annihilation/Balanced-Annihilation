@@ -145,9 +145,7 @@ return {
 				waterweapon = true,
 				weapontype = "TorpedoLauncher",
 				weaponvelocity = 200,
-				customparams = {
-					bar_model = "cordepthcharge.s3o",
-				},
+				customparams = {},
 				damage = {
 					commanders = 400,
 					default = 225,

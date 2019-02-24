@@ -153,7 +153,6 @@ return {
 				weaponvelocity = 530,
 				wobble = 2000,
 				customparams = {
-					bar_model = "catapultmissile.s3o",
 					expl_light_color = "1 0.33 0.04",
 					expl_light_heat_radius_mult = 2.6,
 					expl_light_life_mult = 1.05,

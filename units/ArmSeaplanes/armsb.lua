@@ -114,7 +114,6 @@ return {
 				soundstart = "bombrel",
 				weapontype = "AircraftBomb",
 				customparams = {
-					bar_model = "airbombsea.s3o",
 					expl_light_color = "1 0.5 0.05",
 					expl_light_heat_radius_mult = 1.3,
 				},

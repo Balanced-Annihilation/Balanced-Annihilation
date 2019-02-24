@@ -113,7 +113,6 @@ return {
 				weapontype = "MissileLauncher",
 				weaponvelocity = 900,
 				customparams = {
-					bar_model = "cormissile.s3o",
 					light_skip = true,
 				},
 				damage = {

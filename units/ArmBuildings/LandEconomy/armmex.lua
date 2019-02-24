@@ -41,7 +41,6 @@ return {
 		usebuildinggrounddecal = true,
 		yardmap = "ooooooooo",
 		customparams = {
-			bar_collisionvolumescales = "48 80 48",
 			cvbuildable = true,
 			metal_extractor = 1,
 			model_author = "Cremuss",

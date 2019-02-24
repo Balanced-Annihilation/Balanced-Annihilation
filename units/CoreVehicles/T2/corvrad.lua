@@ -43,9 +43,6 @@ return {
 		turninplacespeedlimit = 0.825,
 		turnrate = 210,
 		customparams = {
-			bar_trackstrength = 10,
-			bar_tracktype = "corwidetracks",
-			bar_trackwidth = 23,
 			model_author = "Beherith",
 			subfolder = "corevehicles/t2",
 			techlevel = 2,

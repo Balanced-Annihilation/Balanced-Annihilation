@@ -35,7 +35,6 @@ return {
 		waterline = 3,
 		yardmap = "wwwwwwwwwwwwwwww",
 		customparams = {
-			bar_collisionvolumeoffsets = "0 15 0",
 			model_author = "FireStorm",
 			removewait = true,
 			subfolder = "armbuildings/seadefence",
@@ -106,7 +105,7 @@ return {
 				impactonly = 1,
 				impulseboost = 0,
 				impulsefactor = 0,
-				laserflaresize = 7,
+				laserflaresize = 7.7,
 				name = "HighEnergyLaser",
 				noselfdamage = true,
 				range = 630,

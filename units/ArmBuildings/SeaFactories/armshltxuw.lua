@@ -48,7 +48,6 @@ return {
 			[3] = "armcroc",
 		},
 		customparams = {
-			bar_script = "BAR/bar_armshltx.cob",
 			model_author = "Cremuss",
 			subfolder = "armbuildings/seafactories",
 			techlevel = 3,

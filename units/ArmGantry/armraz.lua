@@ -123,7 +123,7 @@ return {
 				firestarter = 10,
 				impulseboost = 0,
 				impulsefactor = 0,
-				laserflaresize = 8,
+				laserflaresize = 8.8,
 				name = "Rapid-fire close quarters g2g armor-piercing laser",
 				noselfdamage = true,
 				proximitypriority = 1.5,

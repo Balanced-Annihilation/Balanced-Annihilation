@@ -204,7 +204,6 @@ return {
 				weapontype = "MissileLauncher",
 				weaponvelocity = 1000,
 				customparams = {
-					bar_model = "cormissile.s3o",
 					expl_light_color = "1 0.4 0.5",
 					light_color = "1 0.5 0.6",
 					light_skip = true,
@@ -253,7 +252,6 @@ return {
 				weapontype = "MissileLauncher",
 				weaponvelocity = 900,
 				customparams = {
-					bar_model = "cormissile.s3o",
 					expl_light_color = "1 0.4 0.5",
 					expl_light_mult = 0.4,
 					expl_light_radius_mult = 0.66,

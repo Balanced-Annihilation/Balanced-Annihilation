@@ -128,7 +128,6 @@ return {
 				weapontype = "MissileLauncher",
 				weaponvelocity = 900,
 				customparams = {
-					bar_model = "cormissile.s3o",
 					expl_light_color = "1 0.4 0.5",
 					expl_light_mult = 0.4,
 					expl_light_radius_mult = 0.66,
@@ -179,7 +178,6 @@ return {
 				weapontype = "MissileLauncher",
 				weaponvelocity = 820,
 				customparams = {
-					bar_model = "cormissile.s3o",
 					expl_light_color = "1 0.4 0.5",
 					expl_light_mult = 0.4,
 					expl_light_radius_mult = 0.66,
@@ -262,9 +260,7 @@ return {
 				weapontimer = 5,
 				weapontype = "MissileLauncher",
 				weaponvelocity = 600,
-				customparams = {
-					bar_model = "cormissile2.s3o",
-				},
+				customparams = {},
 				damage = {
 					bombers = 150,
 					default = 120,

@@ -153,9 +153,7 @@ return {
 				weapontimer = 7,
 				weapontype = "Cannon",
 				weaponvelocity = 950,
-				customparams = {
-					bar_model = "cormissile.s3o",
-				},
+				customparams = {},
 				damage = {
 					default = 125,
 					subs = 5,
@@ -175,7 +173,7 @@ return {
 				impactonly = 1,
 				impulseboost = 0,
 				impulsefactor = 0,
-				laserflaresize = 11,
+				laserflaresize = 12.1,
 				name = "HighEnergyLaser",
 				noselfdamage = true,
 				range = 830,

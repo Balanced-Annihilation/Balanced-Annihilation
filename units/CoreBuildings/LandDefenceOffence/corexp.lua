@@ -138,7 +138,7 @@ return {
 				impactonly = 1,
 				impulseboost = 0,
 				impulsefactor = 0,
-				laserflaresize = 7,
+				laserflaresize = 7.7,
 				name = "Light close-quarters g2g laser turret",
 				noselfdamage = true,
 				proximitypriority = 3,

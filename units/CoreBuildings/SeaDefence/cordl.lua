@@ -37,8 +37,6 @@ return {
 		usebuildinggrounddecal = true,
 		yardmap = "oooo",
 		customparams = {
-			bar_collisionvolumeoffsets = "0 3 0",
-			bar_collisionvolumescales = "38 52 38",
 			model_author = "Mr Bob",
 			removewait = true,
 			subfolder = "corebuildings/seadefence",
@@ -147,9 +145,7 @@ return {
 				waterweapon = true,
 				weapontype = "TorpedoLauncher",
 				weaponvelocity = 200,
-				customparams = {
-					bar_model = "cordepthcharge.s3o",
-				},
+				customparams = {},
 				damage = {
 					commanders = 400,
 					default = 225,

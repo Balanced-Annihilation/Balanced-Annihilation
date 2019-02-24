@@ -48,9 +48,6 @@ return {
 		turnrate = 215.60001,
 		unloadspread = 3,
 		customparams = {
-			bar_trackoffset = -10,
-			bar_trackstrength = 10,
-			bar_tracktype = "corwidetracks",
 			model_author = "Mr Bob",
 			subfolder = "corevehicles/t2",
 			techlevel = 2,

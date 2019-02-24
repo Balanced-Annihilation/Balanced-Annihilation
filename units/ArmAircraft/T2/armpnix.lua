@@ -48,7 +48,6 @@ return {
 			model_author = "FireStorm",
 			subfolder = "armaircraft/t2",
 			techlevel = 2,
-			wingsurface = 0.4,
 		},
 		sfxtypes = {
 			crashexplosiongenerators = {
@@ -113,7 +112,6 @@ return {
 				soundstart = "bombrel",
 				weapontype = "AircraftBomb",
 				customparams = {
-					bar_model = "airbombt2.s3o",
 					expl_light_color = "1 0.5 0.05",
 					expl_light_heat_radius_mult = 1.3,
 				},

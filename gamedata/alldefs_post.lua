@@ -69,6 +69,7 @@ end
 
 
 function UnitDef_Post(name, uDef)
+
     -- vehicles
     --if uDef.category and string.find(uDef.category, "TANK") then
     --	if uDef.turnrate ~= nil then
@@ -193,11 +194,6 @@ function WeaponDef_Post(name, wDef)
 			wDef.beamttl = 3
 			wDef.beamdecay = 0.7
 		end
-	end
-
-	--Flare texture has been scaled down to half, so correcting the result of that a bit
-	if wDef ~= nil and wDef.laserflaresize ~= nil and wDef.laserflaresize > 0 then
-		wDef.laserflaresize = wDef.laserflaresize * 1.1
 	end
 end
 

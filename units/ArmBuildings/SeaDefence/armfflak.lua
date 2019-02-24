@@ -31,8 +31,6 @@ return {
 		waterline = 0.3,
 		yardmap = "wwwwwwwww",
 		customparams = {
-			bar_collisionvolumeoffsets = "0 -10 0",
-			bar_collisionvolumescales = "42 64 42",
 			model_author = "FireStorm",
 			prioritytarget = "air",
 			removewait = true,

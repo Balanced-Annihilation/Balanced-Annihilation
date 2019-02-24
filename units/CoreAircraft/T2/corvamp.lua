@@ -45,7 +45,6 @@ return {
 			model_author = "Mr Bob",
 			subfolder = "coreaircraft/t2",
 			techlevel = 2,
-			wingsurface = 0.55,
 		},
 		sfxtypes = {
 			pieceexplosiongenerators = {
@@ -113,7 +112,6 @@ return {
 				weapontype = "MissileLauncher",
 				weaponvelocity = 935,
 				customparams = {
-					bar_model = "cormissile.s3o",
 					light_skip = true,
 				},
 				damage = {

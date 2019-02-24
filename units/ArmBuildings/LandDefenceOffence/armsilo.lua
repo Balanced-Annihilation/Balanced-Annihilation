@@ -150,7 +150,6 @@ return {
 				weapontype = "StarburstLauncher",
 				weaponvelocity = 1600,
 				customparams = {
-					bar_model = "crblmssl.s3o",
 					expl_light_color = "1 0.85 0.55",
 					expl_light_life_mult = 2.4,
 					expl_light_mult = 1.25,

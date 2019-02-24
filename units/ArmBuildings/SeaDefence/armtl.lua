@@ -31,7 +31,6 @@ return {
 		waterline = 13,
 		yardmap = "wwwwwwwww",
 		customparams = {
-			bar_waterline = 0,
 			model_author = "FireStorm",
 			removewait = true,
 			subfolder = "armbuildings/seadefence",
@@ -116,9 +115,7 @@ return {
 				weapontimer = 3,
 				weapontype = "TorpedoLauncher",
 				weaponvelocity = 280,
-				customparams = {
-					bar_model = "cortorpedo.s3o",
-				},
+				customparams = {},
 				damage = {
 					commanders = 375,
 					default = 278.4375,

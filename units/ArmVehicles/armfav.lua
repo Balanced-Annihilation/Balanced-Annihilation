@@ -42,7 +42,6 @@ return {
 		turninplacespeedlimit = 4.224,
 		turnrate = 653,
 		customparams = {
-			bar_leavetracks = false,
 			basename = "base",
 			cannon1name = "flare1",
 			cannon2name = "flare2",
@@ -149,7 +148,7 @@ return {
 				impactonly = 1,
 				impulseboost = 0,
 				impulsefactor = 0,
-				laserflaresize = 3.5,
+				laserflaresize = 3.85,
 				name = "Light close-quarters laser",
 				noselfdamage = true,
 				range = 180,

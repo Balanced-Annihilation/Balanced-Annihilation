@@ -39,8 +39,6 @@ return {
 		usebuildinggrounddecal = true,
 		yardmap = "oooooooooooooooo",
 		customparams = {
-			bar_buildinggrounddecalsizex = 5,
-			bar_buildinggrounddecalsizey = 5,
 			model_author = "FireStorm",
 			removestop = true,
 			removewait = true,
@@ -158,7 +156,6 @@ return {
 				weapontype = "StarburstLauncher",
 				weaponvelocity = 6000,
 				customparams = {
-					bar_model = "fmdmissile.s3o",
 					expl_light_color = "1 0.5 0.75",
 					expl_light_life_mult = 1.3,
 					expl_light_mult = 1.3,

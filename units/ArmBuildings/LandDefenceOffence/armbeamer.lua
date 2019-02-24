@@ -130,7 +130,7 @@ return {
 				impactonly = 1,
 				impulseboost = 0,
 				impulsefactor = 0,
-				laserflaresize = 8.5,
+				laserflaresize = 9.35,
 				name = "Anti-swarm constant wave g2g laser",
 				noselfdamage = true,
 				range = 475,

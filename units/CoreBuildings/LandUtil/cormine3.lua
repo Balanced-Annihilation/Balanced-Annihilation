@@ -41,10 +41,6 @@ return {
 		sightdistance = 83.2,
 		stealth = true,
 		customparams = {
-			bar_collisionvolumeoffsets = "0 -2 0",
-			bar_collisionvolumescales = "15 6 15",
-			bar_collisionvolumetype = "Ell",
-			bar_yardmap = "y",
 			detonaterange = "64",
 			model_author = "Beherith",
 			removestop = true,

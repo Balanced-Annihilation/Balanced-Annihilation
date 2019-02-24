@@ -51,7 +51,6 @@ return {
 			model_author = "FireStorm",
 			subfolder = "armaircraft/t2",
 			techlevel = 2,
-			wingsurface = 0.25,
 		},
 		sfxtypes = {
 			crashexplosiongenerators = {
@@ -120,7 +119,6 @@ return {
 				tolerance = 7000,
 				weapontype = "AircraftBomb",
 				customparams = {
-					bar_model = "airbomb.s3o",
 					expl_light_color = "0.5 0.5 1",
 					expl_light_life_mult = 1.3,
 					expl_light_mult = 1,

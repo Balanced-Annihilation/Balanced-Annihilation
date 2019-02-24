@@ -45,10 +45,6 @@ return {
 		turninplacespeedlimit = 1.188,
 		turnrate = 520.29999,
 		customparams = {
-			bar_trackoffset = 6,
-			bar_trackstrength = 5,
-			bar_tracktype = "corwidetracks",
-			bar_trackwidth = 34,
 			model_author = "Beherith",
 			subfolder = "corevehicles/t2",
 			techlevel = 2,
@@ -166,7 +162,6 @@ return {
 				weapontype = "StarburstLauncher",
 				weaponvelocity = 6000,
 				customparams = {
-					bar_model = "fmdmissile.s3o",
 					expl_light_color = "1 0.5 0.75",
 					expl_light_life_mult = 1.3,
 					expl_light_mult = 1.3,

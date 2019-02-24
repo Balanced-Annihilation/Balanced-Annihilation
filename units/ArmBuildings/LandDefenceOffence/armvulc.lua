@@ -37,8 +37,6 @@ return {
 		usepiececollisionvolumes = 1,
 		yardmap = "oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo",
 		customparams = {
-			bar_buildinggrounddecalsizex = 7.5,
-			bar_buildinggrounddecalsizey = 7.5,
 			model_author = "Beherith",
 			removewait = true,
 			subfolder = "armbuildings/landdefenceoffence",

@@ -51,8 +51,6 @@ return {
 			[10] = "armliche",
 		},
 		customparams = {
-			bar_collisionvolumeoffsets = "-8 4 0",
-			bar_collisionvolumescales = "130 70 70",
 			model_author = "Cremuss",
 			subfolder = "armbuildings/landfactories",
 			techlevel = 2,

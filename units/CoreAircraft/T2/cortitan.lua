@@ -47,7 +47,6 @@ return {
 			model_author = "Mr Bob",
 			subfolder = "coreaircraft/t2",
 			techlevel = 2,
-			wingsurface = 0.4,
 		},
 		sfxtypes = {
 			crashexplosiongenerators = {
@@ -115,9 +114,7 @@ return {
 				weapontimer = 5,
 				weapontype = "TorpedoLauncher",
 				weaponvelocity = 200,
-				customparams = {
-					bar_model = "cortorpedo.s3o",
-				},
+				customparams = {},
 				damage = {
 					default = 1500,
 				},

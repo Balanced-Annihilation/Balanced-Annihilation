@@ -148,7 +148,6 @@ return {
 				weapontype = "MissileLauncher",
 				weaponvelocity = 450,
 				customparams = {
-					bar_model = "cormissile.s3o",
 					expl_light_color = "1 0.4 0.5",
 					light_color = "1 0.5 0.6",
 					light_skip = true,
@@ -196,7 +195,6 @@ return {
 				weapontype = "Cannon",
 				weaponvelocity = 400,
 				customparams = {
-					bar_model = "corshiprocket.s3o",
 					cegtag = "missiletrailcorroyspecial",
 					def = "armmship_rocket_split",
 					expl_light_color = "1 0.5 0.05",
@@ -258,7 +256,6 @@ return {
 				weapontype = "Cannon",
 				weaponvelocity = 400,
 				customparams = {
-					bar_model = "airbomb.s3o",
 					expl_light_color = "1 0.5 0.05",
 					expl_light_heat_radius_mult = 3,
 					expl_light_life_mult = 1.25,

@@ -60,11 +60,6 @@ return {
 			[17] = "cormando",
 		},
 		customparams = {
-			bar_buildinggrounddecalsizex = 10,
-			bar_buildinggrounddecalsizey = 9,
-			bar_collisionvolumeoffsets = "0 13 8",
-			bar_collisionvolumescales = "101 51 90",
-			bar_yardmap = "ooooooo ooooooo ooooooo ccccccc ccccccc ccccccc",
 			model_author = "Mr Bob",
 			subfolder = "corebuildings/landfactories",
 			techlevel = 2,

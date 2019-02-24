@@ -128,7 +128,7 @@ return {
 				impactonly = 1,
 				impulseboost = 0,
 				impulsefactor = 0,
-				laserflaresize = 7,
+				laserflaresize = 7.7,
 				name = "Light g2g laser turret",
 				noselfdamage = true,
 				range = 430,

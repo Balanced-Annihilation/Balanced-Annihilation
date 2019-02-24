@@ -43,8 +43,6 @@ return {
 		usebuildinggrounddecal = true,
 		yardmap = "oooo",
 		customparams = {
-			bar_collisionvolumeoffsets = "0 40 0",
-			bar_collisionvolumescales = "35 98 35",
 			model_author = "Mr Bob",
 			removestop = true,
 			removewait = true,

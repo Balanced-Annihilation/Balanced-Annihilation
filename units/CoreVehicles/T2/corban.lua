@@ -45,10 +45,6 @@ return {
 		turninplacespeedlimit = 1.2573,
 		turnrate = 300,
 		customparams = {
-			bar_trackoffset = 8,
-			bar_trackstrength = 10,
-			bar_tracktype = "corwidetracks",
-			bar_trackwidth = 34,
 			basename = "base",
 			cannon1name = "missile1",
 			cannon2name = "missile2",
@@ -179,7 +175,6 @@ return {
 				weapontype = "MissileLauncher",
 				weaponvelocity = 650,
 				customparams = {
-					bar_model = "banishermissile.s3o",
 					expl_light_color = "1 0.5 0.05",
 					expl_light_radius_mult = 1.1,
 					light_color = "1 0.6 0.05",

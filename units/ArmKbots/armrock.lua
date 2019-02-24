@@ -144,9 +144,7 @@ return {
 				weaponacceleration = 120,
 				weapontype = "MissileLauncher",
 				weaponvelocity = 190,
-				customparams = {
-					bar_model = "cormissile2.s3o",
-				},
+				customparams = {},
 				damage = {
 					default = 157,
 					subs = 5,

@@ -47,7 +47,6 @@ return {
 			[6] = "armthovr",
 		},
 		customparams = {
-			bar_collisionvolumescales = "100 40 90",
 			model_author = "FireStorm",
 			subfolder = "armbuildings/landfactories",
 		},

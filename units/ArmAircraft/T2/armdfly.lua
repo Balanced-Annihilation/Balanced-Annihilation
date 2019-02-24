@@ -49,7 +49,6 @@ return {
 			paralyzemultiplier = 0.025,
 			subfolder = "armaircraft/t2",
 			techlevel = 2,
-			wingsurface = 0.35,
 		},
 		sfxtypes = {
 			crashexplosiongenerators = {
@@ -104,7 +103,7 @@ return {
 				explosiongenerator = "custom:laserhit-medium-blue",
 				impulseboost = 0,
 				impulsefactor = 0,
-				laserflaresize = 5.5,
+				laserflaresize = 6.05,
 				name = "Heavy a2g EMP beam",
 				noselfdamage = true,
 				paralyzer = true,

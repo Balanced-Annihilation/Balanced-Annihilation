@@ -49,7 +49,6 @@ return {
 			[4] = "corparrow",
 		},
 		customparams = {
-			bar_script = "BAR/bar_corgant.cob",
 			model_author = "Cremuss",
 			subfolder = "corebuildings/seafactories",
 			techlevel = 3,
