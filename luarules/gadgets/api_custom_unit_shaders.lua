@@ -53,7 +53,7 @@ VFS.Include("luarules/utilities/unitrendering.lua", nil, VFS.ZIP)
 
 local shadows = false
 local advShading = false
-local normalmapping = (((Spring.GetModOptions and (tonumber(Spring.GetModOptions().barmodels) or 0) ~= 0) or UnitDefNames["armcom_bar"])  and  tonumber(Spring.GetConfigInt("NormalMapping",1) or 1) == 1)
+local normalmapping = false
 local treewind = tonumber(Spring.GetConfigInt("TreeWind",1) or 1) == 1
 
 local unitRendering = {
@@ -727,10 +727,8 @@ function gadget:Initialize()
 
   --// insert synced actions
 
-  gadgetHandler:AddSyncAction("unitshaders_reverse", UnitReverseBuilt)
-  if (Spring.GetModOptions and (tonumber(Spring.GetModOptions().barmodels) or 0) ~= 0) or UnitDefNames["armcom_bar"] then
-    gadgetHandler:AddChatAction("normalmapping", ToggleNormalmapping)
-  end
+  --gadgetHandler:AddSyncAction("unitshaders_reverse", UnitReverseBuilt)
+  --gadgetHandler:AddChatAction("normalmapping", ToggleNormalmapping)
   gadgetHandler:AddChatAction("treewind", ToggleTreeWind)
 end
 

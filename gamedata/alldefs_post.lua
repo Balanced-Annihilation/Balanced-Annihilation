@@ -24,14 +24,14 @@ SaveDefsToCustomParams = false
 -------------------------
 
 -- process unitdef
-local vehAdditionalTurnrate = 0
-local vehTurnrateMultiplier = 1.0
-
-local vehAdditionalAcceleration = 0.00
-local vehAccelerationMultiplier = 1
-
-local vehAdditionalVelocity = 0
-local vehVelocityMultiplier = 1
+--local vehAdditionalTurnrate = 0
+--local vehTurnrateMultiplier = 1.0
+--
+--local vehAdditionalAcceleration = 0.00
+--local vehAccelerationMultiplier = 1
+--
+--local vehAdditionalVelocity = 0
+--local vehVelocityMultiplier = 1
 
 
 
@@ -67,155 +67,8 @@ local function Split(s, separator)
 	return results
 end
 
-local oldUnitName = {	-- mostly duplicates
-	armdecom = 'armcom',
-	cordecom = 'corcom',
-	armdf = 'armfus',
-	corgantuw = 'corgant',
-	armshltxuw = 'armshltx',
-}
-
-
-function getBarSound(name)
-	if name == nil or name == '' then
-		return name
-	end
-	local filename = 'bar_'..string.gsub(name, ".wav", "")
-	if VFS.FileExists('sounds/BAR/ui/'..filename..".wav") then
-		return filename
-	elseif VFS.FileExists('sounds/BAR/replies/'..filename..".wav") then
-		return filename
-	elseif VFS.FileExists('sounds/BAR/weapons/'..filename..".wav") then
-		return filename
-	else
-		return name
-	end
-end
-
 
 function UnitDef_Post(name, uDef)
-	-- load BAR stuff
-	if (Spring.GetModOptions and (tonumber(Spring.GetModOptions().barmodels) or 0) ~= 0 or string.find(name, '_bar')) and not ((Spring.GetModOptions and (Spring.GetModOptions().unba or "disabled") == "enabled") and (name == "armcom" or name == "corcom" or name == "armcom_bar" or name == "corcom_bar"))  then
-		if string.find(name, '_bar') then
-			name = string.gsub(name, '_bar', '')
-			if uDef.buildoptions then
-				for k, v in pairs(uDef.buildoptions) do
-					if UnitDefs[v..'_bar'] then
-						uDef.buildoptions[k] = v..'_bar'
-					end
-				end
-			end
-		end
-		-- BAR models
-		local barUnitName = oldUnitName[name] and oldUnitName[name] or name
-		if VFS.FileExists('objects3d/BAR/'..uDef.objectname..'.s3o') or VFS.FileExists('objects3d/BAR/'..barUnitName..'.s3o') then
-			local object = barUnitName
-			if VFS.FileExists('objects3d/BAR/'..uDef.objectname..'.s3o') then
-				object = uDef.objectname
-			end
-			uDef.objectname = 'BAR/'..object..'.s3o'
-			if uDef.featuredefs ~= nil then
-				for fDefID,featureDef in pairs(uDef.featuredefs) do
-					if featureDef.object ~= nil then
-						local object = string.gsub(featureDef.object, ".3do", "")
-						if VFS.FileExists('objects3d/BAR/'..object:lower()..".s3o") then
-							uDef.featuredefs[fDefID].object = 'BAR/'..object:lower()..".s3o"
-						end
-					end
-				end
-			end
-            if uDef.script ~= nil and VFS.FileExists('scripts/BAR/bar_'..uDef.script) then
-                uDef.script = 'BAR/'..uDef.script
-            elseif VFS.FileExists('scripts/BAR/bar_'..object..'.lua') then
-                uDef.script = 'BAR/bar_'..object..'.lua'
-			elseif VFS.FileExists('scripts/BAR/bar_'..object..'.cob') then
-				uDef.script = 'BAR/bar_'..object..'.cob'
-			end
-
-			if uDef.buildinggrounddecaltype ~= nil then
-				local decalname = oldUnitName[name] and string.gsub(uDef.buildinggrounddecaltype, name, object) or uDef.buildinggrounddecaltype
-				decalname = string.gsub(decalname, 'decals/', '')
-				if VFS.FileExists('unittextures/decals/BAR/'..decalname) then
-					uDef.buildinggrounddecaltype = 'decals/BAR/'..decalname
-			 	end
-			end
-			if uDef.buildpic ~= nil then
-				local buildpicname = oldUnitName[name] and string.gsub(uDef.buildpic, name, object) or uDef.buildpic
-				if VFS.FileExists('unitpics/BAR/'..buildpicname) then
-					uDef.buildpic = 'BAR/'..buildpicname
-				end
-			end
-
-			if string.find(name, 'arm') or string.find(name, 'cor') or string.find(name, 'chicken') then
-				uDef.customparams.normalmaps = "yes"
-				if string.find(name, 'arm') then
-					uDef.customparams.normaltex = "unittextures/Arm_normals.dds"
-				elseif string.find(name, 'cor') then
-					uDef.customparams.normaltex = "unittextures/Core_normal.dds"
-				elseif string.find(name, 'chicken') then
-					uDef.customparams.normaltex = "unittextures/chicken_normal.tga"
-				end
-			end
-
-			for paramName, paramValue in pairs(uDef.customparams) do
-				if paramName:sub(1,4) == "bar_" then
-					local param = string.sub(paramName, 5)
-					if tonumber(param) then
-						uDef[param] = tonumber(paramValue)
-					else
-						uDef[param] = paramValue
-					end
-				end
-			end
-		end
-
-		-- BAR heap models
-		if uDef.featuredefs then
-			local faction = 'cor'
-			if string.find(name, 'arm') then
-				faction = 'arm'
-			end
-			if uDef.featuredefs.heap and uDef.featuredefs.heap.object and VFS.FileExists('objects3d/BAR/'..faction..uDef.featuredefs.heap.object..".s3o") then
-				uDef.featuredefs.heap.object = 'BAR/'..faction..uDef.featuredefs.heap.object..".s3o"
-			end
-
-			for fname, params in pairs(uDef.featuredefs) do
-				if params.object then
-					if VFS.FileExists('objects3d/'..params.object) then
-
-					elseif VFS.FileExists('objects3d/'..params.object..".3do") then
-
-					elseif VFS.FileExists('objects3d/'..params.object..".s3o") then
-						uDef.featuredefs[fname].object = params.object..'.s3o'
-					else
-						Spring.Echo('3d object does not exist:  unit: '..name..'   featurename: '..fname..'   object: '..uDef.featuredefs[fname].object)
-						uDef.featuredefs[fname].object = ''
-					end
-				end
-			end
-		end
-
-		-- BAR sounds
-		if (tonumber(Spring.GetModOptions().barsounds) or 0) ~= 0 then
-			if uDef.sounds and type(uDef.sounds) == 'table' then
-				for sound, soundParams in pairs(uDef.sounds) do
-					if type(soundParams) == 'string' then
-						uDef.sounds[sound] = getBarSound(soundParams)
-					elseif type(soundParams) == 'table' then
-						for i, value in pairs(soundParams) do
-							if type(value) == 'string' then
-								uDef.sounds[sound][value] = getBarSound(value)
-							elseif type(value) == 'table' then
-								uDef.sounds[sound][value].file = getBarSound(value.file)
-							end
-						end
-					end
-				end
-			end
-		end
-	end
-
-
     -- vehicles
     --if uDef.category and string.find(uDef.category, "TANK") then
     --	if uDef.turnrate ~= nil then
@@ -345,52 +198,6 @@ function WeaponDef_Post(name, wDef)
 	--Flare texture has been scaled down to half, so correcting the result of that a bit
 	if wDef ~= nil and wDef.laserflaresize ~= nil and wDef.laserflaresize > 0 then
 		wDef.laserflaresize = wDef.laserflaresize * 1.1
-	end
-
-
-	if Spring.GetModOptions and (tonumber(Spring.GetModOptions().barmodels) or 0) ~= 0 or string.find(name, '_bar') then
-		if string.find(name, '_bar') then
-			name = string.gsub(name, '_bar', '')
-		end
-
-		-- load BAR weapon model
-		if wDef.customparams and wDef.customparams.bar_model then
-			wDef.model = wDef.customparams.bar_model
-		end
-
-		-- load BAR alternative sound
-		if (tonumber(Spring.GetModOptions().barsounds) or 0) ~= 0 then
-			if wDef.soundstart ~= '' then
-				wDef.soundstart = getBarSound(wDef.soundstart)
-			end
-			if wDef.soundhit ~= '' then
-				wDef.soundhit = getBarSound(wDef.soundhit)
-			end
-			if wDef.soundhitdry ~= '' then
-				wDef.soundhitdry = getBarSound(wDef.soundhitdry)
-			end
-			if wDef.soundhitwet ~= '' then
-				wDef.soundhitwet = getBarSound(wDef.soundhitwet)
-			end
-
-			-- load bar alternative defs
-			if wDef.customparams then
-				for paramName, paramValue in pairs(wDef.customparams) do
-					if paramName:sub(1,4) == "bar_" then
-						local param = string.sub(paramName, 5)
-
-						--if param == 'model' and VFS.FileExists('objects3d/'..paramValue) then
-						--	wDef.model = 'objects3d/bar_'..paramValue
-						--end
-						if tonumber(param) then
-							wDef[param] = tonumber(paramValue)
-						else
-							wDef[param] = paramValue
-						end
-					end
-				end
-			end
-		end
 	end
 end
 
