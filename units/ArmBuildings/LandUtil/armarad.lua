@@ -14,7 +14,7 @@ return {
 		buildtime = 11800,
 		canattack = false,
 		canrepeat = false,
-		category = "ALL NOTLAND NOTSUB NOWEAPON NOTSHIP NOTAIR NOTHOVER SURFACE",
+		category = "ALL NOTLAND NOTSUB NOWEAPON NOTSHIP NOTAIR NOTHOVER SURFACE EMPABLE",
 		corpse = "DEAD",
 		description = "Long-Range Radar",
 		energymake = 18,
@@ -41,8 +41,6 @@ return {
 		usepiececollisionvolumes = 1,
 		yardmap = "oooo",
 		customparams = {
-			bar_buildinggrounddecalsizex = 3.6,
-			bar_buildinggrounddecalsizey = 3.6,
 			model_author = "Cremuss",
 			removestop = true,
 			removewait = true,

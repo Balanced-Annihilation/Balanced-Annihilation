@@ -1,13 +1,13 @@
 return {
 	corshiva = {
-		acceleration = 0.06,
-		brakerate = 0.714,
+		acceleration = 0.069,
+		brakerate = 0.8211,
 		buildcostenergy = 23000,
 		buildcostmetal = 1550,
 		buildpic = "CORSHIVA.DDS",
 		buildtime = 30609,
 		canmove = true,
-		category = "KBOT WEAPON ALL NOTSUB NOTAIR NOTHOVER SURFACE CANBEUW",
+		category = "KBOT WEAPON ALL NOTSUB NOTAIR NOTHOVER SURFACE CANBEUW EMPABLE",
 		collisionvolumeoffsets = "0 -4 -6",
 		collisionvolumescales = "61 45 67",
 		collisionvolumetype = "Ell",
@@ -30,9 +30,10 @@ return {
 		seismicsignature = 0,
 		selfdestructas = "hugeExplosionGenericSelfd-phib",
 		sightdistance = 520,
-		turninplaceanglelimit = 140,
+		turninplace = true,
+		turninplaceanglelimit = 90,
 		turninplacespeedlimit = 1.0626,
-		turnrate = 616,
+		turnrate = 708.39996,
 		upright = true,
 		customparams = {
 			customrange = 650,
@@ -177,7 +178,6 @@ return {
 				weapontype = "StarburstLauncher",
 				weaponvelocity = 800,
 				customparams = {
-					bar_model = "corkbmissl1.s3o",
 					expl_light_color = "1 0.5 0.05",
 					expl_light_heat_radius_mult = 3,
 					expl_light_life_mult = 1.3,

@@ -11,7 +11,7 @@ return {
 		buildpic = "ARMCLAW.DDS",
 		buildtime = 4638,
 		canrepeat = false,
-		category = "ALL NOTLAND WEAPON NOTSUB NOTSHIP NOTAIR NOTHOVER SURFACE",
+		category = "ALL NOTLAND WEAPON NOTSUB NOTSHIP NOTAIR NOTHOVER SURFACE EMPABLE",
 		corpse = "DEAD",
 		damagemodifier = 0.25,
 		decoyfor = "armdrag",
@@ -41,9 +41,6 @@ return {
 		upright = true,
 		usebuildinggrounddecal = true,
 		customparams = {
-			bar_collisionvolumeoffsets = "0 -24 0",
-			bar_collisionvolumescales = "30 51 30",
-			bar_collisionvolumetype = "Ell",
 			model_author = "Beherith",
 			removewait = true,
 			subfolder = "armbuildings/landdefenceoffence",

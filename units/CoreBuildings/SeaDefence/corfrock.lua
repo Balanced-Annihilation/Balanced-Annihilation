@@ -10,7 +10,7 @@ return {
 		buildpic = "CORFROCK.DDS",
 		buildtime = 6800,
 		canrepeat = false,
-		category = "ALL NOTLAND WEAPON NOTSUB NOTSHIP NOTAIR NOTHOVER SURFACE",
+		category = "ALL NOTLAND WEAPON NOTSUB NOTSHIP NOTAIR NOTHOVER SURFACE EMPABLE",
 		collisionvolumeoffsets = "0 -15 0",
 		collisionvolumescales = "36 59 36",
 		collisionvolumetype = "CylY",
@@ -34,7 +34,6 @@ return {
 		waterline = 0,
 		yardmap = "wwwwwwwwwwwwwwww",
 		customparams = {
-			bar_collisionvolumeoffsets = "0 15 0",
 			removewait = true,
 			subfolder = "corebuildings/seadefence",
 		},
@@ -125,7 +124,6 @@ return {
 				weapontype = "MissileLauncher",
 				weaponvelocity = 1050,
 				customparams = {
-					bar_model = "cormissile.s3o",
 					expl_light_color = "1 0.4 0.5",
 					expl_light_mult = 0.4,
 					expl_light_radius_mult = 0.66,
@@ -172,7 +170,6 @@ return {
 				weapontype = "MissileLauncher",
 				weaponvelocity = 480,
 				customparams = {
-					bar_model = "catapultmissile.s3o",
 					expl_light_color = "1 0.5 0.05",
 					expl_light_radius_mult = 1.05,
 					light_color = "1 0.6 0.05",

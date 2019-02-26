@@ -12,7 +12,7 @@ return {
 		buildpic = "CORVIPE.DDS",
 		buildtime = 15035,
 		canrepeat = false,
-		category = "ALL NOTLAND WEAPON NOTSUB NOTSHIP NOTAIR NOTHOVER SURFACE",
+		category = "ALL NOTLAND WEAPON NOTSUB NOTSHIP NOTAIR NOTHOVER SURFACE EMPABLE",
 		corpse = "DEAD",
 		damagemodifier = 0.5,
 		description = "Pop-up Sabot Battery",
@@ -35,8 +35,6 @@ return {
 		usepiececollisionvolumes = 1,
 		yardmap = "ooooooooo",
 		customparams = {
-			bar_buildinggrounddecalsizex = 4.7,
-			bar_buildinggrounddecalsizey = 4.7,
 			model_author = "Mr Bob",
 			subfolder = "corebuildings/landdefenceoffence",
 			techlevel = 2,
@@ -151,7 +149,6 @@ return {
 				weapontype = "MissileLauncher",
 				weaponvelocity = 950,
 				customparams = {
-					bar_model = "cormissile3fast.s3o",
 					expl_light_color = "1 0.5 0.05",
 					light_color = "1 0.4 0.15",
 				},

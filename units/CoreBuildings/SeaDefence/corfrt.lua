@@ -9,7 +9,7 @@ return {
 		buildpic = "CORFRT.DDS",
 		buildtime = 2200,
 		canrepeat = false,
-		category = "ALL NOTLAND WEAPON NOTSUB NOTSHIP NOTAIR NOTHOVER SURFACE",
+		category = "ALL NOTLAND WEAPON NOTSUB NOTSHIP NOTAIR NOTHOVER SURFACE EMPABLE",
 		collisionvolumeoffsets = "0 -15 0",
 		collisionvolumescales = "36 59 36",
 		collisionvolumetype = "CylY",
@@ -33,8 +33,6 @@ return {
 		waterline = 4,
 		yardmap = "wwwwwwwwwwwwwwww",
 		customparams = {
-			bar_collisionvolumeoffsets = "0 10 0",
-			bar_collisionvolumescales = "40 59 40",
 			model_author = "Mr Bob",
 			prioritytarget = "air",
 			removewait = true,
@@ -128,7 +126,6 @@ return {
 				weapontype = "MissileLauncher",
 				weaponvelocity = 750,
 				customparams = {
-					bar_model = "cormissile.s3o",
 					expl_light_color = "1 0.4 0.5",
 					expl_light_mult = 0.4,
 					expl_light_radius_mult = 0.66,

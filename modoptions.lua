@@ -18,22 +18,6 @@ local options={
        desc="Balanced Annihilation - Options",
        type="section",
     },
-    {
-        key    = "barmodels",
-        name   = "Remodelled units",
-        desc   = "Activate BAR unit model integration",
-        type   = "bool",
-        section= 'ba_enhancements_misc',
-        def = false,
-    },
-    {
-        key    = "barsounds",
-        name   = "alternative sounds",
-        desc   = "Activate BAR sound replacements (barmodels (Remodelled units) must be enabled)",
-        type   = "bool",
-        section= 'ba_enhancements_misc',
-        def = false,
-    },
 	{
         key    = 'ai_incomemultiplier',
         name   = 'AI Income Multiplier',

@@ -13,7 +13,7 @@ return {
 		buildpic = "ARMCIR.DDS",
 		buildtime = 12000,
 		canrepeat = false,
-		category = "ALL WEAPON NOTSUB NOTAIR NOTHOVER SURFACE",
+		category = "ALL WEAPON NOTSUB NOTAIR NOTHOVER SURFACE EMPABLE",
 		corpse = "DEAD",
 		description = "Bomb-Resistant Medium-Range Missile Battery",
 		explodeas = "mediumBuildingExplosionGeneric",
@@ -152,7 +152,6 @@ return {
 				weapontype = "MissileLauncher",
 				weaponvelocity = 1300,
 				customparams = {
-					bar_model = "cormissile.s3o",
 					expl_light_color = "1 0.4 0.5",
 					expl_light_mult = 0.4,
 					expl_light_radius_mult = 0.66,

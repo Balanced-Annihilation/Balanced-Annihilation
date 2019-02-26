@@ -1,13 +1,13 @@
 return {
 	corkarg = {
-		acceleration = 0.096,
-		brakerate = 0.714,
+		acceleration = 0.1104,
+		brakerate = 0.8211,
 		buildcostenergy = 38000,
 		buildcostmetal = 1650,
 		buildpic = "CORKARG.DDS",
 		buildtime = 50609,
 		canmove = true,
-		category = "KBOT WEAPON ALL NOTSUB NOTAIR NOTHOVER SURFACE",
+		category = "KBOT WEAPON ALL NOTSUB NOTAIR NOTHOVER SURFACE EMPABLE",
 		collisionvolumeoffsets = "0.0 -2.0 1",
 		collisionvolumescales = "56.0 60.0 40.0",
 		collisionvolumetype = "box",
@@ -30,9 +30,10 @@ return {
 		seismicsignature = 0,
 		selfdestructas = "hugeExplosionGenericSelfd",
 		sightdistance = 455,
-		turninplaceanglelimit = 140,
+		turninplace = true,
+		turninplaceanglelimit = 90,
 		turninplacespeedlimit = 0.99,
-		turnrate = 528,
+		turnrate = 607.20001,
 		upright = true,
 		customparams = {
 			model_author = "FireStorm",
@@ -127,7 +128,6 @@ return {
 				weapontype = "MissileLauncher",
 				weaponvelocity = 900,
 				customparams = {
-					bar_model = "cormissile.s3o",
 					expl_light_color = "1 0.4 0.5",
 					expl_light_mult = 0.4,
 					expl_light_radius_mult = 0.66,
@@ -178,7 +178,6 @@ return {
 				weapontype = "MissileLauncher",
 				weaponvelocity = 820,
 				customparams = {
-					bar_model = "cormissile.s3o",
 					expl_light_color = "1 0.4 0.5",
 					expl_light_mult = 0.4,
 					expl_light_radius_mult = 0.66,
@@ -261,9 +260,7 @@ return {
 				weapontimer = 5,
 				weapontype = "MissileLauncher",
 				weaponvelocity = 600,
-				customparams = {
-					bar_model = "cormissile2.s3o",
-				},
+				customparams = {},
 				damage = {
 					bombers = 150,
 					default = 120,

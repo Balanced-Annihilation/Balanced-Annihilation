@@ -13,7 +13,7 @@ return {
 		buildpic = "CORFUS.DDS",
 		buildtime = 75424,
 		canrepeat = false,
-		category = "ALL NOTLAND NOTSUB NOWEAPON NOTSHIP NOTAIR NOTHOVER SURFACE",
+		category = "ALL NOTLAND NOTSUB NOWEAPON NOTSHIP NOTAIR NOTHOVER SURFACE EMPABLE",
 		corpse = "DEAD",
 		description = "Produces Energy / Storage",
 		energymake = 1100,
@@ -36,8 +36,6 @@ return {
 		usebuildinggrounddecal = true,
 		yardmap = "ooooooooooooooooooooooooo",
 		customparams = {
-			bar_buildinggrounddecalsizex = 7,
-			bar_buildinggrounddecalsizey = 7,
 			model_author = "Mr Bob",
 			removestop = true,
 			removewait = true,

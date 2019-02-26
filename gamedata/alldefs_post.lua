@@ -24,39 +24,15 @@ SaveDefsToCustomParams = false
 -------------------------
 
 -- process unitdef
-local vehAdditionalTurnrate = 0
-local vehTurnrateMultiplier = 1.0
+--local vehAdditionalTurnrate = 0
+--local vehTurnrateMultiplier = 1.0
+--
+--local vehAdditionalAcceleration = 0.00
+--local vehAccelerationMultiplier = 1
+--
+--local vehAdditionalVelocity = 0
+--local vehVelocityMultiplier = 1
 
-local vehAdditionalAcceleration = 0.00
-local vehAccelerationMultiplier = 1
-
-local vehAdditionalVelocity = 0
-local vehVelocityMultiplier = 1
-
-local hoverAdditionalTurnrate = 0
-local hoverTurnrateMultiplier = 1.0
-
-local hoverAdditionalAcceleration = 0.00
-local hoverAccelerationMultiplier = 1
-
-local hoverAdditionalVelocity = 0
-local hoverVelocityMultiplier = 1
-
-local shipAdditionalTurnrate = 0
-local shipTurnrateMultiplier = 1.5
-
-local shipAdditionalAcceleration = 0.00
-local shipAccelerationMultiplier = 1
-
-local shipAdditionalVelocity = 0
-local shipVelocityMultiplier = 1
-
-local kbotAdditionalTurnrate = 0
-local kbotTurnrateMultiplier = 1.15
-
-local kbotAdditionalAcceleration = 0
-local kbotAccelerationMultiplier = 1.15
-local kbotBrakerateMultiplier = 1.15
 
 
 local function getFilePath(filename, path)
@@ -91,284 +67,23 @@ local function Split(s, separator)
 	return results
 end
 
-local oldUnitName = {	-- mostly duplicates
-	armdecom = 'armcom',
-	cordecom = 'corcom',
-	armdf = 'armfus',
-	corgantuw = 'corgant',
-	armshltxuw = 'armshltx',
-}
-
-
-function getBarSound(name)
-	if name == nil or name == '' then
-		return name
-	end
-	local filename = 'bar_'..string.gsub(name, ".wav", "")
-	if VFS.FileExists('sounds/BAR/ui/'..filename..".wav") then
-		return filename
-	elseif VFS.FileExists('sounds/BAR/replies/'..filename..".wav") then
-		return filename
-	elseif VFS.FileExists('sounds/BAR/weapons/'..filename..".wav") then
-		return filename
-	else
-		return name
-	end
-end
-
 
 function UnitDef_Post(name, uDef)
-	-- load BAR stuff
-	if (Spring.GetModOptions and (tonumber(Spring.GetModOptions().barmodels) or 0) ~= 0 or string.find(name, '_bar')) and not ((Spring.GetModOptions and (Spring.GetModOptions().unba or "disabled") == "enabled") and (name == "armcom" or name == "corcom" or name == "armcom_bar" or name == "corcom_bar"))  then
-		if string.find(name, '_bar') then
-			name = string.gsub(name, '_bar', '')
-			if uDef.buildoptions then
-				for k, v in pairs(uDef.buildoptions) do
-					if UnitDefs[v..'_bar'] then
-						uDef.buildoptions[k] = v..'_bar'
-					end
-				end
-			end
-		end
-		-- BAR models
-		local barUnitName = oldUnitName[name] and oldUnitName[name] or name
-		if VFS.FileExists('objects3d/BAR/'..uDef.objectname..'.s3o') or VFS.FileExists('objects3d/BAR/'..barUnitName..'.s3o') then
-			local object = barUnitName
-			if VFS.FileExists('objects3d/BAR/'..uDef.objectname..'.s3o') then
-				object = uDef.objectname
-			end
-			uDef.objectname = 'BAR/'..object..'.s3o'
-			if uDef.featuredefs ~= nil then
-				for fDefID,featureDef in pairs(uDef.featuredefs) do
-					if featureDef.object ~= nil then
-						local object = string.gsub(featureDef.object, ".3do", "")
-						if VFS.FileExists('objects3d/BAR/'..object:lower()..".s3o") then
-							uDef.featuredefs[fDefID].object = 'BAR/'..object:lower()..".s3o"
-						end
-					end
-				end
-			end
-            if uDef.script ~= nil and VFS.FileExists('scripts/BAR/bar_'..uDef.script) then
-                uDef.script = 'BAR/'..uDef.script
-            elseif VFS.FileExists('scripts/BAR/bar_'..object..'.lua') then
-                uDef.script = 'BAR/bar_'..object..'.lua'
-			elseif VFS.FileExists('scripts/BAR/bar_'..object..'.cob') then
-				uDef.script = 'BAR/bar_'..object..'.cob'
-			end
 
-			if uDef.buildinggrounddecaltype ~= nil then
-				local decalname = oldUnitName[name] and string.gsub(uDef.buildinggrounddecaltype, name, object) or uDef.buildinggrounddecaltype
-				decalname = string.gsub(decalname, 'decals/', '')
-				if VFS.FileExists('unittextures/decals/BAR/'..decalname) then
-					uDef.buildinggrounddecaltype = 'decals/BAR/'..decalname
-			 	end
-			end
-			if uDef.buildpic ~= nil then
-				local buildpicname = oldUnitName[name] and string.gsub(uDef.buildpic, name, object) or uDef.buildpic
-				if VFS.FileExists('unitpics/BAR/'..buildpicname) then
-					uDef.buildpic = 'BAR/'..buildpicname
-				end
-			end
-
-			if string.find(name, 'arm') or string.find(name, 'cor') or string.find(name, 'chicken') then
-				uDef.customparams.normalmaps = "yes"
-				if string.find(name, 'arm') then
-					uDef.customparams.normaltex = "unittextures/Arm_normals.dds"
-				elseif string.find(name, 'cor') then
-					uDef.customparams.normaltex = "unittextures/Core_normal.dds"
-				elseif string.find(name, 'chicken') then
-					uDef.customparams.normaltex = "unittextures/chicken_normal.tga"
-				end
-			end
-
-			for paramName, paramValue in pairs(uDef.customparams) do
-				if paramName:sub(1,4) == "bar_" then
-					local param = string.sub(paramName, 5)
-					if tonumber(param) then
-						uDef[param] = tonumber(paramValue)
-					else
-						uDef[param] = paramValue
-					end
-				end
-			end
-		end
-
-		-- BAR heap models
-		if uDef.featuredefs then
-			local faction = 'cor'
-			if string.find(name, 'arm') then
-				faction = 'arm'
-			end
-			if uDef.featuredefs.heap and uDef.featuredefs.heap.object and VFS.FileExists('objects3d/BAR/'..faction..uDef.featuredefs.heap.object..".s3o") then
-				uDef.featuredefs.heap.object = 'BAR/'..faction..uDef.featuredefs.heap.object..".s3o"
-			end
-
-			for fname, params in pairs(uDef.featuredefs) do
-				if params.object then
-					if VFS.FileExists('objects3d/'..params.object) then
-
-					elseif VFS.FileExists('objects3d/'..params.object..".3do") then
-
-					elseif VFS.FileExists('objects3d/'..params.object..".s3o") then
-						uDef.featuredefs[fname].object = params.object..'.s3o'
-					else
-						Spring.Echo('3d object does not exist:  unit: '..name..'   featurename: '..fname..'   object: '..uDef.featuredefs[fname].object)
-						uDef.featuredefs[fname].object = ''
-					end
-				end
-			end
-		end
-
-		-- BAR sounds
-		if (tonumber(Spring.GetModOptions().barsounds) or 0) ~= 0 then
-			if uDef.sounds and type(uDef.sounds) == 'table' then
-				for sound, soundParams in pairs(uDef.sounds) do
-					if type(soundParams) == 'string' then
-						uDef.sounds[sound] = getBarSound(soundParams)
-					elseif type(soundParams) == 'table' then
-						for i, value in pairs(soundParams) do
-							if type(value) == 'string' then
-								uDef.sounds[sound][value] = getBarSound(value)
-							elseif type(value) == 'table' then
-								uDef.sounds[sound][value].file = getBarSound(value.file)
-							end
-						end
-					end
-				end
-			end
-		end
-	end
+    -- vehicles
+    --if uDef.category and string.find(uDef.category, "TANK") then
+    --	if uDef.turnrate ~= nil then
+    --		uDef.turnrate = (uDef.turnrate + vehAdditionalTurnrate) * vehTurnrateMultiplier
+    --	end
+    --    	if uDef.acceleration ~= nil then
+    --		uDef.acceleration = (uDef.acceleration + vehAdditionalAcceleration) * vehAccelerationMultiplier
+    --	end
+    --    	if uDef.maxvelocity ~= nil then
+    --		uDef.maxvelocity = (uDef.maxvelocity + vehAdditionalVelocity) * vehVelocityMultiplier
+    --	end
+    --end
 
 
-	if uDef.icontype and uDef.icontype == "sea" then
-		if uDef.featuredefs and uDef.featuredefs.dead and uDef.featuredefs.dead.metal and uDef.buildcostmetal then
-			uDef.featuredefs.dead.metal = uDef.buildcostmetal * 0.5
-		end
-		if uDef.featuredefs and uDef.featuredefs.heap and uDef.featuredefs.heap.metal and uDef.buildcostmetal then
-			uDef.featuredefs.heap.metal = uDef.buildcostmetal * 0.25
-		end
-		if uDef.featuredefs and uDef.featuredefs.dead and uDef.featuredefs.dead.damage then
-			uDef.featuredefs.dead.damage = uDef.featuredefs.dead.damage*2
-		end
-		if uDef.featuredefs and uDef.featuredefs.heap and uDef.featuredefs.heap.damage then
-			uDef.featuredefs.heap.damage = uDef.featuredefs.heap.damage*2
-		end
-	end
-	
-	--Aircraft movements here:
-	if uDef.canfly == true and not uDef.hoverattack == true then
-		turn = (((uDef.turnrate)*0.16)/360)/30
-		wingsurffactor = tonumber(uDef.customparams and uDef.customparams.wingsurface) or 1
-		uDef.usesmoothmesh = true
-		uDef.wingdrag = 0.07/2 + uDef.brakerate * 2
-		uDef.wingangle = 0.08*3/4 + turn/4
-		uDef.speedtofront = 0.07*(5/6 + wingsurffactor/6)
-		uDef.turnradius = 64
-		uDef.maxbank = 0.8
-		uDef.maxpitch = 0.8/2 + 0.45/2
-		uDef.maxaileron =0.015*3/4 + turn/4
-		uDef.maxelevator =0.01*3/4 + turn/4
-		uDef.maxrudder = 0.004*3/4 + turn/4
-		uDef.maxacc = 0.065/2 + uDef.acceleration/2
-	end
-	-- Enable default Nanospray
-	uDef.shownanospray = true
-
-	-- vehicles
-	if uDef.category and string.find(uDef.category, "TANK") then
-		if uDef.turnrate ~= nil then
-			uDef.turnrate = (uDef.turnrate + vehAdditionalTurnrate) * vehTurnrateMultiplier
-		end
-
-		if uDef.acceleration ~= nil then
-			uDef.acceleration = (uDef.acceleration + vehAdditionalAcceleration) * vehAccelerationMultiplier
-		end
-
-		if uDef.maxvelocity ~= nil then
-			uDef.maxvelocity = (uDef.maxvelocity + vehAdditionalVelocity) * vehVelocityMultiplier
-		end
-
-		if uDef.turnrate and uDef.maxvelocity and uDef.brakerate and uDef.acceleration then
-			local k = 1800/(0.164 * uDef.turnrate)
-			uDef.acceleration = uDef.maxvelocity / (2*k)
-			uDef.brakerate = uDef.maxvelocity / (k)
-			uDef.turninplaceanglelimit = 90
-			uDef.turninplace = true
-		end
-	end
-
-	-- kbots
-	if uDef.category and string.find(uDef.category, "KBOT") then
-		if uDef.turnrate ~= nil then
-			uDef.turnrate = (uDef.turnrate + kbotAdditionalTurnrate) * kbotTurnrateMultiplier
-		end
-
-		if uDef.acceleration ~= nil then
-			uDef.acceleration = (uDef.acceleration + kbotAdditionalAcceleration) * kbotAccelerationMultiplier
-		end
-
-		if uDef.brakerate ~= nil then
-			uDef.brakerate = uDef.brakerate * kbotBrakerateMultiplier
-		end
-
-		uDef.turninplace = true
-		uDef.turninplaceanglelimit = 90
-	end
-
-	-- hovers
-	if uDef.category and string.find(uDef.category, "HOVER") then
-		if uDef.turnrate ~= nil then
-			uDef.turnrate = (uDef.turnrate + hoverAdditionalTurnrate) * hoverTurnrateMultiplier
-		end
-
-		if uDef.acceleration ~= nil then
-			uDef.acceleration = (uDef.acceleration + hoverAdditionalAcceleration) * hoverAccelerationMultiplier
-		end
-
-		if uDef.maxvelocity ~= nil then
-			uDef.maxvelocity = (uDef.maxvelocity + hoverAdditionalVelocity) * hoverVelocityMultiplier
-		end
-
-		if uDef.turnrate and uDef.maxvelocity and uDef.brakerate and uDef.acceleration then
-			local k = 1800/(0.164 * uDef.turnrate)
-			uDef.acceleration = uDef.maxvelocity / (2*k)
-			uDef.brakerate = uDef.maxvelocity / (2*k)
-			uDef.turninplaceanglelimit = 90
-			uDef.turninplace = true
-		end
-	end
-	
-		if uDef.movementclass and string.find(uDef.movementclass, "BOAT") then
-			--Spring.Echo(name)
-			if uDef.turnrate ~= nil then
-				uDef.turnrate = (uDef.turnrate + shipAdditionalTurnrate) * shipTurnrateMultiplier
-			end
-
-			if uDef.acceleration ~= nil then
-				uDef.acceleration = (uDef.acceleration + shipAdditionalAcceleration) * shipAccelerationMultiplier
-			end
-
-			if uDef.maxvelocity ~= nil then
-				uDef.maxvelocity = (uDef.maxvelocity + shipAdditionalVelocity) * shipVelocityMultiplier
-			end
-
-			if uDef.turnrate and uDef.maxvelocity and uDef.brakerate and uDef.acceleration then
-				local k = 1800/(0.164 * uDef.turnrate)
-				uDef.acceleration = uDef.maxvelocity / (2*k)
-				uDef.brakerate = uDef.maxvelocity / (2*k)
-				uDef.turninplaceanglelimit = 90
-				uDef.turninplace = true
-			end
-		end
-
-	-- add unit category: EMPABLE
-	if uDef.category and string.find(uDef.category, "SURFACE") then
-		if uDef.customparams and uDef.customparams.paralyzemultiplier and uDef.customparams.paralyzemultiplier == 0 then
-
-		else
-			uDef.category = uDef.category ..' EMPABLE'
-		end
-	end
 
 	-- import csv unitdef changes
 	--local file = VFS.LoadFile("modelauthors.csv")
@@ -452,7 +167,7 @@ function WeaponDef_Post(name, wDef)
 	-- EdgeEffectiveness global buff to counterbalance smaller hitboxes
 	wDef.edgeeffectiveness = (tonumber(wDef.edgeeffectiveness) or 0) + 0.15
 	if wDef.edgeeffectiveness >= 1 then
-	wDef.edgeeffectiveness = 1
+	    wDef.edgeeffectiveness = 1
 	end
 
 	-- Target borders of unit hitboxes rather than center (-1 = far border, 0 = center, 1 = near border)
@@ -478,57 +193,6 @@ function WeaponDef_Post(name, wDef)
 		if wDef.beamttl == nil then
 			wDef.beamttl = 3
 			wDef.beamdecay = 0.7
-		end
-	end
-
-	--Flare texture has been scaled down to half, so correcting the result of that a bit
-	if wDef ~= nil and wDef.laserflaresize ~= nil and wDef.laserflaresize > 0 then
-		wDef.laserflaresize = wDef.laserflaresize * 1.1
-	end
-
-
-	if Spring.GetModOptions and (tonumber(Spring.GetModOptions().barmodels) or 0) ~= 0 or string.find(name, '_bar') then
-		if string.find(name, '_bar') then
-			name = string.gsub(name, '_bar', '')
-		end
-
-		-- load BAR weapon model
-		if wDef.customparams and wDef.customparams.bar_model then
-			wDef.model = wDef.customparams.bar_model
-		end
-
-		-- load BAR alternative sound
-		if (tonumber(Spring.GetModOptions().barsounds) or 0) ~= 0 then
-			if wDef.soundstart ~= '' then
-				wDef.soundstart = getBarSound(wDef.soundstart)
-			end
-			if wDef.soundhit ~= '' then
-				wDef.soundhit = getBarSound(wDef.soundhit)
-			end
-			if wDef.soundhitdry ~= '' then
-				wDef.soundhitdry = getBarSound(wDef.soundhitdry)
-			end
-			if wDef.soundhitwet ~= '' then
-				wDef.soundhitwet = getBarSound(wDef.soundhitwet)
-			end
-
-			-- load bar alternative defs
-			if wDef.customparams then
-				for paramName, paramValue in pairs(wDef.customparams) do
-					if paramName:sub(1,4) == "bar_" then
-						local param = string.sub(paramName, 5)
-
-						--if param == 'model' and VFS.FileExists('objects3d/'..paramValue) then
-						--	wDef.model = 'objects3d/bar_'..paramValue
-						--end
-						if tonumber(param) then
-							wDef[param] = tonumber(paramValue)
-						else
-							wDef[param] = paramValue
-						end
-					end
-				end
-			end
 		end
 	end
 end

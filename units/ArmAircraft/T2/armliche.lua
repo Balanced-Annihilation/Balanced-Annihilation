@@ -21,7 +21,13 @@ return {
 		icontype = "air",
 		idleautoheal = 5,
 		idletime = 1800,
+		maxacc = 0.1075,
+		maxaileron = 0.01325,
+		maxbank = 0.8,
 		maxdamage = 2050,
+		maxelevator = 0.0095,
+		maxpitch = 0.625,
+		maxrudder = 0.005,
 		maxslope = 10,
 		maxvelocity = 9.83,
 		maxwaterdepth = 0,
@@ -32,12 +38,16 @@ return {
 		seismicsignature = 0,
 		selfdestructas = "hugeExplosionGenericSelfd",
 		sightdistance = 455,
+		speedtofront = 0.06767,
+		turnradius = 64,
 		turnrate = 540,
+		usesmoothmesh = true,
+		wingangle = 0.062,
+		wingdrag = 0.135,
 		customparams = {
 			model_author = "FireStorm",
 			subfolder = "armaircraft/t2",
 			techlevel = 2,
-			wingsurface = 0.8,
 		},
 		sfxtypes = {
 			crashexplosiongenerators = {
@@ -111,7 +121,6 @@ return {
 				weapontype = "MissileLauncher",
 				weaponvelocity = 420,
 				customparams = {
-					bar_model = "catapultmissile.s3o",
 					expl_light_life_mult = 1.7,
 					expl_light_mult = 1.3,
 					expl_light_radius_mult = 1.3,
@@ -159,7 +168,6 @@ return {
 				weapontype = "MissileLauncher",
 				weaponvelocity = 0,
 				customparams = {
-					bar_model = "catapultmissile.s3o",
 					expl_light_color = "1 0.9 0.7",
 					expl_light_life_mult = 1.7,
 					expl_light_mult = 1.3,

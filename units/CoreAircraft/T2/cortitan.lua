@@ -21,7 +21,13 @@ return {
 		icontype = "air",
 		idleautoheal = 5,
 		idletime = 1800,
+		maxacc = 0.1325,
+		maxaileron = 0.01347,
+		maxbank = 0.8,
 		maxdamage = 1760,
+		maxelevator = 0.00972,
+		maxpitch = 0.625,
+		maxrudder = 0.00522,
 		maxslope = 10,
 		maxvelocity = 10.58,
 		maxwaterdepth = 0,
@@ -31,12 +37,16 @@ return {
 		seismicsignature = 0,
 		selfdestructas = "mediumExplosionGenericSelfd",
 		sightdistance = 455,
+		speedtofront = 0.063,
+		turnradius = 64,
 		turnrate = 600,
+		usesmoothmesh = true,
+		wingangle = 0.06222,
+		wingdrag = 0.18,
 		customparams = {
 			model_author = "Mr Bob",
 			subfolder = "coreaircraft/t2",
 			techlevel = 2,
-			wingsurface = 0.4,
 		},
 		sfxtypes = {
 			crashexplosiongenerators = {
@@ -104,9 +114,7 @@ return {
 				weapontimer = 5,
 				weapontype = "TorpedoLauncher",
 				weaponvelocity = 200,
-				customparams = {
-					bar_model = "cortorpedo.s3o",
-				},
+				customparams = {},
 				damage = {
 					default = 1500,
 				},

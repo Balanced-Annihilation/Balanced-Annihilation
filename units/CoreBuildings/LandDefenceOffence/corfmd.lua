@@ -13,7 +13,7 @@ return {
 		buildtime = 60000,
 		canattack = false,
 		canrepeat = false,
-		category = "ALL NOTLAND WEAPON NOTSUB NOTSHIP NOTAIR NOTHOVER SURFACE",
+		category = "ALL NOTLAND WEAPON NOTSUB NOTSHIP NOTAIR NOTHOVER SURFACE EMPABLE",
 		collisionvolumeoffsets = "0 -19 0",
 		collisionvolumescales = "48 78 48",
 		collisionvolumetype = "Box",
@@ -156,7 +156,6 @@ return {
 				weapontype = "StarburstLauncher",
 				weaponvelocity = 6000,
 				customparams = {
-					bar_model = "fmdmissile.s3o",
 					expl_light_color = "1 0.5 0.75",
 					expl_light_life_mult = 1.3,
 					expl_light_mult = 1.3,

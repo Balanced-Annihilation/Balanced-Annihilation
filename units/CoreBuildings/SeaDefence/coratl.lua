@@ -9,7 +9,7 @@ return {
 		buildpic = "CORATL.DDS",
 		buildtime = 10875,
 		canrepeat = false,
-		category = "ALL NOTLAND WEAPON NOTSHIP NOTAIR NOTHOVER NOTSUB SURFACE",
+		category = "ALL NOTLAND WEAPON NOTSHIP NOTAIR NOTHOVER NOTSUB SURFACE EMPABLE",
 		corpse = "DEAD",
 		description = "Advanced Torpedo Launcher",
 		energymake = 0.1,
@@ -30,7 +30,6 @@ return {
 		waterline = 10,
 		yardmap = "ooooooooo",
 		customparams = {
-			bar_waterline = 2,
 			model_author = "Mr Bob",
 			removestop = true,
 			removewait = true,
@@ -113,9 +112,7 @@ return {
 				weapontimer = 3,
 				weapontype = "TorpedoLauncher",
 				weaponvelocity = 580,
-				customparams = {
-					bar_model = "torpedo.s3o",
-				},
+				customparams = {},
 				damage = {
 					default = 1400,
 				},

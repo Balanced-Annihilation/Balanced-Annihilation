@@ -1,14 +1,14 @@
 return {
 	coraak = {
-		acceleration = 0.12,
+		acceleration = 0.138,
 		airsightdistance = 925,
-		brakerate = 0.564,
+		brakerate = 0.6486,
 		buildcostenergy = 6200,
 		buildcostmetal = 650,
 		buildpic = "CORAAK.DDS",
 		buildtime = 7600,
 		canmove = true,
-		category = "KBOT MOBILE WEAPON ALL NOTSUB NOTSHIP NOTAIR NOTHOVER SURFACE CANBEUW",
+		category = "KBOT MOBILE WEAPON ALL NOTSUB NOTSHIP NOTAIR NOTHOVER SURFACE CANBEUW EMPABLE",
 		collisionvolumeoffsets = "0 -1 -3",
 		collisionvolumescales = "27 29 22",
 		collisionvolumetype = "Box",
@@ -28,9 +28,10 @@ return {
 		seismicsignature = 1,
 		selfdestructas = "smallExplosionGenericSelfd-phib",
 		sightdistance = 390,
-		turninplaceanglelimit = 140,
+		turninplace = true,
+		turninplaceanglelimit = 90,
 		turninplacespeedlimit = 0.759,
-		turnrate = 912,
+		turnrate = 1048.79993,
 		upright = true,
 		customparams = {
 			model_author = "Beherith",
@@ -229,7 +230,6 @@ return {
 				weapontype = "MissileLauncher",
 				weaponvelocity = 850,
 				customparams = {
-					bar_model = "cormissile.s3o",
 					expl_light_color = "1 0.4 0.5",
 					expl_light_mult = 0.4,
 					expl_light_radius_mult = 0.66,
@@ -280,7 +280,6 @@ return {
 				weapontype = "MissileLauncher",
 				weaponvelocity = 850,
 				customparams = {
-					bar_model = "cormissile.s3o",
 					expl_light_color = "1 0.4 0.5",
 					expl_light_mult = 0.4,
 					expl_light_radius_mult = 0.66,
@@ -331,7 +330,6 @@ return {
 				weapontype = "MissileLauncher",
 				weaponvelocity = 850,
 				customparams = {
-					bar_model = "cormissile.s3o",
 					expl_light_color = "1 0.4 0.5",
 					expl_light_mult = 0.4,
 					expl_light_radius_mult = 0.66,
@@ -382,7 +380,6 @@ return {
 				weapontype = "MissileLauncher",
 				weaponvelocity = 1100,
 				customparams = {
-					bar_model = "cormissile.s3o",
 					expl_light_color = "1 0.4 0.5",
 					expl_light_mult = 0.4,
 					expl_light_radius_mult = 0.66,

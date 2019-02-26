@@ -1,7 +1,7 @@
 return {
 	corkrog = {
-		acceleration = 0.108,
-		brakerate = 0.714,
+		acceleration = 0.1242,
+		brakerate = 0.8211,
 		buildcostenergy = 615000,
 		buildcostmetal = 29000,
 		buildpic = "CORKROG.DDS",
@@ -35,9 +35,10 @@ return {
 		selfdestructas = "krogExplosionSelfd",
 		selfdestructcountdown = 10,
 		sightdistance = 845,
-		turninplaceanglelimit = 140,
+		turninplace = true,
+		turninplaceanglelimit = 90,
 		turninplacespeedlimit = 0.7392,
-		turnrate = 380,
+		turnrate = 437,
 		upright = true,
 		customparams = {
 			customrange = 590,
@@ -169,7 +170,7 @@ return {
 				firestarter = 90,
 				impulseboost = 0,
 				impulsefactor = 0,
-				laserflaresize = 7.5,
+				laserflaresize = 8.25,
 				name = "KrogHeatRay",
 				noselfdamage = true,
 				proximitypriority = -1,
@@ -234,7 +235,6 @@ return {
 				weapontype = "StarburstLauncher",
 				weaponvelocity = 2600,
 				customparams = {
-					bar_model = "corkbmissl1.s3o",
 					expl_light_color = "1 0.5 0.05",
 					expl_light_heat_radius_mult = 1.25,
 					expl_light_life_mult = 1.3,

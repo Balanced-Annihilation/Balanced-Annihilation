@@ -1,14 +1,14 @@
 return {
 	armaak = {
-		acceleration = 0.12,
+		acceleration = 0.138,
 		airsightdistance = 925,
-		brakerate = 0.564,
+		brakerate = 0.6486,
 		buildcostenergy = 5600,
 		buildcostmetal = 520,
 		buildpic = "ARMAAK.DDS",
 		buildtime = 6958,
 		canmove = true,
-		category = "KBOT MOBILE WEAPON ALL NOTSUB NOTSHIP NOTAIR NOTHOVER SURFACE CANBEUW",
+		category = "KBOT MOBILE WEAPON ALL NOTSUB NOTSHIP NOTAIR NOTHOVER SURFACE CANBEUW EMPABLE",
 		collisionvolumeoffsets = "0 -1 1",
 		collisionvolumescales = "25 32 16",
 		collisionvolumetype = "box",
@@ -29,9 +29,10 @@ return {
 		seismicsignature = 1,
 		selfdestructas = "mediumExplosionGenericSelfd-phib",
 		sightdistance = 400,
-		turninplaceanglelimit = 140,
+		turninplace = true,
+		turninplaceanglelimit = 90,
 		turninplacespeedlimit = 1.0428,
-		turnrate = 1021,
+		turnrate = 1174.15002,
 		upright = true,
 		customparams = {
 			model_author = "Kaiser",
@@ -203,7 +204,6 @@ return {
 				weapontype = "MissileLauncher",
 				weaponvelocity = 1000,
 				customparams = {
-					bar_model = "cormissile.s3o",
 					expl_light_color = "1 0.4 0.5",
 					light_color = "1 0.5 0.6",
 					light_skip = true,
@@ -252,7 +252,6 @@ return {
 				weapontype = "MissileLauncher",
 				weaponvelocity = 900,
 				customparams = {
-					bar_model = "cormissile.s3o",
 					expl_light_color = "1 0.4 0.5",
 					expl_light_mult = 0.4,
 					expl_light_radius_mult = 0.66,

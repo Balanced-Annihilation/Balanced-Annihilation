@@ -10,7 +10,7 @@ return {
 		buildtime = 1800,
 		canattack = false,
 		canrepeat = false,
-		category = "ALL NOTLAND NOTSUB NOWEAPON NOTSHIP NOTAIR NOTHOVER SURFACE",
+		category = "ALL NOTLAND NOTSUB NOWEAPON NOTSHIP NOTAIR NOTHOVER SURFACE EMPABLE",
 		collisionvolumeoffsets = "0 -15 0",
 		collisionvolumescales = "36 59 36",
 		collisionvolumetype = "CylY",
@@ -40,8 +40,6 @@ return {
 		waterline = 1,
 		yardmap = "wwwwwwwww",
 		customparams = {
-			bar_collisionvolumeoffsets = "0 15 0",
-			bar_collisionvolumescales = "36 59 36",
 			model_author = "FireStorm",
 			removestop = true,
 			removewait = true,

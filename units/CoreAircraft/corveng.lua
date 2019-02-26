@@ -18,7 +18,13 @@ return {
 		footprintx = 2,
 		footprintz = 2,
 		icontype = "air",
+		maxacc = 0.1825,
+		maxaileron = 0.0144,
+		maxbank = 0.8,
 		maxdamage = 140,
+		maxelevator = 0.01065,
+		maxpitch = 0.625,
+		maxrudder = 0.00615,
 		maxslope = 10,
 		maxvelocity = 9.92,
 		maxwaterdepth = 0,
@@ -28,11 +34,15 @@ return {
 		seismicsignature = 0,
 		selfdestructas = "smallExplosionGenericAir",
 		sightdistance = 210,
+		speedtofront = 0.063,
+		turnradius = 64,
 		turnrate = 850,
+		usesmoothmesh = true,
+		wingangle = 0.06315,
+		wingdrag = 0.165,
 		customparams = {
 			model_author = "Mr Bob",
 			subfolder = "coreaircraft",
-			wingsurface = 0.4,
 		},
 		sfxtypes = {
 			pieceexplosiongenerators = {
@@ -97,7 +107,6 @@ return {
 				weapontype = "MissileLauncher",
 				weaponvelocity = 850,
 				customparams = {
-					bar_model = "cormissile.s3o",
 					description_long = "Avenger is a fast-moving fighter jet that is designed for eliminating air units. It is the most effective form of T1 air defense that can access all parts of the map to get rid of any air threats. In large packs it is also able to destroy weak land based structures, like nano towers. Always put your fighters on patrol in front of your base, so they attack any aircraft moving in vicinity. Send fighters with your bombing runs to disable opponent's fighter wall.",
 					light_skip = true,
 				},

@@ -9,7 +9,7 @@ return {
 		buildpic = "CORFMKR.DDS",
 		buildtime = 2682,
 		canrepeat = false,
-		category = "ALL NOTLAND NOTSUB NOWEAPON NOTSHIP NOTAIR NOTHOVER SURFACE",
+		category = "ALL NOTLAND NOTSUB NOWEAPON NOTSHIP NOTAIR NOTHOVER SURFACE EMPABLE",
 		description = "Converts up to 70 energy into 1.1 metal per second",
 		explodeas = "largeBuildingExplosionGeneric",
 		footprintx = 3,
@@ -28,7 +28,6 @@ return {
 		waterline = 24,
 		yardmap = "wwwwwwwww",
 		customparams = {
-			bar_waterline = 3.5,
 			model_author = "Mr Bob",
 			removestop = true,
 			removewait = true,

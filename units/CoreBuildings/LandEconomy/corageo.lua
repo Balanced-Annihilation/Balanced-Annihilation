@@ -13,7 +13,7 @@ return {
 		buildpic = "CORAGEO.DDS",
 		buildtime = 32078,
 		canrepeat = false,
-		category = "ALL NOTSUB NOWEAPON NOTAIR NOTHOVER SURFACE",
+		category = "ALL NOTSUB NOWEAPON NOTAIR NOTHOVER SURFACE EMPABLE",
 		collisionvolumeoffsets = "3 -5 0",
 		collisionvolumescales = "92 43 71",
 		collisionvolumetype = "Box",
@@ -37,9 +37,6 @@ return {
 		usebuildinggrounddecal = true,
 		yardmap = "ooooooo ooooooo oGGoooo oGGoooo ooooooo",
 		customparams = {
-			bar_footprintx = 6,
-			bar_footprintz = 6,
-			bar_yardmap = "oooooo oooooo oGGGoo oGGGoo oooooo oooooo",
 			cvbuildable = true,
 			model_author = "Cremuss",
 			removestop = true,

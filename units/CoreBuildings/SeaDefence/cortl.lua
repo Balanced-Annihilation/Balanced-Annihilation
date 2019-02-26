@@ -9,7 +9,7 @@ return {
 		buildpic = "CORTL.DDS",
 		buildtime = 3760,
 		canrepeat = false,
-		category = "ALL NOTLAND WEAPON NOTSHIP NOTSUB NOTAIR NOTHOVER SURFACE",
+		category = "ALL NOTLAND WEAPON NOTSHIP NOTSUB NOTAIR NOTHOVER SURFACE EMPABLE",
 		corpse = "DEAD",
 		description = "Offshore Torpedo Launcher",
 		energymake = 0.2,
@@ -32,7 +32,6 @@ return {
 		waterline = 13,
 		yardmap = "wwwwwwwww",
 		customparams = {
-			bar_waterline = 2,
 			model_author = "Mr Bob",
 			removewait = true,
 			subfolder = "corebuildings/seadefence",
@@ -117,9 +116,7 @@ return {
 				weapontimer = 3,
 				weapontype = "TorpedoLauncher",
 				weaponvelocity = 280,
-				customparams = {
-					bar_model = "cortorpedo.s3o",
-				},
+				customparams = {},
 				damage = {
 					commanders = 350,
 					default = 253.125,

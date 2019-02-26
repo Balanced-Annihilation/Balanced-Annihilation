@@ -11,7 +11,7 @@ return {
 		canguard = false,
 		canpatrol = false,
 		canrepeat = false,
-		category = "ALL WEAPON MINE NOTSUB NOTAIR HOVER SURFACE",
+		category = "ALL WEAPON MINE NOTSUB NOTAIR HOVER SURFACE EMPABLE",
 		cloakcost = 2,
 		collide = false,
 		collisionvolumeoffsets = "0 -1.5 0",
@@ -42,8 +42,6 @@ return {
 		stealth = true,
 		waterline = 1,
 		customparams = {
-			bar_collisionvolumescales = "18 5 18",
-			bar_yardmap = "w",
 			detonaterange = "64",
 			model_author = "Beherith",
 			removestop = true,

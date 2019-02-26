@@ -14,7 +14,7 @@ return {
 		buildpic = "ARMMEX.DDS",
 		buildtime = 1800,
 		canrepeat = false,
-		category = "ALL NOTLAND NOTSUB NOWEAPON NOTSHIP NOTAIR NOTHOVER SURFACE",
+		category = "ALL NOTLAND NOTSUB NOWEAPON NOTSHIP NOTAIR NOTHOVER SURFACE EMPABLE",
 		collisionvolumeoffsets = "0 0 0",
 		collisionvolumescales = "41 26 41",
 		collisionvolumetype = "CylY",
@@ -41,7 +41,6 @@ return {
 		usebuildinggrounddecal = true,
 		yardmap = "ooooooooo",
 		customparams = {
-			bar_collisionvolumescales = "48 80 48",
 			cvbuildable = true,
 			metal_extractor = 1,
 			model_author = "Cremuss",

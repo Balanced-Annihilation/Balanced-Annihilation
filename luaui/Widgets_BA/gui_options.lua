@@ -116,7 +116,6 @@ local presetNames = {'lowest','low','medium','high','ultra'}	-- defined so these
 local presets = {
 	lowest = {
 		bloom = false,
-		bloomdeferred = false,
 		water = 1,
 		mapedgeextension = false,
 		lighteffects = false,
@@ -137,7 +136,6 @@ local presets = {
 		shadows = false,
 		advmapshading = false,
 		advmodelshading = false,
-		normalmapping = false,
 		decals = 0,
 		grounddetail = 60,
 		darkenmap_darkenfeatures = false,
@@ -145,7 +143,6 @@ local presets = {
 	},
 	low = {
 		bloom = false,
-		bloomdeferred = false,
 		water = 2,
 		mapedgeextension = false,
 		lighteffects = true,
@@ -166,7 +163,6 @@ local presets = {
 		shadows = false,
 		advmapshading = true,
 		advmodelshading = true,
-		normalmapping = false,
 		decals = 0,
 		grounddetail = 90,
 		darkenmap_darkenfeatures = false,
@@ -174,7 +170,6 @@ local presets = {
 	},
 	medium = {
 		bloom = false,
-		bloomdeferred = true,
 		water = 4,
 		mapedgeextension = true,
 		lighteffects = true,
@@ -195,7 +190,6 @@ local presets = {
 		shadows = false,
 		advmapshading = true,
 		advmodelshading = true,
-		normalmapping = true,
 		decals = 1,
 		grounddetail = 140,
 		darkenmap_darkenfeatures = false,
@@ -203,7 +197,6 @@ local presets = {
 	},
 	high = {
 		bloom = true,
-		bloomdeferred = true,
 		water = 3,
 		mapedgeextension = true,
 		lighteffects = true,
@@ -224,7 +217,6 @@ local presets = {
 		shadows = true,
 		advmapshading = true,
 		advmodelshading = true,
-		normalmapping = true,
 		decals = 2,
 		grounddetail = 180,
 		darkenmap_darkenfeatures = false,
@@ -232,7 +224,6 @@ local presets = {
 	},
 	ultra = {
 		bloom = true,
-		bloomdeferred = true,
 		water = 5,
 		mapedgeextension = true,
 		lighteffects = true,
@@ -253,7 +244,6 @@ local presets = {
 		shadows = true,
 		advmapshading = true,
 		advmodelshading = true,
-		normalmapping = true,
 		decals = 3,
 		grounddetail = 200,
 		darkenmap_darkenfeatures = true,
@@ -1037,11 +1027,6 @@ function applyOptionValue(i, skipRedrawWindow)
 		elseif id == 'advmodelshading' then
 			Spring.SendCommands("AdvModelShading "..value)
 			Spring.SetConfigInt("AdvModelShading",value)
-		elseif id == 'normalmapping' then
-			if (Spring.GetModOptions and (tonumber(Spring.GetModOptions().barmodels) or 0) ~= 0) or UnitDefNames["armcom_bar"] then
-				Spring.SendCommands("luarules normalmapping "..value)
-			end
-			Spring.SetConfigInt("NormalMapping",value)
 		elseif id == 'lupsdynamic' then
 			Spring.SetConfigInt("DynamicLups",value)
 		elseif id == 'lupsreflectionrefraction' then
@@ -1108,12 +1093,6 @@ function applyOptionValue(i, skipRedrawWindow)
 			saveOptionValue('Ally Selected Units', 'allyselectedunits', 'setSelectPlayerUnits', {'selectPlayerUnits'}, options[i].value)
 		elseif id == 'voicenotifs_playtrackedplayernotifs' then
 			saveOptionValue('Voice Notifs', 'voicenotifs', 'setPlayTrackedPlayerNotifs', {'playTrackedPlayerNotifs'}, options[i].value)
-		elseif id == 'oldicons' then
-			saveOptionValue('Red Build/Order Menu', 'red_buildmenu', 'setConfigOldUnitIcons', {'oldUnitpics'}, options[i].value)
-			saveOptionValue('Selected Units Buttons', 'selunitbuttons', 'setOldUnitIcons', {'oldUnitpics'}, options[i].value)
-			saveOptionValue('BuildBar', 'buildbar', 'setOldUnitIcons', {'oldUnitpics'}, options[i].value)
-			saveOptionValue('Unit Stats', 'unitstats', 'setOldUnitIcons', {'oldUnitpics'}, options[i].value)
-			saveOptionValue('Initial Queue', 'initialqueue', 'setOldUnitIcons', {'oldUnitpics'}, options[i].value)
 		elseif id == 'buildmenushortcuts' then
 			saveOptionValue('Red Build/Order Menu', 'red_buildmenu', 'setConfigShortcutsInfo', {'shortcutsInfo'}, options[i].value)
 		elseif id == 'buildmenuprices' then
@@ -1250,7 +1229,7 @@ function applyOptionValue(i, skipRedrawWindow)
 
 		if options[i].widget ~= nil then
 			if value == 1 then
-				if id == 'bloom' or id == 'bloomdeferred' or id == 'guishader' or id == 'xrayshader' or id == 'snow' or id == 'mapedgeextension' then
+				if id == 'bloom' or id == 'guishader' or id == 'xrayshader' or id == 'snow' or id == 'mapedgeextension' then
 					if luaShaders ~= 1 and not enabledLuaShaders then
 						Spring.SetConfigInt("ForceShaders", 1)
 						enabledLuaShaders = true
@@ -1363,10 +1342,6 @@ function applyOptionValue(i, skipRedrawWindow)
 			saveOptionValue('Darken map', 'darkenmap', 'setMapDarkness', {'maps',Game.mapName:lower()}, value)
 		elseif id == 'healthbarsscale' then
 			saveOptionValue('Health Bars', 'healthbars', 'setScale', {'barScale'}, value)
-		elseif id == 'bloomdeferredbrightness' then
-			saveOptionValue('Bloom Shader Deferred', 'bloomdeferred', 'setBrightness', {'glowAmplifier'}, value)
-		elseif id == 'bloomdeferredsize' then
-			saveOptionValue('Bloom Shader Deferred', 'bloomdeferred', 'setBlursize', {'globalBlursizeMult'}, value)
 		elseif id == 'bloombrightness' then
 			saveOptionValue('Bloom Shader', 'bloom', 'setBrightness', {'basicAlpha'}, value)
 		elseif id == 'bloomsize' then
@@ -1450,8 +1425,6 @@ function applyOptionValue(i, skipRedrawWindow)
 			end
 		elseif id == 'iconset' then
 			Spring.SendCommands("luarules uniticonset "..options[i].options[value])
-		elseif id == 'bloomdeferredquality' then
-			saveOptionValue('Bloom Shader Deferred', 'bloomdeferred', 'setPreset', {'qualityPreset'}, value)
 		elseif id == 'bloomquality' then
 			saveOptionValue('Bloom Shader', 'bloom', 'setPreset', {'qualityPreset'}, value)
 		elseif id == 'camera' then
@@ -1831,10 +1804,6 @@ function loadAllWidgetData()
 	loadWidgetData("Shadow Quality Manager", "shadows_minquality", {'minQuality'})
 	loadWidgetData("Shadow Quality Manager", "shadows_disablefps", {'disableFps'})
 
-	loadWidgetData("Bloom Shader Deferred", "bloomdeferredbrightness", {'glowAmplifier'})
-	loadWidgetData("Bloom Shader Deferred", "bloomdeferredsize", {'qualityBlursizeMult'})
-	loadWidgetData("Bloom Shader Deferred", "bloomdeferredquality", {'qualityPreset'})
-
 	loadWidgetData("Bloom Shader", "bloombrightness", {'basicAlpha'})
 	loadWidgetData("Bloom Shader", "bloomsize", {'globalBlursizeMult'})
 	loadWidgetData("Bloom Shader", "bloomquality", {'qualityPreset'})
@@ -1987,7 +1956,6 @@ function init()
 		{id="msaa", group="gfx", name="Anti Aliasing", type="slider", min=0, max=8, step=1, value=tonumber(Spring.GetConfigInt("MSAALevel",1) or 2), description='Enables multisample anti-aliasing. NOTE: Can be expensive!\n\nChanges will be applied next game'},
 		{id="advmapshading", group="gfx", name="Advanced map shading", type="bool", value=tonumber(Spring.GetConfigInt("AdvMapShading",1) or 1) == 1, description='When disabled: map shadows aren\'t rendered as well'},
 		{id="advmodelshading", group="gfx", name="Advanced model shading", type="bool", value=tonumber(Spring.GetConfigInt("AdvModelShading",1) or 1) == 1},
-		{id="normalmapping", group="gfx", name="Extra unit shading", type="bool", value=tonumber(Spring.GetConfigInt("NormalMapping",1) or 1) == 1, description='Adds highlights/darker areas, and even blinking lights to some units'},
 
 		-- only one of these shadow options are shown, depending if "Shadow Quality Manager" widget is active
 		{id="shadows", group="gfx", name="Shadows", type="bool", value=tonumber(Spring.GetConfigInt("Shadows",1) or 1) == 1, description='Shadow detail is currently controlled by "Shadow Quality Manager" widget\n...this widget will auto reduce detail when fps gets low.\n\nShadows requires "Advanced map shading" option to be enabled'},
@@ -2002,11 +1970,6 @@ function init()
 
 		{id="darkenmap", group="gfx", name="Darken map", min=0, max=0.5, step=0.01, type="slider", value=0, description='Darkens the whole map (not the units)\n\nRemembers setting per map\nUse /resetmapdarkness if you want to reset all stored map settings'},
 		{id="darkenmap_darkenfeatures", group="gfx", name=widgetOptionColor.."   darken features", type="bool", value=false, description='Darkens features (trees, wrecks, ect..) along with darken map slider above\n\nNOTE: This setting can be CPU intensive because it cycles through all visible features \nand renders then another time.'},
-
-		{id="bloomdeferred", group="gfx", widget="Bloom Shader Deferred", name="Bloom (unit)", type="bool", value=GetWidgetToggleValue("Bloom Shader Deferred"), description='Unit highlights and lights will glow.\n\n(via deferred rendering = less lag)'},
-		{id="bloomdeferredbrightness", group="gfx", name=widgetOptionColor.."   brightness", type="slider", min=0.4, max=1.1, step=0.05, value=1, description=''},
-		--{id="bloomdeferredsize", group="gfx", name=widgetOptionColor.."   size", type="slider", min=0.8, max=1.5, step=0.05, value=1, description=''},
-		--{id="bloomdeferredquality", group="gfx", name=widgetOptionColor.."   quality", type="select", options={'low','medium'}, value=1, description='Render quality'},
 
 		{id="bloom", group="gfx", widget="Bloom Shader", name="Bloom (global)", type="bool", value=GetWidgetToggleValue("Bloom Shader"), description='Bloom will make the map and units glow\n\n(might result in more laggy experience)'},
 		{id="bloombrightness", group="gfx", name=widgetOptionColor.."   brightness", type="slider", min=0.15, max=0.5, step=0.05, value=0.3, description=''},
@@ -2117,7 +2080,6 @@ function init()
 		{id="consolemaxlines", group="ui", name="Console max lines", type="slider", min=3, max=9, step=1, value=6, description=''},
 		{id="consolefontsize", group="ui", name="Console font size", type="slider", min=0.9, max=1.2, step=0.05, value=1, description=''},
 
-		{id="oldicons", group="ui", name="Old unit icons", type="bool", value=(WG['red_buildmenu']~=nil and WG['red_buildmenu'].getConfigOldUnitIcons()), description='Use the old unit icons in the buildmenu\n\n(reselect something to see the change applied)'},
 		{id="buildmenushortcuts", group="ui", name="Buildmenu shortcuts", type="bool", value=(WG['red_buildmenu']~=nil and WG['red_buildmenu'].getConfigShortcutsInfo()), description='Enables and shows shortcut keys in the buildmenu\n\n(reselect something to see the change applied)'},
 		{id="buildmenuprices", group="ui", name="Buildmenu prices", type="bool", value=(WG['red_buildmenu']~=nil and WG['red_buildmenu'].getConfigUnitPrice~=nil and WG['red_buildmenu'].getConfigUnitPrice()), description='Enables and shows unit prices in the buildmenu\n\n(reselect something to see the change applied)'},
 		{id="buildmenuradaricons", group="ui", name="Buildmenu radar icons", type="bool", value=(WG['red_buildmenu']~=nil and WG['red_buildmenu'].getConfigUnitRadaricon~=nil and WG['red_buildmenu'].getConfigUnitRadaricon()), description='Shows unit radar icon in the buildmenu\n\n(reselect something to see the change applied)'},
@@ -2248,10 +2210,6 @@ function init()
 		end
 	end
 
-	if UnitDefNames["armcom_bar"] and options[getOptionByID('normalmapping')] then
-		options[getOptionByID('normalmapping')].description = options[getOptionByID('normalmapping')].description..'\n\nOnly applies to remodelled units'
-	end
-
     -- detect AI
     local aiDetected = false
     local t = Spring.GetTeamList()
@@ -2327,20 +2285,10 @@ function init()
 		options[getOptionByID('cursor')].value = cursor
 	end
 
-	if (Spring.GetModOptions and (tonumber(Spring.GetModOptions().barmodels) or 0) == 0) and not UnitDefNames["armcom_bar"] then
-		options[getOptionByID('normalmapping')] = nil
-		options[getOptionByID('oldicons')] = nil
-	end
-
 	if widgetHandler.knownWidgets["Bloom Shader"] == nil then
 		options[getOptionByID('bloombrightness')] = nil
 		options[getOptionByID('bloomsize')] = nil
 		options[getOptionByID('bloomquality')] = nil
-	end
-	if widgetHandler.knownWidgets["Bloom Shader Deferred"] == nil then
-		options[getOptionByID('bloomdeferredbrightness')] = nil
-		options[getOptionByID('bloomdeferredsize')] = nil
-		options[getOptionByID('bloomdeferredquality')] = nil
 	end
 
 	if (WG['healthbars'] == nil) then
@@ -2495,7 +2443,7 @@ function init()
 			insert = false
 		end
 		if luaShaders ~= 1 then
-			if option.id == "advmapshading" or option.id == "advmodelshading" or option.id == "bloom" or option.id == "bloomdeferred" or option.id == "guishader" or option.id == "xrayshader" or option.id == "mapedgeextension" or option.id == "snow" then
+			if option.id == "advmapshading" or option.id == "advmodelshading" or option.id == "bloom" or option.id == "guishader" or option.id == "xrayshader" or option.id == "mapedgeextension" or option.id == "snow" then
 				option.description = 'You dont have shaders enabled, we will enable it for you but...\n\nChanges will be applied next game'
 			end
 		end
@@ -2689,7 +2637,6 @@ function widget:GetConfigData(data)
 		camera = {'CamMode', tonumber(Spring.GetConfigInt("CamMode",1) or 1)},
 		advmodelshading = {'AdvModelShading', tonumber(Spring.GetConfigInt("AdvModelShading",1) or 1)},
 		advmapshading = {'AdvMapShading', tonumber(Spring.GetConfigInt("AdvMapShading",1) or 1)},
-		normalmapping = {'NormalMapping', tonumber(Spring.GetConfigInt("NormalMapping",1) or 1)},
 		treewind = {'TreeWind', tonumber(Spring.GetConfigInt("TreeWind",1) or 1)},
 		hwcursor = {'HardwareCursor', tonumber(Spring.GetConfigInt("HardwareCursor",1) or 1)},
 		sndvolmaster = {'snd_volmaster', tonumber(Spring.GetConfigInt("snd_volmaster",40) or 40)},

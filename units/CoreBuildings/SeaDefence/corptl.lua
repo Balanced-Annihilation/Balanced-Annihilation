@@ -9,7 +9,7 @@ return {
 		buildpic = "CORTL.DDS",
 		buildtime = 3760,
 		canrepeat = false,
-		category = "ALL NOTLAND WEAPON NOTSHIP NOTSUB NOTAIR NOTHOVER SURFACE",
+		category = "ALL NOTLAND WEAPON NOTSHIP NOTSUB NOTAIR NOTHOVER SURFACE EMPABLE",
 		corpse = "DEAD",
 		description = "Pop-up Torpedo Launcher",
 		energymake = 0.2,
@@ -115,9 +115,7 @@ return {
 				weapontimer = 3,
 				weapontype = "TorpedoLauncher",
 				weaponvelocity = 650,
-				customparams = {
-					bar_model = "cortorpedo.s3o",
-				},
+				customparams = {},
 				damage = {
 					commanders = 250,
 					default = 189,

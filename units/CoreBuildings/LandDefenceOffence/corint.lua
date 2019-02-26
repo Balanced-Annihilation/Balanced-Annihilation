@@ -12,7 +12,7 @@ return {
 		buildpic = "CORINT.DDS",
 		buildtime = 93237,
 		canrepeat = false,
-		category = "ALL NOTLAND WEAPON NOTSUB NOTSHIP NOTAIR NOTHOVER SURFACE",
+		category = "ALL NOTLAND WEAPON NOTSUB NOTSHIP NOTAIR NOTHOVER SURFACE EMPABLE",
 		collisionvolumeoffsets = "0 0 -20",
 		collisionvolumescales = "72 105 72",
 		collisionvolumetype = "CylY",
@@ -36,8 +36,6 @@ return {
 		usepiececollisionvolumes = 1,
 		yardmap = "ooooooooooooooooooooooooo",
 		customparams = {
-			bar_buildinggrounddecalsizex = 7.5,
-			bar_buildinggrounddecalsizey = 7.5,
 			canareaattack = 1,
 			model_author = "Mr Bob",
 			removewait = true,

@@ -1,13 +1,13 @@
 return {
 	armamph = {
-		acceleration = 0.12,
-		brakerate = 0.564,
+		acceleration = 0.138,
+		brakerate = 0.6486,
 		buildcostenergy = 2700,
 		buildcostmetal = 260,
 		buildpic = "ARMAMPH.DDS",
 		buildtime = 5182,
 		canmove = true,
-		category = "KBOT MOBILE WEAPON ALL NOTSHIP NOTAIR NOTSUB SURFACE PHIB",
+		category = "KBOT MOBILE WEAPON ALL NOTSHIP NOTAIR NOTSUB SURFACE PHIB EMPABLE",
 		collisionvolumeoffsets = "0 0 -8",
 		collisionvolumescales = "27 27 33",
 		collisionvolumetype = "CylZ",
@@ -31,10 +31,10 @@ return {
 		seismicsignature = 0,
 		selfdestructas = "smallExplosionGenericSelfd-phib",
 		sightdistance = 377,
-		turninplace = 0,
-		turninplaceanglelimit = 140,
+		turninplace = true,
+		turninplaceanglelimit = 90,
 		turninplacespeedlimit = 1.98,
-		turnrate = 440,
+		turnrate = 506,
 		upright = true,
 		customparams = {
 			model_author = "FireStorm",
@@ -147,7 +147,6 @@ return {
 				weapontype = "MissileLauncher",
 				weaponvelocity = 850,
 				customparams = {
-					bar_model = "cormissile.s3o",
 					expl_light_color = "1 0.4 0.5",
 					light_color = "1 0.5 0.6",
 					light_skip = true,

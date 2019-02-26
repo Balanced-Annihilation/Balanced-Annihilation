@@ -37,11 +37,12 @@ end
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 
+local renderOverlay = false
+
 if (gadgetHandler:IsSyncedCode()) then
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 
-  local renderOverlay = true
 
 
   local units = {}
@@ -92,7 +93,7 @@ if (gadgetHandler:IsSyncedCode()) then
 			if env then lus = true end
 			local undefid = Spring.GetUnitDefID(uid)
 				
-			Spring.Echo("Processing unit :- ",undefid)
+			--Spring.Echo("Processing unit :- ",undefid)
 			if lus then
 				if env.Activate then Spring.UnitScript.CallAsUnit(uid, env.Activate) end
 			else Spring.CallCOBScript(uid,"Activate",0) end
@@ -225,11 +226,7 @@ local function LoadScheme()
 
   autoConfigs = {} --// reset
 
-  if Spring.GetModOptions and (tonumber(Spring.GetModOptions().barmodels) or 0) ~= 0 then
-    include("LuaRules/Configs/","icon_generator_bar.lua")
-  else
-    include("LuaRules/Configs/","icon_generator.lua")
-  end
+  include("LuaRules/Configs/","icon_generator.lua")
 
   setmetatable(unitConfigs,{__index=autoConfigs});
 end
@@ -995,14 +992,7 @@ end
 
         gl.Flush();
         gl.ActiveFBO(post_fbo, GL_READ_FRAMEBUFFER_EXT, function()
-          --if unitAnimCfg[udid] then  -- when for anim-gif rotating, use same center cfg
-          --  result,left,bottom,width,height = unitAnimCfg[udid][1],unitAnimCfg[udid][2],unitAnimCfg[udid][3],unitAnimCfg[udid][4],unitAnimCfg[udid][5]
-          --else
-            result,left,bottom,width,height = CenterIcon(udid);
-          --  unitAnimCfg[udid] = {}
-          --  unitAnimCfg[udid][1],unitAnimCfg[udid][2],unitAnimCfg[udid][3],unitAnimCfg[udid][4],unitAnimCfg[udid][5] = result,left,bottom,width,height
-          --  result,left,bottom,width,height = unitAnimCfg[udid][1],unitAnimCfg[udid][2],unitAnimCfg[udid][3],unitAnimCfg[udid][4],unitAnimCfg[udid][5]
-          --end
+        result,left,bottom,width,height = CenterIcon(udid);
         end);
 
         attempts = attempts + 1;
@@ -1138,7 +1128,6 @@ local schemes,resolutions,ratios = {},{},{}
       return false;
     end
 
-
     --//note: we have a LIFO stack
     for _,res in pairs(resolutions) do
       for _,_scheme in pairs(schemes) do
@@ -1151,6 +1140,7 @@ local schemes,resolutions,ratios = {},{},{}
 			  AddJob( WaitForSyncedJobs );
 			  if (words[1] and words[1]~="all") then
 				AddJob( function () AddUnitJob(UnitDefNames[ words[1] ].id, words[2], words[3]); end);
+                Spring.Echo('buildicon: '..words[1]..'  '..(words[3] or ''))
 			  else
 				for udid=#UnitDefs,1,-1 do
 					AddJob( function () AddUnitJob(udid); end);
@@ -1197,11 +1187,7 @@ local schemes,resolutions,ratios = {},{},{}
 
   function gadget:Initialize()
     --// get all known configurations
-    if Spring.GetModOptions and (tonumber(Spring.GetModOptions().barmodels) or 0) ~= 0 then
-      schemes,resolutions,ratios = include("LuaRules/Configs/","icon_generator_bar.lua",{info=true})
-    else
-      schemes,resolutions,ratios = include("LuaRules/Configs/","icon_generator.lua",{info=true})
-    end
+    schemes,resolutions,ratios = include("LuaRules/Configs/","icon_generator.lua",{info=true})
 
     gadgetHandler:AddChatAction("buildicon", BuildIcon," : auto generates creates buildicons");
     gadgetHandler:AddChatAction("buildicons", BuildIcon," : auto generates creates buildicons");

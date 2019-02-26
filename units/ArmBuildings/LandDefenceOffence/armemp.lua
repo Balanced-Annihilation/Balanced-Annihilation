@@ -11,7 +11,7 @@ return {
 		buildinggrounddecaltype = "decals/armemp_aoplane.dds",
 		buildpic = "ARMEMP.DDS",
 		buildtime = 79247,
-		category = "ALL NOTLAND WEAPON NOTSUB NOTSHIP NOTAIR NOTHOVER SURFACE",
+		category = "ALL NOTLAND WEAPON NOTSUB NOTSHIP NOTAIR NOTHOVER SURFACE EMPABLE",
 		collisionvolumeoffsets = "0 18 0",
 		collisionvolumescales = "48 28 48",
 		collisionvolumetype = "Box",
@@ -34,9 +34,6 @@ return {
 		usebuildinggrounddecal = true,
 		yardmap = "oooooooooooooooo",
 		customparams = {
-			bar_buildinggrounddecalsizex = 6,
-			bar_buildinggrounddecalsizey = 6,
-			bar_collisionvolumescales = "112 80 80",
 			model_author = "Beherith",
 			removewait = true,
 			subfolder = "armbuildings/landdefenceoffence",
@@ -157,7 +154,6 @@ return {
 				weapontype = "StarburstLauncher",
 				weaponvelocity = 1200,
 				customparams = {
-					bar_model = "cortronmissile.s3o",
 					expl_light_color = "0.5 0.5 1",
 					expl_light_life_mult = 4.5,
 					expl_light_mult = 2.5,

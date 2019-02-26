@@ -38,7 +38,6 @@ return {
 			model_author = "Mr Bob",
 			subfolder = "coreaircraft/t2",
 			techlevel = 2,
-			wingsurface = 0.65,
 		},
 		sfxtypes = {
 			crashexplosiongenerators = {
@@ -110,9 +109,7 @@ return {
 				weapontimer = 5,
 				weapontype = "MissileLauncher",
 				weaponvelocity = 700,
-				customparams = {
-					bar_model = "cormissile2fast.s3o",
-				},
+				customparams = {},
 				damage = {
 					bombers = 15,
 					commanders = 61,

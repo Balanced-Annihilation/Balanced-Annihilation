@@ -13,7 +13,7 @@ return {
 		buildpic = "ARMPACKO.DDS",
 		buildtime = 5810,
 		canrepeat = false,
-		category = "ALL NOTLAND WEAPON NOTSUB NOTSHIP NOTAIR NOTHOVER SURFACE",
+		category = "ALL NOTLAND WEAPON NOTSUB NOTSHIP NOTAIR NOTHOVER SURFACE EMPABLE",
 		cloakcost = 12,
 		corpse = "DEAD",
 		damagemodifier = 0.2,
@@ -154,7 +154,6 @@ return {
 				weapontype = "MissileLauncher",
 				weaponvelocity = 1200,
 				customparams = {
-					bar_model = "cormissile.s3o",
 					expl_light_color = "1 0.4 0.5",
 					expl_light_mult = 0.4,
 					expl_light_radius_mult = 0.66,

@@ -47,7 +47,6 @@ return {
 			model_author = "Mr Bob",
 			paralyzemultiplier = 0.025,
 			subfolder = "coreaircraft",
-			wingsurface = 0.1,
 		},
 		sfxtypes = {
 			crashexplosiongenerators = {

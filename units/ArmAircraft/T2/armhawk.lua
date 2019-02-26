@@ -18,7 +18,13 @@ return {
 		footprintx = 2,
 		footprintz = 2,
 		icontype = "air",
+		maxacc = 0.2325,
+		maxaileron = 0.01458,
+		maxbank = 0.8,
 		maxdamage = 335,
+		maxelevator = 0.01083,
+		maxpitch = 0.625,
+		maxrudder = 0.00633,
 		maxslope = 10,
 		maxvelocity = 11.96,
 		maxwaterdepth = 0,
@@ -28,13 +34,17 @@ return {
 		seismicsignature = 0,
 		selfdestructas = "smallExplosionGenericAir",
 		sightdistance = 250,
+		speedtofront = 0.063,
 		stealth = true,
+		turnradius = 64,
 		turnrate = 900,
+		usesmoothmesh = true,
+		wingangle = 0.06333,
+		wingdrag = 0.0575,
 		customparams = {
 			model_author = "FireStorm",
 			subfolder = "armaircraft/t2",
 			techlevel = 2,
-			wingsurface = 0.4,
 		},
 		sfxtypes = {
 			pieceexplosiongenerators = {
@@ -102,7 +112,6 @@ return {
 				weapontype = "MissileLauncher",
 				weaponvelocity = 970,
 				customparams = {
-					bar_model = "cormissile.s3o",
 					light_skip = true,
 				},
 				damage = {

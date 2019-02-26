@@ -13,7 +13,7 @@ return {
 		buildpic = "CORMADSAM.DDS",
 		buildtime = 5237,
 		canrepeat = false,
-		category = "ALL NOTLAND WEAPON NOTSUB NOTSHIP NOTAIR NOTHOVER SURFACE",
+		category = "ALL NOTLAND WEAPON NOTSUB NOTSHIP NOTAIR NOTHOVER SURFACE EMPABLE",
 		collisionvolumeoffsets = "-1 5 -2",
 		collisionvolumescales = "45 54 45",
 		collisionvolumetype = "CylY",
@@ -152,7 +152,6 @@ return {
 				weapontype = "MissileLauncher",
 				weaponvelocity = 1250,
 				customparams = {
-					bar_model = "cormissile.s3o",
 					expl_light_color = "1 0.4 0.5",
 					expl_light_mult = 0.4,
 					expl_light_radius_mult = 0.66,

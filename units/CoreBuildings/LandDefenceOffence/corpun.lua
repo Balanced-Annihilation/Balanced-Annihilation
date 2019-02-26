@@ -12,7 +12,7 @@ return {
 		buildpic = "CORPUN.DDS",
 		buildtime = 19268,
 		canrepeat = false,
-		category = "ALL NOTLAND WEAPON NOTSUB NOTSHIP NOTAIR NOTHOVER SURFACE",
+		category = "ALL NOTLAND WEAPON NOTSUB NOTSHIP NOTAIR NOTHOVER SURFACE EMPABLE",
 		collisionvolumeoffsets = "0 -13 0",
 		collisionvolumescales = "52 60 52",
 		collisionvolumetype = "CylY",
@@ -37,8 +37,6 @@ return {
 		usebuildinggrounddecal = true,
 		yardmap = "oooooooooooooooo",
 		customparams = {
-			bar_buildinggrounddecalsizex = 5.7,
-			bar_buildinggrounddecalsizey = 5.7,
 			model_author = "Mr Bob",
 			removewait = true,
 			subfolder = "corebuildings/landdefenceoffence",

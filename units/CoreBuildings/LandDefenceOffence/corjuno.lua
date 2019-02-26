@@ -10,7 +10,7 @@ return {
 		buildinggrounddecaltype = "decals/corjuno_aoplane.dds",
 		buildpic = "CORJUNO.DDS",
 		buildtime = 27681,
-		category = "ALL NOTLAND WEAPON NOTSUB NOTSHIP NOTAIR NOTHOVER SURFACE",
+		category = "ALL NOTLAND WEAPON NOTSUB NOTSHIP NOTAIR NOTHOVER SURFACE EMPABLE",
 		collisionvolumeoffsets = "0 -2 0",
 		collisionvolumescales = "44 88 44",
 		collisionvolumetype = "CylY",
@@ -34,10 +34,6 @@ return {
 		usebuildinggrounddecal = true,
 		yardmap = "oooooooooooooooo",
 		customparams = {
-			bar_buildinggrounddecalsizex = 5.4,
-			bar_buildinggrounddecalsizey = 5.4,
-			bar_collisionvolumeoffsets = "0 -2 0",
-			bar_collisionvolumescales = "50 88 50",
 			model_author = "Mr Bob",
 			removewait = true,
 			subfolder = "corebuildings/landdefenceoffence",
@@ -151,7 +147,6 @@ return {
 				weapontype = "StarburstLauncher",
 				weaponvelocity = 500,
 				customparams = {
-					bar_model = "epulse.s3o",
 					expl_light_color = "0.6 1 0.4",
 					expl_light_life_mult = "2.2",
 					expl_light_mult = "0.3",

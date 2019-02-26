@@ -15,7 +15,7 @@ return {
 		buildtime = 32500,
 		canattack = true,
 		canrepeat = false,
-		category = "ALL NOTLAND WEAPON NOTSUB NOTSHIP NOTAIR NOTHOVER SURFACE",
+		category = "ALL NOTLAND WEAPON NOTSUB NOTSHIP NOTAIR NOTHOVER SURFACE EMPABLE",
 		collisionvolumeoffsets = "0 -3 0",
 		collisionvolumescales = "75 44 75",
 		collisionvolumetype = "CylY",
@@ -149,9 +149,7 @@ return {
 				weapontimer = 5,
 				weapontype = "MissileLauncher",
 				weaponvelocity = 750,
-				customparams = {
-					bar_model = "cormissile.s3o",
-				},
+				customparams = {},
 				damage = {
 					bombers = 45,
 					commanders = 550,
@@ -175,7 +173,7 @@ return {
 				impactonly = 1,
 				impulseboost = 0,
 				impulsefactor = 0,
-				laserflaresize = 7,
+				laserflaresize = 7.7,
 				name = "High energy g2g laser",
 				noselfdamage = true,
 				range = 650,

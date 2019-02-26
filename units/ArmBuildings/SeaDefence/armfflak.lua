@@ -9,7 +9,7 @@ return {
 		buildpic = "ARMFFLAK.DDS",
 		buildtime = 21855,
 		canrepeat = false,
-		category = "ALL WEAPON NOTSUB NOTAIR NOTHOVER SURFACE",
+		category = "ALL WEAPON NOTSUB NOTAIR NOTHOVER SURFACE EMPABLE",
 		collisionvolumeoffsets = "0 -10 0",
 		collisionvolumescales = "42 44 42",
 		collisionvolumetype = "CylY",
@@ -31,8 +31,6 @@ return {
 		waterline = 0.3,
 		yardmap = "wwwwwwwww",
 		customparams = {
-			bar_collisionvolumeoffsets = "0 -10 0",
-			bar_collisionvolumescales = "42 64 42",
 			model_author = "FireStorm",
 			prioritytarget = "air",
 			removewait = true,

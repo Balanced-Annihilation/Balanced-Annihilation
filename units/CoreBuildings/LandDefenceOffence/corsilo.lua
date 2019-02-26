@@ -11,7 +11,7 @@ return {
 		buildinggrounddecaltype = "decals/corsilo_aoplane.dds",
 		buildpic = "CORSILO.DDS",
 		buildtime = 181243,
-		category = "ALL NOTLAND WEAPON NOTSUB NOTSHIP NOTAIR NOTHOVER SURFACE",
+		category = "ALL NOTLAND WEAPON NOTSUB NOTSHIP NOTAIR NOTHOVER SURFACE EMPABLE",
 		collisionvolumeoffsets = "0 18 -2",
 		collisionvolumescales = "90 38 84",
 		collisionvolumetype = "Box",
@@ -150,7 +150,6 @@ return {
 				weapontype = "StarburstLauncher",
 				weaponvelocity = 1600,
 				customparams = {
-					bar_model = "crblmssl.s3o",
 					expl_light_color = "1 0.85 0.55",
 					expl_light_life_mult = 2.5,
 					expl_light_mult = 1.25,

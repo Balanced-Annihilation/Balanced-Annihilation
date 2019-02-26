@@ -13,7 +13,7 @@ return {
 		buildpic = "CORSOLAR.DDS",
 		buildtime = 2800,
 		canrepeat = false,
-		category = "ALL NOTLAND NOTSUB NOWEAPON NOTSHIP NOTAIR NOTHOVER SURFACE",
+		category = "ALL NOTLAND NOTSUB NOWEAPON NOTSHIP NOTAIR NOTHOVER SURFACE EMPABLE",
 		collisionvolumeoffsets = "0.0 -35.0 0.0",
 		collisionvolumescales = "77.0 78.0 77.0",
 		collisionvolumetype = "Ell",
@@ -40,8 +40,6 @@ return {
 		usebuildinggrounddecal = true,
 		yardmap = "ooooo ooooo ooooo ooooo ooooo",
 		customparams = {
-			bar_collisionvolumeoffsets = "0 0 0",
-			bar_collisionvolumescales = "77 78 77",
 			model_author = "Mr Bob",
 			removestop = true,
 			removewait = true,

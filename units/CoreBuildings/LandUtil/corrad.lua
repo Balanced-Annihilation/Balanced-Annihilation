@@ -14,7 +14,7 @@ return {
 		buildtime = 1137,
 		canattack = false,
 		canrepeat = false,
-		category = "ALL NOTLAND NOTSUB NOWEAPON NOTSHIP NOTAIR NOTHOVER SURFACE",
+		category = "ALL NOTLAND NOTSUB NOWEAPON NOTSHIP NOTAIR NOTHOVER SURFACE EMPABLE",
 		collisionvolumeoffsets = "0 1 0",
 		collisionvolumescales = "30 99 30",
 		collisionvolumetype = "CylY",
@@ -43,8 +43,6 @@ return {
 		usebuildinggrounddecal = true,
 		yardmap = "oooo",
 		customparams = {
-			bar_collisionvolumeoffsets = "0 -12 0",
-			bar_collisionvolumescales = "32 99 32",
 			model_author = "Mr Bob",
 			removestop = true,
 			removewait = true,

@@ -12,7 +12,7 @@ return {
 		buildpic = "CORWIN.DDS",
 		buildtime = 1687,
 		canrepeat = false,
-		category = "ALL NOTLAND NOTSUB NOWEAPON NOTSHIP NOTAIR NOTHOVER SURFACE",
+		category = "ALL NOTLAND NOTSUB NOWEAPON NOTSHIP NOTAIR NOTHOVER SURFACE EMPABLE",
 		collisionvolumeoffsets = "0 2 0",
 		collisionvolumescales = "40 89 40",
 		collisionvolumetype = "CylY",
@@ -37,8 +37,6 @@ return {
 		windgenerator = 25,
 		yardmap = "ooo ooo ooo",
 		customparams = {
-			bar_buildinggrounddecalsizex = 4.5,
-			bar_buildinggrounddecalsizey = 4.5,
 			model_author = "Mr Bob",
 			removestop = true,
 			removewait = true,

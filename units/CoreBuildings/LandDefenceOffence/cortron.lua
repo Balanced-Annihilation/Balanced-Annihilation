@@ -11,7 +11,7 @@ return {
 		buildinggrounddecaltype = "decals/cortron_aoplane.dds",
 		buildpic = "CORTRON.DDS",
 		buildtime = 58927,
-		category = "ALL NOTLAND WEAPON NOTSUB NOTSHIP NOTAIR NOTHOVER SURFACE",
+		category = "ALL NOTLAND WEAPON NOTSUB NOTSHIP NOTAIR NOTHOVER SURFACE EMPABLE",
 		collisionvolumeoffsets = "0 0 0",
 		collisionvolumescales = "59 47 59",
 		collisionvolumetype = "CylY",
@@ -34,8 +34,6 @@ return {
 		usebuildinggrounddecal = true,
 		yardmap = "oooooooooooooooo",
 		customparams = {
-			bar_buildinggrounddecalsizex = 7.5,
-			bar_buildinggrounddecalsizey = 7.5,
 			model_author = "Mr Bob",
 			removewait = true,
 			subfolder = "corebuildings/landdefenceoffence",
@@ -151,7 +149,6 @@ return {
 				weapontype = "StarburstLauncher",
 				weaponvelocity = 1200,
 				customparams = {
-					bar_model = "cortronmissile.s3o",
 					expl_light_color = "1 0.9 0.7",
 					expl_light_life_mult = 1.7,
 					expl_light_mult = 1.25,

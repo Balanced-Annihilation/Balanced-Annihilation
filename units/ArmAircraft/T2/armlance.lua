@@ -20,7 +20,13 @@ return {
 		icontype = "air",
 		idleautoheal = 5,
 		idletime = 1800,
+		maxacc = 0.1325,
+		maxaileron = 0.01384,
+		maxbank = 0.8,
 		maxdamage = 1727,
+		maxelevator = 0.01009,
+		maxpitch = 0.625,
+		maxrudder = 0.00559,
 		maxslope = 10,
 		maxvelocity = 10.92,
 		maxwaterdepth = 0,
@@ -30,12 +36,16 @@ return {
 		seismicsignature = 0,
 		selfdestructas = "mediumExplosionGenericSelfd",
 		sightdistance = 455,
+		speedtofront = 0.06417,
+		turnradius = 64,
 		turnrate = 700,
+		usesmoothmesh = true,
+		wingangle = 0.06259,
+		wingdrag = 0.185,
 		customparams = {
 			model_author = "FireStorm",
 			subfolder = "armaircraft/t2",
 			techlevel = 2,
-			wingsurface = 0.5,
 		},
 		sfxtypes = {
 			crashexplosiongenerators = {
@@ -103,9 +113,7 @@ return {
 				weapontimer = 5,
 				weapontype = "TorpedoLauncher",
 				weaponvelocity = 200,
-				customparams = {
-					bar_model = "cortorpedo.s3o",
-				},
+				customparams = {},
 				damage = {
 					default = 1500,
 				},

@@ -1,13 +1,13 @@
 return {
 	corcat = {
-		acceleration = 0.108,
-		brakerate = 0.564,
+		acceleration = 0.1242,
+		brakerate = 0.6486,
 		buildcostenergy = 80000,
 		buildcostmetal = 4900,
 		buildpic = "CORCAT.DDS",
 		buildtime = 127000,
 		canmove = true,
-		category = "WEAPON NOTSUB NOTAIR NOTHOVER SURFACE KBOT",
+		category = "WEAPON NOTSUB NOTAIR NOTHOVER SURFACE KBOT EMPABLE",
 		collisionvolumeoffsets = "0 0 2",
 		collisionvolumescales = "60 53 30",
 		collisionvolumetype = "box",
@@ -30,9 +30,10 @@ return {
 		seismicsignature = 0,
 		selfdestructas = "hugeExplosionGenericSelfd",
 		sightdistance = 700,
-		turninplaceanglelimit = 140,
+		turninplace = true,
+		turninplaceanglelimit = 90,
 		turninplacespeedlimit = 1.056,
-		turnrate = 979,
+		turnrate = 1125.84998,
 		upright = true,
 		customparams = {
 			model_author = "FireStorm",
@@ -152,7 +153,6 @@ return {
 				weaponvelocity = 530,
 				wobble = 2000,
 				customparams = {
-					bar_model = "catapultmissile.s3o",
 					expl_light_color = "1 0.33 0.04",
 					expl_light_heat_radius_mult = 2.6,
 					expl_light_life_mult = 1.05,

@@ -12,7 +12,7 @@ return {
 		buildpic = "ARMAFUS.DDS",
 		buildtime = 312498,
 		canrepeat = false,
-		category = "ALL NOTSUB NOWEAPON NOTAIR NOTHOVER SURFACE",
+		category = "ALL NOTSUB NOWEAPON NOTAIR NOTHOVER SURFACE EMPABLE",
 		collisionvolumeoffsets = "0 0 0",
 		collisionvolumescales = "110 71 67",
 		collisionvolumetype = "Box",
@@ -38,9 +38,6 @@ return {
 		usebuildinggrounddecal = true,
 		yardmap = "ooooooooooooooooooooooooooooooooooo",
 		customparams = {
-			bar_footprintx = 6,
-			bar_footprintz = 6,
-			bar_yardmap = "oooooooooooooooooooooooooooooooooooo",
 			model_author = "Cremuss",
 			removestop = true,
 			removewait = true,

@@ -13,7 +13,7 @@ return {
 		buildpic = "ARMFLAK.DDS",
 		buildtime = 19005,
 		canrepeat = false,
-		category = "ALL NOTLAND WEAPON NOTSUB NOTSHIP NOTAIR NOTHOVER SURFACE",
+		category = "ALL NOTLAND WEAPON NOTSUB NOTSHIP NOTAIR NOTHOVER SURFACE EMPABLE",
 		collisionvolumeoffsets = "0 -9 0",
 		collisionvolumescales = "32 40 32",
 		collisionvolumetype = "CylY",
@@ -37,8 +37,6 @@ return {
 		usebuildinggrounddecal = true,
 		yardmap = "oooo",
 		customparams = {
-			bar_buildinggrounddecalsizex = 5,
-			bar_buildinggrounddecalsizey = 5,
 			model_author = "Cremuss",
 			prioritytarget = "air",
 			removewait = true,
