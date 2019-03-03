@@ -11,8 +11,6 @@ lua_BombsAway() { return 0; }
 
 activatescr()
 {
-
-
 	sleep 66;
 	return (0);
 }

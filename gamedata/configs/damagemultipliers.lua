@@ -10,7 +10,7 @@
 local damageMultipliers = {
 
 	bullet={ 	peon = 1,		rpg = 1.5,		stalwart = 0.6,	aiv = 0.45,			tank = 0.3,		artillery = 0.5,
-				fighter = 0.4,	gunship = 2,	bomber = 1.5, 	structure = 0.75, 	defense = 0.25, defenseaa = 0.35, 	commander = 0.42,
+				fighter = 0.4,	gunship = 2,	bomber = 1.5, 	structure = 0.75, 	defense = 0.263,defenseaa = 0.35, 	commander = 0.42,
 				invader = 0.75,	heavybot = 0.6,	assault = 0.25,	heavyveh = 1,	    resource = 0.25,
 	}
     ,
