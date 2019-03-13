@@ -1,0 +1,2608 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1">
+    <asset>
+        <contributor>
+            <authoring_tool>modo 1021 [Build 126693], Microsoft Windows 10 (10.0.17134)</authoring_tool>
+            <comments>
+                Plug-in: [Build 126693];
+                Use Absolute Path: No;
+                Merge Reference Items: No;
+                Save Hidden Items: Yes;
+                Save Cameras: Yes;
+                Save Lights: Yes;
+                Save Locators: Yes;
+                Save Triangles as Triangles: No;
+                Order Vertex Maps Alphabetically: Yes;
+                Bake Matrices: No;
+                Save Vertex Normals: Yes;
+                Save UV Texture Coordinates: Yes;
+                Save Vertex Colors: Yes;
+                Save Vertex Weights: Yes;
+                Save Animation: Yes;
+                Sample Animation: No;
+                Sample Animation Start: 0;
+                Sample Animation End: 120;
+                Save modo Profile: Yes;
+                Save Maya Profile: Yes;
+                Save 3ds Max Profile: Yes;
+                Formatted Arrays: Yes;
+            </comments>
+            <source_data>file://Untitled</source_data>
+        </contributor>
+        <created>2019-03-04T02:35:02Z</created>
+        <modified>2019-03-04T02:35:02Z</modified>
+        <up_axis>Y_UP</up_axis>
+    </asset>
+    <library_materials>
+        <material id="Material-lambert3" name="lambert3">
+            <instance_effect url="#Effect-lambert3" />
+        </material>
+    </library_materials>
+    <library_effects>
+        <effect id="Effect-lambert3" name="lambert3">
+            <profile_COMMON>
+                <technique sid="common">
+                    <phong>
+                        <diffuse>
+                            <color sid="diffuse_effect_rgb">0.48 0.48 0.48 1</color>
+                        </diffuse>
+                        <specular>
+                            <color sid="specular_effect_rgb">0.04 0.04 0.04 1</color>
+                        </specular>
+                        <shininess>
+                            <float sid="specular_effect_rgb">256</float>
+                        </shininess>
+                    </phong>
+                </technique>
+            </profile_COMMON>
+        </effect>
+    </library_effects>
+    <library_geometries>
+        <geometry id="Geometry-pylon1" name="pylon1">
+            <mesh>
+                <source id="Geometry-pylon1-positions" name="positions">
+                    <float_array id="Geometry-pylon1-positions-array" count="24">
+                        2708.22 689.951 700.247
+                        2708.22 689.951 1523.43
+                        2747.73 11.38 1589.28
+                        2747.73 11.38 634.392
+                        2214.31 689.951 1523.43
+                        2174.8 11.38 1589.28
+                        2214.31 689.951 700.247
+                        2174.8 11.38 634.392
+                    </float_array>
+                    <technique_common>
+                        <accessor count="8" source="#Geometry-pylon1-positions-array" stride="3">
+                            <param name="X" type="float" />
+                            <param name="Y" type="float" />
+                            <param name="Z" type="float" />
+                        </accessor>
+                    </technique_common>
+                </source>
+                <source id="Geometry-pylon1-normals" name="normals">
+                    <float_array id="Geometry-pylon1-normals-array" count="3">
+                        0 0 0
+                    </float_array>
+                    <technique_common>
+                        <accessor count="1" source="#Geometry-pylon1-normals-array" stride="3">
+                            <param name="X" type="float" />
+                            <param name="Y" type="float" />
+                            <param name="Z" type="float" />
+                        </accessor>
+                    </technique_common>
+                </source>
+                <source id="Geometry-pylon1-pylon1-UV0" name="pylon1-UV0">
+                    <float_array id="Geometry-pylon1-pylon1-UV0-array" count="16">
+                        0.875977 0.188477
+                        0.750977 0.188477
+                        0.750977 0.063477
+                        0.875977 0.063477
+                        0.719727 0.938477
+                        0.594727 0.938477
+                        0.594727 0.813477
+                        0.719727 0.813477
+                    </float_array>
+                    <technique_common>
+                        <accessor count="8" source="#Geometry-pylon1-pylon1-UV0-array" stride="2">
+                            <param name="S" type="float" />
+                            <param name="T" type="float" />
+                        </accessor>
+                    </technique_common>
+                </source>
+                <vertices id="Geometry-pylon1-vertices">
+                    <input semantic="POSITION" source="#Geometry-pylon1-positions" />
+                </vertices>
+                <polylist count="5" material="Material-lambert3">
+                    <input semantic="VERTEX" source="#Geometry-pylon1-vertices" offset="0" />
+                    <input semantic="NORMAL" source="#Geometry-pylon1-normals" offset="1" />
+                    <input semantic="TEXCOORD" source="#Geometry-pylon1-pylon1-UV0" offset="2" set="0" />
+                    <vcount>4 4 4 4 4</vcount>
+                    <p>0 0 0 1 0 1 2 0 2 3 0 3 1 0 4 4 0 5 5 0 6 2 0 7 4 0 0 1 0 1 0 0 2 6 0 3 6 0 0 0 0 1 3 0 2 7 0 3 4 0 0 6 0 1 7 0 2 5 0 3</p>
+                </polylist>
+                <extra>
+                    <technique profile="modo401">
+                        <param sid="render" name="Render" type="Name">default</param>
+                        <param sid="dissolve" name="Dissolve" type="float">0</param>
+                        <param sid="curves" name="Render_Curves" type="bool">false</param>
+                        <param sid="radius" name="Curve_Radius" type="float">0.05</param>
+                    </technique>
+                </extra>
+            </mesh>
+        </geometry>
+        <geometry id="Geometry-pylon2" name="pylon2">
+            <mesh>
+                <source id="Geometry-pylon2-positions" name="positions">
+                    <float_array id="Geometry-pylon2-positions-array" count="24">
+                        2708.22 689.951 -1399.75
+                        2708.22 689.951 -576.572
+                        2747.73 11.38 -510.716
+                        2747.73 11.38 -1465.61
+                        2214.31 689.951 -576.572
+                        2174.8 11.38 -510.716
+                        2214.31 689.951 -1399.75
+                        2174.8 11.38 -1465.61
+                    </float_array>
+                    <technique_common>
+                        <accessor count="8" source="#Geometry-pylon2-positions-array" stride="3">
+                            <param name="X" type="float" />
+                            <param name="Y" type="float" />
+                            <param name="Z" type="float" />
+                        </accessor>
+                    </technique_common>
+                </source>
+                <source id="Geometry-pylon2-normals" name="normals">
+                    <float_array id="Geometry-pylon2-normals-array" count="3">
+                        0 0 0
+                    </float_array>
+                    <technique_common>
+                        <accessor count="1" source="#Geometry-pylon2-normals-array" stride="3">
+                            <param name="X" type="float" />
+                            <param name="Y" type="float" />
+                            <param name="Z" type="float" />
+                        </accessor>
+                    </technique_common>
+                </source>
+                <source id="Geometry-pylon2-pylon2-UV0" name="pylon2-UV0">
+                    <float_array id="Geometry-pylon2-pylon2-UV0-array" count="16">
+                        0.875977 0.188477
+                        0.750977 0.188477
+                        0.750977 0.063477
+                        0.875977 0.063477
+                        0.719727 0.938477
+                        0.594727 0.938477
+                        0.594727 0.813477
+                        0.719727 0.813477
+                    </float_array>
+                    <technique_common>
+                        <accessor count="8" source="#Geometry-pylon2-pylon2-UV0-array" stride="2">
+                            <param name="S" type="float" />
+                            <param name="T" type="float" />
+                        </accessor>
+                    </technique_common>
+                </source>
+                <vertices id="Geometry-pylon2-vertices">
+                    <input semantic="POSITION" source="#Geometry-pylon2-positions" />
+                </vertices>
+                <polylist count="5" material="Material-lambert3">
+                    <input semantic="VERTEX" source="#Geometry-pylon2-vertices" offset="0" />
+                    <input semantic="NORMAL" source="#Geometry-pylon2-normals" offset="1" />
+                    <input semantic="TEXCOORD" source="#Geometry-pylon2-pylon2-UV0" offset="2" set="0" />
+                    <vcount>4 4 4 4 4</vcount>
+                    <p>0 0 0 1 0 1 2 0 2 3 0 3 1 0 0 4 0 1 5 0 2 2 0 3 4 0 0 1 0 1 0 0 2 6 0 3 6 0 4 0 0 5 3 0 6 7 0 7 4 0 0 6 0 1 7 0 2 5 0 3</p>
+                </polylist>
+                <extra>
+                    <technique profile="modo401">
+                        <param sid="render" name="Render" type="Name">default</param>
+                        <param sid="dissolve" name="Dissolve" type="float">0</param>
+                        <param sid="curves" name="Render_Curves" type="bool">false</param>
+                        <param sid="radius" name="Curve_Radius" type="float">0.05</param>
+                    </technique>
+                </extra>
+            </mesh>
+        </geometry>
+        <geometry id="Geometry-pylon3" name="pylon3">
+            <mesh>
+                <source id="Geometry-pylon3-positions" name="positions">
+                    <float_array id="Geometry-pylon3-positions-array" count="24">
+                        -2858.22 689.951 1529.75
+                        -2858.22 689.951 706.57
+                        -2897.73 11.38 640.715
+                        -2897.73 11.38 1595.61
+                        -2364.31 689.951 706.569
+                        -2324.8 11.38 640.715
+                        -2364.31 689.951 1529.75
+                        -2324.8 11.38 1595.61
+                    </float_array>
+                    <technique_common>
+                        <accessor count="8" source="#Geometry-pylon3-positions-array" stride="3">
+                            <param name="X" type="float" />
+                            <param name="Y" type="float" />
+                            <param name="Z" type="float" />
+                        </accessor>
+                    </technique_common>
+                </source>
+                <source id="Geometry-pylon3-normals" name="normals">
+                    <float_array id="Geometry-pylon3-normals-array" count="3">
+                        0 0 0
+                    </float_array>
+                    <technique_common>
+                        <accessor count="1" source="#Geometry-pylon3-normals-array" stride="3">
+                            <param name="X" type="float" />
+                            <param name="Y" type="float" />
+                            <param name="Z" type="float" />
+                        </accessor>
+                    </technique_common>
+                </source>
+                <source id="Geometry-pylon3-pylon3-UV0" name="pylon3-UV0">
+                    <float_array id="Geometry-pylon3-pylon3-UV0-array" count="16">
+                        0.875977 0.188477
+                        0.750977 0.188477
+                        0.750977 0.063477
+                        0.875977 0.063477
+                        0.719727 0.938477
+                        0.594727 0.938477
+                        0.594727 0.813477
+                        0.719727 0.813477
+                    </float_array>
+                    <technique_common>
+                        <accessor count="8" source="#Geometry-pylon3-pylon3-UV0-array" stride="2">
+                            <param name="S" type="float" />
+                            <param name="T" type="float" />
+                        </accessor>
+                    </technique_common>
+                </source>
+                <vertices id="Geometry-pylon3-vertices">
+                    <input semantic="POSITION" source="#Geometry-pylon3-positions" />
+                </vertices>
+                <polylist count="5" material="Material-lambert3">
+                    <input semantic="VERTEX" source="#Geometry-pylon3-vertices" offset="0" />
+                    <input semantic="NORMAL" source="#Geometry-pylon3-normals" offset="1" />
+                    <input semantic="TEXCOORD" source="#Geometry-pylon3-pylon3-UV0" offset="2" set="0" />
+                    <vcount>4 4 4 4 4</vcount>
+                    <p>0 0 0 1 0 1 2 0 2 3 0 3 1 0 0 4 0 1 5 0 2 2 0 3 4 0 0 1 0 1 0 0 2 6 0 3 6 0 4 0 0 5 3 0 6 7 0 7 4 0 0 6 0 1 7 0 2 5 0 3</p>
+                </polylist>
+                <extra>
+                    <technique profile="modo401">
+                        <param sid="render" name="Render" type="Name">default</param>
+                        <param sid="dissolve" name="Dissolve" type="float">0</param>
+                        <param sid="curves" name="Render_Curves" type="bool">false</param>
+                        <param sid="radius" name="Curve_Radius" type="float">0.05</param>
+                    </technique>
+                </extra>
+            </mesh>
+        </geometry>
+        <geometry id="Geometry-pylon4" name="pylon4">
+            <mesh>
+                <source id="Geometry-pylon4-positions" name="positions">
+                    <float_array id="Geometry-pylon4-positions-array" count="24">
+                        -2858.22 689.951 -600.247
+                        -2858.22 689.951 -1423.43
+                        -2897.73 11.38 -1489.28
+                        -2897.73 11.38 -534.392
+                        -2364.31 689.951 -1423.43
+                        -2324.8 11.38 -1489.28
+                        -2364.31 689.951 -600.247
+                        -2324.8 11.38 -534.392
+                    </float_array>
+                    <technique_common>
+                        <accessor count="8" source="#Geometry-pylon4-positions-array" stride="3">
+                            <param name="X" type="float" />
+                            <param name="Y" type="float" />
+                            <param name="Z" type="float" />
+                        </accessor>
+                    </technique_common>
+                </source>
+                <source id="Geometry-pylon4-normals" name="normals">
+                    <float_array id="Geometry-pylon4-normals-array" count="3">
+                        0 0 0
+                    </float_array>
+                    <technique_common>
+                        <accessor count="1" source="#Geometry-pylon4-normals-array" stride="3">
+                            <param name="X" type="float" />
+                            <param name="Y" type="float" />
+                            <param name="Z" type="float" />
+                        </accessor>
+                    </technique_common>
+                </source>
+                <source id="Geometry-pylon4-pylon4-UV0" name="pylon4-UV0">
+                    <float_array id="Geometry-pylon4-pylon4-UV0-array" count="16">
+                        0.875977 0.188477
+                        0.750977 0.188477
+                        0.750977 0.063477
+                        0.875977 0.063477
+                        0.719727 0.938477
+                        0.594727 0.938477
+                        0.594727 0.813477
+                        0.719727 0.813477
+                    </float_array>
+                    <technique_common>
+                        <accessor count="8" source="#Geometry-pylon4-pylon4-UV0-array" stride="2">
+                            <param name="S" type="float" />
+                            <param name="T" type="float" />
+                        </accessor>
+                    </technique_common>
+                </source>
+                <vertices id="Geometry-pylon4-vertices">
+                    <input semantic="POSITION" source="#Geometry-pylon4-positions" />
+                </vertices>
+                <polylist count="5" material="Material-lambert3">
+                    <input semantic="VERTEX" source="#Geometry-pylon4-vertices" offset="0" />
+                    <input semantic="NORMAL" source="#Geometry-pylon4-normals" offset="1" />
+                    <input semantic="TEXCOORD" source="#Geometry-pylon4-pylon4-UV0" offset="2" set="0" />
+                    <vcount>4 4 4 4 4</vcount>
+                    <p>0 0 0 1 0 1 2 0 2 3 0 3 1 0 4 4 0 5 5 0 6 2 0 7 4 0 0 1 0 1 0 0 2 6 0 3 6 0 0 0 0 1 3 0 2 7 0 3 4 0 0 6 0 1 7 0 2 5 0 3</p>
+                </polylist>
+                <extra>
+                    <technique profile="modo401">
+                        <param sid="render" name="Render" type="Name">default</param>
+                        <param sid="dissolve" name="Dissolve" type="float">0</param>
+                        <param sid="curves" name="Render_Curves" type="bool">false</param>
+                        <param sid="radius" name="Curve_Radius" type="float">0.05</param>
+                    </technique>
+                </extra>
+            </mesh>
+        </geometry>
+        <geometry id="Geometry-base2" name="base2">
+            <mesh>
+                <source id="Geometry-base2-positions" name="positions">
+                    <float_array id="Geometry-base2-positions-array" count="192">
+                        -4658.5 7.4982 -1500
+                        -2162.88 7.4982 -1500
+                        4492.13 7.4982 -1500
+                        1996.5 7.4982 -1500
+                        -4658.5 7.4982 1625
+                        -2162.88 7.4982 1625
+                        4492.13 7.4982 1625
+                        1996.5 7.4982 1625
+                        4374.54 1695 1625
+                        4492.13 1577.42 1625
+                        4372.85 1594.07 2029.9
+                        4492.13 1580.04 1914.16
+                        4372.85 1695 1894.74
+                        4492.13 7.4982 2377.36
+                        4374.54 7.4982 2500
+                        2114.08 1695 1625
+                        1996.5 1577.42 1625
+                        2114.93 1594.79 2029.69
+                        2115.78 1695 1894.74
+                        1996.5 1580.04 1914.16
+                        2114.08 7.4982 2500
+                        1996.5 7.4982 2377.36
+                        4374.54 7.4982 -2375
+                        4492.13 7.4982 -2252.36
+                        4372.85 1695 -1769.74
+                        4492.13 1580.04 -1789.16
+                        4372.85 1594.07 -1904.9
+                        4374.54 1695 -1500
+                        4492.13 1577.42 -1500
+                        1996.5 1577.42 -1500
+                        2114.08 1695 -1500
+                        1996.5 1580.04 -1789.16
+                        2114.93 1695 -1770.49
+                        2114.93 1594.79 -1904.69
+                        1996.5 7.4982 -2252.36
+                        2114.08 7.4982 -2375
+                        -4540.92 1695 -1500
+                        -4658.5 1577.42 -1500
+                        -4539.22 1594.07 -1904.9
+                        -4658.5 1580.04 -1789.16
+                        -4539.22 1695 -1769.74
+                        -4658.5 7.4982 -2252.36
+                        -4540.92 7.4982 -2375
+                        -2280.46 1695 -1500
+                        -2162.88 1577.42 -1500
+                        -2281.31 1594.79 -1904.69
+                        -2282.15 1695 -1769.74
+                        -2162.88 1580.04 -1789.16
+                        -2280.46 7.4982 -2375
+                        -2162.88 7.4982 -2252.36
+                        -4540.92 7.4982 2500
+                        -4658.5 7.4982 2377.36
+                        -4539.22 1695 1894.74
+                        -4658.5 1580.04 1914.16
+                        -4539.22 1594.07 2029.9
+                        -4540.92 1695 1625
+                        -4658.5 1577.42 1625
+                        -2162.88 1577.42 1625
+                        -2280.46 1695 1625
+                        -2162.88 1580.04 1914.16
+                        -2281.31 1695 1895.49
+                        -2281.31 1594.79 2029.69
+                        -2162.88 7.4982 2377.36
+                        -2280.46 7.4982 2500
+                    </float_array>
+                    <technique_common>
+                        <accessor count="64" source="#Geometry-base2-positions-array" stride="3">
+                            <param name="X" type="float" />
+                            <param name="Y" type="float" />
+                            <param name="Z" type="float" />
+                        </accessor>
+                    </technique_common>
+                </source>
+                <source id="Geometry-base2-normals" name="normals">
+                    <float_array id="Geometry-base2-normals-array" count="138">
+                        0 0 -1
+                        0 0 0
+                        0.700623 0.713531 -0.00122
+                        9.9e-005 0.802071 0.597229
+                        0.700597 0.202514 0.684216
+                        -0.700625 0.713529 -0.001219
+                        -0.690869 0.71873 0.078277
+                        -0.692396 0.718314 0.067924
+                        -0.701898 0.20198 0.68304
+                        1 0 0
+                        0 1 0
+                        0 0.284088 0.958798
+                        -1 -0 0
+                        0.559392 0.664181 0.495927
+                        -0.561833 0.665858 0.490893
+                        0 0 1
+                        0.700597 0.202515 -0.684215
+                        0.700597 0.202515 -0.684216
+                        0.000198 0.801276 -0.598295
+                        0.700623 0.713531 0.00122
+                        -0.701942 0.71223 0.002271
+                        -0.694059 0.716748 -0.067492
+                        -0.733163 0.300834 -0.609894
+                        -0.700656 0.214913 -0.680363
+                        -0.701898 0.20198 -0.68304
+                        0 0.284088 -0.958798
+                        0.559393 0.664181 -0.495926
+                        0.559393 0.664181 -0.495927
+                        -0.70062 0.713534 0.001218
+                        -9.9e-005 0.802071 -0.597229
+                        -0.700595 0.202516 -0.684218
+                        0.700625 0.713529 0.001218
+                        0.690868 0.718731 -0.078278
+                        0.692395 0.718314 -0.067924
+                        0.701899 0.201979 -0.683039
+                        -0.700595 0.202516 0.684218
+                        -0.000198 0.801276 0.598294
+                        -0.70062 0.713533 -0.001218
+                        0.701943 0.712229 -0.002271
+                        0.694059 0.716747 0.067493
+                        0.733163 0.300833 0.609894
+                        0.700657 0.214912 0.680362
+                        0.701899 0.201979 0.683039
+                        -0.559392 0.66418 -0.495929
+                        0.561832 0.66586 -0.490892
+                        -0.559391 0.66418 0.49593
+                    </float_array>
+                    <technique_common>
+                        <accessor count="46" source="#Geometry-base2-normals-array" stride="3">
+                            <param name="X" type="float" />
+                            <param name="Y" type="float" />
+                            <param name="Z" type="float" />
+                        </accessor>
+                    </technique_common>
+                </source>
+                <source id="Geometry-base2-base2-UV0" name="base2-UV0">
+                    <float_array id="Geometry-base2-base2-UV0-array" count="130">
+                        1.00098 0.246622
+                        0.998032 0.250977
+                        0.941422 0.250977
+                        0.938477 0.246622
+                        0.938477 0.188477
+                        1.00098 0.188477
+                        0.125977 0.005332
+                        0.125977 0.000977
+                        0.170933 0.000977
+                        0.17417 0.005235
+                        0.185828 0.003626
+                        0.18549 0.018521
+                        0.128964 0.01852
+                        0.128725 0.000977
+                        0.188477 0.004715
+                        0.188477 0.063477
+                        0.179717 0.063477
+                        0.128922 0.063477
+                        0.125977 0.063477
+                        0.125977 0.015284
+                        0.128943 0.059766
+                        0.125977 0.060429
+                        0.125977 0.002214
+                        0.128922 0.000977
+                        0.185532 0.063477
+                        0.18549 0.059739
+                        0.185532 0.000977
+                        0.965469 0.452784
+                        0.965372 0.500977
+                        0.907227 0.500977
+                        0.907227 0.447237
+                        0.37793 0.059122
+                        0.374985 0.063477
+                        0.318375 0.063477
+                        0.31543 0.059122
+                        0.31543 0.000977
+                        0.37793 0.000977
+                        0.134737 0.063477
+                        0.125977 0.004715
+                        0.140284 0.005235
+                        0.170933 0.003964
+                        0.188477 0.060729
+                        0.171058 0.060511
+                        0.14352 0.000977
+                        0.188477 0.000977
+                        0.188477 0.005332
+                        0.125977 0.060532
+                        0.17417 0.063477
+                        0.129025 0.063477
+                        0.129688 0.060511
+                        0.188477 0.060532
+                        0.18724 0.063477
+                        0.125977 0.003922
+                        0.129715 0.003964
+                        0.188477 0.003922
+                        0.965469 0.48667
+                        0.907227 0.492217
+                        0.907227 0.438477
+                        0.965372 0.438477
+                        0.18549 0.01852
+                        0.125977 0.009737
+                        0.184739 0.000977
+                        0.184219 0.015284
+                        0.188477 0.01852
+                        0.184122 0.063477
+                    </float_array>
+                    <technique_common>
+                        <accessor count="65" source="#Geometry-base2-base2-UV0-array" stride="2">
+                            <param name="S" type="float" />
+                            <param name="T" type="float" />
+                        </accessor>
+                    </technique_common>
+                </source>
+                <vertices id="Geometry-base2-vertices">
+                    <input semantic="POSITION" source="#Geometry-base2-positions" />
+                </vertices>
+                <polylist count="48" material="Material-lambert3">
+                    <input semantic="VERTEX" source="#Geometry-base2-vertices" offset="0" />
+                    <input semantic="NORMAL" source="#Geometry-base2-normals" offset="1" />
+                    <input semantic="TEXCOORD" source="#Geometry-base2-base2-UV0" offset="2" set="0" />
+                    <vcount>6 4 4 4 4 4 4 4 4 4 3 3 6 4 4 4 4 4 4 4 4 4 3 3 6 6 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 3 3 3 3</vcount>
+                    <p>16 0 0 15 0 1 8 0 2 9 0 3 6 1 4 7 1 5 9 2 6 8 2 7 12 2 8 11 2 9 10 3 10 12 3 11 18 3 12 17 3 13 11 4 9 10 4 14 14 4 15 13 4 16 15 5 17 16 5 18 19 6 19 18 7 12 17 8 20 19 8 21 21 8 22 20 8 23 11 9 9 13 9 16 6 9 18 9 9 6 12 10 11 8 10 24 15 10 17 18 10 12 10 11 25 17 11 20 20 11 23 14 11 26 19 12 27 16 12 28 7 12 29 21 12 30 10 13 14 11 13 9 12 13 8 17 14 13 18 7 12 19 6 19 28 15 31 27 15 32 30 15 33 29 15 34 3 1 35 2 1 36 23 16 37 22 17 18 26 17 38 25 17 39 24 18 40 26 18 10 33 18 41 32 18 42 25 19 39 24 19 43 27 19 44 28 19 45 29 20 18 30 20 46 32 21 42 31 22 47 31 22 48 33 23 49 35 24 50 34 24 51 2 9 15 23 9 37 25 9 39 28 9 45 32 10 42 30 10 46 27 10 52 24 10 40 35 25 50 33 25 49 26 25 53 22 25 54 31 12 55 34 12 56 3 12 57 29 12 58 24 26 43 25 27 39 26 26 38 31 22 47 32 21 42 33 23 41 44 15 0 43 15 1 36 15 2 37 15 3 0 1 4 1 1 5 56 0 0 55 0 1 58 0 2 57 0 3 5 1 4 4 1 5 37 28 6 36 28 7 40 28 8 39 28 9 38 29 10 40 29 59 46 29 12 45 29 13 39 30 9 38 30 14 42 30 15 41 30 16 43 31 17 44 31 18 47 32 19 46 33 12 45 34 20 47 34 21 49 34 22 48 34 23 51 35 60 50 35 7 54 35 61 53 35 62 52 36 40 54 36 10 61 36 41 60 36 42 53 37 62 52 37 63 55 37 15 56 37 64 57 38 18 58 38 46 60 39 42 59 40 47 59 40 48 61 41 49 63 42 50 62 42 51 39 12 9 41 12 16 0 12 18 37 12 6 40 10 59 36 10 24 43 10 17 46 10 12 38 25 25 45 25 20 48 25 23 42 25 26 47 9 27 44 9 28 1 9 29 49 9 30 53 12 62 56 12 64 4 12 18 51 12 60 60 10 42 58 10 46 55 10 52 52 10 40 63 11 50 61 11 49 54 11 53 50 11 54 59 9 55 62 9 56 5 9 57 57 9 58 38 43 14 39 43 9 40 43 8 45 44 13 46 33 12 47 32 19 52 45 63 53 45 62 54 45 61 59 40 47 60 39 42 61 41 41</p>
+                </polylist>
+                <extra>
+                    <technique profile="modo401">
+                        <param sid="render" name="Render" type="Name">default</param>
+                        <param sid="dissolve" name="Dissolve" type="float">0</param>
+                        <param sid="curves" name="Render_Curves" type="bool">false</param>
+                        <param sid="radius" name="Curve_Radius" type="float">0.05</param>
+                    </technique>
+                </extra>
+            </mesh>
+        </geometry>
+        <geometry id="Geometry-baseb" name="baseb">
+            <mesh>
+                <source id="Geometry-baseb-positions" name="positions">
+                    <float_array id="Geometry-baseb-positions-array" count="30">
+                        4234.82 1071.35 1799.02
+                        4234.82 1071.35 -1493.71
+                        4201.89 17.6758 -1757.14
+                        4201.89 17.6758 2062.43
+                        4679.34 17.6758 -1757.14
+                        4679.34 17.6758 2062.43
+                        4650.27 947.949 -1524.57
+                        4522.94 1071.35 -1493.72
+                        4650.27 947.949 1829.87
+                        4522.94 1071.35 1799.02
+                    </float_array>
+                    <technique_common>
+                        <accessor count="10" source="#Geometry-baseb-positions-array" stride="3">
+                            <param name="X" type="float" />
+                            <param name="Y" type="float" />
+                            <param name="Z" type="float" />
+                        </accessor>
+                    </technique_common>
+                </source>
+                <source id="Geometry-baseb-normals" name="normals">
+                    <float_array id="Geometry-baseb-normals-array" count="18">
+                        0 0 0
+                        -5e-006 0.242537 -0.970142
+                        0 1 0
+                        0.999512 0.031233 0
+                        0 0.242533 0.970143
+                        0.695976 0.718065 0
+                    </float_array>
+                    <technique_common>
+                        <accessor count="6" source="#Geometry-baseb-normals-array" stride="3">
+                            <param name="X" type="float" />
+                            <param name="Y" type="float" />
+                            <param name="Z" type="float" />
+                        </accessor>
+                    </technique_common>
+                </source>
+                <source id="Geometry-baseb-baseb-UV0" name="baseb-UV0">
+                    <float_array id="Geometry-baseb-baseb-UV0-array" count="18">
+                        0.719727 0.938477
+                        0.594727 0.938477
+                        0.594727 0.813477
+                        0.719727 0.813477
+                        0.632223 0.938477
+                        0.594727 0.923837
+                        0.682231 0.813477
+                        0.682231 0.938477
+                        0.719727 0.923837
+                    </float_array>
+                    <technique_common>
+                        <accessor count="9" source="#Geometry-baseb-baseb-UV0-array" stride="2">
+                            <param name="S" type="float" />
+                            <param name="T" type="float" />
+                        </accessor>
+                    </technique_common>
+                </source>
+                <vertices id="Geometry-baseb-vertices">
+                    <input semantic="POSITION" source="#Geometry-baseb-positions" />
+                </vertices>
+                <polylist count="6" material="Material-lambert3">
+                    <input semantic="VERTEX" source="#Geometry-baseb-vertices" offset="0" />
+                    <input semantic="NORMAL" source="#Geometry-baseb-normals" offset="1" />
+                    <input semantic="TEXCOORD" source="#Geometry-baseb-baseb-UV0" offset="2" set="0" />
+                    <vcount>4 5 4 4 5 4</vcount>
+                    <p>0 0 0 1 0 1 2 0 2 3 0 3 1 0 0 7 1 4 6 1 5 4 0 2 2 0 3 9 2 6 7 2 7 1 0 1 0 0 2 6 3 8 8 3 5 5 0 2 4 0 3 8 4 8 9 4 7 0 0 1 3 0 2 5 0 3 6 5 0 7 5 7 9 5 6 8 5 3</p>
+                </polylist>
+                <extra>
+                    <technique profile="modo401">
+                        <param sid="render" name="Render" type="Name">default</param>
+                        <param sid="dissolve" name="Dissolve" type="float">0</param>
+                        <param sid="curves" name="Render_Curves" type="bool">false</param>
+                        <param sid="radius" name="Curve_Radius" type="float">0.05</param>
+                    </technique>
+                </extra>
+            </mesh>
+        </geometry>
+        <geometry id="Geometry-basea" name="basea">
+            <mesh>
+                <source id="Geometry-basea-positions" name="positions">
+                    <float_array id="Geometry-basea-positions-array" count="30">
+                        -4778.11 17.6758 -1757.14
+                        -4778.11 17.6758 2062.43
+                        -4333.59 1071.35 -1493.72
+                        -4300.66 17.6758 -1757.14
+                        -4333.59 1071.35 1799.02
+                        -4300.66 17.6758 2062.43
+                        -4621.72 1071.35 1799.02
+                        -4749.04 947.949 1829.87
+                        -4621.72 1071.35 -1493.72
+                        -4749.04 947.949 -1524.57
+                    </float_array>
+                    <technique_common>
+                        <accessor count="10" source="#Geometry-basea-positions-array" stride="3">
+                            <param name="X" type="float" />
+                            <param name="Y" type="float" />
+                            <param name="Z" type="float" />
+                        </accessor>
+                    </technique_common>
+                </source>
+                <source id="Geometry-basea-normals" name="normals">
+                    <float_array id="Geometry-basea-normals-array" count="18">
+                        -0.999512 0.031235 0
+                        0 0 0
+                        0 1 0
+                        0 0.242533 0.970143
+                        -5e-006 0.242537 -0.970142
+                        -0.695977 0.718064 0
+                    </float_array>
+                    <technique_common>
+                        <accessor count="6" source="#Geometry-basea-normals-array" stride="3">
+                            <param name="X" type="float" />
+                            <param name="Y" type="float" />
+                            <param name="Z" type="float" />
+                        </accessor>
+                    </technique_common>
+                </source>
+                <source id="Geometry-basea-basea-UV0" name="basea-UV0">
+                    <float_array id="Geometry-basea-basea-UV0-array" count="18">
+                        0.719727 0.923837
+                        0.594727 0.923837
+                        0.594727 0.813477
+                        0.719727 0.813477
+                        0.719727 0.938477
+                        0.632223 0.938477
+                        0.632223 0.813477
+                        0.594727 0.938477
+                        0.682231 0.938477
+                    </float_array>
+                    <technique_common>
+                        <accessor count="9" source="#Geometry-basea-basea-UV0-array" stride="2">
+                            <param name="S" type="float" />
+                            <param name="T" type="float" />
+                        </accessor>
+                    </technique_common>
+                </source>
+                <vertices id="Geometry-basea-vertices">
+                    <input semantic="POSITION" source="#Geometry-basea-positions" />
+                </vertices>
+                <polylist count="6" material="Material-lambert3">
+                    <input semantic="VERTEX" source="#Geometry-basea-vertices" offset="0" />
+                    <input semantic="NORMAL" source="#Geometry-basea-normals" offset="1" />
+                    <input semantic="TEXCOORD" source="#Geometry-basea-basea-UV0" offset="2" set="0" />
+                    <vcount>4 4 5 4 5 4</vcount>
+                    <p>7 0 0 9 0 1 0 1 2 1 1 3 2 1 4 8 2 5 6 2 6 4 1 3 4 1 4 6 3 5 7 3 1 1 1 2 5 1 3 2 1 4 4 1 7 5 1 2 3 1 3 9 4 0 8 4 8 2 1 7 3 1 2 0 1 3 7 5 0 6 5 4 8 5 7 9 5 1</p>
+                </polylist>
+                <extra>
+                    <technique profile="modo401">
+                        <param sid="render" name="Render" type="Name">default</param>
+                        <param sid="dissolve" name="Dissolve" type="float">0</param>
+                        <param sid="curves" name="Render_Curves" type="bool">false</param>
+                        <param sid="radius" name="Curve_Radius" type="float">0.05</param>
+                    </technique>
+                </extra>
+            </mesh>
+        </geometry>
+        <geometry id="Geometry-stand1" name="stand1">
+            <mesh>
+                <source id="Geometry-stand1-positions" name="positions">
+                    <float_array id="Geometry-stand1-positions-array" count="48">
+                        4623.86 750.503 -574.999
+                        4324.09 1049.99 -574.999
+                        2280.02 1003.06 -574.999
+                        2748.86 750.503 -574.999
+                        2280.02 1003.06 -1500
+                        2748.86 750.503 -1500
+                        4623.86 750.503 -1500
+                        4324.09 1049.99 -1500
+                        4324.09 1049.99 674.997
+                        4623.86 750.503 674.997
+                        2748.86 750.503 674.997
+                        2280.02 1003.06 674.997
+                        2748.86 750.503 1625
+                        2280.02 1003.06 1625
+                        4623.86 750.503 1625
+                        4324.09 1049.99 1625
+                    </float_array>
+                    <technique_common>
+                        <accessor count="16" source="#Geometry-stand1-positions-array" stride="3">
+                            <param name="X" type="float" />
+                            <param name="Y" type="float" />
+                            <param name="Z" type="float" />
+                        </accessor>
+                    </technique_common>
+                </source>
+                <source id="Geometry-stand1-normals" name="normals">
+                    <float_array id="Geometry-stand1-normals-array" count="3">
+                        0 0 0
+                    </float_array>
+                    <technique_common>
+                        <accessor count="1" source="#Geometry-stand1-normals-array" stride="3">
+                            <param name="X" type="float" />
+                            <param name="Y" type="float" />
+                            <param name="Z" type="float" />
+                        </accessor>
+                    </technique_common>
+                </source>
+                <source id="Geometry-stand1-stand1-UV0" name="stand1-UV0">
+                    <float_array id="Geometry-stand1-stand1-UV0-array" count="26">
+                        0.969727 0.625977
+                        0.907227 0.625977
+                        0.907227 0.563477
+                        0.969727 0.563477
+                        0.844727 0.625977
+                        0.844727 0.563477
+                        0.969727 0.500977
+                        0.907227 0.500977
+                        0.907227 0.438477
+                        0.969727 0.438477
+                        0.782227 0.563477
+                        0.782227 0.500977
+                        0.844727 0.500977
+                    </float_array>
+                    <technique_common>
+                        <accessor count="13" source="#Geometry-stand1-stand1-UV0-array" stride="2">
+                            <param name="S" type="float" />
+                            <param name="T" type="float" />
+                        </accessor>
+                    </technique_common>
+                </source>
+                <vertices id="Geometry-stand1-vertices">
+                    <input semantic="POSITION" source="#Geometry-stand1-positions" />
+                </vertices>
+                <polylist count="12" material="Material-lambert3">
+                    <input semantic="VERTEX" source="#Geometry-stand1-vertices" offset="0" />
+                    <input semantic="NORMAL" source="#Geometry-stand1-normals" offset="1" />
+                    <input semantic="TEXCOORD" source="#Geometry-stand1-stand1-UV0" offset="2" set="0" />
+                    <vcount>4 4 4 4 4 4 4 4 4 4 4 4</vcount>
+                    <p>0 0 0 1 0 1 2 0 2 3 0 3 3 0 0 2 0 1 4 0 2 5 0 3 3 0 1 5 0 4 6 0 5 0 0 2 4 0 6 2 0 7 1 0 8 7 0 9 7 0 5 1 0 10 0 0 11 6 0 12 7 0 0 6 0 1 5 0 2 4 0 3 8 0 0 9 0 1 10 0 2 11 0 3 12 0 0 13 0 1 11 0 2 10 0 3 12 0 1 10 0 4 9 0 5 14 0 2 11 0 6 13 0 7 15 0 8 8 0 9 8 0 5 15 0 10 14 0 11 9 0 12 14 0 0 15 0 1 13 0 2 12 0 3</p>
+                </polylist>
+                <extra>
+                    <technique profile="modo401">
+                        <param sid="render" name="Render" type="Name">default</param>
+                        <param sid="dissolve" name="Dissolve" type="float">0</param>
+                        <param sid="curves" name="Render_Curves" type="bool">false</param>
+                        <param sid="radius" name="Curve_Radius" type="float">0.05</param>
+                    </technique>
+                </extra>
+            </mesh>
+        </geometry>
+        <geometry id="Geometry-nano1" name="nano1">
+            <mesh>
+                <source id="Geometry-nano1-positions" name="positions">
+                    <float_array id="Geometry-nano1-positions-array" count="156">
+                        1500 1017.86 -1500
+                        1500 1017.86 1625
+                        1500 1323.84 1625
+                        1500 1323.84 -1500
+                        4313.75 1078.18 -1475.3
+                        4324.31 1050.25 1625
+                        2686.97 1007.93 343.75
+                        3012.41 71.0541 167.368
+                        3182.89 73.2864 265.805
+                        3174.04 1014.31 625
+                        2686.97 1007.93 -218.75
+                        3012.41 71.0541 -29.5089
+                        3174.04 1014.31 -500
+                        3182.89 73.2864 -127.945
+                        3661.1 1020.68 -218.75
+                        3353.36 75.5173 -29.5089
+                        3661.1 1020.68 343.75
+                        3353.36 75.5173 167.368
+                        2460.03 1856.75 196.258
+                        2305.63 1815.13 205.743
+                        2400.22 1785.47 327.165
+                        2400.22 1785.47 -302.165
+                        2306.48 1815.64 -181.59
+                        2460.03 1856.75 -171.258
+                        1646.87 1331.75 -561.656
+                        1500 1331.75 -457.407
+                        1646.87 1331.75 586.655
+                        1500 1331.75 482.405
+                        4650 1856.75 362.447
+                        4650 1785.65 500.787
+                        4650 1785.65 -475.789
+                        4650 1856.75 -337.449
+                        4553.94 1248.37 -1500
+                        4522.38 1332.87 -1500
+                        4553.94 1248.37 1625
+                        4522.38 1332.87 1625
+                        4513.84 1331.75 814.193
+                        4650 1467.91 727.745
+                        4650 1467.91 -702.746
+                        4513.84 1331.75 -789.194
+                        3084.06 64.1878 238.911
+                        2899.58 989.165 538.423
+                        2626.64 981.102 62.5
+                        2986.99 61.052 68.6422
+                        3084.62 62.5236 -100.718
+                        2900.4 985.159 -412.094
+                        3449.21 997.396 -413.724
+                        3280.77 67.2029 -101.862
+                        3380.24 70.6473 68.6255
+                        3725.46 1005.94 62.5
+                        3449.79 1001.77 539.818
+                        3281.22 69.105 239.976
+                    </float_array>
+                    <technique_common>
+                        <accessor count="52" source="#Geometry-nano1-positions-array" stride="3">
+                            <param name="X" type="float" />
+                            <param name="Y" type="float" />
+                            <param name="Z" type="float" />
+                        </accessor>
+                    </technique_common>
+                </source>
+                <source id="Geometry-nano1-normals" name="normals">
+                    <float_array id="Geometry-nano1-normals-array" count="156">
+                        -0.091584 -0.991087 -0.096743
+                        -0.091716 -0.991411 0.093232
+                        -0.103229 0.990438 0.091524
+                        -0.103381 0.990804 -0.087297
+                        0.024554 0.9935 0.111148
+                        0.025052 0.994037 -0.106122
+                        0.07699 -0.987009 -0.141016
+                        0.572977 -0.451071 -0.684275
+                        0.074559 -0.98784 0.136427
+                        0.560339 -0.423465 0.711827
+                        -0.463437 -0.358198 0.810506
+                        -0.463287 -0.358196 0.810593
+                        -0.804973 -0.364411 0.468212
+                        -0.805841 -0.364429 0.466704
+                        -0.929965 -0.367646 -0.00094
+                        -0.92997 -0.367635 0.000937
+                        -0.46223 -0.367963 -0.806813
+                        -0.460475 -0.367952 -0.80782
+                        0.007112 -0.364744 -0.931081
+                        0.00272 -0.364789 -0.931086
+                        0.470348 -0.358762 -0.806264
+                        0.470202 -0.358764 -0.806349
+                        0.93711 -0.349033 0.000871
+                        0.937106 -0.349044 -0.000944
+                        0.813626 -0.348658 0.465241
+                        0.812289 -0.348658 0.467573
+                        0.472959 -0.348788 0.809109
+                        0.471214 -0.348799 0.810121
+                        -0.056693 -0.998354 -0.008661
+                        -0.016384 -0.995638 -0.09185
+                        0.005887 -0.862186 -0.506558
+                        0.005887 -0.862186 0.506558
+                        -0.016435 -0.995637 0.09185
+                        -0.056684 -0.998354 0.008665
+                        0.456278 0.883981 0.101926
+                        0.338482 0.606275 0.719625
+                        0.179781 0.484206 0.856284
+                        0.179781 0.484207 -0.856284
+                        0.338482 0.606276 -0.719625
+                        0.456278 0.883981 -0.101926
+                        -0.019356 0.993131 0.1154
+                        -0.075422 0.630204 0.772757
+                        -0.475857 0.875561 0.083381
+                        -0.01936 0.993136 -0.115351
+                        -0.475766 0.875593 -0.08357
+                        -0.075367 0.630131 -0.772822
+                        0.00292 -0.353795 0.935319
+                        0.007577 -0.353747 0.935311
+                        -0.802699 -0.369916 -0.467799
+                        -0.804021 -0.369916 -0.465525
+                        0.811918 -0.354135 -0.464088
+                        0.810922 -0.354155 -0.46581
+                    </float_array>
+                    <technique_common>
+                        <accessor count="52" source="#Geometry-nano1-normals-array" stride="3">
+                            <param name="X" type="float" />
+                            <param name="Y" type="float" />
+                            <param name="Z" type="float" />
+                        </accessor>
+                    </technique_common>
+                </source>
+                <source id="Geometry-nano1-nano1-UV0" name="nano1-UV0">
+                    <float_array id="Geometry-nano1-nano1-UV0-array" count="156">
+                        0.969727 0.563477
+                        0.907227 0.563477
+                        0.907227 0.500977
+                        0.969727 0.500977
+                        0.714574 0.688477
+                        0.714574 0.813477
+                        0.594727 0.813477
+                        0.594727 0.688477
+                        0.844727 0.563477
+                        0.782227 0.563477
+                        0.782227 0.500977
+                        0.84215 0.500977
+                        0.844727 0.519725
+                        0.782227 0.519725
+                        0.784804 0.500977
+                        0.844727 0.500977
+                        0.688477 0.313477
+                        0.625977 0.313477
+                        0.625977 0.250977
+                        0.688477 0.250977
+                        0.782227 0.532227
+                        0.844727 0.532227
+                        0.907227 0.532227
+                        0.969727 0.532227
+                        0.688477 0.532227
+                        0.750977 0.532227
+                        0.750977 0.563477
+                        0.688477 0.563477
+                        0.688477 0.469727
+                        0.750977 0.469727
+                        0.750977 0.500977
+                        0.688477 0.500977
+                        0.19043 0.002769
+                        0.190339 0.00293
+                        0.188561 0.00293
+                        0.188561 0.000977
+                        0.190339 0.000977
+                        0.19043 0.001138
+                        0.50293 0.057223
+                        0.494465 0.063477
+                        0.456639 0.063477
+                        0.456639 0.000977
+                        0.494465 0.000977
+                        0.50293 0.007231
+                        0.628182 0.001229
+                        0.636416 0.003835
+                        0.636395 0.063477
+                        0.62793 0.063364
+                        0.554354 0.058522
+                        0.559063 0.063477
+                        0.518229 0.063477
+                        0.508277 0.058582
+                        0.56543 0.062632
+                        0.560286 0.000977
+                        0.56543 0.01334
+                        0.44043 0.062844
+                        0.430277 0.061141
+                        0.434176 0.000977
+                        0.44043 0.000977
+                        0.50293 0.060049
+                        0.50293 0.008371
+                        0.508074 0.000977
+                        0.386525 0.061141
+                        0.384184 0.000977
+                        0.681944 0.003835
+                        0.681965 0.063477
+                        0.644139 0.063477
+                        0.62793 0.060775
+                        0.62793 0.003891
+                        0.715815 0.813477
+                        0.715815 0.688477
+                        0.69043 0.060775
+                        0.674221 0.063477
+                        0.69043 0.003891
+                        0.188477 0.001094
+                        0.188477 0.002813
+                        0.688477 0.438477
+                        0.750977 0.438477
+                    </float_array>
+                    <technique_common>
+                        <accessor count="78" source="#Geometry-nano1-nano1-UV0-array" stride="2">
+                            <param name="S" type="float" />
+                            <param name="T" type="float" />
+                        </accessor>
+                    </technique_common>
+                </source>
+                <vertices id="Geometry-nano1-vertices">
+                    <input semantic="POSITION" source="#Geometry-nano1-positions" />
+                </vertices>
+                <polylist count="33" material="Material-lambert3">
+                    <input semantic="VERTEX" source="#Geometry-nano1-vertices" offset="0" />
+                    <input semantic="NORMAL" source="#Geometry-nano1-normals" offset="1" />
+                    <input semantic="TEXCOORD" source="#Geometry-nano1-nano1-UV0" offset="2" set="0" />
+                    <vcount>4 4 5 5 4 4 4 4 4 4 4 4 6 6 4 4 4 4 4 4 4 5 3 3 4 5 4 4 4 4 4 4 4</vcount>
+                    <p>0 0 0 1 1 1 2 2 2 3 3 3 35 4 4 33 5 5 3 3 6 2 2 7 4 6 8 0 0 9 3 3 10 33 5 11 32 7 12 1 1 8 5 8 9 34 9 13 35 4 14 2 2 15 4 6 16 5 8 17 1 1 18 0 0 19 5 8 8 4 6 9 32 7 13 34 9 12 40 10 20 41 11 21 6 12 8 7 13 9 42 14 22 43 15 23 7 13 0 6 12 1 44 16 24 45 17 25 12 18 26 13 19 27 46 20 20 47 21 21 13 19 8 12 18 9 48 22 28 49 23 29 16 24 30 17 25 31 50 26 20 51 27 21 17 25 8 16 24 9 25 28 32 24 29 33 39 30 34 36 31 35 26 32 36 27 33 37 28 34 38 29 35 39 37 36 40 38 37 41 30 38 42 31 39 43 18 40 44 20 41 45 29 35 46 28 34 47 19 42 48 18 40 49 23 43 50 22 44 51 20 41 52 19 42 48 27 33 53 26 32 54 21 45 55 23 43 56 31 39 57 30 38 58 22 44 51 21 45 59 24 29 60 25 28 61 19 42 48 22 44 51 25 28 61 27 33 53 23 43 56 18 40 62 28 34 63 31 39 57 21 45 64 30 38 65 38 37 66 39 30 67 24 29 68 18 40 49 19 42 48 20 41 52 21 45 59 22 44 51 23 43 50 32 7 69 33 5 5 35 4 4 34 9 70 36 31 71 37 36 72 29 35 46 20 41 45 26 32 73 37 36 74 36 31 35 39 30 34 38 37 75 40 10 20 8 46 10 9 47 15 41 11 21 42 14 22 10 48 2 11 49 3 43 15 23 44 16 24 11 49 31 10 48 30 45 17 25 46 20 20 14 50 10 15 51 15 47 21 21 48 22 28 15 51 76 14 50 77 49 23 29 50 26 20 9 47 10 8 46 15 51 27 21</p>
+                </polylist>
+                <extra>
+                    <technique profile="modo401">
+                        <param sid="render" name="Render" type="Name">default</param>
+                        <param sid="dissolve" name="Dissolve" type="float">0</param>
+                        <param sid="curves" name="Render_Curves" type="bool">false</param>
+                        <param sid="radius" name="Curve_Radius" type="float">0.05</param>
+                    </technique>
+                </extra>
+            </mesh>
+        </geometry>
+        <geometry id="Geometry-stand2" name="stand2">
+            <mesh>
+                <source id="Geometry-stand2-positions" name="positions">
+                    <float_array id="Geometry-stand2-positions-array" count="48">
+                        -2873.86 750.503 -574.999
+                        -2405.02 1003.06 -574.999
+                        -4449.09 1049.99 -574.999
+                        -4748.86 750.503 -574.999
+                        -2873.86 750.503 -1500
+                        -2405.02 1003.06 -1500
+                        -4748.86 750.503 -1500
+                        -4449.09 1049.99 -1500
+                        -4748.86 750.503 674.997
+                        -4449.09 1049.99 674.997
+                        -2405.02 1003.06 674.997
+                        -2873.86 750.503 674.997
+                        -2405.02 1003.06 1625
+                        -2873.86 750.503 1625
+                        -4748.86 750.503 1625
+                        -4449.09 1049.99 1625
+                    </float_array>
+                    <technique_common>
+                        <accessor count="16" source="#Geometry-stand2-positions-array" stride="3">
+                            <param name="X" type="float" />
+                            <param name="Y" type="float" />
+                            <param name="Z" type="float" />
+                        </accessor>
+                    </technique_common>
+                </source>
+                <source id="Geometry-stand2-normals" name="normals">
+                    <float_array id="Geometry-stand2-normals-array" count="3">
+                        0 0 0
+                    </float_array>
+                    <technique_common>
+                        <accessor count="1" source="#Geometry-stand2-normals-array" stride="3">
+                            <param name="X" type="float" />
+                            <param name="Y" type="float" />
+                            <param name="Z" type="float" />
+                        </accessor>
+                    </technique_common>
+                </source>
+                <source id="Geometry-stand2-stand2-UV0" name="stand2-UV0">
+                    <float_array id="Geometry-stand2-stand2-UV0-array" count="20">
+                        0.969727 0.625977
+                        0.907227 0.625977
+                        0.907227 0.563477
+                        0.969727 0.563477
+                        0.844727 0.625977
+                        0.844727 0.563477
+                        0.969727 0.500977
+                        0.907227 0.500977
+                        0.907227 0.438477
+                        0.969727 0.438477
+                    </float_array>
+                    <technique_common>
+                        <accessor count="10" source="#Geometry-stand2-stand2-UV0-array" stride="2">
+                            <param name="S" type="float" />
+                            <param name="T" type="float" />
+                        </accessor>
+                    </technique_common>
+                </source>
+                <vertices id="Geometry-stand2-vertices">
+                    <input semantic="POSITION" source="#Geometry-stand2-positions" />
+                </vertices>
+                <polylist count="12" material="Material-lambert3">
+                    <input semantic="VERTEX" source="#Geometry-stand2-vertices" offset="0" />
+                    <input semantic="NORMAL" source="#Geometry-stand2-normals" offset="1" />
+                    <input semantic="TEXCOORD" source="#Geometry-stand2-stand2-UV0" offset="2" set="0" />
+                    <vcount>4 4 4 4 4 4 4 4 4 4 4 4</vcount>
+                    <p>0 0 0 1 0 1 2 0 2 3 0 3 4 0 1 5 0 4 1 0 5 0 0 2 4 0 0 0 0 1 3 0 2 6 0 3 1 0 6 5 0 7 7 0 8 2 0 9 3 0 6 2 0 7 7 0 8 6 0 9 6 0 0 7 0 1 5 0 2 4 0 3 8 0 0 9 0 1 10 0 2 11 0 3 12 0 1 13 0 4 11 0 5 10 0 2 11 0 0 13 0 1 14 0 2 8 0 3 12 0 6 10 0 7 9 0 8 15 0 9 14 0 6 15 0 7 9 0 8 8 0 9 13 0 0 12 0 1 15 0 2 14 0 3</p>
+                </polylist>
+                <extra>
+                    <technique profile="modo401">
+                        <param sid="render" name="Render" type="Name">default</param>
+                        <param sid="dissolve" name="Dissolve" type="float">0</param>
+                        <param sid="curves" name="Render_Curves" type="bool">false</param>
+                        <param sid="radius" name="Curve_Radius" type="float">0.05</param>
+                    </technique>
+                </extra>
+            </mesh>
+        </geometry>
+        <geometry id="Geometry-nano2" name="nano2">
+            <mesh>
+                <source id="Geometry-nano2-positions" name="positions">
+                    <float_array id="Geometry-nano2-positions-array" count="156">
+                        -1625 1017.86 1625
+                        -1625 1017.86 -1500
+                        -1625 1323.84 -1500
+                        -1625 1323.84 1625
+                        -4449.31 1050.25 -1500
+                        -4449.31 1050.25 1625
+                        -3133.2 57.2152 160.155
+                        -2811.97 1007.93 343.75
+                        -3299.04 1014.31 625
+                        -3299.16 57.2152 255.989
+                        -3133.2 57.2152 -31.5124
+                        -2811.97 1007.93 -218.75
+                        -3299.16 57.2152 -127.344
+                        -3299.04 1014.31 -500
+                        -3465.12 57.2152 -31.5124
+                        -3786.1 1020.68 -218.75
+                        -3465.12 57.2152 160.155
+                        -3786.1 1020.68 343.75
+                        -2585.03 1856.75 -171.258
+                        -2430.63 1815.13 -180.743
+                        -2525.22 1785.47 -302.165
+                        -2525.22 1785.47 327.165
+                        -2431.48 1815.64 206.589
+                        -2585.03 1856.75 196.258
+                        -1771.87 1331.75 586.655
+                        -1625 1331.75 482.405
+                        -1771.87 1331.75 -561.656
+                        -1625 1331.75 -457.406
+                        -4775 1856.75 362.447
+                        -4775 1785.65 500.787
+                        -4775 1785.65 -475.789
+                        -4775 1856.75 -337.449
+                        -4678.94 1248.37 -1500
+                        -4647.38 1332.87 -1500
+                        -4678.94 1248.37 1625
+                        -4647.38 1332.87 1625
+                        -4775 1467.91 727.745
+                        -4638.84 1331.75 814.193
+                        -4638.84 1331.75 -789.194
+                        -4775 1467.91 -702.746
+                        -3397.39 57.215 -105.389
+                        -3580.48 993.416 -424.488
+                        -3863.2 1003.02 62.5
+                        -3496.63 57.2151 64.3217
+                        -3105.54 57.2149 64.3217
+                        -2739.69 975.789 62.5
+                        -3018.46 984.817 549.127
+                        -3201.62 57.2149 233.745
+                        -3019.44 980.018 -422.534
+                        -3202.41 57.2149 -103.831
+                        -3397.94 57.215 235.078
+                        -3581.17 998.658 550.798
+                    </float_array>
+                    <technique_common>
+                        <accessor count="52" source="#Geometry-nano2-positions-array" stride="3">
+                            <param name="X" type="float" />
+                            <param name="Y" type="float" />
+                            <param name="Z" type="float" />
+                        </accessor>
+                    </technique_common>
+                </source>
+                <source id="Geometry-nano2-normals" name="normals">
+                    <float_array id="Geometry-nano2-normals-array" count="111">
+                        0 0 0
+                        0.002988 0.999996 0
+                        0 0 -1
+                        0 0 1
+                        -0.653245 -0.757147 0
+                        0.460973 -0.366266 0.808303
+                        0.462265 -0.366271 0.807562
+                        0.929371 -0.369147 0.000295
+                        0.92937 -0.369148 -0.000312
+                        0.460111 -0.369339 -0.807395
+                        0.461892 -0.369343 -0.806376
+                        -0.468309 -0.366506 -0.803965
+                        -0.469586 -0.366501 -0.803222
+                        -0.9317 -0.363229 -0.000322
+                        -0.9317 -0.363228 0.000291
+                        -0.468683 -0.363191 0.805251
+                        -0.470523 -0.363187 0.804178
+                        0 -1 0
+                        -1 1e-006 0
+                        0.019356 0.993131 -0.115399
+                        0.075422 0.630205 -0.772757
+                        0.05973 0.643157 -0.763401
+                        0.008776 0.99338 -0.11454
+                        0.475857 0.875561 -0.083381
+                        0.01936 0.993136 0.115351
+                        0.475766 0.875593 0.083571
+                        0.493916 0.866226 -0.075499
+                        0.133488 0.652397 -0.746029
+                        0.075367 0.63013 0.772823
+                        0.008776 0.99338 0.114541
+                        0.05973 0.643156 0.763402
+                        0.133157 0.651959 0.746471
+                        0.493966 0.8662 0.075466
+                        0.063885 0.576758 0.814413
+                        -0.936801 0.349863 0
+                        0.063886 0.576758 -0.814413
+                        -0.707106 -0.707108 0
+                    </float_array>
+                    <technique_common>
+                        <accessor count="37" source="#Geometry-nano2-normals-array" stride="3">
+                            <param name="X" type="float" />
+                            <param name="Y" type="float" />
+                            <param name="Z" type="float" />
+                        </accessor>
+                    </technique_common>
+                </source>
+                <source id="Geometry-nano2-nano2-UV0" name="nano2-UV0">
+                    <float_array id="Geometry-nano2-nano2-UV0-array" count="156">
+                        0.969727 0.563477
+                        0.907227 0.563477
+                        0.907227 0.500977
+                        0.969727 0.500977
+                        0.719727 0.688477
+                        0.59988 0.688477
+                        0.59988 0.563477
+                        0.719727 0.563477
+                        0.844727 0.563477
+                        0.782227 0.563477
+                        0.782227 0.519725
+                        0.784804 0.500977
+                        0.844727 0.500977
+                        0.782227 0.500977
+                        0.84215 0.500977
+                        0.844727 0.519725
+                        0.19043 0.00293
+                        0.188477 0.00293
+                        0.188477 0.000977
+                        0.19043 0.000977
+                        0.750977 0.563477
+                        0.688477 0.563477
+                        0.688477 0.532227
+                        0.750977 0.532227
+                        0.907227 0.532227
+                        0.969727 0.532227
+                        0.782227 0.532227
+                        0.844727 0.532227
+                        0.750977 0.500977
+                        0.688477 0.500977
+                        0.688477 0.469727
+                        0.750977 0.469727
+                        0.19043 0.002846
+                        0.188477 0.002846
+                        0.188477 0.001068
+                        0.188638 0.000977
+                        0.190269 0.000977
+                        0.19043 0.001068
+                        0.56543 0.057223
+                        0.556965 0.063477
+                        0.519139 0.063477
+                        0.519139 0.000977
+                        0.556965 0.000977
+                        0.56543 0.007231
+                        0.386526 0.061141
+                        0.378552 0.062855
+                        0.37793 0.000977
+                        0.384184 0.000977
+                        0.491854 0.058522
+                        0.496563 0.063477
+                        0.455729 0.063477
+                        0.445777 0.058582
+                        0.50293 0.062632
+                        0.497786 0.000977
+                        0.50293 0.01334
+                        0.681944 0.003835
+                        0.690178 0.001229
+                        0.69043 0.063364
+                        0.681965 0.063477
+                        0.44043 0.060049
+                        0.44043 0.008371
+                        0.445574 0.000977
+                        0.644139 0.063477
+                        0.62793 0.060775
+                        0.62793 0.003891
+                        0.430277 0.061141
+                        0.434176 0.000977
+                        0.598639 0.688477
+                        0.598639 0.563477
+                        0.69043 0.060775
+                        0.674221 0.063477
+                        0.636395 0.063477
+                        0.636416 0.003835
+                        0.69043 0.003891
+                        0.190313 0.00293
+                        0.188594 0.00293
+                        0.688477 0.438477
+                        0.750977 0.438477
+                    </float_array>
+                    <technique_common>
+                        <accessor count="78" source="#Geometry-nano2-nano2-UV0-array" stride="2">
+                            <param name="S" type="float" />
+                            <param name="T" type="float" />
+                        </accessor>
+                    </technique_common>
+                </source>
+                <vertices id="Geometry-nano2-vertices">
+                    <input semantic="POSITION" source="#Geometry-nano2-positions" />
+                </vertices>
+                <polylist count="33" material="Material-lambert3">
+                    <input semantic="VERTEX" source="#Geometry-nano2-vertices" offset="0" />
+                    <input semantic="NORMAL" source="#Geometry-nano2-normals" offset="1" />
+                    <input semantic="TEXCOORD" source="#Geometry-nano2-nano2-UV0" offset="2" set="0" />
+                    <vcount>4 4 5 5 4 4 4 4 4 4 4 4 6 6 4 4 4 4 4 4 5 4 3 3 4 5 4 4 4 4 4 4 4</vcount>
+                    <p>0 0 0 1 0 1 2 0 2 3 0 3 2 0 4 33 1 5 35 1 6 3 0 7 1 0 8 4 0 9 32 2 10 33 2 11 2 0 12 5 0 8 0 0 9 3 0 13 35 3 14 34 3 15 5 0 16 4 0 17 1 0 18 0 0 19 4 0 8 5 0 9 34 4 10 32 4 15 6 0 20 7 0 21 46 5 22 47 6 23 7 0 0 6 0 1 44 7 24 45 8 25 12 0 20 13 0 21 48 9 22 49 10 23 13 0 8 12 0 9 40 11 26 41 12 27 16 0 28 17 0 29 42 13 30 43 14 31 17 0 8 16 0 9 50 15 26 51 16 27 37 17 32 38 17 33 26 17 34 27 17 35 25 17 36 24 17 37 31 18 38 30 18 39 39 18 40 36 18 41 29 18 42 28 18 43 18 19 44 20 20 45 30 21 46 31 22 47 19 23 48 18 19 49 23 24 50 22 25 51 20 20 52 19 23 48 27 26 53 26 27 54 21 28 55 23 24 56 28 29 57 29 30 58 22 25 51 21 28 59 24 31 60 25 32 61 19 23 48 22 25 51 25 32 61 27 26 53 21 28 55 29 30 58 36 33 62 37 33 63 24 31 64 23 24 65 18 19 44 31 22 47 28 29 66 18 19 49 19 23 48 20 20 52 21 28 59 22 25 51 23 24 50 33 34 5 32 34 67 34 34 68 35 34 6 38 35 69 39 35 70 30 21 71 20 20 72 26 27 73 37 36 32 36 36 74 39 36 75 38 36 33 41 12 27 40 11 26 14 0 13 15 0 12 43 14 31 42 13 30 15 0 76 14 0 77 45 8 25 44 7 24 10 0 2 11 0 3 47 6 23 46 5 22 8 0 29 9 0 28 49 10 23 48 9 22 11 0 29 10 0 28 51 16 27 50 15 26 9 0 13 8 0 12</p>
+                </polylist>
+                <extra>
+                    <technique profile="modo401">
+                        <param sid="render" name="Render" type="Name">default</param>
+                        <param sid="dissolve" name="Dissolve" type="float">0</param>
+                        <param sid="curves" name="Render_Curves" type="bool">false</param>
+                        <param sid="radius" name="Curve_Radius" type="float">0.05</param>
+                    </technique>
+                </extra>
+            </mesh>
+        </geometry>
+        <geometry id="Geometry-door1" name="door1">
+            <mesh>
+                <source id="Geometry-door1-positions" name="positions">
+                    <float_array id="Geometry-door1-positions-array" count="57">
+                        0 1687.5 -1875.5
+                        0 0 -4500
+                        1499 0 -1875.5
+                        1499 1237.84 -1875.5
+                        1049.35 1687.5 -1875.5
+                        1049.35 1237.84 -4500
+                        1049.35 1687.5 -4050.34
+                        1499 1237.84 -4050.34
+                        0 1687.5 -4050.34
+                        0 1237.84 -4500
+                        1049.35 0 -4500
+                        1499 0 -4050.34
+                        1084.77 1517.28 -4310.6
+                        0 1517.28 -4310.6
+                        1309.6 1517.28 -4050.34
+                        1326.36 1511.36 -1875
+                        1319.75 0 -4320.75
+                        1319.75 1241.36 -4320.75
+                        1242.76 1529.4 -4243.76
+                    </float_array>
+                    <technique_common>
+                        <accessor count="19" source="#Geometry-door1-positions-array" stride="3">
+                            <param name="X" type="float" />
+                            <param name="Y" type="float" />
+                            <param name="Z" type="float" />
+                        </accessor>
+                    </technique_common>
+                </source>
+                <source id="Geometry-door1-normals" name="normals">
+                    <float_array id="Geometry-door1-normals-array" count="69">
+                        0.706412 0.707799 -0.001759
+                        0.707792 0.706418 -0.001766
+                        0.836623 0.547774 -0.002479
+                        0.707107 0 -0.707106
+                        0.8335 0 -0.552519
+                        0.8335 0 -0.55252
+                        0 0.836891 -0.547369
+                        0 0.706677 -0.707536
+                        0 0.707107 -0.707106
+                        0 1 0
+                        0 0 -1
+                        1 0 0
+                        0.65307 0.4358 -0.619336
+                        0.586891 0.600586 -0.543007
+                        0.697895 0.593139 -0.401408
+                        0.802437 0.432474 -0.41117
+                        0 0.561065 -0.827772
+                        0.444639 0.583643 -0.679453
+                        0.379443 0.865201 -0.327795
+                        0.541831 0.840487 -0.000944
+                        0.541832 0.840487 -0.000944
+                        0.55252 0 -0.8335
+                        0.443712 0.407245 -0.798293
+                    </float_array>
+                    <technique_common>
+                        <accessor count="23" source="#Geometry-door1-normals-array" stride="3">
+                            <param name="X" type="float" />
+                            <param name="Y" type="float" />
+                            <param name="Z" type="float" />
+                        </accessor>
+                    </technique_common>
+                </source>
+                <source id="Geometry-door1-door1-UV0" name="door1-UV0">
+                    <float_array id="Geometry-door1-door1-UV0-array" count="52">
+                        0.572851 0.261685
+                        0.572851 0.313477
+                        0.563477 0.313477
+                        0.563477 0.261685
+                        0.69043 0.010351
+                        0.644584 0.010351
+                        0.644584 0.000977
+                        0.69043 0.000977
+                        0.582225 0.261685
+                        0.582225 0.256331
+                        0.625977 0.256331
+                        0.625977 0.261685
+                        0.625977 0.313477
+                        0.582225 0.313477
+                        0.69043 0.063477
+                        0.644584 0.063477
+                        0.644584 0.019725
+                        0.69043 0.019725
+                        0.486276 0.011685
+                        0.486276 0.063477
+                        0.44043 0.063477
+                        0.44043 0.011685
+                        0.572851 0.256331
+                        0.577538 0.259008
+                        0.582225 0.250977
+                        0.625977 0.250977
+                    </float_array>
+                    <technique_common>
+                        <accessor count="26" source="#Geometry-door1-door1-UV0-array" stride="2">
+                            <param name="S" type="float" />
+                            <param name="T" type="float" />
+                        </accessor>
+                    </technique_common>
+                </source>
+                <vertices id="Geometry-door1-vertices">
+                    <input semantic="POSITION" source="#Geometry-door1-positions" />
+                </vertices>
+                <polylist count="12" material="Material-lambert3">
+                    <input semantic="VERTEX" source="#Geometry-door1-vertices" offset="0" />
+                    <input semantic="NORMAL" source="#Geometry-door1-normals" offset="1" />
+                    <input semantic="TEXCOORD" source="#Geometry-door1-door1-UV0" offset="2" set="0" />
+                    <vcount>4 4 4 4 4 4 4 4 4 4 4 4</vcount>
+                    <p>14 0 0 15 1 1 3 2 2 7 2 3 16 3 4 17 3 5 7 4 6 11 5 7 6 6 8 12 7 9 13 8 10 8 6 11 0 9 12 4 9 13 6 9 8 8 9 11 1 10 14 9 10 15 5 10 16 10 10 17 7 11 18 3 11 19 2 11 20 11 11 21 17 12 22 18 13 23 14 14 0 7 15 3 13 8 10 12 7 9 5 16 24 9 16 25 14 14 0 18 13 23 12 17 9 6 18 8 4 19 13 15 1 1 14 0 0 6 20 8 5 21 16 17 3 5 16 3 4 10 21 17 5 22 24 12 17 9 18 13 23 17 12 22</p>
+                </polylist>
+                <extra>
+                    <technique profile="modo401">
+                        <param sid="render" name="Render" type="Name">default</param>
+                        <param sid="dissolve" name="Dissolve" type="float">0</param>
+                        <param sid="curves" name="Render_Curves" type="bool">false</param>
+                        <param sid="radius" name="Curve_Radius" type="float">0.05</param>
+                    </technique>
+                </extra>
+            </mesh>
+        </geometry>
+        <geometry id="Geometry-door1A" name="door1A">
+            <mesh>
+                <source id="Geometry-door1A-positions" name="positions">
+                    <float_array id="Geometry-door1A-positions-array" count="36">
+                        0.0137 1683.75 -1875
+                        0.0137 0 -1875
+                        0.0137 0 105.824
+                        0.0137 1683.75 105.824
+                        1498.75 0 105.824
+                        1498.75 0 -1875
+                        1049.17 1683.75 -1875
+                        1498.75 1234.17 -1875
+                        1498.75 1234.17 105.824
+                        1049.17 1683.75 105.824
+                        1326.36 1511.36 -1875
+                        1326.36 1511.36 105.824
+                    </float_array>
+                    <technique_common>
+                        <accessor count="12" source="#Geometry-door1A-positions-array" stride="3">
+                            <param name="X" type="float" />
+                            <param name="Y" type="float" />
+                            <param name="Z" type="float" />
+                        </accessor>
+                    </technique_common>
+                </source>
+                <source id="Geometry-door1A-normals" name="normals">
+                    <float_array id="Geometry-door1A-normals-array" count="18">
+                        0 0 0
+                        0 1 0
+                        1 0 0
+                        0.849175 0.528111 0
+                        0.707107 0.707107 0
+                        0.528111 0.849175 0
+                    </float_array>
+                    <technique_common>
+                        <accessor count="6" source="#Geometry-door1A-normals-array" stride="3">
+                            <param name="X" type="float" />
+                            <param name="Y" type="float" />
+                            <param name="Z" type="float" />
+                        </accessor>
+                    </technique_common>
+                </source>
+                <source id="Geometry-door1A-door1A-UV0" name="door1A-UV0">
+                    <float_array id="Geometry-door1A-door1A-UV0-array" count="32">
+                        0.969727 0.500977
+                        0.907227 0.500977
+                        0.907227 0.438477
+                        0.969727 0.438477
+                        0.421682 0.000977
+                        0.421682 0.063477
+                        0.37793 0.063477
+                        0.37793 0.000977
+                        0.361242 0.000977
+                        0.361242 0.063477
+                        0.31543 0.063477
+                        0.31543 0.000977
+                        0.44043 0.063477
+                        0.431056 0.063477
+                        0.431056 0.000977
+                        0.44043 0.000977
+                    </float_array>
+                    <technique_common>
+                        <accessor count="16" source="#Geometry-door1A-door1A-UV0-array" stride="2">
+                            <param name="S" type="float" />
+                            <param name="T" type="float" />
+                        </accessor>
+                    </technique_common>
+                </source>
+                <vertices id="Geometry-door1A-vertices">
+                    <input semantic="POSITION" source="#Geometry-door1A-positions" />
+                </vertices>
+                <polylist count="5" material="Material-lambert3">
+                    <input semantic="VERTEX" source="#Geometry-door1A-vertices" offset="0" />
+                    <input semantic="NORMAL" source="#Geometry-door1A-normals" offset="1" />
+                    <input semantic="TEXCOORD" source="#Geometry-door1A-door1A-UV0" offset="2" set="0" />
+                    <vcount>4 4 4 4 4</vcount>
+                    <p>0 0 0 1 0 1 2 0 2 3 0 3 9 1 4 6 1 5 0 0 6 3 0 7 7 2 8 8 2 9 4 0 10 5 0 11 7 3 12 10 4 13 11 4 14 8 3 15 11 4 14 10 4 13 6 5 5 9 5 4</p>
+                </polylist>
+                <extra>
+                    <technique profile="modo401">
+                        <param sid="render" name="Render" type="Name">default</param>
+                        <param sid="dissolve" name="Dissolve" type="float">0</param>
+                        <param sid="curves" name="Render_Curves" type="bool">false</param>
+                        <param sid="radius" name="Curve_Radius" type="float">0.05</param>
+                    </technique>
+                </extra>
+            </mesh>
+        </geometry>
+        <geometry id="Geometry-door2" name="door2">
+            <mesh>
+                <source id="Geometry-door2-positions" name="positions">
+                    <float_array id="Geometry-door2-positions-array" count="57">
+                        0 1687.5 -1875.5
+                        0 0 -4500
+                        -1622.5 0 -1875.5
+                        0 1241.36 -4500
+                        0 1687.5 -4053.86
+                        -1622.5 1241.36 -4053.86
+                        -1176.36 1687.5 -4050.34
+                        -1176.36 1241.36 -4500
+                        -1176.36 1687.5 -1875.5
+                        -1622.5 1241.36 -1875.5
+                        -1622.5 0 -4053.86
+                        -1176.36 0 -4500
+                        0 1519.04 -4312.35
+                        -1211.78 1519.04 -4312.35
+                        -1434.86 1519.04 -4050.34
+                        -1451.4 1513.15 -1875.5
+                        -1445.01 0 -4322.51
+                        -1445.01 1241.36 -4322.51
+                        -1368.91 1531.09 -4246.4
+                    </float_array>
+                    <technique_common>
+                        <accessor count="19" source="#Geometry-door2-positions-array" stride="3">
+                            <param name="X" type="float" />
+                            <param name="Y" type="float" />
+                            <param name="Z" type="float" />
+                        </accessor>
+                    </technique_common>
+                </source>
+                <source id="Geometry-door2-normals" name="normals">
+                    <float_array id="Geometry-door2-normals-array" count="63">
+                        -0.000799 0.839499 -0.54336
+                        -0.000392 0.708515 -0.705696
+                        -0.000391 0.708126 -0.706086
+                        -0.707107 0 -0.707107
+                        -0.551215 0 -0.834363
+                        -0.540568 0.8413 -0.000917
+                        -0.706978 0.707234 -0.00173
+                        -0.707847 0.706363 -0.001734
+                        0 1 0
+                        0 0 -1
+                        -1 0 0
+                        -0.446021 0.584053 -0.678194
+                        -0.588809 0.600663 -0.54084
+                        -0.6976 0.595382 -0.39859
+                        -0.377775 0.868239 -0.321631
+                        0 0.559908 -0.828555
+                        -0.837322 0.546705 -0.002442
+                        -0.655507 0.433332 -0.618493
+                        -0.445521 0.403446 -0.799213
+                        -0.834364 0 -0.551215
+                        -0.803807 0.431154 -0.409878
+                    </float_array>
+                    <technique_common>
+                        <accessor count="21" source="#Geometry-door2-normals-array" stride="3">
+                            <param name="X" type="float" />
+                            <param name="Y" type="float" />
+                            <param name="Z" type="float" />
+                        </accessor>
+                    </technique_common>
+                </source>
+                <source id="Geometry-door2-door2-UV0" name="door2-UV0">
+                    <float_array id="Geometry-door2-door2-UV0-array" count="52">
+                        0.563477 0.261601
+                        0.563477 0.256289
+                        0.608791 0.256289
+                        0.608791 0.261601
+                        0.69043 0.054884
+                        0.644454 0.054884
+                        0.644454 0.046291
+                        0.69043 0.046291
+                        0.617384 0.261601
+                        0.617384 0.313477
+                        0.608791 0.313477
+                        0.563477 0.313477
+                        0.644454 0.000977
+                        0.69043 0.000977
+                        0.548906 0.052853
+                        0.50293 0.052853
+                        0.50293 0.000977
+                        0.548906 0.000977
+                        0.613088 0.258945
+                        0.563477 0.250977
+                        0.608791 0.250977
+                        0.625977 0.261601
+                        0.625977 0.313477
+                        0.617384 0.256289
+                        0.644454 0.063477
+                        0.69043 0.063477
+                    </float_array>
+                    <technique_common>
+                        <accessor count="26" source="#Geometry-door2-door2-UV0-array" stride="2">
+                            <param name="S" type="float" />
+                            <param name="T" type="float" />
+                        </accessor>
+                    </technique_common>
+                </source>
+                <vertices id="Geometry-door2-vertices">
+                    <input semantic="POSITION" source="#Geometry-door2-positions" />
+                </vertices>
+                <polylist count="12" material="Material-lambert3">
+                    <input semantic="VERTEX" source="#Geometry-door2-vertices" offset="0" />
+                    <input semantic="NORMAL" source="#Geometry-door2-normals" offset="1" />
+                    <input semantic="TEXCOORD" source="#Geometry-door2-door2-UV0" offset="2" set="0" />
+                    <vcount>4 4 4 4 4 4 4 4 4 4 4 4</vcount>
+                    <p>4 0 0 12 1 1 13 2 2 6 0 3 16 3 4 17 3 5 7 4 6 11 4 7 6 5 3 14 6 8 15 7 9 8 5 10 6 8 3 8 8 10 0 8 11 4 8 0 11 9 7 7 9 6 3 9 12 1 9 13 5 10 14 10 10 15 2 10 16 9 10 17 13 11 2 18 12 18 14 13 8 6 14 3 13 2 2 12 1 1 3 15 19 7 15 20 15 7 9 14 6 8 5 16 21 9 16 22 17 17 23 18 12 18 13 11 2 7 18 20 5 19 24 17 3 5 16 3 4 10 19 25 5 20 21 14 13 8 18 12 18 17 17 23</p>
+                </polylist>
+                <extra>
+                    <technique profile="modo401">
+                        <param sid="render" name="Render" type="Name">default</param>
+                        <param sid="dissolve" name="Dissolve" type="float">0</param>
+                        <param sid="curves" name="Render_Curves" type="bool">false</param>
+                        <param sid="radius" name="Curve_Radius" type="float">0.05</param>
+                    </technique>
+                </extra>
+            </mesh>
+        </geometry>
+        <geometry id="Geometry-door2A" name="door2A">
+            <mesh>
+                <source id="Geometry-door2A-positions" name="positions">
+                    <float_array id="Geometry-door2A-positions-array" count="36">
+                        0 1683.75 105.824
+                        0 0 105.824
+                        0 0 -1875
+                        0 1683.75 -1875
+                        -1622 0 -1875
+                        -1622 0 105.824
+                        -1622 1237.74 -1875
+                        -1175.99 1683.75 -1875
+                        -1175.99 1683.75 105.824
+                        -1622 1237.74 105.824
+                        -1451.4 1513.15 -1875
+                        -1451.4 1513.15 105.824
+                    </float_array>
+                    <technique_common>
+                        <accessor count="12" source="#Geometry-door2A-positions-array" stride="3">
+                            <param name="X" type="float" />
+                            <param name="Y" type="float" />
+                            <param name="Z" type="float" />
+                        </accessor>
+                    </technique_common>
+                </source>
+                <source id="Geometry-door2A-normals" name="normals">
+                    <float_array id="Geometry-door2A-normals-array" count="18">
+                        0 0 0
+                        0 1 0
+                        -1 0 0
+                        -0.526608 0.850108 0
+                        -0.707107 0.707107 0
+                        -0.850108 0.526608 0
+                    </float_array>
+                    <technique_common>
+                        <accessor count="6" source="#Geometry-door2A-normals-array" stride="3">
+                            <param name="X" type="float" />
+                            <param name="Y" type="float" />
+                            <param name="Z" type="float" />
+                        </accessor>
+                    </technique_common>
+                </source>
+                <source id="Geometry-door2A-door2A-UV0" name="door2A-UV0">
+                    <float_array id="Geometry-door2A-door2A-UV0-array" count="32">
+                        0.969727 0.500977
+                        0.907227 0.500977
+                        0.907227 0.438477
+                        0.969727 0.438477
+                        0.44043 0.063477
+                        0.395116 0.063477
+                        0.395116 0.000977
+                        0.44043 0.000977
+                        0.548874 0.000977
+                        0.548874 0.063477
+                        0.50293 0.063477
+                        0.50293 0.000977
+                        0.386523 0.063477
+                        0.386523 0.000977
+                        0.37793 0.063477
+                        0.37793 0.000977
+                    </float_array>
+                    <technique_common>
+                        <accessor count="16" source="#Geometry-door2A-door2A-UV0-array" stride="2">
+                            <param name="S" type="float" />
+                            <param name="T" type="float" />
+                        </accessor>
+                    </technique_common>
+                </source>
+                <vertices id="Geometry-door2A-vertices">
+                    <input semantic="POSITION" source="#Geometry-door2A-positions" />
+                </vertices>
+                <polylist count="5" material="Material-lambert3">
+                    <input semantic="VERTEX" source="#Geometry-door2A-vertices" offset="0" />
+                    <input semantic="NORMAL" source="#Geometry-door2A-normals" offset="1" />
+                    <input semantic="TEXCOORD" source="#Geometry-door2A-door2A-UV0" offset="2" set="0" />
+                    <vcount>4 4 4 4 4</vcount>
+                    <p>0 0 0 1 0 1 2 0 2 3 0 3 3 0 4 7 1 5 8 1 6 0 0 7 9 2 8 6 2 9 4 0 10 5 0 11 7 3 5 10 4 12 11 4 13 8 3 6 11 4 13 10 4 12 6 5 14 9 5 15</p>
+                </polylist>
+                <extra>
+                    <technique profile="modo401">
+                        <param sid="render" name="Render" type="Name">default</param>
+                        <param sid="dissolve" name="Dissolve" type="float">0</param>
+                        <param sid="curves" name="Render_Curves" type="bool">false</param>
+                        <param sid="radius" name="Curve_Radius" type="float">0.05</param>
+                    </technique>
+                </extra>
+            </mesh>
+        </geometry>
+        <geometry id="Geometry-door3" name="door3">
+            <mesh>
+                <source id="Geometry-door3-positions" name="positions">
+                    <float_array id="Geometry-door3-positions-array" count="57">
+                        0 1687.5 2000.5
+                        0 0 4500
+                        1499 0 2000.5
+                        0 1237.84 4500
+                        0 1687.5 4050.34
+                        1499 1237.84 4050.34
+                        1049.35 1687.5 4053.86
+                        1049.35 1237.84 4500
+                        1049.35 1687.5 2000.5
+                        1499 1237.84 2000.5
+                        1499 0 4053.86
+                        1049.35 0 4500
+                        0 1517.28 4310.6
+                        1084.77 1517.28 4310.6
+                        1309.6 1517.28 4053.86
+                        1309.6 1517.28 2000.5
+                        1319.75 0 4320.75
+                        1319.75 1241.36 4320.75
+                        1242.76 1529.4 4243.76
+                    </float_array>
+                    <technique_common>
+                        <accessor count="19" source="#Geometry-door3-positions-array" stride="3">
+                            <param name="X" type="float" />
+                            <param name="Y" type="float" />
+                            <param name="Z" type="float" />
+                        </accessor>
+                    </technique_common>
+                </source>
+                <source id="Geometry-door3-normals" name="normals">
+                    <float_array id="Geometry-door3-normals-array" count="69">
+                        -0.000905 0.835159 0.550009
+                        -0.000442 0.705699 0.708512
+                        -0.00044 0.70522 0.708988
+                        -0.000905 0.835159 0.550008
+                        0.705724 0.0004 0.708487
+                        0.55252 0 0.8335
+                        0.54737 0.836891 0
+                        0.706575 0.707638 0
+                        0.707046 0.707167 0
+                        0 1 0
+                        0 0 1
+                        1 0 0
+                        0.444425 0.581229 0.681659
+                        0.586273 0.59806 0.54645
+                        0.699199 0.588956 0.40528
+                        0.379505 0.863441 0.332332
+                        0 0.561065 0.827772
+                        0.827771 0.561065 0
+                        0.827771 0.561066 0
+                        0.651982 0.434365 0.621487
+                        0.443712 0.407245 0.798293
+                        0.831838 0.000786 0.555018
+                        0.802111 0.430171 0.414212
+                    </float_array>
+                    <technique_common>
+                        <accessor count="23" source="#Geometry-door3-normals-array" stride="3">
+                            <param name="X" type="float" />
+                            <param name="Y" type="float" />
+                            <param name="Z" type="float" />
+                        </accessor>
+                    </technique_common>
+                </source>
+                <source id="Geometry-door3-door3-UV0" name="door3-UV0">
+                    <float_array id="Geometry-door3-door3-UV0-array" count="52">
+                        0.563477 0.262221
+                        0.563477 0.256599
+                        0.607229 0.256599
+                        0.607229 0.262221
+                        0.62793 0.010351
+                        0.673776 0.010351
+                        0.673776 0.019725
+                        0.62793 0.019725
+                        0.616603 0.262221
+                        0.616603 0.313477
+                        0.607229 0.313477
+                        0.563477 0.313477
+                        0.673776 0.063477
+                        0.62793 0.063477
+                        0.486276 0.052233
+                        0.44043 0.052233
+                        0.44043 0.000977
+                        0.486276 0.000977
+                        0.611916 0.25941
+                        0.563477 0.250977
+                        0.607229 0.250977
+                        0.625977 0.262221
+                        0.625977 0.313477
+                        0.616603 0.256599
+                        0.673776 0.000977
+                        0.62793 0.000977
+                    </float_array>
+                    <technique_common>
+                        <accessor count="26" source="#Geometry-door3-door3-UV0-array" stride="2">
+                            <param name="S" type="float" />
+                            <param name="T" type="float" />
+                        </accessor>
+                    </technique_common>
+                </source>
+                <vertices id="Geometry-door3-vertices">
+                    <input semantic="POSITION" source="#Geometry-door3-positions" />
+                </vertices>
+                <polylist count="12" material="Material-lambert3">
+                    <input semantic="VERTEX" source="#Geometry-door3-vertices" offset="0" />
+                    <input semantic="NORMAL" source="#Geometry-door3-normals" offset="1" />
+                    <input semantic="TEXCOORD" source="#Geometry-door3-door3-UV0" offset="2" set="0" />
+                    <vcount>4 4 4 4 4 4 4 4 4 4 4 4</vcount>
+                    <p>4 0 0 12 1 1 13 2 2 6 3 3 16 4 4 17 4 5 7 5 6 11 5 7 6 6 3 14 7 8 15 8 9 8 6 10 6 9 3 8 9 10 0 9 11 4 9 0 7 10 6 3 10 12 1 10 13 11 10 7 5 11 14 10 11 15 2 11 16 9 11 17 13 12 2 18 13 18 14 14 8 6 15 3 13 2 2 12 1 1 3 16 19 7 16 20 15 8 9 14 7 8 5 17 21 9 18 22 17 19 23 18 13 18 13 12 2 7 20 20 5 21 24 17 4 5 16 4 4 10 21 25 5 22 21 14 14 8 18 13 18 17 19 23</p>
+                </polylist>
+                <extra>
+                    <technique profile="modo401">
+                        <param sid="render" name="Render" type="Name">default</param>
+                        <param sid="dissolve" name="Dissolve" type="float">0</param>
+                        <param sid="curves" name="Render_Curves" type="bool">false</param>
+                        <param sid="radius" name="Curve_Radius" type="float">0.05</param>
+                    </technique>
+                </extra>
+            </mesh>
+        </geometry>
+        <geometry id="Geometry-door3A" name="door3A">
+            <mesh>
+                <source id="Geometry-door3A-positions" name="positions">
+                    <float_array id="Geometry-door3A-positions-array" count="36">
+                        0.0137 1683.75 79.8126
+                        0.0137 0 79.8126
+                        0.0137 0 2000
+                        0.0137 1683.75 2000
+                        1498.75 0 2000
+                        1498.75 0 79.8126
+                        1049.17 1683.75 79.8126
+                        1498.75 1234.17 79.8126
+                        1498.75 1234.17 2000
+                        1049.17 1683.75 2000
+                        1326.36 1511.36 79.8126
+                        1326.36 1511.36 2000
+                    </float_array>
+                    <technique_common>
+                        <accessor count="12" source="#Geometry-door3A-positions-array" stride="3">
+                            <param name="X" type="float" />
+                            <param name="Y" type="float" />
+                            <param name="Z" type="float" />
+                        </accessor>
+                    </technique_common>
+                </source>
+                <source id="Geometry-door3A-normals" name="normals">
+                    <float_array id="Geometry-door3A-normals-array" count="18">
+                        0 0 0
+                        0 1 0
+                        1 0 0
+                        0.849175 0.528112 0
+                        0.707107 0.707107 0
+                        0.528112 0.849175 0
+                    </float_array>
+                    <technique_common>
+                        <accessor count="6" source="#Geometry-door3A-normals-array" stride="3">
+                            <param name="X" type="float" />
+                            <param name="Y" type="float" />
+                            <param name="Z" type="float" />
+                        </accessor>
+                    </technique_common>
+                </source>
+                <source id="Geometry-door3A-door3A-UV0" name="door3A-UV0">
+                    <float_array id="Geometry-door3A-door3A-UV0-array" count="32">
+                        0.969727 0.500977
+                        0.907227 0.500977
+                        0.907227 0.438477
+                        0.969727 0.438477
+                        0.421682 0.000977
+                        0.421682 0.063477
+                        0.37793 0.063477
+                        0.37793 0.000977
+                        0.361242 0.000977
+                        0.361242 0.063477
+                        0.31543 0.063477
+                        0.31543 0.000977
+                        0.44043 0.063477
+                        0.431056 0.063477
+                        0.431056 0.000977
+                        0.44043 0.000977
+                    </float_array>
+                    <technique_common>
+                        <accessor count="16" source="#Geometry-door3A-door3A-UV0-array" stride="2">
+                            <param name="S" type="float" />
+                            <param name="T" type="float" />
+                        </accessor>
+                    </technique_common>
+                </source>
+                <vertices id="Geometry-door3A-vertices">
+                    <input semantic="POSITION" source="#Geometry-door3A-positions" />
+                </vertices>
+                <polylist count="5" material="Material-lambert3">
+                    <input semantic="VERTEX" source="#Geometry-door3A-vertices" offset="0" />
+                    <input semantic="NORMAL" source="#Geometry-door3A-normals" offset="1" />
+                    <input semantic="TEXCOORD" source="#Geometry-door3A-door3A-UV0" offset="2" set="0" />
+                    <vcount>4 4 4 4 4</vcount>
+                    <p>0 0 0 1 0 1 2 0 2 3 0 3 9 1 4 6 1 5 0 0 6 3 0 7 7 2 8 8 2 9 4 0 10 5 0 11 7 3 12 10 4 13 11 4 14 8 3 15 11 4 14 10 4 13 6 5 5 9 5 4</p>
+                </polylist>
+                <extra>
+                    <technique profile="modo401">
+                        <param sid="render" name="Render" type="Name">default</param>
+                        <param sid="dissolve" name="Dissolve" type="float">0</param>
+                        <param sid="curves" name="Render_Curves" type="bool">false</param>
+                        <param sid="radius" name="Curve_Radius" type="float">0.05</param>
+                    </technique>
+                </extra>
+            </mesh>
+        </geometry>
+        <geometry id="Geometry-door4" name="door4">
+            <mesh>
+                <source id="Geometry-door4-positions" name="positions">
+                    <float_array id="Geometry-door4-positions-array" count="57">
+                        0 1687.5 2000.5
+                        0 0 4500
+                        -1622.5 0 2000.5
+                        -1622.5 1241.36 2000.5
+                        -1176.36 1687.5 2000.5
+                        -1176.36 1241.36 4500
+                        -1176.36 1687.5 4053.86
+                        -1622.5 1241.36 4053.86
+                        0 1687.5 4053.86
+                        0 1241.36 4500
+                        -1176.36 0 4500
+                        -1622.5 0 4053.86
+                        -1434.86 1519.04 2000.5
+                        -1434.86 1519.04 4053.86
+                        -1211.78 1519.04 4312.35
+                        0 1519.04 4312.35
+                        -1445.01 0 4322.51
+                        -1445.01 1241.36 4322.51
+                        -1368.91 1531.09 4246.4
+                    </float_array>
+                    <technique_common>
+                        <accessor count="19" source="#Geometry-door4-positions-array" stride="3">
+                            <param name="X" type="float" />
+                            <param name="Y" type="float" />
+                            <param name="Z" type="float" />
+                        </accessor>
+                    </technique_common>
+                </source>
+                <source id="Geometry-door4-normals" name="normals">
+                    <float_array id="Geometry-door4-normals-array" count="60">
+                        -0.545992 0.83779 0
+                        -0.707107 0.707107 0
+                        -0.707107 0 0.707107
+                        -0.834364 0 0.551215
+                        0 0.83779 0.545992
+                        0 0.706667 0.707546
+                        0 0.707107 0.707107
+                        0 1 0
+                        0 0 1
+                        -1 0 0
+                        -0.698927 0.591223 0.402438
+                        -0.588216 0.598153 0.544256
+                        -0.445818 0.581637 0.680401
+                        -0.377843 0.866556 0.326061
+                        -0.828555 0.559907 0
+                        0 0.559908 0.828555
+                        -0.654427 0.4319 0.620635
+                        -0.803487 0.428871 0.41289
+                        -0.551215 0 0.834363
+                        -0.445521 0.403446 0.799213
+                    </float_array>
+                    <technique_common>
+                        <accessor count="20" source="#Geometry-door4-normals-array" stride="3">
+                            <param name="X" type="float" />
+                            <param name="Y" type="float" />
+                            <param name="Z" type="float" />
+                        </accessor>
+                    </technique_common>
+                </source>
+                <source id="Geometry-door4-door4-UV0" name="door4-UV0">
+                    <float_array id="Geometry-door4-door4-UV0-array" count="52">
+                        0.580663 0.313477
+                        0.57207 0.313477
+                        0.57207 0.262133
+                        0.580663 0.262133
+                        0.62793 0.054884
+                        0.673906 0.054884
+                        0.673906 0.063477
+                        0.62793 0.063477
+                        0.580663 0.256555
+                        0.625977 0.256555
+                        0.625977 0.262133
+                        0.625977 0.313477
+                        0.673906 0.046291
+                        0.62793 0.046291
+                        0.62793 0.000977
+                        0.673906 0.000977
+                        0.548906 0.012133
+                        0.548906 0.063477
+                        0.50293 0.063477
+                        0.50293 0.012133
+                        0.576366 0.259344
+                        0.563477 0.313477
+                        0.563477 0.262133
+                        0.580663 0.250977
+                        0.625977 0.250977
+                        0.57207 0.256555
+                    </float_array>
+                    <technique_common>
+                        <accessor count="26" source="#Geometry-door4-door4-UV0-array" stride="2">
+                            <param name="S" type="float" />
+                            <param name="T" type="float" />
+                        </accessor>
+                    </technique_common>
+                </source>
+                <vertices id="Geometry-door4-vertices">
+                    <input semantic="POSITION" source="#Geometry-door4-positions" />
+                </vertices>
+                <polylist count="12" material="Material-lambert3">
+                    <input semantic="VERTEX" source="#Geometry-door4-vertices" offset="0" />
+                    <input semantic="NORMAL" source="#Geometry-door4-normals" offset="1" />
+                    <input semantic="TEXCOORD" source="#Geometry-door4-door4-UV0" offset="2" set="0" />
+                    <vcount>4 4 4 4 4 4 4 4 4 4 4 4</vcount>
+                    <p>4 0 0 12 1 1 13 1 2 6 0 3 16 2 4 17 2 5 7 3 6 11 3 7 6 4 3 14 5 8 15 6 9 8 4 10 0 7 11 4 7 0 6 7 3 8 7 10 5 8 12 10 8 13 1 8 14 9 8 15 7 9 16 3 9 17 2 9 18 11 9 19 13 10 2 18 11 20 14 12 8 6 13 3 13 1 2 12 1 1 3 14 21 7 14 22 15 6 9 14 5 8 5 15 23 9 15 24 17 16 25 18 11 20 13 10 2 7 17 22 5 18 12 17 2 5 16 2 4 10 18 13 5 19 23 14 12 8 18 11 20 17 16 25</p>
+                </polylist>
+                <extra>
+                    <technique profile="modo401">
+                        <param sid="render" name="Render" type="Name">default</param>
+                        <param sid="dissolve" name="Dissolve" type="float">0</param>
+                        <param sid="curves" name="Render_Curves" type="bool">false</param>
+                        <param sid="radius" name="Curve_Radius" type="float">0.05</param>
+                    </technique>
+                </extra>
+            </mesh>
+        </geometry>
+        <geometry id="Geometry-door4A" name="door4A">
+            <mesh>
+                <source id="Geometry-door4A-positions" name="positions">
+                    <float_array id="Geometry-door4A-positions-array" count="36">
+                        0 1683.75 2000
+                        0 0 2000
+                        0 0 79.8126
+                        0 1683.75 79.8126
+                        -1622 0 79.8126
+                        -1622 0 2000
+                        -1622 1237.74 79.8126
+                        -1175.99 1683.75 79.8126
+                        -1175.99 1683.75 2000
+                        -1622 1237.74 2000
+                        -1451.4 1513.15 79.8126
+                        -1451.4 1513.15 2000
+                    </float_array>
+                    <technique_common>
+                        <accessor count="12" source="#Geometry-door4A-positions-array" stride="3">
+                            <param name="X" type="float" />
+                            <param name="Y" type="float" />
+                            <param name="Z" type="float" />
+                        </accessor>
+                    </technique_common>
+                </source>
+                <source id="Geometry-door4A-normals" name="normals">
+                    <float_array id="Geometry-door4A-normals-array" count="18">
+                        0 0 0
+                        0 1 0
+                        -1 0 0
+                        -0.526609 0.850108 0
+                        -0.707107 0.707107 0
+                        -0.850108 0.526609 0
+                    </float_array>
+                    <technique_common>
+                        <accessor count="6" source="#Geometry-door4A-normals-array" stride="3">
+                            <param name="X" type="float" />
+                            <param name="Y" type="float" />
+                            <param name="Z" type="float" />
+                        </accessor>
+                    </technique_common>
+                </source>
+                <source id="Geometry-door4A-door4A-UV0" name="door4A-UV0">
+                    <float_array id="Geometry-door4A-door4A-UV0-array" count="32">
+                        0.969727 0.500977
+                        0.907227 0.500977
+                        0.907227 0.438477
+                        0.969727 0.438477
+                        0.44043 0.063477
+                        0.395116 0.063477
+                        0.395116 0.000977
+                        0.44043 0.000977
+                        0.548874 0.000977
+                        0.548874 0.063477
+                        0.50293 0.063477
+                        0.50293 0.000977
+                        0.386523 0.063477
+                        0.386523 0.000977
+                        0.37793 0.063477
+                        0.37793 0.000977
+                    </float_array>
+                    <technique_common>
+                        <accessor count="16" source="#Geometry-door4A-door4A-UV0-array" stride="2">
+                            <param name="S" type="float" />
+                            <param name="T" type="float" />
+                        </accessor>
+                    </technique_common>
+                </source>
+                <vertices id="Geometry-door4A-vertices">
+                    <input semantic="POSITION" source="#Geometry-door4A-positions" />
+                </vertices>
+                <polylist count="5" material="Material-lambert3">
+                    <input semantic="VERTEX" source="#Geometry-door4A-vertices" offset="0" />
+                    <input semantic="NORMAL" source="#Geometry-door4A-normals" offset="1" />
+                    <input semantic="TEXCOORD" source="#Geometry-door4A-door4A-UV0" offset="2" set="0" />
+                    <vcount>4 4 4 4 4</vcount>
+                    <p>0 0 0 1 0 1 2 0 2 3 0 3 3 0 4 7 1 5 8 1 6 0 0 7 9 2 8 6 2 9 4 0 10 5 0 11 7 3 5 10 4 12 11 4 13 8 3 6 11 4 13 10 4 12 6 5 14 9 5 15</p>
+                </polylist>
+                <extra>
+                    <technique profile="modo401">
+                        <param sid="render" name="Render" type="Name">default</param>
+                        <param sid="dissolve" name="Dissolve" type="float">0</param>
+                        <param sid="curves" name="Render_Curves" type="bool">false</param>
+                        <param sid="radius" name="Curve_Radius" type="float">0.05</param>
+                    </technique>
+                </extra>
+            </mesh>
+        </geometry>
+    </library_geometries>
+    <library_lights>
+        <light id="Light-polyRender006" name="Render">
+            <technique_common>
+                <ambient>
+                    <color sid="ambient_light_rgb">0 0 0</color>
+                </ambient>
+            </technique_common>
+        </light>
+    </library_lights>
+    <library_nodes id="shader_tree" name="Shader_Tree">
+        <node sid="shader_tree_render" name="Render">
+            <extra>
+                <technique profile="modo401">
+                    <param sid="first" name="Frame_Range_First" type="int">1</param>
+                    <param sid="last" name="Frame_Range_Last" type="int">120</param>
+                    <param sid="dpi" name="Frame_DPI" type="float">300</param>
+                    <param sid="resUnit" name="Resolution_Unit" type="Name">pixels</param>
+                    <param sid="pAspect" name="Frame_Pixel_Aspect_Ratio" type="float">1</param>
+                    <param sid="bucketX" name="Bucket_Width" type="int">32</param>
+                    <param sid="bucketY" name="Bucket_Height" type="int">32</param>
+                    <param sid="bktOrder" name="Bucket_Order" type="Name">hilbert</param>
+                    <param sid="bktSkip" name="Skip_Existing_Buckets" type="bool">false</param>
+                    <param sid="region" name="Render_Region" type="bool">false</param>
+                    <param sid="regX0" name="Render_Region_Left" type="float">0</param>
+                    <param sid="regX1" name="Render_Region_Right" type="float">1</param>
+                    <param sid="regY0" name="Render_Region_Top" type="float">0</param>
+                    <param sid="regY1" name="Render_Region_Bottom" type="float">1</param>
+                    <param sid="aa" name="Render_Antialiasing" type="Name">s8</param>
+                    <param sid="aaFilter" name="Render_Antialiasing_Filter" type="Name">gaussian</param>
+                    <param sid="fineRate" name="Refinement_Shading_Rate" type="float">0.25</param>
+                    <param sid="fineThresh" name="Refinement_Threshold" type="float">0.1</param>
+                    <param sid="bktRefine" name="Refine_Bucket_Borders" type="bool">false</param>
+                    <param sid="rayShadow" name="Ray_Tracing_Shadows" type="bool">true</param>
+                    <param sid="reflDepth" name="Reflection_Depth" type="int">8</param>
+                    <param sid="refrDepth" name="Refraction_Depth" type="int">8</param>
+                    <param sid="rayThresh" name="Ray_Threshold" type="float">0.001</param>
+                    <param sid="subdAdapt" name="Adaptive_Subdivision" type="bool">false</param>
+                    <param sid="subdRate" name="Subdivision_Rate" type="float">10</param>
+                    <param sid="dispEnable" name="Micropoly_Displacement" type="bool">true</param>
+                    <param sid="dispRate" name="Displacement_Rate" type="float">1</param>
+                    <param sid="dispRatio" name="Displacement_Ratio" type="float">4</param>
+                    <param sid="edgeMin" name="Minimum_Edge_Length" type="float">0.0001</param>
+                    <param sid="dispSmooth" name="Smooth_Positions" type="bool">true</param>
+                    <param sid="ambRad" name="Ambient_Intensity" type="float">0</param>
+                    <param sid="ambColor" name="Ambient_Color" type="color">1 1 1</param>
+                    <param sid="globEnable" name="Enable_Indirect_Illumination" type="bool">true</param>
+                    <param sid="globScope" name="Indirect_Illumination_Scope" type="Name">all</param>
+                    <param sid="globRays" name="Indirect_Rays" type="int">64</param>
+                    <param sid="globLimit" name="Indirect_Bounces" type="int">1</param>
+                    <param sid="globRange" name="Indirect_Range" type="float">0</param>
+                    <param sid="globSubs" name="Subsurface_Scattering" type="int">1</param>
+                    <param sid="globVols" name="Volumetrics_Affect_Indirect" type="bool">false</param>
+                    <param sid="irrCache" name="Enable_Irradiance_Caching" type="bool">true</param>
+                    <param sid="irrRays" name="Irradiance_Rays" type="int">256</param>
+                    <param sid="globSuper" name="Indirect_Supersampling" type="bool">true</param>
+                    <param sid="irrRate" name="Irradiance_Rate" type="float">2.5</param>
+                    <param sid="irrRatio" name="Irradiance_Ratio" type="float">6</param>
+                    <param sid="irrVals" name="Interpolation_Values" type="int">1</param>
+                    <param sid="irrGrads" name="Irradiance_Gradients" type="Name">both</param>
+                    <param sid="irrWalk" name="Walkthrough_Mode" type="bool">false</param>
+                    <param sid="irrLEnable" name="Load_Irradiance_before_Render" type="bool">false</param>
+                    <param sid="irrLName" name="Load_Irradiance_File" type="Name"></param>
+                    <param sid="irrSEnable" name="Save_Irradiance_after_Render" type="bool">false</param>
+                    <param sid="irrSName" name="Save_Irradiance_File" type="Name"></param>
+                    <param sid="causEnable" name="Enable_Direct_Caustics" type="bool">false</param>
+                    <param sid="causTotal" name="Caustics_Total_Photons" type="int">100000</param>
+                    <param sid="causLocal" name="Caustics_Local_Photons" type="int">32</param>
+                    <param sid="globCaus" name="Indirect_Caustics" type="Name">refraction</param>
+                </technique>
+            </extra>
+        </node>
+        <node sid="shader_tree_environment" name="Environment">
+            <extra>
+                <technique profile="modo401">
+                    <param sid="radiance" name="Environment_Intensity" type="float">1</param>
+                    <param sid="visCam" name="Environment_Visible_to_Camera" type="bool">true</param>
+                    <param sid="visInd" name="Environment_Visible_to_Indirect_Rays" type="bool">true</param>
+                    <param sid="visRefl" name="Environment_Visible_to_Reflection_Rays" type="bool">true</param>
+                    <param sid="visRefr" name="Environment_Visible_to_Refraction_Rays" type="bool">true</param>
+                </technique>
+            </extra>
+        </node>
+    </library_nodes>
+    <library_visual_scenes>
+        <visual_scene id="DefaultScene">
+            <node id="polyRender006" name="Render" type="NODE">
+                <instance_light url="#Light-polyRender006" />
+            </node>
+            <node id="baseNode" name="base" type="NODE">
+                <translate sid="translation022">0 0 0</translate>
+                <rotate sid="rotation045Y">0 1 0 0</rotate>
+                <rotate sid="rotation045X">1 0 0 -0</rotate>
+                <rotate sid="rotation045Z">0 0 1 0</rotate>
+                <scale sid="scale068">0.01 0.01 0.01</scale>
+                <node id="Geometry-pylon1Node" name="pylon1" type="NODE">
+                    <translate sid="translation023">0 0 0</translate>
+                    <rotate sid="rotation046Y">0 1 0 0</rotate>
+                    <rotate sid="rotation046X">1 0 0 -0</rotate>
+                    <rotate sid="rotation046Z">0 0 1 0</rotate>
+                    <scale sid="scale069">1 1 1</scale>
+                    <instance_geometry url="#Geometry-pylon1">
+                        <bind_material>
+                            <technique_common>
+                                <instance_material symbol="Material-lambert3" target="#Material-lambert3" />
+                            </technique_common>
+                        </bind_material>
+                    </instance_geometry>
+                </node>
+                <node id="Geometry-pylon2Node" name="pylon2" type="NODE">
+                    <translate sid="translation024">0 0 0</translate>
+                    <rotate sid="rotation047Y">0 1 0 0</rotate>
+                    <rotate sid="rotation047X">1 0 0 -0</rotate>
+                    <rotate sid="rotation047Z">0 0 1 0</rotate>
+                    <scale sid="scale070">1 1 1</scale>
+                    <instance_geometry url="#Geometry-pylon2">
+                        <bind_material>
+                            <technique_common>
+                                <instance_material symbol="Material-lambert3" target="#Material-lambert3" />
+                            </technique_common>
+                        </bind_material>
+                    </instance_geometry>
+                </node>
+                <node id="Geometry-pylon3Node" name="pylon3" type="NODE">
+                    <translate sid="translation025">0 0 0</translate>
+                    <rotate sid="rotation048Y">0 1 0 0</rotate>
+                    <rotate sid="rotation048X">1 0 0 -0</rotate>
+                    <rotate sid="rotation048Z">0 0 1 0</rotate>
+                    <scale sid="scale071">1 1 1</scale>
+                    <instance_geometry url="#Geometry-pylon3">
+                        <bind_material>
+                            <technique_common>
+                                <instance_material symbol="Material-lambert3" target="#Material-lambert3" />
+                            </technique_common>
+                        </bind_material>
+                    </instance_geometry>
+                </node>
+                <node id="Geometry-pylon4Node" name="pylon4" type="NODE">
+                    <translate sid="translation026">0 0 0</translate>
+                    <rotate sid="rotation049Y">0 1 0 0</rotate>
+                    <rotate sid="rotation049X">1 0 0 -0</rotate>
+                    <rotate sid="rotation049Z">0 0 1 0</rotate>
+                    <scale sid="scale072">1 1 1</scale>
+                    <instance_geometry url="#Geometry-pylon4">
+                        <bind_material>
+                            <technique_common>
+                                <instance_material symbol="Material-lambert3" target="#Material-lambert3" />
+                            </technique_common>
+                        </bind_material>
+                    </instance_geometry>
+                </node>
+                <node id="Geometry-base2Node" name="base2" type="NODE">
+                    <translate sid="translation027">0 0 0</translate>
+                    <rotate sid="rotation050Y">0 1 0 0</rotate>
+                    <rotate sid="rotation050X">1 0 0 -0</rotate>
+                    <rotate sid="rotation050Z">0 0 1 0</rotate>
+                    <scale sid="scale073">1 1 1</scale>
+                    <instance_geometry url="#Geometry-base2">
+                        <bind_material>
+                            <technique_common>
+                                <instance_material symbol="Material-lambert3" target="#Material-lambert3" />
+                            </technique_common>
+                        </bind_material>
+                    </instance_geometry>
+                    <node id="Geometry-basebNode" name="baseb" type="NODE">
+                        <translate sid="translation028">0 0 0</translate>
+                        <rotate sid="rotation051Y">0 1 0 0</rotate>
+                        <rotate sid="rotation051X">1 0 0 -0</rotate>
+                        <rotate sid="rotation051Z">0 0 1 0</rotate>
+                        <scale sid="scale074">1 1 1</scale>
+                        <instance_geometry url="#Geometry-baseb">
+                            <bind_material>
+                                <technique_common>
+                                    <instance_material symbol="Material-lambert3" target="#Material-lambert3" />
+                                </technique_common>
+                            </bind_material>
+                        </instance_geometry>
+                    </node>
+                    <node id="Geometry-baseaNode" name="basea" type="NODE">
+                        <translate sid="translation029">0 0 0</translate>
+                        <rotate sid="rotation052Y">0 1 0 0</rotate>
+                        <rotate sid="rotation052X">1 0 0 -0</rotate>
+                        <rotate sid="rotation052Z">0 0 1 0</rotate>
+                        <scale sid="scale075">1 1 1</scale>
+                        <instance_geometry url="#Geometry-basea">
+                            <bind_material>
+                                <technique_common>
+                                    <instance_material symbol="Material-lambert3" target="#Material-lambert3" />
+                                </technique_common>
+                            </bind_material>
+                        </instance_geometry>
+                    </node>
+                    <node id="Geometry-stand1Node" name="stand1" type="NODE">
+                        <translate sid="translation030">0 0 0</translate>
+                        <rotate sid="rotation053Y">0 1 0 0</rotate>
+                        <rotate sid="rotation053X">1 0 0 -0</rotate>
+                        <rotate sid="rotation053Z">0 0 1 0</rotate>
+                        <scale sid="scale076">1 1 1</scale>
+                        <instance_geometry url="#Geometry-stand1">
+                            <bind_material>
+                                <technique_common>
+                                    <instance_material symbol="Material-lambert3" target="#Material-lambert3" />
+                                </technique_common>
+                            </bind_material>
+                        </instance_geometry>
+                        <node id="Geometry-nano1Node" name="nano1" type="NODE">
+                            <translate sid="translation031">0 0 0</translate>
+                            <rotate sid="rotation054Y">0 1 0 0</rotate>
+                            <rotate sid="rotation054X">1 0 0 -0</rotate>
+                            <rotate sid="rotation054Z">0 0 1 0</rotate>
+                            <scale sid="scale077">1 1 1</scale>
+                            <instance_geometry url="#Geometry-nano1">
+                                <bind_material>
+                                    <technique_common>
+                                        <instance_material symbol="Material-lambert3" target="#Material-lambert3" />
+                                    </technique_common>
+                                </bind_material>
+                            </instance_geometry>
+                            <node id="beam1Node" name="beam1" type="NODE">
+                                <translate sid="translation032">0 0 0</translate>
+                                <rotate sid="rotation055Y">0 1 0 0</rotate>
+                                <rotate sid="rotation055X">1 0 0 -0</rotate>
+                                <rotate sid="rotation055Z">0 0 1 0</rotate>
+                                <scale sid="scale078">1 1 1</scale>
+                            </node>
+                        </node>
+                    </node>
+                    <node id="Geometry-stand2Node" name="stand2" type="NODE">
+                        <translate sid="translation033">0 0 0</translate>
+                        <rotate sid="rotation056Y">0 1 0 0</rotate>
+                        <rotate sid="rotation056X">1 0 0 -0</rotate>
+                        <rotate sid="rotation056Z">0 0 1 0</rotate>
+                        <scale sid="scale079">1 1 1</scale>
+                        <instance_geometry url="#Geometry-stand2">
+                            <bind_material>
+                                <technique_common>
+                                    <instance_material symbol="Material-lambert3" target="#Material-lambert3" />
+                                </technique_common>
+                            </bind_material>
+                        </instance_geometry>
+                        <node id="Geometry-nano2Node" name="nano2" type="NODE">
+                            <translate sid="translation034">0 0 0</translate>
+                            <rotate sid="rotation057Y">0 1 0 0</rotate>
+                            <rotate sid="rotation057X">1 0 0 -0</rotate>
+                            <rotate sid="rotation057Z">0 0 1 0</rotate>
+                            <scale sid="scale080">1 1 1</scale>
+                            <instance_geometry url="#Geometry-nano2">
+                                <bind_material>
+                                    <technique_common>
+                                        <instance_material symbol="Material-lambert3" target="#Material-lambert3" />
+                                    </technique_common>
+                                </bind_material>
+                            </instance_geometry>
+                            <node id="beam2Node" name="beam2" type="NODE">
+                                <translate sid="translation035">-3336.58 57.2149 67.0848</translate>
+                                <rotate sid="rotation058Y">0 1 0 0</rotate>
+                                <rotate sid="rotation058X">1 0 0 -0</rotate>
+                                <rotate sid="rotation058Z">0 0 1 0</rotate>
+                                <scale sid="scale081">1 1 1</scale>
+                            </node>
+                        </node>
+                    </node>
+                    <node id="Geometry-door1Node" name="door1" type="NODE">
+                        <translate sid="translation036">0 0 0</translate>
+                        <rotate sid="rotation059Y">0 1 0 0</rotate>
+                        <rotate sid="rotation059X">1 0 0 -0</rotate>
+                        <rotate sid="rotation059Z">0 0 1 0</rotate>
+                        <scale sid="scale082">1 1 1</scale>
+                        <instance_geometry url="#Geometry-door1">
+                            <bind_material>
+                                <technique_common>
+                                    <instance_material symbol="Material-lambert3" target="#Material-lambert3" />
+                                </technique_common>
+                            </bind_material>
+                        </instance_geometry>
+                        <node id="Geometry-door1ANode" name="door1A" type="NODE">
+                            <translate sid="translation037">0 0 0</translate>
+                            <rotate sid="rotation060Y">0 1 0 0</rotate>
+                            <rotate sid="rotation060X">1 0 0 -0</rotate>
+                            <rotate sid="rotation060Z">0 0 1 0</rotate>
+                            <scale sid="scale083">1 1 1</scale>
+                            <instance_geometry url="#Geometry-door1A">
+                                <bind_material>
+                                    <technique_common>
+                                        <instance_material symbol="Material-lambert3" target="#Material-lambert3" />
+                                    </technique_common>
+                                </bind_material>
+                            </instance_geometry>
+                        </node>
+                    </node>
+                    <node id="Geometry-door2Node" name="door2" type="NODE">
+                        <translate sid="translation038">0 0 0</translate>
+                        <rotate sid="rotation061Y">0 1 0 0</rotate>
+                        <rotate sid="rotation061X">1 0 0 -0</rotate>
+                        <rotate sid="rotation061Z">0 0 1 0</rotate>
+                        <scale sid="scale084">1 1 1</scale>
+                        <instance_geometry url="#Geometry-door2">
+                            <bind_material>
+                                <technique_common>
+                                    <instance_material symbol="Material-lambert3" target="#Material-lambert3" />
+                                </technique_common>
+                            </bind_material>
+                        </instance_geometry>
+                        <node id="Geometry-door2ANode" name="door2A" type="NODE">
+                            <translate sid="translation039">0 0 0</translate>
+                            <rotate sid="rotation062Y">0 1 0 0</rotate>
+                            <rotate sid="rotation062X">1 0 0 -0</rotate>
+                            <rotate sid="rotation062Z">0 0 1 0</rotate>
+                            <scale sid="scale085">1 1 1</scale>
+                            <instance_geometry url="#Geometry-door2A">
+                                <bind_material>
+                                    <technique_common>
+                                        <instance_material symbol="Material-lambert3" target="#Material-lambert3" />
+                                    </technique_common>
+                                </bind_material>
+                            </instance_geometry>
+                        </node>
+                    </node>
+                    <node id="Geometry-door3Node" name="door3" type="NODE">
+                        <translate sid="translation040">0 0 0</translate>
+                        <rotate sid="rotation063Y">0 1 0 0</rotate>
+                        <rotate sid="rotation063X">1 0 0 -0</rotate>
+                        <rotate sid="rotation063Z">0 0 1 0</rotate>
+                        <scale sid="scale086">1 1 1</scale>
+                        <instance_geometry url="#Geometry-door3">
+                            <bind_material>
+                                <technique_common>
+                                    <instance_material symbol="Material-lambert3" target="#Material-lambert3" />
+                                </technique_common>
+                            </bind_material>
+                        </instance_geometry>
+                        <node id="Geometry-door3ANode" name="door3A" type="NODE">
+                            <translate sid="translation041">0 0 0</translate>
+                            <rotate sid="rotation064Y">0 1 0 0</rotate>
+                            <rotate sid="rotation064X">1 0 0 -0</rotate>
+                            <rotate sid="rotation064Z">0 0 1 0</rotate>
+                            <scale sid="scale087">1 1 1</scale>
+                            <instance_geometry url="#Geometry-door3A">
+                                <bind_material>
+                                    <technique_common>
+                                        <instance_material symbol="Material-lambert3" target="#Material-lambert3" />
+                                    </technique_common>
+                                </bind_material>
+                            </instance_geometry>
+                        </node>
+                    </node>
+                    <node id="Geometry-door4Node" name="door4" type="NODE">
+                        <translate sid="translation042">0 0 0</translate>
+                        <rotate sid="rotation065Y">0 1 0 0</rotate>
+                        <rotate sid="rotation065X">1 0 0 -0</rotate>
+                        <rotate sid="rotation065Z">0 0 1 0</rotate>
+                        <scale sid="scale088">1 1 1</scale>
+                        <instance_geometry url="#Geometry-door4">
+                            <bind_material>
+                                <technique_common>
+                                    <instance_material symbol="Material-lambert3" target="#Material-lambert3" />
+                                </technique_common>
+                            </bind_material>
+                        </instance_geometry>
+                        <node id="Geometry-door4ANode" name="door4A" type="NODE">
+                            <translate sid="translation043">0 0 0</translate>
+                            <rotate sid="rotation066Y">0 1 0 0</rotate>
+                            <rotate sid="rotation066X">1 0 0 -0</rotate>
+                            <rotate sid="rotation066Z">0 0 1 0</rotate>
+                            <scale sid="scale089">1 1 1</scale>
+                            <instance_geometry url="#Geometry-door4A">
+                                <bind_material>
+                                    <technique_common>
+                                        <instance_material symbol="Material-lambert3" target="#Material-lambert3" />
+                                    </technique_common>
+                                </bind_material>
+                            </instance_geometry>
+                        </node>
+                    </node>
+                    <node id="padNode" name="pad" type="NODE">
+                        <translate sid="translation044">-3336.58 57.2149 67.0848</translate>
+                        <rotate sid="rotation067Y">0 1 0 0</rotate>
+                        <rotate sid="rotation067X">1 0 0 -0</rotate>
+                        <rotate sid="rotation067Z">0 0 1 0</rotate>
+                        <scale sid="scale090">1 1 1</scale>
+                    </node>
+                </node>
+            </node>
+            <extra>
+                <technique profile="modo401">
+                    <param sid="fps" name="Scene_FPS" type="float">24</param>
+                    <param sid="sceneS" name="Scene_Start_Time" type="float">0</param>
+                    <param sid="sceneE" name="Scene_End_Time" type="float">5</param>
+                    <param sid="currentS" name="Scene_Current_Start_Time" type="float">0</param>
+                    <param sid="currentE" name="Scene_Current_End_Time" type="float">5</param>
+                    <param sid="timeSys" name="Scene_Time_System" type="Name">frames</param>
+                </technique>
+            </extra>
+            <extra>
+                <technique profile="MAX3D">
+                    <frame_rate>24</frame_rate>
+                </technique>
+            </extra>
+            <extra>
+                <technique profile="MAYA">
+                    <start_time>0</start_time>
+                    <end_time>5</end_time>
+                </technique>
+            </extra>
+            <extra>
+                <technique profile="OKINO" />
+            </extra>
+            <extra>
+                <technique profile="XSI">
+                    <SI_Scene>
+                        <frame_rate>24</frame_rate>
+                    </SI_Scene>
+                </technique>
+            </extra>
+        </visual_scene>
+    </library_visual_scenes>
+    <scene>
+        <instance_visual_scene url="#DefaultScene" />
+    </scene>
+</COLLADA>
