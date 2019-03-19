@@ -56,6 +56,23 @@ function MakeBindsTable (swapYZ)
     local Z = swapYZ and "y" or "z"
 
     local _binds = {
+        -- generic commands
+        "bind k cloak",
+        "bind shift+k cloak",
+        "bind Ctrl+a  select AllMap++_ClearSelection_SelectAll+",
+        "bind Ctrl+b  select AllMap+_Builder_Idle+_ClearSelection_SelectOne+",
+        "bind Ctrl+c  select AllMap+_ManualFireUnit+_ClearSelection_SelectOne+",
+        "bind Ctrl+r  select AllMap+_Radar+_ClearSelection_SelectAll+",
+        "bind Ctrl+v  select AllMap+_Not_Builder_Not_Commander_InPrevSel_Not_InHotkeyGroup+_SelectAll+",
+        "bind Ctrl+w  select AllMap+_Not_Aircraft_Weapons+_ClearSelection_SelectAll+",
+        --"bind Ctrl+x  select AllMap+_InPrevSel_Not_InHotkeyGroup+_SelectAll+",
+        "bind Ctrl+z  select AllMap+_InPrevSel+_ClearSelection_SelectAll+",
+        "bind ctrl+x onoff",
+        "bind l  loadunits",
+        "bind Shift+l  loadunits",
+        "bind u  unloadunits",
+        "bind Shift+u  unloadunits",
+        
         -- building hotkeys
 
         "bind "..Z.." buildunit_armmex",
@@ -248,8 +265,6 @@ function MakeBindsTable (swapYZ)
         "bind ctrl+alt+shift+v buildunit_armaap",
         "bind ctrl+alt+v buildunit_coraap",
         "bind ctrl+alt+shift+v buildunit_coraap",
-
-        "bind ctrl+x  onoff",
 
         --"bind alt+x buildunit_corbhmth",
         --"bind alt+shift+x buildunit_corbhmth",
