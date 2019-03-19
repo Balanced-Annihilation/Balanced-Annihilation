@@ -72,7 +72,7 @@ function MakeBindsTable (swapYZ)
         "bind Shift+l  loadunits",
         "bind u  unloadunits",
         "bind Shift+u  unloadunits",
-        
+
         -- building hotkeys
 
         "bind "..Z.." buildunit_armmex",

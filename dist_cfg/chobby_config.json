@@ -9,7 +9,7 @@
 
     "games" : ["tap:test", "chobby:test"],
     "maps" : [],
-    "engines" : [ "103.0" ],
+    "engines" : [ "104.0" ],
 
 	"auto_download" : true,
 	"auto_start" : true,
