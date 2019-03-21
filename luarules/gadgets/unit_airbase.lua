@@ -202,7 +202,7 @@ end
 
 -----@param unitID number   ---@return boolean
 function NeedsRearm(unitID)
-   local ammo = Spring.GetUnitRulesParam(unitID, "ammo")
+   local ammo = getAmmo(unitID)
    if ammo and isnumber(ammo)then
       return ammo < 1
    end
@@ -407,14 +407,16 @@ function gadget:AllowCommand(unitID, unitDefID, unitTeam, cmdID, cmdParams, cmdO
    --if not restoreState or restoreState == Restore.Done then
    -- TODO: Check if there are no available landing pads and deal damage along time if that's the case
    -- If out of ammo, ignore the combat command
-   local ammo, maxAmmo = getAmmo(unitID)
-   if combatCommands[cmdID] and ammo < 1 then --or cmdID == CMD.STOP
-      return false
-   end
-   -- If command == return to airbase (any) and the unit is at full health & armed, ignore
-   local health, maxHealth = Spring.GetUnitHealth(unitID)
-   if not cmdOptions.shift and cmdID == CMD_LAND_AT_AIRBASE and health > maxHealth - 1 and ammo > maxAmmo - 1 then
-      return false
+   if isRearmable(unitDefID) then
+      local ammo, maxAmmo = getAmmo(unitID)
+      if combatCommands[cmdID] and ammo < 1 then --or cmdID == CMD.STOP
+          return false
+      end
+      -- If command == return to airbase (any) and the unit is at full health & armed, ignore
+      local health, maxHealth = Spring.GetUnitHealth(unitID)
+      if not cmdOptions.shift and cmdID == CMD_LAND_AT_AIRBASE and health > maxHealth - 1 and ammo > maxAmmo - 1 then
+          return false
+      end
    end
 
    return true --TODO: Fix
