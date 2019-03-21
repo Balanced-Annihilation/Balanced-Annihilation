@@ -284,6 +284,13 @@ function RemoveOrderFromQueue(unitID, cmdID)
    Spring.GiveOrderToUnit(unitID, CMD.REMOVE, {cmdID}, {"alt"})
 end
 
+--- Returns ammo, maxAmmo
+local function getAmmo(unitID)
+   local ud = UnitDefs[spGetUnitDefID(unitID)]
+   local maxammo = (ud.customParams and ud.customParams.maxAmmo) and ud.customParams.maxAmmo or 0
+   return spGetUnitRulesParam(unitID, "ammo"), maxammo
+end
+
 --endregion
 
 --region ################ Spring Events and CallIns
@@ -377,7 +384,6 @@ local CMD_REMOVE = CMD.REMOVE
 
 -- TODO: Set restoreState appropriately
 function gadget:AllowCommand(unitID, unitDefID, unitTeam, cmdID, cmdParams, cmdOptions)
-   return true --TODO: Fix
    ----if cmdIgnoreSelf then  --don't re-read rewritten bomber's command
    ----   return true
    ----end
@@ -398,10 +404,20 @@ function gadget:AllowCommand(unitID, unitDefID, unitTeam, cmdID, cmdParams, cmdO
    --      return true
    --   end
    --elseif restoreState == Restore.OutOfAmmo then            -- don't fight without ammo, go get ammo first!
-   --   -- TODO: Check if there are no available landing pads and deal damage along time if that's the case
-   --   if combatCommands[cmdID] or cmdID == CMD.STOP then
-   --      pendingLanders[unitID] = true
-   --   end
+   --if not restoreState or restoreState == Restore.Done then
+   -- TODO: Check if there are no available landing pads and deal damage along time if that's the case
+   -- If out of ammo, ignore the combat command
+   local ammo, maxAmmo = getAmmo(unitID)
+   if combatCommands[cmdID] and ammo < 1 then --or cmdID == CMD.STOP
+      return false
+   end
+   -- If command == return to airbase (any) and the unit is at full health & armed, ignore
+   local health, maxHealth = Spring.GetUnitHealth(unitID)
+   if not cmdOptions.shift and cmdID == CMD_LAND_AT_AIRBASE and health > maxHealth - 1 and ammo > maxAmmo - 1 then
+      return false
+   end
+
+   return true --TODO: Fix
    --end
    ----if bomberToPad[unitID] or bomberLanding[unitID] then
    ----   if not cmdOptions.shift then
@@ -409,12 +425,11 @@ function gadget:AllowCommand(unitID, unitDefID, unitTeam, cmdID, cmdParams, cmdO
    ----   end
    ----end
    --
-   --return true
 end
 
 -- Idle (empty-queue) out-of-ammo units must take a rearm order automatically
 function gadget:UnitIdle(unitID, unitDefID, team)
-   if isRearmable(unitDefID) and spGetUnitRulesParam(unitID, "ammo") == 0 then --1
+   if isRearmable(unitDefID) and getAmmo(unitID) == 0 then
       pendingLanders[unitID] = true
    end
 end

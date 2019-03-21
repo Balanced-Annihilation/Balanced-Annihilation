@@ -7,9 +7,9 @@
     },
     "game" : "generic",
 
-    "games" : ["tap:test", "chobby:test"],
+    "games" : ["tap", "chobby:test"],
     "maps" : [],
-    "engines" : [ "103.0" ],
+    "engines" : [ "104.0.1-1105-gad33cc1" ],
 
 	"auto_download" : true,
 	"auto_start" : true,
