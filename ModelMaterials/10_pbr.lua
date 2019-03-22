@@ -220,8 +220,7 @@ local pbrDebug = { -- Debug output. Will replace output color if enabled
 	totalSpecularColor = false,
 	totalDiffuseColor = false,
 	totalDiffuseAOColor = false,
-	shadowCoeff1 = false,
-	shadowCoeff2 = false,
+	shadowCoeff = false,
 	shadow = false,
 
 	tmColor = false,

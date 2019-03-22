@@ -966,23 +966,8 @@ void main(void) {
 		gl_FragColor = vec4( totalDiffColor, 1.0 );
 	#elif (DEBUG == DEBUG_TOTALDIFFUSEAOCOLOR)
 		gl_FragColor = vec4( totalDiffColorAO, 1.0 );
-	#elif (DEBUG == DEBUG_SHADOWCOEFF1)
-		//float offset_scale_N = sqrt(1 - NdotL * NdotL); // sin(acos(L·N))
-		//gl_FragColor = vec4( vec3(offset_scale_N), 1.0 );
-		//gl_FragColor = vec4( vec3( (1.0 - LdotV) * (1.0 - NdotL) ), 1.0 );
-		//gl_FragColor = vec4( vec3( sqrt(1.0 - pbrInputs.LdotV * pbrInputs.LdotV) ), 1.0 );
-		//float v1 = sqrt(1.0 - pbrInputs.LdotV * pbrInputs.LdotV) * clamp(tan(acos(pbrInputs.NdotL)), 0.0, 1.0);
-		//float v1 = sqrt(1.0 - dot(v, vec3(0.0, 1.0, 0.0))) * clamp(tan(acos(pbrInputs.NdotL)), 0.0, 1.0);
-		//gl_FragColor = vec4( vec3( v1 ), 1.0);
+	#elif (DEBUG == DEBUG_SHADOWCOEFF)
 		gl_FragColor = vec4( vec3( tan(acos(pbrInputs.NdotL)) ), 1.0);
-	#elif (DEBUG == DEBUG_SHADOWCOEFF2)
-		//float offset_scale_N = sqrt(1 - NdotL * NdotL); // sin(acos(L·N))
-		//float offset_scale_L = offset_scale_N / NdotL;    // tan(acos(L·N))
-		//offset_scale_L = min(2.0, offset_scale_L);
-		//gl_FragColor = vec4( vec3(offset_scale_L/2.0), 1.0 );
-		float v1 = dot(cross(v, l), vec3(0.0, 1.0, 0.0));
-		v1 = abs( v1 );
-		gl_FragColor = vec4( vec3( v1 ), 1.0 );
 	#elif (DEBUG == DEBUG_SHADOW)
 		gl_FragColor = vec4( vec3(shadow), 1.0 );
 	#elif (DEBUG == DEBUG_TMCOLOR)
@@ -992,7 +977,6 @@ void main(void) {
 	#elif (DEBUG == DEBUG_NDOTV)
 		gl_FragColor = vec4( vec3(NdotV), 1.0);
 	#elif (DEBUG == DEBUG_BRDFLUT)
-		//gl_FragColor = vec4( FromSRGB( textureLod(brdfLUT, vec2(pbrInputs.NdotV, 1.0-pbrInputs.roughness), 0.0) ).rgb, 1.0);
 		gl_FragColor = vec4( ( textureLod(brdfLUT, vec2(pbrInputs.NdotV, 1.0-pbrInputs.roughness), 0.0) ).rgb, 1.0);
 	#else
 		#ifdef GAMMA_CORRECTION
