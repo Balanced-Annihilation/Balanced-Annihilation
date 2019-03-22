@@ -199,16 +199,14 @@ vertex = [[
 		//#if (deferred_mode == 0)
 			// diffuse + specular + envcube lighting
 			// (reflection contains the NdotL term!)
-			//outColor.rgb = outColor.rgb * reflection + specular;
+			outColor.rgb = outColor.rgb * reflection + specular;
 		//#endif
-		
-		outColor.rgb = vec3(1.0);
 
 		outColor.a   = extraColor.a;
 		//outColor.rgb = outColor.rgb + outColor.rgb * (normaltex.a - 0.5) * etcLoc.g; // no more wreck color blending
 
 		#ifdef use_vertex_ao
-			//outColor.rgb=outColor.rgb*aoTerm;
+			outColor.rgb=outColor.rgb*aoTerm;
 		#endif
 
 		#if (deferred_mode == 0)
