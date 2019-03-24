@@ -289,7 +289,12 @@ if (gadgetHandler:IsSyncedCode()) then
 				if CheckCmd(cid,team) then
 					spEditUnitCmdDesc(u,UnitCmdDesc,{disabled=false,tooltip=UnlockedToolTip(u,UnitCmdDesc,cid)})
 				else
-					spEditUnitCmdDesc(u,UnitCmdDesc,{disabled=true,tooltip=LockedToolTip(u,UnitCmdDesc,cid)})
+                    ---- TODO: Fix this silly last-minute workaround
+                    --if dontAddDescription then
+                    --    spEditUnitCmdDesc(u,UnitCmdDesc,{disabled=true})
+                    --else
+                    spEditUnitCmdDesc(u,UnitCmdDesc,{disabled=true,tooltip=LockedToolTip(u,UnitCmdDesc,cid)})
+                    --end
 				end
 			end
 		end
@@ -329,8 +334,19 @@ if (gadgetHandler:IsSyncedCode()) then
 		if not TechTable[TechName] then
 			Spring.Echo("Bad call to Revoke Tech: TechName=\""..TechName.."\" is unknown")
 			return nil
-		end
-		spSetTeamRulesParam(Team,"technology:".. TechName,0)
+        else
+            if not TechTable[TechName].ProviderCount[Team] then
+                Spring.Echo("Bad call to Check Tech: TechName=\""..TechName.."\", Team="..Team)
+                return false
+            else
+                TechTable[TechName].ProviderCount[Team]=0
+                spSetTeamRulesParam(Team,"technology:"..TechName,0)
+                for _,u in ipairs(spGetAllUnits()) do
+                    EditButtons(u,spGetUnitDefID(u),spGetUnitTeam(u))
+                end
+                return true
+            end
+        end
 	end
 
 	-- Init = force initialization, useful for non-unit based allowance
