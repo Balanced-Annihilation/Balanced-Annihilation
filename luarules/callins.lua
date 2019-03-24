@@ -75,6 +75,8 @@ CallInsList = {
   "DrawInMiniMap",
   "DrawUnit",
 
+  "SunChanged",
+
   "Explosion",
   "ShockFront",
 

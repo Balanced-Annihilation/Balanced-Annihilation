@@ -10,7 +10,7 @@ model = {
 		flipUV = false, --true,      --flip second component of UV map. False is for DDS, True is for everything else. For now keep everything either in DDS or in PNG/TGA
 		fastGamma = true,   --default is false i.e. more precise method
         --fastDiffuse = true, --Lambert(true) or Burley(false)
-		tbnReortho = true,  -- Re-orthogonalize TBN matrix using Gram-Schmidt process. Might behave differently depending on "hasTangents". Default is true.
+		tbnReortho = false,  -- Re-orthogonalize TBN matrix using Gram-Schmidt process. Might behave differently depending on "hasTangents". Default is true.
 		pbrWorkflow = "metallic", -- either "metallic" or "specular". "specular" is not yet implemented
 		-- PBR shader will sample a certain number of supplied textures.
 		-- provide a recipe to map samples to PBR inputs

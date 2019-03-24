@@ -97,9 +97,9 @@ struct PBRInfo {
 	float VdotH;					// cos angle between view direction and half vector
 	vec3 reflectance0;				// full reflectance color (normal incidence angle)
 	vec3 reflectance90;				// reflectance color at grazing angle
-	float roughness;				// authored roughness. Used in getIBLContribution()
+	float roughness;				// authored roughness. Used in GetIBLContribution()
 	//float roughness2;				// roughness^2
-	float roughness4;				// roughness^4 used in geometricOcclusion() and microfacetDistribution()
+	float roughness4;				// roughness^4 used in GeometricOcclusion() and MicrofacetDistribution()
 	vec3 diffuseColor;				// color contribution from diffuse lighting
 	vec3 specularColor;				// color contribution from specular lighting
 };
@@ -142,7 +142,7 @@ const vec3 SRGB_ALPHA = vec3(0.055);
 const vec3 SRGB_MAGIC_NUMBER = vec3(12.92);
 const vec3 SRGB_MAGIC_NUMBER_INV = vec3(1.0) / SRGB_MAGIC_NUMBER;
 
-float fromSRGB(float srgbIn) {
+float FromSRGB(float srgbIn) {
 	#ifdef FASTGAMMA
 		float rgbOut = pow(srgbIn, SRGB_INVERSE_GAMMA.x);
 	#else
@@ -154,7 +154,7 @@ float fromSRGB(float srgbIn) {
 	return rgbOut;
 }
 
-vec3 fromSRGB(vec3 srgbIn) {
+vec3 FromSRGB(vec3 srgbIn) {
 	#ifdef FASTGAMMA
 		vec3 rgbOut = pow(srgbIn.rgb, SRGB_INVERSE_GAMMA);
 	#else
@@ -166,7 +166,7 @@ vec3 fromSRGB(vec3 srgbIn) {
 	return rgbOut;
 }
 
-vec4 fromSRGB(vec4 srgbIn) {
+vec4 FromSRGB(vec4 srgbIn) {
 	#ifdef FASTGAMMA
 		vec3 rgbOut = pow(srgbIn.rgb, SRGB_INVERSE_GAMMA);
 	#else
@@ -178,7 +178,7 @@ vec4 fromSRGB(vec4 srgbIn) {
 	return vec4(rgbOut, srgbIn.a);
 }
 
-float toSRGB(float rgbIn) {
+float ToSRGB(float rgbIn) {
 	#ifdef FASTGAMMA
 		float srgbOut = pow(rgbIn, SRGB_GAMMA.x);
 	#else
@@ -190,7 +190,7 @@ float toSRGB(float rgbIn) {
 	return srgbOut;
 }
 
-vec3 toSRGB(vec3 rgbIn) {
+vec3 ToSRGB(vec3 rgbIn) {
 	#ifdef FASTGAMMA
 		vec3 srgbOut = pow(rgbIn.rgb, SRGB_GAMMA);
 	#else
@@ -202,7 +202,7 @@ vec3 toSRGB(vec3 rgbIn) {
 	return srgbOut;
 }
 
-vec4 toSRGB(vec4 rgbIn) {
+vec4 ToSRGB(vec4 rgbIn) {
 	#ifdef FASTGAMMA
 		vec3 srgbOut = pow(rgbIn.rgb, SRGB_GAMMA);
 	#else
@@ -254,7 +254,7 @@ vec3 Uncharted2TM(in vec3 x) {
 vec3 FilmicTM(in vec3 x) {
 	vec3 outColor = max(vec3(0.0), x - vec3(0.004));
 	outColor = (outColor * (6.2 * outColor + 0.5)) / (outColor * (6.2 * outColor + 1.7) + 0.06);
-	return fromSRGB(outColor); //sadly FilmicTM outputs gamma corrected colors, so need to reverse that effect
+	return FromSRGB(outColor); //sadly FilmicTM outputs gamma corrected colors, so need to reverse that effect
 }
 
 //https://mynameismjp.wordpress.com/2010/04/30/a-closer-look-at-tone-mapping/ (comments by STEVEM)
@@ -304,7 +304,7 @@ vec3 RomBinDaHouseTM(vec3 c) {
 	return c;
 }
 
-vec3 expExpand(in vec3 x, in float cutoff, in float mul) {
+vec3 ExpExpand(in vec3 x, in float cutoff, in float mul) {
 	float xL = dot(x, LUMA);
 
 	float cutEval = step(cutoff, xL);
@@ -315,7 +315,7 @@ vec3 expExpand(in vec3 x, in float cutoff, in float mul) {
 /////////////////////////////////////////
 
 #ifndef HAS_TANGENTS
-	void calcTBN() {
+	void CalcTBN() {
 		vec3 posDx = dFdx(worldPos);
 		vec3 posDy = dFdy(worldPos);
 
@@ -349,11 +349,11 @@ vec3 expExpand(in vec3 x, in float cutoff, in float mul) {
 	}
 #endif
 
-vec3 getWorldFragNormal() {
+vec3 GetWorldFragNormal() {
 	#ifdef GET_NORMALMAP
 		vec3 normalMapVal = GET_NORMALMAP;
 		#ifdef SRGB_NORMALMAP
-			normalMapVal = fromSRGB(normalMapVal);
+			normalMapVal = FromSRGB(normalMapVal);
 		#endif
 		normalMapVal = vec3(2.0) * normalMapVal - vec3(1.0); // [0:1] -> [-1.0:1.0]
 		vec3 worldFragNormal = worldTBN * normalMapVal;
@@ -368,23 +368,23 @@ vec3 getWorldFragNormal() {
 	return worldFragNormal;
 }
 
-vec4 rgbeToLinear(in vec4 rgbe) {
+vec4 RGBEToLinear(in vec4 rgbe) {
 	return vec4(rgbe.rgb * exp2( rgbe.a * 255.0 - 128.0 ), 1.0);
 }
 
-vec4 sampleEquiRect(in sampler2D tex, in vec3 direction) {
+vec4 SampleEquiRect(in sampler2D tex, in vec3 direction) {
 	vec3 directionN = normalize(direction);
 	vec2 uv = vec2((atan(directionN.z, directionN.x) / M_PI2) + 0.5, acos(directionN.y) / M_PI);
 	uv = clamp(uv, vec2(0.0), vec2(1.0));
 	//vec4 rgbe = texture(tex, uv, -2.0);
 	vec4 rgbe = textureLod(tex, uv, 0.0);
-	return rgbeToLinear(rgbe);
+	return RGBEToLinear(rgbe);
 }
 
-vec4 sampleEquiRectLod(in sampler2D tex, in vec3 direction, in float lod) {
+vec4 SampleEquiRectLod(in sampler2D tex, in vec3 direction, in float lod) {
 	vec3 directionN = normalize(direction);
 	vec4 rgbe = textureLod(tex, vec2((atan(directionN.z, directionN.x) / M_PI2) + 0.5, acos(directionN.y) / M_PI), lod);
-	return rgbeToLinear(rgbe);
+	return RGBEToLinear(rgbe);
 }
 
 //https://github.com/urho3d/Urho3D/blob/master/bin/CoreData/Shaders/GLSL/IBL.glsl
@@ -392,7 +392,7 @@ float GetMipFromRoughness(float roughness, float lodMax) {
 	return (roughness * (lodMax + 1.0) - pow(roughness, 6.0) * 1.5);
 }
 
-void getIBLContribution(PBRInfo pbrInputs, vec3 n, vec3 reflection, out vec3 diffuse, out vec3 specular)
+void GetIBLContribution(PBRInfo pbrInputs, vec3 n, vec3 reflection, out vec3 diffuse, out vec3 specular)
 {
 	diffuse = vec3(iblMapScale.x);
 	specular = vec3(iblMapScale.y);
@@ -400,34 +400,34 @@ void getIBLContribution(PBRInfo pbrInputs, vec3 n, vec3 reflection, out vec3 dif
 	#ifdef GET_IBLMAP
 		#if 0 // TODO remove this when irradianceEnvTex is bound to something good
 			#ifdef HAS_IRRADIANCEMAP
-				vec3 diffuseLight = sampleEquiRect(irradianceEnvTex, n).rgb;
+				vec3 diffuseLight = SampleEquiRect(irradianceEnvTex, n).rgb;
 			#else
 				vec3 diffuseLight = texture(irradianceEnvTex, n).rgb;
 			#endif
 
 			#ifdef SRGB_IBLMAP
-				diffuseLight = fromSRGB(diffuseLight);
+				diffuseLight = FromSRGB(diffuseLight);
 			#endif
 		#else
 			ivec2 irradianceEnvTexSize = textureSize(irradianceEnvTex, 0);
 			float iblDiffMapLOD = log2(float(max(irradianceEnvTexSize.x, irradianceEnvTexSize.y)));
 			#ifdef HAS_IRRADIANCEMAP
-				vec3 diffuseLight = sampleEquiRectLod(irradianceEnvTex, n, iblDiffMapLOD - 4.0).rgb;
+				vec3 diffuseLight = SampleEquiRectLod(irradianceEnvTex, n, iblDiffMapLOD - 4.0).rgb;
 			#else
 				vec3 diffuseLight = texture(irradianceEnvTex, n, iblDiffMapLOD - 4.0).rgb;
 			#endif
 
 			#ifdef SRGB_IBLMAP
-				diffuseLight = fromSRGB(diffuseLight);
+				diffuseLight = FromSRGB(diffuseLight);
 			#endif
 
 			#ifdef IBL_INVTONEMAP
 				#ifdef HAS_IRRADIANCEMAP
-					float avgDLum = dot(LUMA, sampleEquiRectLod(irradianceEnvTex, n, iblDiffMapLOD).rgb);
+					float avgDLum = dot(LUMA, SampleEquiRectLod(irradianceEnvTex, n, iblDiffMapLOD).rgb);
 				#else
 					float avgDLum = dot(LUMA, textureLod(irradianceEnvTex, n, iblDiffMapLOD).rgb);
 				#endif
-				diffuseLight = expExpand(diffuseLight, avgDLum, iblMapInvToneMapExp);
+				diffuseLight = ExpExpand(diffuseLight, avgDLum, iblMapInvToneMapExp);
 			#endif
 
 			#if 0
@@ -448,30 +448,30 @@ void getIBLContribution(PBRInfo pbrInputs, vec3 n, vec3 reflection, out vec3 dif
 			#endif
 			//lod = 0.1 * mod(float(simFrame), 160.0);
 			#ifdef HAS_SPECULARMAP
-				vec3 specularLight = sampleEquiRectLod(specularEnvTex, reflection, lod).rgb;
+				vec3 specularLight = SampleEquiRectLod(specularEnvTex, reflection, lod).rgb;
 			#else
 				vec3 specularLight = texture(specularEnvTex, reflection, lod).rgb;
 			#endif
 		#else
 			#ifdef HAS_SPECULARMAP
-				vec3 specularLight = sampleEquiRect(specularEnvTex, reflection).rgb;
+				vec3 specularLight = SampleEquiRect(specularEnvTex, reflection).rgb;
 			#else
 				vec3 specularLight = texture(specularEnvTex, reflection).rgb;
 			#endif
 		#endif
 
 		#ifdef SRGB_IBLMAP
-			specularLight = fromSRGB(specularLight);
+			specularLight = FromSRGB(specularLight);
 		#endif
 
 		#ifdef IBL_INVTONEMAP
 			float iblSpecMapLOD = log2(float(max(specularEnvTexSize.x, specularEnvTexSize.y)));
 			#ifdef HAS_SPECULARMAP
-				float avgSLum = dot(LUMA, sampleEquiRectLod(specularEnvTex, reflection, iblSpecMapLOD).rgb);
+				float avgSLum = dot(LUMA, SampleEquiRectLod(specularEnvTex, reflection, iblSpecMapLOD).rgb);
 			#else
 				float avgSLum = dot(LUMA, textureLod(specularEnvTex, reflection, iblSpecMapLOD).rgb);
 			#endif
-			specularLight = expExpand(specularLight, avgSLum, iblMapInvToneMapExp);
+			specularLight = ExpExpand(specularLight, avgSLum, iblMapInvToneMapExp);
 		#endif
 
 	#else
@@ -483,32 +483,25 @@ void getIBLContribution(PBRInfo pbrInputs, vec3 n, vec3 reflection, out vec3 dif
 	diffuseLight = max(vec3(0.0), diffuseLight);
 	specularLight = max(vec3(0.0), specularLight);
 
-	//float alphaG = (0.5 + pbrInputs.roughness / 2.0);
-	//alphaG *= alphaG;
+	vec2 brdf = textureLod(brdfLUT, vec2(pbrInputs.NdotV, 1.0 - pbrInputs.roughness), 0.0).xy;
 
-	#if 1
-		//vec2 brdf = textureLod(brdfLUT, vec2(pbrInputs.NdotV, 1.0 - alphaG), 0.0).xy;
-		vec2 brdf = textureLod(brdfLUT, vec2(pbrInputs.NdotV, 1.0 - pbrInputs.roughness), 0.0).xy;
-	#else
-		vec2 brdf = fromSRGB( textureLod(brdfLUT, vec2(pbrInputs.NdotV, 1.0 - pbrInputs.roughness), 0.0) ).xy;
-	#endif
 	diffuse *= diffuseLight * pbrInputs.diffuseColor;
 	specular *= specularLight * (pbrInputs.specularColor * brdf.x + brdf.y);
 }
 
 
-vec3 diffuseLambert(PBRInfo pbrInputs) {
+vec3 DiffuseLambert(PBRInfo pbrInputs) {
 	return pbrInputs.diffuseColor / M_PI;
 }
 
-vec3 specularReflection(PBRInfo pbrInputs) {
+vec3 SpecularReflection(PBRInfo pbrInputs) {
 	return pbrInputs.reflectance0 + (pbrInputs.reflectance90 - pbrInputs.reflectance0) * pow( clamp(1.0 - pbrInputs.VdotH, 0.0, 1.0), 5.0 );
 }
 
 
 //There are several approximations to Smith's shadowing function floating around:
-#if 0 //wider
-	float geometricOcclusion(PBRInfo pbrInputs) {
+#if 1 //wider
+	float GeometricOcclusion(PBRInfo pbrInputs) {
 		float NdotL = pbrInputs.NdotL;
 		float NdotV = pbrInputs.NdotV;
 		float r4 = pbrInputs.roughness4;
@@ -518,7 +511,7 @@ vec3 specularReflection(PBRInfo pbrInputs) {
 		return attenuationL * attenuationV;
 	}
 #else //thinner, equation 4 of https://blog.selfshadow.com/publications/s2013-shading-course/karis/s2013_pbs_epic_notes_v2.pdf
-	float geometricOcclusion(PBRInfo pbrInputs) {
+	float GeometricOcclusion(PBRInfo pbrInputs) {
 		float r = (pbrInputs.roughness + 1.0);
 		float k = (r*r) / 8.0;
 		float GL = pbrInputs.NdotL / (pbrInputs.NdotL * (1.0 - k) + k);
@@ -527,42 +520,58 @@ vec3 specularReflection(PBRInfo pbrInputs) {
 	}
 #endif
 
-float microfacetDistribution(PBRInfo pbrInputs) {
+float MicrofacetDistribution(PBRInfo pbrInputs) {
 	float f = (pbrInputs.NdotH * pbrInputs.roughness4 - pbrInputs.NdotH) * pbrInputs.NdotH + 1.0;
 	return pbrInputs.roughness4 / (M_PI * f * f);
 }
 
 #ifdef use_shadows
-	float getShadowCoeff(in vec4 shadowCoords, PBRInfo pbrInputs) {
+	//TODO FIX LATER
+	float GetShadowPCFRandom(vec4 shadowCoords, float NdotL) {
+		float shadow = 0.0;
+
 		const float cb = 0.00005;
-		float bias = cb * tan(acos(pbrInputs.NdotL));
-		bias = clamp(bias, 0.01 * cb, 5.0 * cb);
+		float bias = cb * tan(acos(NdotL));
+		bias = clamp(bias, 0.0, 5.0 * cb);
 
-		float coeff = 0.0;
+		#if defined(SHADOW_SAMPLES) && (SHADOW_SAMPLES > 1)
 
-		#if 1
-			#define SHADOWSAMPLES 5
-			const int ssHalf = int(floor(float(SHADOWSAMPLES)/2.0));
-			const float ssSum = float((ssHalf + 1) * (ssHalf + 1));
+			float rndRotAngle = NORM2SNORM(hash12(gl_FragCoord.xy)) * PI / 2.0 * SHADOW_RANDOMNESS;
 
-			shadowCoords += vec4(0.0, 0.0, -bias, 0.0);
+			vec2 vSinCos = vec2(sin(rndRotAngle), cos(rndRotAngle));
+			mat2 rotMat = mat2(vSinCos.y, -vSinCos.x, vSinCos.x, vSinCos.y);
 
-			for( int x = -ssHalf; x <= ssHalf; x++ ) {
-				float wx = float(ssHalf - abs(x) + 1) / ssSum;
-				for( int y = -ssHalf; y <= ssHalf; y++ ) {
-					float wy = float(ssHalf - abs(y) + 1) / ssSum;
-					coeff += wx * wy * textureProjOffset ( shadowTex, shadowCoords, ivec2(x, y));
+			vec2 shadowTexSize = textureSize(shadowTex, 0);
+			vec2 filterSize = SHADOW_SAMPLING_DISTANCE / shadowTexSize * (shadowTexSize / 8192.0);
+
+			#if (SAMPLING_METHOD == 1)
+				shadow = textureProj( shadowTex, shadowCoords + vec4(0.0, 0.0, -bias, 0.0)); //make sure central point is sampled
+				for (int i = 0; i < SHADOW_SAMPLES - 1; ++i) {
+					// HammersleyNorm return low discrepancy sampling vec2
+					vec2 offset = (rotMat * NORM2SNORM(HammersleyNorm( i, SHADOW_SAMPLES ))) * filterSize;
+
+
+					vec4 shTexCoord = shadowCoords + vec4(offset, -bias, 0.0);
+					shadow += textureProj( shadowTex, shTexCoord );
 				}
-			}
+			#elif (SAMPLING_METHOD == 2)
+				for (int i = 0; i < SHADOW_SAMPLES; ++i) {
+					// SpiralSNorm return low discrepancy sampling vec2
+					vec2 offset = (rotMat * SpiralSNorm( i, SHADOW_SAMPLES )) * filterSize;
+
+					vec4 shTexCoord = shadowCoords + vec4(offset, -bias, 0.0);
+					shadow += textureProj( shadowTex, shTexCoord );
+				}
+			#endif
+
+			shadow /= float(SHADOW_SAMPLES);
 		#else
-			coeff = textureProj(shadowTex, shadowCoords + vec4(0.0, 0.0, bias, 0.0) );
+			vec4 shTexCoord = shadowCoords;
+			shTexCoord.z -= bias;
+			shadow = textureProj( shadowTex, shTexCoord );
 		#endif
 
-		coeff  = (1.0 - coeff);
-		coeff *= smoothstep(0.1, 1.0, coeff);
-
-		coeff *= shadowDensity;
-		return (1.0 - coeff);
+		return mix(1.0, shadow, shadowDensity);
 	}
 #endif
 
@@ -570,7 +579,7 @@ float microfacetDistribution(PBRInfo pbrInputs) {
 	#ifdef PARALLAXMAP_FAST
 		// https://learnopengl.com/code_viewer_gh.php?code=src/5.advanced_lighting/5.1.parallax_mapping/5.1.parallax_mapping.fs
 		// Simple parallax mapping
-		vec2 parallaxMapping(vec2 texC, vec3 tangentViewDir)
+		vec2 ParallaxMapping(vec2 texC, vec3 tangentViewDir)
 		{
 			float height = GET_PARALLAXMAP(texC);
 			#ifdef PARALLAXMAP_PERSPECTIVE //Normal Parallax Mapping
@@ -583,7 +592,7 @@ float microfacetDistribution(PBRInfo pbrInputs) {
 	#else
 		// https://learnopengl.com/code_viewer_gh.php?code=src/5.advanced_lighting/5.3.parallax_occlusion_mapping/5.3.parallax_mapping.fs
 		// Parallax occlusion mapping
-		vec2 parallaxMapping(vec2 texC, vec3 tangentViewDir)
+		vec2 ParallaxMapping(vec2 texC, vec3 tangentViewDir)
 		{
 			// number of depth layers
 			const float minLayers = 8;
@@ -637,7 +646,7 @@ float microfacetDistribution(PBRInfo pbrInputs) {
 
 %%FRAGMENT_GLOBAL_NAMESPACE%%
 
-void fillTexelsArray(vec2 texC) {
+void FillTexelsArray(vec2 texC) {
 	#ifdef HAS_TEX0
 		texels[0] = texture(tex0, texC);
 	#else
@@ -667,7 +676,7 @@ void main(void) {
 	%%FRAGMENT_PRE_SHADING%%
 
 	#ifndef HAS_TANGENTS
-		calcTBN();
+		CalcTBN();
 	#else // HAS_TANGENTS
 		// Do nothing, got worldTBN from vertex shader
 		// TODO: Orthogonalize TBN as well?
@@ -678,7 +687,7 @@ void main(void) {
 		mat3 invWorldTBN = transpose(worldTBN);
 		vec3 tangentViewDir = normalize(invWorldTBN * cameraDir);
 
-		vec2 samplingTexCoord = parallaxMapping(texCoord, tangentViewDir);
+		vec2 samplingTexCoord = ParallaxMapping(texCoord, tangentViewDir);
 		vec2 texDiff = samplingTexCoord - texCoord;
 		#if (PARALLAXMAP_LIMITS == PARALLAXMAP_LIMITS_AUTO) //automated texture offset limits
 			float bumpVal = GET_PARALLAXMAP(samplingTexCoord) * parallaxMapScale;
@@ -696,13 +705,13 @@ void main(void) {
 		bvec4 badTexCoords = bvec4(false);
 	#endif
 
-	fillTexelsArray(samplingTexCoord);
+	FillTexelsArray(samplingTexCoord);
 
 	vec4 baseColor;
 	#ifdef GET_BASECOLORMAP
 		baseColor = GET_BASECOLORMAP;
 		#ifdef SRGB_BASECOLORMAP
-			baseColor = fromSRGB(baseColor);
+			baseColor = FromSRGB(baseColor);
 		#endif
 		baseColor *= baseColorMapScale;
 	#else
@@ -717,7 +726,7 @@ void main(void) {
 			float emissiveRaw = GET_EMISSIVEMAP;
 		#endif
 		#ifdef SRGB_EMISSIVEMAP
-			emissiveRaw = fromSRGB(emissiveRaw);
+			emissiveRaw = FromSRGB(emissiveRaw);
 		#endif
 		#if EMISSIVEMAP_TYPE == EMISSIVEMAP_TYPE_VAL
 			emissive = emissiveRaw * emissiveMapScale;
@@ -736,7 +745,7 @@ void main(void) {
 	#ifdef GET_OCCLUSIONMAP
 		occlusion = GET_OCCLUSIONMAP;
 		#ifdef SRGB_OCCLUSIONMAP
-			occlusion = fromSRGB(occlusion);
+			occlusion = FromSRGB(occlusion);
 		#endif
 	#else
 		occlusion = 1.0;
@@ -746,7 +755,7 @@ void main(void) {
 	#ifdef GET_ROUGHNESSMAP
 		roughness = GET_ROUGHNESSMAP;
 		#ifdef SRGB_ROUGHNESSMAP
-			roughness = fromSRGB(roughness);
+			roughness = FromSRGB(roughness);
 		#endif
 		roughness *= roughnessMapScale;
 	#else
@@ -757,7 +766,7 @@ void main(void) {
 	#ifdef GET_METALLICMAP
 		metallic = GET_METALLICMAP;
 		#ifdef SRGB_METALLICMAP
-			metallic = fromSRGB(metallic);
+			metallic = FromSRGB(metallic);
 		#endif
 		metallic *= metallicMapScale;
 	#else
@@ -785,7 +794,7 @@ void main(void) {
 	vec3 specularEnvironmentR0 = specularColor.rgb;
 	vec3 specularEnvironmentR90 = vec3(1.0, 1.0, 1.0) * reflectance90;
 
-	vec3 n = getWorldFragNormal();					// normal at surface point
+	vec3 n = GetWorldFragNormal();					// normal at surface point
 	vec3 v = normalize(cameraDir);					// Vector from surface point to camera
 	vec3 l = normalize(sunPos);						// Vector from surface point to light
 	vec3 h = normalize(l + v);						// Half vector between both l and v
@@ -816,12 +825,12 @@ void main(void) {
 	);
 
 	// Calculate the shading terms for the microfacet specular shading model
-	vec3 F = specularReflection(pbrInputs);
-	float G = geometricOcclusion(pbrInputs);
-	float D = microfacetDistribution(pbrInputs);
+	vec3 F = SpecularReflection(pbrInputs);
+	float G = GeometricOcclusion(pbrInputs);
+	float D = MicrofacetDistribution(pbrInputs);
 
 	// Calculation of analytical lighting contribution
-	vec3 diffuseContrib = (1.0 - F) * diffuseLambert(pbrInputs);
+	vec3 diffuseContrib = (1.0 - F) * DiffuseLambert(pbrInputs);
 	vec3 specContrib = F * G * D / (4.0 * NdotL * NdotV);
 
 	// Obtain final intensity as reflectance (BRDF) scaled by the energy of the light (cosine law)
@@ -831,24 +840,33 @@ void main(void) {
 	vec3 iblDiffuse;
 	vec3 iblSpecular;
 
-	getIBLContribution(pbrInputs, n, reflection, iblDiffuse, iblSpecular);
+	GetIBLContribution(pbrInputs, n, reflection, iblDiffuse, iblSpecular);
 
 	vec3 totalDiffColor = modelDiffColor + iblDiffuse;
+
+	#ifdef GAMMA_CORRECTION
+		totalDiffColor = mix(totalDiffColor, FromSRGB(teamColor.rgb), baseColor.a);
+	#else
+		totalDiffColor = mix(totalDiffColor, teamColor.rgb, baseColor.a);
+	#endif
+
 	vec3 totalDiffColorAO = mix(totalDiffColor, totalDiffColor * occlusion, occlusionMapStrength);
 
 	vec3 totalSpecColor = modelSpecColor + iblSpecular;
 
 	vec3 brdfPassColor = totalDiffColorAO + totalSpecColor;
 
-	float ss = smoothstep(0.0, 0.5, NdotLf);
-	//ss = 1.0;
-	float shadowN = (1.0 - ss) * (1.0 - shadowDensity) + ss * 1.0; //put fragments, where normal points away from the light in shadow
+	float nShadowMix = smoothstep(0.0, 0.35, NdotLf);
+	float nShadow = mix(1.0, nShadowMix, shadowDensity);
+
 	#ifdef use_shadows
-		float shadowG = getShadowCoeff(shadowTexCoord, pbrInputs);
-		float shadow = mix(shadowN, shadowG, ss);
+		float gShadow = GetShadowPCFRandom(shadowTexCoord, pbrInputs.NdotL);
 	#else
-		float shadow = shadowN;
+		float gShadow = 1.0;
 	#endif
+
+	float shadow = min(nShadow, gShadow);
+
 	brdfPassColor *= shadow;
 
 	brdfPassColor += emissive;
@@ -879,7 +897,7 @@ void main(void) {
 		vec3 tmColor = preExpColor;
 	#endif
 
-	vec3 preGammaColor = mix(tmColor, teamColor.rgb, baseColor.a);
+
 
 	#if   (DEBUG == DEBUG_BASECOLOR)
 		gl_FragColor = vec4(baseColor.rgb, 1.0);
@@ -914,19 +932,19 @@ void main(void) {
 		gl_FragColor = vec4(reflection.ggg, 1.0);
 	#elif (DEBUG == DEBUG_SPECWORLDREFLECTION)
 		#ifdef HAS_SPECULARMAP
-			gl_FragColor = vec4( sampleEquiRectLod(specularEnvTex, n, 0.0).rgb, 1.0 );
+			gl_FragColor = vec4( SampleEquiRectLod(specularEnvTex, n, 0.0).rgb, 1.0 );
 		#else
 			gl_FragColor = vec4( textureLod(specularEnvTex, n, 0.0).rgb, 1.0 );
 		#endif
 	#elif (DEBUG == DEBUG_SPECVIEWREFLECTION)
 		#ifdef HAS_SPECULARMAP
-			gl_FragColor = vec4( sampleEquiRectLod(specularEnvTex, reflection, 0.0).rgb, 1.0 );
+			gl_FragColor = vec4( SampleEquiRectLod(specularEnvTex, reflection, 0.0).rgb, 1.0 );
 		#else
 			gl_FragColor = vec4( textureLod(specularEnvTex, reflection, 0.0).rgb, 1.0 );
 		#endif
 	#elif (DEBUG == DEBUG_IRRADIANCEWORLDREFLECTION)
 		#ifdef HAS_IRRADIANCEMAP
-			gl_FragColor = vec4( sampleEquiRectLod(irradianceEnvTex, n, 0.0).rgb, 1.0 );
+			gl_FragColor = vec4( SampleEquiRectLod(irradianceEnvTex, n, 0.0).rgb, 1.0 );
 		#else
 			gl_FragColor = vec4( textureLod(irradianceEnvTex, n, 0.0).rgb, 1.0 );
 		#endif
@@ -948,27 +966,10 @@ void main(void) {
 		gl_FragColor = vec4( totalDiffColor, 1.0 );
 	#elif (DEBUG == DEBUG_TOTALDIFFUSEAOCOLOR)
 		gl_FragColor = vec4( totalDiffColorAO, 1.0 );
-	#elif (DEBUG == DEBUG_SHADOWCOEFF1)
-		//float offset_scale_N = sqrt(1 - NdotL * NdotL); // sin(acos(L·N))
-		//gl_FragColor = vec4( vec3(offset_scale_N), 1.0 );
-		//gl_FragColor = vec4( vec3( (1.0 - LdotV) * (1.0 - NdotL) ), 1.0 );
-		//gl_FragColor = vec4( vec3( sqrt(1.0 - pbrInputs.LdotV * pbrInputs.LdotV) ), 1.0 );
-		//float v1 = sqrt(1.0 - pbrInputs.LdotV * pbrInputs.LdotV) * clamp(tan(acos(pbrInputs.NdotL)), 0.0, 1.0);
-		//float v1 = sqrt(1.0 - dot(v, vec3(0.0, 1.0, 0.0))) * clamp(tan(acos(pbrInputs.NdotL)), 0.0, 1.0);
-		//gl_FragColor = vec4( vec3( v1 ), 1.0);
+	#elif (DEBUG == DEBUG_SHADOWCOEFF)
 		gl_FragColor = vec4( vec3( tan(acos(pbrInputs.NdotL)) ), 1.0);
-	#elif (DEBUG == DEBUG_SHADOWCOEFF2)
-		//float offset_scale_N = sqrt(1 - NdotL * NdotL); // sin(acos(L·N))
-		//float offset_scale_L = offset_scale_N / NdotL;    // tan(acos(L·N))
-		//offset_scale_L = min(2.0, offset_scale_L);
-		//gl_FragColor = vec4( vec3(offset_scale_L/2.0), 1.0 );
-		float v1 = dot(cross(v, l), vec3(0.0, 1.0, 0.0));
-		v1 = abs( v1 );
-		gl_FragColor = vec4( vec3( v1 ), 1.0 );
 	#elif (DEBUG == DEBUG_SHADOW)
 		gl_FragColor = vec4( vec3(shadow), 1.0 );
-	#elif (DEBUG == DEBUG_PREEXPCOLOR)
-		gl_FragColor = vec4(preExpColor, 1.0);
 	#elif (DEBUG == DEBUG_TMCOLOR)
 		gl_FragColor = vec4(tmColor, 1.0);
 	#elif (DEBUG == DEBUG_NDOTL)
@@ -976,13 +977,12 @@ void main(void) {
 	#elif (DEBUG == DEBUG_NDOTV)
 		gl_FragColor = vec4( vec3(NdotV), 1.0);
 	#elif (DEBUG == DEBUG_BRDFLUT)
-		//gl_FragColor = vec4( fromSRGB( textureLod(brdfLUT, vec2(pbrInputs.NdotV, 1.0-pbrInputs.roughness), 0.0) ).rgb, 1.0);
-	gl_FragColor = vec4( ( textureLod(brdfLUT, vec2(pbrInputs.NdotV, 1.0-pbrInputs.roughness), 0.0) ).rgb, 1.0);
+		gl_FragColor = vec4( ( textureLod(brdfLUT, vec2(pbrInputs.NdotV, 1.0-pbrInputs.roughness), 0.0) ).rgb, 1.0);
 	#else
 		#ifdef GAMMA_CORRECTION
-			gl_FragColor = toSRGB( vec4(preGammaColor, 1.0) );
+			gl_FragColor = ToSRGB( vec4(tmColor, 1.0) );
 		#else
-			gl_FragColor = vec4(preGammaColor, 1.0);
+			gl_FragColor = vec4(tmColor, 1.0);
 		#endif
 	#endif
 
