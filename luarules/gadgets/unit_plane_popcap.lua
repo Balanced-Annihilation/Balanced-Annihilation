@@ -77,6 +77,8 @@ if gadgetHandler:IsSyncedCode() then
             GG.TechRevoke("Airpad", team)
             Spring.Echo("Airpad tech revoked..")
         end
+        Spring.SetTeamRulesParam(team, "planepopcap", popcap[team], {private=true, allied=false})
+        Spring.SetTeamRulesParam(team, "planecount", pop[team], {private=true, allied=false})
     end
 
     function gadget:unitCreated(unitID) --, unitDefID, unitTeam, builderID)

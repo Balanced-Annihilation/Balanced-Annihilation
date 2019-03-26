@@ -48,6 +48,7 @@ local widgetScale = (0.80 + (vsx*vsy / 6000000))
 local xPos = vsx*relXpos
 local currentWind = 0
 local currentPlanecap = 0
+local currentPlaneCount = 0
 local currentTidal = 0
 local gameStarted = false
 local displayComCounter = true -- TODO: revert; false
@@ -949,11 +950,11 @@ function widget:Update(dt)
 		currentWind = sformat('%.1f', select(4,spGetWind()))
 	end
 
-	-- planecap
+	-- planecap & count
 	if (gameFrame ~= lastFrame) then
-		currentPlanecap = sformat('%.1f', select(4,spGetWind())) --TODO: Fix
+		currentPlanecap = sformat('%.1f', select(4,Spring.GetTeamRulesParam(myTeamID, "planepopcap")))
+        currentPlaneCount = sformat('%.1f', select(4,Spring.GetTeamRulesParam(myTeamID, "planecount")))
 	end
-
 
  	-- coms
 	if displayComCounter then
@@ -1123,6 +1124,40 @@ function widget:DrawScreen()
 			end
 		end
 	end
+
+    if dlistPlanes1 then
+        glPushMatrix()
+        glCallList(dlistPlanes1)
+        glRotate(windRotation, 0, 0, 1)
+        glCallList(dlistPlanes2)
+        glPopMatrix()
+        -- current wind
+        if gameFrame > 0 then
+            local fontSize = (height/2.66)*widgetScale
+            if not dlistWindText[currentWind] then
+                dlistWindText[currentWind] = glCreateList( function()
+                    glText("\255\255\255\255"..currentWind, windArea[1]+((windArea[3]-windArea[1])/2), windArea[2]+((windArea[4]-windArea[2])/2.05)-(fontSize/5), fontSize, 'oc') -- Wind speed text
+                end)
+            end
+            glCallList(dlistWindText[currentWind])
+        else
+            if now < 60 and WG['tooltip'] ~= nil then
+                if (minWind + maxWind)/2 < 5.5 then
+                    WG['tooltip'].ShowTooltip('topbar_windinfo', 'Wind isnt worth', windArea[1], windArea[2]-13*widgetScale)
+                elseif (minWind + maxWind)/2 >= 5.5 and (minWind + maxWind)/2 < 7 then
+                    WG['tooltip'].ShowTooltip('topbar_windinfo', 'Wind is viable', windArea[1], windArea[2]-13*widgetScale)
+                elseif (minWind + maxWind)/2 >= 7 and (minWind + maxWind)/2 < 8.5 then
+                    WG['tooltip'].ShowTooltip('topbar_windinfo', 'Average wind is okay', windArea[1], windArea[2]-13*widgetScale)
+                elseif (minWind + maxWind)/2 >= 8.5 and (minWind + maxWind)/2 < 10 then
+                    WG['tooltip'].ShowTooltip('topbar_windinfo', 'Average wind is good', windArea[1], windArea[2]-13*widgetScale)
+                elseif (minWind + maxWind)/2 >= 10  and (minWind + maxWind)/2 < 15 then
+                    WG['tooltip'].ShowTooltip('topbar_windinfo', 'Average wind is really good', windArea[1], windArea[2]-13*widgetScale)
+                elseif (minWind + maxWind)/2 >= 15 then
+                    WG['tooltip'].ShowTooltip('topbar_windinfo', 'Wind is insanely good', windArea[1], windArea[2]-13*widgetScale)
+                end
+            end
+        end
+    end
 
 	if displayComCounter and dlistComs1 then
 		glCallList(dlistComs1)
@@ -1624,6 +1659,8 @@ function widget:Shutdown()
 		glDeleteList(dlistWind2)
 		glDeleteList(dlistComs1)
 		glDeleteList(dlistComs2)
+        glDeleteList(dlistPlanes1)
+        glDeleteList(dlistPlanes2)
 		glDeleteList(dlistButtons1)
 		glDeleteList(dlistButtons2)
 		glDeleteList(dlistRejoin)
