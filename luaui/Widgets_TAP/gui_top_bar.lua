@@ -40,15 +40,17 @@ local barGlowEdgeTexture = ":n:LuaUI/Images/barglow-edge.png"
 local bladesTexture = ":c:LuaUI/Images/blades.png"
 local poleTexture = "LuaUI/Images/pole.png"
 local comTexture = "LuaUI/Images/comIcon.png"
+local planecapTexture = "LuaUI/Images/planecapIcon.png"
 local glowTexture = "LuaUI/Images/glow.dds"
 
 local vsx, vsy = gl.GetViewSizes()
 local widgetScale = (0.80 + (vsx*vsy / 6000000))
 local xPos = vsx*relXpos
 local currentWind = 0
+local currentPlanecap = 0
 local currentTidal = 0
 local gameStarted = false
-local displayComCounter = false
+local displayComCounter = true -- TODO: revert; false
 
 local glTranslate = gl.Translate
 local glColor = gl.Color
@@ -93,6 +95,7 @@ local dlistResbar = {metal={}, energy={}}
 local energyconvArea = {}
 local windArea = {}
 local comsArea = {}
+local planecapArea = {}
 local rejoinArea = {}
 local buttonsArea = {}
 local dlistWindText = {}
@@ -399,6 +402,56 @@ local function updateButtons()
 	dlistButtons2 = glCreateList( function()
 		glText('\255\210\210\210'..text, area[1], area[2]+((area[4]-area[2])/2)-(fontsize/5), fontsize, 'o')
 	end)
+end
+
+-- Display plane cap counter
+local function updatePlanecap(forceText)
+	local area = planecapArea
+
+	if dlistPlanes1 ~= nil then
+		glDeleteList(dlistPlanes1)
+	end
+	dlistPlanes1 = glCreateList( function()
+
+		-- background
+		glColor(0,0,0,ui_opacity)
+		RectRound(area[1], area[2], area[3], area[4], 5.5*widgetScale)
+		local bgpadding = 3*widgetScale
+		glColor(1,1,1,ui_opacity*0.04)
+		RectRound(area[1]+bgpadding, area[2]+bgpadding, area[3]-bgpadding, area[4], 5*widgetScale)
+
+		if (WG['guishader_api'] ~= nil) then
+			guishaderEnabled = true
+			WG['guishader_api'].InsertRect(area[1], area[2], area[3], area[4], 'topbar_coms')
+		end
+	end)
+
+	if dlistPlanes2 ~= nil then
+		glDeleteList(dlistPlanes2)
+	end
+	dlistPlanes2 = glCreateList( function()
+		-- Planes icon
+		local sizeHalf = (height/2.75)*widgetScale
+
+		glTexture(planecapTexture)
+		glTexRect(area[1]+((area[3]-area[1])/2)-sizeHalf, area[2]+((area[4]-area[2])/2)-sizeHalf, area[1]+((area[3]-area[1])/2)+sizeHalf, area[2]+((area[4]-area[2])/2)+sizeHalf)
+		glTexture(false)
+
+		-- Text
+		if gameFrame > 0 or forceText then
+			local fontsize = (height/2.85)*widgetScale
+			glText('\255\255\000\000'..enemyComCount, area[3]-(2.8*widgetScale), area[2]+(4.5*widgetScale), fontsize, 'or')
+
+			fontSize = (height/2.15)*widgetScale
+			glText("\255\000\255\000"..allyComs, area[1]+((area[3]-area[1])/2), area[2]+((area[4]-area[2])/2.05)-(fontSize/5), fontSize, 'oc')
+		end
+	end)
+	---TODO: Continue
+	comcountChanged = nil
+
+	if WG['tooltip'] ~= nil then
+		WG['tooltip'].AddTooltip('coms', area, "\255\215\255\215Commander Counter\n\255\240\240\240Displays the number of ally\nand enemy commanders")
+	end
 end
 
 
@@ -761,6 +814,11 @@ function init()
 	filledWidth = filledWidth + width + areaSeparator
 	updateWind()
 
+	-- planecap
+	planecapArea = {barContentArea[1]+filledWidth, barContentArea[2], barContentArea[1]+filledWidth+width, barContentArea[4]}
+	filledWidth = filledWidth + width + areaSeparator
+	updatePlanecap()
+
 	-- coms
 	if displayComCounter then
 		comsArea = {barContentArea[1]+filledWidth, barContentArea[2], barContentArea[1]+filledWidth+width, barContentArea[4]}
@@ -889,6 +947,11 @@ function widget:Update(dt)
 	-- wind
 	if (gameFrame ~= lastFrame) then
 		currentWind = sformat('%.1f', select(4,spGetWind()))
+	end
+
+	-- planecap
+	if (gameFrame ~= lastFrame) then
+		currentPlanecap = sformat('%.1f', select(4,spGetWind())) --TODO: Fix
 	end
 
 
