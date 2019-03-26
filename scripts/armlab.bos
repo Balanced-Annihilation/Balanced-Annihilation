@@ -1,5 +1,9 @@
 #define TA			// This is a TA script
 
+// This is an animation created for TA's coord system. To work with collada model (upscaled by 100):
+// All turn z-axis => first parameter signal is inverted
+// All move x-axis and z-axis => invert signal, multiply both parameters by 33.3
+
 #include "sfxtype.h"
 #include "exptype.h"
 
@@ -9,34 +13,33 @@ piece  base, pad, beam1, beam2, door4A, door3A, door2A, door1A,
 static-var  spray, unitviewer, statechg_DesiredState, statechg_StateChanging;
 
 // Signal definitions
-#define SIG_ACTIVATE			2
-
+#define SIG_ACTIVATE 2
 
 activatescr()
 {
-	move door4A to z-axis [0.000000] now;
-	move door4A to z-axis [-24.000000] speed [24.048050];
-	move door3A to z-axis [0.000000] now;
-	move door3A to z-axis [-23.750000] speed [23.797592];
-	move door2A to z-axis [0.000000] now;
-	move door2A to z-axis [25.000000] speed [25.050095];
-	move door1A to z-axis [0.000000] now;
-	move door1A to z-axis [24.750000] speed [24.799545];
-	turn stand1 to z-axis <0.000000> now;
-	turn stand1 to z-axis <35.104396> speed <35.170330>;
-	turn stand2 to z-axis <0.000000> now;
-	turn stand2 to z-axis <-35.549451> speed <35.626374>;
-	turn nano2 to z-axis <0.000000> now;
-	turn nano2 to z-axis <102.170330> speed <102.379121>;
-	turn nano1 to z-axis <0.000000> now;
-	turn nano1 to z-axis <-100.824176> speed <101.016484>;
+	move door4A to z-axis [0.000000] now; // * 33.3 (was *50)
+	move door4A to z-axis [799.2] speed [792.8571825];    //  [-24.000000] speed [24.048050];
+	move door3A to z-axis [0.000000] now;                  //  [0.000000] now;
+	move door3A to z-axis [790.875] speed [792.8571825];     //  [-23.750000] speed [23.797592];
+	move door2A to z-axis [0.000000] now;                  //  [0.000000] now;
+	move door2A to z-axis [-832.5] speed [792.85718259];  //  [25.000000] speed [25.050095];
+	move door1A to z-axis [0.000000] now;                  //  [0.000000] now;
+	move door1A to z-axis [-824.175] speed [792.8571825];    //  [24.750000] speed [24.799545];
+	turn stand1 to z-axis <0.000000> now;                  //  <0.000000> now;
+	turn stand1 to z-axis <-35.104396> speed <35.170330>;  //  <35.104396> speed <35.170330>;
+	turn stand2 to z-axis <0.000000> now;                  //  <0.000000> now;
+	turn stand2 to z-axis <35.549451> speed <35.626374>;   //  <-35.549451> speed <35.626374>;
+	turn nano2 to z-axis <0.000000> now;                   //  <0.000000> now;
+	turn nano2 to z-axis <-102.170330> speed <102.379121>; //  <102.170330> speed <102.379121>;
+	turn nano1 to z-axis <0.000000> now;                   //  <0.000000> now;
+	turn nano1 to z-axis <100.824176> speed <101.016484>;  //  <-100.824176> speed <101.016484>;
 	sleep 1000;
 
 	set ARMORED to 0;
-	move door1 to x-axis [23.750000] speed [18.750000];
-	move door2 to x-axis [-26.250000] speed [18.750000];
-	move door3 to x-axis [23.750000] speed [18.750000];
-	move door4 to x-axis [-26.250000] speed [18.750000];
+	move door1 to x-axis [-790.875] speed [624.375];  //[23.750000] speed [18.750000];
+	move door2 to x-axis [874.125] speed [624.375];   //[-26.250000] speed [18.750000];
+	move door3 to x-axis [-790.875] speed [624.375];   //[23.750000] speed [18.750000];
+	move door4 to x-axis [874.125] speed [624.375];   //[-26.250000] speed [18.750000];
 	sleep 1000;
 }
 
@@ -54,10 +57,10 @@ deactivatescr()
 	move door3A to z-axis [-23.750000] now;
 	move door2A to z-axis [25.000000] now;
 	move door1A to z-axis [24.750000] now;
-	turn stand1 to z-axis <35.104396> now;
-	turn stand2 to z-axis <-35.549451> now;
-	turn nano2 to z-axis <102.170330> now;
-	turn nano1 to z-axis <-100.824176> now;
+	turn stand1 to z-axis <-35.104396> now;
+	turn stand2 to z-axis <35.549451> now;
+	turn nano2 to z-axis <-102.170330> now;
+	turn nano1 to z-axis <100.824176> now;
 	sleep 1000;
 
 	set ARMORED to 1;

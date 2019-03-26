@@ -144,6 +144,13 @@ local landAtSpecificAirbaseCmd = {
 ---------------------------------------
 -- helper funcs (pads)
 
+--- Returns ammo, maxAmmo
+local function getAmmo(unitID)
+    local ud = UnitDefs[spGetUnitDefID(unitID)]
+    local maxammo = (ud.customParams and ud.customParams.maxAmmo) and ud.customParams.maxAmmo
+    return spGetUnitRulesParam(unitID, "ammo"), maxammo
+end
+
 ---@return either false ie. cannot land at this airbase, or the piece number of a free pad within this airbase
 function CanLandAt(unitID, airbaseID)
 
@@ -284,13 +291,6 @@ function RemoveOrderFromQueue(unitID, cmdID)
    Spring.GiveOrderToUnit(unitID, CMD.REMOVE, {cmdID}, {"alt"})
 end
 
---- Returns ammo, maxAmmo
-local function getAmmo(unitID)
-   local ud = UnitDefs[spGetUnitDefID(unitID)]
-   local maxammo = (ud.customParams and ud.customParams.maxAmmo) and ud.customParams.maxAmmo or 0
-   return spGetUnitRulesParam(unitID, "ammo"), maxammo
-end
-
 --endregion
 
 --region ################ Spring Events and CallIns
@@ -407,17 +407,17 @@ function gadget:AllowCommand(unitID, unitDefID, unitTeam, cmdID, cmdParams, cmdO
    --if not restoreState or restoreState == Restore.Done then
    -- TODO: Check if there are no available landing pads and deal damage along time if that's the case
    -- If out of ammo, ignore the combat command
-   if isRearmable(unitDefID) then
-      local ammo, maxAmmo = getAmmo(unitID)
-      if combatCommands[cmdID] and ammo < 1 then --or cmdID == CMD.STOP
-          return false
-      end
-      -- If command == return to airbase (any) and the unit is at full health & armed, ignore
-      local health, maxHealth = Spring.GetUnitHealth(unitID)
-      if not cmdOptions.shift and cmdID == CMD_LAND_AT_AIRBASE and health > maxHealth - 1 and ammo > maxAmmo - 1 then
-          return false
-      end
-   end
+   local ammo, maxAmmo = getAmmo(unitID)
+
+    if ammo and combatCommands[cmdID] and ammo < 1 then --or cmdID == CMD.STOP
+        return false
+    end
+    -- If command == return to airbase (any) and the unit is at full health & armed, ignore
+    local health, maxHealth = Spring.GetUnitHealth(unitID)
+    if not cmdOptions.shift and cmdID == CMD_LAND_AT_AIRBASE and health > maxHealth - 1 and ammo > maxAmmo - 1 then
+        return false
+    end
+
 
    return true --TODO: Fix
    --end
