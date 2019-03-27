@@ -32,6 +32,8 @@ function gadget:GetInfo()
     }
 end
 
+local spSetUnitRadiusAndHeight = Spring.SetUnitRadiusAndHeight
+
 --UnitDefID, vertical offset of aim position from base
 local unitsToEdit = { [UnitDefNames.armllt.id] = 13,
                       [UnitDefNames.corllt.id] = 13,
@@ -65,8 +67,15 @@ if (gadgetHandler:IsSyncedCode()) then
 
     -- When a unit is completed
     function gadget:UnitFinished(unitID, unitDefID, teamID)
+        if type(unitsToEdit[unitDefID]) == nil then
+            return end
+        --local modelradius = (UnitDefs[unitDefID]).customParams.modelradius
+        --if modelradius then
+        --    Spring.Echo("Found modelradius")
+        --    spSetUnitRadiusAndHeight(unitID, 0.1,0.1) --, modelradius) --, mr.height
+        --end
         -- Check if unitDefID is in the unitsToEdit table
-        if type(unitsToEdit[unitDefID]) == nil or unitsToEdit[unitDefID] == nil then
+        if unitsToEdit[unitDefID] == nil then
             return end
 
         local _, bpy, _, mpx, mpy, mpz, apx, _, apz = Spring.GetUnitPosition (unitID, true, true)

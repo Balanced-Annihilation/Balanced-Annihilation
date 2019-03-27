@@ -327,7 +327,7 @@ assert(type(pingSize) == "number","Argument pingSize is of invalid type - expect
 return  numberMock
  end
 
-function Spring.RemoveBuildingDecal   (  unitID)
+function Spring.RemoveBuildingDecal   ( unitID)
 assert(type(unitID) == "number","Argument unitID is of invalid type - expected number");
 return  numberMock
  end
@@ -336,20 +336,20 @@ function Spring.SetUnitMidAndAimPos    ( )
 return  booleanMock
  end
 
-function Spring.SetUnitRadiusAndHeight    (  unitID, radius, height)
+function Spring.SetUnitRadiusAndHeight    ( unitID, radius, height)
 assert(type(unitID) == "number","Argument unitID is of invalid type - expected number");
 assert(type(radius) == "number","Argument radius is of invalid type - expected number");
 assert(type(height) == "number","Argument height is of invalid type - expected number");
 return  numberMock
  end
 
-function Spring.UnitWeaponFire   (  unitID, weaponID)
+function Spring.UnitWeaponFire   ( unitID, weaponID)
 assert(type(unitID) == "number","Argument unitID is of invalid type - expected number");
 assert(type(weaponID) == "number","Argument weaponID is of invalid type - expected number");
 return  numberMock
  end
 
-function Spring.UnitWeaponHoldFire   (  unitID, weaponID)
+function Spring.UnitWeaponHoldFire   ( unitID, weaponID)
 assert(type(unitID) == "number","Argument unitID is of invalid type - expected number");
 assert(type(weaponID) == "number","Argument weaponID is of invalid type - expected number");
 return  numberMock

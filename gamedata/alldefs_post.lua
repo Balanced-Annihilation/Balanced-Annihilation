@@ -136,9 +136,7 @@ function ApplyUnitDefs_Data(name, uDef)
 								newDefVal[weapID].explosiongenerator = oldexpgen end
 						end
                     end
-					--if not shouldIgnore(was, new) then    --[Deprecated]
 					uDef[k] = newDefVal
-					--end
 					--Spring.Echo("   Property: "..k.." was: "..tostring(was).." now: "..tostring(v))
 				end
 				--Spring.Echo("\t\t----\n\t\t----")

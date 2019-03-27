@@ -18,7 +18,7 @@ return {
         maxslope = 999999,
         maxwaterdepth = 999999,
         name = "SuperSimple",
-        objectname = "supersimpleblender.dae", --"supersimplemodo.dae",
+        objectname = "supersimplemodo.dae",
         script="supersimple.dae.lua",
         sightdistance = 100,
         terraformspeed = 100,
