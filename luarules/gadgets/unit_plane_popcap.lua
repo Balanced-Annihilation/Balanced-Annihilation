@@ -38,6 +38,7 @@ if gadgetHandler:IsSyncedCode() then
     local pop = {}      -- {[team]=0,..} All planes that count to the plane popcap
     local popcap = {}   -- {[team]=0,..} Increases (per team) when airpads are built, decreases when airpads are destroyed
     local unitsbeingbuilt = {}   -- {unitID,..}
+    local unitscompleted = {}
 
     local planeDefIDs = {
         [UnitDefNames["armfig"].id] = true,
@@ -90,6 +91,7 @@ if gadgetHandler:IsSyncedCode() then
             return end
 
         unitsbeingbuilt[unitID] = nil
+        unitscompleted[unitID] = true
 
         local popcapProvision = popcapProviders[unitDefID]
         if popcapProvision then
@@ -106,7 +108,7 @@ if gadgetHandler:IsSyncedCode() then
     end
 
     function gadget:UnitDestroyed(unitID, unitDefID, unitTeam)
-        if unitsbeingbuilt[unitID] then
+        if not unitscompleted[unitID] then
             return
         end
         local popcapProvision = popcapProviders[unitDefID]
