@@ -67,17 +67,21 @@ if gadgetHandler:IsSyncedCode() then
         for _, teamID in ipairs(Spring.GetTeamList()) do
             popcap[teamID] = 0
             pop[teamID] = 0
+            Spring.SetTeamRulesParam(teamID, "planepopcap", 0, {private=true, allied=false})
+            Spring.SetTeamRulesParam(teamID, "planecount", 0, {private=true, allied=false})
         end
     end
 
     local function popcapUpdated(team)
         if pop[team] < popcap[team] then
             GG.TechGrant("Airpad", team)
-            Spring.Echo("Airpad tech GRANTED - planes: ".. pop[team].." popcap: "..popcap[team])
+            --Spring.Echo("Airpad tech GRANTED - planes: ".. pop[team].." popcap: "..popcap[team])
         else
             GG.TechRevoke("Airpad", team)
-            Spring.Echo("Airpad tech revoked..")
+            --Spring.Echo("Airpad tech revoked..")
         end
+        Spring.SetTeamRulesParam(team, "planepopcap", popcap[team], {private=true, allied=false})
+        Spring.SetTeamRulesParam(team, "planecount", pop[team], {private=true, allied=false})
     end
 
     function gadget:unitCreated(unitID) --, unitDefID, unitTeam, builderID)
@@ -97,13 +101,13 @@ if gadgetHandler:IsSyncedCode() then
         if popcapProvision then
             popcap[unitTeam] = popcap[unitTeam] + popcapProvision
             popcapUpdated(unitTeam)
-            Spring.Echo("Popcap provider created: "..unitID.." team: "..unitTeam.." new popcap: "..(popcap[unitTeam] or "nil"))
+            --Spring.Echo("Popcap provider created: "..unitID.." team: "..unitTeam.." new popcap: "..(popcap[unitTeam] or "nil"))
         end
 
         if planeDefIDs[unitDefID] then
             pop[unitTeam] = pop[unitTeam] + 1
             popcapUpdated(unitTeam)
-            Spring.Echo("Air unit created: "..unitID.." team: "..unitTeam.." new popcap: "..(popcap[unitTeam] or "nil"))
+            --Spring.Echo("Air unit created: "..unitID.." team: "..unitTeam.." new popcap: "..(popcap[unitTeam] or "nil"))
         end
     end
 
@@ -115,12 +119,12 @@ if gadgetHandler:IsSyncedCode() then
         if popcapProvision then
             popcap[unitTeam] = math.max(0, popcap[unitTeam] - popcapProvision)
             popcapUpdated(unitTeam)
-            Spring.Echo("Unit destroyed: "..unitID.." team: "..unitTeam.." new popcap: "..(popcap[unitTeam] or "nil"))
+            --Spring.Echo("Unit destroyed: "..unitID.." team: "..unitTeam.." new popcap: "..(popcap[unitTeam] or "nil"))
         end
         if planeDefIDs[unitDefID] then
             pop[unitTeam] = pop[unitTeam] - 1
             popcapUpdated(unitTeam)
-            Spring.Echo("Air unit destroyed: "..unitID.." team: "..unitTeam.." new popcap: "..(popcap[unitTeam] or "nil"))
+            --Spring.Echo("Air unit destroyed: "..unitID.." team: "..unitTeam.." new popcap: "..(popcap[unitTeam] or "nil"))
         end
     end
 
