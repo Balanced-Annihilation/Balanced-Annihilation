@@ -47,6 +47,7 @@ local vsx, vsy = gl.GetViewSizes()
 local widgetScale = (0.80 + (vsx*vsy / 6000000))
 local xPos = vsx*relXpos
 local currentWind = 0
+local lastPlanecap = 0
 local currentPlanecap = 0
 local currentPlaneCount = 0
 local currentTidal = 0
@@ -100,6 +101,7 @@ local planecapArea = {}
 local rejoinArea = {}
 local buttonsArea = {}
 local dlistWindText = {}
+local dlistPlanecapText = {}
 local dlistResValues = {metal={},energy={}}
 local currentResCap = {metal=1000,energy=1000}
 local currentResValue = {metal=1000,energy=1000 }
@@ -423,7 +425,7 @@ local function updatePlanecap(forceText)
 
 		if (WG['guishader_api'] ~= nil) then
 			guishaderEnabled = true
-			WG['guishader_api'].InsertRect(area[1], area[2], area[3], area[4], 'topbar_coms')
+			WG['guishader_api'].InsertRect(area[1], area[2], area[3], area[4], 'topbar_planecap')
 		end
 	end)
 
@@ -440,18 +442,13 @@ local function updatePlanecap(forceText)
 
 		-- Text
 		if gameFrame > 0 or forceText then
-			local fontsize = (height/2.85)*widgetScale
-			glText('\255\255\000\000'..enemyComCount, area[3]-(2.8*widgetScale), area[2]+(4.5*widgetScale), fontsize, 'or')
-
-			fontSize = (height/2.15)*widgetScale
-			glText("\255\000\255\000"..allyComs, area[1]+((area[3]-area[1])/2), area[2]+((area[4]-area[2])/2.05)-(fontSize/5), fontSize, 'oc')
+			local fontsize = (height/3.2)*widgetScale
+			glText('\255\255\190\000'..currentPlanecap, area[3]-(2.8*widgetScale), area[2]+(4.5*widgetScale), fontsize, 'or')
 		end
 	end)
-	---TODO: Continue
-	comcountChanged = nil
 
 	if WG['tooltip'] ~= nil then
-		WG['tooltip'].AddTooltip('coms', area, "\255\215\255\215Commander Counter\n\255\240\240\240Displays the number of ally\nand enemy commanders")
+		WG['tooltip'].AddTooltip('planecap', area, "\255\215\255\215Plane Cap\n\255\240\240\240Displays the number of current\nand max planes you can have. Build more\nairpads to increase cap.")
 	end
 end
 
@@ -952,8 +949,12 @@ function widget:Update(dt)
 
 	-- planecap & count
 	if (gameFrame ~= lastFrame) then
-		currentPlanecap = sformat('%.1f', select(4,Spring.GetTeamRulesParam(myTeamID, "planepopcap")))
-        currentPlaneCount = sformat('%.1f', select(4,Spring.GetTeamRulesParam(myTeamID, "planecount")))
+		currentPlanecap = Spring.GetTeamRulesParam(myTeamID, "planepopcap") or 0
+        currentPlaneCount = Spring.GetTeamRulesParam(myTeamID, "planecount") or 0
+		if currentPlanecap ~= lastPlanecap then
+			updatePlanecap()
+			lastPlanecap = currentPlanecap
+		end
 	end
 
  	-- coms
@@ -1128,34 +1129,29 @@ function widget:DrawScreen()
     if dlistPlanes1 then
         glPushMatrix()
         glCallList(dlistPlanes1)
-        glRotate(windRotation, 0, 0, 1)
+		glColor(1,1,1,0.3)
+        -- Blink if we're at or past the planecap limit
+		if currentPlaneCount > 0 and gameFrame % 12 < 6 then
+			if currentPlaneCount > currentPlanecap then
+				glColor(1,0.6,0,0.6)
+			elseif currentPlaneCount == currentPlanecap then	-- at limit, slight alert
+				glColor(1,0.85,1,0.3)
+			end
+		else
+
+		end
         glCallList(dlistPlanes2)
         glPopMatrix()
-        -- current wind
+        -- current plane count
         if gameFrame > 0 then
             local fontSize = (height/2.66)*widgetScale
-            if not dlistWindText[currentWind] then
-                dlistWindText[currentWind] = glCreateList( function()
-                    glText("\255\255\255\255"..currentWind, windArea[1]+((windArea[3]-windArea[1])/2), windArea[2]+((windArea[4]-windArea[2])/2.05)-(fontSize/5), fontSize, 'oc') -- Wind speed text
+            -- Create glText cache entry, if needed
+            if not dlistPlanecapText[currentPlaneCount] then
+                dlistPlanecapText[currentPlaneCount] = glCreateList( function()
+                    glText("\255\255\255\255"..currentPlaneCount, planecapArea[1]+((planecapArea[3]-planecapArea[1])/2), planecapArea[2]+((planecapArea[4]-planecapArea[2])/2.05)-(fontSize/5), fontSize, 'oc') -- Plane count= text
                 end)
             end
-            glCallList(dlistWindText[currentWind])
-        else
-            if now < 60 and WG['tooltip'] ~= nil then
-                if (minWind + maxWind)/2 < 5.5 then
-                    WG['tooltip'].ShowTooltip('topbar_windinfo', 'Wind isnt worth', windArea[1], windArea[2]-13*widgetScale)
-                elseif (minWind + maxWind)/2 >= 5.5 and (minWind + maxWind)/2 < 7 then
-                    WG['tooltip'].ShowTooltip('topbar_windinfo', 'Wind is viable', windArea[1], windArea[2]-13*widgetScale)
-                elseif (minWind + maxWind)/2 >= 7 and (minWind + maxWind)/2 < 8.5 then
-                    WG['tooltip'].ShowTooltip('topbar_windinfo', 'Average wind is okay', windArea[1], windArea[2]-13*widgetScale)
-                elseif (minWind + maxWind)/2 >= 8.5 and (minWind + maxWind)/2 < 10 then
-                    WG['tooltip'].ShowTooltip('topbar_windinfo', 'Average wind is good', windArea[1], windArea[2]-13*widgetScale)
-                elseif (minWind + maxWind)/2 >= 10  and (minWind + maxWind)/2 < 15 then
-                    WG['tooltip'].ShowTooltip('topbar_windinfo', 'Average wind is really good', windArea[1], windArea[2]-13*widgetScale)
-                elseif (minWind + maxWind)/2 >= 15 then
-                    WG['tooltip'].ShowTooltip('topbar_windinfo', 'Wind is insanely good', windArea[1], windArea[2]-13*widgetScale)
-                end
-            end
+            glCallList(dlistPlanecapText[currentPlaneCount])
         end
     end
 
@@ -1666,20 +1662,20 @@ function widget:Shutdown()
 		glDeleteList(dlistRejoin)
 
 		for n,_ in pairs(dlistWindText) do
-			glDeleteList(dlistWindText[n])
-		end
+			glDeleteList(dlistWindText[n]) end
+        for n,_ in pairs(dlistPlanecapText) do
+            glDeleteList(dlistPlanecapText[n]) end
 		for n,_ in pairs(dlistResValues['metal']) do
-			glDeleteList(dlistResValues['metal'][n])
-		end
+			glDeleteList(dlistResValues['metal'][n]) end
 		for n,_ in pairs(dlistResValues['energy']) do
-			glDeleteList(dlistResValues['energy'][n])
-		end
+			glDeleteList(dlistResValues['energy'][n]) end
 	end
 	if WG['guishader_api'] ~= nil then
 		WG['guishader_api'].RemoveRect('topbar')
 		WG['guishader_api'].RemoveRect('topbar_energy')
 		WG['guishader_api'].RemoveRect('topbar_metal')
 		WG['guishader_api'].RemoveRect('topbar_wind')
+        WG['guishader_api'].RemoveRect('topbar_planecap')
 		WG['guishader_api'].RemoveRect('topbar_coms')
 		WG['guishader_api'].RemoveRect('topbar_buttons')
 		WG['guishader_api'].RemoveRect('topbar_rejoin')
@@ -1687,6 +1683,7 @@ function widget:Shutdown()
 	if WG['tooltip'] ~= nil then
 		WG['tooltip'].RemoveTooltip('coms')
 		WG['tooltip'].RemoveTooltip('wind')
+        WG['tooltip'].RemoveTooltip('planecap')
 		WG['tooltip'].RemoveTooltip('rejoin')
 		local res = 'energy'
 		WG['tooltip'].RemoveTooltip(res..'_share_slider')
