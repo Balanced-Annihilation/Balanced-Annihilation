@@ -43,20 +43,22 @@ activatescr()
 	sleep 1000;
 }
 
+// All turn z-axis => first parameter signal is inverted
+// All move x-axis and z-axis => invert signal, multiply both parameters by 33.3
 deactivatescr()
 {
-	move door1 to x-axis [23.750000] now;
-	move door1 to x-axis [0.000000] speed [18.750000];
-	move door2 to x-axis [-26.250000] now;
-	move door2 to x-axis [0.000000] speed [18.750000];
-	move door3 to x-axis [23.750000] now;
-	move door3 to x-axis [0.000000] speed [18.750000];
-	move door4 to x-axis [-26.250000] now;
-	move door4 to x-axis [0.000000] speed [18.750000];
-	move door4A to z-axis [-24.000000] now;
-	move door3A to z-axis [-23.750000] now;
-	move door2A to z-axis [25.000000] now;
-	move door1A to z-axis [24.750000] now;
+	move door1 to x-axis [-790.875] now;               //[23.750000] now;
+	move door1 to x-axis [0.000000] speed [624.375];  //[0.000000] speed [18.750000];
+	move door2 to x-axis [874.125] now;              //[-26.250000] now;
+	move door2 to x-axis [0.000000] speed [624.375];  //[0.000000] speed [18.750000];
+	move door3 to x-axis [-790.875] now;               //[23.750000] now;
+	move door3 to x-axis [0.000000] speed [624.375];  //[0.000000] speed [18.750000];
+	move door4 to x-axis [874.125] now;              //[-26.250000] now;
+	move door4 to x-axis [0.000000] speed [624.375];  //[0.000000] speed [18.750000];
+	move door4A to z-axis [799.2] now;             //[-24.000000] now;
+	move door3A to z-axis [790.875] now;             //[-23.750000] now;
+	move door2A to z-axis [-832.5] now;              //[25.000000] now;
+	move door1A to z-axis [-824.175] now;              //[24.750000] now;
 	turn stand1 to z-axis <-35.104396> now;
 	turn stand2 to z-axis <35.549451> now;
 	turn nano2 to z-axis <-102.170330> now;
@@ -64,14 +66,14 @@ deactivatescr()
 	sleep 1000;
 
 	set ARMORED to 1;
-	move door4A to z-axis [0.000000] speed [23.809525];
-	move door3A to z-axis [0.000000] speed [23.561462];
-	move door2A to z-axis [0.000000] speed [24.801575];
-	move door1A to z-axis [0.000000] speed [24.553513];
-	turn stand1 to z-axis <0.000000> speed <34.824176>;
-	turn stand2 to z-axis <0.000000> speed <35.269231>;
-	turn nano2 to z-axis <0.000000> speed <101.357143>;
-	turn nano1 to z-axis <0.000000> speed <100.016484>;
+	move door4A to z-axis [0.000000] speed [792.8571825];     // [23.809525];
+	move door3A to z-axis [0.000000] speed [784.5966846];     // [23.561462];
+	move door2A to z-axis [0.000000] speed [825.8924475];     // [24.801575];
+	move door1A to z-axis [0.000000] speed [817.6319829];     // [24.553513];
+	turn stand1 to z-axis <0.000000> speed <34.824176>;     // <34.824176>;
+	turn stand2 to z-axis <0.000000> speed <35.269231>;     // <35.269231>;
+	turn nano2 to z-axis <0.000000> speed <101.357143>;     //<101.357143>;
+	turn nano1 to z-axis <0.000000> speed <100.016484>;     //<100.016484>;
 	sleep 1000;
 }
 

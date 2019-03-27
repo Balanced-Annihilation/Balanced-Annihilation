@@ -88,7 +88,6 @@ if gadgetHandler:IsSyncedCode() then
         unitsbeingbuilt[unitID] = true
     end
 
-
     -- This tracks the actual completion of the upgrade/tech-proxy
     function gadget:UnitFinished(unitID, unitDefID, unitTeam)
         if spGetGameFrame() <= 1 or not unitTeam then   -- Let's skip pre-spawned units (commanders etc)
@@ -115,6 +114,7 @@ if gadgetHandler:IsSyncedCode() then
         if not unitscompleted[unitID] then
             return
         end
+        unitscompleted[unitID] = nil
         local popcapProvision = popcapProviders[unitDefID]
         if popcapProvision then
             popcap[unitTeam] = math.max(0, popcap[unitTeam] - popcapProvision)

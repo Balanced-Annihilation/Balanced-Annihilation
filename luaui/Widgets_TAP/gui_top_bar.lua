@@ -22,10 +22,6 @@ local resourcebarBgTint = true		-- will background of resourcebar get colored wh
 
 local armcomDefID = UnitDefNames.armcom.id
 local corcomDefID = UnitDefNames.corcom.id
-if UnitDefNames.armcom_bar then
-	local armcom_barDefID = UnitDefNames.armcom_bar.id
-	local corcom_barDefID = UnitDefNames.corcom_bar.id
-end
 
 local playSounds = true
 local leftclick = 'LuaUI/Sounds/tock.wav'
