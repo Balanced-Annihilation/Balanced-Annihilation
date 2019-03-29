@@ -102,7 +102,7 @@ local options={
 		}
 	},
 
-	{
+	--[[{
 		key="unba",
 		name="Unbalanced Commanders",
 		desc="Defines if commanders level up with xp and gain more power or not",
@@ -114,7 +114,7 @@ local options={
 			{key="enabled", name="Enabled", desc="Enable Unbalanced Commanders"},
 			{key="exponly", name="ExperienceOnly", desc="Enable Unbalanced Commanders experience to power, health and reload multipliers"},
 		}
-	},
+	},]]
 	
     {
         key    = 'coop',
