@@ -23,7 +23,6 @@ return {
 		idleautoheal = 15,
 		idletime = 900,
 		maxdamage = 2320,
-		maxreversevelocity = 0.9028,
 		maxvelocity = 2.257,
 		minwaterdepth = 20,
 		movementclass = "UBOAT34X4",

@@ -23,7 +23,6 @@ return {
 		idletime = 1800,
 		leavetracks = true,
 		maxdamage = 577,
-		maxreversevelocity = 0.648,
 		maxslope = 10,
 		maxvelocity = 1.08,
 		maxwaterdepth = 8,
