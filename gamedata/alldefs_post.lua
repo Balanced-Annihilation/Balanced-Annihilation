@@ -137,6 +137,10 @@ function UnitDef_Post(name, uDef)
 	--else
 	--	Spring.Echo('import file not found: '..filename)
 	--end
+	
+	if uDef.canfly then
+		uDef.collide = false
+	end
 
 	-- usable when baking ... keeping subfolder structure
 	if SaveDefsToCustomParams then
