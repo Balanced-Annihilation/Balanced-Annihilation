@@ -10,7 +10,7 @@ function widget:GetInfo()
     date      = "Feb, 2008",
     license   = "GNU GPL, v2 or later",
     layer     = 5,
-    enabled   = true  -- loaded by default?
+    enabled   = false  -- loaded by default?
   }
 end
 --Version = 1.1 (fix on line 173-178 for crash at line 179, commit on 19.12.2011, xponen)
