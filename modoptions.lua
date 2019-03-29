@@ -174,7 +174,7 @@ local options={
 		name   = "Newbie Placer",
 		desc   = "Chooses a startpoint and a random faction for all rank 1 accounts (online only)",
 		type   = "bool",
-		def    = false,
+		def    = true,
 		section= "ba_options",
     },
     {
@@ -189,32 +189,6 @@ local options={
         step   = 0.2,
     },
 	
-    {
-       key="ba_enhancements_misc",
-       name="Balanced Annihilation - Gameplay Enhancements: Miscellaneous",
-       desc="Balanced Annihilation - Gameplay Enhancements: Miscellaneous",
-       type="section",
-    },
-
-	{
-		key    = 'comm_wreck_metal',
-		name   = 'Commander Wreck Metal',
-		desc   = 'Sets the amount of metal left by a destroyed Commander.',
-		type   = 'number',
-		section= 'ba_enhancements_misc',
-		def    = 2500,
-		min    = 0,
-		max    = 5000,
-		step   = 1,
-	},
-	{
-		key = 'globallos',
-		name = 'Full visibility',
-		desc = 'No fog of war, everyone can see the entire map.',
-		type = 'bool',
-		section = 'ba_enhancements_misc',
-		def = false,
-	},
 -- Chicken Defense Options
 	{
 		key    = 'chicken_defense_options',

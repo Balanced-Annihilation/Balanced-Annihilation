@@ -1,7 +1,4 @@
 local wreck_metal = 2500
-if (Spring.GetModOptions) then
-    wreck_metal = Spring.GetModOptions().comm_wreck_metal or 2500
-end
 
 return {
    xmascomwreck = {
