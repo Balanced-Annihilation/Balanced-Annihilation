@@ -205,7 +205,6 @@ return {
 					light_radius_mult = 1.2,
 					model = "bomb",
 					number = "8",
-					speceffect = "split",
 					splitexplosionceg = "genericshellexplosion-medium",
 					when = "yvel<0",
 				},
