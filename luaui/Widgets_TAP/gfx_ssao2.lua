@@ -44,7 +44,7 @@ local GL_FUNC_REVERSE_SUBTRACT = 0x800B
 local SSAO_KERNEL_SIZE = 24
 
 local BLUR_HALF_KERNEL_SIZE = 5
-local BLUR_PASSES = 3
+local BLUR_PASSES = 0
 local BLUR_SIGMA = 2.0
 local BLUR_SAMPLING_DIST = 1.0
 local BLUR_VALMULT = 1.0
@@ -247,29 +247,9 @@ function widget:Initialize()
 
 	local gaussWeights, gaussOffsets = GetGaussLinearWeightsOffsets(BLUR_SIGMA, BLUR_HALF_KERNEL_SIZE, BLUR_VALMULT)
 
-	Spring.Echo("gaussWeights")
-	for _, v in ipairs(gaussWeights) do
-		Spring.Echo(v)
-	end
-
-
-
 	gaussianBlurShader:ActivateWith( function()
 		gaussianBlurShader:SetUniformFloatArrayAlways("weights", gaussWeights)
 		gaussianBlurShader:SetUniformFloatArrayAlways("offsets", gaussOffsets)
-	end)
-end
-
---TODO check if can be moved to DrawScreenEffects()
-function widget:DrawWorld()
-	gbuffFuseShader:ActivateWith( function ()
-		gbuffFuseShader:SetUniformMatrix("invProjMatrix", "projectioninverse")
-		gbuffFuseShader:SetUniformMatrix("projMatrix", "projection")
-		gbuffFuseShader:SetUniformMatrix("viewMatrix", "view")
-	end)
-
-	ssaoShader:ActivateWith( function ()
-		ssaoShader:SetUniformMatrix("projMatrix", "projection")
 	end)
 end
 
@@ -316,8 +296,8 @@ function widget:DrawScreenEffects()
 	gl.ActiveFBO(gbuffFuseFBO, function()
 		gbuffFuseShader:ActivateWith( function ()
 
-			--gbuffFuseShader:SetUniformMatrix("invProjMatrix", "projectioninverse")
-			--gbuffFuseShader:SetUniformMatrix("viewMatrix", "view")
+			gbuffFuseShader:SetUniformMatrix("invProjMatrix", "projectioninverse")
+			gbuffFuseShader:SetUniformMatrix("viewMatrix", "view")
 
 			gl.Texture(0, "$model_gbuffer_normtex")
 			gl.Texture(1, "$model_gbuffer_zvaltex")
@@ -336,7 +316,7 @@ function widget:DrawScreenEffects()
 
 	gl.ActiveFBO(ssaoFBO, function()
 		ssaoShader:ActivateWith( function ()
-			--ssaoShader:SetUniformMatrix("projMatrix", "projection")
+			ssaoShader:SetUniformMatrix("projMatrix", "projection")
 
 			gl.Texture(0, gbuffFuseViewPosTex)
 			gl.Texture(1, gbuffFuseViewNormalTex)
