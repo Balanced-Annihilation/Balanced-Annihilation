@@ -1,6 +1,7 @@
+local wiName = "Screen-Space Ambient Occlusion"
 function widget:GetInfo()
     return {
-        name      = "Screen-Space Ambient Occlusion",
+        name      = wiName,
         version	  = 2.0,
         desc      = "Generate ambient occlusion in screen space",
         author    = "ivand",
@@ -41,8 +42,14 @@ local GL_FUNC_REVERSE_SUBTRACT = 0x800B
 -----------------------------------------------------------------
 
 local SSAO_KERNEL_SIZE = 24
-local DOWNSAMPLE = 4
-local BLURPASSES = 2
+
+local BLUR_HALF_KERNEL_SIZE = 5
+local BLUR_PASSES = 3
+local BLUR_SIGMA = 2.0
+local BLUR_SAMPLING_DIST = 1.0
+local BLUR_VALMULT = 1.0
+
+local DOWNSAMPLE = 2
 
 local DEBUG_SSAO = false
 
@@ -60,15 +67,62 @@ local screenWideList
 
 local gbuffFuseFBO
 local ssaoFBO
---local ssaoBlurFBOs
+local ssaoBlurFBOs = {}
 
 local gbuffFuseViewPosTex
 local gbuffFuseViewNormalTex
 local ssaoTex
---local ssaoBlurTexes
+local ssaoBlurTexes = {}
 
 local ssaoShader
 local gbuffFuseShader
+local gaussianBlurShader
+
+-----------------------------------------------------------------
+-- Local Functions
+-----------------------------------------------------------------
+
+local function G(x, sigma)
+	return ( 1 / ( math.sqrt(2 * math.pi) * sigma ) ) * math.exp( -(x * x) / (2 * sigma * sigma) )
+end
+
+local function GetGaussDiscreteWeightsOffsets(sigma, kernelHalfSize, valMult)
+	local weights = {}
+	local offsets = {}
+
+	weights[1] = G(0, sigma)
+	local sum = weights[1]
+
+	for i = 1, kernelHalfSize - 1 do
+		weights[i + 1] = G(i, sigma)
+		sum = sum + 2.0 * weights[i + 1]
+	end
+
+	for i = 0, kernelHalfSize - 1 do --normalize so the weights sum up to valMult
+		weights[i + 1] = weights[i + 1] / sum * valMult
+		offsets[i + 1] = i
+	end
+	return weights, offsets
+end
+
+--see http://rastergrid.com/blog/2010/09/efficient-gaussian-blur-with-linear-sampling/
+local function GetGaussLinearWeightsOffsets(sigma, kernelHalfSize, valMult)
+	local dWeights, dOffsets = GetGaussDiscreteWeightsOffsets(sigma, kernelHalfSize, 1.0)
+
+	local weights = {dWeights[1]}
+	local offsets = {dOffsets[1]}
+
+	for i = 1, (kernelHalfSize - 1) / 2 do
+		local newWeight = dWeights[2 * i] + dWeights[2 * i + 1]
+		weights[i + 1] = newWeight * valMult
+		offsets[i + 1] = (dOffsets[2 * i] * dWeights[2 * i] + dOffsets[2 * i + 1] * dWeights[2 * i + 1]) / newWeight
+	end
+	return weights, offsets
+end
+
+-----------------------------------------------------------------
+-- Widget Functions
+-----------------------------------------------------------------
 
 function widget:ViewResize()
 	widget:Shutdown()
@@ -98,13 +152,18 @@ function widget:Initialize()
 	commonTexOpts.format = GL_RGB8_SNORM
 	gbuffFuseViewNormalTex = gl.CreateTexture(vsx, vsy, commonTexOpts)
 
+	commonTexOpts.format = GL_RGBA8
+	for i = 1, 2 do
+		ssaoBlurTexes[i] = gl.CreateTexture(vsx / DOWNSAMPLE, vsy / DOWNSAMPLE, commonTexOpts)
+	end
+
 	gbuffFuseFBO = gl.CreateFBO({
 		color0 = gbuffFuseViewPosTex,
 		color1 = gbuffFuseViewNormalTex,
 		drawbuffers = {GL_COLOR_ATTACHMENT0_EXT, GL_COLOR_ATTACHMENT1_EXT},
 	})
 	if not gl.IsValidFBO(gbuffFuseFBO) then
-		Spring.Echo("Error1!")
+		Spring.Echo(wiName.." Invalid gbuffFuseFBO")
 	end
 
 	ssaoFBO = gl.CreateFBO({
@@ -112,9 +171,16 @@ function widget:Initialize()
 		drawbuffers = {GL_COLOR_ATTACHMENT0_EXT},
 	})
 	if not gl.IsValidFBO(ssaoFBO) then
-		Spring.Echo("Error1!")
+		Spring.Echo(wiName.." Invalid ssaoFBO")
 	end
-	--Spring.Echo(ssaoTex, ssaoFBO)
+
+	for i = 1, 2 do
+		ssaoBlurFBOs[i] = gl.CreateFBO({
+			color0 = ssaoBlurTexes[i],
+			drawbuffers = {GL_COLOR_ATTACHMENT0_EXT},
+		})
+	end
+
 
 	local gbuffFuseShaderVert = VFS.LoadFile("LuaUI/Widgets_TAP/shaders/gbuffFuse.vert.glsl")
 	local gbuffFuseShaderFrag = VFS.LoadFile("LuaUI/Widgets_TAP/shaders/gbuffFuse.frag.glsl")
@@ -142,7 +208,6 @@ function widget:Initialize()
 	gbuffFuseShader:Initialize()
 
 
-
 	local ssaoShaderVert = VFS.LoadFile("LuaUI/Widgets_TAP/shaders/ssao.vert.glsl")
 	local ssaoShaderFrag = VFS.LoadFile("LuaUI/Widgets_TAP/shaders/ssao.frag.glsl")
 
@@ -161,8 +226,41 @@ function widget:Initialize()
 		},
 	}, "SSAO: Processing")
 	ssaoShader:Initialize()
+
+
+	local gaussianBlurVert = VFS.LoadFile("LuaUI/Widgets_TAP/shaders/gaussianBlur.vert.glsl")
+	local gaussianBlurFrag = VFS.LoadFile("LuaUI/Widgets_TAP/shaders/gaussianBlur.frag.glsl")
+
+	gaussianBlurFrag = gaussianBlurFrag:gsub("###HALF_KERNEL_SIZE###", tostring(BLUR_HALF_KERNEL_SIZE))
+
+	gaussianBlurShader = LuaShader({
+		vertex = gaussianBlurVert,
+		fragment = gaussianBlurFrag,
+		uniformInt = {
+			tex = 0,
+		},
+		uniformFloat = {
+			viewPortSize = {vsx / DOWNSAMPLE, vsy / DOWNSAMPLE},
+		},
+	}, "SSAO: Gaussian Blur")
+	gaussianBlurShader:Initialize()
+
+	local gaussWeights, gaussOffsets = GetGaussLinearWeightsOffsets(BLUR_SIGMA, BLUR_HALF_KERNEL_SIZE, BLUR_VALMULT)
+
+	Spring.Echo("gaussWeights")
+	for _, v in ipairs(gaussWeights) do
+		Spring.Echo(v)
+	end
+
+
+
+	gaussianBlurShader:ActivateWith( function()
+		gaussianBlurShader:SetUniformFloatArrayAlways("weights", gaussWeights)
+		gaussianBlurShader:SetUniformFloatArrayAlways("offsets", gaussOffsets)
+	end)
 end
 
+--TODO check if can be moved to DrawScreenEffects()
 function widget:DrawWorld()
 	gbuffFuseShader:ActivateWith( function ()
 		gbuffFuseShader:SetUniformMatrix("invProjMatrix", "projectioninverse")
@@ -190,12 +288,19 @@ function widget:Shutdown()
 	gl.DeleteTexture(ssaoTex)
 	gl.DeleteTexture(gbuffFuseViewPosTex)
 	gl.DeleteTexture(gbuffFuseViewNormalTex)
+	for i = 1, 2 do
+		gl.DeleteTexture(ssaoBlurTexes[i])
+	end
 
 	gl.DeleteFBO(ssaoFBO)
 	gl.DeleteFBO(gbuffFuseFBO)
+	for i = 1, 2 do
+		gl.DeleteFBO(ssaoBlurFBOs[i])
+	end
 
 	ssaoShader:Finalize()
 	gbuffFuseShader:Finalize()
+	gaussianBlurShader:Finalize()
 end
 
 function widget:DrawScreenEffects()
@@ -243,6 +348,26 @@ function widget:DrawScreenEffects()
 		end)
 	end)
 
+	gl.Texture(0, ssaoTex)
+
+	for i = 1, BLUR_PASSES do
+		gaussianBlurShader:ActivateWith( function ()
+
+			gaussianBlurShader:SetUniform("dir", BLUR_SAMPLING_DIST, 0.0) --horizontal blur
+			gl.ActiveFBO(ssaoBlurFBOs[1], function()
+				gl.CallList(screenQuadList) -- gl.TexRect(-1, -1, 1, 1)
+			end)
+			gl.Texture(0, ssaoBlurTexes[1])
+
+			gaussianBlurShader:SetUniform("dir", 0.0, BLUR_SAMPLING_DIST) --vertical blur
+			gl.ActiveFBO(ssaoBlurFBOs[2], function()
+				gl.CallList(screenQuadList) -- gl.TexRect(-1, -1, 1, 1)
+			end)
+			gl.Texture(0, ssaoBlurTexes[2])
+
+		end)
+	end
+
 	if DEBUG_SSAO then
 		gl.Blending(false)
 	else
@@ -254,7 +379,9 @@ function widget:DrawScreenEffects()
 		--gl.BlendFunc(GL.ZERO, GL.ONE)
 	end
 
-	gl.Texture(0, ssaoTex)
+	-- Already bound
+	--gl.Texture(0, ssaoBlurTexes[1])
+
 	gl.CallList(screenWideList) --gl.TexRect(0, vsy, vsx, 0)
 
 	if not DEBUG_SSAO then
