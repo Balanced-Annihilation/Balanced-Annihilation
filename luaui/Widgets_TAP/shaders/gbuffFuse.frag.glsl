@@ -11,7 +11,6 @@ uniform sampler2D mapNormalTex;
 uniform vec2 viewPortSize;
 
 uniform mat4 invProjMatrix;
-uniform mat4 projMatrix;
 uniform mat4 viewMatrix;
 
 #define NORM2SNORM(value) (value * 2.0 - 1.0)
@@ -35,13 +34,6 @@ vec4 GetViewPos(vec2 texCoord, float sampledDepth) {
 	return viewPosition;
 }
 
-float GetLinearDepth(float depthNDC) {
-	#define n22 projMatrix[2][2]
-	float normDepth = ((1.0 + depthNDC) * (1.0 + n22))/(2.0 * (depthNDC + n22));
-	return normDepth;
-	#undef n22	
-}
-
 void main() {
 	vec2 uv = gl_FragCoord.xy / viewPortSize;
 
@@ -52,7 +44,6 @@ void main() {
 	float depth = mix(mapDepth, modelDepth, modelOccludesMap);
 
 	vec4 viewPosition = GetViewPos(uv, depth);
-	//viewPosition.z = GetLinearDepth(depth);
 
 	vec3 modelNormal = texture(modelNormalTex, uv).rgb;
 	vec3 mapNormal = texture(mapNormalTex, uv).rgb;
