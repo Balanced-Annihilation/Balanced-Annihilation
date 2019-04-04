@@ -1,6 +1,6 @@
 model = {
 	radius = 60.0, --25.0,
-	--height = 25.0, --40,
+	height = 40.0,
 	tex1 = "armfactories_dfs_team.dds",
 	--tex2 = "armtech_tex2.dds",
 	--tex2 = "armtech_tex2.dds",
