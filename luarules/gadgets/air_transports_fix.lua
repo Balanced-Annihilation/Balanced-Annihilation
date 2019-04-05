@@ -15,7 +15,7 @@ if (gadgetHandler:IsSyncedCode()) then
 
 	local GetUnitPosition = Spring.GetUnitPosition
 	local GiveOrderToUnit = Spring.GiveOrderToUnit
-	local GetUnitCommands = Spring.GetUnitCommands
+	local spGetUnitCommands = Spring.GetUnitCommands
 	local GetGameFrame = Spring.GetGameFrame
 
 	local orderQueue = {}
@@ -25,7 +25,7 @@ if (gadgetHandler:IsSyncedCode()) then
 			return true
 		end
 		if cmdID == CMD.INSERT then
-			local queue = GetUnitCommands(unitID)
+			local queue = spGetUnitCommands(unitID, 100)
 			local commandPos
 			if cmdOpts.alt then
 				-- first param is a pos
@@ -68,7 +68,7 @@ if (gadgetHandler:IsSyncedCode()) then
 					end
 					if cmdToCompare then
 						-- if removing move and we have a synced unload, block removal
-						for _, command in pairs(GetUnitCommands(unitID)) do
+						for _, command in pairs(spGetUnitCommands(unitID),100) do
 							if command.id == CMD.MOVE and command.options.coded then
 								return false
 							end
@@ -79,7 +79,7 @@ if (gadgetHandler:IsSyncedCode()) then
 			else
 				--prevent removing specific move orders if synced unloads are present
 				--params are command tags
-				local queue = GetUnitCommands(unitID)
+				local queue = spGetUnitCommands(unitID,100)
 				for _, paramTag in pairs(cmdParams) do
 					for _, command in pairs(queue) do
 						if command.tag == paramTag then
@@ -106,7 +106,7 @@ if (gadgetHandler:IsSyncedCode()) then
 			end
 			local insertPos = 0
 			if cmdOpts.shift then
-				insertPos = GetUnitCommands(unitID,0)-1
+				insertPos = spGetUnitCommands(unitID,0)-1
 			end
 			orderQueue[GetGameFrame() + 1] = orderQueue[GetGameFrame() + 1] or {}
 			orderQueue[GetGameFrame() + 1][#orderQueue[GetGameFrame() + 1]+1] = {unitID=unitID,insertPos = insertPos,dest=cmdParams}
