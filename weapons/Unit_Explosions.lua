@@ -992,12 +992,11 @@ unitDeaths = {
 		weaponvelocity = 250,
 		craterboost = 6,
 		cratermult = 3,
-		edgeeffectiveness = 0.167,
+		edgeeffectiveness = 0.25,
 		reloadtime = 3.5999999046326,
 		turret = 1,
 		damage = {
 			default = 50000,
-			commanders = 12500,
 		},
         customparams = {
             expl_light_color = "1 0.85 0.44",
