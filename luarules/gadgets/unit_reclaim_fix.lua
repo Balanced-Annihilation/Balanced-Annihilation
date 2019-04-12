@@ -39,9 +39,9 @@ for featureDefID, fdefs in pairs(FeatureDefs) do
     if (maxResource > 0) then
         featureList[featureDefID] = {}
         for unitDefID, reclaimSpeed in pairs(unitList) do
-            local oldformula = ((reclaimSpeed*0.70 + 10*0.30)*1.5  / fdefs.reclaimTime)
-            local newformula = (reclaimSpeed  / fdefs.reclaimTime)
-            featureList[featureDefID][unitDefID] = ((((maxResource * oldformula) * 1) - (maxResource * newformula)) / maxResource)
+            local oldformula = (((100 + reclaimSpeed) * 0.02) / math.max(10,  fdefs.reclaimTime))
+            local newformula = ((reclaimSpeed) / fdefs.reclaimTime)
+            featureList[featureDefID][unitDefID] = ((((maxResource * oldformula) * 6) - (maxResource * newformula)) / maxResource)
         end
     end
 end
