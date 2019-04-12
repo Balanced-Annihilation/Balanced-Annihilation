@@ -1,16 +1,16 @@
 return {
 	armuwadvms = {
 		buildangle = 5049,
-		buildcostenergy = 11500,
+		buildcostenergy = 11000,
 		buildcostmetal = 750,
 		buildinggrounddecaldecayspeed = 30,
 		buildinggrounddecalsizex = 6,
 		buildinggrounddecalsizey = 6,
-		buildinggrounddecaltype = "decals/armuwadvms_aoplane.dds",
+		buildinggrounddecaltype = "armuwadvms_aoplane.dds",
 		buildpic = "ARMUWADVMS.DDS",
 		buildtime = 20391,
 		canrepeat = false,
-		category = "ALL NOTSUB NOWEAPON NOTAIR NOTHOVER SURFACE UNDERWATER EMPABLE",
+		category = "ALL NOTSUB NOWEAPON NOTAIR NOTHOVER SURFACE UNDERWATER",
 		collisionvolumeoffsets = "0 0 0",
 		collisionvolumescales = "45 48 45",
 		collisionvolumetype = "CylY",
@@ -34,11 +34,13 @@ return {
 		usebuildinggrounddecal = true,
 		yardmap = "oooooooooooooooo",
 		customparams = {
-			model_author = "Cremuss",
-			removestop = true,
-			removewait = true,
-			subfolder = "armbuildings/seaeconomy",
+			bar_collisionvolumeoffsets = "0 0 0",
+			bar_collisionvolumescales = "88 38 72",
+			bar_buildinggrounddecalsizex = 5.4,
+			bar_buildinggrounddecalsizey = 6,
 			techlevel = 2,
+			removewait = true,
+			removestop = true,
 		},
 		featuredefs = {
 			dead = {
@@ -65,8 +67,6 @@ return {
 			heap = {
 				blocking = false,
 				category = "heaps",
-				collisionvolumescales = "85.0 14.0 6.0",
-				collisionvolumetype = "cylY",
 				damage = 1860,
 				description = "Advanced Metal Storage Heap",
 				energy = 0,
@@ -76,17 +76,19 @@ return {
 				hitdensity = 100,
 				metal = 183,
 				object = "4X4A",
+                collisionvolumescales = "85.0 14.0 6.0",
+                collisionvolumetype = "cylY",
 				reclaimable = true,
 				resurrectable = 0,
 				seqnamereclamate = "TREE1RECLAMATE",
 				world = "all",
 			},
 		},
-		sfxtypes = {
-			pieceexplosiongenerators = {
-				[1] = "deathceg2",
-				[2] = "deathceg3",
-				[3] = "deathceg4",
+		sfxtypes = { 
+ 			pieceExplosionGenerators = { 
+				"deathceg2",
+				"deathceg3",
+				"deathceg4",
 			},
 		},
 		sounds = {

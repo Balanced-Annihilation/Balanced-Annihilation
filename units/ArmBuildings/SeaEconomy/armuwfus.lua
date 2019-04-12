@@ -9,11 +9,11 @@ return {
 		buildinggrounddecaldecayspeed = 30,
 		buildinggrounddecalsizex = 6,
 		buildinggrounddecalsizey = 6,
-		buildinggrounddecaltype = "decals/armuwfus_aoplane.dds",
+		buildinggrounddecaltype = "armuwfus_aoplane.dds",
 		buildpic = "ARMUWFUS.DDS",
 		buildtime = 99870,
 		canrepeat = false,
-		category = "ALL NOTLAND NOTSUB NOWEAPON NOTSHIP NOTAIR NOTHOVER SURFACE UNDERWATER EMPABLE",
+		category = "ALL NOTLAND NOTSUB NOWEAPON NOTSHIP NOTAIR NOTHOVER SURFACE UNDERWATER",
 		corpse = "DEAD",
 		description = "Produces Energy / Storage",
 		energymake = 1200,
@@ -35,11 +35,12 @@ return {
 		usebuildinggrounddecal = true,
 		yardmap = "oooooooooooooooooooo",
 		customparams = {
-			model_author = "FireStorm",
-			removestop = true,
-			removewait = true,
-			subfolder = "armbuildings/seaeconomy",
+			bar_footprintx = 6,
+			bar_footprintz = 4,
+			bar_yardmap = "oooooo oooooo oooooo oooooo",
 			techlevel = 2,
+			removewait = true,
+			removestop = true,
 		},
 		featuredefs = {
 			dead = {
@@ -80,11 +81,11 @@ return {
 				world = "All Worlds",
 			},
 		},
-		sfxtypes = {
-			pieceexplosiongenerators = {
-				[1] = "deathceg2",
-				[2] = "deathceg3",
-				[3] = "deathceg4",
+		sfxtypes = { 
+ 			pieceExplosionGenerators = { 
+				"deathceg2",
+				"deathceg3",
+				"deathceg4",
 			},
 		},
 		sounds = {

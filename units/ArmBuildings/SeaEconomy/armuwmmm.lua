@@ -6,10 +6,14 @@ return {
 		buildangle = 8192,
 		buildcostenergy = 24000,
 		buildcostmetal = 400,
+		buildinggrounddecaldecayspeed = 30,
+		buildinggrounddecalsizex = 6,
+		buildinggrounddecalsizey = 6,
+		buildinggrounddecaltype = "armuwmmm_aoplane.dds",
 		buildpic = "ARMUWMMM.DDS",
 		buildtime = 38964,
 		canrepeat = false,
-		category = "ALL NOTLAND NOTSUB NOWEAPON NOTSHIP NOTAIR NOTHOVER SURFACE EMPABLE",
+		category = "ALL NOTLAND NOTSUB NOWEAPON NOTSHIP NOTAIR NOTHOVER SURFACE",
 		collisionvolumeoffsets = "0 -10 0",
 		collisionvolumescales = "120 120 120",
 		collisionvolumetype = "Ell",
@@ -34,11 +38,9 @@ return {
 		waterline = 5,
 		yardmap = "oooooooooooooooooooo",
 		customparams = {
-			model_author = "FireStorm",
-			removestop = true,
-			removewait = true,
-			subfolder = "armbuildings/seaeconomy",
 			techlevel = 2,
+			removewait = true,
+			removestop = true,
 		},
 		featuredefs = {
 			dead = {
@@ -65,8 +67,6 @@ return {
 			heap = {
 				blocking = false,
 				category = "heaps",
-				collisionvolumescales = "85.0 14.0 6.0",
-				collisionvolumetype = "cylY",
 				damage = 120,
 				description = "Underwater Moho Metal Maker Heap",
 				energy = 0,
@@ -77,17 +77,19 @@ return {
 				hitdensity = 100,
 				metal = 99,
 				object = "4X4C",
+                collisionvolumescales = "85.0 14.0 6.0",
+                collisionvolumetype = "cylY",
 				reclaimable = true,
 				resurrectable = 0,
 				seqnamereclamate = "TREE1RECLAMATE",
 				world = "All Worlds",
 			},
 		},
-		sfxtypes = {
-			pieceexplosiongenerators = {
-				[1] = "deathceg2",
-				[2] = "deathceg3",
-				[3] = "deathceg4",
+		sfxtypes = { 
+ 			pieceExplosionGenerators = { 
+				"deathceg2",
+				"deathceg3",
+				"deathceg4",
 			},
 		},
 		sounds = {

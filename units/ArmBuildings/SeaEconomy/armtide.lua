@@ -4,12 +4,12 @@ return {
 		activatewhenbuilt = true,
 		brakerate = 0,
 		buildangle = 8192,
-		buildcostenergy = 250,
+		buildcostenergy = 300,
 		buildcostmetal = 90,
 		buildpic = "ARMTIDE.DDS",
 		buildtime = 2188,
 		canrepeat = false,
-		category = "ALL NOTLAND NOTSUB NOWEAPON NOTSHIP NOTAIR NOTHOVER SURFACE EMPABLE",
+		category = "ALL NOTLAND NOTSUB NOWEAPON NOTSHIP NOTAIR NOTHOVER SURFACE",
 		collisionvolumeoffsets = "0 0 -4",
 		collisionvolumescales = "27 26 39",
 		collisionvolumetype = "Box",
@@ -35,10 +35,9 @@ return {
 		waterline = 10,
 		yardmap = "wwwwwwwww",
 		customparams = {
-			model_author = "FireStorm",
-			removestop = true,
+			bar_waterline = 2.5,
 			removewait = true,
-			subfolder = "armbuildings/seaeconomy",
+			removestop = true,
 		},
 		featuredefs = {
 			dead = {
@@ -64,8 +63,6 @@ return {
 			heap = {
 				blocking = false,
 				category = "heaps",
-				collisionvolumescales = "35.0 4.0 6.0",
-				collisionvolumetype = "cylY",
 				damage = 185,
 				description = "Tidal Generator Heap",
 				energy = 0,
@@ -76,17 +73,19 @@ return {
 				hitdensity = 100,
 				metal = 17,
 				object = "2X2B",
+                collisionvolumescales = "35.0 4.0 6.0",
+                collisionvolumetype = "cylY",
 				reclaimable = true,
 				resurrectable = 0,
 				seqnamereclamate = "TREE1RECLAMATE",
 				world = "All Worlds",
 			},
 		},
-		sfxtypes = {
-			pieceexplosiongenerators = {
-				[1] = "deathceg2",
-				[2] = "deathceg3",
-				[3] = "deathceg4",
+		sfxtypes = { 
+ 			pieceExplosionGenerators = { 
+				"deathceg2",
+				"deathceg3",
+				"deathceg4",
 			},
 		},
 		sounds = {

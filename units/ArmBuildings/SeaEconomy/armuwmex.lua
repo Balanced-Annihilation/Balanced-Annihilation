@@ -1,24 +1,20 @@
-return {
-	armuwmex = {
+	armseamex = {
 		acceleration = 0,
 		activatewhenbuilt = true,
 		brakerate = 0,
 		buildangle = 8192,
-		buildcostenergy = 500,
+		buildcostenergy = 700,
 		buildcostmetal = 60,
-		buildingmask = 0,
-		buildpic = "ARMOMEX.DDS",
+		buildingMask = 0,
+		buildpic = "ARMUWMEX.DDS",
 		buildtime = 1875,
 		canrepeat = false,
-		category = "ALL NOTLAND NOTSUB NOWEAPON NOTSHIP NOTAIR NOTHOVER SURFACE UNDERWATER EMPABLE",
-		collisionvolumeoffsets = "0 -55 0",
-		collisionvolumescales = "31 128 31",
-		collisionvolumetype = "CylY",
+		category = "ALL NOTLAND NOTSUB NOWEAPON NOTSHIP NOTAIR NOTHOVER UNDERWATER",
 		corpse = "DEAD",
+		usepiececollisionvolumes = true,
 		description = "Extracts Metal",
 		explodeas = "tinyBuildingExplosionGeneric-uw",
 		extractsmetal = 0.001,
-		floater = true,
 		footprintx = 3,
 		footprintz = 3,
 		icontype = "building",
@@ -28,23 +24,20 @@ return {
 		maxslope = 30,
 		metalstorage = 50,
 		minwaterdepth = 15,
-		name = "Offshore Metal Extractor",
-		objectname = "ARMOMEX",
+		name = "Underwater Metal Extractor",
+		objectname = "ARMUWMEX",
+		script = "armuwmex.cob",
 		onoffable = true,
-		script = "armomex.cob",
 		seismicsignature = 0,
 		selfdestructcountdown = 1,
+        explodeas = "tinyBuildingExplosionGeneric-uw",
 		sightdistance = 182,
-		usepiececollisionvolumes = true,
-		waterline = 0,
 		yardmap = "ooooooooo",
 		customparams = {
-			cvbuildable = true,
+			cvBuildable = true,
 			metal_extractor = 1,
-			model_author = "FireStorm",
-			removestop = true,
 			removewait = true,
-			subfolder = "armbuildings/seaeconomy",
+			removestop = true,
 		},
 		featuredefs = {
 			dead = {
@@ -62,7 +55,7 @@ return {
 				height = 20,
 				hitdensity = 100,
 				metal = 36,
-				object = "ARMOMEX_DEAD",
+				object = "ARMUWMEX_DEAD",
 				reclaimable = true,
 				seqnamereclamate = "TREE1RECLAMATE",
 				world = "All Worlds",
@@ -70,8 +63,6 @@ return {
 			heap = {
 				blocking = false,
 				category = "heaps",
-				collisionvolumescales = "55.0 4.0 6.0",
-				collisionvolumetype = "cylY",
 				damage = 54,
 				description = "Underwater Metal Extractor Heap",
 				energy = 0,
@@ -81,16 +72,18 @@ return {
 				hitdensity = 100,
 				metal = 14,
 				object = "3X3D",
+                collisionvolumescales = "55.0 4.0 6.0",
+                collisionvolumetype = "cylY",
 				reclaimable = true,
 				resurrectable = 0,
 				seqnamereclamate = "TREE1RECLAMATE",
 				world = "All Worlds",
 			},
 		},
-		sfxtypes = {
-			pieceexplosiongenerators = {
-				[1] = "deathceg2",
-				[2] = "deathceg3",
+		sfxtypes = { 
+ 			pieceExplosionGenerators = { 
+				"deathceg2",
+				"deathceg3",
 			},
 		},
 		sounds = {
@@ -111,5 +104,6 @@ return {
 				[1] = "waterex1",
 			},
 		},
-	},
-}
+	}
+
+return {["armuwmex"] = armseamex}

@@ -9,12 +9,12 @@ return {
 		buildinggrounddecaldecayspeed = 30,
 		buildinggrounddecalsizex = 8,
 		buildinggrounddecalsizey = 8,
-		buildinggrounddecaltype = "decals/armuwmme_aoplane.dds",
-		buildingmask = 0,
+		buildinggrounddecaltype = "armuwmme_aoplane.dds",
+		buildingMask = 0,
 		buildpic = "ARMUWMME.DDS",
 		buildtime = 24759,
 		canrepeat = false,
-		category = "ALL NOTLAND NOTSUB NOWEAPON NOTSHIP NOTAIR NOTHOVER SURFACE UNDERWATER EMPABLE",
+		category = "ALL NOTLAND NOTSUB NOWEAPON NOTSHIP NOTAIR NOTHOVER SURFACE UNDERWATER",
 		corpse = "DEAD",
 		description = "Advanced Metal Extractor / Storage",
 		energyuse = 20,
@@ -38,13 +38,11 @@ return {
 		usebuildinggrounddecal = true,
 		yardmap = "ooooooooooooooooooooooooo",
 		customparams = {
-			cvbuildable = true,
-			metal_extractor = 4,
-			model_author = "FireStorm",
-			removestop = true,
-			removewait = true,
-			subfolder = "armbuildings/seaeconomy",
 			techlevel = 2,
+			cvBuildable = true,
+			metal_extractor = 4,
+			removewait = true,
+			removestop = true,
 		},
 		featuredefs = {
 			dead = {
@@ -86,11 +84,11 @@ return {
 				world = "All Worlds",
 			},
 		},
-		sfxtypes = {
-			pieceexplosiongenerators = {
-				[1] = "deathceg2",
-				[2] = "deathceg3",
-				[3] = "deathceg4",
+		sfxtypes = { 
+ 			pieceExplosionGenerators = { 
+				"deathceg2",
+				"deathceg3",
+				"deathceg4",
 			},
 		},
 		sounds = {

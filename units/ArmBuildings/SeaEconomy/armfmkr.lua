@@ -9,7 +9,7 @@ return {
 		buildpic = "ARMFMKR.DDS",
 		buildtime = 2958,
 		canrepeat = false,
-		category = "ALL NOTLAND NOTSUB NOWEAPON NOTSHIP NOTAIR NOTHOVER SURFACE EMPABLE",
+		category = "ALL NOTLAND NOTSUB NOWEAPON NOTSHIP NOTAIR NOTHOVER SURFACE",
 		description = "Converts up to 70 energy into 1.1 metal per second",
 		explodeas = "largeBuildingExplosionGeneric",
 		footprintx = 3,
@@ -28,16 +28,14 @@ return {
 		waterline = 4,
 		yardmap = "wwwwwwwww",
 		customparams = {
-			model_author = "FireStorm",
-			removestop = true,
 			removewait = true,
-			subfolder = "armbuildings/seaeconomy",
+			removestop = true,
 		},
-		sfxtypes = {
-			pieceexplosiongenerators = {
-				[1] = "deathceg2",
-				[2] = "deathceg3",
-				[3] = "deathceg4",
+		sfxtypes = { 
+ 			pieceExplosionGenerators = { 
+				"deathceg2",
+				"deathceg3",
+				"deathceg4",
 			},
 		},
 		sounds = {

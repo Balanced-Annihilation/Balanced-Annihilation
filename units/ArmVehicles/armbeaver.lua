@@ -60,7 +60,6 @@ return {
 			[12] = "armap",
 			[13] = "armhp",
 			[14] = "armnanotc",
-			[15] = "armnanotcplat",
 			[16] = "armeyes",
 			[17] = "armrad",
 			[18] = "armdrag",

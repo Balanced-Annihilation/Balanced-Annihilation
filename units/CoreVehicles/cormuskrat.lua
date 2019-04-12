@@ -60,7 +60,6 @@ return {
 			[12] = "corap",
 			[13] = "corhp",
 			[14] = "cornanotc",
-			[15] = "cornanotcplat",
 			[16] = "coreyes",
 			[17] = "corrad",
 			[18] = "cordrag",
