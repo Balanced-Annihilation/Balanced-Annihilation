@@ -111,7 +111,7 @@ local SelectUnitArray = Spring.SelectUnitArray
 local GetModKeyState = Spring.GetModKeyState
 local GetUnitDefDimensions = Spring.GetUnitDefDimensions
 
-local GetUnitCommands = Spring.GetUnitCommands
+--local GetUnitCommands = Spring.GetUnitCommands
 local GetViewGeometry = Spring.GetViewGeometry
 local ValidUnitID = Spring.ValidUnitID
 local GetTeamUnitsSorted = Spring.GetTeamUnitsSorted

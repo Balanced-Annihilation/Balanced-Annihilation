@@ -30,11 +30,12 @@ end
 -- Random tips we can show
 local tips = {
 	"outpost.dds ".."To build unit factories you need an Outpost. Outposts can morph up to Tier4, with increasingly better build range and LOS.",
-    "cormuskrat.dds ".."FARKs and Muskrats are units built directly by the Outpost. They have great line of sight, can build mines and accelerate constructions and units being built.",
+    "cormuskrat.dds ".."FARKs and Muskrats are units built directly by the Outpost. They have great line of sight, can build dragon eyes (stealth remote cameras) and accelerate constructions and units being built.",
     "outpost.dds ".."Outposts can speed up any construction, but they're less cost effective for that than FARKs (built by the outpost) and they spend energy continuously.",
 	"armtech.dds ".."To tech up, build a Tech Center, then upgrade it progressively until Tech Tier4. This unlocks high-tier upgrades in factories and outposts as well.",
 	"armtech.dds ".."When under attack, Tech Centers can become 70% more resistant if disabled (ON/OFF button or Ctrl+X shortcut)",
 	"corgator.dds ".."Gatlings and Flashes are terrific anti-kbot vehicles, and moderately effective against lighter gunships. When facing tanks or combos of plasma and missile kbots, don't expect them to last long.",
+    "corlevlr.dds ".."Core Levelers and Arm Pokers are early game assault units. One of their unique abilities is the capacity to dodge kbot missiles when properly microed and kept moving at their top speed. Levelers can also transport kbots, including builders",
 	"armrl.dds ".."Missile towers can shoot both ground and air units, but their anti-air range and damage is much higher than when firing on land units. Nevertheless, they're the best early static response to assault vehicles and tanks.",
 	"armmex.dds ".."Metal Extractors can be morphed into Adv. Metal Extractors at Tier 1, Moho Mexes at Tier 2 and Uber Mexes at Tier 3, with increasingly higher metal output",
 	--"Have trouble finding metal spots?\nPress F4 to switch to the metal map.",
@@ -52,7 +53,7 @@ local tips = {
 	--"Commanders have a manual Dgun weapon, which can decimate every unit with one blow.\nPress D to quickly initiate aiming.",
 	--"Spread buildings to prevent chain explosions.\nPress ALT+Z and ALT+X to adjust auto-spacing.",
 	--"It is effective to move your units in spread formations.\nDrag your mouse while initiating a move order to draw multiple waypoints.",
-    "cormort.dds ".."Some tanks and long-ranged vehicles can move in reverse if you press 'Ctrl' while giving a command behind it. Use this to keep firing while retreating.",
+    "armmart.dds ".."Some tanks and long-ranged vehicles can move in reverse if you press 'Ctrl' while giving a command behind it. Use this to keep firing while retreating.",
 	--"T2 factories are expensive. Reclaim your T1 lab for metal to fund it",
 	--"Air strikes and airdrops may come at any time, always have at least one anti-air unit in your base.",
 	--"With ~(tilde)+doubleclick you can place a label with text on the map.\n~(tilde)+middle mouse button for an empty label.\n~(tilde)+mouse drag to draw lines",
@@ -91,7 +92,7 @@ local tips = {
 local titleColor = "\255\215\255\215"
 local contentColor = "\255\255\255\255"
 local unit_descs = {
-	"armck.dds "..titleColor.."Construction Kbot (ARM T1)\n"..contentColor.."Slightly slower and weaker than the Dozer, this builder can climb steeper hills, effective for expansion especially in mountainous terrain.",
+	"armck.dds "..titleColor.."Builder (ARM T1)\n"..contentColor.."Slightly slower and weaker than the Dozer, this kbot builder can climb steeper hills, effective for expansion especially in mountainous terrain.",
 	--"armflea.dds "..titleColor.."Flea (ARM T1 Kbot)\n"..contentColor.."Supercheap and fast, used for scouting and raiding enemy structures in early-game stages. Avoid laser towers and destroy metal extractors to slow down your foe’s expansion!",
 	"armham.dds "..titleColor.."Hammer (ARM T1 Kbot)\n"..contentColor.."Plasma kbots are the sturdiest basic kbots, extremely resistant to defenses and excellent at taking out commanders. They have a minimum attack range, but their mid-ranged arced projectiles can fly over dragon teeth.",
 	--"armjeth.dds "..titleColor.."Jethro (ARM T1 Amphibious Kbot)\n"..contentColor.."Amphibious mobile anti-air to take down light aircraft. Always send a few with your army to protect it from EMP drones and gunships.",

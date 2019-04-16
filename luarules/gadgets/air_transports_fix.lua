@@ -68,7 +68,7 @@ if (gadgetHandler:IsSyncedCode()) then
 					end
 					if cmdToCompare then
 						-- if removing move and we have a synced unload, block removal
-						for _, command in pairs(GetUnitCommands(unitID)) do
+						for _, command in pairs(GetUnitCommands(unitID,100)) do
 							if command.id == CMD.MOVE and command.options.coded then
 								return false
 							end
