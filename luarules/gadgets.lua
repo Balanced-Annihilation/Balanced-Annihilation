@@ -1755,6 +1755,13 @@ function gadgetHandler:DrawGroundPreForward()
   return
 end
 
+function gadgetHandler:DrawGroundPostForward()
+  for _,g in ipairs(self.DrawGroundPostForwardList) do
+    g:DrawGroundPostForward()
+  end
+  return
+end
+
 function gadgetHandler:DrawWorldPreUnit()
   for _,g in ipairs(self.DrawWorldPreUnitList) do
     g:DrawWorldPreUnit()

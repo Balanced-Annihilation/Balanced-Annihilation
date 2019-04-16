@@ -66,6 +66,7 @@ CallInsList = {
   "DrawGenesis",
   "DrawWorld",
   "DrawGroundPreForward",
+  "DrawGroundPostForward",
   "DrawWorldPreUnit",
   "DrawWorldShadow",
   "DrawWorldReflection",
