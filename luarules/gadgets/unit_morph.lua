@@ -756,7 +756,7 @@ local function StartMorph(unitID, morphDef, teamID) --, cmdID)
   morphingUnits[unitID] = {
     def = morphDef,
     progress = 0.0,
-    increment = morphDef.increment,
+    increment = morphDef and morphDef.increment or 0.01,
     morphID = nil, --morphID,
     teamID = teamID,
     paused = false,
