@@ -1,0 +1,142 @@
+---
+--- Created by Breno "MaDDoX" Azevedo.
+--- DateTime: 14-Nov-18 9:19 AM
+---
+function gadget:GetInfo()
+    return {
+        name      = "Spawn Airplant Pads",
+        desc      = "Spawn Pads adjacent to Airplants after they're built",
+        author    = "MaDDoX",
+        date      = "Apr 6, 2019",
+        license   = "GNU GPL, v2 or later",
+        layer     = 1,
+        enabled   = false, --true,
+    }
+end
+
+--if gadgetHandler:IsSyncedCode() then
+--    -----------------
+--    ---- SYNCED
+--    -----------------
+--
+--    --Spring.GetUnitPieceMap ( number unitID ) -> { "piecename1" = pieceNum1, ... , "piecenameN" = pieceNumN }
+--    local spGetUnitPieceMap = Spring.GetUnitPieceMap
+--    local spGetUnitPosition = Spring.GetUnitPosition
+--    -- Spring.GetUnitPiecePosition( number unitID, number piece ) -> number posx, number posy, number posz
+--    local spGetUnitPiecePosition = Spring.GetUnitPiecePosition --- That's in UNIT space, ie. its offset from unitPosition
+--    local spCreateUnit = Spring.CreateUnit
+--    local spSetUnitNeutral = Spring.SetUnitNeutral
+--    local slaveAirpads = {}
+--
+--    -- TODO: If was_morphed (adv air plant) don't destroy it. We won't "attach" the airpad, we'll just track it accordingly
+--
+--    --- This returns armpad or corpad according to the spawned plant's faction
+--    local function getFactionAirpad(unitID)
+--        -- spGetUnitDefID(unitID) -- if Core return corpad, etc
+--    end
+--
+--    local function SpawnPads(unitID)
+--        local teamID = Spring.GetTeamID(unitID)
+--        local airpadToSpawn = getFactionAirpad(unitID)
+--        for i = 1,2 do
+--            local newAirpad = spCreateUnit(airpadToSpawn, x, y, z, 0, teamID)
+--            spSetUnitNeutral(newAirpad, true)
+--            --Spring.SetUnitNoSelect( newAirpad, true )
+--            -- TODO: Slave airpads won't show on radar
+--            Spring.SetUnitNoMinimap ( newAirpad, true )
+--            slaveAirpads[unitID] = {}
+--            slaveAirpads[unitID][i] = newAirpad
+--        end
+--    end
+--
+--
+--
+--    --function gadget:UnitDestroyed(unitID, unitDefID, unitTeamID)
+--    --    local geo = geoThermals[unitID]
+--    --    if geo then
+--    --        geosToRespawn[unitID] = { x=geo.x, y=geo.y, z = geo.z, time = Spring.spGetGameFrame() + respawnTime }
+--    --    end
+--    --    --local featureDef   = FeatureDefs[featureDefID or -1] or {height=0,name=''}
+--    --end
+--
+--    --function gadget:GameFrame(n)
+--    --    for unitID, data in pairs(geosToRespawn) do
+--    --        if data.time >= n then
+--    --            Spring.CreateFeature("armgeo_heap", data.x, data.y, data.z)
+--    --        --    ( string "defName" | number featureDefID,
+--    --        --number x, number y, number z
+--    --        --[, number heading
+--    --        --[, number AllyTeamID
+--    --        --[, number featureID ]]] ) -> number featureID
+--    --
+--    --        end
+--    --    end
+--    --end
+--
+--else
+--    -----------------
+--    ---- UNSYNCED
+--    -----------------
+--
+--    ---- Here we'll make the 'capture' cursor the default action on top of geothermals
+--    ---- for commanders and capture-enabled builders
+--
+--    local spGetMouseState = Spring.GetMouseState
+--    local spTraceScreenRay = Spring.TraceScreenRay
+--    --local spAreTeamsAllied = Spring.AreTeamsAllied
+--    --local spGetUnitTeam = Spring.GetUnitTeam
+--    local spGetUnitDefID = Spring.GetUnitDefID
+--    local spGetSelectedUnits = Spring.GetSelectedUnits
+--    --local spGetLocalTeamID = Spring.GetLocalTeamID
+--    local spFindUnitCmdDesc = Spring.FindUnitCmdDesc
+--    local spGetUnitCmdDescs = Spring.GetUnitCmdDescs
+--    local CMD_CAPTURE = CMD.CAPTURE
+--
+--    local strUnit = "unit"
+--
+--    local geothermalsDefIDs = {
+--        [UnitDefNames["armgeo"].id] = true,
+--        [UnitDefNames["armageo"].id] = true,
+--        [UnitDefNames["armgmm"].id] = true,
+--    }
+--
+--    function gadget:DefaultCommand()
+--        local function isGeothermal(unitDefID)
+--            return geothermalsDefIDs[unitDefID]
+--        end
+--        local mx, my = spGetMouseState()
+--        local s, targetID = spTraceScreenRay(mx, my)
+--        if s ~= strUnit then
+--            return false end
+--
+--        --if not spAreTeamsAllied(myTeamID, spGetUnitTeam(targetID)) then
+--        --    return false
+--        --end
+--
+--        -- Only proceed if target is one of the geothermal variations
+--        local targetDefID = spGetUnitDefID(targetID)
+--        if not isGeothermal(targetDefID) then
+--            return false end
+--
+--        -- If any of the selected units is a capturer, default to 'capture'
+--        local sUnits = spGetSelectedUnits()
+--        --local teamID = spGetLocalTeamID()
+--
+--        for i=1,#sUnits do
+--            local unitID = sUnits[i]
+--            local unitDef = UnitDefs[spGetUnitDefID(unitID)]
+--            if unitDef.customParams.iscommander then
+--                return CMD_CAPTURE
+--            end
+--            if unitDef.canCapture then
+--                -- Check if the units has capture enabled already
+--                local cmdIdx = spFindUnitCmdDesc(unitID, CMD_CAPTURE)
+--                local cmdDesc = spGetUnitCmdDescs(unitID, cmdIdx, cmdIdx)[1]
+--                if not cmdDesc.disabled then
+--                    return CMD_CAPTURE end
+--            end
+--        end
+--        return false
+--    end
+--
+--end

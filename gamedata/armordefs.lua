@@ -10,11 +10,11 @@ local armorDefs = {
 
 	invader={"armfast", "corsktl", "armspid", "cormando", "corpyro",},
 
-	assault={"armlatnk","armfav","armjanus","armmlv","armsh","armspy","cordefiler","coresupp","corfav","corlevlr","corsh","corvrad","decade","marauder","nsaclash",},
+	assault={"armlatnk","armfav","armjanus","armmlv","armkam","armsh","armspy","cordefiler","coresupp","corbw","corfav","corlevlr","corsh","corvrad","decade","marauder","nsaclash",},
 
 	bomber={"armliche","armlance","armpnix","armsb","armthund","armstil","corhurc","corsb","corshad","cortitan","armblade",},
 
-	gunship={"armatlas","armbrawl","armdfly","armkam","armpeep","armsaber","armseap","corseah","corbw","corape","corcrw","corcut","corfink","corseap","corvalk",},
+	gunship={"armatlas","armbrawl","armdfly","armpeep","armsaber","armseap","corseah","corape","corcrw","corcut","corfink","corseap","corvalk",},
 
 	defense={"armvulc","armamb","armamd","armanni","armclaw","armdl","armdrag","armemp","armfhlt","armguard","armhlt","armllt","armpb","armptl","armtl","corbhmth","corbuzz","corexp","corfgate","corfhlt","cormaw","corfmd","corgate","corhlt","corllt","corptl","corpun","cortl","cortoast","corvipe","hllt","armbeamer","armbrtha","corint","cordoom","armamex",},
 
