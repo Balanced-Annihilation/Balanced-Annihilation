@@ -1,0 +1,20 @@
+{
+  "title" : "TA Prime",
+  "setups" : [
+    {
+      "package": {
+        "id": "TA Prime",
+        "display": "TA Prime"
+      },
+      "downloads": {
+        "games" : ["TA Prime", "chobby:test"],
+        "engines" : [ "104.0.1-1179-ge932a0a maintenance" ]
+      },
+      "no_start_script" : true,
+      "launch": {
+        "start_args": ["--menu", "rapid://chobby:test"]
+      }
+    }
+  ]
+
+}
