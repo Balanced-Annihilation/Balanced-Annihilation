@@ -66,7 +66,7 @@ function GenBrdfLut:GetTexture()
 end
 
 function GenBrdfLut:Execute(saveDebug)
-	if gl.IsValidFBO(self.brdfFBO) then
+	if gl.IsValidFBO(self.brdfFBO) and self.brdfShader then
 		gl.ActiveShader(self.brdfShader, function ()
 			gl.ActiveFBO(self.brdfFBO, function()
 				gl.DepthTest(false)
