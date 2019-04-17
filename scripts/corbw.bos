@@ -82,9 +82,41 @@ FirePrimary()
 	return (1);
 }
 
+//----------
+
+AimFromSecondary(piecenum)
+{
+	piecenum = flare;
+}
+
+AimSecondary(heading, pitch)
+{
+    signal SIG_AIM;
+	set-signal-mask SIG_AIM;
+	 	while( 255 > heading )
+		{
+			set UNKNOWN_UNIT_VALUE(82) to 0 - 1500 + get UNKNOWN_UNIT_VALUE(82);
+			heading = heading + 1500;
+			sleep 1;
+		}
+		while( heading > 255 )
+		{
+			set UNKNOWN_UNIT_VALUE(82) to 1500 + get UNKNOWN_UNIT_VALUE(82);
+			heading = heading - 1500;
+			sleep 1;
+		}	
+	return (1);
+}
+
+FireSecondary()
+{
+	start-script PostFire();
+	return (1);
+}
+
 Killed(severity, corpsetype)
 {
 	corpsetype = 3;
-	explode base type FALL | NOHEATCLOUD;
+	explode base type FALL;
 	return corpsetype;
 }
