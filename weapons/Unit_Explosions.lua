@@ -981,7 +981,7 @@ unitDeaths = {
     commanderexplosion = {
 		name = "Matter/AntimatterExplosion",
 		weaponType = "Cannon",
-		AreaOfEffect = 220, --720
+		AreaOfEffect = 320, --720, 340, 220 => 320
 		cameraShake = 720,
 		impulseboost = 3,
 		impulsefactor = 3,

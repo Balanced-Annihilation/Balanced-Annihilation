@@ -16,7 +16,9 @@ if not gadgetHandler:IsSyncedCode() then
 CMD.UPG_DGUN = 41999
 CMD_UPG_DGUN = 41999
 local CMD_MANUALFIRE = CMD.MANUALFIRE
---local airattacksafedist = 350.0
+local spUseUnitResource = Spring.UseUnitResource
+local metalCost = 200
+local energyCost = 1200
 
 local spGetUnitDefID = Spring.GetUnitDefID
 local spFindUnitCmdDesc = Spring.FindUnitCmdDesc
@@ -48,11 +50,14 @@ end
 
 function gadget:AllowCommand(unitID,_,unitTeam,cmdID,cmdParams)
     -- Require Tech1 for Upgrade
-    if not GG.TechCheck("Tech1", unitTeam) then
-        return false
-    end
     -- TODO: Progress, progress percentage (check unit_morph.lua)
-    if cmdID == CMD_UPG_DGUN then
+    if cmdID == CMD_UPG_DGUN and GG.TechCheck("Tech1", unitTeam) then
+        if not spUseUnitResource(unitID, { ["m"] = metalCost, ["e"] = energyCost }) then
+            return false
+        end
+        local cmdDescId = spFindUnitCmdDesc(unitID, CMD_UPG_DGUN)
+        spEditUnitCmdDesc(unitID, cmdDescId, { disabled=true })
+
         local cmdDescId = spFindUnitCmdDesc(unitID, CMD_MANUALFIRE)
         spEditUnitCmdDesc(unitID, cmdDescId, { disabled=false })
         ----if cmdParams[1] == 1 then
@@ -64,7 +69,6 @@ function gadget:AllowCommand(unitID,_,unitTeam,cmdID,cmdParams)
         ----    end
         ----
         ----end
-        return true
     end
     return true
 end
