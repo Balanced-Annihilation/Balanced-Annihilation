@@ -182,7 +182,7 @@ end
 function gadget:UnitPreDamaged(unitID, unitDefID, unitTeam, damage, paralyzer, weaponDefID, projectileID, attackerID, attackerDefID, attackerTeam)
 	if isArmageddon then
         --coms must survive & need protecting until the explosions are over
-        if UnitDefs[unitDefID].customParams.iscommander == "1" then 
+        if UnitDefs[unitDefID].customParams.iscommander then
             local h, mh = Spring.GetUnitHealth(unitID)
             if h <= mh/4 then
                 return 0 

@@ -225,7 +225,7 @@ if gadgetHandler:IsSyncedCode() then
         end
 
         SendToUnsynced("upgradeEvent", upgradeName, nil, nil, unitTeam, "upgraded")
-        -- TODO: FIX!!
+
         setUpgradeState(unitTeam, "upgraded", nil, nil)
         spDestroyUnit(unitID,false,true)    -- Remove the proxy unit instantly (won't deadlock since TechProxyId was set to nil)
 

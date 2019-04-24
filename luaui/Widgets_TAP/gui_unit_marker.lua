@@ -174,7 +174,7 @@ function widget:UnitEnteredLos(unitID, allyTeam)
 			
 			if (math.sqrt(math.pow((prevX - x), 2)+(math.pow((prevZ - z), 2)))) >= 100 then -- marker only really uses x and z
 				markColour = colourNames(spGetUnitTeam(unitID))
-				if UnitDefs[udefID].customParams.iscommander == "1" then
+				if UnitDefs[udefID].customParams.iscommander then
 					markName = GetTeamName(spGetUnitTeam(unitID))
 					colouredMarkName = markColour..markName
 				else
