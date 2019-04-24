@@ -43,7 +43,7 @@ local armorDefs = {
 		"cordrag","corestor","coreyes","corfatf","corfdrag","corfhp","corfmine3","corfmkr","corfort","corfrad","corgant","corgantuw","corgeo","corhp",
 		"corjamt","corlab","cormakr","cormexp","cormine1","cormine2","cormine3","cormine4","cormmkr","cormstor","cornanotc","corrad","corsd",
 		"corshroud","corsonar","corsy","cortarg","cortron","coruwadves","coruwadvms","coruwes","coruwfus","coruwmmm","coruwms",
-		"corvp","corwin","csubpen","tllmedfusion","armsonar","corsonar",},
+		"corvp","corwin","csubpen","tllmedfusion","armsonar",},
 
 	tank={"armanac","armbull","armcroc","armcrus","armlun","armpincer","armroy","armscab","armseer","armsjam","armst","armstump","armthovr","armtship","corblackhy","corcrus","cordl","coreter","corgarp","corgol","cormabm","cormlv","corparrow","corraid","correap","corroy","corseal","corsilo","corsjam","corsnap","corsok","cortship","armintr",},
 

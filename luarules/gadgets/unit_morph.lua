@@ -324,7 +324,7 @@ end
 
 local function isTechStructure(unitDefID)
   local unitDef = UnitDefs[unitDefID]
-  return unitDef.customParams.func == "tech" or unitDef.customParams.iscommander == "TRUE"
+  return unitDef.customParams.func == "tech" or unitDef.customParams.iscommander
 end
 
 --// Calculates Default values | edited for TA Prime by MaDDoX
@@ -398,11 +398,11 @@ local function BuildMorphDef(udSrc, morphData)
         -- Team 0 is used just as a filler here, the important is that the return ~= nil
         requireDefined = GG.TechCheck(requires[i], 0) ~= nil
         if (requireDefined) then
-            if (requires[i]=="Tech4") then reqTier = 4
+          if (requires[i]=="Tech4") then reqTier = 4
             elseif (requires[i]=="Tech3") then reqTier = 3
             elseif (requires[i]=="Tech2") then reqTier = 2
             elseif (requires[i]=="Tech1") then reqTier = 1 end
-          reqTechs[requires[i]]=true              --echo('Morph gadget: Requirement defined: ' .. requires[i])
+          reqTechs[requires[i]]=true              -- echo('Morph gadget: Requirement defined: ' .. requires[i])
         else
           foundAllRequires = false                -- echo('Morph gadget: Bad morph requirement: ' .. requires[i].." tech not found")           --require = -1
         end
@@ -1074,7 +1074,7 @@ local function FinishMorph(unitID, morphData)
 
 end
 
--- Here's where the Morph is updated, so pause/resume should kick in here as well
+-- Here's where the Morph is updated
 local function UpdateMorph(unitID, morphData, bonus)
   -- Morph is paused either explicity or when unit is not finished being built or is being transported
   if not isFinished(unitID) or morphData.paused or spGetUnitTransporter(unitID) then

@@ -17,7 +17,7 @@ CMD.ALTITUDE = 39999
 CMD_ALTITUDE = 39999
 local airattacksafedist = 350.0
 
-nolowalt = {
+commanders = {
 	armatlas = true,
 	armdfly = true,
 	corvalk = true,
