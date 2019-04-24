@@ -6,7 +6,7 @@ function gadget:GetInfo()
       date = "2015",
       license = "",
       layer = 0,
-      enabled = false, --true,
+      enabled = true,
    }
 end
 
@@ -25,7 +25,7 @@ if (gadgetHandler:IsSyncedCode()) then
 			return true
 		end
 		if cmdID == CMD.INSERT then
-			local queue = GetUnitCommands(unitID)
+			local queue = GetUnitCommands(unitID,100)
 			local commandPos
 			if cmdOpts.alt then
 				-- first param is a pos
@@ -79,7 +79,7 @@ if (gadgetHandler:IsSyncedCode()) then
 			else
 				--prevent removing specific move orders if synced unloads are present
 				--params are command tags
-				local queue = GetUnitCommands(unitID)
+				local queue = GetUnitCommands(unitID,100)
 				for _, paramTag in pairs(cmdParams) do
 					for _, command in pairs(queue) do
 						if command.tag == paramTag then
