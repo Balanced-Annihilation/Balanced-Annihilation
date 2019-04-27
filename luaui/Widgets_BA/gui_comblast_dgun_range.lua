@@ -372,9 +372,9 @@ function widget:DrawWorldPreUnit()
 					end
 					comCircleDlist[unitID] = {camDistance}
 					comCircleDlist[unitID][2] = glCreateList( function()
-						--glLineWidth(3-lineWidthMinus)
-						--glColor(1, 0.85, 0, .28*lineOpacityMultiplier*opacityMultiplier)
-						--glBeginEnd(GL.LINE_LOOP, drawBlast, center[1], center[2], center[3], dgunRange+1.2 ) --dgunrange + aoe
+						glLineWidth(3-lineWidthMinus)
+						glColor(1, 0.85, 0, .28*lineOpacityMultiplier*opacityMultiplier)
+						glBeginEnd(GL.LINE_LOOP, drawBlast, center[1], center[2], center[3], dgunRange+1.2 ) --dgunrange + aoe
 
 						--glLineWidth(3.5-lineWidthMinus)
 						--glColor(1, 0, 0, .47*lineOpacityMultiplier*opacityMultiplier)
@@ -385,22 +385,9 @@ function widget:DrawWorldPreUnit()
 
 						-- glColor(1, 0, 0, .175*lineOpacityMultiplier*opacityMultiplier)
 						-- glBeginEnd(GL.LINE_LOOP, drawBlast, center[1], center[2], center[3], dgunRange+((blastRadius-dgunRange)*0.309))-- comblast > 2.5k
-
-						glLineWidth(4-lineWidthMinus)
-						glColor(1, 0, 0, .5*lineOpacityMultiplier*opacityMultiplier)
-						glBeginEnd(GL.LINE_LOOP, drawBlast, center[1], center[2], center[3], dgunRange+((blastRadius-dgunRange)*0.37))-- comblast > 3.55k
-
-						glLineWidth(6.5*lineScale)
-						glColor(1, 0, 0, .25*lineOpacityMultiplier*opacityMultiplier)
-						glBeginEnd(GL.LINE_LOOP, drawBlast, center[1], center[2], center[3], dgunRange+((blastRadius-dgunRange)*0.475))-- comblast > 3k
-
-						glColor(1, 0, 0, .185*lineOpacityMultiplier*opacityMultiplier)
-						glBeginEnd(GL.LINE_LOOP, drawBlast, center[1], center[2], center[3], dgunRange+((blastRadius-dgunRange)*0.652))-- comblast > 2k
-
-						glColor(1, 0, 0, .13*lineOpacityMultiplier*opacityMultiplier)
-						glBeginEnd(GL.LINE_LOOP, drawBlast, center[1], center[2], center[3], dgunRange+((blastRadius-dgunRange)*0.83))-- comblast > 1k
-
-						glColor(1, 0, 0, .085*lineOpacityMultiplier*opacityMultiplier)
+						
+						glLineWidth(2.7-lineWidthMinus)
+						glColor(1, 0, 0, 0.5*lineOpacityMultiplier*opacityMultiplier)
 						glBeginEnd(GL.LINE_LOOP, drawBlast, center[1], center[2], center[3], blastRadius)-- comblast = 0k
 					end)
 				end
