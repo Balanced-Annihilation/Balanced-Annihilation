@@ -74,8 +74,8 @@ local damageMultipliers = {
 	}
 ,
 	neutron={ 	peon = 0.25, 	rpg = 0.5, 	    stalwart = 0.65,aiv = 0.75, 		tank = 3.5, 	artillery = 0.4,
-				 fighter = 1.25, gunship = 3, 	bomber = 1.5, 	structure = 0.5, 	defense = 0.5, 	defenseaa = 0.2, 	commander = 0.2,
-				 invader = 0.4, 	heavybot = 0.25,assault = 1.25,	heavyveh = 1.75,	resource = 0.75,
+				 fighter = 1.25, gunship = 3, 	bomber = 1.5, 	structure = 0.5, 	defense = 0.15, defenseaa = 0.05, 	commander = 0.2,
+				 invader = 0.4, 	heavybot = 0.25,assault = 1.25,	heavyveh = 1.75,resource = 0.75,
 	}
 ,
 	omni={ 		peon = 1.25, 	rpg = 1, 		stalwart = 1, 	aiv = 1, 			tank = 2, 		artillery = 1.5,
