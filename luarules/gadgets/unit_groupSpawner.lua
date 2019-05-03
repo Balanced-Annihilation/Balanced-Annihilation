@@ -20,6 +20,8 @@ if (not gadgetHandler:IsSyncedCode()) then
 	return false
 end
 
+VFS.Include("gamedata/taptools.lua")
+
 -- # Requires the api_delay.lua gadget
 local DelayCall = GG.Delay.DelayCall
 -- Synced Read
@@ -63,7 +65,7 @@ end
 local function CreateGroup(unitID, unitDefID, teamID, builderID, groupDef)
 
 	if groupDef == nil then
-		groupDef = { members = {}, name = "", description = "", buildPic = ""}
+		groupDef = { members = {}, name = "", description = "", buildPic = "", delay = 7, }
 		--[[	{
 				members = {
 					"armpw",
@@ -74,12 +76,19 @@ local function CreateGroup(unitID, unitDefID, teamID, builderID, groupDef)
 				description = "3 x Peewee Group",
 				--buildCostMetal = 150, --2500
 				buildPic = "ARMPW.DDS",
-			} ]]
-	
-		local name = UnitDefs[unitDefID].name
-		--#debug Spring.Echo("Trying to find uDef of: "..name)
-		--#debug Spring.Echo("UnitDefs groupsize: "..tostring(UnitDefs[unitDefID].customParams.groupsize))
-		local groupSize = tonumber(UnitDefs[unitDefID].customParams.groupsize)
+		} ]]
+
+        local unitDef = UnitDefs[unitDefID]
+		local name = unitDef.name
+		Spring.Echo("Trying to find uDef of: "..name)
+        Spring.Echo("UnitDefs customparams: "..(unitDef.customParams and "yes" or "no"))
+        --Spring.Echo("UnitDefs groupdef: "..(unitDef.customParams.groupdef and "yes" or "no"))
+        --Spring.Echo("UnitDefs morphdef: "..(unitDef.customParams.morphdef and "yes" or "no"))
+        Spring.Echo(tostringplus(UnitDefs[unitDefID].customParams))
+		--Spring.Echo("UnitDefs groupsize: "..(unitDef.customParams.groupdef.size and "yes" or "no"))
+        --local groupSize = tonumber(UnitDefs[unitDefID].customParams.groupsize)
+        local groupSize
+		groupSize = unitDef.customParams.groupdef and tonumber(unitDef.customParams.groupdef.size) or nil
 		if isnumber(groupSize) and groupSize >= 2 then
 			-- One is always spawned, so deduct 1
 			for i = 1, groupSize-1 do
@@ -87,19 +96,15 @@ local function CreateGroup(unitID, unitDefID, teamID, builderID, groupDef)
 			end
 			groupDef.name = unitDefID.." Group"
 			groupDef.description = groupSize.."x "..name.."s"
-			groupDef.buildPic = UnitDefs[unitDefID].buildpic
+			groupDef.buildPic = unitDef.buildpic
+            local groupDelay = tonumber(unitDef.customParams.groupdef.delay)
+            if groupDelay then
+                groupDef.delay = groupDelay
+            else
+                groupDef.delay = 7  -- Default
+            end
 		end
 
---		for _, uData in pairs(unitDefsData.data) do
---			if type(uData) == "table" and uData[1] == name then
---				local dataEntry = uData[2]
---				if (dataEntry.customparams ~= nil and dataEntry.customparams.groupsize ~= nil) then
---					Spring.Echo(" uDef groupsize = ".. dataEntry.customparams.groupsize)
---				else
---					return
---				end
---			end
---		end
 	end
 
 	local px, py, pz = GetUnitBasePosition(unitID)
@@ -129,19 +134,27 @@ local function CreateGroup(unitID, unitDefID, teamID, builderID, groupDef)
 	local xSpace, zSpace = 0, 0 -- -5, -5
 
 	-- Spawn the units
-	local spawnDelay = 5
-	for i, unitName in ipairs(groupDef.members) do
-		local thisDelay = i * spawnDelay
-		-- local newUnitID = DelayCall(CreateUnit, {unitName, px+xSpace, py, pz+zSpace, unitHeading, teamID}, thisDelay)
-		DelayCall(CreateUnitWithQueue, {unitName, px+xSpace, py, pz+zSpace, unitHeading, teamID, states, filteredQueue}, thisDelay)
-		
-		if (i % 4 == 0 and not (xSpace == 0 and zSpace == 0)) then
-			xSpace = -2
-			zSpace = zSpace + 2
-		else
-			xSpace = xSpace + 2
-		end
-	end
+	--local spawnDelay = 5
+    local memberUnitName = groupDef.members[1]
+
+    if memberUnitName then
+        ---- Min spawn delay is 5 frames (for speeds up to 1), max is 30 frames - or 1s - for speeds 5 and above
+        --local relSpeed = inverselerp(10.0,80.0, minmax(UnitDefNames[memberUnitName].speed, 10, 80))
+        --local spawnDelay = lerp(45,7, relSpeed) -- eg.: 0.5 => 17.x
+        Spring.Echo("member: "..(memberUnitName or "nil").." size: "..(groupDef.size or "nil").." spawn delay: "..(groupDef.delay or "nil"))
+        for i, unitName in ipairs(groupDef.members) do
+            local thisDelay = i * groupDef.delay
+            -- local newUnitID = DelayCall(CreateUnit, {unitName, px+xSpace, py, pz+zSpace, unitHeading, teamID}, thisDelay)
+            DelayCall(CreateUnitWithQueue, {unitName, px+xSpace, py, pz+zSpace, unitHeading, teamID, states, filteredQueue}, thisDelay)
+
+            if (i % 4 == 0 and not (xSpace == 0 and zSpace == 0)) then
+                xSpace = -2
+                zSpace = zSpace + 2
+            else
+                xSpace = xSpace + 2
+            end
+        end
+    end
 	--DestroyUnit(unitID, false, true)
 end
 
@@ -153,10 +166,10 @@ function CreateUnitWithQueue (unitName, px, py, pz, unitHeading, teamID, states,
 		if states then
 			-- Let's delay the order 'inheritance' one extra frame to be sure the unit is created
 			if UnitDefNames[unitName].fireState == -1 then -- unit set to inherit from builder
-				GiveOrderToUnit (newUnitID,  CMD.FIRE_STATE, { states.firestate }, 0)
+				GiveOrderToUnit (newUnitID, CMD.FIRE_STATE, { states.firestate }, 0)
 			end
 			if UnitDefNames[unitName].moveState == -1 then -- unit set to inherit from builder
-				GiveOrderToUnit (newUnitID,  CMD.MOVE_STATE, { states.movestate }, 0)
+				GiveOrderToUnit (newUnitID, CMD.MOVE_STATE, { states.movestate }, 0)
 			end
 		end
 		if queue then

@@ -10,18 +10,21 @@ function gadget:GetInfo()
     }
 end
 
-if not gadgetHandler:IsSyncedCode() then
-    return end
+if (not gadgetHandler:IsSyncedCode()) then
+    return false
+end
 
 CMD.UPG_DGUN = 41999
 CMD_UPG_DGUN = 41999
 local CMD_MANUALFIRE = CMD.MANUALFIRE
 
+local startFrame
 local metalCost = 200
 local energyCost = 1200
 local upgradeTime = 5 * 30 --5 seconds, in frames
 local upgradingUnits = {}
 
+local spGetGameFrame = Spring.GetGameFrame
 local spUseUnitResource = Spring.UseUnitResource
 local spGetUnitDefID = Spring.GetUnitDefID
 local spFindUnitCmdDesc = Spring.FindUnitCmdDesc
@@ -39,6 +42,7 @@ local UpgDgunDesc = {
 }
 
 function gadget:Initialize()
+    startFrame = spGetGameFrame()
     for ct, unitID in pairs(Spring.GetAllUnits()) do
         gadget:UnitCreated(unitID)
     end
@@ -70,11 +74,14 @@ local function finishUpgrade(unitID)
     local cmdDescId = spFindUnitCmdDesc(unitID, CMD_MANUALFIRE)
     spEditUnitCmdDesc(unitID, cmdDescId, { disabled=false })
 
+    ---TODO : Remove unit from upgradingUnits
     spSetUnitRulesParam(unitID,"upgrade", nil)
 end
 
-function gadget:Update()
-    Spring.Echo("Count: "..#upgradingUnits)
+function gadget:gameFrame(n)
+    --if not n == startFrame then
+    --    return end
+    --Spring.Echo("Count: "..#upgradingUnits)
     for _,data in ipairs(upgradingUnits) do
         local unitID = data.unitID
         local progress = data.progress

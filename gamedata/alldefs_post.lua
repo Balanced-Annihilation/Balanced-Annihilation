@@ -16,6 +16,7 @@
 
 VFS.Include("gamedata/taptools.lua")
 local unitDefsData = VFS.Include("gamedata/configs/unitdefs_data.lua")
+VFS.Include("gamedata/taptools.lua")
 --local function istable(x)  return (type(x) == 'table') end
 
 -- Switch for when we want to save defs into customparams as strings (so that a widget can then write them to file)
@@ -46,13 +47,13 @@ local function ApplyGroupSizeCosts(name, uDef)
 	--	if (uDef.customparams) then
 	--		Spring.Echo(uDef.name .." Group Size: "..uDef.customparams.groupsize) end
 
-	if (uDef.customparams == nil) or (uDef.customparams.groupsize == nil) then
+	if (uDef.customParams == nil) or (uDef.customParams.groupdef == nil) then
 		return
 	end
-	groupSize = uDef.customparams.groupsize
+	groupSize = uDef.customParams.groupdef.size
 	if (uDef.buildcostmetal ~= nil) then
 		uDef.buildcostmetal = uDef.buildcostmetal * groupSize
-		-- Spring.Echo(uDef.name.." group size = "..groupSize..", final metal cost: "..uDef.buildcostmetal)
+		Spring.Echo(uDef.name.." group size = "..groupSize..", final metal cost: "..uDef.buildcostmetal)
 	end
 	if (uDef.buildcostenergy ~= nil) then
 		uDef.buildcostenergy = uDef.buildcostenergy * groupSize end
@@ -75,7 +76,7 @@ function UnitDef_Post(name, uDef)
         uDef.builddistance = minimumbuilddistancerange
     end
     if uDef.maxreversevelocity ~= nil then
-        Spring.Echo("Found reverse velocity "..tonumber(uDef.maxreversevelocity).." on unit "..name)
+        --Spring.Echo("Found reverse velocity "..tonumber(uDef.maxreversevelocity).." on unit "..name)
     end
 end
 
@@ -117,7 +118,7 @@ function ApplyUnitDefs_Data(name, uDef)
 								oldcegtag = oldWeaponDef.cegtag
 								oldexpgen = oldWeaponDef.explosiongenerator
 							else
-								-- We can't know which old weapon corresponds to the new one, so we just grab whatever
+								-- We couldn't know which old weapon corresponds to the new one, so we just grab whatever
 								for ok, ov in pairs(oldDefVal) do
 									if ov.cegtag then
 										oldcegtag = ov.cegtag end
@@ -137,7 +138,12 @@ function ApplyUnitDefs_Data(name, uDef)
 						end
                     end
 					uDef[k] = newDefVal
-					--Spring.Echo("   Property: "..k.." was: "..tostring(was).." now: "..tostring(v))
+                    --TODO: Turn customParams table into CSV or something. It only supports string,string.. 
+                    --if newDefVal then
+                    --    UnitDefs[name].k = newDefVal end
+                    --if k == "customParams" then
+                    --    Spring.Echo("Unit: "..name.." Prop: "..k.." was: "..tostringplus(oldDefVal).." now: "..tostringplus(v))
+                    --end
 				end
 				--Spring.Echo("\t\t----\n\t\t----")
 			end
@@ -187,8 +193,8 @@ function WeaponDef_Post(name, wDef, udName)
 
 	damageType = "none"
 	if (udName == nil) then									-- It's a standalone weapon, check customparams
-		damageType = (wDef.customparams and wDef.customparams.damagetype)
-				and wDef.customparams.damagetype or "none"
+		damageType = (wDef.customParams and wDef.customParams.damagetype)
+				and wDef.customParams.damagetype or "none"
 		--if damageType ~= "none" then
 		--	Spring.Echo("Standalone Weapon: "..name.." "..wDef.name.." type: "..damageType)
 		--end

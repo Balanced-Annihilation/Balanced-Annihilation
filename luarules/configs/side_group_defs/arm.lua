@@ -3,18 +3,20 @@ local armSquadDefs = {
 	 -- Arm kBot Squads --
 	 ----------------------------
 
-	["armpw"] =
-	{
-		members = {
-			"armpw",
-			"armpw",
-			"armpw",
-		},
-		name = "Peewee Squad",
-		description = "3 x Peewee Group",
-		--buildCostMetal = 150, --2500
-		buildPic = "ARMPW.DDS",
-	},
+	--["armpw"] =
+	--{
+	--	members = {
+	--		"armpw",
+	--		"armpw",
+	--		"armpw",
+	--	},
+	--	name = "Peewee Squad",
+	--	description = "3 x Peewee Group",
+	--	--buildCostMetal = 150, --2500
+	--	buildPic = "ARMPW.DDS",
+     --   size = 3,
+     --   delay = 7,
+	--},
 
 --	["us_platoon_lct"] =
 --	{
