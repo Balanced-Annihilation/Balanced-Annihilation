@@ -277,6 +277,26 @@ function tostringplus(t, indent, sep, nl, text, osign, csign)
 	return text
 end
 
+--// Converters a quotes-enclosed table into a lua table. Used for customParams encoded tables
+function str2table(s)
+    local exps, res = {}, {}
+    local function save(v)
+        exps[#exps + 1] = v
+        return ('\0'):rep(#exps)
+    end
+    s = s:gsub('%b{}', function(s) return save{str2table(s:sub(2, -2))} end) -- arrays
+    s = s:gsub('"(.-)"', save)                                                   -- strings
+    s = s:gsub('%-?%d+', function(s) return save(tonumber(s)) end)               -- integer numbers
+    for k in s:gmatch'%z+' do
+        res[#res + 1] = exps[#k]
+    end
+    return (table.unpack or unpack)(res)
+end
+
+--////////////////////////
+--// MATH FUNCTIONS
+--////////////////////////
+
 function inverselerp(a, b, t)
 	--return t / (a + b) || deprecated, was used by los scaler
 

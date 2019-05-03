@@ -50,10 +50,10 @@ local function ApplyGroupSizeCosts(name, uDef)
 	if (uDef.customParams == nil) or (uDef.customParams.groupdef == nil) then
 		return
 	end
-	groupSize = uDef.customParams.groupdef.size
+	groupSize = tonumber((str2table(uDef.customParams.groupdef)).size) or 1
 	if (uDef.buildcostmetal ~= nil) then
 		uDef.buildcostmetal = uDef.buildcostmetal * groupSize
-		Spring.Echo(uDef.name.." group size = "..groupSize..", final metal cost: "..uDef.buildcostmetal)
+		--Spring.Echo(uDef.name.." group size = "..groupSize..", final metal cost: "..uDef.buildcostmetal)
 	end
 	if (uDef.buildcostenergy ~= nil) then
 		uDef.buildcostenergy = uDef.buildcostenergy * groupSize end
@@ -138,7 +138,7 @@ function ApplyUnitDefs_Data(name, uDef)
 						end
                     end
 					uDef[k] = newDefVal
-                    --TODO: Turn customParams table into CSV or something. It only supports string,string.. 
+                    --TODO: Turn customParams table into CSV or something. It only supports string,string..
                     --if newDefVal then
                     --    UnitDefs[name].k = newDefVal end
                     --if k == "customParams" then

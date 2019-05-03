@@ -1137,33 +1137,40 @@ end
   
   --// Add MorphDefs from customData entries (TODO: allow data merge, currently only overrides)
 local function AddCustomMorphDefs()
---    -- Standard .fbi method: (needs testing, TA Prime uses UnitDefsData)
---    for id,unitDef in pairs(UnitDefs) do
---      if unitDef.customParams.morphdef and type(unitDef.customParams.morphdef) == "table" then
---        local customMorphDef = unitDef.customParams.morphdef
---        --#debug echo(unitname.." morphdef into: "..tostring(unitDef.customParams.into))
---        morphDefs[unitDef.name] = {customMorphDef}
---      end
---    end
--- return
-
-    -- UnitDefsData method:
-    if unitDefsData == nil then
-      return end
-    
+    --    -- Standard .fbi method: (needs testing, TA Prime uses UnitDefsData)
+    --    for id,unitDef in pairs(UnitDefs) do
+    --      if unitDef.customParams.morphdef and type(unitDef.customParams.morphdef) == "table" then
+    --        local customMorphDef = unitDef.customParams.morphdef
+    --        --#debug echo(unitname.." morphdef into: "..tostring(unitDef.customParams.into))
+    --        morphDefs[unitDef.name] = {customMorphDef}
+    --      end
+    --    end
+    -- return
     for id,unitDef in pairs(UnitDefs) do
-      local nam = unitDef.name
-      for _, uData in pairs(unitDefsData.data) do
-        if type(uData) == "table" and uData[1] == nam then
-          local dataEntry = uData[2]
-          if (dataEntry.customparams ~= nil and dataEntry.customparams.morphdef ~= nil) then
-            local customMorphDef = dataEntry.customparams.morphdef
-            --#debug Spring.Echo(nam .." morphdef into = ".. dataEntry.customparams.morphdef.into)
-            morphDefs[nam] = {customMorphDef}
-          end
+        -- customParam tables are string-encoded, must be decoded before assignment
+        if unitDef.customParams.groupdef then
+            local customMorphDef = str2table(unitDef.customParams.morphdef)
+            morphDefs[unitDef.name] = customMorphDef
         end
-      end
     end
+
+    ---- UnitDefsData method:
+    --if unitDefsData == nil then
+    --  return end
+    --
+    --for id,unitDef in pairs(UnitDefs) do
+    --  local nam = unitDef.name
+    --  for _, uData in pairs(unitDefsData.data) do
+    --    if type(uData) == "table" and uData[1] == nam then
+    --      local dataEntry = uData[2]
+    --      if (dataEntry.customparams ~= nil and dataEntry.customparams.morphdef ~= nil) then
+    --        local customMorphDef = dataEntry.customparams.morphdef
+    --        --#debug Spring.Echo(nam .." morphdef into = ".. dataEntry.customparams.morphdef.into)
+    --        morphDefs[nam] = {customMorphDef}
+    --      end
+    --    end
+    --  end
+    --end
 
   end
 

@@ -82,28 +82,26 @@ local function CreateGroup(unitID, unitDefID, teamID, builderID, groupDef)
 		local name = unitDef.name
 		Spring.Echo("Trying to find uDef of: "..name)
         Spring.Echo("UnitDefs customparams: "..(unitDef.customParams and "yes" or "no"))
-        --Spring.Echo("UnitDefs groupdef: "..(unitDef.customParams.groupdef and "yes" or "no"))
-        --Spring.Echo("UnitDefs morphdef: "..(unitDef.customParams.morphdef and "yes" or "no"))
-        Spring.Echo(tostringplus(UnitDefs[unitDefID].customParams))
+        Spring.Echo("UnitDefs groupdef: "..(unitDef.customParams.groupdef and "yes" or "no"))
+        Spring.Echo("UnitDefs morphdef: "..(unitDef.customParams.morphdef and "yes" or "no"))
+
 		--Spring.Echo("UnitDefs groupsize: "..(unitDef.customParams.groupdef.size and "yes" or "no"))
         --local groupSize = tonumber(UnitDefs[unitDefID].customParams.groupsize)
-        local groupSize
-		groupSize = unitDef.customParams.groupdef and tonumber(unitDef.customParams.groupdef.size) or nil
-		if isnumber(groupSize) and groupSize >= 2 then
-			-- One is always spawned, so deduct 1
-			for i = 1, groupSize-1 do
-				table.insert(groupDef.members, name)
-			end
-			groupDef.name = unitDefID.." Group"
-			groupDef.description = groupSize.."x "..name.."s"
-			groupDef.buildPic = unitDef.buildpic
-            local groupDelay = tonumber(unitDef.customParams.groupdef.delay)
-            if groupDelay then
+        if unitDef.customParams.groupdef then
+            local groupDef = str2table(unitDef.customParams.groupdef)
+            local groupSize = tonumber(groupDef.size) or 1
+            if groupSize >= 2 then
+                -- One is the first guy, always spawned, so deduct 1
+                for i = 1, groupSize-1 do
+                    table.insert(groupDef.members, name)
+                end
+                groupDef.name = unitDefID.." Group"
+                groupDef.description = groupSize.."x "..name.."s"
+                groupDef.buildPic = unitDef.buildpic
+                local groupDelay = tonumber(groupDef.delay) or 7    -- 7 is the default
                 groupDef.delay = groupDelay
-            else
-                groupDef.delay = 7  -- Default
             end
-		end
+        end
 
 	end
 
