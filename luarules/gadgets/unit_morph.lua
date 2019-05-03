@@ -1594,7 +1594,6 @@ function gadget:CommandFallback(unitID, unitDefID, teamID, cmdID, cmdParams, cmd
     -- local morphData = { def = morphDef, progress = 0.0, increment = morphDef.increment,
     --                    morphID = nil, teamID = teamID, paused = false, }
     -- We must find the morph-start CmdID
-    --TODO: Fix support for factories
     local startCmdID
     for id, _ in pairsByKeys(morphDefs[UnitDefs[unitDefID].name]) do
       startCmdID = id

@@ -91,6 +91,7 @@ local messages = {
     teleport = "teleport",
     teleport_pw = "teleport",
     water_tank = "water tank",
+    upgrade = "upgrade",
 }
 
 --local function languageChanged ()
@@ -219,6 +220,7 @@ local barColors = {
     tank           = { 0.10,0.20,0.90,barAlpha },
     tele           = { 0.00,0.60,0.60,barAlpha },
     tele_pw        = { 0.00,0.60,0.60,barAlpha },
+    upgrade        = { 0.80,0.60,0.00,barAlpha },
 
     -- Features
     resurrect = { 1.00,0.50,0.00,featureBarAlpha },
@@ -757,7 +759,9 @@ do
             onFireUnits[#onFireUnits+1]=unitID
         end
 
+        --//=====================================================================================
         --// BARS //-----------------------------------------------------------------------------
+        --//=====================================================================================
         --// Shield
         if (ci.maxShield>0) then
             local commShield = GetUnitRulesParam(unitID, "comm_shield_max")
@@ -877,6 +881,12 @@ do
             if prog < 1 then
                 AddBar(messages.water_tank,prog,"tank",(fullText and floor(prog*100)..'%') or '')
             end
+        end
+
+        --// UPGRADE (TAP by MaDDoX)
+        local upgradeProgress = GetUnitRulesParam(unitID,"upgrade")
+        if (upgradeProgress) then
+            AddBar(messages.upgrade, upgradeProgress, "upgrade", (fullText and floor(upgradeProgress*100)..'%') or '')
         end
 
         --// Teleport progress
