@@ -278,19 +278,71 @@ function tostringplus(t, indent, sep, nl, text, osign, csign)
 end
 
 --// Converters a quotes-enclosed table into a lua table. Used for customParams encoded tables
-function str2table(s)
-    local exps, res = {}, {}
-    local function save(v)
-        exps[#exps + 1] = v
-        return ('\0'):rep(#exps)
+--function str2table(s)
+--    local exps, res = {}, {}
+--    local function save(v)
+--        exps[#exps + 1] = v
+--        return ('\0'):rep(#exps)
+--    end
+--    s = s:gsub('%b{}', function(s) return save{str2table(s:sub(2, -2))} end)    -- arrays
+--    s = s:gsub('"(.-)"', save)                                                  -- strings
+--    s = s:gsub('%-?%d+', function(s) return save(tonumber(s)) end)              -- integer numbers
+--    for k in s:gmatch'%z+' do
+--        res[#res + 1] = exps[#k]
+--    end
+--    return (table.unpack or unpack)(res)
+--end
+
+function str2table(input)
+    input:gsub("\[\[", "'")
+    input:gsub("\]\]", "'")
+    input:gsub("\"", "'")
+    Spring.Echo("Formatted string: "..input)
+    if type(input) == 'string' then
+        local data = input
+        local pos = 0
+        function input(undo)
+            if undo then
+                pos = pos - 1
+            else
+                pos = pos + 1
+                return string.sub(data, pos, pos)
+            end
+        end
     end
-    s = s:gsub('%b{}', function(s) return save{str2table(s:sub(2, -2))} end) -- arrays
-    s = s:gsub('"(.-)"', save)                                                   -- strings
-    s = s:gsub('%-?%d+', function(s) return save(tonumber(s)) end)               -- integer numbers
-    for k in s:gmatch'%z+' do
-        res[#res + 1] = exps[#k]
+    local c
+    repeat
+        c = input()
+    until c ~= ' ' and c ~= ','
+    if c == "'" then
+        local s = ''
+        repeat
+            c = input()
+            if c == "'" then
+                return s
+            end
+            s = s..c
+        until c == ''
+    elseif c == '-' or is_digit(c) then
+        local s = c
+        repeat
+            c = input()
+            local d = is_digit(c)
+            if d then
+                s = s..c
+            end
+        until not d
+        input(true)
+        return tonumber(s)
+    elseif c == '{' then
+        local arr = {}
+        local elem
+        repeat
+            elem = str2table(input)
+            table.insert(arr, elem)
+        until not elem
+        return arr
     end
-    return (table.unpack or unpack)(res)
 end
 
 --////////////////////////
