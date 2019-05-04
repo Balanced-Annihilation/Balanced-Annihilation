@@ -5,7 +5,7 @@ return {
 		brakerate = 0.186,
 		buildangle = 16384,
 		buildcostenergy = 14515,
-		buildcostmetal = 1830,
+		buildcostmetal = 1834,
 		buildpic = "ARMCRUS.DDS",
 		buildtime = 19790,
 		canmove = true,

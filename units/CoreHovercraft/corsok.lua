@@ -2,8 +2,8 @@ return {
 	corsok = {
 		acceleration = 0.01731,
 		brakerate = 0.01731,
-		buildcostenergy = 12000,
-		buildcostmetal = 950,
+		buildcostenergy = 62364,
+		buildcostmetal = 4171,
 		builder = false,
 		buildpic = "CORSOK.DDS",
 		buildtime = 27000,

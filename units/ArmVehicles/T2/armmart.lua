@@ -2,8 +2,8 @@ return {
 	armmart = {
 		acceleration = 0.02159,
 		brakerate = 0.04319,
-		buildcostenergy = 4100,
-		buildcostmetal = 270,
+		buildcostenergy = 4096,
+		buildcostmetal = 271,
 		buildpic = "ARMMART.DDS",
 		buildtime = 5530,
 		canmove = true,

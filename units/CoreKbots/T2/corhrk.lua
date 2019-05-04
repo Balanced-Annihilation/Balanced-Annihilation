@@ -2,8 +2,8 @@ return {
 	corhrk = {
 		acceleration = 0.1265,
 		brakerate = 0.6486,
-		buildcostenergy = 5800,
-		buildcostmetal = 600,
+		buildcostenergy = 5874,
+		buildcostmetal = 597,
 		buildpic = "CORHRK.DDS",
 		buildtime = 6600,
 		canmove = true,

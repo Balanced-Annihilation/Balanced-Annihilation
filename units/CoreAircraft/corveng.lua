@@ -4,7 +4,7 @@ return {
 		airsightdistance = 950,
 		blocking = false,
 		brakerate = 0.065,
-		buildcostenergy = 2800,
+		buildcostenergy = 2812,
 		buildcostmetal = 73,
 		buildpic = "CORVENG.DDS",
 		buildtime = 3333,

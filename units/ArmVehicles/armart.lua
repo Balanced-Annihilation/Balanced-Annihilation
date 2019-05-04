@@ -2,7 +2,7 @@ return {
 	armart = {
 		acceleration = 0.02727,
 		brakerate = 0.05454,
-		buildcostenergy = 2200,
+		buildcostenergy = 2150,
 		buildcostmetal = 135,
 		buildpic = "armart.DDS",
 		buildtime = 2998,

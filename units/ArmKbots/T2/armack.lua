@@ -2,7 +2,7 @@ return {
 	armack = {
 		acceleration = 0.4968,
 		brakerate = 3.105,
-		buildcostenergy = 6500,
+		buildcostenergy = 6534,
 		buildcostmetal = 370,
 		builddistance = 136,
 		builder = true,

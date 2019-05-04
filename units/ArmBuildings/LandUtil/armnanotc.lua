@@ -2,7 +2,7 @@ return {
 	armnanotc = {
 		acceleration = 0,
 		brakerate = 4.5,
-		buildcostenergy = 3200,
+		buildcostenergy = 3222,
 		buildcostmetal = 210,
 		builddistance = 400,
 		builder = true,

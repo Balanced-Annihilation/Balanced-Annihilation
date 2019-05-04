@@ -3,7 +3,7 @@ return {
 		acceleration = 0.25,
 		blocking = false,
 		brakerate = 0.0375,
-		buildcostenergy = 8300,
+		buildcostenergy = 8346,
 		buildcostmetal = 180,
 		buildpic = "CORAWAC.DDS",
 		buildtime = 13264,

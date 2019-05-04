@@ -4,7 +4,7 @@ return {
 		airsightdistance = 950,
 		blocking = false,
 		brakerate = 0.075,
-		buildcostenergy = 2900,
+		buildcostenergy = 2866,
 		buildcostmetal = 73,
 		buildpic = "ARMFIG.DDS",
 		buildtime = 3500,

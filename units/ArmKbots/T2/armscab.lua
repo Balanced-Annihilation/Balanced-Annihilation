@@ -2,8 +2,8 @@ return {
 	armscab = {
 		acceleration = 0.03663,
 		brakerate = 0.07326,
-		buildcostenergy = 30000,
-		buildcostmetal = 1150,
+		buildcostenergy = 29867,
+		buildcostmetal = 1173,
 		buildpic = "ARMSCAB.DDS",
 		buildtime = 40000,
 		canattack = false,

@@ -2,8 +2,8 @@ return {
 	corwolv = {
 		acceleration = 0.02293,
 		brakerate = 0.04585,
-		buildcostenergy = 2300,
-		buildcostmetal = 155,
+		buildcostenergy = 2367,
+		buildcostmetal = 153,
 		buildpic = "CORWOLV.DDS",
 		buildtime = 3254,
 		canmove = true,

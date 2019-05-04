@@ -2,8 +2,8 @@ return {
 	corban = {
 		acceleration = 0.02269,
 		brakerate = 0.04537,
-		buildcostenergy = 23000,
-		buildcostmetal = 1000,
+		buildcostenergy = 22081,
+		buildcostmetal = 1002,
 		buildpic = "CORBAN.DDS",
 		buildtime = 23129,
 		canmove = true,

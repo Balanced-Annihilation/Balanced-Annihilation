@@ -2,8 +2,8 @@ return {
 	armham = {
 		acceleration = 0.138,
 		brakerate = 0.77625,
-		buildcostenergy = 1300,
-		buildcostmetal = 130,
+		buildcostenergy = 1313,
+		buildcostmetal = 129,
 		buildpic = "ARMHAM.DDS",
 		buildtime = 2210,
 		canmove = true,

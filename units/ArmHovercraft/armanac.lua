@@ -2,8 +2,8 @@ return {
 	armanac = {
 		acceleration = 0.05333,
 		brakerate = 0.05333,
-		buildcostenergy = 2600,
-		buildcostmetal = 290,
+		buildcostenergy = 2607,
+		buildcostmetal = 287,
 		buildpic = "ARMANAC.DDS",
 		buildtime = 3194,
 		canmove = true,

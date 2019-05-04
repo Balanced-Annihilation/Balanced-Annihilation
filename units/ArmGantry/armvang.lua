@@ -2,8 +2,8 @@ return {
 	armvang = {
 		acceleration = 0.02645,
 		brakerate = 0.345,
-		buildcostenergy = 71000,
-		buildcostmetal = 3300,
+		buildcostenergy = 70066,
+		buildcostmetal = 3328,
 		buildpic = "ARMVANG.DDS",
 		buildtime = 91096,
 		canmove = true,

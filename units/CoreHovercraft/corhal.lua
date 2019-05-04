@@ -2,7 +2,7 @@ return {
 	corhal = {
 		acceleration = 0.02428,
 		brakerate = 0.02428,
-		buildcostenergy = 13000,
+		buildcostenergy = 13025,
 		buildcostmetal = 640,
 		buildpic = "CORHAL.DDS",
 		buildtime = 12907,

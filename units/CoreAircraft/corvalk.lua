@@ -6,7 +6,7 @@ return {
 		bankingallowed = false,
 		blocking = false,
 		brakerate = 0.75,
-		buildcostenergy = 1450,
+		buildcostenergy = 1437,
 		buildcostmetal = 74,
 		buildpic = "CORVALK.DDS",
 		buildtime = 4122,

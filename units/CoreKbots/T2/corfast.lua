@@ -2,8 +2,8 @@ return {
 	corfast = {
 		acceleration = 0.23,
 		brakerate = 1.725,
-		buildcostenergy = 3800,
-		buildcostmetal = 210,
+		buildcostenergy = 3822,
+		buildcostmetal = 205,
 		builddistance = 136,
 		builder = true,
 		buildpic = "CORFAST.DDS",

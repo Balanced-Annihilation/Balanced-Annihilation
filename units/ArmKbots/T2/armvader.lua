@@ -3,7 +3,7 @@ return {
 		acceleration = 0.1518,
 		activatewhenbuilt = true,
 		brakerate = 0.5589,
-		buildcostenergy = 5800,
+		buildcostenergy = 5838,
 		buildcostmetal = 65,
 		buildpic = "ARMVADER.DDS",
 		buildtime = 7901,

@@ -2,8 +2,8 @@ return {
 	corgant = {
 		acceleration = 0,
 		brakerate = 0,
-		buildcostenergy = 62000,
-		buildcostmetal = 8400,
+		buildcostenergy = 62426,
+		buildcostmetal = 8371,
 		builder = true,
 		buildinggrounddecaldecayspeed = 30,
 		buildinggrounddecalsizex = 12,

@@ -2,8 +2,8 @@ return {
 	cortrem = {
 		acceleration = 0.0098,
 		brakerate = 0.0196,
-		buildcostenergy = 49000,
-		buildcostmetal = 1850,
+		buildcostenergy = 48373,
+		buildcostmetal = 2081,
 		buildpic = "CORTREM.DDS",
 		buildtime = 31100,
 		canmove = true,

@@ -2,8 +2,8 @@ return {
 	armsnipe = {
 		acceleration = 0.138,
 		brakerate = 0.6486,
-		buildcostenergy = 20000,
-		buildcostmetal = 680,
+		buildcostenergy = 19636,
+		buildcostmetal = 683,
 		buildpic = "ARMSNIPE.DDS",
 		buildtime = 19137,
 		canmove = true,

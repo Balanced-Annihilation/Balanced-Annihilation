@@ -3,7 +3,7 @@ return {
 		acceleration = 0.05833,
 		brakerate = 0.11666,
 		buildcostenergy = 6400,
-		buildcostmetal = 330,
+		buildcostmetal = 327,
 		buildpic = "ARMLATNK.DDS",
 		buildtime = 6027,
 		canmove = true,

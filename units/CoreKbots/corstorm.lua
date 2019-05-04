@@ -2,8 +2,8 @@ return {
 	corstorm = {
 		acceleration = 0.1242,
 		brakerate = 0.6486,
-		buildcostenergy = 1150,
-		buildcostmetal = 110,
+		buildcostenergy = 1129,
+		buildcostmetal = 112,
 		buildpic = "CORSTORM.DDS",
 		buildtime = 1949,
 		canmove = true,

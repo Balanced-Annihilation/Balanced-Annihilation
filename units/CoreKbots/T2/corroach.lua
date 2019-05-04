@@ -3,7 +3,7 @@ return {
 		acceleration = 0.138,
 		activatewhenbuilt = true,
 		brakerate = 0.5175,
-		buildcostenergy = 5800,
+		buildcostenergy = 5836,
 		buildcostmetal = 69,
 		buildpic = "CORROACH.DDS",
 		buildtime = 7899,

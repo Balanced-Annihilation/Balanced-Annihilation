@@ -4,7 +4,7 @@ return {
 		brakerate = 0.057,
 		buildangle = 16384,
 		buildcostenergy = 2630,
-		buildcostmetal = 320,
+		buildcostmetal = 322,
 		buildpic = "ARMDECADE.DDS",
 		buildtime = 6525,
 		canmove = true,

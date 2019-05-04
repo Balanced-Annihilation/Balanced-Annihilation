@@ -2,8 +2,8 @@ return {
 	corgator = {
 		acceleration = 0.04631,
 		brakerate = 0.09262,
-		buildcostenergy = 1150,
-		buildcostmetal = 125,
+		buildcostenergy = 1111,
+		buildcostmetal = 126,
 		buildpic = "CORGATOR.DDS",
 		buildtime = 1761,
 		canmove = true,

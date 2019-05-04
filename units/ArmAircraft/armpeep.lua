@@ -3,7 +3,7 @@ return {
 		acceleration = 0.3,
 		blocking = false,
 		brakerate = 0.01125,
-		buildcostenergy = 1550,
+		buildcostenergy = 1573,
 		buildcostmetal = 52,
 		buildpic = "ARMPEEP.DDS",
 		buildtime = 2800,

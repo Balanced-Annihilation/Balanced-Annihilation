@@ -2,8 +2,8 @@ return {
 	armamsub = {
 		acceleration = 0,
 		brakerate = 0,
-		buildcostenergy = 5500,
-		buildcostmetal = 1200,
+		buildcostenergy = 5487,
+		buildcostmetal = 1193,
 		builder = true,
 		buildinggrounddecaldecayspeed = 30,
 		buildinggrounddecalsizex = 11,

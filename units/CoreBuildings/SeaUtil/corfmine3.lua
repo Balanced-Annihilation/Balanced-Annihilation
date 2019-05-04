@@ -4,7 +4,7 @@ return {
 		blocking = false,
 		brakerate = 0,
 		buildcostenergy = 1600,
-		buildcostmetal = 25,
+		buildcostmetal = 27,
 		buildpic = "CORFMINE3.DDS",
 		buildtime = 150,
 		canattack = false,

@@ -2,8 +2,8 @@ return {
 	corkarg = {
 		acceleration = 0.1104,
 		brakerate = 0.8211,
-		buildcostenergy = 38000,
-		buildcostmetal = 1650,
+		buildcostenergy = 37082,
+		buildcostmetal = 1664,
 		buildpic = "CORKARG.DDS",
 		buildtime = 50609,
 		canmove = true,

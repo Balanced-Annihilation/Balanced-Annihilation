@@ -2,8 +2,8 @@ return {
 	corjuno = {
 		acceleration = 0,
 		brakerate = 0,
-		buildcostenergy = 16000,
-		buildcostmetal = 660,
+		buildcostenergy = 16132,
+		buildcostmetal = 658,
 		buildinggrounddecaldecayspeed = 30,
 		buildinggrounddecalsizex = 6,
 		buildinggrounddecalsizey = 6,

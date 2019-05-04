@@ -2,8 +2,8 @@ return {
 	armsd = {
 		activatewhenbuilt = true,
 		buildangle = 4096,
-		buildcostenergy = 7100,
-		buildcostmetal = 710,
+		buildcostenergy = 7188,
+		buildcostmetal = 705,
 		buildinggrounddecaldecayspeed = 30,
 		buildinggrounddecalsizex = 6,
 		buildinggrounddecalsizey = 6,

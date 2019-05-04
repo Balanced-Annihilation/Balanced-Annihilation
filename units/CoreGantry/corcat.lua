@@ -2,8 +2,8 @@ return {
 	corcat = {
 		acceleration = 0.1242,
 		brakerate = 0.6486,
-		buildcostenergy = 80000,
-		buildcostmetal = 4900,
+		buildcostenergy = 80667,
+		buildcostmetal = 4854,
 		buildpic = "CORCAT.DDS",
 		buildtime = 127000,
 		canmove = true,

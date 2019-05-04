@@ -2,8 +2,8 @@ return {
 	corshiva = {
 		acceleration = 0.069,
 		brakerate = 0.8211,
-		buildcostenergy = 23000,
-		buildcostmetal = 1550,
+		buildcostenergy = 23332,
+		buildcostmetal = 1538,
 		buildpic = "CORSHIVA.DDS",
 		buildtime = 30609,
 		canmove = true,

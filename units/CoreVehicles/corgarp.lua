@@ -3,7 +3,7 @@ return {
 		acceleration = 0.03226,
 		activatewhenbuilt = true,
 		brakerate = 0.06453,
-		buildcostenergy = 2600,
+		buildcostenergy = 2604,
 		buildcostmetal = 220,
 		buildpic = "CORGARP.DDS",
 		buildtime = 3101,

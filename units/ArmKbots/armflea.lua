@@ -2,7 +2,7 @@ return {
 	armflea = {
 		acceleration = 0.575,
 		brakerate = 1.725,
-		buildcostenergy = 340,
+		buildcostenergy = 343,
 		buildcostmetal = 15,
 		buildpic = "ARMFLEA.DDS",
 		buildtime = 800,

@@ -2,8 +2,8 @@ return {
 	cormuskrat = {
 		acceleration = 0.01722,
 		brakerate = 0.03444,
-		buildcostenergy = 3500,
-		buildcostmetal = 170,
+		buildcostenergy = 3430,
+		buildcostmetal = 172,
 		builddistance = 110,
 		builder = true,
 		buildpic = "CORMUSKRAT.DDS",

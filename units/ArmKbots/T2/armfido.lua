@@ -3,7 +3,7 @@ return {
 		acceleration = 0.138,
 		activatewhenbuilt = true,
 		brakerate = 1.29375,
-		buildcostenergy = 5600,
+		buildcostenergy = 5615,
 		buildcostmetal = 270,
 		buildpic = "ARMFIDO.DDS",
 		buildtime = 6232,

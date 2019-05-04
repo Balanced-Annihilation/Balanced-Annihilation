@@ -2,7 +2,7 @@ return {
 	armbeaver = {
 		acceleration = 0.01842,
 		brakerate = 0.03684,
-		buildcostenergy = 3100,
+		buildcostenergy = 3123,
 		buildcostmetal = 150,
 		builddistance = 112,
 		builder = true,

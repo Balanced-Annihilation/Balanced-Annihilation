@@ -6,7 +6,7 @@ return {
 		bankingallowed = false,
 		blocking = false,
 		brakerate = 0.75,
-		buildcostenergy = 1300,
+		buildcostenergy = 1322,
 		buildcostmetal = 68,
 		buildpic = "ARMATLAS.DDS",
 		buildtime = 3850,

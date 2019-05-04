@@ -2,8 +2,8 @@ return {
 	armmar = {
 		acceleration = 0.253,
 		brakerate = 0.8211,
-		buildcostenergy = 21000,
-		buildcostmetal = 970,
+		buildcostenergy = 20836,
+		buildcostmetal = 971,
 		buildpic = "ARMMAR.DDS",
 		buildtime = 26061,
 		canmove = true,

@@ -4,7 +4,7 @@ return {
 		activatewhenbuilt = true,
 		brakerate = 0.75,
 		buildcostenergy = 9861,
-		buildcostmetal = 1000,
+		buildcostmetal = 1020,
 		buildpic = "CORSHARK.DDS",
 		buildtime = 15500,
 		canmove = true,

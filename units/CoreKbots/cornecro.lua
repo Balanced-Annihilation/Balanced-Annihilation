@@ -2,8 +2,8 @@ return {
 	cornecro = {
 		acceleration = 0.23,
 		brakerate = 0.8625,
-		buildcostenergy = 1400,
-		buildcostmetal = 110,
+		buildcostenergy = 1493,
+		buildcostmetal = 109,
 		builddistance = 96,
 		builder = true,
 		buildpic = "CORNECRO.DDS",

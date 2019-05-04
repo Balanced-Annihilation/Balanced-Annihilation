@@ -2,8 +2,8 @@ return {
 	armflash = {
 		acceleration = 0.06788,
 		brakerate = 0.13575,
-		buildcostenergy = 980,
-		buildcostmetal = 115,
+		buildcostenergy = 975,
+		buildcostmetal = 116,
 		buildpic = "ARMFLASH.DDS",
 		buildtime = 1963,
 		canmove = true,

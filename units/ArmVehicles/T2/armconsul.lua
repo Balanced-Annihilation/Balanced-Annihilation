@@ -2,8 +2,8 @@ return {
 	armconsul = {
 		acceleration = 0.07029,
 		brakerate = 0.14059,
-		buildcostenergy = 4300,
-		buildcostmetal = 250,
+		buildcostenergy = 4297,
+		buildcostmetal = 252,
 		builddistance = 136,
 		builder = true,
 		buildpic = "ARMCONSUL.DDS",

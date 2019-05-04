@@ -2,7 +2,7 @@ return {
 	armsptk = {
 		acceleration = 0.207,
 		brakerate = 0.6486,
-		buildcostenergy = 4500,
+		buildcostenergy = 4480,
 		buildcostmetal = 400,
 		buildpic = "ARMSPTK.DDS",
 		buildtime = 8775,

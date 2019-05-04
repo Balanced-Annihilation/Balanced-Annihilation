@@ -2,8 +2,8 @@ return {
 	armjuno = {
 		acceleration = 0,
 		brakerate = 0,
-		buildcostenergy = 17000,
-		buildcostmetal = 640,
+		buildcostenergy = 17686,
+		buildcostmetal = 637,
 		buildinggrounddecaldecayspeed = 30,
 		buildinggrounddecalsizex = 6,
 		buildinggrounddecalsizey = 6,

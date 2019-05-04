@@ -2,8 +2,8 @@ return {
 	armlun = {
 		acceleration = 0.01788,
 		brakerate = 0.01788,
-		buildcostenergy = 33000,
-		buildcostmetal = 1150,
+		buildcostenergy = 84841,
+		buildcostmetal = 5787,
 		builder = false,
 		buildpic = "ARMLUN.DDS",
 		buildtime = 32000,

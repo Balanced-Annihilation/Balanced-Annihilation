@@ -3,7 +3,7 @@ return {
 		acceleration = 0.05635,
 		activatewhenbuilt = true,
 		brakerate = 0.05175,
-		buildcostenergy = 1350,
+		buildcostenergy = 1369,
 		buildcostmetal = 99,
 		buildpic = "CORVOYR.DDS",
 		buildtime = 3945,

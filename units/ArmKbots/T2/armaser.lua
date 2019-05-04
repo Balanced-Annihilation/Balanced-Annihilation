@@ -3,7 +3,7 @@ return {
 		acceleration = 0.138,
 		activatewhenbuilt = true,
 		brakerate = 0.5175,
-		buildcostenergy = 1400,
+		buildcostenergy = 1414,
 		buildcostmetal = 78,
 		buildpic = "ARMASER.DDS",
 		buildtime = 4937,

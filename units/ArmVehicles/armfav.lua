@@ -2,7 +2,7 @@ return {
 	armfav = {
 		acceleration = 0.16659,
 		brakerate = 0.33318,
-		buildcostenergy = 370,
+		buildcostenergy = 365,
 		buildcostmetal = 31,
 		buildpic = "ARMFAV.DDS",
 		buildtime = 950,

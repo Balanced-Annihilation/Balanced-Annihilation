@@ -4,7 +4,7 @@ return {
 		blocking = true,
 		brakerate = 0,
 		buildangle = 0,
-		buildcostenergy = 1050,
+		buildcostenergy = 1063,
 		buildcostmetal = 39,
 		buildinggrounddecaldecayspeed = 30,
 		buildinggrounddecalsizex = 4,

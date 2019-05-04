@@ -2,8 +2,8 @@ return {
 	corjugg = {
 		acceleration = 0.0552,
 		brakerate = 0.43125,
-		buildcostenergy = 513000,
-		buildcostmetal = 20000,
+		buildcostenergy = 513243,
+		buildcostmetal = 19952,
 		buildpic = "CORJUGG.DDS",
 		buildtime = 629630,
 		canmove = true,
