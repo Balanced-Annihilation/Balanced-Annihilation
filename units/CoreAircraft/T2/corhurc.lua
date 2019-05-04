@@ -3,7 +3,7 @@ return {
 		acceleration = 0.04,
 		blocking = false,
 		brakerate = 0.045,
-		buildcostenergy = 26783,
+		buildcostenergy = 18502,
 		buildcostmetal = 317,
 		buildpic = "CORHURC.DDS",
 		buildtime = 31000,
