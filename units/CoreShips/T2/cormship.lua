@@ -1,6 +1,8 @@
 return {
 	cormship = {
+		acceleration = 0.022,
 		activatewhenbuilt = true,
+		brakerate = 0.086,
 		buildcostenergy = 17000,
 		buildcostmetal = 3100,
 		buildpic = "CORMSHIP.DDS",
@@ -22,6 +24,7 @@ return {
 		idleautoheal = 5,
 		idletime = 1800,
 		maxdamage = 2250,
+		maxvelocity = 2,
 		minwaterdepth = 12,
 		movementclass = "BOAT56X6",
 		name = "Messenger",
@@ -31,16 +34,12 @@ return {
 		seismicsignature = 0,
 		selfdestructas = "largeexplosiongenericSelfd",
 		sightdistance = 318.5,
-		--move
-		acceleration = 0.022,
-		brakerate = 0.086,
 		turninplace = false,
-		maxvelocity = 2,
 		turninplaceanglelimit = 140,
 		turnrate = 250,
-		--end move
 		waterline = 5,
 		customparams = {
+			subfolder = "coreships/t2",
 			techlevel = 2,
 		},
 		featuredefs = {
@@ -82,11 +81,11 @@ return {
 				world = "All Worlds",
 			},
 		},
-		sfxtypes = { 
- 			pieceExplosionGenerators = { 
-				"deathceg2",
-				"deathceg3",
-				"deathceg4",
+		sfxtypes = {
+			pieceexplosiongenerators = {
+				[1] = "deathceg2",
+				[2] = "deathceg3",
+				[3] = "deathceg4",
 			},
 		},
 		sounds = {
@@ -115,10 +114,10 @@ return {
 				areaofeffect = 48,
 				avoidfeature = false,
 				canattackground = false,
+				cegtag = "missiletrailaa",
 				craterareaofeffect = 0,
 				craterboost = 0,
 				cratermult = 0,
-				cegTag = "missiletrailaa",
 				explosiongenerator = "custom:genericshellexplosion-medium-air",
 				firestarter = 70,
 				flighttime = 1.75,
@@ -146,27 +145,27 @@ return {
 				weapontimer = 5,
 				weapontype = "MissileLauncher",
 				weaponvelocity = 90,
+				customparams = {
+					bar_model = "cormissile.s3o",
+					expl_light_color = "1 0.4 0.5",
+					light_color = "1 0.5 0.6",
+					light_skip = true,
+				},
 				damage = {
 					default = 138,
 					fighters = 138,
 					vtol = 138,
-				},
-				customparams = {
-					bar_model = "cormissile.s3o",
-					light_skip = true,		-- used by light_effects widget
-                    light_color = "1 0.5 0.6",
-                    expl_light_color = "1 0.4 0.5",
 				},
 			},
 			rocket = {
 				areaofeffect = 96,
 				avoidfeature = false,
 				burnblow = true,
+				cegtag = "missiletrailmship",
 				craterareaofeffect = 96,
 				craterboost = 0,
 				cratermult = 0,
 				energypershot = 100,
-				cegTag = "missiletrailmship",
 				explosiongenerator = "custom:genericshellexplosion-large-bomb",
 				firestarter = 100,
 				flighttime = 15,
@@ -179,14 +178,14 @@ return {
 				noselfdamage = true,
 				range = 1550,
 				reloadtime = 8,
+				smoketrail = false,
 				soundhit = "xplomed4",
 				soundhitwet = "splslrg",
 				soundhitwetvolume = 0.5,
 				soundstart = "Rockhvy1",
-                smoketrail = false,
 				texture1 = "trans",
-                texture2 = "null",
-                texture3 = "null",
+				texture2 = "null",
+				texture3 = "null",
 				tolerance = 4000,
 				turnrate = 24384,
 				weaponacceleration = 80,

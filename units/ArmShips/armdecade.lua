@@ -1,5 +1,7 @@
 return {
 	armdecade = {
+		acceleration = 0.084,
+		brakerate = 0.057,
 		buildangle = 16384,
 		buildcostenergy = 2630,
 		buildcostmetal = 320,
@@ -20,6 +22,7 @@ return {
 		idleautoheal = 5,
 		idletime = 1800,
 		maxdamage = 1900,
+		maxvelocity = 3.25,
 		minwaterdepth = 12,
 		movementclass = "BOAT43X3",
 		name = "Decade",
@@ -28,17 +31,12 @@ return {
 		seismicsignature = 0,
 		selfdestructas = "mediumexplosiongenericSelfd",
 		sightdistance = 429,
-		waterline = 3,
-		--move
-		acceleration = 0.084,
-		brakerate = 0.057,
-		maxvelocity = 3.25,		
 		turninplace = false,
 		turninplaceanglelimit = 140,
 		turnrate = 530,
-		--end move
+		waterline = 3,
 		customparams = {
-			
+			subfolder = "armships",
 		},
 		featuredefs = {
 			dead = {
@@ -65,6 +63,8 @@ return {
 			heap = {
 				blocking = false,
 				category = "heaps",
+				collisionvolumescales = "85.0 14.0 6.0",
+				collisionvolumetype = "cylY",
 				damage = 250,
 				description = "Decade Heap",
 				energy = 0,
@@ -74,22 +74,20 @@ return {
 				hitdensity = 100,
 				metal = 97,
 				object = "4X4B",
-                collisionvolumescales = "85.0 14.0 6.0",
-                collisionvolumetype = "cylY",
 				reclaimable = true,
 				resurrectable = 0,
 				seqnamereclamate = "TREE1RECLAMATE",
 				world = "All Worlds",
 			},
 		},
-		sfxtypes = { 
- 			pieceExplosionGenerators = { 
-				"deathceg2",
-				"deathceg3",
-				"deathceg4",
-			},
+		sfxtypes = {
 			explosiongenerators = {
 				[1] = "custom:barrelshot-tiny",
+			},
+			pieceexplosiongenerators = {
+				[1] = "deathceg2",
+				[2] = "deathceg3",
+				[3] = "deathceg4",
 			},
 		},
 		sounds = {
@@ -148,21 +146,20 @@ return {
 					subs = 3,
 					vtol = 3,
 				},
+			},
 		},
-	},
-	
 		weapons = {
 			[1] = {
 				def = "EMG",
-				onlytargetcategory = "NOTSUB",
 				maindir = "0 0 1",
 				maxangledif = 285,
+				onlytargetcategory = "NOTSUB",
 			},
 			[2] = {
 				def = "EMG",
-				onlytargetcategory = "NOTSUB",
 				maindir = "0 0 -1",
 				maxangledif = 285,
+				onlytargetcategory = "NOTSUB",
 			},
 		},
 	},

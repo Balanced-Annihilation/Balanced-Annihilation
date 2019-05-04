@@ -1,12 +1,14 @@
 return {
 	armserp = {
+		acceleration = 0.03772,
 		activatewhenbuilt = true,
+		brakerate = 0.03772,
 		buildcostenergy = 12000,
 		buildcostmetal = 1700,
 		buildpic = "ARMSERP.DDS",
-		buildtime = 21000,
+		buildtime = 22770,
 		canmove = true,
-		category = "CANBEUW ALL WEAPON NOTAIR NOTHOVER SURFACE",
+		category = "CANBEUW ALL WEAPON NOTAIR NOTHOVER SURFACE EMPABLE",
 		collisionvolumeoffsets = "0 -2 0",
 		collisionvolumescales = "45 19 57",
 		collisionvolumetype = "box",
@@ -21,7 +23,7 @@ return {
 		idleautoheal = 15,
 		idletime = 900,
 		maxdamage = 2190,
-		maxvelocity = 2.65,	
+		maxvelocity = 2.3,
 		minwaterdepth = 20,
 		movementclass = "UBOAT33X3",
 		name = "Serpent",
@@ -31,18 +33,15 @@ return {
 		seismicsignature = 0,
 		selfdestructas = "mediumExplosionGenericSelfd-uw",
 		sightdistance = 468,
-		sonardistance = 550,						  	 
-		upright = true,
-		waterline = 30,
-				--move
-		brakerate =  0.9,
-		acceleration = 0.08,
-		maxvelocity = 2.65,
+		sonardistance = 550,
 		turninplace = true,
-		turninplaceanglelimit = 140,
-		turnrate = 404,	
-		--end move
+		turninplaceanglelimit = 90,
+		turnrate = 360,
+		upright = true,
+		waterline = 45,
 		customparams = {
+			model_author = "FireStorm",
+			subfolder = "armships/t2",
 			techlevel = 2,
 		},
 		featuredefs = {
@@ -52,7 +51,7 @@ return {
 				collisionvolumeoffsets = "6.17767333984 -3.80371093733e-06 -10.6119995117",
 				collisionvolumescales = "42.614654541 20.1074523926 56.7760009766",
 				collisionvolumetype = "Box",
-				damage = 2100,
+				damage = 4200,
 				description = "Serpent Wreckage",
 				energy = 0,
 				featuredead = "HEAP",
@@ -61,7 +60,7 @@ return {
 				footprintz = 6,
 				height = 10,
 				hitdensity = 100,
-				metal = 1332,
+				metal = 850,
 				object = "ARMSERP_DEAD",
 				reclaimable = true,
 				seqnamereclamate = "TREE1RECLAMATE",
@@ -70,7 +69,9 @@ return {
 			heap = {
 				blocking = false,
 				category = "heaps",
-				damage = 1050,
+				collisionvolumescales = "55.0 4.0 6.0",
+				collisionvolumetype = "cylY",
+				damage = 2100,
 				description = "Serpent Heap",
 				energy = 0,
 				featurereclamate = "SMUDGE01",
@@ -78,21 +79,19 @@ return {
 				footprintz = 6,
 				height = 4,
 				hitdensity = 100,
-				metal = 513,
+				metal = 425,
 				object = "3X3F",
-                collisionvolumescales = "55.0 4.0 6.0",
-                collisionvolumetype = "cylY",
 				reclaimable = true,
 				resurrectable = 0,
 				seqnamereclamate = "TREE1RECLAMATE",
 				world = "All Worlds",
 			},
 		},
-		sfxtypes = { 
- 			pieceExplosionGenerators = { 
-				"deathceg2",
-				"deathceg3",
-				"deathceg4",
+		sfxtypes = {
+			pieceexplosiongenerators = {
+				[1] = "deathceg2",
+				[2] = "deathceg3",
+				[3] = "deathceg4",
 			},
 		},
 		sounds = {
@@ -146,13 +145,11 @@ return {
 				weapontimer = 3,
 				weapontype = "TorpedoLauncher",
 				weaponvelocity = 220,
+				customparams = {},
 				damage = {
 					default = 500,
 					subs = 250,
 				},
-				customparams = {
-					bar_model = "torpedo.s3o",
-				}
 			},
 		},
 		weapons = {

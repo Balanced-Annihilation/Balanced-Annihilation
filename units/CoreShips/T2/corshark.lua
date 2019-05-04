@@ -1,6 +1,8 @@
 return {
 	corshark = {
+		acceleration = 0.048,
 		activatewhenbuilt = true,
+		brakerate = 0.75,
 		buildcostenergy = 9861,
 		buildcostmetal = 1000,
 		buildpic = "CORSHARK.DDS",
@@ -21,6 +23,7 @@ return {
 		idleautoheal = 10,
 		idletime = 900,
 		maxdamage = 835,
+		maxvelocity = 3.04,
 		minwaterdepth = 20,
 		movementclass = "UBOAT33X3",
 		name = "Shark",
@@ -31,17 +34,13 @@ return {
 		selfdestructas = "mediumExplosionGenericSelfd-uw",
 		sightdistance = 390,
 		sonardistance = 525,
-		--move
-		brakerate =  0.75,
-		acceleration = 0.048,
-		maxvelocity = 3.04,
 		turninplace = true,
 		turninplaceanglelimit = 140,
 		turnrate = 289,
-		--end move
 		upright = true,
 		waterline = 30,
 		customparams = {
+			subfolder = "coreships/t2",
 			techlevel = 2,
 		},
 		featuredefs = {
@@ -68,6 +67,8 @@ return {
 			heap = {
 				blocking = false,
 				category = "heaps",
+				collisionvolumescales = "35.0 4.0 6.0",
+				collisionvolumetype = "cylY",
 				damage = 2016,
 				description = "Shark Heap",
 				energy = 0,
@@ -77,19 +78,17 @@ return {
 				hitdensity = 100,
 				metal = 127,
 				object = "2X2A",
-                collisionvolumescales = "35.0 4.0 6.0",
-                collisionvolumetype = "cylY",
 				reclaimable = true,
 				resurrectable = 0,
 				seqnamereclamate = "TREE1RECLAMATE",
 				world = "All Worlds",
 			},
 		},
-		sfxtypes = { 
- 			pieceExplosionGenerators = { 
-				"deathceg2",
-				"deathceg3",
-				"deathceg4",
+		sfxtypes = {
+			pieceexplosiongenerators = {
+				[1] = "deathceg2",
+				[2] = "deathceg3",
+				[3] = "deathceg4",
 			},
 		},
 		sounds = {
@@ -143,12 +142,12 @@ return {
 				weapontimer = 3,
 				weapontype = "TorpedoLauncher",
 				weaponvelocity = 200,
+				customparams = {
+					bar_model = "cortorpedo.s3o",
+				},
 				damage = {
 					default = 250,
 				},
-				customparams = {
-					bar_model = "cortorpedo.s3o",
-				}
 			},
 		},
 		weapons = {

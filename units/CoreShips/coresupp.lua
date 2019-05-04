@@ -1,5 +1,7 @@
 return {
 	coresupp = {
+		acceleration = 0.072,
+		brakerate = 0.057,
 		buildangle = 16384,
 		buildcostenergy = 2447,
 		buildcostmetal = 314,
@@ -21,6 +23,7 @@ return {
 		idleautoheal = 5,
 		idletime = 1800,
 		maxdamage = 1700,
+		maxvelocity = 3.2,
 		minwaterdepth = 12,
 		movementclass = "BOAT43X3",
 		name = "Supporter",
@@ -29,18 +32,13 @@ return {
 		seismicsignature = 0,
 		selfdestructas = "mediumexplosiongenericSelfd",
 		sightdistance = 429,
-		waterline = 0,
-		--move
-		acceleration = 0.072,
-		brakerate = 0.057,
-		maxvelocity = 3.2,		
 		turninplace = false,
 		turninplaceanglelimit = 140,
 		turninplacespeedlimit = 2.112,
 		turnrate = 528,
-		--end move
+		waterline = 0,
 		customparams = {
-
+			subfolder = "coreships",
 		},
 		featuredefs = {
 			dead = {
@@ -67,6 +65,8 @@ return {
 			heap = {
 				blocking = false,
 				category = "heaps",
+				collisionvolumescales = "85.0 14.0 6.0",
+				collisionvolumetype = "cylY",
 				damage = 250,
 				description = "Supporter Heap",
 				energy = 0,
@@ -76,19 +76,17 @@ return {
 				hitdensity = 100,
 				metal = 91,
 				object = "4X4B",
-                collisionvolumescales = "85.0 14.0 6.0",
-                collisionvolumetype = "cylY",
 				reclaimable = true,
 				resurrectable = 0,
 				seqnamereclamate = "TREE1RECLAMATE",
 				world = "All Worlds",
 			},
 		},
-		sfxtypes = { 
- 			pieceExplosionGenerators = { 
-				"deathceg2",
-				"deathceg3",
-				"deathceg4",
+		sfxtypes = {
+			pieceexplosiongenerators = {
+				[1] = "deathceg2",
+				[2] = "deathceg3",
+				[3] = "deathceg4",
 			},
 		},
 		sounds = {
@@ -158,15 +156,15 @@ return {
 		weapons = {
 			[1] = {
 				def = "LASER",
-				onlytargetcategory = "NOTSUB",
 				maindir = "0 0 1",
 				maxangledif = 285,
+				onlytargetcategory = "NOTSUB",
 			},
 			[2] = {
 				def = "LASER",
-				onlytargetcategory = "NOTSUB",
 				maindir = "0 0 -1",
 				maxangledif = 285,
+				onlytargetcategory = "NOTSUB",
 			},
 		},
 	},

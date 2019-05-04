@@ -1,11 +1,12 @@
 return {
 	armrecl = {
+		acceleration = 0.14,
 		autoheal = 2,
+		brakerate = 0.075,
 		buildcostenergy = 4420,
 		buildcostmetal = 415,
 		builddistance = 140,
 		builder = true,
-		shownanospray = false,
 		buildpic = "ARMRECL.DDS",
 		buildtime = 7407,
 		canassist = false,
@@ -23,36 +24,31 @@ return {
 		idleautoheal = 3,
 		idletime = 300,
 		maxdamage = 670,
+		maxvelocity = 2.57,
 		minwaterdepth = 15,
 		movementclass = "UBOAT33X3",
 		name = "Grim Reaper",
 		objectname = "ARMRECL",
 		seismicsignature = 0,
 		selfdestructas = "smallexplosiongenericSelfd-uw",
+		shownanospray = false,
 		sightdistance = 430,
 		sonardistance = 270,
 		terraformspeed = 2250,
-
-		waterline = 17,
-		workertime = 450,		
-		--move
-		acceleration = 0.14,
-		brakerate = 0.075,
-		maxvelocity = 2.57,
 		turninplace = true,
 		turninplaceanglelimit = 140,
-		turninplacespeedlimit = 1.6962,		
+		turninplacespeedlimit = 1.6962,
 		turnrate = 600,
-		--end move
-		
+		waterline = 17,
+		workertime = 450,
 		customparams = {
-			
+			subfolder = "armships",
 		},
-		sfxtypes = { 
- 			pieceExplosionGenerators = { 
-				"deathceg2-builder",
-				"deathceg3-builder",
-				"deathceg4-builder",
+		sfxtypes = {
+			pieceexplosiongenerators = {
+				[1] = "deathceg2-builder",
+				[2] = "deathceg3-builder",
+				[3] = "deathceg4-builder",
 			},
 		},
 		sounds = {

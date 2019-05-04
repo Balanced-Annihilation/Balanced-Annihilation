@@ -1,6 +1,8 @@
 return {
 	corcrus = {
+		acceleration = 0.042,
 		activatewhenbuilt = true,
+		brakerate = 0.186,
 		buildangle = 16384,
 		buildcostenergy = 14500,
 		buildcostmetal = 1900,
@@ -23,6 +25,7 @@ return {
 		idleautoheal = 5,
 		idletime = 1800,
 		maxdamage = 4649,
+		maxvelocity = 2.64,
 		minwaterdepth = 30,
 		movementclass = "BOAT55X5",
 		name = "Executioner",
@@ -32,16 +35,12 @@ return {
 		selfdestructas = "largeexplosiongenericSelfd",
 		sightdistance = 533,
 		sonardistance = 375,
-		--move
-		acceleration = 0.042,
-		brakerate = 0.186,
-		maxvelocity = 2.64,
 		turninplace = false,
 		turninplaceanglelimit = 140,
 		turnrate = 448,
-		--end move
 		waterline = 5.5,
 		customparams = {
+			subfolder = "coreships/t2",
 			techlevel = 2,
 		},
 		featuredefs = {
@@ -68,6 +67,8 @@ return {
 			heap = {
 				blocking = false,
 				category = "heaps",
+				collisionvolumescales = "35.0 4.0 6.0",
+				collisionvolumetype = "cylY",
 				damage = 2016,
 				description = "Executioner Heap",
 				energy = 0,
@@ -77,19 +78,17 @@ return {
 				hitdensity = 100,
 				metal = 476,
 				object = "2X2A",
-                collisionvolumescales = "35.0 4.0 6.0",
-                collisionvolumetype = "cylY",
 				reclaimable = true,
 				resurrectable = 0,
 				seqnamereclamate = "TREE1RECLAMATE",
 				world = "All Worlds",
 			},
 		},
-		sfxtypes = { 
- 			pieceExplosionGenerators = { 
-				"deathceg2",
-				"deathceg3",
-				"deathceg4",
+		sfxtypes = {
+			pieceexplosiongenerators = {
+				[1] = "deathceg2",
+				[2] = "deathceg3",
+				[3] = "deathceg4",
 			},
 		},
 		sounds = {
@@ -183,12 +182,12 @@ return {
 				weapontimer = 10,
 				weapontype = "TorpedoLauncher",
 				weaponvelocity = 200,
+				customparams = {
+					bar_model = "cordepthcharge.s3o",
+				},
 				damage = {
 					default = 220,
 				},
-				customparams = {
-					bar_model = "cordepthcharge.s3o",
-				}
 			},
 			cor_crus = {
 				areaofeffect = 8,
@@ -238,8 +237,6 @@ return {
 			},
 			[3] = {
 				def = "ADVDEPTHCHARGE",
-				-- maindir = "0 -1 0",
-				-- maxangledif = 179,
 				onlytargetcategory = "CANBEUW UNDERWATER",
 			},
 		},

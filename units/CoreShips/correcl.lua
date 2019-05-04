@@ -1,11 +1,12 @@
 return {
 	correcl = {
+		acceleration = 0.13,
 		autoheal = 2,
+		brakerate = 0.075,
 		buildcostenergy = 4200,
 		buildcostmetal = 420,
 		builddistance = 140,
 		builder = true,
-		shownanospray = false,
 		buildpic = "CORRECL.DDS",
 		buildtime = 7596,
 		canassist = false,
@@ -23,34 +24,31 @@ return {
 		idleautoheal = 3,
 		idletime = 300,
 		maxdamage = 621,
+		maxvelocity = 2.61,
 		minwaterdepth = 15,
 		movementclass = "UBOAT33X3",
 		name = "Death Cavalry",
 		objectname = "CORRECL",
 		seismicsignature = 0,
 		selfdestructas = "smallexplosiongenericSelfd-uw",
+		shownanospray = false,
 		sightdistance = 430,
 		sonardistance = 270,
 		terraformspeed = 2250,
-		waterline = 17,
-		workertime = 450,
-		--move
-		acceleration = 0.13,
-		brakerate = 0.075,
-		maxvelocity = 2.61,
 		turninplace = true,
 		turninplaceanglelimit = 140,
 		turninplacespeedlimit = 1.7226,
 		turnrate = 600,
-		--end move
+		waterline = 17,
+		workertime = 450,
 		customparams = {
-
+			subfolder = "coreships",
 		},
-		sfxtypes = { 
- 			pieceExplosionGenerators = { 
-				"deathceg2-builder",
-				"deathceg3-builder",
-				"deathceg4-builder",
+		sfxtypes = {
+			pieceexplosiongenerators = {
+				[1] = "deathceg2-builder",
+				[2] = "deathceg3-builder",
+				[3] = "deathceg4-builder",
 			},
 		},
 		sounds = {

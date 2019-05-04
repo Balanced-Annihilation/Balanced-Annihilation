@@ -1,6 +1,8 @@
 return {
 	cortship = {
+		acceleration = 0.09,
 		autoheal = 5,
+		brakerate = 0.255,
 		buildangle = 16384,
 		buildcostenergy = 6700,
 		buildcostmetal = 750,
@@ -21,6 +23,7 @@ return {
 		icontype = "sea",
 		loadingradius = 250,
 		maxdamage = 11420,
+		maxvelocity = 3.22,
 		minwaterdepth = 0,
 		movementclass = "DBOAT66X6",
 		name = "Envoy",
@@ -34,18 +37,13 @@ return {
 		transportcapacity = 40,
 		transportsize = 4,
 		transportunloadmethod = 0,
-		unloadspread = 1,
-		waterline = 1,
-		--move
-		brakerate =  0.255,
-		acceleration = 0.09,
-		maxvelocity = 3.22,
 		turninplace = true,
 		turninplaceanglelimit = 140,
-		turnrate = 410,	
-		--end move
+		turnrate = 410,
+		unloadspread = 1,
+		waterline = 1,
 		customparams = {
-
+			subfolder = "coreships",
 		},
 		featuredefs = {
 			dead = {
@@ -86,14 +84,14 @@ return {
 				world = "All Worlds",
 			},
 		},
-		sfxtypes = { 
- 			 pieceExplosionGenerators = { 
-				"deathceg2",
- 				"deathceg3",
- 				"deathceg4",
- 			}, 
+		sfxtypes = {
 			explosiongenerators = {
 				[1] = "custom:shallow_water_dirt",
+			},
+			pieceexplosiongenerators = {
+				[1] = "deathceg2",
+				[2] = "deathceg3",
+				[3] = "deathceg4",
 			},
 		},
 		sounds = {

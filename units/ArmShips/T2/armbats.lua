@@ -1,5 +1,7 @@
 return {
 	armbats = {
+		acceleration = 0.036,
+		brakerate = 0.093,
 		buildangle = 16384,
 		buildcostenergy = 22100,
 		buildcostmetal = 5530,
@@ -22,6 +24,7 @@ return {
 		idleautoheal = 5,
 		idletime = 1800,
 		maxdamage = 15810,
+		maxvelocity = 2.88,
 		minwaterdepth = 15,
 		movementclass = "DBOAT66X6",
 		name = "Millennium",
@@ -30,17 +33,13 @@ return {
 		seismicsignature = 0,
 		selfdestructas = "hugeexplosiongenericSelfd",
 		sightdistance = 455,
-		waterline = 12,
-		--move
-		acceleration = 0.036,
-		brakerate = 0.093,
-		maxvelocity = 2.88,
 		turninplace = true,
 		turninplaceanglelimit = 140,
-		turninplacespeedlimit = 1.9008,		
+		turninplacespeedlimit = 1.9008,
 		turnrate = 310,
-		--end move
+		waterline = 12,
 		customparams = {
+			subfolder = "armships/t2",
 			techlevel = 2,
 		},
 		featuredefs = {
@@ -82,14 +81,14 @@ return {
 				world = "All Worlds",
 			},
 		},
-		sfxtypes = { 
- 			pieceExplosionGenerators = { 
-				"deathceg2",
-				"deathceg3",
-				"deathceg4",
-			},
+		sfxtypes = {
 			explosiongenerators = {
 				[1] = "custom:barrelshot-large",
+			},
+			pieceexplosiongenerators = {
+				[1] = "deathceg2",
+				[2] = "deathceg3",
+				[3] = "deathceg4",
 			},
 		},
 		sounds = {

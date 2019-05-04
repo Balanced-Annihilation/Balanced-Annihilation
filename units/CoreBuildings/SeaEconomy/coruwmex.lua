@@ -1,17 +1,17 @@
-	corseamex = {
+return {
+	coruwmex = {
 		acceleration = 0,
 		activatewhenbuilt = true,
 		brakerate = 0,
 		buildangle = 8192,
 		buildcostenergy = 550,
 		buildcostmetal = 60,
-		buildingMask = 0,
+		buildingmask = 0,
 		buildpic = "CORUWMEX.DDS",
 		buildtime = 1887,
 		canrepeat = false,
 		category = "ALL NOTLAND NOTSUB NOWEAPON NOTSHIP NOTAIR NOTHOVER UNDERWATER",
 		corpse = "DEAD",
-		usepiececollisionvolumes = true,
 		description = "Extracts Metal",
 		explodeas = "tinyBuildingExplosionGeneric-uw",
 		extractsmetal = 0.001,
@@ -26,18 +26,19 @@
 		minwaterdepth = 15,
 		name = "Underwater Metal Extractor",
 		objectname = "CORUWMEX",
-		script = "coruwmex.cob",
 		onoffable = true,
+		script = "coruwmex.cob",
 		seismicsignature = 0,
 		selfdestructcountdown = 1,
-		explodeas = "tinyBuildingExplosionGeneric-uw",
 		sightdistance = 169,
+		usepiececollisionvolumes = true,
 		yardmap = "ooooooooo",
 		customparams = {
-			cvBuildable = true,
+			cvbuildable = true,
 			metal_extractor = 1,
-			removewait = true,
 			removestop = true,
+			removewait = true,
+			subfolder = "corebuildings/seaeconomy",
 		},
 		featuredefs = {
 			dead = {
@@ -63,6 +64,8 @@
 			heap = {
 				blocking = false,
 				category = "heaps",
+				collisionvolumescales = "55.0 4.0 6.0",
+				collisionvolumetype = "cylY",
 				damage = 56,
 				description = "Underwater Metal Extractor Heap",
 				energy = 0,
@@ -72,18 +75,16 @@
 				hitdensity = 100,
 				metal = 14,
 				object = "3X3B",
-                collisionvolumescales = "55.0 4.0 6.0",
-                collisionvolumetype = "cylY",
 				reclaimable = true,
 				resurrectable = 0,
 				seqnamereclamate = "TREE1RECLAMATE",
 				world = "All Worlds",
 			},
 		},
-		sfxtypes = { 
- 			pieceExplosionGenerators = { 
-				"deathceg2",
-				"deathceg3",
+		sfxtypes = {
+			pieceexplosiongenerators = {
+				[1] = "deathceg2",
+				[2] = "deathceg3",
 			},
 		},
 		sounds = {
@@ -104,6 +105,5 @@
 				[1] = "waterex2",
 			},
 		},
-	}
-
-return {["coruwmex"] = corseamex}
+	},
+}

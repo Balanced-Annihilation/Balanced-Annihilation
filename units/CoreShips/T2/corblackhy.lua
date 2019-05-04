@@ -1,6 +1,8 @@
 return {
 	corblackhy = {
+		acceleration = 0.026,
 		activatewhenbuilt = true,
+		brakerate = 0.057,
 		buildangle = 16384,
 		buildcostenergy = 269000,
 		buildcostmetal = 36900,
@@ -25,6 +27,7 @@ return {
 		idletime = 1800,
 		losemitheight = 64,
 		maxdamage = 77500,
+		maxvelocity = 1.96,
 		metalstorage = 100,
 		minwaterdepth = 15,
 		movementclass = "DBOAT68X8",
@@ -36,19 +39,15 @@ return {
 		seismicsignature = 0,
 		selfdestructas = "FlagshipExplosionSelfd",
 		sightdistance = 650,
-		--move
-		acceleration = 0.026,
-		brakerate = 0.057,
-		maxvelocity = 1.96,
 		turninplace = true,
 		turninplaceanglelimit = 140,
 		turninplacespeedlimit = 1.2936,
 		turnrate = 260,
-		--end move
 		waterline = 10,
 		customparams = {
-			techlevel = 2,
 			paralyzemultiplier = 0,
+			subfolder = "coreships/t2",
+			techlevel = 2,
 		},
 		featuredefs = {
 			dead = {
@@ -90,14 +89,14 @@ return {
 				world = "All Worlds",
 			},
 		},
-		sfxtypes = { 
- 			pieceExplosionGenerators = { 
-				"deathceg2",
-				"deathceg3",
-				"deathceg4",
-			},
+		sfxtypes = {
 			explosiongenerators = {
 				[1] = "custom:barrelshot-large",
+			},
+			pieceexplosiongenerators = {
+				[1] = "deathceg2",
+				[2] = "deathceg3",
+				[3] = "deathceg4",
 			},
 		},
 		sounds = {
@@ -122,6 +121,46 @@ return {
 			},
 		},
 		weapondefs = {
+			aamissile = {
+				areaofeffect = 64,
+				avoidfeature = false,
+				burnblow = true,
+				canattackground = false,
+				craterareaofeffect = 0,
+				craterboost = 0,
+				cratermult = 0,
+				edgeeffectiveness = 0.9,
+				explosiongenerator = "custom:genericshellexplosion-tiny-aa",
+				firestarter = 70,
+				gravityaffected = "true",
+				impulseboost = 0.123,
+				impulsefactor = 0.123,
+				model = "missile",
+				name = "RapidSamMissile",
+				noselfdamage = true,
+				range = 950,
+				reloadtime = 0.3,
+				soundhit = "xplomed2",
+				soundhitwet = "splssml",
+				soundhitwetvolume = 0.5,
+				soundstart = "Rocklit3",
+				startvelocity = 650,
+				tolerance = 8000,
+				tracks = true,
+				turnrate = 72000,
+				turret = true,
+				weaponacceleration = 150,
+				weapontimer = 7,
+				weapontype = "Cannon",
+				weaponvelocity = 950,
+				customparams = {
+					bar_model = "cormissile.s3o",
+				},
+				damage = {
+					default = 125,
+					subs = 5,
+				},
+			},
 			heavylaser = {
 				areaofeffect = 8,
 				avoidfeature = false,
@@ -191,46 +230,6 @@ return {
 					vtol = 65,
 				},
 			},
-			aamissile = {
-				areaofeffect = 64,
-				avoidfeature = false,
-				burnblow = true,
-				canattackground = false,
-				craterareaofeffect = 0,
-				craterboost = 0,
-				cratermult = 0,
-				edgeeffectiveness = 0.9,
-				explosiongenerator = "custom:genericshellexplosion-tiny-aa",
-				firestarter = 70,
-				gravityaffected = "true",
-				impulseboost = 0.123,
-				impulsefactor = 0.123,
-				model = "missile",
-				name = "RapidSamMissile",
-				noselfdamage = true,
-				range = 950,
-				reloadtime = 0.3,
-				soundhit = "xplomed2",
-				soundhitwet = "splssml",
-				soundhitwetvolume = 0.5,
-				soundstart = "Rocklit3",
-				startvelocity = 650,
-				tolerance = 8000,
-				tracks = true,
-				turnrate = 72000,
-				turret = true,
-				weaponacceleration = 150,
-				weapontimer = 7,
-				weapontype = "Cannon",
-				weaponvelocity = 950,
-				damage = {
-					default = 125,
-					subs = 5,
-				},
-				customparams = {
-					bar_model = "cormissile.s3o",
-				}
-			},
 		},
 		weapons = {
 			[1] = {
@@ -243,10 +242,6 @@ return {
 				maxangledif = 300,
 				onlytargetcategory = "SURFACE",
 			},
-			-- [3] = {
-				-- def = "AAMISSILE",
-				-- onlytargetcategory = "VTOL",
-			-- },
 			[4] = {
 				def = "HEAVYLASER",
 				maindir = "0 0 1",
@@ -259,10 +254,6 @@ return {
 				maxangledif = 300,
 				onlytargetcategory = "SURFACE",
 			},
-			-- [6] = {
-				-- def = "AAMISSILE",
-				-- onlytargetcategory = "VTOL",
-			-- },
 		},
 	},
 }

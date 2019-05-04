@@ -1,5 +1,7 @@
 return {
 	corbats = {
+		acceleration = 0.03,
+		brakerate = 0.075,
 		buildangle = 16000,
 		buildcostenergy = 23400,
 		buildcostmetal = 5760,
@@ -22,6 +24,7 @@ return {
 		idleautoheal = 5,
 		idletime = 1800,
 		maxdamage = 16685,
+		maxvelocity = 2.64,
 		minwaterdepth = 15,
 		movementclass = "DBOAT67X7",
 		name = "Warlord",
@@ -30,17 +33,13 @@ return {
 		seismicsignature = 0,
 		selfdestructas = "hugeexplosiongenericSelfD",
 		sightdistance = 455,
-		waterline = 12,
-		--move
-		acceleration = 0.03,
-		brakerate = 0.075,
-		maxvelocity = 2.64,
 		turninplace = true,
 		turninplaceanglelimit = 140,
 		turninplacespeedlimit = 1.7424,
 		turnrate = 306,
-		--end move
+		waterline = 12,
 		customparams = {
+			subfolder = "coreships/t2",
 			techlevel = 2,
 		},
 		featuredefs = {
@@ -82,14 +81,14 @@ return {
 				world = "All Worlds",
 			},
 		},
-		sfxtypes = { 
- 			pieceExplosionGenerators = { 
-				"deathceg2",
-				"deathceg3",
-				"deathceg4",
-			},
+		sfxtypes = {
 			explosiongenerators = {
 				[1] = "custom:barrelshot-large",
+			},
+			pieceexplosiongenerators = {
+				[1] = "deathceg2",
+				[2] = "deathceg3",
+				[3] = "deathceg4",
 			},
 		},
 		sounds = {

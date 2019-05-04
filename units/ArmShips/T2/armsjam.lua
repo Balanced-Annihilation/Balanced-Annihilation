@@ -1,7 +1,9 @@
 return {
 	armsjam = {
+		acceleration = 0.09,
 		activatewhenbuilt = true,
-		buildcostenergy = 2050,		 
+		brakerate = 0.06,
+		buildcostenergy = 2050,
 		buildcostmetal = 140,
 		buildpic = "ARMSJAM.DDS",
 		buildtime = 6708,
@@ -22,6 +24,7 @@ return {
 		idleautoheal = 5,
 		idletime = 1800,
 		maxdamage = 510,
+		maxvelocity = 3.1,
 		minwaterdepth = 6,
 		movementclass = "BOAT43X3",
 		name = "Escort",
@@ -32,16 +35,12 @@ return {
 		seismicsignature = 0,
 		selfdestructas = "mediumexplosiongenericSelfd",
 		sightdistance = 390,
-		waterline = 3,
-				--move
-		acceleration = 0.09,
-		brakerate = 0.06,
-		maxvelocity = 3.1,	
 		turninplace = false,
 		turninplaceanglelimit = 140,
 		turnrate = 540,
-		--end move
+		waterline = 3,
 		customparams = {
+			subfolder = "armships/t2",
 			techlevel = 2,
 		},
 		featuredefs = {
@@ -68,6 +67,8 @@ return {
 			heap = {
 				blocking = false,
 				category = "heaps",
+				collisionvolumescales = "85.0 14.0 6.0",
+				collisionvolumetype = "cylY",
 				damage = 2016,
 				description = "Escort Heap",
 				energy = 0,
@@ -77,19 +78,17 @@ return {
 				hitdensity = 100,
 				metal = 23,
 				object = "4X4A",
-                collisionvolumescales = "85.0 14.0 6.0",
-                collisionvolumetype = "cylY",
 				reclaimable = true,
 				resurrectable = 0,
 				seqnamereclamate = "TREE1RECLAMATE",
 				world = "All Worlds",
 			},
 		},
-		sfxtypes = { 
- 			pieceExplosionGenerators = { 
-				"deathceg2",
-				"deathceg3",
-				"deathceg4",
+		sfxtypes = {
+			pieceexplosiongenerators = {
+				[1] = "deathceg2",
+				[2] = "deathceg3",
+				[3] = "deathceg4",
 			},
 		},
 		sounds = {

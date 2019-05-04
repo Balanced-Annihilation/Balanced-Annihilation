@@ -1,6 +1,8 @@
 return {
 	corarch = {
+		acceleration = 0.042,
 		airsightdistance = 900,
+		brakerate = 0.186,
 		buildangle = 16384,
 		buildcostenergy = 8450,
 		buildcostmetal = 650,
@@ -23,6 +25,7 @@ return {
 		idleautoheal = 5,
 		idletime = 1800,
 		maxdamage = 2450,
+		maxvelocity = 2.64,
 		minwaterdepth = 30,
 		movementclass = "BOAT44X4",
 		name = "Shredder",
@@ -31,20 +34,16 @@ return {
 		seismicsignature = 0,
 		selfdestructas = "mediumexplosiongenericSelfd",
 		sightdistance = 465,
-				--move
-		acceleration = 0.042,
-		brakerate = 0.186,
 		turninplace = false,
-		maxvelocity = 2.64,
 		turninplaceanglelimit = 140,
 		turninplacespeedlimit = 1.7424,
 		turnrate = 400,
-		--end move
 		waterline = 4,
 		customparams = {
-			techlevel = 2,
 			prioritytarget = "air",
-			},
+			subfolder = "coreships/t2",
+			techlevel = 2,
+		},
 		featuredefs = {
 			dead = {
 				blocking = false,
@@ -69,6 +68,8 @@ return {
 			heap = {
 				blocking = false,
 				category = "heaps",
+				collisionvolumescales = "85.0 14.0 6.0",
+				collisionvolumetype = "cylY",
 				damage = 2016,
 				description = "Shredder Heap",
 				energy = 0,
@@ -78,23 +79,21 @@ return {
 				hitdensity = 100,
 				metal = 125,
 				object = "4X4A",
-                collisionvolumescales = "85.0 14.0 6.0",
-                collisionvolumetype = "cylY",
 				reclaimable = true,
 				resurrectable = 0,
 				seqnamereclamate = "TREE1RECLAMATE",
 				world = "All Worlds",
 			},
 		},
-		sfxtypes = { 
- 			pieceExplosionGenerators = { 
-				"deathceg2",
-				"deathceg3",
-				"deathceg4",
+		sfxtypes = {
+			explosiongenerators = {
+				[1] = "custom:barrelshot-medium-aa",
 			},
-            explosiongenerators = {
-                "custom:barrelshot-medium-aa",
-            },
+			pieceexplosiongenerators = {
+				[1] = "deathceg2",
+				[2] = "deathceg3",
+				[3] = "deathceg4",
+			},
 		},
 		sounds = {
 			canceldestruct = "cancel2",
@@ -151,11 +150,11 @@ return {
 				burst = 2,
 				burstrate = 0.4,
 				canattackground = false,
+				cegtag = "missiletrailaa",
 				craterareaofeffect = 0,
 				craterboost = 0,
 				cratermult = 0,
 				energypershot = 0,
-				cegTag = "missiletrailaa",
 				explosiongenerator = "custom:genericshellexplosion-tiny-aa",
 				firestarter = 72,
 				flighttime = 1.75,
@@ -183,15 +182,15 @@ return {
 				weapontimer = 5,
 				weapontype = "MissileLauncher",
 				weaponvelocity = 820,
+				customparams = {
+					bar_model = "cormissile.s3o",
+					expl_light_color = "1 0.4 0.5",
+					light_color = "1 0.5 0.6",
+					light_skip = true,
+				},
 				damage = {
 					default = 63,
 					subs = 5,
-				},
-				customparams = {
-					bar_model = "cormissile.s3o",
-					light_skip = true,		-- used by light_effects widget
-                    light_color = "1 0.5 0.6",
-                    expl_light_color = "1 0.4 0.5",
 				},
 			},
 			mobileflak = {
@@ -210,21 +209,28 @@ return {
 				impulseboost = 0,
 				impulsefactor = 0,
 				name = "FlakCannon",
-				size = 4.5,
-				sizedecay = 0.08,
-				stages = 8,
 				noselfdamage = true,
 				range = 775,
 				reloadtime = 0.75,
-				rgbcolor = {1, 0.33, 0.7},
+				size = 4.5,
+				sizedecay = 0.08,
 				soundhit = "flakhit",
 				soundhitwet = "splsmed",
 				soundhitwetvolume = 0.5,
 				soundstart = "flakfire",
+				stages = 8,
 				turret = true,
 				weapontimer = 1,
 				weapontype = "Cannon",
 				weaponvelocity = 1550,
+				customparams = {
+					expl_light_color = "1 0.4 0.5",
+					expl_light_mult = 0.4,
+					expl_light_radius_mult = 0.66,
+					light_color = "1 0.5 0.6",
+					light_mult = 0.8,
+					light_radius_mult = 0.55,
+				},
 				damage = {
 					bombers = 200,
 					commanders = 10,
@@ -237,13 +243,10 @@ return {
 					subs = 5,
 					vtol = 200,
 				},
-				customparams = {
-                    light_radius_mult = 0.55,
-                    light_mult = 0.8,
-					light_color = "1 0.5 0.6",
-					expl_light_color = "1 0.4 0.5",
-					expl_light_radius_mult = 0.66,
-					expl_light_mult = 0.4,
+				rgbcolor = {
+					[1] = 1,
+					[2] = 0.33,
+					[3] = 0.7,
 				},
 			},
 		},

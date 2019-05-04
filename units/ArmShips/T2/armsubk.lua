@@ -1,6 +1,8 @@
 return {
 	armsubk = {
+		acceleration = 0.034,
 		activatewhenbuilt = true,
+		brakerate = 1.35,
 		buildcostenergy = 10110,
 		buildcostmetal = 1120,
 		buildpic = "ARMSUBK.DDS",
@@ -21,6 +23,7 @@ return {
 		idleautoheal = 10,
 		idletime = 900,
 		maxdamage = 895,
+		maxvelocity = 3.1,
 		minwaterdepth = 20,
 		movementclass = "UBOAT34X4",
 		name = "Piranha",
@@ -31,18 +34,14 @@ return {
 		selfdestructas = "mediumExplosionGenericSelfd-uw",
 		sightdistance = 390,
 		sonardistance = 525,
-		--move
-		brakerate =  1.35,
-		acceleration = 0.034,
-		maxvelocity = 3.1,
 		turninplace = true,
 		turninplaceanglelimit = 140,
 		turninplacespeedlimit = 2.046,
 		turnrate = 298,
-		--end move
 		upright = true,
 		waterline = 30,
 		customparams = {
+			subfolder = "armships/t2",
 			techlevel = 2,
 		},
 		featuredefs = {
@@ -69,6 +68,8 @@ return {
 			heap = {
 				blocking = false,
 				category = "heaps",
+				collisionvolumescales = "35.0 4.0 6.0",
+				collisionvolumetype = "cylY",
 				damage = 2016,
 				description = "Piranha Heap",
 				energy = 0,
@@ -78,19 +79,17 @@ return {
 				hitdensity = 100,
 				metal = 181,
 				object = "2X2A",
-                collisionvolumescales = "35.0 4.0 6.0",
-                collisionvolumetype = "cylY",
 				reclaimable = true,
 				resurrectable = 0,
 				seqnamereclamate = "TREE1RECLAMATE",
 				world = "All Worlds",
 			},
 		},
-		sfxtypes = { 
- 			pieceExplosionGenerators = { 
-				"deathceg2",
-				"deathceg3",
-				"deathceg4",
+		sfxtypes = {
+			pieceexplosiongenerators = {
+				[1] = "deathceg2",
+				[2] = "deathceg3",
+				[3] = "deathceg4",
 			},
 		},
 		sounds = {
@@ -144,13 +143,13 @@ return {
 				weapontimer = 3,
 				weapontype = "TorpedoLauncher",
 				weaponvelocity = 200,
+				customparams = {
+					bar_model = "torpedo.s3o",
+				},
 				damage = {
 					default = 250,
 					subs = 400,
 				},
-				customparams = {
-					bar_model = "torpedo.s3o",
-				}
 			},
 		},
 		weapons = {

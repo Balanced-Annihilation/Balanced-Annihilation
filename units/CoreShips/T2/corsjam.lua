@@ -1,6 +1,8 @@
 return {
 	corsjam = {
+		acceleration = 0.096,
 		activatewhenbuilt = true,
+		brakerate = 0.066,
 		buildcostenergy = 2400,
 		buildcostmetal = 140,
 		buildpic = "CORSJAM.DDS",
@@ -22,6 +24,7 @@ return {
 		idleautoheal = 5,
 		idletime = 1800,
 		maxdamage = 570,
+		maxvelocity = 2.88,
 		minwaterdepth = 6,
 		movementclass = "BOAT43X3",
 		name = "Phantom",
@@ -32,16 +35,12 @@ return {
 		seismicsignature = 0,
 		selfdestructas = "mediumexplosiongenericSelfd",
 		sightdistance = 403,
-				--move
-		acceleration = 0.096,
-		brakerate = 0.066,
-		maxvelocity = 2.88,	
 		turninplace = false,
 		turninplaceanglelimit = 90,
 		turnrate = 512,
-		--end move
 		waterline = 2,
 		customparams = {
+			subfolder = "coreships/t2",
 			techlevel = 2,
 		},
 		featuredefs = {
@@ -68,6 +67,8 @@ return {
 			heap = {
 				blocking = false,
 				category = "heaps",
+				collisionvolumescales = "85.0 14.0 6.0",
+				collisionvolumetype = "cylY",
 				damage = 2016,
 				description = "Phantom Heap",
 				energy = 0,
@@ -77,19 +78,17 @@ return {
 				hitdensity = 100,
 				metal = 46,
 				object = "4X4A",
-                collisionvolumescales = "85.0 14.0 6.0",
-                collisionvolumetype = "cylY",
 				reclaimable = true,
 				resurrectable = 0,
 				seqnamereclamate = "TREE1RECLAMATE",
 				world = "All Worlds",
 			},
 		},
-		sfxtypes = { 
- 			pieceExplosionGenerators = { 
-				"deathceg2",
-				"deathceg3",
-				"deathceg4",
+		sfxtypes = {
+			pieceexplosiongenerators = {
+				[1] = "deathceg2",
+				[2] = "deathceg3",
+				[3] = "deathceg4",
 			},
 		},
 		sounds = {

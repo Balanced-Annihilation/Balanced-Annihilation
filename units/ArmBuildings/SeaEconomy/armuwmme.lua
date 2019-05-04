@@ -10,7 +10,7 @@ return {
 		buildinggrounddecalsizex = 8,
 		buildinggrounddecalsizey = 8,
 		buildinggrounddecaltype = "armuwmme_aoplane.dds",
-		buildingMask = 0,
+		buildingmask = 0,
 		buildpic = "ARMUWMME.DDS",
 		buildtime = 24759,
 		canrepeat = false,
@@ -38,11 +38,12 @@ return {
 		usebuildinggrounddecal = true,
 		yardmap = "ooooooooooooooooooooooooo",
 		customparams = {
-			techlevel = 2,
-			cvBuildable = true,
+			cvbuildable = true,
 			metal_extractor = 4,
-			removewait = true,
 			removestop = true,
+			removewait = true,
+			subfolder = "armbuildings/seaeconomy",
+			techlevel = 2,
 		},
 		featuredefs = {
 			dead = {
@@ -84,11 +85,11 @@ return {
 				world = "All Worlds",
 			},
 		},
-		sfxtypes = { 
- 			pieceExplosionGenerators = { 
-				"deathceg2",
-				"deathceg3",
-				"deathceg4",
+		sfxtypes = {
+			pieceexplosiongenerators = {
+				[1] = "deathceg2",
+				[2] = "deathceg3",
+				[3] = "deathceg4",
 			},
 		},
 		sounds = {

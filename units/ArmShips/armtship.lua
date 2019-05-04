@@ -1,6 +1,8 @@
 return {
 	armtship = {
+		acceleration = 0.09,
 		autoheal = 5,
+		brakerate = 0.27,
 		buildangle = 16384,
 		buildcostenergy = 6650,
 		buildcostmetal = 785,
@@ -21,6 +23,7 @@ return {
 		icontype = "sea",
 		loadingradius = 250,
 		maxdamage = 11000,
+		maxvelocity = 3.34,
 		minwaterdepth = 0,
 		movementclass = "DBOAT66X6",
 		name = "Hulk",
@@ -34,19 +37,14 @@ return {
 		transportcapacity = 40,
 		transportsize = 4,
 		transportunloadmethod = 0,
-		unloadspread = 1,
-		waterline = 11,
-		--move
-		brakerate =  0.27,
-		acceleration = 0.09,
-		maxvelocity = 3.34,
 		turninplace = true,
 		turninplaceanglelimit = 140,
-		turninplacespeedlimit = 2.2044,		
-		turnrate = 420,	
-		--end move
+		turninplacespeedlimit = 2.2044,
+		turnrate = 420,
+		unloadspread = 1,
+		waterline = 11,
 		customparams = {
-			
+			subfolder = "armships",
 		},
 		featuredefs = {
 			dead = {
@@ -87,14 +85,14 @@ return {
 				world = "All Worlds",
 			},
 		},
-		sfxtypes = { 
- 			 pieceExplosionGenerators = { 
-				"deathceg2",
- 				"deathceg3",
- 				"deathceg4",
- 			}, 
+		sfxtypes = {
 			explosiongenerators = {
 				[1] = "custom:shallow_water_dirt",
+			},
+			pieceexplosiongenerators = {
+				[1] = "deathceg2",
+				[2] = "deathceg3",
+				[3] = "deathceg4",
 			},
 		},
 		sounds = {

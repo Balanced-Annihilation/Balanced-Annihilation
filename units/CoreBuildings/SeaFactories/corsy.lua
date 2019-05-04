@@ -5,7 +5,6 @@ return {
 		buildcostenergy = 800,
 		buildcostmetal = 450,
 		builder = true,
-		shownanospray = false,
 		buildpic = "CORSY.DDS",
 		buildtime = 6000,
 		canmove = true,
@@ -15,7 +14,7 @@ return {
 		collisionvolumetype = "Box",
 		corpse = "DEAD",
 		description = "Produces Level 1 Ships",
-		energymake = 15,		  
+		energymake = 15,
 		energystorage = 100,
 		explodeas = "largeBuildingexplosiongeneric",
 		footprintx = 8,
@@ -24,33 +23,33 @@ return {
 		idleautoheal = 5,
 		idletime = 1800,
 		maxdamage = 3850,
-		metalmake = 0.5,		  
+		metalmake = 0.5,
 		metalstorage = 100,
 		minwaterdepth = 30,
 		name = "Shipyard",
 		objectname = "CORSY",
 		seismicsignature = 0,
 		selfdestructas = "largeBuildingExplosionGenericSelfd",
+		shownanospray = false,
 		sightdistance = 340,
 		terraformspeed = 500,
 		waterline = 33,
 		workertime = 220,
 		yardmap = "oyyyyyyoyccccccyyccccccyyccccccyyccccccyyccccccyyccccccyoyyyyyyo",
 		buildoptions = {
-			"corcs",
-
-			"corpt",
-			"coresupp",
-
-			"corroy",
-			"corsub",
-			"correcl",
-			"cortship",
+			[1] = "corcs",
+			[2] = "corpt",
+			[3] = "coresupp",
+			[4] = "corroy",
+			[5] = "corsub",
+			[6] = "correcl",
+			[7] = "cortship",
 		},
 		customparams = {
 			bar_collisionvolumeoffsets = "0 0 2",
 			bar_collisionvolumescales = "124 59 122",
 			bar_waterline = 1,
+			subfolder = "corebuildings/seafactories",
 		},
 		featuredefs = {
 			dead = {
@@ -73,13 +72,13 @@ return {
 				world = "All Worlds",
 			},
 		},
-		sfxtypes = { 
- 			 pieceExplosionGenerators = { 
- 				"deathceg3",
- 				"deathceg4",
- 			}, 
+		sfxtypes = {
 			explosiongenerators = {
 				[1] = "custom:WhiteLight",
+			},
+			pieceexplosiongenerators = {
+				[1] = "deathceg3",
+				[2] = "deathceg4",
 			},
 		},
 		sounds = {

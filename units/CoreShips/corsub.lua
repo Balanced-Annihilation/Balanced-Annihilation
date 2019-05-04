@@ -1,7 +1,9 @@
 return {
 	corsub = {
+		acceleration = 0.027,
 		activatewhenbuilt = true,
 		autoheal = 2,
+		brakerate = 0.075,
 		buildcostenergy = 4170,
 		buildcostmetal = 720,
 		buildpic = "CORSUB.DDS",
@@ -12,14 +14,15 @@ return {
 		collisionvolumescales = "35 17 50",
 		collisionvolumetype = "box",
 		corpse = "DEAD",
-		explodeas = "smallExplosionGeneric-uw",
 		description = "Submarine",
+		explodeas = "smallExplosionGeneric-uw",
 		footprintx = 2,
 		footprintz = 2,
 		icontype = "sea",
 		idleautoheal = 8,
 		idletime = 900,
 		maxdamage = 835,
+		maxvelocity = 2.3,
 		minwaterdepth = 15,
 		movementclass = "UBOAT33X3",
 		name = "Snake",
@@ -29,19 +32,14 @@ return {
 		selfdestructas = "smallExplosionGenericSelfd-uw",
 		sightdistance = 400,
 		sonardistance = 475,
-		upright = true,
-		waterline = 30,
-		--move
-		brakerate =  0.075,
-		acceleration = 0.027,
-		maxvelocity = 2.3,
 		turninplace = true,
 		turninplaceanglelimit = 140,
 		turninplacespeedlimit = 1.518,
-		turnrate = 500,	
-		--end move	
+		turnrate = 500,
+		upright = true,
+		waterline = 30,
 		customparams = {
-
+			subfolder = "coreships",
 		},
 		featuredefs = {
 			dead = {
@@ -67,6 +65,8 @@ return {
 			heap = {
 				blocking = false,
 				category = "heaps",
+				collisionvolumescales = "85.0 14.0 6.0",
+				collisionvolumetype = "cylY",
 				damage = 2016,
 				description = "Snake Heap",
 				energy = 0,
@@ -76,19 +76,17 @@ return {
 				hitdensity = 100,
 				metal = 150,
 				object = "4X4B",
-                collisionvolumescales = "85.0 14.0 6.0",
-                collisionvolumetype = "cylY",
 				reclaimable = true,
 				resurrectable = 0,
 				seqnamereclamate = "TREE1RECLAMATE",
 				world = "All Worlds",
 			},
 		},
-		sfxtypes = { 
- 			pieceExplosionGenerators = { 
-				"deathceg2",
-				"deathceg3",
-				"deathceg4",
+		sfxtypes = {
+			pieceexplosiongenerators = {
+				[1] = "deathceg2",
+				[2] = "deathceg3",
+				[3] = "deathceg4",
 			},
 		},
 		sounds = {
@@ -144,14 +142,14 @@ return {
 				weapontimer = 3.25,
 				weapontype = "TorpedoLauncher",
 				weaponvelocity = 160,
+				customparams = {
+					bar_model = "cortorpedo.s3o",
+				},
 				damage = {
 					commanders = 600,
 					default = 650,
 					subs = 150,
 				},
-				customparams = {
-					bar_model = "cortorpedo.s3o",
-				}
 			},
 		},
 		weapons = {

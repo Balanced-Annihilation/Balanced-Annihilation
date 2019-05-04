@@ -1,6 +1,8 @@
 return {
 	armroy = {
+		acceleration = 0.032,
 		activatewhenbuilt = true,
+		brakerate = 0.055,
 		buildangle = 16384,
 		buildcostenergy = 6050,
 		buildcostmetal = 1050,
@@ -23,6 +25,7 @@ return {
 		idleautoheal = 5,
 		idletime = 1800,
 		maxdamage = 3090,
+		maxvelocity = 1.95,
 		minwaterdepth = 12,
 		movementclass = "BOAT44X4",
 		name = "Crusader",
@@ -32,18 +35,13 @@ return {
 		selfdestructas = "mediumExplosionGenericSelfd",
 		sightdistance = 490,
 		sonardistance = 400,
-		waterline = 0,
-		--move
-		acceleration = 0.032,
-		brakerate = 0.055,
 		turninplace = true,
-		maxvelocity = 1.95,
 		turninplaceanglelimit = 140,
-		turninplacespeedlimit = 1.87374,						  
+		turninplacespeedlimit = 1.87374,
 		turnrate = 199,
-		--end move
+		waterline = 0,
 		customparams = {
-			
+			subfolder = "armships",
 		},
 		featuredefs = {
 			dead = {
@@ -84,14 +82,14 @@ return {
 				world = "All Worlds",
 			},
 		},
-		sfxtypes = { 
- 			pieceExplosionGenerators = { 
-				"deathceg2",
-				"deathceg3",
-				"deathceg4",
-			},
+		sfxtypes = {
 			explosiongenerators = {
 				[1] = "custom:barrelshot-small",
+			},
+			pieceexplosiongenerators = {
+				[1] = "deathceg2",
+				[2] = "deathceg3",
+				[3] = "deathceg4",
 			},
 		},
 		sounds = {
@@ -116,37 +114,6 @@ return {
 			},
 		},
 		weapondefs = {
-			plasma = {
-				accuracy = 256,
-				areaofeffect = 32,
-				avoidfeature = false,
-				craterareaofeffect = 0,
-				craterboost = 0,
-				cratermult = 0,
-				explosiongenerator = "custom:genericshellexplosion-medium",
-				gravityaffected = "true",
-				impulseboost = 0.123,
-				impulsefactor = 0.123,
-				name = "Heavy long-range plasma cannon",
-				noselfdamage = true,
-				proximitypriority = -0.1,
-				range = 700,
-				reloadtime = 1.2,
-				soundhit = "xplomed2",
-				soundhitwet = "splshbig",
-				soundhitwetvolume = 0.5,
-				soundstart = "cannon3",
-				turret = true,
-				weapontype = "Cannon",
-				weaponvelocity = 307.4,
-				damage = {
-					bombers = 41,
-					default = 175,
-					fighters = 41,
-					vtol = 41,
-					subs = 5,
-				},
-			},
 			depthcharge = {
 				areaofeffect = 48,
 				avoidfeature = false,
@@ -179,12 +146,43 @@ return {
 				weapontimer = 3,
 				weapontype = "TorpedoLauncher",
 				weaponvelocity = 190,
+				customparams = {
+					bar_model = "cordepthcharge.s3o",
+				},
 				damage = {
 					default = 190,
 				},
-				customparams = {
-					bar_model = "cordepthcharge.s3o",
-				}
+			},
+			plasma = {
+				accuracy = 256,
+				areaofeffect = 32,
+				avoidfeature = false,
+				craterareaofeffect = 0,
+				craterboost = 0,
+				cratermult = 0,
+				explosiongenerator = "custom:genericshellexplosion-medium",
+				gravityaffected = "true",
+				impulseboost = 0.123,
+				impulsefactor = 0.123,
+				name = "Heavy long-range plasma cannon",
+				noselfdamage = true,
+				proximitypriority = -0.1,
+				range = 700,
+				reloadtime = 1.2,
+				soundhit = "xplomed2",
+				soundhitwet = "splshbig",
+				soundhitwetvolume = 0.5,
+				soundstart = "cannon3",
+				turret = true,
+				weapontype = "Cannon",
+				weaponvelocity = 307.39999,
+				damage = {
+					bombers = 41,
+					default = 175,
+					fighters = 41,
+					subs = 5,
+					vtol = 41,
+				},
 			},
 		},
 		weapons = {
@@ -196,8 +194,6 @@ return {
 			[2] = {
 				badtargetcategory = "NOTSUB",
 				def = "DEPTHCHARGE",
-				-- maindir = "0 -1 0",
-				-- maxangledif = 179,
 				onlytargetcategory = "CANBEUW UNDERWATER",
 			},
 		},

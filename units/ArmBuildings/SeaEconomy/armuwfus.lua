@@ -38,9 +38,10 @@ return {
 			bar_footprintx = 6,
 			bar_footprintz = 4,
 			bar_yardmap = "oooooo oooooo oooooo oooooo",
-			techlevel = 2,
-			removewait = true,
 			removestop = true,
+			removewait = true,
+			subfolder = "armbuildings/seaeconomy",
+			techlevel = 2,
 		},
 		featuredefs = {
 			dead = {
@@ -81,11 +82,11 @@ return {
 				world = "All Worlds",
 			},
 		},
-		sfxtypes = { 
- 			pieceExplosionGenerators = { 
-				"deathceg2",
-				"deathceg3",
-				"deathceg4",
+		sfxtypes = {
+			pieceexplosiongenerators = {
+				[1] = "deathceg2",
+				[2] = "deathceg3",
+				[3] = "deathceg4",
 			},
 		},
 		sounds = {
