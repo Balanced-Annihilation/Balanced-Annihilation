@@ -59,7 +59,7 @@ return {
 				collisionvolumetype = "Box",
 				damage = 46500,
 				description = "Black Hydra Wreckage",
-				energy = *0,
+				energy = 0,
 				featuredead = "HEAP",
 				featurereclamate = "SMUDGE01",
 				footprintx = 6,

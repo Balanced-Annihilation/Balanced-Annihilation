@@ -48,7 +48,7 @@ return {
 			"corfrad",
 			"corsy",
 			"corfhp",
-			"csubpen",
+			"coramsub",
 			"corcs",				 
 			"cortl",
 			"corenaa",

@@ -58,7 +58,7 @@ return {
 			"corason",
 			"corfatf",
 			"coratl",
-			"csubpen",		
+			"coramsub",		
 			"corenaa", 
 		},
 		customparams = {
