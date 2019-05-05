@@ -82,14 +82,11 @@ local function CreateGroup(unitID, unitDefID, teamID, builderID, groupDef)
 		local name = unitDef.name
 		Spring.Echo("Trying to find uDef of: "..name)
         Spring.Echo("UnitDefs customparams: "..(unitDef.customParams and "yes" or "no"))
-        Spring.Echo("UnitDefs groupdef: "..(unitDef.customParams.groupdef and "yes" or "no"))
-        Spring.Echo("UnitDefs morphdef: "..(unitDef.customParams.morphdef and "yes" or "no"))
+        Spring.Echo("UnitDefs groupdef: "..(unitDef.customParams.groupdef__size ~= nil and "yes" or "no"))
+        Spring.Echo("UnitDefs morphdef: "..(unitDef.customParams.morphdef__into ~= nil and "yes" or "no"))
 
-		--Spring.Echo("UnitDefs groupsize: "..(unitDef.customParams.groupdef.size and "yes" or "no"))
-        --local groupSize = tonumber(UnitDefs[unitDefID].customParams.groupsize)
         if unitDef.customParams.groupdef then
-            local groupDef = str2table(unitDef.customParams.groupdef)
-            local groupSize = tonumber(groupDef.size) or 1
+            local groupSize = tonumber(unitDef.customParams.groupdef__size) or 1
             if groupSize >= 2 then
                 -- One is the first guy, always spawned, so deduct 1
                 for i = 1, groupSize-1 do

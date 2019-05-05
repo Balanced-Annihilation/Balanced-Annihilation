@@ -293,11 +293,21 @@ end
 --    return (table.unpack or unpack)(res)
 --end
 
+-- [WIP], doesn't work with backspace chars properly
 function str2table(input)
-    input:gsub("\[\[", "'")
-    input:gsub("\]\]", "'")
-    input:gsub("\"", "'")
-    Spring.Echo("Formatted string: "..input)
+    local function is_digit(c)
+        return c >= '0' and c <= '9'
+    end
+    --input = tostring(input)
+    if not input then
+        return end
+    if isstring(input) then
+        input = string.gsub(input, "%[%[", "'")
+        input = string.gsub(input, "%]%]", "'")
+        input = string.gsub(input, "\"", "'")
+        input = string.gsub(input, "\b", "")    --backspace char, used in the data spreadsheet
+        --Spring.Echo("Formatted string: "..input)
+    end
     if type(input) == 'string' then
         local data = input
         local pos = 0

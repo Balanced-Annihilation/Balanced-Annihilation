@@ -42,15 +42,13 @@ local minimumbuilddistancerange = 155
 -- DEFS POST PROCESSING
 -------------------------
 
-local function ApplyGroupSizeCosts(name, uDef)
-	local groupSize = 1
+local function ApplyGroupCosts(name, uDef)
+	if uDef.customParams == nil or uDef.customParams.groupdef__size == nil then
+        return end
 	--	if (uDef.customparams) then
 	--		Spring.Echo(uDef.name .." Group Size: "..uDef.customparams.groupsize) end
 
-	if (uDef.customParams == nil) or (uDef.customParams.groupdef == nil) then
-		return
-	end
-	groupSize = tonumber((str2table(uDef.customParams.groupdef)).size) or 1
+	local groupSize = tonumber(uDef.customParams.groupdef__size) or 1
 	if (uDef.buildcostmetal ~= nil) then
 		uDef.buildcostmetal = uDef.buildcostmetal * groupSize
 		--Spring.Echo(uDef.name.." group size = "..groupSize..", final metal cost: "..uDef.buildcostmetal)
@@ -65,7 +63,7 @@ end
 function UnitDef_Post(name, uDef)
 	ApplyUnitDefs_Data(name, uDef)
 	-- Any post processing after unitdefs_data.lua is applied should come after this
-	ApplyGroupSizeCosts(name, uDef)
+	ApplyGroupCosts(name, uDef)
 	-- [deprecated, now done straight in ssheet] Add reverse move to units with customDef allowreversemove defined as true
 	--if uDef.speed and uDef.customParams then -- and uDef.customParams.allowreversemove == "1"
 	--	Spring.Echo(name.." has allowreversemove.")
@@ -97,6 +95,7 @@ local function shouldIgnore(was, now)
 	return false
 end
 
+-- Here's where the actual spreadsheet-exported data (UnitDefs_Data) is applied to the UnitDefs used in game
 function ApplyUnitDefs_Data(name, uDef)
 	if (unitDefsData == nil) then
 		return end
@@ -137,10 +136,26 @@ function ApplyUnitDefs_Data(name, uDef)
 								newDefVal[weapID].explosiongenerator = oldexpgen end
 						end
                     end
-					uDef[k] = newDefVal
-                    --TODO: Turn customParams table into CSV or something. It only supports string,string..
-                    --if newDefVal then
-                    --    UnitDefs[name].k = newDefVal end
+                    --TODO: customParams table items will become customParams.item__subitem (only string,string supported)
+                    if k == "customParams" then
+                        newDefVal = {}
+                        for cparmkey, cparmvalue in pairs (v) do
+                            if type(cparmvalue) == "table" then
+                                Spring.Echo("Parsed unit: "..name.." table key: "..cparmkey or "nil")
+                                --newDefVal[cparmkey] = nil                       -- We won't keep the original table
+                                for cparmsubk, cparmsubv in pairs(cparmvalue) do       -- eg.: { groupDef = { size = 1, .. } }
+                                    local newKeyName = cparmkey.."__"..cparmsubk
+                                    newDefVal[newKeyName] = cparmsubv -- => [groupDef__size] = 1
+                                    Spring.Echo("New cParm for "..name..": "..(tostring(newKeyName) or "nil").." = "..(tostring(cparmsubv) or "nil"))
+                                end
+                            else
+                                newDefVal[cparmkey] = cparmvalue                -- Not a table, just assign it
+                            end
+                        end
+                    end
+                    --uDef[k] = newDefVal
+                    if newDefVal then
+                        UnitDefs[name][k] = newDefVal end
                     --if k == "customParams" then
                     --    Spring.Echo("Unit: "..name.." Prop: "..k.." was: "..tostringplus(oldDefVal).." now: "..tostringplus(v))
                     --end
