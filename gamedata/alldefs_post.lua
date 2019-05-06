@@ -43,12 +43,14 @@ local minimumbuilddistancerange = 155
 -------------------------
 
 local function ApplyGroupCosts(name, uDef)
-	if uDef.customParams == nil or uDef.customParams.groupdef__size == nil then
+    if not uDef.customparams then
+        return  end
+    local groupSize = tonumber(uDef.customparams.groupdef__size)
+	if not groupSize then
         return end
-	--	if (uDef.customparams) then
-	--		Spring.Echo(uDef.name .." Group Size: "..uDef.customparams.groupsize) end
 
-	local groupSize = tonumber(uDef.customParams.groupdef__size) or 1
+	local groupSize = groupSize or 1
+    Spring.Echo(uDef.name .." Group Size: "..groupSize)
 	if (uDef.buildcostmetal ~= nil) then
 		uDef.buildcostmetal = uDef.buildcostmetal * groupSize
 		--Spring.Echo(uDef.name.." group size = "..groupSize..", final metal cost: "..uDef.buildcostmetal)
@@ -107,6 +109,7 @@ function ApplyUnitDefs_Data(name, uDef)
 				for k, v in pairs (newData) do
 					local oldDefVal = uDef[k]
 					local newDefVal = v
+                    -- custom processing of weapondefs
                     if oldDefVal and k == "weapondefs" then
 						-- weapondefs={[[new or v]]vtol_emg2={craterboost=0,
 						-- If we find matching weapondefs in source lua, we keep the orig cegtag and explosiongenerator
@@ -136,8 +139,8 @@ function ApplyUnitDefs_Data(name, uDef)
 								newDefVal[weapID].explosiongenerator = oldexpgen end
 						end
                     end
-                    --TODO: customParams table items will become customParams.item__subitem (only string,string supported)
-                    if k == "customParams" then
+                    --customParams table items will become customParams.item__subitem (only string,string supported)
+                    if k == "customparams" then
                         newDefVal = {}
                         for cparmkey, cparmvalue in pairs (v) do
                             if type(cparmvalue) == "table" then
@@ -153,9 +156,9 @@ function ApplyUnitDefs_Data(name, uDef)
                             end
                         end
                     end
-                    --uDef[k] = newDefVal
-                    if newDefVal then
-                        UnitDefs[name][k] = newDefVal end
+                    uDef[k] = newDefVal
+                    --if newDefVal then
+                    --    UnitDefs[name][k] = newDefVal end
                     --if k == "customParams" then
                     --    Spring.Echo("Unit: "..name.." Prop: "..k.." was: "..tostringplus(oldDefVal).." now: "..tostringplus(v))
                     --end

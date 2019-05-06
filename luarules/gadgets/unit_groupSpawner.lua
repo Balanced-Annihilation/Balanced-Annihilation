@@ -85,8 +85,9 @@ local function CreateGroup(unitID, unitDefID, teamID, builderID, groupDef)
         Spring.Echo("UnitDefs groupdef: "..(unitDef.customParams.groupdef__size ~= nil and "yes" or "no"))
         Spring.Echo("UnitDefs morphdef: "..(unitDef.customParams.morphdef__into ~= nil and "yes" or "no"))
 
-        if unitDef.customParams.groupdef then
+        if unitDef.customParams.groupdef__size then
             local groupSize = tonumber(unitDef.customParams.groupdef__size) or 1
+            groupDef.size = groupSize
             if groupSize >= 2 then
                 -- One is the first guy, always spawned, so deduct 1
                 for i = 1, groupSize-1 do
@@ -95,7 +96,7 @@ local function CreateGroup(unitID, unitDefID, teamID, builderID, groupDef)
                 groupDef.name = unitDefID.." Group"
                 groupDef.description = groupSize.."x "..name.."s"
                 groupDef.buildPic = unitDef.buildpic
-                local groupDelay = tonumber(groupDef.delay) or 7    -- 7 is the default
+                local groupDelay = tonumber(unitDef.customParams.groupdef__delay) or 7    -- 7 is the default
                 groupDef.delay = groupDelay
             end
         end
