@@ -198,7 +198,6 @@ function widget:Shutdown()
 end
 
 function widget:DrawScreen()
-	if Spring.IsGUIHidden() then return end
 	if not drawPauseScreen then return end
 	DrawPause()
 end
