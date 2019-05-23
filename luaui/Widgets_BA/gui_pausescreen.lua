@@ -237,7 +237,7 @@ function DrawPause()
 	myFont:Begin()
 	myFont:SetOutlineColor(outline)
 	myFont:SetTextColor(text)
-	myFont:Print("GAME	PAUSED", textX, textY, fontSizeHeadline, "O")
+	myFont:Print("GAME  PAUSED", textX, textY, fontSizeHeadline, "O")
 	myFont:End()
 
 	glPopMatrix()
