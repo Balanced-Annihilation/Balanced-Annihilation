@@ -1,11 +1,10 @@
-﻿V9.75.2
-2/10/2019
+﻿V9.75.3
+4/10/2019
 
 correct dgun path is shown when aiming
 transports can load stationary units without wobbling about
 units keep formation during move commands and move directly to waypoints
-cons should not get stuck while building as often
-specs can bet on whose eco will grow most, 75sec bet cooldown (enable eco_bet_minigame f11 menu)
+attack command on ground can detonate crawlings underwater, was previously only land
 
 V9.71
 30/06/2019
