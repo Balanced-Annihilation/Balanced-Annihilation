@@ -1,5 +1,13 @@
-﻿V9.76.2
-31/03/2020
+﻿V9.76.3
+16/04/2020
+
+mines should not fail to detonate
+anon_ffa mode can work for team ffa or teams
+anti nukes will not collide with mountains
+harder for sea cons to block sea labs
+
+V9.76.2
+7/04/2020
 
 add back dgun button (ManualFire)
 map damage enabled by default
