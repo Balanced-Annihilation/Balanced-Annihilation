@@ -114,7 +114,7 @@ local options =
     name   = 'Undeformable map',
     desc   = 'Prevents the map shape from being changed by weapons',
     type   = 'bool',
-    def    = true,
+    def    = false,
     section= "ba_options",
 
   },
