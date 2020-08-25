@@ -60,6 +60,7 @@ return {
 			cegtag = "missiletrailfighterarm",
 
 				avoidfeature = false,
+				collidefriendly = false,
 				craterareaofeffect = 0,
 				craterboost = 0,
 				cratermult = 0,
