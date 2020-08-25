@@ -1,9 +1,10 @@
-﻿V9.74.3
-10/09/2019
+﻿V9.75.0
+18/09/2019
 
-units now follow move commands in a straight line
+anti will not collide with terrain
 correct dgun path is shown when aiming
 transports can load stationary units without wobbling about
+eco bet minigame lets specs bet on whose eco will grow the most (enable in f11 menu)
 
 V9.71
 30/06/2019
