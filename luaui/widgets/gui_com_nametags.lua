@@ -116,7 +116,7 @@ local function createComnameList(attributes)
 			end
 			font:SetTextColor(outlineColor)
 			font:SetOutlineColor(outlineColor)
-if tonumber(Spring.GetModOptions().anon_ffa) == 1 and (#Spring.GetTeamList()-1  ==  #Spring.GetAllyTeamList()-1) and #Spring.GetTeamList()-1 ~=2 and #Spring.GetTeamList()-1 ~=1 then --is fa
+if tonumber(Spring.GetModOptions().anon_ffa) == 1 then --is fa
 				font:Print("Player", -(fontSize/38), -(fontSize/33), fontSize, "con")
 				font:Print("Player", (fontSize/38), -(fontSize/33), fontSize, "con")
 				else
@@ -129,7 +129,7 @@ if tonumber(Spring.GetModOptions().anon_ffa) == 1 and (#Spring.GetTeamList()-1  
 		font:SetTextColor(attributes[2])
 		font:SetOutlineColor(outlineColor)
 		
-if tonumber(Spring.GetModOptions().anon_ffa) == 1 and (#Spring.GetTeamList()-1  ==  #Spring.GetAllyTeamList()-1) and #Spring.GetTeamList()-1 ~=2 and #Spring.GetTeamList()-1 ~=1 then --is fa
+if tonumber(Spring.GetModOptions().anon_ffa) == 1 then --is fa
 			font:Print("Player", 0, 0, fontSize, "con")
 			font:End()
 		else

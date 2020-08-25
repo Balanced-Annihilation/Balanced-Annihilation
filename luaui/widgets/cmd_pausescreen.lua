@@ -23,7 +23,7 @@ local myTeamID = Spring.GetMyTeamID()
 local singleTeams = false
 
 
-if tonumber(Spring.GetModOptions().anon_ffa) == 1 and (#Spring.GetTeamList()-1  ==  #Spring.GetAllyTeamList()-1) and #Spring.GetTeamList()-1 ~=2 and #Spring.GetTeamList()-1 ~=1 then --is fa
+if tonumber(Spring.GetModOptions().anon_ffa) == 1 then --is fa
 	singleTeams = true
 		
 

@@ -1966,7 +1966,7 @@ end
 
 function DrawSidePic(team, playerID, posY, leader, dark, ai)
 
-	if tonumber(Spring.GetModOptions().anon_ffa) == 1 and (#Spring.GetTeamList()-1  ==  #Spring.GetAllyTeamList()-1) and #Spring.GetTeamList()-1 ~=2 and #Spring.GetTeamList()-1 ~=1 then --is fa
+	if tonumber(Spring.GetModOptions().anon_ffa) == 1 then --is fa
 	else
 
 	if gameStarted then
@@ -2090,7 +2090,7 @@ function colourNames(teamID)
         end
 		
 	
-if tonumber(Spring.GetModOptions().anon_ffa) == 1 and (#Spring.GetTeamList()-1  ==  #Spring.GetAllyTeamList()-1) and #Spring.GetTeamList()-1 ~=2 and #Spring.GetTeamList()-1 ~=1 then --is fa
+if tonumber(Spring.GetModOptions().anon_ffa) == 1 then --is fa
 		return "\255"..string.char(90)..string.char(255)..string.char(90) --works thanks to zwzsg
 	else
 		return "\255"..string.char(R255)..string.char(G255)..string.char(B255) --works thanks to zwzsg
@@ -2146,7 +2146,7 @@ function DrawName(name, team, posY, dark, playerID)
     end
     local nameText = name .. willSub  
     local nameColourR,nameColourG,nameColourB,nameColourA = 0;
-if tonumber(Spring.GetModOptions().anon_ffa) == 1 and (#Spring.GetTeamList()-1  ==  #Spring.GetAllyTeamList()-1) and #Spring.GetTeamList()-1 ~=2 and #Spring.GetTeamList()-1 ~=1 then --is fa
+if tonumber(Spring.GetModOptions().anon_ffa) == 1 then --is fa
 		nameColourR,nameColourG,nameColourB,nameColourA = 0.35,1,0.35,1
 		else
 		nameColourR,nameColourG,nameColourB,nameColourA = Spring_GetTeamColor(team)
