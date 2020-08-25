@@ -33,15 +33,11 @@ return {
 		name = "Micro",
 		nochasecategory = "VTOL",
 		objectname = "ARMMINE1",
-		script = "mines_lus.lua",
 		seismicsignature = 0,
 		selfdestructas = "MINE_LIGHT",
 		selfdestructcountdown = 0,
 		sightdistance = 83.2,
 		stealth = true,
-		customparams = {
-			detonaterange = "64"
-		},
 		sounds = {
 			canceldestruct = "cancel2",
 			underattack = "warning1",
@@ -77,7 +73,7 @@ return {
 				impulseboost = 0,
 				impulsefactor = 0,
 				name = "Mine Detonator",
-				range = 1,
+				range = 4,
 				reloadtime = 0.1,
 				soundhitwet = "splshbig",
 				soundhitwetvolume = 0.5,
