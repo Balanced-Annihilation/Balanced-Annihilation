@@ -152,7 +152,7 @@ return {
 				craterareaofeffect = 96,
 				craterboost = 0,
 				cratermult = 0,
-				explosiongenerator = "custom:STARFIRE",
+				explosiongenerator = "custom:genericshellexplosion-banthamissile",
 				firestarter = 70,
 				impulseboost = 0.123,
 				impulsefactor = 0.123,

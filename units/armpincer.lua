@@ -65,6 +65,11 @@ return {
 				world = "all",
 			},
 		},
+		sfxtypes = {
+			explosiongenerators = {
+				[1] = "custom:barrelshot-small",
+			},
+		},
 		sounds = {
 			canceldestruct = "cancel2",
 			underattack = "warning1",
@@ -93,7 +98,7 @@ return {
 				craterareaofeffect = 0,
 				craterboost = 0,
 				cratermult = 0,
-				explosiongenerator = "custom:LIGHT_PLASMA",
+				explosiongenerator = "custom:genericshellexplosion-small",
 				impulseboost = 0.123,
 				impulsefactor = 0.123,
 				name = "PincerCannon",

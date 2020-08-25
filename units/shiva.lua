@@ -77,6 +77,13 @@ return {
 				world = "All Worlds",
 			},
 		},
+		sfxtypes = {
+			explosiongenerators = {
+				[1] = "custom:barrelshot-large",
+			},
+			pieceexplosiongenerators = {
+			},
+		},
 		sounds = {
 			canceldestruct = "cancel2",
 			underattack = "warning1",
@@ -105,7 +112,7 @@ return {
 				craterareaofeffect = 176,
 				craterboost = 0,
 				cratermult = 0,
-				explosiongenerator = "custom:FLASH96",
+				explosiongenerator = "custom:genericshellexplosion-large",
 				gravityaffected = "true",
 				impulseboost = 0.123,
 				impulsefactor = 0.123,
@@ -135,7 +142,7 @@ return {
 				craterboost = 0,
 				cratermult = 0,
 				edgeeffectiveness = 0.5,
-				explosiongenerator = "custom:STARFIRE",
+				explosiongenerator = "custom:genericshellexplosion-missile",
 				firestarter = 100,
 				flighttime = 10,
 				impulseboost = 0.123,

@@ -83,6 +83,13 @@ return {
 				world = "All Worlds",
 			},
 		},
+		sfxtypes = {
+			explosiongenerators = {
+				[1] = "custom:barrelshot-medium",
+			},
+			pieceexplosiongenerators = {
+			},
+		},
 		sounds = {
 			canceldestruct = "cancel2",
 			underattack = "warning1",
@@ -113,7 +120,7 @@ return {
 				craterboost = 0,
 				cratermult = 0,
 				edgeeffectiveness = 0.75,
-				explosiongenerator = "custom:FLASH64",
+				explosiongenerator = "custom:genericshellexplosion-riot",
 				impulsefactor = 1.8,
 				name = "RiotCannon",
 				noselfdamage = true,

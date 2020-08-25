@@ -78,6 +78,23 @@ return {
 				world = "All Worlds",
 			},
 		},
+		sfxtypes = {
+			explosiongenerators = {
+				[1] = "custom:barrelshot-huge",
+			},
+			pieceexplosiongenerators = {
+				[1] = "deathceg2",
+				[2] = "deathceg3",
+				[3] = "deathceg4",
+			},
+		},
+		sfxtypes = {
+			explosiongenerators = {
+				[1] = "custom:barrelshot-medium",
+			},
+			pieceexplosiongenerators = {
+			},
+		},
 		sounds = {
 			canceldestruct = "cancel2",
 			underattack = "warning1",
@@ -144,7 +161,7 @@ return {
 				craterareaofeffect = 0,
 				craterboost = 0,
 				cratermult = 0,
-				explosiongenerator = "custom:FLASH2",
+				explosiongenerator = "custom:genericshellexplosion-medium",
 				firestarter = 5,
 				impulseboost = 0.123,
 				impulsefactor = 0.123,

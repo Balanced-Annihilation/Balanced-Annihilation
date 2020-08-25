@@ -79,6 +79,13 @@ return {
 				world = "All Worlds",
 			},
 		},
+		sfxtypes = {
+			explosiongenerators = {
+				[1] = "custom:barrelshot-medium",
+			},
+			pieceexplosiongenerators = {
+			},
+		},
 		sounds = {
 			canceldestruct = "cancel2",
 			underattack = "warning1",
@@ -107,7 +114,7 @@ return {
 				craterareaofeffect = 0,
 				craterboost = 0,
 				cratermult = 0,
-				explosiongenerator = "custom:FLASH3",
+				explosiongenerator = "custom:genericshellexplosion-medium",
 				gravityaffected = "true",
 				impulseboost = 0.123,
 				impulsefactor = 0.123,

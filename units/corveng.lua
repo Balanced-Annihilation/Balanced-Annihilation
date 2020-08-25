@@ -52,6 +52,8 @@ return {
 		},
 		weapondefs = {
 			corvtol_missile_a2a = {
+			cegtag = "missiletrailfightercore",
+
 				areaofeffect = 48,
 				avoidfeature = false,
 				collidefriendly = false,
@@ -68,7 +70,7 @@ return {
 				noselfdamage = true,
 				range = 530,
 				reloadtime = 0.9,
-				smoketrail = true,
+								smoketrail = true,
 				soundhit = "xplosml2",
 				soundhitwet = "splshbig",
 				soundhitwetvolume = 0.5,

@@ -82,6 +82,13 @@ return {
 				world = "All Worlds",
 			},
 		},
+		sfxtypes = {
+			explosiongenerators = {
+				[1] = "custom:barrelshot-medium",
+			},
+			pieceexplosiongenerators = {
+			},
+		},
 		sounds = {
 			canceldestruct = "cancel2",
 			underattack = "warning1",
@@ -178,12 +185,12 @@ return {
 				},
 			},
 			arm_crus = {
-				areaofeffect = 16,
+				areaofeffect = 64,
 				avoidfeature = false,
 				craterareaofeffect = 0,
 				craterboost = 0,
 				cratermult = 0,
-				explosiongenerator = "custom:FLASH1",
+				explosiongenerator = "custom:genericshellexplosion-medium",
 				impulseboost = 0.123,
 				impulsefactor = 0.123,
 				name = "CruiserCannon",

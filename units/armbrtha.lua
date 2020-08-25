@@ -34,6 +34,11 @@ return {
 		customparams = {
 			canareaattack = 1,
 		},
+			sfxtypes = {
+			explosiongenerators = {
+				[1] = "custom:berthaflare",
+			},
+		},
 		featuredefs = {
 			dead = {
 				blocking = true,
@@ -77,11 +82,6 @@ return {
 				world = "All Worlds",
 			},
 		},
-		sfxtypes = {
-			explosiongenerators = {
-				[1] = "custom:berthaflare",
-			},
-		},
 		sounds = {
 			canceldestruct = "cancel2",
 			underattack = "warning1",
@@ -112,7 +112,8 @@ return {
 				craterboost = 0.1,
 				cratermult = 0.1,
 				energypershot = 3000,
-				explosiongenerator = "custom:FLASHBIGBUILDING",
+				explosiongenerator = "custom:genericshellexplosion-brtha",
+
 				gravityaffected = "true",
 				heightboostfactor = 8,
 				impulseboost = 0.5,

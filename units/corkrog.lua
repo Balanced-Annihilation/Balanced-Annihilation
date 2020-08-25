@@ -114,7 +114,7 @@ return {
 				craterboost = 0,
 				cratermult = 0,
 				edgeeffectiveness = 0.5,
-				explosiongenerator = "custom:FLASH96",
+								explosiongenerator = "custom:genericshellexplosion-medium",
 				impulseboost = 0.6,
 				impulsefactor = 0.6,
 				intensity = 4,
@@ -136,6 +136,9 @@ return {
 				weapontimer = 2,
 				weapontype = "Cannon",
 				weaponvelocity = 900,
+				customparams = {
+					light_mult = "0.01",
+				},
 				damage = {
 					default = 165,
 					subs = 5,

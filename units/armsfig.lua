@@ -57,6 +57,8 @@ return {
 		weapondefs = {
 			armsfig_weapon = {
 				areaofeffect = 48,
+			cegtag = "missiletrailfighterarm",
+
 				avoidfeature = false,
 				craterareaofeffect = 0,
 				craterboost = 0,

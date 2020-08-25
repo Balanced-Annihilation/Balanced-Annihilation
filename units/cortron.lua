@@ -103,6 +103,8 @@ return {
 				avoidfeature = false,
 				avoidfriendly = false,
 				collidefriendly = false,
+				cegtag = "cruisemissiletrail-tacnuke",
+
 				commandfire = true,
 				craterareaofeffect = 512,
 				craterboost = 1.6,

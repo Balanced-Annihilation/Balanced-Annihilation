@@ -53,6 +53,7 @@ return {
 		},
 		weapondefs = {
 			corvtol_advmissile = {
+			cegtag = "missiletrailfightercore",
 				areaofeffect = 8,
 				avoidfeature = false,
 				collidefriendly = false,
@@ -65,9 +66,10 @@ return {
 				impulseboost = 0,
 				impulsefactor = 0,
 				metalpershot = 0,
-				model = "missile",
 				name = "GuidedMissiles",
 				noselfdamage = true,
+				model = "missile",
+
 				range = 550,
 				reloadtime = 1,
 				smoketrail = true,

@@ -111,7 +111,7 @@ return {
 				craterareaofeffect = 128,
 				craterboost = 0,
 				cratermult = 0,
-				explosiongenerator = "custom:VEHROCKET_EXPLOSION",
+				explosiongenerator = "custom:genericshellexplosion-missile",
 				firestarter = 70,
 				impulsefactor = 1.015,
 				model = "megamisl",

@@ -104,7 +104,7 @@ return {
 				craterareaofeffect = 0,
 				craterboost = 0,
 				cratermult = 0,
-				explosiongenerator = "custom:FLASH3",
+				explosiongenerator = "custom:genericshellexplosion-smallmissile",
 				firestarter = 100,
 				flighttime = 10,
 				impulseboost = 0.123,

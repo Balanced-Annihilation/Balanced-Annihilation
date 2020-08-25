@@ -78,6 +78,13 @@ return {
 				world = "all",
 			},
 		},
+		sfxtypes = {
+			explosiongenerators = {
+				[1] = "custom:barrelshot-fatty",
+			},
+			pieceexplosiongenerators = {
+			},
+		},
 		sounds = {
 			canceldestruct = "cancel2",
 			underattack = "warning1",
@@ -108,7 +115,7 @@ return {
 				cratermult = 0,
 				edgeeffectiveness = 0.7,
 				energypershot = 0,
-				explosiongenerator = "custom:FLASH224",
+				explosiongenerator = "custom:genericshellexplosion-fat",
 				gravityaffected = "true",
 				impulseboost = 0.4,
 				impulsefactor = 0.4,

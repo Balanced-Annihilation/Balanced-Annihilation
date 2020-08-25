@@ -56,6 +56,8 @@ return {
 		},
 		weapondefs = {
 			corsfig_weapon = {
+			cegtag = "missiletrailfightercore",
+
 				areaofeffect = 48,
 				avoidfeature = false,
 				craterareaofeffect = 0,

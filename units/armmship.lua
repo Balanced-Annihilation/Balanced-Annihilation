@@ -112,7 +112,7 @@ return {
 				cratermult = 0,
 				edgeeffectiveness = 0.5,
 				energypershot = 100,
-				explosiongenerator = "custom:FLASHSMALLUNIT",
+				explosiongenerator = "custom:genericshellexplosion-missile",
 				firestarter = 100,
 				flighttime = 15,
 				impulseboost = 0.123,

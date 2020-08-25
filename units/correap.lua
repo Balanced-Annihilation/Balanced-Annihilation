@@ -85,7 +85,7 @@ return {
 		},
 		sfxtypes = {
 			explosiongenerators = {
-				[1] = "custom:MEDIUMFLARE",
+				[1] = "custom:barrelshot-reap",
 			},
 		},
 		sounds = {
@@ -116,7 +116,7 @@ return {
 				craterareaofeffect = 0,
 				craterboost = 0,
 				cratermult = 0,
-				explosiongenerator = "custom:FLASH72",
+				explosiongenerator = "custom:genericshellexplosion-reap",
 				gravityaffected = "true",
 				impulseboost = 0.123,
 				impulsefactor = 0.123,

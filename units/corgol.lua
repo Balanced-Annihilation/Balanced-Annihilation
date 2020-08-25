@@ -86,7 +86,7 @@ return {
 		},
 		sfxtypes = {
 			explosiongenerators = {
-				[1] = "custom:goliathflare",
+				[1] = "custom:barrelshot-goli",
 			},
 		},
 		sounds = {
@@ -117,7 +117,7 @@ return {
 				craterareaofeffect = 292,
 				craterboost = 0,
 				cratermult = 0,
-				explosiongenerator = "custom:FLASH96",
+				explosiongenerator = "custom:genericshellexplosion-goli",
 				gravityaffected = "true",
 				impulseboost = 0.123,
 				impulsefactor = 0.123,

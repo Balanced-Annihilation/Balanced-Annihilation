@@ -112,7 +112,7 @@ return {
 				craterboost = 0,
 				cratermult = 0,
 				edgeeffectiveness = 0.5,
-				explosiongenerator = "custom:STARFIRE",
+				explosiongenerator = "custom:genericshellexplosion-missile",
 				firestarter = 100,
 				flighttime = 12,
 				impulseboost = 0.2,

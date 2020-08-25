@@ -53,7 +53,7 @@ options = {
 		desc = 'How thick the outline appears around objects',
 		type = 'number',
 		min = 0.2, max = 1, step = 0.01,
-		value = 0.5,
+		value = 0.3,
 	OnChange = OnchangeFunc,
 	},
 	scaleWithHeight = {

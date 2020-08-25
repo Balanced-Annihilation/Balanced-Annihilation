@@ -77,6 +77,13 @@ return {
 				world = "All Worlds",
 			},
 		},
+		sfxtypes = {
+			explosiongenerators = {
+				[1] = "custom:barrelshot-medium",
+			},
+			pieceexplosiongenerators = {
+			},
+		},
 		sounds = {
 			canceldestruct = "cancel2",
 			cloak = "kloak1",
@@ -108,7 +115,7 @@ return {
 				craterareaofeffect = 0,
 				craterboost = 0,
 				cratermult = 0,
-				explosiongenerator = "custom:FLASH2nd",
+				explosiongenerator = "custom:genericshellexplosion-medium",
 				impulseboost = 0.123,
 				impulsefactor = 0.123,
 				name = "GaussCannon",

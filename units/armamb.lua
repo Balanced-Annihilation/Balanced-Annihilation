@@ -80,6 +80,13 @@ return {
 				world = "All Worlds",
 			},
 		},
+		sfxtypes = {
+			explosiongenerators = {
+				[1] = "custom:barrelshot-large",
+			},
+			pieceexplosiongenerators = {
+			},
+		},
 		sounds = {
 			canceldestruct = "cancel2",
 			cloak = "kloak1",
@@ -112,7 +119,7 @@ return {
 				craterboost = 0,
 				cratermult = 0,
 				edgeeffectiveness = 0.25,
-				explosiongenerator = "custom:FLASH96",
+				explosiongenerator = "custom:genericshellexplosion-toaster",
 				gravityaffected = "true",
 				impulseboost = 0.123,
 				impulsefactor = 0.5,
@@ -144,7 +151,7 @@ return {
 				craterboost = 0.0492,
 				cratermult = 0.0492,
 				edgeeffectiveness = 0.5,
-				explosiongenerator = "custom:FLASH96",
+				explosiongenerator = "custom:genericshellexplosion-toaster",
 				gravityaffected = "true",
 				impulseboost = 0.123,
 				impulsefactor = 2,

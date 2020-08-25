@@ -116,7 +116,7 @@ return {
 					default = 100,
 				},
 				shield = {
-					alpha = 0.5,
+					alpha = 0.4,
 					energyuse = 0,
 					force = 2.5,
 					intercepttype = 1,

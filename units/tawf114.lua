@@ -114,7 +114,7 @@ return {
 				craterboost = 0,
 				cratermult = 0,
 				edgeeffectiveness = 0.4,
-				explosiongenerator = "custom:VEHHVYROCKET_EXPLOSION",
+				explosiongenerator = "custom:genericshellexplosion-missile",
 				firestarter = 20,
 				flighttime = 3,
 				impulseboost = 0.123,

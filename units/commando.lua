@@ -54,6 +54,13 @@ return {
 			[6] = "coreyes",
 			[7] = "corjamt",
 		},
+		sfxtypes = {
+			explosiongenerators = {
+				[1] = "custom:barrelshot-small",
+			},
+			pieceexplosiongenerators = {
+			},
+		},
 		sounds = {
 			build = "nanlath2",
 			canceldestruct = "cancel2",
@@ -87,7 +94,7 @@ return {
 				craterareaofeffect = 70,
 				craterboost = 0,
 				cratermult = 0,
-				explosiongenerator = "custom:CORE_FIRE_SMALL",
+				explosiongenerator = "custom:genericshellexplosion-croc",
 				firestarter = 100,
 				gravityaffected = "true",
 				impulseboost = 0,

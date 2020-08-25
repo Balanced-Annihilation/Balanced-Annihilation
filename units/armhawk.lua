@@ -53,6 +53,8 @@ return {
 		},
 		weapondefs = {
 			armvtol_advmissile = {
+			cegtag = "missiletrailfighterarm",
+
 				areaofeffect = 8,
 				avoidfeature = false,
 				collidefriendly = false,
