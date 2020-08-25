@@ -75,7 +75,7 @@ local unitIncreaseThresh	= 0.85 -- We only increase maxUnits if the units are gr
 local lineFadeRate = 2.0
 
 local CMD_RAW_MOVE = 39812
-local CMD_SETTARGET = 34924
+local CMD_SETTARGET = 34923
 
 -- What commands are eligible for custom formations
 local formationCmds = {
@@ -98,6 +98,8 @@ local requiresAlt = {
 -- Normal logic will follow after override, i.e. must be a formationCmd to get formation, alt must be held if requiresAlt, etc.
 local overrideCmds = {
 	[CMD.GUARD] = CMD_RAW_MOVE,
+	[CMD.ATTACK] = CMD_RAW_MOVE,
+	[CMD_SETTARGET] = CMD.MOVE
 }
 
 -- What commands are issued at a position or unit/feature ID (Only used by GetUnitPosition)
