@@ -142,7 +142,7 @@ local moveRawCmdDesc = {
 	name    = 'Raw Move',
 	cursor  = 'Move', -- add with LuaUI?
 	action  = 'rawmove',
-	tooltip = 'Raw Move: Order the unit to move to a position.',
+	tooltip = 'Raw Move: Order the unit to raw move to a position.',
 }
 
 local TEST_MOVE_SPACING = 16
@@ -742,7 +742,7 @@ function gadget:GameFrame(n)
 		needGlobalWaitWait = false
 	end
 	UpdateConstructors(n)
-	UpdateMoveReplacement()
+	--UpdateMoveReplacement()
 	if n%247 == 4 then
 		oldCommandStoppingRadius = commonStopRadius
 		commonStopRadius = {}
