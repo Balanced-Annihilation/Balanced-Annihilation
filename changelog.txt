@@ -1,4 +1,4 @@
-﻿V9.76.1
+﻿V9.76.2
 31/03/2020
 
 add back dgun button (ManualFire)
