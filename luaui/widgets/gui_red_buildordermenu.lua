@@ -656,7 +656,15 @@ local function GetCommands()
 			(not hiddencmds[cmd.id]) and
 			(cmd.action ~= nil) and
 			--(not cmd.disabled) and
-			(not widgetHandler.commands[index].hidden) and --apparently GetActiveCmdDescs is bugged and returns hidden for every command
+			--(not widgetHandler.commands[index].hidden) and --apparently GetActiveCmdDescs is bugged and returns hidden for every command
+			--(cmd.type ~= 11) and
+			--(cmd.type ~= 12) and
+			(cmd.type ~= 13) and
+			--(cmd.type ~= 14) and
+			--(cmd.type ~= 15) and
+			--(cmd.type ~= 16) and
+			
+			(cmd.type ~= 28) and
 			(cmd.type ~= 21) and
 			(cmd.type ~= 18) and
 			(cmd.type ~= 17)
@@ -701,7 +709,8 @@ local function hijacklayout()
 		widgetHandler.commands.n = cmdCount
 		widgetHandler:CommandsChanged() --call widget:CommandsChanged()
 		local iconList = {[1337]=9001}
-		return "", xIcons, yIcons, {}, {}, {}, {}, {}, {}, {}, iconList
+			local custom_cmdz = widgetHandler.customCommands
+		return "", xIcons, yIcons, {}, custom_cmdz, {}, {}, {}, {}, {}, iconList
 	end
 	widgetHandler:ConfigLayoutHandler(dummylayouthandler) --override default build/ordermenu layout
 	Spring.ForceLayoutUpdate()
