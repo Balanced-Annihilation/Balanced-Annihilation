@@ -104,6 +104,7 @@ return {
 				avoidfeature = false,
 				avoidfriendly = false,
 				collidefriendly = false,
+				collideGround = false,
 				commandfire = true,
 				craterareaofeffect = 1280,
 				craterboost = 2.4,

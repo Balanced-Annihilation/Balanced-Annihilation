@@ -105,8 +105,10 @@ return {
 			armscab_weapon = {
 				areaofeffect = 420,
 				avoidfeature = false,
+				collideFeature = false,
 				avoidfriendly = false,
 				collidefriendly = false,
+				collideGround = false,
 				coverage = 1600,
 				craterareaofeffect = 420,
 				craterboost = 0,
