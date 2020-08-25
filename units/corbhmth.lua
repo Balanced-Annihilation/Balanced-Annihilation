@@ -32,7 +32,7 @@ return {
 		seismicsignature = 0,
 		selfdestructas = "ESTOR_BUILDING",
 		sightdistance = 650,
-		usebuildinggrounddecal = true,
+		usebuildinggrounddecal = false,
 		yardmap = "ooooo ooooo ooGoo ooooo ooooo",
 		featuredefs = {
 			dead = {

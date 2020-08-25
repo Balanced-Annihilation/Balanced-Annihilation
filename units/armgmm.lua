@@ -33,7 +33,7 @@ return {
 		seismicsignature = 0,
 		selfdestructas = "LARGE_BUILDING",
 		sightdistance = 273,
-		usebuildinggrounddecal = true,
+		usebuildinggrounddecal = false,
 		yardmap = "ooooo ooooo ooGoo ooooo ooooo",
 		sounds = {
 			canceldestruct = "cancel2",

@@ -38,7 +38,7 @@ return {
 		terraformspeed = 1000,
 		turnrate = 1,
 		upright = true,
-		useBuildingGroundDecal = true,
+		usebuildinggrounddecal = false,
 		workertime = 200,
 		sounds = {
 			build = "nanlath1",

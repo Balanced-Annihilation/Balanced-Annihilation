@@ -33,7 +33,7 @@ return {
 		repairable = false,
 		seismicsignature = 0,
 		sightdistance = 1,
-		usebuildinggrounddecal = true,
+		usebuildinggrounddecal = false,
 		yardmap = "ffff",
 		featuredefs = {
 			rockteeth = {

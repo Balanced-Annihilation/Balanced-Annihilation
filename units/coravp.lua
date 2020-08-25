@@ -37,7 +37,7 @@ return {
 		selfdestructas = "LARGE_BUILDING",
 		sightdistance = 286,
 		terraformspeed = 1000,
-		usebuildinggrounddecal = true,
+		usebuildinggrounddecal = false,
 		workertime = 300,
 		yardmap = "oooooooooooooooooooocccccoooocccccoooocccccoooocccccoooocccccoo",
 		buildoptions = {

@@ -34,7 +34,7 @@ return {
 		seismicsignature = 0,
 		selfdestructas = "CRBLMSSL",
 		sightdistance = 273,
-		usebuildinggrounddecal = true,
+		usebuildinggrounddecal = false,
 		yardmap = "oooooooooooooooooooooooooooooooooooo",
 		featuredefs = {
 			dead = {

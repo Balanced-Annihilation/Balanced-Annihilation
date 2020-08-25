@@ -32,7 +32,7 @@ return {
 		seismicsignature = 0,
 		selfdestructas = "RLRPC_DEATH",
 		sightdistance = 700,
-		usebuildinggrounddecal = true,
+		usebuildinggrounddecal = false,
 		yardmap = "oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo",
 		featuredefs = {
 			dead = {

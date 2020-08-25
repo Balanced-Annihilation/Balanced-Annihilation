@@ -37,7 +37,7 @@ return {
 		stealth = true,
 		turnrate = 0,
 		upright = true,
-		usebuildinggrounddecal = true,
+		usebuildinggrounddecal = false,
 		featuredefs = {
 			dead = {
 				autoreclaimable = 0,

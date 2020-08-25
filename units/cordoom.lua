@@ -39,7 +39,7 @@ return {
 		seismicsignature = 0,
 		selfdestructas = "ATOMIC_BLAST",
 		sightdistance = 780,
-		usebuildinggrounddecal = true,
+		usebuildinggrounddecal = false,
 		yardmap = "yooy oooo oooo yooy",
 		featuredefs = {
 			dead = {

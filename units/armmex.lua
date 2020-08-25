@@ -36,7 +36,7 @@ return {
 		selfdestructas = "TINY_BUILDINGEX",
 		selfdestructcountdown = 1,
 		sightdistance = 273,
-		usebuildinggrounddecal = true,
+		usebuildinggrounddecal = false,
 		yardmap = "ooooooooo",
 		featuredefs = {
 			dead = {

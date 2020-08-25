@@ -33,7 +33,7 @@ return {
 		seismicsignature = 0,
 		selfdestructas = "NUCLEAR_MISSILE",
 		sightdistance = 273,
-		usebuildinggrounddecal = true,
+		usebuildinggrounddecal = false,
 		yardmap = "ooooooo ooooooo oGGoooo oGGoooo ooooooo",
 		sounds = {
 			canceldestruct = "cancel2",

@@ -32,7 +32,7 @@ return {
 		seismicsignature = 0,
 		selfdestructas = "SMALL_BUILDING",
 		sightdistance = 273,
-		usebuildinggrounddecal = true,
+		usebuildinggrounddecal = false,
 		windgenerator = 25,
 		yardmap = "ooooooooo",
 		featuredefs = {

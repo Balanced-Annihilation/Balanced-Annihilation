@@ -31,7 +31,7 @@ return {
 		selfdestructas = "ATOMIC_BLAST",
 		sightdistance = 494,
 		stealth = true,
-		usebuildinggrounddecal = true,
+		usebuildinggrounddecal = false,
 		yardmap = "oooooooooooooooo",
 		featuredefs = {
 			dead = {

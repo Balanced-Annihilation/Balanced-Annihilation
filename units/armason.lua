@@ -35,7 +35,7 @@ return {
 		selfdestructas = "SMALL_BUILDING",
 		sightdistance = 215,
 		sonardistance = 2400,
-		usebuildinggrounddecal = true,
+		usebuildinggrounddecal = false,
 		yardmap = "yooy oooo oooo yooy",
 		featuredefs = {
 			dead = {
