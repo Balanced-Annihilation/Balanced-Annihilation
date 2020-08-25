@@ -1,4 +1,17 @@
-﻿V9.75.3
+﻿V9.75.4
+05/01/2020
+
+settarget will not reveal true unit positions without los
+krog 25% less health -33.7k hp 133700 to 100000
+bantha 10% less health -5.2k hp 52000 to 46800
+selections of over 150 units won't use raw move
+added widget commanderhurt: shows red highlight if commander is under attack offscreen (default disabled)
+added widget cas: sharpens textures (default disabled)
+added widget gfx_unit_cell_shader: cell shaded outline for units (default disabled)
+map damage disabled by default
+builders can area mex
+
+V9.75.3
 4/10/2019
 
 correct dgun path is shown when aiming
