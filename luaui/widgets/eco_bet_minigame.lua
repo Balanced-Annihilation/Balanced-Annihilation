@@ -162,10 +162,10 @@ local pics = {
 
 
 --ecotrader vars
-
+canBet = true
 local previousPrice
-local prevMetalIncomeName
-
+local prevIncomeName
+local prevBetTime = 0
 local nameFromPrevUpdate
 local prevClickedName
 local clickedName
@@ -173,7 +173,7 @@ local clickedName
 local balance
 local prevClickedNameTeam
 
-local prevMetalIncome
+local prevIncome
 
 
 local sidePics        = {}  -- loaded in SetSidePics function
@@ -686,20 +686,24 @@ local function UpdateRecentBroadcasters()
 end
 
 local function LockCamera(playerID)
-	if playerID and playerID ~= myPlayerID and playerID ~= lockPlayerID then
-		lockPlayerID = playerID
-		--myLastCameraState = myLastCameraState or GetCameraState()
-		--local info = lastBroadcasts[lockPlayerID]
-		--if info then
-		--	SetCameraState(info[2], transitionTime)
-		--end
-	else
-		--if myLastCameraState then
-		--	SetCameraState(myLastCameraState, transitionTime)
-		--	myLastCameraState = nil
-		--end
-		lockPlayerID = nil
-	end
+
+
+	
+		if playerID and playerID ~= myPlayerID and playerID ~= lockPlayerID then
+			lockPlayerID = playerID
+			--myLastCameraState = myLastCameraState or GetCameraState()
+			--local info = lastBroadcasts[lockPlayerID]
+			--if info then
+			--	SetCameraState(info[2], transitionTime)
+			--end
+		else
+			--if myLastCameraState then
+			--	SetCameraState(myLastCameraState, transitionTime)
+			--	myLastCameraState = nil
+			--end
+			lockPlayerID = nil
+		end
+	
 	--UpdateRecentBroadcasters()
 end
 
@@ -1299,23 +1303,16 @@ function SortAllyTeams(vOffset)
 				selectedPlayerID = i
 				 selectedPlayerName = selectedPlayerHere.name	
 				if(selectedPlayerName~= absentName) then
-					metal, metalStorage,_, metalIncome = Spring_GetTeamResources(player[i].team, "metal")	
+					metal, metalStorage,_, metalIncome = Spring_GetTeamResources(player[i].team, "energy")	
 					
 					
 					if (metalIncome >= highestCurrentIncome) then
 						highestCurrentIncome = metalIncome	
 						wealthiestPlayerName = selectedPlayerName
 						wealthiestPlayerID = i
-						
-
 					end
-				end
-				
-				
+				end	
 			end
-			
-			
-			
 		end
 		if(selectedPlayerName~= absentName) then --absent at start of game loading
 			if(wealthiestPlayerName == nil) then --demo not started
@@ -1330,8 +1327,37 @@ function SortAllyTeams(vOffset)
 			prevClickedName = wealthiestPlayerName
 			prevClickedNameTeam = player[wealthiestPlayerID].team
 			LockCamera(wealthiestPlayerID)
+			--try to set income to highest spec or player
+
 			
-			balance = highestCurrentIncome
+			local highestPlayerScore = 0
+			
+			if playerScores~=nil then
+				for playerID =0, 63 do
+					--if player[playerID] ~= nil then
+						if (playerScores[playerID] ~= nil and playerScores[playerID].score > highestPlayerScore) then
+						--Spring.Echo("set score to highest score "..playerScores[playerID].score.. " "..highestPlayerScore)
+							balance = playerScores[playerID].score
+							
+							highestPlayerScore = playerScores[playerID].score
+							income = balance
+							prevIncome = -1
+							
+							--highestCurrentIncome = playerScores[playerID].score
+						end
+					end
+				end
+			end
+			
+			if(balance == 0) then
+			--	Spring.Echo("balance == 0 set starting balance to "..highestPlayerScore)
+
+				balance = highestPlayerScore
+				prevIncome = -1
+				income = balance
+									--Spring.Echo("set starting balance to "..highestCurrentIncome)
+
+			
 			
 			--if(balance == 0) then
 			--	balance = 1
@@ -2087,7 +2113,24 @@ function DrawChips(playerID, posY)
 	else
 	gl_Color(1,1,1,1)
 	end
-	gl_Text(string.format("%.1f",playerScores[playerID].score), xPos-5, posY+4, 11, "n")
+	
+	local score = playerScores[playerID].score
+		
+		
+		score = math.floor(score)
+		
+		if score > 1000 then
+			score = math.floor(score / 100) * 100
+		elseif score > 100 then
+			score = math.floor(score / 10) * 10
+		end
+		
+	
+		if score >= 10000 then score = math.floor(score/1000).."k" end
+		
+	
+	
+	gl_Text(score, xPos-5, posY+4, 11, "n")
 	
 	--gl_Texture(pics["chipPic"])
 	--DrawRect(xPos+4, posY+3.5, xPos-2.5, posY + 10)
@@ -2188,12 +2231,16 @@ function DrawDot(posY)
 	DrawRect(m_indent.posX + widgetPosX-1 , posY+3, m_indent.posX + widgetPosX + 7, posY + 11)
 end
 
+
+
+
 function DrawCamera(posY,active)
-	if active ~= nil and active then
-		gl_Color(1,1,1,0.7)
-	else
-		gl_Color(1,1,1,0.13)
+	if canBet then
+		gl_Color(0.1,0.95,0.2,1)
+		else
+		gl_Color(0.8,0.1,0.1,1)	
 	end
+	
 	gl_Texture(pics["cameraPic"])
 	DrawRect(m_indent.posX + widgetPosX-5.5 , posY+2, m_indent.posX + widgetPosX + 5, posY + 12.4)
 end
@@ -2318,9 +2365,15 @@ function DrawSmallName(name, team, posY, dark, playerID, alpha)
 	end
 end
 
+
+
 function DrawID(playerID, posY, dark)
 
-
+	local period = 75 --cooldown between bets 2m30
+	--Spring.Echo(os.clock().. " ".. prevBetTime + period)
+	if  os.clock() > (prevBetTime + period) then
+		canBet = true
+	end
 
 
 	local spacer = ""
@@ -2331,8 +2384,22 @@ function DrawID(playerID, posY, dark)
 		
 		if (mySpecStatus or myAllyTeamID == tallyteam) then 
 			metal, metalStorage,_, metalIncome = Spring_GetTeamResources(playerID, "metal")
+			energy, energyStorage,_, energyIncome = Spring_GetTeamResources(playerID, "energy")
 			gl_Color(1,1,1,1)
-			gl_Text(string.format("%.1f",metalIncome) .. "", m_ID.posX + widgetPosX+4.5, posY + 5, 11, "n") 
+			
+			
+			score = math.floor( metalIncome + (energyIncome/60))
+		
+			if score > 1000 then
+				score = math.floor(score / 100) * 100
+			elseif score > 100 then
+				score = math.floor(score / 10) * 10
+			end
+			
+		
+			if score >= 10000 then score = math.floor(score/1000).."k" end
+			
+			gl_Text(score .. "", m_ID.posX + widgetPosX+4.5, posY + 5, 11, "n") 
 		else
 			--gl_Color(1,1,1,1)
 			--gl_Text("hi" .. tallyteam .. "", m_ID.posX + widgetPosX+4.5, posY + 5, 11, "n") 
@@ -2348,26 +2415,40 @@ function DrawID(playerID, posY, dark)
 		if(nameFromPrevUpdate~= nil) then
 
 			metal, metalStorage,_, metalIncome = Spring_GetTeamResources(prevClickedNameTeam, "metal")	
-
+			energy, energyStorage,_, energyIncome = Spring_GetTeamResources(prevClickedNameTeam, "energy")
+			
+			income = metalIncome + (energyIncome/60)
+			
 			if(prevClickedName == nameFromPrevUpdate) then --only apply gains to your balance while holding same player
+				if(prevIncome ~= -1)	then		
+					
 						
 						
-						
-						
-						
-						--if(prevMetalIncome~= nil) then
-							if(prevMetalIncome ==nil or prevMetalIncome == 0 ) then
-								--Spring.Echo("prevMetalIncome 0")
-								balance = metalIncome
+						--prevIncome ==nil
+						--if(prevIncome~= nil) then
+							if(prevIncome ==nil or prevIncome == 0 ) then
+								--Spring.Echo("prevIncome 0")
+								balance = income
 							else
 									--when game starts income will be 0, when player dies income will be 0
 										
 								
-										local percentageChange = ((metalIncome - prevMetalIncome)/prevMetalIncome)+1 --change as decimal
+										local percentageChange = ((income - prevIncome)/prevIncome)+1 --change as decimal
+									--max gain 5% max loss
 									
 										if(percentageChange ~= 0 and percentageChange ~=1) then
+																					--Spring.Echo(percentageChange)
+
+											if(percentageChange > 1.25) then
+												percentageChange = 1.25
+											end
+											if(percentageChange < 0.25) then
+												percentageChange = 0.25
+											end
+											--Spring.Echo(percentageChange)
+										
 											balance =  balance*percentageChange
-											--Spring.Echo("balance " ..balance  .." prevIncome " ..prevMetalIncome .. " Income "..metalIncome .." %Change ".. percentageChange  )
+											--Spring.Echo("balance " ..balance  .." prevIncome " ..prevIncome .. " Income "..income .." %Change ".. percentageChange  )
 														
 										end
 								
@@ -2375,13 +2456,14 @@ function DrawID(playerID, posY, dark)
 							end
 							SendCommands("luarules placebet " .. "unit" .. " " .. prevClickedNameTeam.. " " .. balance) 		
 						--end
-					end
+				end
+			end
 				
 			
 			
 			
 
-			prevMetalIncome = metalIncome
+			prevIncome = income
 			
 			
 
@@ -2782,62 +2864,74 @@ function widget:MousePress(x,y,button) --super ugly code here
 						
 
 						if (player[i].spec==false and mySpecStatus) then 
+						
 							
+							--Spring.Echo(os.clock)
+								if(canBet == true) then
+									prevBetTime = os.clock()
+									canBet = false
+								
 
-							local myname = select(1, Spring.GetPlayerInfo(Spring.GetMyPlayerID()))
+									local myname = select(1, Spring.GetPlayerInfo(Spring.GetMyPlayerID()))
 
-							
-							--local tname,_, tspec, tteam, tallyteam, tping, tcpu, tcountry, trank = Spring_GetPlayerInfo(clickedPlayer.id)
-							--metal, metalStorage,_, metalIncome = Spring_GetTeamResources(tteam, "metal")
-							
-							--local tname,_, tspec, tteam, tallyteam, tping, tcpu, tcountry, trank = Spring_GetPlayerInfo(playerID)
-	--local _,_,_,_, tside, tallyteam                                      = Spring_GetTeamInfo(tteam)
-	--local tred, tgreen, tblue  										     = Spring_GetTeamColor(tteam)
-	
-	
-	
-	
-	
-	
-							
-							metal, metalStorage,_, metalIncome = Spring_GetTeamResources(player[i].team, "metal")
-							
-							local currentPrice = metalIncome
-							
+									
+									--local tname,_, tspec, tteam, tallyteam, tping, tcpu, tcountry, trank = Spring_GetPlayerInfo(clickedPlayer.id)
+									--metal, metalStorage,_, metalIncome = Spring_GetTeamResources(tteam, "metal")
+									
+									--local tname,_, tspec, tteam, tallyteam, tping, tcpu, tcountry, trank = Spring_GetPlayerInfo(playerID)
+			--local _,_,_,_, tside, tallyteam                                      = Spring_GetTeamInfo(tteam)
+			--local tred, tgreen, tblue  										     = Spring_GetTeamColor(tteam)
+			
+			
+			
+			
+			
+			
+									
+									metal, metalStorage,_, metalIncome = Spring_GetTeamResources(player[i].team, "energy")
+									energy, energyStorage,_, energyIncome = Spring_GetTeamResources(player[i].team, "energy")
+									
+									local currentPrice = metalIncome +(energyIncome/60)
+									
 
-							--if currentPrice == 0 then -- 0 is nil, price 0 if game didnt start, set it to 1 / could happen when team dead
-								--Spring.Echo("freezetime prediction: "..clickedName) --when game starts hakora always goes back to top of list
-							--end
+									--if currentPrice == 0 then -- 0 is nil, price 0 if game didnt start, set it to 1 / could happen when team dead
+										--Spring.Echo("freezetime prediction: "..clickedName) --when game starts hakora always goes back to top of list
+									--end
+									
+									if prevClickedName ~= clickedName and currentPrice ~= nil and currentPrice ~= 0 then --and previousPrice~= nil 
+											--prev buy price, current sell price, new buy price
+											
+											
+											if(previousPrice == nil) then
+												--Spring.Echo("first bet")
+											else
+												--Spring.Echo(myname.. " bought ".. clickedName .. " @ ".. string.format("%.0f",currentPrice).. " sold "..prevClickedName .. " @ ".. string.format("%.0f",previousPrice))
+												
+												
+												
+												
+												--growth 120%
+											
+												end
+											--Spring.Echo("CLICK ecoguess " .. "unit" .. " " .. player[i].team .. " " .. 1800)
+			
+											--SendCommands("luarules placebet " .. "unit" .. " " .. player[i].team.. " " .. 1800) 
+											
+									end
+									previousPrice = currentPrice
+									
+									LockCamera(i)
+									--prevClickedName = ''
+									prevClickedName = clickedName
+									prevClickedNameTeam = player[i].team
+									SortList()
+									CreateLists()
+									return true
+								
+								else
+									return true
+								end
 							
-							if prevClickedName ~= clickedName and currentPrice ~= nil and currentPrice ~= 0 then --and previousPrice~= nil 
-									--prev buy price, current sell price, new buy price
-									
-									
-									if(previousPrice == nil) then
-										--Spring.Echo("first bet")
-									else
-										--Spring.Echo(myname.. " bought ".. clickedName .. " @ ".. string.format("%.0f",currentPrice).. " sold "..prevClickedName .. " @ ".. string.format("%.0f",previousPrice))
-										
-										
-										
-										
-										--growth 120%
-									
-										end
-									--Spring.Echo("CLICK ecoguess " .. "unit" .. " " .. player[i].team .. " " .. 1800)
-	
-									--SendCommands("luarules placebet " .. "unit" .. " " .. player[i].team.. " " .. 1800) 
-									
-							end
-							previousPrice = currentPrice
-							
-							LockCamera(i)
-							--prevClickedName = ''
-							prevClickedName = clickedName
-							prevClickedNameTeam = player[i].team
-							SortList()
-							CreateLists()
-							return true
 						end 
 						
 						prevClickedName = clickedName
@@ -3515,7 +3609,7 @@ end
 
 --timers
 local timeCounter = 0
-local updateRate = 1
+local updateRate = 3
 local updateRatePreStart = 0.25
 local lastTakeMsg = -120
 
