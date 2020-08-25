@@ -119,10 +119,8 @@ return {
 			amd_rocket = {
 				areaofeffect = 420,
 				avoidfeature = false,
-				collideFeature = false,
 				avoidfriendly = false,
 				collidefriendly = false,
-				collideGround = false,
 				coverage = 2000,
 				craterareaofeffect = 420,
 				craterboost = 0,

@@ -103,7 +103,6 @@ return {
 				areaofeffect = 1920,
 				avoidfeature = false,
 				avoidfriendly = false,
-				collidefriendly = false,
 				commandfire = true,
 				cegtag = "NUKETRAIL",
 				craterareaofeffect = 1920,
