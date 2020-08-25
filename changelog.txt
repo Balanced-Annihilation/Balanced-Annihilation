@@ -1,4 +1,18 @@
-﻿9.45 -> 9.46
+﻿9.45 -> V9.461
+28/06/2019
+
+fix settarget breaking dgun
+add back t2 torpedo
+fix transport unloading
+air repair pads work again
+t2 vehicle transport works again
+disable air collision
+krow does not produce energy
+undo freaker chain
+remove t3 hover
+crown for tournament winner Cartouche
+
+9.45 -> 9.46
 22/09/2016
 
 - Ready/substitute button smaller
