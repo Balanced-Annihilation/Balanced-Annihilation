@@ -726,7 +726,8 @@ local function drawTargetCommand(targetData,spectator,myTeam,myAllyTeam)
 				glVertex( x2, y2, z2)
 			elseif los.radar then
 				local dx, dy, dz = Spring.GetUnitPosErrorParams(targetData.target)
-				glVertex( x2+dx,y2+dy,z2+dz)
+				local size = Spring.GetRadarErrorParams(myAllyTeam)
+				glVertex( x2+dx*size,y2+dy*size,z2+dz*size)
 			end
 		end
 	elseif targetData and targetData.userTarget and not tonumber(targetData.target) and targetData.target then
