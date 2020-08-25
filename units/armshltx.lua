@@ -43,7 +43,7 @@ return {
 			[2] = "armraz",
 			[3] = "marauder",
 			[4] = "armshock",
-			[5] = "armlun",
+			--[5] = "armlun",
 		},
 		featuredefs = {
 			armshlt_dead = {

@@ -12,7 +12,7 @@ return {
 		canmove = true,
 		cansubmerge = true,
 		category = "ALL NOTLAND MOBILE NOTSUB ANTIFLAME ANTIEMG ANTILASER VTOL NOWEAPON NOTSHIP NOTHOVER",
-		collide = true,
+		collide = false,
 		cruisealt = 50,
 		description = "Tech Level 2",
 		energymake = 20,
@@ -53,7 +53,7 @@ return {
 			[9] = "armuwadves",
 			[10] = "armuwadvms",
 			[11] = "armfflak",
---			[12] = "armatl",
+			[12] = "armatl",
 			[12] = "armason",
 		},
 		sounds = {

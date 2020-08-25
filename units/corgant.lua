@@ -46,7 +46,7 @@ return {
 			[3] = "gorg",
 			[4] = "shiva",
 			[5] = "armraven",
-			[6] = "corsok",
+			--[6] = "corsok",
 		},
 		featuredefs = {
 			dead = {

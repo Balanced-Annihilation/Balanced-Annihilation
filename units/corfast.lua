@@ -18,7 +18,7 @@ return {
 		energymake = 15,
 		energystorage = 100,
 		energyuse = 15,
-		explodeas = "BIG_UNIT",
+		explodeas = "BIG_UNITEX",
 		footprintx = 2,
 		footprintz = 2,
 		idleautoheal = 5,

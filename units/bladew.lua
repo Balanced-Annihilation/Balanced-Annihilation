@@ -9,7 +9,7 @@ return {
 		canfly = true,
 		canmove = true,
 		category = "ALL WEAPON VTOL NOTSUB NOTHOVER",
-		collide = true,
+		collide = false,
 		cruisealt = 78,
 		description = "Light Paralyzer Drone",
 		energymake = 2,

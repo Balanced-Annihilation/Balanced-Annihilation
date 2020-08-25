@@ -9,7 +9,7 @@ return {
 		canfly = true,
 		canmove = true,
 		category = "ALL MOBILE WEAPON NOTLAND NOTSUB ANTIFLAME ANTIEMG ANTILASER VTOL NOTSHIP NOTHOVER",
-		collide = true,
+		collide = false,
 		cruisealt = 70,
 		description = "Air Transport",
 		energymake = 0.6,
@@ -34,7 +34,7 @@ return {
 		transportcapacity = 1,
 		transportmass = 5000,
 		transportsize = 3,
-		turninplaceanglelimit = 360,
+		turninplaceanglelimit = 0,
 		turnrate = 550,
 		blocking = false,
 		customparams = {
