@@ -75,7 +75,7 @@ local unitIncreaseThresh	= 0.85 -- We only increase maxUnits if the units are gr
 local lineFadeRate = 2.0
 
 local CMD_RAW_MOVE = 39812
-local CMD_SETTARGET = 34923
+local CMD_SETTARGET = 34924
 
 -- What commands are eligible for custom formations
 local formationCmds = {
