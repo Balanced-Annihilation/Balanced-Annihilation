@@ -1,4 +1,10 @@
-﻿9.45 -> V9.461
+﻿V9.71
+30/06/2019
+
+torpedo bomber ignores blocking terrain and torpedo turns faster towards target
+bantha 16.2% less health, -10k hp
+
+V9.70
 28/06/2019
 
 fix settarget breaking dgun
