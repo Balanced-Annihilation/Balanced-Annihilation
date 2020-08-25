@@ -160,7 +160,8 @@ local pics = {
 	rank8      = imageDirectory.."ranks/rank_unknown.dds",
 }
 
-
+local sidePics        = {}  -- loaded in SetSidePics function
+local sidePicsWO      = {}  -- loaded in SetSidePics function
 local originalColourNames = {} -- loaded in SetOriginalColourNames, format is originalColourNames['name'] = colourString
 
 --------------------------------------------------------------------------------
@@ -761,6 +762,7 @@ function widget:Initialize()
 
 	GeometryChange()	
 	SetModulesPositionX() 
+	SetSidePics() 
 	InitializePlayers()
 	SortList()
 	
@@ -796,6 +798,7 @@ function widget:GameStart()
 	end
 	
 	gameStarted = true
+	SetSidePics()
 	InitializePlayers()
 	SetOriginalColourNames()
 	SortList()
@@ -811,6 +814,40 @@ function widget:Shutdown()
   widgetHandler:DeregisterGlobal('FpsEvent')
   widgetHandler:DeregisterGlobal('SystemEvent')
 end
+
+
+function SetSidePics() 
+	--record readyStates
+	playerList = Spring.GetPlayerList()
+	for _,playerID in pairs (playerList) do
+		playerReadyState[playerID] = Spring.GetGameRulesParam("player_" .. tostring(playerID) .. "_readyState")
+	end
+
+	--set factions, from TeamRulesParam when possible and from initial info if not
+	teamList = Spring_GetTeamList()
+	for _, team in ipairs(teamList) do
+		local teamside
+		if Spring_GetTeamRulesParam(team, 'startUnit') then
+			local startunit = Spring_GetTeamRulesParam(team, 'startUnit')
+			if startunit == armcomDefID then 
+				teamside = "arm"
+			else
+				teamside = "core"
+			end
+		else
+			_,_,_,_,teamside = Spring_GetTeamInfo(team)
+		end
+	
+		if teamside then
+			sidePics[team] = imageDirectory..teamside.."_default.png"
+			sidePicsWO[team] = imageDirectory..teamside.."wo_default.png"
+		else
+			sidePics[team] = imageDirectory.."default.png"
+			sidePicsWO[team] = imageDirectory.."defaultwo.png"
+		end
+	end
+end
+
 
 function InitializePlayers()
 	myPlayerID = Spring_GetLocalPlayerID()
@@ -1780,6 +1817,8 @@ function DrawPlayer(playerID, leader, vOffset, mouseX, mouseY)
 		end
 		--gl_Color(red,green,blue,1)
 		gl_Color(1,1,1,0.45)
+		if name ~= absentName and m_side.active == true then
+		end
 		gl_Color(red,green,blue,1)
 		if m_name.active == true then
 			DrawName(name, team, posY, dark, playerID)
@@ -3265,6 +3304,7 @@ function widget:Update(delta) --handles takes & related messages
 			return
 		else
 			timeCounter = 0
+			SetSidePics() --if the game hasn't started, update factions
 			CreateLists()
 		end
 	end
