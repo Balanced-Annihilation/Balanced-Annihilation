@@ -49,6 +49,14 @@ local sGetSelectedUnitsCount = Spring.GetSelectedUnitsCount
 
 local GaiaTeamID  = Spring.GetGaiaTeamID()
 
+local isFa
+
+if tonumber(Spring.GetModOptions().anon_ffa) == 1 and (#Spring.GetTeamList()-1  ==  #Spring.GetAllyTeamList()-1) and #Spring.GetTeamList()-1 ~=2 and #Spring.GetTeamList()-1 ~=1 then --is fa
+	isFa = true
+end
+
+
+
 
 local function IncludeRedUIFrameworkFunctions()
 	New = WG.Red.New(widget)
@@ -162,16 +170,28 @@ local function createtooltip(r)
 				local text = getEditedCurrentTooltip() or sGetCurrentTooltip()
 				
 				
-				str = text
-				lines = {}
-				for s in str:gmatch("[^\r\n]+") do
-					table.insert(lines, s)
-				end
-				if(table.getn(lines) == 5) then
-					self.caption = self.caption..lines[2].."\n"..lines[3].."\n"..lines[4] 
+	
+				
+				
+				if isFa == true then --is fa
+					lines = {}
+					for s in text:gmatch("[^\r\n]+") do
+						table.insert(lines, s)
+					end
+					if(table.getn(lines) == 5) then
+						self.caption = self.caption..lines[2].."\n"..lines[3].."\n"..lines[4] 
+					else
+						self.caption = text
+					end
 				else
-					self.caption = text
+					if (self._mouseoverself) then
+						self.caption = self.caption..r.tooltip.background
+					else
+						self.caption = self.caption..(text) 
+					end
 				end
+				
+				
 			end
 		end
 	}
@@ -283,6 +303,7 @@ local function createtooltip(r)
 	}
 end
 
+
 function widget:Initialize()
 	PassedStartupCheck = RedUIchecks()
 	if (not PassedStartupCheck) then return end
@@ -292,6 +313,7 @@ function widget:Initialize()
 	Spring.SetDrawSelectionInfo(false) --disables springs default display of selected units count
 	Spring.SendCommands("tooltip 0")
 	AutoResizeObjects()
+	
 end
 
 function widget:Shutdown()

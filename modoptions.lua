@@ -42,6 +42,14 @@ local options={
         max    = 120,
         step   = 1,
     },
+	{
+		key    = "anon_ffa",
+		name   = "anon FFA Mode",
+		desc   = "Random FFA colours",
+		type   = "bool",
+		def    = false,
+		section= "ba_modes",
+	},
     {
 		key    = "mo_ffa",
 		name   = "FFA Mode",

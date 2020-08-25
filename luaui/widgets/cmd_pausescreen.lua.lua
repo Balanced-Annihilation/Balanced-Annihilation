@@ -1,8 +1,8 @@
 function widget:GetInfo()
 	return {
-		name = "Red_UI",
-		desc = "Widget for Red UI Framework",
-		author = "Floris",
+		name      = "Gui Pause Screen",
+        desc      = "Displays an overlay when the game is paused",
+        author    = "very_bad_soldier (enhanced by: Floris)",
 		date = "March 2017",
 		license = "GPL v2",
 		layer = -10001,
@@ -23,7 +23,7 @@ local myTeamID = Spring.GetMyTeamID()
 local singleTeams = false
 
 
-if (#Spring.GetTeamList()-1  ==  #Spring.GetAllyTeamList()-1) and #Spring.GetTeamList()-1 ~=2 and #Spring.GetTeamList()-1 ~=1 then --is fa
+if tonumber(Spring.GetModOptions().anon_ffa) == 1 and (#Spring.GetTeamList()-1  ==  #Spring.GetAllyTeamList()-1) and #Spring.GetTeamList()-1 ~=2 and #Spring.GetTeamList()-1 ~=1 then --is fa
 	singleTeams = true
 		
 
