@@ -76,7 +76,7 @@ local lineFadeRate = 2.0
 
 local CMD_RAW_MOVE = 39812
 local CMD_SETTARGET = 34924
-local CMD_UNIT_SET_TARGET_CIRCLE = 34925
+--local CMD_UNIT_SET_TARGET_CIRCLE = 34925
 
 -- What commands are eligible for custom formations
 local formationCmds = {
@@ -87,8 +87,8 @@ local formationCmds = {
 	[CMD.MANUALFIRE] = true,
 	[CMD.PATROL] = true,
 	[CMD.UNLOAD_UNIT] = true,
-	[CMD_SETTARGET] = true,
-	[CMD_UNIT_SET_TARGET_CIRCLE] = true
+	--[CMD_SETTARGET] = true,
+	--[CMD_UNIT_SET_TARGET_CIRCLE] = true
 }
 
 -- What commands require alt to be held (Must also appear in formationCmds)
@@ -101,14 +101,14 @@ local requiresAlt = {
 local overrideCmds = {
 	[CMD.GUARD] = CMD_RAW_MOVE,
 	[CMD.ATTACK] = CMD_RAW_MOVE,
-	[CMD_SETTARGET] = CMD_RAW_MOVE
+	--[CMD_SETTARGET] = CMD_RAW_MOVE
 }
 
 -- What commands are issued at a position or unit/feature ID (Only used by GetUnitPosition)
 local positionCmds = {
 	[CMD.MOVE]=true,		[CMD_RAW_MOVE]=true,	[CMD_RAW_BUILD]=true,	[CMD.ATTACK]=true,		[CMD.RECLAIM]=true,		[CMD.RESTORE]=true,		[CMD.RESURRECT]=true,
 	[CMD.PATROL]=true,		[CMD.CAPTURE]=true,		[CMD.FIGHT]=true, 		[CMD.MANUALFIRE]=true,	
-	[CMD.UNLOAD_UNIT]=true,	[CMD.UNLOAD_UNITS]=true,[CMD.LOAD_UNITS]=true,	[CMD.GUARD]=true,		[CMD.AREA_ATTACK] = true, [CMD_SETTARGET] = true
+	[CMD.UNLOAD_UNIT]=true,	[CMD.UNLOAD_UNITS]=true,[CMD.LOAD_UNITS]=true,	[CMD.GUARD]=true
 }
 
 --------------------------------------------------------------------------------
@@ -274,7 +274,7 @@ local function SetColor(cmdID, alpha)
 	elseif cmdID == CMD.MANUALFIRE             then glColor(1.0, 1.0, 1.0, alpha) -- White
 	elseif cmdID == CMD_UNLOADUNIT             then glColor(1.0, 1.0, 0.0, alpha) -- Yellow
 	elseif cmdID == CMD_UNIT_SET_TARGET        then glColor(1.0, 0.75, 0.0, alpha) -- Orange
-	elseif cmdID == CMD_UNIT_SET_TARGET_CIRCLE then glColor(1.0, 0.75, 0.0, alpha) -- Orange
+	--elseif cmdID == CMD_UNIT_SET_TARGET_CIRCLE then glColor(1.0, 0.75, 0.0, alpha) -- Orange
 	else                                            glColor(0.5, 0.5, 1.0, alpha) -- Blue
 	end
 end
@@ -649,48 +649,45 @@ local function StopCommandAndRelinquishMouse()
 end
 
 function widget:MouseRelease(mx, my, mButton)
-	--if (mButton == 1 or mButton == 3) and (not usingRMB) == (mButton == 3) then
-		--StopCommandAndRelinquishMouse()
-		--return false
-	--end
-	
-	-- It is possible for MouseRelease to fire after MouseRelease
-	if #fNodes == 0 then
-		return false
-	end
-	
-	-- Modkeys / command reset
-	local alt, ctrl, meta, shift = GetModKeys()
-	if not usingRMB then
-		if shift then
-			endShift = true -- Reset on release of shift
-		else
-			spSetActiveCommand(0) -- Reset immediately
-		end
-	end
-	-- Are we going to use the drawn formation?
-	local usingFormation = true
-	
-	-- Override checking
-	if overriddenCmd then
-		
-		local targetID
-		local targType, targID = CulledTraceScreenRay(mx, my, false, inMinimap)
-		if targType == 'unit' then
-			targetID = targID
-		elseif targType == 'feature' then
-			targetID = targID + maxUnits
-		end
-		
-		if targetID and targetID == overriddenTarget then
-			
-			-- Signal that we are no longer using the drawn formation
-			usingFormation = false
-			
-			-- Process the original command instead
-			local cmdOpts = GetCmdOpts(alt, ctrl, meta, shift, usingRMB)
-			GiveNotifyingOrder(overriddenCmd, {overriddenTarget}, cmdOpts)
-		end
+
+    -- It is possible for MouseRelease to fire after MouseRelease
+    if #fNodes == 0 then
+        return false
+    end
+
+    -- Modkeys / command reset
+    local alt, ctrl, meta, shift = GetModKeys()
+    if not usingRMB then
+        if shift then
+            endShift = true -- Reset on release of shift
+        else
+            spSetActiveCommand(0) -- Deselect command
+        end
+    end
+
+    -- Are we going to use the drawn formation?
+    local usingFormation = true
+
+    -- Override checking
+    if overriddenCmd then
+
+        local targetID
+        local targType, targID = spTraceScreenRay(mx, my, false, inMinimap)
+        if targType == 'unit' then
+            targetID = targID
+        elseif targType == 'feature' then
+            targetID = targID + maxUnits
+        end
+
+        if targetID and targetID == overriddenTarget then
+
+            -- Signal that we are no longer using the drawn formation
+            usingFormation = false
+
+            -- Process the original command instead
+            local cmdOpts = GetCmdOpts(alt, ctrl, meta, shift, usingRMB)
+            GiveNotifyingOrder(overriddenCmd, {overriddenTarget}, cmdOpts)
+        end
 	end
 	
 	-- Using path? If so then we do nothing
