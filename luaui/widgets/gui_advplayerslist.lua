@@ -1965,6 +1965,10 @@ function DrawChips(playerID, posY)
 end
 
 function DrawSidePic(team, playerID, posY, leader, dark, ai)
+
+	if tonumber(Spring.GetModOptions().anon_ffa) == 1 and (#Spring.GetTeamList()-1  ==  #Spring.GetAllyTeamList()-1) and #Spring.GetTeamList()-1 ~=2 and #Spring.GetTeamList()-1 ~=1 then --is fa
+	else
+
 	if gameStarted then
 		if leader == true then
 			gl_Texture(sidePics[team])                       -- sets side image (for leaders)
@@ -1986,6 +1990,7 @@ function DrawSidePic(team, playerID, posY, leader, dark, ai)
 		gl_Texture(false)
 	else
 		DrawState(playerID, m_side.posX + widgetPosX, posY)
+	end
 	end
 end
 
