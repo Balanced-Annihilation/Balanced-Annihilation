@@ -80,6 +80,15 @@ allyTeamDeathMessages = {
 }	
 	
 teamDeathMessages = {
+	"XX decided to ban all old engines",
+	"XX voted for SandOfMinesV2",
+	"XX tried to understand Springlobby code",
+	"XX should have purchased the paid version",
+	"XX remembered Mando",
+	"XX installed BAR",
+	"XX tried to play BA on the official server",
+	"XX was rebalanced by Triton",
+	"XX put Flow in charge of balance",
 	"XX destroyed Mando's speakers",
 	"XX tried to 1v1 Cartouche",
 	"XX was liched by Adolf",
@@ -91,11 +100,10 @@ teamDeathMessages = {
 	"XX played too much BA10",
 	"XX speakers were destroyed",
 	"XX thought of poor Mando",
-	"XX is dead, confirm?",
 	"XX had less eco",
 	"XX forgot to make air",
 	"XX should have made AFUS",
-	"XX lasted longer than a reversing jeffy",
+	"XX was a reversing jeffy",
 	"XX forgot to ally with Cartouche",
 	"XX forgot to ally with Adolf",
 	"XX joined Discord",
