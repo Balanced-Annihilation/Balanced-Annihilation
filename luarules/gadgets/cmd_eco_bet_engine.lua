@@ -13,20 +13,12 @@
 -- 0. You just DO WHAT THE FUCK YOU WANT TO.
 -------------------------------------------------------------------------------
 
---[[
-how the game works:
-you bet as spectator the time when a player or an unit dies
-your starting score is number of players -1
-you can bet multiple times on the same thing, each time the cost will increase by 1
-for the bet to be valid, it has to be placed at least x time before the actual death
-when the player dies, the better who got closest collects the victory
-the reward is equal to number of bets being made on the player
-]]--
+
 
 function gadget:GetInfo()
 	return {
-		name		= "Bet Engine",
-		desc		= "Handles low level logic for spectator bets",
+		name		= "Eco Trader Engine",
+		desc		= "Handles low level logic for Eco Trader Minigame, using bet engine code",
 		author		= "BrainDamage",
 		date		= "Dec,2010",
 		license		= "WTFPL",
@@ -41,7 +33,7 @@ local MIN_BET_TIME_SCALE = 10*60*simSpeed --frames, the time of bet will be slow
 local BET_GRANULARITY = 1*60*simSpeed -- frames
 local BET_COST = {team=-1,unit=-1} -- if negative, cost BET_COST*numbets, if 0 or positive it's fixed
 local POINTS_PRIZE_PER_BET = {team=1,unit=1} -- negative values instead assign the bet cost times prize to the winner
-local STARTING_SCORE = #Spring.GetTeamList() -1 -(Spring.GetGaiaTeamID() and 1 or 0) -- minus one to leave last "survivor" in FFA, and minus another because of gaia
+local STARTING_SCORE = 7 + #Spring.GetTeamList() -1 -(Spring.GetGaiaTeamID() and 1 or 0) -- minus one to leave last "survivor" in FFA, and minus another because of gaia
 local _G_INDEX = "betengine"
 
 -- dynamic data tables, hold infos about bets, scores and other players
@@ -82,68 +74,11 @@ function getBetCost(playerID,betType,betID)
 end
 
 function isValidBet(playerID, betType, betID, betTime)
-	if not playerID then
-		return false, "playerID is nil"
-	end
-	if not betType then
-		return false, "betType is nil"
-	end
-	if not betID then
-		return false, "betID is nil"
-	end
-	if not betTime then
-		return false, "betTime is nil"
-	end
-	if not tonumber(betTime) then
-		return false, "betTime must be a number"
-	end
-	if betTime < 0 then
-		return false, "betTime must be positive"
-	end
-	local _,betteractive,betterspectator = GetPlayerInfo(playerID)
-	if betterspectator == nil then
-		return false, "betting playerID (" .. playerID .. ") does not exist"
-	end
-	if betterspectator == false then
-		return false, "only spectators can bet"
-	end
-	if betteractive == false then
-		return false, "only active spectators can bet"
-	end
-	if betType == "team" then
-		local _,_,deadTeam = GetTeamInfo(betID)
-		if deadTeam == nil then
-			return false, "betted teamID (" .. betID .. ") does not exists"
-		end
-		if deadTeam or deadTeams[betID] then
-			return false, "cannot bet on dead teams ..(" .. betID .. ")"
-		end
-	elseif betType == "unit" then
-		local validUnit = ValidUnitID(betID)
-		if not validUnit then
-			return false, "betted unitID (" .. betID .. ") does not exist"
-		end
-		local isDead = GetUnitIsDead(betID)
-		if isDead then
-			return false, "cannot bet on dead units (" .. betID ..  ")"
-		end
-	else
-		return false, "invalid betType (" .. betType .. ")"
-	end
-	local playerScore = getCreatePlayerScores(playerID)
-	local betCost = getBetCost(playerID,betType,betID)
-	if playerScore.score < betCost then
-		return false, "not enough points to bet ( got: " .. playerScore.score .. " cost: " .. betCost .. " )"
-	end
-	-- check if there are already existing bets on the player within the same time slot
-	local timeSlot = getBetTimeSlot(betTime)
-	if timeBets[betType] then
-		if timeBets[betType][betID] then
-			if timeBets[betType][betID][timeSlot] ~= nil then
-				return false, "bet time "  .. betTime .. ": slot already taken"
-			end
-		end
-	end
+
+	--Spring.Echo("bet engine  is valid " .. playerID .. " " .. betType .. " ".. betID .. " " .. betTime)
+
+
+
 
 	return true, ""
 end
@@ -215,29 +150,39 @@ end
 
 
 local function placedBet(playerID, betType, betID, betTime)
-	if not isValidBet(playerID, betType, betID, betTime) then
-		return
-	end
-	local validFrom = getMinBetTime()
+
+
+
+	--if not isValidBet(playerID, betType, betID, betTime) then
+	--	return
+	--end
+	
+		--Spring.Echo("gadget placedBet  " .. playerID .. " " .. betType .. " betid ".. betID .. " " .. betTime)
+
+
+	local playerBalance = betTime
+	local playerIdentifier = betID
+	
+	--local validFrom = getMinBetTime()
 	-- decrement points and save infos
-	local playerpersonalbets = getCreatePlayerBets(playerID,betType,betID)
-	local betCost = getBetCost(playerID,betType,betID)
-	local bet = getCreateTimeBets(betType,betID) -- only needed to create the table entry
-	local betStat = getCreateBetStats(betType,betID)
-	getCreateBetValid(validFrom)
+	--local playerpersonalbets = getCreatePlayerBets(playerID,betType,betID)
+	--local betCost = getBetCost(playerID,betType,betID)
+	--local bet = getCreateTimeBets(betType,betID) -- only needed to create the table entry
+	--local betStat = getCreateBetStats(betType,betID)
+	--getCreateBetValid(validFrom)
 	-- in this case the cost has same value of the next element
-	playerpersonalbets[betCost] = betTime
-	playerBets[playerID][betType][betID] = playerpersonalbets
+	--playerpersonalbets[betCost] = betTime
+	--playerBets[playerID][betType][betID] = playerpersonalbets
 	local playerScore = getCreatePlayerScores(playerID)
-	playerScores[playerID].score = playerScore.score - betCost
-	playerScores[playerID].totalPlaced = playerScores[playerID].totalPlaced + 1
-	playerScores[playerID].currentlyRunning = playerScores[playerID].currentlyRunning + 1
-	local timeSlot = getBetTimeSlot(betTime)
-	timeBets[betType][betID][timeSlot] = {player=playerID, betTime = betTime, timestamp=GetGameFrame(), betCost=betCost, betType = betType, validFrom = validFrom}
-	betStats[betType][betID].numBets = betStat.numBets + 1
-	betStats[betType][betID].totalSpent = betStat.totalSpent + betCost
-	betStats[betType][betID].prizePoints = betStat.prizePoints + (POINTS_PRIZE_PER_BET[betType] < 0 and abs(POINTS_PRIZE_PER_BET[betType])*betCost or POINTS_PRIZE_PER_BET[betType])
-	insert(betValid[validFrom],{betType = betType, betID = betID, timeSlot = timeSlot, playerID = playerID})
+	playerScores[playerID].score = betTime
+	--playerScores[playerID].totalPlaced = playerScores[playerID].totalPlaced + 1
+	--playerScores[playerID].currentlyRunning = playerScores[playerID].currentlyRunning + 1
+	--local timeSlot = getBetTimeSlot(betTime)
+	--timeBets[betType][betID][timeSlot] = {player=playerID, betTime = betTime, timestamp=GetGameFrame(), betCost=betCost, betType = betType, validFrom = validFrom}
+	--betStats[betType][betID].numBets = betStat.numBets + 1
+	--betStats[betType][betID].totalSpent = betStat.totalSpent + betCost
+	--betStats[betType][betID].prizePoints = betStat.prizePoints + (POINTS_PRIZE_PER_BET[betType] < 0 and abs(POINTS_PRIZE_PER_BET[betType])*betCost or POINTS_PRIZE_PER_BET[betType])
+	--insert(betValid[validFrom],{betType = betType, betID = betID, timeSlot = timeSlot, playerID = playerID})
 	-- updated exported tables
 	local exporttable = _G[_G_INDEX]
 	exporttable.playerScores = playerScores
@@ -247,6 +192,7 @@ local function placedBet(playerID, betType, betID, betTime)
 	_G[_G_INDEX] = exporttable
 	-- run received bet callback
 	SendToUnsynced("receivedBetCallback",playerID, betType, betID, betTime, betCost, validFrom)
+
 end
 
 local function betOver(betType, betID)
@@ -307,6 +253,7 @@ local function betOver(betType, betID)
 							scores.won = scores.won + 1
 						else
 							scores.lost = scores.lost + 1
+							scores.score = scores.score - numBets
 						end
 						scores.currentlyRunning = scores.currentlyRunning - numBets
 						playerScores[playerID] = scores
@@ -464,10 +411,10 @@ function gadget:PlayerChanged()
 	if newstate and oldspectatingstate ~= newstate then
 		-- we just become spectators, we can be a player now!
 		--refresh information
-		PushGetBetsStats(_,_,_,myPlayerID)
+		--PushGetBetsStats(_,_,_,myPlayerID)
 		PushGetPlayerScores(_,_,_,myPlayerID)
-		PushGetPlayerBetList(_,_,_,myPlayerID)
-		PushGetBetList(_,_,_,myPlayerID)
+		--PushGetPlayerBetList(_,_,_,myPlayerID)
+		--PushGetBetList(_,_,_,myPlayerID)
 	end
 	oldspectatingstate = newstate
 end
@@ -506,7 +453,8 @@ function PushPlaceBet(cmd,line,params,playerID)
 			local ok, result = isValidBet(myPlayerID,params[1],tonumber(params[2]),tonumber(params[3]))
 			if ok then
 				SendLuaRulesMsg("bet " .. params[1] .. " " .. params[2] .. " " .. params[3])
-				result = "Bet" .. params[1] .. "sent on " .. params[2] .. "at time " .. params[3]
+				result = "Bet" .. params[1] .. " sent on " .. params[2] .. "at time " .. params[3]
+				
 			end
 			Script.LuaUI.placeBet(ok,result)
 		end
@@ -551,6 +499,13 @@ function PushGetPlayerScores(cmd,line,params,playerID)
 			Script.LuaUI.getPlayerScores(playerScores)
 		end
 	end
+	if Script.LuaUI("getPlayerScoresAdvplayerslist") then
+		if not FullView() then
+			Script.LuaUI.getPlayerScoresAdvplayerslist()
+		else
+			Script.LuaUI.getPlayerScoresAdvplayerslist(playerScores)
+		end
+	end
 end
 
 function PushGetBetList(cmd,line,params,playerID)
@@ -583,17 +538,17 @@ end
 
 
 function handleBetOverCallback(_,betType, betID, winnerID, prizePoints)
-	playerScores = SYNCED[_G_INDEX].playerScores
+	--playerScores = SYNCED[_G_INDEX].playerScores
 	betStats = SYNCED[_G_INDEX].betStats
-	timeBets = SYNCED[_G_INDEX].timeBets
-	playerBets = SYNCED[_G_INDEX].playerBets
+	--timeBets = SYNCED[_G_INDEX].timeBets
+	--playerBets = SYNCED[_G_INDEX].playerBets
 	if not FullView() then
 		return
 	end
-	PushGetBetsStats(_,_,_,myPlayerID)
+	--PushGetBetsStats(_,_,_,myPlayerID)
 	PushGetPlayerScores(_,_,_,myPlayerID)
-	PushGetPlayerBetList(_,_,_,myPlayerID)
-	PushGetBetList(_,_,_,myPlayerID)
+	--PushGetPlayerBetList(_,_,_,myPlayerID)
+	--PushGetBetList(_,_,_,myPlayerID)
 	if Script.LuaUI("betOverCallback") then
 		Script.LuaUI.betOverCallback(betType, betID, winnerID, prizePoints)
 	end
@@ -601,16 +556,16 @@ end
 
 function handleReceivedBetCallback(_,playerID, betType, betID, betAtTime, betCost, validFrom)
 	playerScores = SYNCED[_G_INDEX].playerScores
-	betStats = SYNCED[_G_INDEX].betStats
-	timeBets = SYNCED[_G_INDEX].timeBets
-	playerBets = SYNCED[_G_INDEX].playerBets
+	--betStats = SYNCED[_G_INDEX].betStats
+	--timeBets = SYNCED[_G_INDEX].timeBets
+	--playerBets = SYNCED[_G_INDEX].playerBets
 	if not FullView() then
 		return
 	end
-	PushGetBetsStats(_,_,_,myPlayerID)
+	--PushGetBetsStats(_,_,_,myPlayerID)
 	PushGetPlayerScores(_,_,_,myPlayerID)
-	PushGetPlayerBetList(_,_,_,myPlayerID)
-	PushGetBetList(_,_,_,myPlayerID)
+	--PushGetPlayerBetList(_,_,_,myPlayerID)
+	--PushGetBetList(_,_,_,myPlayerID)
 	if Script.LuaUI("receivedBetCallback") then
 		Script.LuaUI.receivedBetCallback(playerID, betType, betID, betAtTime, betCost, validFrom)
 	end
@@ -626,10 +581,10 @@ function handleBetValidCallback(_,playerID, betType, betID, timeSlot)
 end
 
 function gadget:GameStart()
-	PushGetBetsStats(_,_,_,myPlayerID)
+	--PushGetBetsStats(_,_,_,myPlayerID)
 	PushGetPlayerScores(_,_,_,myPlayerID)
-	PushGetPlayerBetList(_,_,_,myPlayerID)
-	PushGetBetList(_,_,_,myPlayerID)
+	--PushGetPlayerBetList(_,_,_,myPlayerID)
+	--PushGetBetList(_,_,_,myPlayerID)
 end
 
 function gadget:GameOver()
