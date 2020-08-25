@@ -6,8 +6,8 @@ function widget:GetInfo()
 		version   = "",
 		date      = "",
 		license   = "",
-		layer     = -10,
-		enabled   = false,
+		layer     = -15,
+		enabled   = true,
 	}
 end
 
@@ -36,12 +36,12 @@ local header = {
 	"aggressionLevel",
 	"metalUsed",
 	"metalProduced",
---	"metalExcess",
+	"metalExcess",
 	"metalReceived",
 	"metalSent",
 	"energyUsed",
 	"energyProduced",
---	"energyExcess",
+	"energyExcess",
 	"energyReceived",
 	"energySent",
 	--"resourcesUsed",
@@ -277,14 +277,14 @@ local guiData = {
 	smallBox = {
 		relSizes = {
 			x = {
-				min = 0.96,
-				max = 1,
+				min = 0.95,
+				max = 0.99,
 				length = 0.04,
 			},
 			y = {
-				min = 0.7,
-				max = 0.74,
-				length = 0.04,
+				min = 0.962,
+				max = 1,
+				length = 0.038,
 			},
 		},
 		draggingBorderSize = 7,
@@ -293,9 +293,9 @@ local guiData = {
 	mainPanel = {
 		relSizes = {
 			x = {
-				min = 0.05,
-				max = 0.95,
-				length = 0.86,
+				min = 0.2,
+				max = 0.8,
+				length = 0.6,
 			},
 			y = {
 				min = 0.2,
@@ -799,26 +799,24 @@ function DrawButton()
 		return
 	end
 	local boxAbsData = guiData.smallBox.absSizes
-	local tempFontSize = 14
+	local tempFontSize = 13 * (0.60 + (vsx*vsy / 5000000)) * 0.85
 	--[[if widgetHandler:InTweakMode() then
 		rectBoxWithBorder(guiData.smallBox,{0,0,0,0.7})
 	else
 		rectBox(guiData.smallBox,{0,0,0,0.5})
 	end]]--
 	local x1,y1,x2,y2 = guiData.smallBox.absSizes.x.min, guiData.smallBox.absSizes.y.min, guiData.smallBox.absSizes.x.max, guiData.smallBox.absSizes.y.max
-	
+	local widgetScale = (0.60 + (vsx*vsy / 5000000))
 	gl.Color(0,0,0,0.6)
-	RectRound(x1,y1,x2,y2,7)
-	
-	local borderPadding = 3.5
+	local borderPadding = 3.5*widgetScale
+
+	RectRound(x1,y1,x2,y2,6*widgetScale)
 	gl.Color(1,1,1,0.022)
-	RectRound(x1+borderPadding,y1+borderPadding,x2-borderPadding,y2-borderPadding,6)
+	RectRound(x1+borderPadding,y1+borderPadding,x2-borderPadding,y2-borderPadding,6*widgetScale)
 	
-	if (WG['guishader_api'] ~= nil) then
-		WG['guishader_api'].InsertRect(x1,y1,x2,y2,'teamstats_button')
-	end
+
 	
-	glText(colorToChar({1,1,1}) .. "Team Stats",boxAbsData.x.min+boxAbsData.x.length/2, boxAbsData.y.max-boxAbsData.y.length/2, tempFontSize, "ovc")
+	glText(colorToChar({1,1,1}) .. "Stats",boxAbsData.x.min+boxAbsData.x.length/2, boxAbsData.y.max-boxAbsData.y.length/2, tempFontSize, "ovc")
 end
 
 function DrawBackground()
