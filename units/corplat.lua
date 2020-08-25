@@ -21,7 +21,7 @@ return {
 		maxdamage = 2000,
 		metalmake = 1,
 		metalstorage = 200,
-		minwaterdepth = 30,
+		--minwaterdepth = 30,
 		name = "Seaplane Platform",
 		objectname = "CORPLAT",
 		radardistance = 50,
@@ -31,7 +31,8 @@ return {
 		terraformspeed = 1000,
 		waterline = 43,
 		workertime = 200,
-		yardmap = "wwwwwwwwCCCCCwwCCCCCwwCCCCCwwCCCCCwwCCCCCwwwwwwww",
+		maxslope = 15,
+		yardmap = "oooooooocccccoocccccoocccccoocccccoocccccoooooooo",
 		buildoptions = {
 			[1] = "corcsa",
 			[2] = "corcut",

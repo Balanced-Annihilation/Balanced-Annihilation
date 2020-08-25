@@ -15,7 +15,7 @@ end
 local cursorSets = {'old', 'old_150', 'bar', 'bar_133'}
 
 local Settings = {}
-Settings['defaultCursorSet'] = 'bar'
+Settings['defaultCursorSet'] = 'old_150'
 Settings['cursorSet'] = Settings['defaultCursorSet']
 
 function table_invert(t)
