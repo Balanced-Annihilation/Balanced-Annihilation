@@ -20,8 +20,8 @@ local GetUnitStates = Spring.GetUnitStates
 local GetSelectedUnitsCount = Spring.GetSelectedUnitsCount
 local GetPlayerInfo = Spring.GetPlayerInfo
 
+local CMD_MOVE = CMD.MOVE
 
-local CMD_RAW_MOVE = 39812
 local myPlayerID = Spring.GetMyPlayerID()
 
 function UnloadIfSpec()
@@ -50,7 +50,7 @@ function widget:DefaultCommand()
 		if selectedUnittypes[spyDefID] then
 			for _,unitID in pairs(selectedUnittypes[spyDefID]) do
 				if GetUnitStates(unitID).cloak then
-					return CMD_RAW_MOVE
+					return CMD_MOVE
 				end
 			end
 		end

@@ -26,7 +26,6 @@ local CMD_LOAD_ONTO = CMD.LOAD_ONTO -- icon unit
 local CMD_LOAD_UNITS = CMD.LOAD_UNITS -- icon unit or area
 local CMD_MANUALFIRE = CMD.MANUALFIRE -- icon unit or map (cmdtype edited by gadget)
 local CMD_MOVE = CMD.MOVE -- icon map
-local CMD_RAW_MOVE = 39812
 local CMD_PATROL = CMD.PATROL --icon map
 local CMD_RECLAIM = CMD.RECLAIM --icon unit feature or area
 local CMD_REPAIR = CMD.REPAIR -- icon unit or area
@@ -111,11 +110,6 @@ local CONFIG = {
         colour = {1.00, 0.00, 0.00, 0.30},
     },
     [CMD_MOVE] = {
-        sizeMult = 1, 
-		endSize = 0.2,
-        colour = {0.00, 1.00, 0.00, 0.25},
-    },
-	[CMD_RAW_MOVE] = {
         sizeMult = 1, 
 		endSize = 0.2,
         colour = {0.00, 1.00, 0.00, 0.25},

@@ -21,7 +21,7 @@ return {
 		maxdamage = 1820,
 		metalmake = 1,
 		metalstorage = 200,
-		--minwaterdepth = 30,
+		minwaterdepth = 30,
 		name = "Seaplane Platform",
 		objectname = "ARMPLAT",
 		radardistance = 50,
@@ -31,8 +31,7 @@ return {
 		terraformspeed = 1000,
 		waterline = 53,
 		workertime = 200,
-		maxslope = 15,
-		yardmap = "oooooooocccccoocccccoocccccoocccccoocccccoooooooo",
+		yardmap = "wwwwwwwwCCCCCwwCCCCCwwCCCCCwwCCCCCwwCCCCCwwwwwwww",
 		buildoptions = {
 			[1] = "armcsa",
 			[2] = "armsaber",

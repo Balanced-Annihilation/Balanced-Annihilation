@@ -1818,6 +1818,7 @@ function DrawPlayer(playerID, leader, vOffset, mouseX, mouseY)
 		--gl_Color(red,green,blue,1)
 		gl_Color(1,1,1,0.45)
 		if name ~= absentName and m_side.active == true then
+			DrawSidePic(team, playerID, posY, leader, dark, ai)
 		end
 		gl_Color(red,green,blue,1)
 		if m_name.active == true then
@@ -1961,6 +1962,31 @@ function DrawChips(playerID, posY)
 	gl_Color(1,1,1,1)
 	gl_Texture(pics["chipPic"])
 	DrawRect(xPos+4, posY+3.5, xPos-2.5, posY + 10)
+end
+
+function DrawSidePic(team, playerID, posY, leader, dark, ai)
+	if gameStarted then
+		if leader == true then
+			gl_Texture(sidePics[team])                       -- sets side image (for leaders)
+		else
+			gl_Texture(pics["notFirstPic"])                          -- sets image for not leader of team players
+		end
+		DrawRect(m_side.posX + widgetPosX  + 2, posY+1, m_side.posX + widgetPosX  + 16, posY + 15) -- draws side image
+		--[[if dark == true then	-- draws outline if player color is dark
+			gl_Color(1,1,1)
+			if leader == true then
+				gl_Texture(sidePicsWO[team])
+			else
+				gl_Texture(notFirstPicWO)
+			end
+			DrawRect(m_side.posX + widgetPosX + 2, posY+1,m_side.posX + widgetPosX + 16, posY + 15)
+			gl_Texture(false)
+		end
+		]]--
+		gl_Texture(false)
+	else
+		DrawState(playerID, m_side.posX + widgetPosX, posY)
+	end
 end
 
 function DrawRank(rank, posY)

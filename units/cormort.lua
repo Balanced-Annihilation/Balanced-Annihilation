@@ -22,7 +22,7 @@ return {
 		idletime = 1800,
 		maxdamage = 850,
 		maxslope = 14,
-		maxvelocity = 1.89,
+		maxvelocity = 1.72,
 		maxwaterdepth = 12,
 		movementclass = "KBOT2",
 		name = "Morty",

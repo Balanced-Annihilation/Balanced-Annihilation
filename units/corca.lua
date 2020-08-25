@@ -73,7 +73,6 @@ return {
 			[29] = "corjamt",
 			[30] = "cjuno",
 			[31] = "corsy",
-			[32] = "corplat",
 		},
 		sounds = {
 			build = "nanlath2",

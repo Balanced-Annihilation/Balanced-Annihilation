@@ -13,6 +13,11 @@ end
 -------------------------------------------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------------------------------------------
 
+local enabled = (tostring(Spring.GetModOptions().mo_enemycomcount) == "1") or false
+if not enabled then 
+  return false
+end
+
 if not (gadgetHandler:IsSyncedCode()) then --synced only
 	return false
 end
@@ -20,6 +25,7 @@ end
 local teamComs = {} -- format is enemyComs[teamID] = total # of coms in enemy teams
 local armcomDefID = UnitDefNames.armcom.id
 local corcomDefID = UnitDefNames.corcom.id
+
 local countChanged  = true 
 
 function isCom(unitID,unitDefID)

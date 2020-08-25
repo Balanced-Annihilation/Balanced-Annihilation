@@ -23,26 +23,7 @@ local SendCommmands = Spring.SendCommands
 
 local hotKeys = {}
 
-
-function maybeRemoveSelf()
-    if Spring.GetSpectatingState() and (Spring.GetGameFrame() > 0 or gameStarted) then
-        widgetHandler:RemoveWidget(self)
-    end
-end
-
-function widget:GameStart()
-    gameStarted = true
-    maybeRemoveSelf()
-end
-
-function widget:PlayerChanged(playerID)
-    maybeRemoveSelf()
-end
-
 function widget:Initialize()
-    if Spring.IsReplay() or Spring.GetGameFrame() > 0 then
-        maybeRemoveSelf()
-    end
 	if rebindKeys then
 		for _, keycombo in ipairs(GetActionHotKeys("attack")) do
 			hotKeys[keycombo] = true
@@ -63,8 +44,7 @@ function hasSetTarget(unitDefID)
 end
 
 function widget:DefaultCommand()
-	local mouseX, mouseY, onlyCoords, useMinimap, includeSky, ignoreWater = GetMouseState()
-	local targettype,data = TraceScreenRay(mouseX, mouseY, onlyCoords, useMinimap, includeSky, ignoreWater)
+	local targettype,data = TraceScreenRay(GetMouseState())
 	if targettype ~= "unit" or IsUnitAllied(data) then
 		return
 	end
