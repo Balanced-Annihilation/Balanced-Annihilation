@@ -33,11 +33,15 @@ return {
 		name = "Kilo",
 		nochasecategory = "VTOL",
 		objectname = "ARMMINE2",
+		script = "mines_lus.lua",
 		seismicsignature = 0,
 		selfdestructas = "MINE_MEDIUM",
 		selfdestructcountdown = 0,
 		sightdistance = 83.2,
 		stealth = true,
+		customparams = {
+			detonaterange = "64"
+		},
 		sounds = {
 			canceldestruct = "cancel2",
 			underattack = "warning1",
