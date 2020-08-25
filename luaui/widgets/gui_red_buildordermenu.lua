@@ -643,6 +643,9 @@ local function GetCommands()
 		[8] = true, --squadwait
 		[7] = true, --deathwait
 		[6] = true, --timewait
+		[39812] = true, --raw move
+		[34922] = true, -- set unit target
+		--[34923] = true, -- set target
 	}
 	local buildcmds = {}
 	local statecmds = {}
@@ -656,27 +659,19 @@ local function GetCommands()
 			(not hiddencmds[cmd.id]) and
 			(cmd.action ~= nil) and
 			--(not cmd.disabled) and
-			--(not widgetHandler.commands[index].hidden) and --apparently GetActiveCmdDescs is bugged and returns hidden for every command
-			--(cmd.type ~= 11) and
-			--(cmd.type ~= 12) and
-			(cmd.type ~= 13) and
-			--(cmd.type ~= 14) and
-			--(cmd.type ~= 15) and
-			--(cmd.type ~= 16) and
-			
-			(cmd.type ~= 28) and
 			(cmd.type ~= 21) and
 			(cmd.type ~= 18) and
 			(cmd.type ~= 17)
 			) then
-				if ((cmd.type == 20) --build building
-				or (ssub(cmd.action,1,10) == "buildunit_")) then
+				if (((cmd.type == 20) --build building
+				or (ssub(cmd.action,1,10) == "buildunit_"))) and (cmd["disabled"] ~= true) then
+
 					buildcmdscount = buildcmdscount + 1
 					buildcmds[buildcmdscount] = cmd
-				elseif (cmd.type == 5) then
+				elseif (cmd.type == 5) and (cmd["disabled"] ~= true) then
 					statecmdscount = statecmdscount + 1
 					statecmds[statecmdscount] = cmd
-				else
+				elseif (cmd["disabled"] ~= true) then
 					othercmdscount = othercmdscount + 1
 					othercmds[othercmdscount] = cmd
 				end
@@ -695,6 +690,7 @@ local function GetCommands()
 	
 	return buildcmds,othercmds
 end
+
 local hijackattempts = 0
 local layoutping = 54352 --random number
 local function hijacklayout()
