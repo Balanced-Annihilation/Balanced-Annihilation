@@ -645,39 +645,6 @@ end
 
 ----------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------
--- Move replacement
-
-local function ReplaceMoveCommand(unitID)
-	local queue = spGetCommandQueue(unitID, 1)
-	local cmd = queue and queue[1]
-	if cmd and cmd.id == CMD_MOVE and cmd.params[3] then
-		if fromFactory[unitID] then
-			fromFactory[unitID] = nil
-		else
-			Spring.GiveOrderToUnit(unitID, CMD.INSERT, {0, CMD_RAW_MOVE, 0, cmd.params[1], cmd.params[2], cmd.params[3]}, CMD.OPT_ALT)
-		end
-		Spring.GiveOrderToUnit(unitID, CMD_REMOVE, {cmd.tag}, 0)
-	end
-end
-
-local function UpdateMoveReplacement()
-	if not moveCommandReplacementUnits then
-		return
-	end
-
-	local fastUpdates = {}
-	for i = 1, #moveCommandReplacementUnits do
-		local unitID = moveCommandReplacementUnits[i]
-		if not fastUpdates[unitID] then
-			fastUpdates[unitID] = true
-			ReplaceMoveCommand(unitID)
-		end
-	end
-	moveCommandReplacementUnits = nil
-end
-
-----------------------------------------------------------------------------------------------
-----------------------------------------------------------------------------------------------
 -- Gadget Interface
 
 local function WaitWaitMoveUnit(unitID)
@@ -773,10 +740,11 @@ end
 else --UNSYNCED--
 ----------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------
+local spGetSelectedUnits = Spring.GetSelectedUnits
 
 
 function gadget:DefaultCommand(targetType, targetID)
-	if not targetID then
+	if not targetID and (table.getn(spGetSelectedUnits())<151) then --only raw move if under 100 selected
 		return CMD_RAW_MOVE
 	end
 end
