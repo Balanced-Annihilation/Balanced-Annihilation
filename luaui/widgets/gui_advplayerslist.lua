@@ -2083,7 +2083,14 @@ function colourNames(teamID)
         if ( B255%10 == 0) then
                 B255 = B255+1
         end
-	return "\255"..string.char(R255)..string.char(G255)..string.char(B255) --works thanks to zwzsg
+		
+		
+	if (#Spring.GetTeamList()-1  ==  #Spring.GetAllyTeamList()-1) and #Spring.GetTeamList()-1 ~=2 and #Spring.GetTeamList()-1 ~=1 then --is fa
+		return "\255"..string.char(90)..string.char(255)..string.char(90) --works thanks to zwzsg
+	else
+		return "\255"..string.char(R255)..string.char(G255)..string.char(B255) --works thanks to zwzsg
+	end
+
 end 
 
 function DrawState(playerID, posX, posY)
@@ -2133,8 +2140,13 @@ function DrawName(name, team, posY, dark, playerID)
         end
     end
     local nameText = name .. willSub  
-    
-    local nameColourR,nameColourG,nameColourB,nameColourA = Spring_GetTeamColor(team)
+    local nameColourR,nameColourG,nameColourB,nameColourA = 0;
+	if (#Spring.GetTeamList()-1  ==  #Spring.GetAllyTeamList()-1) and #Spring.GetTeamList()-1 ~=2 and #Spring.GetTeamList()-1 ~=1 then --is fa
+		nameColourR,nameColourG,nameColourB,nameColourA = 0.35,1,0.35,1
+		else
+		nameColourR,nameColourG,nameColourB,nameColourA = Spring_GetTeamColor(team)
+	end
+
     local xPadding = 0
     
     -- includes readystate icon if factions arent shown

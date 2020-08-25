@@ -403,6 +403,18 @@ local function clipHistory(g,oneline)
 end
 
 local function convertColor(r,g,b)
+
+		if (#Spring.GetTeamList()-1  ==  #Spring.GetAllyTeamList()-1) and #Spring.GetTeamList()-1 ~=2 and #Spring.GetTeamList()-1 ~=1 then --is fa
+				return schar(255, (90), (255), (90))
+
+			else
+				return schar(255, (r*255), (g*255), (b*255))
+
+			end
+
+end
+
+local function convertColorSpec(r,g,b)
 	return schar(255, (r*255), (g*255), (b*255))
 end
 
@@ -551,7 +563,7 @@ local function processLine(line,g,cfg,newlinecolor)
 			c = cfg.cspectext
 		end
 		
-		textcolor = convertColor(c[1],c[2],c[3])
+		textcolor = convertColorSpec(c[1],c[2],c[3])
 		local r,g,b,a = sGetTeamColor(names[name][3])
 		local namecolor = convertColor(r,g,b)
 		
@@ -561,7 +573,7 @@ local function processLine(line,g,cfg,newlinecolor)
 		
 	elseif (linetype==2) then --spectatormessage
 		local c = cfg.cothertext
-		local misccolor = convertColor(c[1],c[2],c[3])
+		local misccolor = convertColorSpec(c[1],c[2],c[3])
 		if (sfind(text,"Allies: ") == 1) then
 			text = ssub(text,9)
 			c = cfg.cspectext
@@ -569,9 +581,9 @@ local function processLine(line,g,cfg,newlinecolor)
 			text = ssub(text,13)
 			c = cfg.cspectext
 		end
-		textcolor = convertColor(c[1],c[2],c[3])
+		textcolor = convertColorSpec(c[1],c[2],c[3])
 		c = cfg.cspectext
-		local namecolor = convertColor(c[1],c[2],c[3])
+		local namecolor = convertColorSpec(c[1],c[2],c[3])
 		
 		line = namecolor.."(s) "..name..misccolor..": "..textcolor..text
 		
@@ -598,20 +610,20 @@ local function processLine(line,g,cfg,newlinecolor)
 		elseif (names[name][1] == MyAllyTeamID) then
 			c = cfg.callytext
 		end
-		textcolor = convertColor(c[1],c[2],c[3])
+		textcolor = convertColorSpec(c[1],c[2],c[3])
 		c = cfg.cothertext
-		local misccolor = convertColor(c[1],c[2],c[3])
+		local misccolor = convertColorSpec(c[1],c[2],c[3])
 		
 		line = namecolor..name..misccolor.." * "..textcolor..text
 		
 	elseif (linetype==4) then --gamemessage
 		local c = cfg.cgametext
-		textcolor = convertColor(c[1],c[2],c[3])
+		textcolor = convertColorSpec(c[1],c[2],c[3])
 		
 		line = textcolor.."> "..text
 	else --every other message
 		local c = cfg.cmisctext
-		textcolor = convertColor(c[1],c[2],c[3])
+		textcolor = convertColorSpec(c[1],c[2],c[3])
 		
 		line = textcolor..line
 	end
