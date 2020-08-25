@@ -1,4 +1,4 @@
-BombardBehaviour = class(Behaviour)
+rdBehaviour = class(Behaviour)
 
 function BombardBehaviour:Name()
 	return "BombardBehaviour"

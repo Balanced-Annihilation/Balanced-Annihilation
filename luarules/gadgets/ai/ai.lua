@@ -1,4 +1,4 @@
-AI = class(AIBase)
+class(AIBase)
 
 function AI:Init()
 	self.EnableDebugTimers = false

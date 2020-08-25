@@ -1,4 +1,4 @@
--- Created by Tom J Nowell 2010
+eated by Tom J Nowell 2010
 -- Shard AI
 if ShardSpringLua then
 	function shard_include( file )

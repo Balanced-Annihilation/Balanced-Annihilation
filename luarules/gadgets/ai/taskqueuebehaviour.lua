@@ -1,4 +1,4 @@
-TaskQueueBehaviour = class(Behaviour)
+ueueBehaviour = class(Behaviour)
 
 function TaskQueueBehaviour:Init()
 	self.active = false

@@ -1,6 +1,6 @@
-shard_include("astarclass")
+_include("astarclass")
 
-sqrt = math.sqrt
+link = math.sqrt
 random = math.random
 pi = math.pi
 halfPi = pi / 2

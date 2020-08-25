@@ -1,4 +1,4 @@
-shard_include( "spothandler" )
+_include( "spothandler" )
 shard_include( "controlpointhandler" )
 shard_include( "unithandler" )
 shard_include( "attackhandler" )

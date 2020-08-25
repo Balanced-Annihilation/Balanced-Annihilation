@@ -1,4 +1,4 @@
--- keeps track of hits to our units
+eps track of hits to our units
 
 local DebugEnabled = false
 

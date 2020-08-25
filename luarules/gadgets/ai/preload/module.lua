@@ -1,4 +1,4 @@
-Module = class(AIBase)
+e = class(AIBase)
 
 function Module:Name()
 	return "no name defined"

@@ -1,4 +1,4 @@
-CountBehaviour = class(Behaviour)
+Behaviour = class(Behaviour)
 
 function CountBehaviour:Name()
 	return "CountBehaviour"

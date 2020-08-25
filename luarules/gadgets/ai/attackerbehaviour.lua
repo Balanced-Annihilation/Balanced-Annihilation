@@ -1,4 +1,4 @@
-shard_include( "attackers" )
+_include( "attackers" )
 
 function IsAttacker(unit)
 	for i,name in ipairs(attackerlist) do

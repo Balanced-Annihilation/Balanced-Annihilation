@@ -1,4 +1,4 @@
-shard_include( "behaviour" )
+_include( "behaviour" )
 BehaviourFactory = class(AIBase)
 
 shard_include( "behaviours" )

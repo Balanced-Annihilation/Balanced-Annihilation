@@ -1,6 +1,4 @@
-
-
-local DebugEnabled = false
+ocal DebugEnabled = false
 
 local function EchoDebug(inStr)
 	if DebugEnabled then

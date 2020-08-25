@@ -1,5 +1,4 @@
-
-AIBase = class(function(a)
+ase = class(function(a)
    --
 end)
 

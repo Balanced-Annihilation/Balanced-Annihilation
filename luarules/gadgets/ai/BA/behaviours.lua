@@ -1,4 +1,4 @@
-shard_include "taskqueuebehaviour"
+_include "taskqueuebehaviour"
 shard_include "attackerbehaviour"
 shard_include "raiderbehaviour"
 shard_include "bomberbehaviour"

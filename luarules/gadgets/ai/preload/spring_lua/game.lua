@@ -1,4 +1,4 @@
-local game = {}
+ game = {}
 	--game_engine
 
 	-- prints 'message' to ingame chat console

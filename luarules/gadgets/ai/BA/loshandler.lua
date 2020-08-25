@@ -1,4 +1,4 @@
-local DebugEnabled = false
+ DebugEnabled = false
 local DebugDrawEnabled = false
 
 

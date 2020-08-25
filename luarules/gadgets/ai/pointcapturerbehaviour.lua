@@ -1,4 +1,4 @@
-function IsPointCapturer(unit)
+ion IsPointCapturer(unit)
 	local noncapturelist = game:ControlPointNonCapturingUnits()
 	for i = 1, #noncapturelist do
 		local name = noncapturelist[i]

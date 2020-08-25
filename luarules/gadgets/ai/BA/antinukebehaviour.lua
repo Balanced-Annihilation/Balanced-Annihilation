@@ -1,4 +1,4 @@
-AntinukeBehaviour = class(Behaviour)
+ukeBehaviour = class(Behaviour)
 
 function AntinukeBehaviour:Name()
 	return "AntinukeBehaviour"

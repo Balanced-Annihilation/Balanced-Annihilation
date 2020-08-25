@@ -1,4 +1,4 @@
-FactoryRegisterBehaviour = class(Behaviour)
+ryRegisterBehaviour = class(Behaviour)
 
 local DebugEnabled = false
 

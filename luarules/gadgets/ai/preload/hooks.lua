@@ -1,5 +1,4 @@
-
-hooks = {}
+ks = {}
 fselfs = {}
 
 function add_hook(hookname,f,fself)

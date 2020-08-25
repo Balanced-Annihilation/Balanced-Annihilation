@@ -1,4 +1,4 @@
-local DebugEnabled = false
+ DebugEnabled = false
 local DebugEnabledPlans = false
 local DebugEnabledDraw = false
 

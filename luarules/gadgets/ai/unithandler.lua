@@ -1,4 +1,4 @@
-UnitHandler = class(Module)
+andler = class(Module)
 
 function UnitHandler:Name()
 	return "UnitHandler"

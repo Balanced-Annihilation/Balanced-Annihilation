@@ -1,6 +1,4 @@
-
-
-local DebugEnabled = false
+ocal DebugEnabled = false
 
 function IsCleaner(unit)
 	local tmpName = unit:Internal():Name()

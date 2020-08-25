@@ -1,4 +1,4 @@
-Unit = class(AIBase)
+= class(AIBase)
 
 function Unit:SetEngineRepresentation(engineUnit)
 	self.engineUnit = engineUnit

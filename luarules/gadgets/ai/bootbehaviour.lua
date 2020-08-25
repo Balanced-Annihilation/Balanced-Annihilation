@@ -1,4 +1,4 @@
--- An initial boot behaviour that takes over a unit initially,
+ initial boot behaviour that takes over a unit initially,
 -- makes it wait 3-4 seconds idle after it's been built, then
 -- releases control
 --

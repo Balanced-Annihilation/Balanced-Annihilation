@@ -1,4 +1,4 @@
-local Shard = {}
+ Shard = {}
 
 Shard.resourceIds = { "metal", "energy" }
 Shard.resourceKeyAliases = {

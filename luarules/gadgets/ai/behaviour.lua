@@ -1,4 +1,4 @@
-Behaviour = class(AIBase)
+iour = class(AIBase)
 
 function Behaviour:Init()
 end

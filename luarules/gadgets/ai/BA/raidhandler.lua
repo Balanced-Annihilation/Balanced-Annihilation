@@ -1,4 +1,4 @@
-RaidHandler = class(Module)
+andler = class(Module)
 
 function RaidHandler:Name()
 	return "RaidHandler"

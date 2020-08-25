@@ -1,5 +1,4 @@
-
-ShardSpringControlPoint = class(function(a)
+rdSpringControlPoint = class(function(a)
    --
 end)
 
