@@ -168,7 +168,14 @@ local function GetTeamName(teamID)
 	local _, teamLeader = spGetTeamInfo(teamID)
 	if not teamLeader then return 'Error:NoLeader' end
 
-	local leaderName = spGetPlayerInfo(teamLeader)
+	local leaderName = ''
+	if tonumber(Spring.GetModOptions().anon_ffa) == 1 and (#Spring.GetTeamList()-1  ==  #Spring.GetAllyTeamList()-1) and #Spring.GetTeamList()-1 ~=2 and #Spring.GetTeamList()-1 ~=1 then --is fa
+		leaderName = ''
+
+	else
+		leaderName = spGetPlayerInfo(teamLeader)
+
+	end
 	return leaderName or 'Error:NoName'
 end
 
@@ -242,7 +249,7 @@ function widget:DrawScreen()
 	cY = my + yOffset
 	cYstart = cY
 	
-	local text = yellow .. uDef.humanName .. white .. "    " .. uDef.name .. "    (#" .. uID .. " , "..GetTeamColorCode(uTeam) .. GetTeamName(uTeam) .. white .. ")"
+	local text = yellow .. uDef.humanName .. white .. "    " .. uDef.name .. "    (#" .. uID .. " "..GetTeamColorCode(uTeam) .. GetTeamName(uTeam) .. white .. ")"
 	
 	local cornersize = 0
 	glColor(0,0,0,0.73)
