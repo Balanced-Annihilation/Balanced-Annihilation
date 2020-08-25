@@ -1,4 +1,11 @@
-﻿V9.75.4
+﻿V9.75.8
+06/01/2020
+
+add back dgun button (ManualFire)
+map damage enabled by default
+in 1v1v1 style FFAs, all players colours are randomised
+
+V9.75.4
 05/01/2020
 
 settarget will not reveal true unit positions without los
