@@ -781,7 +781,7 @@ end
 function widget:Shutdown()
 	Spring.SendCommands("console 1")
 end
-
+local ready = 0
 function widget:AddConsoleLine(lines,priority)
 	lines = lines:match('^\[f=[0-9]+\] (.*)$') or lines
 	local textcolor

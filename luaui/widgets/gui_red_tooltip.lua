@@ -150,7 +150,7 @@ local function createtooltip(r)
 	local text = {"text",
 		px=r.px+r.margin,py=r.py+(r.margin/1.5),
 		fontsize=r.fontsize,
-		color={1,1,1,0.3},
+		--color={1,1,1,0.3},
 		caption="",
 		options="o",
 		
@@ -309,7 +309,9 @@ function widget:Initialize()
 	if (not PassedStartupCheck) then return end
 	
 	tooltip = createtooltip(Config.tooltip)
-		
+		if WG['Red'].font then
+		font = WG['Red'].font
+	end
 	Spring.SetDrawSelectionInfo(false) --disables springs default display of selected units count
 	Spring.SendCommands("tooltip 0")
 	AutoResizeObjects()
