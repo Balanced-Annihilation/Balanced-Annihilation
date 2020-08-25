@@ -126,6 +126,11 @@ local function AutoResizeObjects() --autoresize v2
 end
 local function getEditedCurrentTooltip() 
 	local text = sGetCurrentTooltip() 
+	
+	
+	
+	
+	
 	--extract the exp value with regexp 
 	local expPattern = "Experience (%d+%.%d%d)" 
 	local currentExp = tonumber(text:match(expPattern)) 
@@ -152,7 +157,21 @@ local function createtooltip(r)
 			if (self._mouseoverself) then
 				self.caption = self.caption..r.tooltip.background
 			else
-				self.caption = self.caption..(getEditedCurrentTooltip() or sGetCurrentTooltip()) 
+			
+			
+				local text = getEditedCurrentTooltip() or sGetCurrentTooltip()
+				
+				
+				str = text
+				lines = {}
+				for s in str:gmatch("[^\r\n]+") do
+					table.insert(lines, s)
+				end
+				if(table.getn(lines) == 5) then
+					self.caption = self.caption..lines[2].."\n"..lines[3].."\n"..lines[4] 
+				else
+					self.caption = text
+				end
 			end
 		end
 	}
