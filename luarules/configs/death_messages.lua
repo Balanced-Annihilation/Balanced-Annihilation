@@ -80,7 +80,7 @@ allyTeamDeathMessages = {
 }	
 	
 teamDeathMessages = {
-
+	"XX destroyed Mando's speakers",
 	"XX tried to 1v1 Cartouche",
 	"XX was liched by Adolf",
 	"XX was one of Fonzie's peewees",
@@ -89,6 +89,7 @@ teamDeathMessages = {
 	"XX was just a guinea pig for the engine devs all along",
 	"XX upgraded to engine 104",
 	"XX played too much BA10",
+	"XX speakers were destroyed",
 	"XX thought of poor Mando",
 	"XX is dead, confirm?",
 	"XX had less eco",
