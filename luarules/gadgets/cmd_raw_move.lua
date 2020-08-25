@@ -97,13 +97,13 @@ for i = 1, #UnitDefs do
 		else
 			turnPeriods[i] = 8
 		end
-		if (ud.moveDef.maxSlope or 0) > 0.8 and ud.speed < 60 then
+		--if (ud.moveDef.maxSlope or 0) > 0.8 and ud.speed < 60 then
 			-- Slow spiders need a lot of leeway when climing cliffs.
 			stuckTravelOverride[i] = 5
 			startMovingTime[i] = 12 -- May take longer to start moving
 			-- Lower stopping distance for more precise placement on terrain
 			loneStopDist = 4
-		end
+		--end
 		if ud.canFly then
 			canFlyDefs[i] = true
 			stopDist = ud.speed
@@ -456,8 +456,8 @@ end
 
 function gadget:AllowCommand(unitID, unitDefID, unitTeam, cmdID, cmdParams, cmdOptions)
 	if cmdID == CMD_MOVE and not canFlyDefs[unitDefID] then
-		--moveCommandReplacementUnits = moveCommandReplacementUnits or {}
-		--moveCommandReplacementUnits[#moveCommandReplacementUnits + 1] = unitID
+		moveCommandReplacementUnits = moveCommandReplacementUnits or {}
+		moveCommandReplacementUnits[#moveCommandReplacementUnits + 1] = unitID
 	end
 
 	if constructorBuildDistDefs[unitDefID] and not rawBuildUpdateIgnore[cmdID] then
