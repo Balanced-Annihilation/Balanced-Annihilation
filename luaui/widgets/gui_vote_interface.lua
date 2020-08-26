@@ -199,7 +199,7 @@ function widget:AddConsoleLine(lines, priority)
 	if startedAsPlayer and (not WG['topbar'] or (WG['topbar'] and WG['topbar'].showingRejoining and not WG['topbar'].showingRejoining())) then
 		lines = lines:match('^\[f=[0-9]+\] (.*)$') or lines
 		for line in lines:gmatch("[^\n]+") do
-			if (string.sub(line,1,1) == ">" and string.sub(line,3,3) ~= "<") then	-- system message
+			--if (string.sub(line,1,1) == ">" and string.sub(line,3,3) ~= "<") then	-- system message
 				if string.find(line," called a vote ", nil, true) then	-- vote called
 					local title = string.sub(line,string.find(line,' "')+2, string.find(line,'" ', nil, true)-1)..'?'
 					title = title:sub(1,1):upper()..title:sub(2)
@@ -209,7 +209,7 @@ function widget:AddConsoleLine(lines, priority)
 				elseif voteDlist and (string.find(line," passed.", nil, true) or string.find(line," failed", nil, true) or string.find(line,"Vote cancelled", nil, true) or string.find(line,' Cancelling "', nil, true)) then
 					EndVote()
 				end
-			end
+			--end
 		end
 	end
 end
