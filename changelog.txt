@@ -1,25 +1,37 @@
-﻿9.79.4
+﻿11.0.0
+07/07/2020
+
+fix tacnuke/nuke/emp crash on some linux builds
+carriers show as an anti nuke icon instead instead of a cross
+hide crowns in anon_ffa mode (bset anon_ffa 1) 
+fix teamstats, ecostats & defense ranges widgets
+add t1 and t2 torpedo launcher to context build
+add back settarget and buildspacing (b and n) to new hotkeys, move AA onto v, add anti and sheild to z
+add setting to vote to enable or disable buzzsaw (bset allow_buzz 1) 
+increase construction hover build range to that of a t1 builder 112>130
+reduce jugg hp 16.6% from 300k to 250k hp, upgrade jugg weapon visual effect
+fixed vanguard high traj barrel animation
+add widget SelectAllUnitsOfSameTypeVisible, press cntrl X to select every visible unit with the same type as selected
+condensed previous changelog to key changes
+
+9.79.4
 16/06/2020
 
-enter or exit any unit with brief hold of ctrl+g, drive with wasd/zqsd/arrows, shoot with left click, dgun with right click
 improved unit death explosions
-attempt to reduce lag and blocking of rezbot, sea cons and t2 con vehicles
-nuke won't crash into allied units
-Reduce Ping setting added to options
-condensed 9.78.5 changelog to noticable changes
+reduce lag and blocking of rezbot, sea cons and t2 con vehicles
 
 9.78.5
 30/05/2020
 
-texture detail increased 60% by neural network, improve effects
+texture detail increased 60% by neural network, improved effects
 new ba_hotkeys widget: "z mex/mm, x energy, c turret, v radar/jam" old keys renamed to ba_hotkeys_old
 when using new hotkeys hotkey x will select wind or solar based on map wind, q is settarget and c places mines
 
 9.75.4
 05/01/2020
 
-krog 25% less health -33.7k hp 133700 to 100000
-bantha 10% less health -5.2k hp 52000 to 46800
+krog 25% less health -33.7k hp 133.7k to 100k
+bantha 10% less health -5.2k hp 52k to 46.8k
 
 9.71
 30/06/2019
