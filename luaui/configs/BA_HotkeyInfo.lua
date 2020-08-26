@@ -73,12 +73,12 @@ Units_I_II = {
 
 
 Units_III = {
-    {"Selecting build orders", title=true},
+    {"Hotkeys", title=true},
     {"(mouse)",    "Select from units build-menu"},
-    {"z",         "Cycle through mexes"},
-    {"x",         "Cycle through energy production"},
-    {"c",         "Cycle through radar/defence/etc"},
-    {"v",         "Cycle through factories"},
+    {"z",         "Cycle through metal production buildings, anti, sheild"},
+    {"x",         "Cycle through energy production buildings"},
+    {"c",         "Cycle through ground turrets"},
+    {"v",         "Cycle through nano, anti-air, and radar"},
     {"[ and ], or o",   "Change facing of buildings"},
     {blankLine=true},    
     {"Giving build orders", title=true},

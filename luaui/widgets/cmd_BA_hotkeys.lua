@@ -1,7 +1,7 @@
 function widget:GetInfo()
 	return {
 		name = "BA Hotkeys",
-		desc =  "z mex mm, x enrgy, c turret, v nano rad jam, b aa, n anti sheild" ,
+		desc =  "z=mex mm, x=energy, c=turret, v=nano AA rad jam" ,
 		author = "Beherith",
 		date = "23 march 2012",
 		license = "GNU LGPL, v2.1 or later",
@@ -9,6 +9,8 @@ function widget:GetInfo()
 		enabled = true,
         handler = true,
 	}
+	
+	
 end
 local minWind               = Game.windMin
 local maxWind               = Game.windMax
@@ -44,12 +46,12 @@ function MakeBindsTable (swapYZ)
         -- building hotkeys
 		
 		--Z X C V B
-			--Z = mex and mm
-			--X = e
-			--C = turrets
-			--V = nano radar jammar 
-			--B = aa
-			--N = anti/sheild 
+			--Z = mex and mm, anti/sheild 
+			--X = energy
+			--C = ground turrets
+			--V = nano radar jammar, anti air 
+			--B/N  = buildspacing
+			
 			
 		--Z = mex and mm
 		
@@ -93,6 +95,19 @@ function MakeBindsTable (swapYZ)
         "bind shift+"..Z.."  buildunit_armfmkr",
         "bind "..Z.."  buildunit_corfmkr",
         "bind shift+"..Z.."  buildunit_corfmkr",
+		
+		
+		-- anti/sheild 
+		--anti
+		 "bind "..Z.."  buildunit_corfmd",
+        "bind shift+"..Z.." buildunit_corfmd",
+         "bind "..Z.."  buildunit_armamd",
+        "bind shift+"..Z.." buildunit_armamd",
+		--sheild
+		 "bind "..Z.."  buildunit_corgate",
+        "bind shift+"..Z.."buildunit_corgate",
+         "bind "..Z.."  buildunit_armgate",
+        "bind shift+"..Z.." buildunit_armgate",
 		
 		--mex exploiters
 		"bind "..Z.." buildunit_armamex",
@@ -217,26 +232,36 @@ function MakeBindsTable (swapYZ)
 		"bind c buildunit_cormaw",
         "bind shift+c buildunit_cormaw",	
 		
+		--torp
+		"bind c buildunit_armatl",
+		"bind shift+c buildunit_armatl",
+		"bind c buildunit_coratl",
+        "bind shift+c buildunit_coratl",	
 		
+		
+		--torp
+		"bind c buildunit_armtl",
+		"bind shift+c buildunit_armtl",
+		"bind c buildunit_cortl",
+        "bind shift+c buildunit_cortl",	
+		
+		"bind c buildunit_armptl",
+		"bind shift+c buildunit_armptl",
+		"bind c buildunit_corptl",
+        "bind shift+c buildunit_corptl",	
 				
 		
-		--V = nano radar jammar 
+		
+		--v = aa
+		
+		--V = nano radar jammar aa
 		
 		--nano
 		"bind v buildunit_armnanotc",
         "bind shift+v buildunit_armnanotc",
 		"bind v buildunit_cornanotc",
         "bind shift+v buildunit_cornanotc",	
-		--t2 jam
-		"bind v buildunit_corshroud",
-        "bind shift+v buildunit_corshroud",
-        "bind v buildunit_armveil",
-        "bind shift+v buildunit_armveil",
-		--t2 rad
-		"bind v buildunit_armarad",
-        "bind shift+v buildunit_armarad",
-        "bind v buildunit_corarad",
-        "bind shift+v buildunit_corarad",
+		
 		--rad
 		"bind v buildunit_armrad",
         "bind shift+v buildunit_armrad",
@@ -248,52 +273,77 @@ function MakeBindsTable (swapYZ)
         "bind v buildunit_corfrad",
         "bind shift+v buildunit_corfrad",
 		
-		--B = aa
+		
 		
 		--flak
-		"bind b buildunit_armflak",
-        "bind shift+b buildunit_armflak",
-		"bind b buildunit_corflak",
-        "bind shift+b buildunit_corflak",
+		"bind v buildunit_armflak",
+        "bind shift+v buildunit_armflak",
+		"bind v buildunit_corflak",
+        "bind shift+v buildunit_corflak",
 		--flak w
-		"bind b buildunit_corenaa",
-        "bind shift+b buildunit_corenaa",
-		"bind b buildunit_armfflak",
-        "bind shift+b buildunit_armfflak",
-		--pako sucks only sam
-		"bind b buildunit_madsam",
-        "bind shift+b buildunit_madsam",
+		"bind v buildunit_corenaa",
+        "bind shift+v buildunit_corenaa",
+		"bind v buildunit_armfflak",
+        "bind shift+v buildunit_armfflak",
 		--merc scream
-		"bind b buildunit_mercury",
-        "bind shift+b buildunit_mercury",
-		"bind b buildunit_screamer",
-        "bind shift+b buildunit_screamer",
-		--t1 aa
-        "bind b buildunit_corrl",
-        "bind shift+b buildunit_corrl",
-        "bind b buildunit_armrl",
-        "bind shift+b buildunit_armrl",
-		--aa w
-		"bind b buildunit_armfrt",
-        "bind shift+b buildunit_armfrt",
-        "bind b buildunit_corfrt",
-        "bind shift+b buildunit_corfrt",
+		"bind v buildunit_mercury",
+        "bind shift+v buildunit_mercury",
+		"bind v buildunit_screamer",
+        "bind shift+v buildunit_screamer",
 		
-		--N = anti/sheild 
-		--anti
-		"bind n buildunit_corfmd",
-        "bind shift+n buildunit_corfmd",
-        "bind n buildunit_armamd",
-        "bind shift+n buildunit_armamd",
-		--sheild
-		"bind n buildunit_corgate",
-        "bind shift+n buildunit_corgate",
-        "bind n buildunit_armgate",
-        "bind shift+n buildunit_armgate",
+		
+		
+		
+		
+		
+		
+		--pako sucks only sam
+		"bind v buildunit_madsam",
+        "bind shift+v buildunit_madsam",
+		--t1 aa
+        "bind v buildunit_corrl",
+        "bind shift+v buildunit_corrl",
+        "bind v buildunit_armrl",
+        "bind shift+v buildunit_armrl",
+		
+		--pako
+		"bind v buildunit_packo",
+        "bind shift+v buildunit_packo",
+		
+		
+		
+		
+		--t2 rad
+		"bind v buildunit_armarad",
+        "bind shift+v buildunit_armarad",
+        "bind v buildunit_corarad",
+        "bind shift+v buildunit_corarad",
+		--t2 jam
+		"bind v buildunit_corshroud",
+        "bind shift+v buildunit_corshroud",
+        "bind v buildunit_armveil",
+        "bind shift+v buildunit_armveil",
+		
+		
+		
+	
+		
+		--t1 jam
+		"bind v buildunit_corjamt",
+        "bind shift+v buildunit_corjamt",
+        "bind v buildunit_armjamt",
+        "bind shift+v buildunit_armjamt",
  
-        -- build spacing
+		--aa w
+		"bind v buildunit_armfrt",
+        "bind shift+v buildunit_armfrt",
+        "bind v buildunit_corfrt",
+        "bind shift+v buildunit_corfrt",
+ 
+      -- build spacing
         "bind any+b buildspacing inc",
-        "bind any+n buildspacing dec",    
+        "bind any+n buildspacing dec",  
+     
         
         -- numpad movement
         "bind numpad2 moveback",
@@ -307,6 +357,8 @@ function MakeBindsTable (swapYZ)
         -- set target
         "bind q settarget",
         "bind j canceltarget",
+		 "bind "..Y.." settargetnoground",
+        "bind alt+"..Y.." settarget",
         
         "bind * drawinmap", --some keyboards don't have ` or \
         "bind ,	buildfacing inc", --because some keyboards don't have [ and ] ke"..Y.."s
