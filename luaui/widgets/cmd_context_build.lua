@@ -37,8 +37,6 @@ local unitlist={--- Human friendly list. Automatically converted to unitdef IDs 
 {'corlab','corsy'},
 
 
-{'armclaw','armtl'},
-{'cormaw','cortl'},
 
 
 
