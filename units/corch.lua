@@ -4,7 +4,7 @@ return {
 		brakerate = 0.372,
 		buildcostenergy = 2956,
 		buildcostmetal = 164,
-		builddistance = 112,
+		builddistance = 130,
 		builder = true,
 		buildpic = "CORCH.DDS",
 		buildtime = 4576,
