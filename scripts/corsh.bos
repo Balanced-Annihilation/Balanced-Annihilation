@@ -57,48 +57,7 @@ StartMoving()
 {
 	signal SIG_MOVE;
 	set-signal-mask SIG_MOVE;
-	while( TRUE )
-	{
-		if( Static_Var_1 == 1 )
-		{
-			emit-sfx 5 from wake01;
-			emit-sfx 5 from wake02;
-			emit-sfx 5 from wake03;
-			emit-sfx 5 from wake04;
-			emit-sfx 5 from wake05;
-			emit-sfx 5 from wake06;
-			emit-sfx 3 from wake07;
-			emit-sfx 3 from wake08;
-			emit-sfx 3 from wake01;
-			emit-sfx 3 from wake02;
-			emit-sfx 3 from wake03;
-			emit-sfx 3 from wake04;
-			emit-sfx 3 from wake05;
-			emit-sfx 3 from wake06;
-			emit-sfx 5 from wake07;
-			emit-sfx 5 from wake08;
-		}
-		if( Static_Var_1 == 2 )
-		{
-			emit-sfx 5 from wake01;
-			emit-sfx 5 from wake02;
-			emit-sfx 5 from wake03;
-			emit-sfx 5 from wake04;
-			emit-sfx 5 from wake05;
-			emit-sfx 5 from wake06;
-			emit-sfx 3 from wake07;
-			emit-sfx 3 from wake08;
-			emit-sfx 3 from wake01;
-			emit-sfx 3 from wake02;
-			emit-sfx 3 from wake03;
-			emit-sfx 3 from wake04;
-			emit-sfx 3 from wake05;
-			emit-sfx 3 from wake06;
-			emit-sfx 5 from wake07;
-			emit-sfx 5 from wake08;
-		}
-		sleep 300;
-	}
+	
 	return (0);
 }
 
