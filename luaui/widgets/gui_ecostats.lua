@@ -6,7 +6,7 @@ function widget:GetInfo()
 		date = "nov, 2015",
 		license = "GNU GPL, v2 or later",
 		layer = -1,
-		enabled = true
+		enabled = false
 	}
 end
 
@@ -286,7 +286,13 @@ end
 function processScaling()
 	setDefaults()
 	
+	vsx, vsy = gl.GetViewSizes()
+	if(vsy > 2000) then
 	sizeMultiplier   = 0.1 + (vsx*vsy / 7000000)
+	else
+	sizeMultiplier   = 0.45 + (vsx*vsy / 7000000)
+	end
+	
 	
 	tH				= math.floor(tH * sizeMultiplier)
 	widgetWidth		= math.floor(widgetWidth * sizeMultiplier)

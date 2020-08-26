@@ -1533,7 +1533,7 @@ function CreateBackground()
 		gl_Color(0,0,0,0.6)
 		RectRound(BLcornerX,BLcornerY,TRcornerX,TRcornerY,6)
 		
-		local padding = 2.75
+		local padding = 0
 		gl_Color(1,1,1,0.022)
 		RectRound(BLcornerX+padding,BLcornerY+padding,TRcornerX-padding,TRcornerY-padding,padding)
 		

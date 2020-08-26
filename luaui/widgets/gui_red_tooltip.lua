@@ -21,11 +21,11 @@ local vsx,vsy = Spring.GetViewGeometry()
 local Config = {
 	tooltip = {
 		px = -0.5,py = CanvasY-82, --default start position
-		sx = 270,sy = 82, --background size
+		sx = 270,sy = 86, --background size
 		
 		fontsize = 10.5,
 		
-		padding = 0.0031*vsy * ui_scale,
+		padding = 0,
 		color2 = {1,1,1,0.022},
 		
 		margin = 11, --distance from background border

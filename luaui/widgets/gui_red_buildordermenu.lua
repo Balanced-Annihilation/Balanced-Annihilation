@@ -40,7 +40,7 @@ local ConfigB = {
 		
 		margin = 5, --distance from background border
 		
-		padding = 0.0031*vsy * ui_scale, -- for border effect
+		padding = 0, -- for border effect
 		color2 = {1,1,1,0.022}, -- for border effect
 		
 		--fadetime = 0.14, --fade effect time, in seconds

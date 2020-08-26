@@ -6,14 +6,14 @@ function widget:GetInfo()
 		version   = "",
 		date      = "",
 		license   = "",
-		layer     = -15,
+		layer     = -100,
 		enabled   = true,
 	}
 end
 
 local bgcorner	= ":n:"..LUAUI_DIRNAME.."Images/bgcorner.png"
 
-local fontSize = 12
+local fontSize = 13
 local update = 30 -- in frames
 local replaceEndStats = false
 local highLightColour = {0.5,0.8,0.5,0.66}
@@ -35,13 +35,13 @@ local header = {
 --	"killEfficiency",
 	"aggressionLevel",
 	"metalUsed",
-	"metalProduced",
+--	"metalProduced",
 	"metalExcess",
+	"energyUsed",
+--	"energyProduced",
+	"energyExcess",
 	"metalReceived",
 	"metalSent",
-	"energyUsed",
-	"energyProduced",
-	"energyExcess",
 	"energyReceived",
 	"energySent",
 	--"resourcesUsed",
@@ -91,6 +91,13 @@ local format				= string.format
 local SIsuffixes = {"p","n","u","m","","k","M","G","T"}
 local borderRemap = {left={"x","min",-1},right={"x","max",1},top={"y","max",1},bottom={"y","min",-1}}
 
+local vsx, vsy				= gl.GetViewSizes()
+local widgetScale			= 1
+
+function init()
+	vsx, vsy = gl.GetViewSizes()
+	widgetScale = (0.60 + (vsx*vsy / 5000000)) * 1
+end
 
 function roundNumber(num,useFirstDecimal)
 	return useFirstDecimal and format("%0.1f",round(num,1)) or round(num)
@@ -282,9 +289,9 @@ local guiData = {
 				length = 0.04,
 			},
 			y = {
-				min = 0.962,
+				min = 0.96,
 				max = 1,
-				length = 0.038,
+				length = 0.04,
 			},
 		},
 		draggingBorderSize = 7,
@@ -294,8 +301,8 @@ local guiData = {
 		relSizes = {
 			x = {
 				min = 0.2,
-				max = 0.8,
-				length = 0.6,
+				max = 0.92,
+				length = 0.72,
 			},
 			y = {
 				min = 0.2,
@@ -427,6 +434,7 @@ function calcAbsSizes()
 end
 
 function widget:ViewResize(viewSizeX, viewSizeY)
+	init()
 	vsx,vsy = viewSizeX, viewSizeY
 	calcAbsSizes()
 	updateFontSize()
@@ -434,6 +442,7 @@ function widget:ViewResize(viewSizeX, viewSizeY)
 end
 
 function widget:Initialize()
+	init()
 	guiData.mainPanel.visible = false
 	local vsx,vsy = widgetHandler:GetViewSizes()
 	widget:ViewResize(vsx,vsy)
@@ -799,24 +808,26 @@ function DrawButton()
 		return
 	end
 	local boxAbsData = guiData.smallBox.absSizes
-	local tempFontSize = 13 * (0.60 + (vsx*vsy / 5000000)) * 0.85
+	local tempFontSize = 14
 	--[[if widgetHandler:InTweakMode() then
 		rectBoxWithBorder(guiData.smallBox,{0,0,0,0.7})
 	else
 		rectBox(guiData.smallBox,{0,0,0,0.5})
 	end]]--
 	local x1,y1,x2,y2 = guiData.smallBox.absSizes.x.min, guiData.smallBox.absSizes.y.min, guiData.smallBox.absSizes.x.max, guiData.smallBox.absSizes.y.max
-	local widgetScale = (0.60 + (vsx*vsy / 5000000))
+	
 	gl.Color(0,0,0,0.6)
-	local borderPadding = 3.5*widgetScale
-
-	RectRound(x1,y1,x2,y2,6*widgetScale)
+	RectRound(x1,y1,x2,y2,7)
+	
+	local borderPadding = 0
 	gl.Color(1,1,1,0.022)
-	RectRound(x1+borderPadding,y1+borderPadding,x2-borderPadding,y2-borderPadding,6*widgetScale)
+	RectRound(x1+borderPadding,y1+borderPadding,x2-borderPadding,y2-borderPadding,6)
 	
-
+	if (WG['guishader_api'] ~= nil) then
+		WG['guishader_api'].InsertRect(x1,y1,x2,y2,'teamstats_button')
+	end
 	
-	glText(colorToChar({1,1,1}) .. "Stats",boxAbsData.x.min+boxAbsData.x.length/2, boxAbsData.y.max-boxAbsData.y.length/2, tempFontSize, "ovc")
+	glText(colorToChar({1,1,1}) .. "Stats",boxAbsData.x.min+boxAbsData.x.length/2, boxAbsData.y.max-boxAbsData.y.length/2, tempFontSize*0.8*widgetScale, "ovc")
 end
 
 function DrawBackground()

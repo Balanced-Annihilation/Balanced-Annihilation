@@ -23,7 +23,7 @@ local fontfile2 =  "LuaUI/Fonts/FreeSansBold.otf"
 local font2 = gl.LoadFont(fontfile2, fontfileSize*fontfileScale, fontfileOutlineSize*fontfileScale, fontfileOutlineStrength)
 
 local useRoundedRectangles = true
-local roundedSizeMultiplier = 1
+local roundedSizeMultiplier = 0.9
 local usedRoundedSize = roundedSize
 
 local TN = "Red"

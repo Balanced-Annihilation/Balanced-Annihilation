@@ -515,6 +515,10 @@ local function processLine(line,g,cfg,newlinecolor)
 	  ignoreThisMessage = true
 	end
 	
+	if sfind(line,"Error:") then
+	  ignoreThisMessage = true
+	end
+	
 	if sfind(line,"smart_select") then
 		name = lastConnectionAttempt
 	  ignoreThisMessage = true

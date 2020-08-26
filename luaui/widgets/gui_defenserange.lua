@@ -314,8 +314,8 @@ local buttonConfig = {}
 buttonConfig["posPercRight"] = 0.98
 buttonConfig["posPercBottom"] = 0.8
 buttonConfig["defaultScreenResY"] = 1050 --do not change
-buttonConfig["defaultWidth"] = 40 --size in pixels in default screen resolution
-buttonConfig["defaultWidth"] = 40 --size in pixels in default screen resolution
+buttonConfig["defaultWidth"] = 23 --size in pixels in default screen resolution
+buttonConfig["defaultWidth"] = 23 --size in pixels in default screen resolution
 buttonConfig["spacingy"] = 3
 buttonConfig["spacingx"] = 3
 buttonConfig["borderColor"] = { 0, 0, 0, 1.0 }
@@ -477,7 +477,9 @@ end
 
 function widget:Initialize()
 	vsx, vsy = gl.GetViewSizes()
-	buttonConfig["defaultScreenResY"] = vsy
+	
+	
+	
 	state["myPlayerID"] = spGetLocalTeamID()
 
     widgetHandler:RegisterGlobal('SetOpacity_Defense_Range', SetOpacity)
@@ -940,7 +942,12 @@ function widget:Update()
 		end
         ]]
         
-        lineConfig["lineWidth"] = 1.8
+		if(state["screenx"] > 2000) then
+		lineConfig["lineWidth"] = 1.5
+		else
+		lineConfig["lineWidth"] = 1
+		end
+		
         lineConfig["alphaValue"] = 0.4
         UpdateCircleList()
 	
