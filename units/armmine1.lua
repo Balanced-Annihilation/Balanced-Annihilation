@@ -73,7 +73,7 @@ return {
 				impulseboost = 0,
 				impulsefactor = 0,
 				name = "Mine Detonator",
-				range = 4,
+				range = 5,
 				reloadtime = 0.1,
 				soundhitwet = "splshbig",
 				soundhitwetvolume = 0.5,
