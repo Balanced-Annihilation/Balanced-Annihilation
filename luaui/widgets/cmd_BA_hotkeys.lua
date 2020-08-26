@@ -204,7 +204,15 @@ function MakeBindsTable (swapYZ)
         "bind shift+c buildunit_cormine2",
 		"bind c buildunit_armmine2",
         "bind shift+c buildunit_armmine2",
+		--commando
+		"bind c buildunit_cormine4", 
+        "bind shift+c buildunit_cormine4",
 
+		--torp
+		"bind c buildunit_armtl",
+		"bind shift+c buildunit_armtl",
+		"bind c buildunit_cortl",
+        "bind shift+c buildunit_cortl",	
 		
 		--t2 turret
 		"bind c buildunit_armpb",
@@ -239,11 +247,7 @@ function MakeBindsTable (swapYZ)
         "bind shift+c buildunit_coratl",	
 		
 		
-		--torp
-		"bind c buildunit_armtl",
-		"bind shift+c buildunit_armtl",
-		"bind c buildunit_cortl",
-        "bind shift+c buildunit_cortl",	
+		
 		
 		"bind c buildunit_armptl",
 		"bind shift+c buildunit_armptl",
@@ -262,6 +266,7 @@ function MakeBindsTable (swapYZ)
 		"bind v buildunit_cornanotc",
         "bind shift+v buildunit_cornanotc",	
 		
+		
 		--rad
 		"bind v buildunit_armrad",
         "bind shift+v buildunit_armrad",
@@ -272,6 +277,16 @@ function MakeBindsTable (swapYZ)
         "bind shift+v buildunit_armfrad",
         "bind v buildunit_corfrad",
         "bind shift+v buildunit_corfrad",
+		
+		--pako sucks only sam
+		"bind v buildunit_madsam",
+        "bind shift+v buildunit_madsam",
+		
+		--t1 aa
+        "bind v buildunit_armrl",
+        "bind shift+v buildunit_armrl",
+		
+		
 		
 		
 		
@@ -295,16 +310,9 @@ function MakeBindsTable (swapYZ)
 		
 		
 		
-		
-		
-		--pako sucks only sam
-		"bind v buildunit_madsam",
-        "bind shift+v buildunit_madsam",
 		--t1 aa
         "bind v buildunit_corrl",
         "bind shift+v buildunit_corrl",
-        "bind v buildunit_armrl",
-        "bind shift+v buildunit_armrl",
 		
 		--pako
 		"bind v buildunit_packo",
