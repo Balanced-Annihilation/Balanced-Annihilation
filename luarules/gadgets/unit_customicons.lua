@@ -62,6 +62,8 @@ function gadget:Initialize()
   Spring.AddUnitIcon("m-up.user", "LuaUI/Icons/m-up.png")
   Spring.AddUnitIcon("m.user", "LuaUI/Icons/m.png")
   Spring.AddUnitIcon("nuke.user", "LuaUI/Icons/nuke.png",1.25)
+   Spring.AddUnitIcon("launcher.user", "LuaUI/Icons/nukelauncher.png",1.2)
+Spring.AddUnitIcon("juno.user", "LuaUI/Icons/juno.png",1)
   Spring.AddUnitIcon("slash.user", "LuaUI/Icons/slash.png") 
   Spring.AddUnitIcon("sphere.user", "LuaUI/Icons/ba_sphere.png",1.1)
   Spring.AddUnitIcon("sphere2.user", "LuaUI/Icons/ba_sphere.png",1.35)
@@ -81,6 +83,7 @@ function gadget:Initialize()
   Spring.AddUnitIcon("triangle-up.user", "LuaUI/Icons/triangle-up.png")
   Spring.AddUnitIcon("x.user", "LuaUI/Icons/x.png")
   Spring.AddUnitIcon("blank.user", "LuaUI/Icons/blank.png")
+  Spring.AddUnitIcon("mine.user", "LuaUI/Icons/x.png",0.7)
    
   -- Setup the unitdef icons
   for udid,ud in pairs(UnitDefs) do
@@ -93,6 +96,12 @@ function gadget:Initialize()
         Spring.SetUnitDefIcon(udid, "blank.user")
 	elseif (ud.name=="corcarry") or (ud.name=="armcarry") then
         Spring.SetUnitDefIcon(udid, "nuke.user")
+		elseif (ud.name=="ajuno") or (ud.name=="cjuno") then
+        Spring.SetUnitDefIcon(udid, "juno.user")
+		elseif (ud.name=="armsilo") or (ud.name=="corsilo") or (ud.name=="cortron") or (ud.name=="armemp") then
+        Spring.SetUnitDefIcon(udid, "launcher.user")
+		elseif (ud.name=="armmine1") or (ud.name=="armmine2") or (ud.name=="armmine3") or (ud.name=="cormine1") or (ud.name=="cormine2") or (ud.name=="cormine3")or (ud.name=="cormine4")  or (ud.name=="corfmine3") or (ud.name=="armfmine3")  then
+        Spring.SetUnitDefIcon(udid, "mine.user")
       elseif (ud.name=="armwin") or (ud.name=="corwin") then
         Spring.SetUnitDefIcon(udid, "e.user")
       elseif (ud.name=="armfig") or (ud.name=="corveng") or (ud.name=="armhawk") or (ud.name=="corvamp") then
