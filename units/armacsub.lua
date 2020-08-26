@@ -12,7 +12,7 @@ return {
 		category = "UNDERWATER ALL NOTLAND MOBILE NOWEAPON NOTAIR NOTHOVER",
 		collisionvolumeoffsets = "0 0 -1",
 		collisionvolumescales = "31 30 73",
-		collisionvolumetype = "CylZ",
+		collisionvolumetype = "box",
 		corpse = "DEAD",
 		description = "Tech Level 2",
 		energymake = 30,

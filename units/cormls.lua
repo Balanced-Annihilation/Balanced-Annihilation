@@ -12,7 +12,7 @@ return {
 		category = "ALL NOWEAPON MINELAYER SHIP NOTSUB NOTAIR NOTHOVER SURFACE",
 		collisionvolumeoffsets = "-2 -3 5",
 		collisionvolumescales = "24 24 62",
-		collisionvolumetype = "CylZ",
+		collisionvolumetype = "box",
 		corpse = "DEAD",
 		description = "Naval Engineer",
 		energymake = 0.5,

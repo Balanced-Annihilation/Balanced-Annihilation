@@ -14,7 +14,7 @@ return {
 		category = "KBOT MOBILE ALL NOTSUB NOWEAPON NOTSHIP NOTAIR NOTHOVER SURFACE",
 		collisionvolumeoffsets = "0 -2 1",
 		collisionvolumescales = "30.5 36 30.5",
-		collisionvolumetype = "CylY",
+		collisionvolumetype = "box",
 		corpse = "DEAD",
 		description = "Stealthy Rez Kbot",
 		energymake = 1.75,
