@@ -91,7 +91,7 @@ local haveZombies 					= (tonumber((Spring.GetModOptions() or {}).zombies) or 0)
 local maxPlayers					= 0
 
 local ui_opacity = 0.66
-local ui_scale = 1
+local ui_scale = 1.45
 local glossMult = 1 + (2-(ui_opacity*2))	-- increase gloss/highlight so when ui is transparant, you can still make out its boundaries and make it less flat
 
 local myFullview = select(2,Spring.GetSpectatingState())
@@ -1702,8 +1702,8 @@ function widget:Update(dt)
 	uiOpacitySec = uiOpacitySec + dt
 	if uiOpacitySec > 0.5 then
 		uiOpacitySec = 0
-		if ui_scale ~= 1 then
-			ui_scale = 1
+		if ui_scale ~= 1.45 then
+			ui_scale = 1.45
 			widget:ViewResize(Spring.GetViewGeometry())
 		end
 		uiOpacitySec = 0
