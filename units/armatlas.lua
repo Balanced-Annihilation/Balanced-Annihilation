@@ -14,7 +14,7 @@ return {
 		description = "Air Transport",
 		energymake = 0.6,
 		energyuse = 0.6,
-		explodeas = "SMALL_UNITEX",
+		explodeas = "small_unitex",
 		footprintx = 2,
 		footprintz = 3,
 		
@@ -42,7 +42,7 @@ return {
 		objectname = "ARMATLAS",
 		releaseheld = true,
 		seismicsignature = 0,
-		selfdestructas = "SMALL_UNIT",
+		selfdestructas = "small_unit",
 		sightdistance = 260,
 		transportcapacity = 1,
 		transportmass = 5000,

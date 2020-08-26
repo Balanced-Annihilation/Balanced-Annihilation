@@ -3,7 +3,7 @@ return {
 		areaofeffect = 60,
 		craterboost = 0,
 		cratermult = 0,
-		explosiongenerator = "custom:FLASHBIGUNITEX",
+		explosiongenerator = "custom:genericunitexplosion-air",
 		impulseboost = 0,
 		impulsefactor = 0,
 		name = "BigUnitAir",

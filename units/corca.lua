@@ -34,7 +34,7 @@ return {
 		objectname = "CORCA",
 		radardistance = 50,
 		seismicsignature = 0,
-		selfdestructas = "SMALL_UNIT_AIR",
+		selfdestructas = "small_unit_AIR",
 		sightdistance = 351,
 		terraformspeed = 225,
 		turninplaceanglelimit = 360,

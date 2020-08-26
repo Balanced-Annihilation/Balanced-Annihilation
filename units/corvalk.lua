@@ -14,7 +14,7 @@ return {
 		description = "Air Transport",
 		energymake = 0.7,
 		energyuse = 0.7,
-		explodeas = "BIG_UNITEX",
+		explodeas = "big_unitex",
 		footprintx = 2,
 		footprintz = 3,
 		
@@ -42,7 +42,7 @@ return {
 		objectname = "CORVALK",
 		releaseheld = true,
 		seismicsignature = 0,
-		selfdestructas = "BIG_UNIT",
+		selfdestructas = "big_unit",
 		sightdistance = 260,
 		transportcapacity = 1,
 		transportmass = 5000,

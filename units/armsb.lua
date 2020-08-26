@@ -15,7 +15,7 @@ return {
 		description = "Seaplane Bomber",
 		energymake = 1.1,
 		energyuse = 1.1,
-		explodeas = "BIG_UNITEX",
+		explodeas = "big_unitex",
 		footprintx = 3,
 		footprintz = 3,
 		icontype = "air",
@@ -30,7 +30,7 @@ return {
 		nochasecategory = "VTOL",
 		objectname = "ARMSB",
 		seismicsignature = 0,
-		selfdestructas = "BIG_UNIT_AIR",
+		selfdestructas = "big_unit_AIR",
 		sightdistance = 455,
 		turnrate = 392,
 		sounds = {

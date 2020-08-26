@@ -3,7 +3,7 @@ return {
 		areaofeffect = 240,
 		craterboost = 0,
 		cratermult = 0,
-		explosiongenerator = "custom:FLASHSMALLBUILDING",
+		explosiongenerator = "custom:genericbuildingexplosion-medium",
 		impulseboost = 0.12300000339746,
 		impulsefactor = 0.12300000339746,
 		name = "Smallbuilding",

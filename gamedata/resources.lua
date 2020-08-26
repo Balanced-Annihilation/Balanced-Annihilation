@@ -89,7 +89,6 @@ local resources = {
 			wake='wake.png',
 			explo='explo.tga',
 			explofade='explofade.tga',
-			heatcloud='mildexplo.tga',
 			flame='flame.tga',
 			graysmoke='graysmoke.tga',
 			bombsmoke='bombsmoke.tga',

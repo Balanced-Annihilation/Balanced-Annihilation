@@ -29,7 +29,7 @@ return {
 		nochasecategory = "VTOL",
 		objectname = "CORAPE",
 		seismicsignature = 0,
-		selfdestructas = "BIG_UNIT",
+		selfdestructas = "big_unit",
 		sightdistance = 550,
 		turninplaceanglelimit = 360,
 		turnrate = 594,

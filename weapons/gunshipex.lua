@@ -3,7 +3,7 @@ return {
 		areaofeffect = 192,
 		craterboost = 0,
 		cratermult = 0,
-		explosiongenerator = "custom:FLASH2",
+		explosiongenerator = "custom:genericunitexplosion-air",
 		impulseboost = 0.12300000339746,
 		impulsefactor = 0.12300000339746,
 		name = "BigKbot",

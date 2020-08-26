@@ -17,7 +17,7 @@ return {
 		description = "Stealthy Armed Transport",
 		energymake = 0.6,
 		energyuse = 0.6,
-		explodeas = "SMALL_UNITEX",
+		explodeas = "small_unitex",
 		footprintx = 4,
 		footprintz = 4,
 		
@@ -46,7 +46,7 @@ return {
 		objectname = "ARMDFLY",
 		releaseheld = true,
 		seismicsignature = 0,
-		selfdestructas = "SMALL_UNIT",
+		selfdestructas = "small_unit",
 		sightdistance = 318,
 		stealth = true,
 		transportcapacity = 30,

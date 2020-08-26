@@ -18,7 +18,7 @@ return {
 		description = "Heavy Hovertank",
 		energymake = 2.8,
 		energyuse = 2.5,
-		explodeas = "BIG_UNIT",
+		explodeas = "big_unit",
 		footprintx = 4,
 		footprintz = 4,
 		idleautoheal = 5,

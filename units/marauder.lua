@@ -13,7 +13,7 @@ return {
 		collisionvolumetype = "Box",
 		corpse = "DEAD",
 		description = "Amphibious Assault Mech",
-		explodeas = "BIG_UNITEX",
+		explodeas = "large_unitex",
 		footprintx = 3,
 		footprintz = 3,
 		idleautoheal = 5,

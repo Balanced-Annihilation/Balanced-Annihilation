@@ -29,7 +29,7 @@ return {
 		nochasecategory = "VTOL",
 		objectname = "BLADE",
 		seismicsignature = 0,
-		selfdestructas = "BIG_UNIT",
+		selfdestructas = "big_unit",
 		sightdistance = 624,
 		turninplaceanglelimit = 360,
 		turnrate = 720,

@@ -16,7 +16,7 @@ return {
 		cruisealt = 150,
 		description = "Assault Transport",
 		energymake = 3,
-		explodeas = "SMALL_UNITEX",
+		explodeas = "small_unitex",
 		footprintx = 4,
 		footprintz = 4,
 		
@@ -44,7 +44,7 @@ return {
 		objectname = "ARMSL",
 		releaseheld = true,
 		seismicsignature = 0,
-		selfdestructas = "SMALL_UNIT",
+		selfdestructas = "small_unit",
 		sightdistance = 260,
 		transportcapacity = 30,
 		transportsize = 15,

@@ -15,7 +15,7 @@ return {
 		description = "Fast Assault Kbot",
 		energymake = 1.1,
 		energyuse = 1.1,
-		explodeas = "BIG_UNITEX",
+		explodeas = "big_unitex",
 		footprintx = 2,
 		footprintz = 2,
 		idleautoheal = 5,

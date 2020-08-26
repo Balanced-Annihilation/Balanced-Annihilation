@@ -14,7 +14,7 @@ return {
 		description = "Torpedo Bomber",
 		energymake = 1.5,
 		energyuse = 1.5,
-		explodeas = "BIG_UNITEX",
+		explodeas = "big_unitex",
 		footprintx = 3,
 		footprintz = 3,
 		icontype = "air",
@@ -28,7 +28,7 @@ return {
 		nochasecategory = "VTOL",
 		objectname = "ARMLANCE",
 		seismicsignature = 0,
-		selfdestructas = "BIG_UNIT_AIR",
+		selfdestructas = "big_unit_AIR",
 		sightdistance = 455,
 		turnrate = 462,
 		sounds = {
