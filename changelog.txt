@@ -1,58 +1,41 @@
-﻿V9.76.3
-16/04/2020
+﻿9.78.0
+26/05/2020
 
-mines should not fail to detonate
-anon_ffa mode can work for team ffa or teams
-anti nukes will not collide with mountains
-harder for sea cons to block sea labs
+classic unit textures remastered by neural network detail increased by 60%
+new plasma explosions, jets and missiles for 103 engine
+high resolution OTA cursor for 4k displays (toggle by typing /cursor)
+new advanced lighting option in settings
+press cntrl x to select all of same unit type currently visible
+metal wrecks won't turn invisible when zoomed out
+sea units block sea labs less
+mines detonate more reliably on hills
+torpedos of seaplane torpedo gunships don't collide with ground
+fido default firemode returned to regular
+team stats widget shows e and m excess
+context build works for wind/tidal
+better default gui and widget layout
+anon_ffa mode can work for any game mode
+options menu now saves your changes (try lowering your settings)
+factoryguard widget: cons guard from front of lab rather than side 
+enable widget gui_commanderhurt - shows red tint when com is attacked offscreen
+enabled widgets NoAltMouseWheel, NoshiftMouseWheel and disable_middle_mouse - stop fast and accidental zooms
+new ba_hotkeys widget: "z mex/mm, x energy, c turret, v radar/jam" old are renamed to ba_hotkeys_old
+when using new hotkeys energy hotkey x will select wind or solar automatically based on map wind
+when using new hotkeys press c when selecting freaker or commando to place mines
+widget gui_defenserange updated, ground ranges are red, air ranges are blue, old version renamed to gui_defenserange_old 
+changelog since 9.46 summarised to balance changes
 
-V9.76.2
-7/04/2020
-
-add back dgun button (ManualFire)
-map damage enabled by default
-option to have random player colours in FFA (default disabled, bset anon_ffa 1)
-
-V9.75.4
+9.75.4
 05/01/2020
 
-settarget will not reveal true unit positions without los
 krog 25% less health -33.7k hp 133700 to 100000
 bantha 10% less health -5.2k hp 52000 to 46800
-selections of over 150 units won't use raw move
-added widget commanderhurt: shows red highlight if commander is under attack offscreen (default disabled)
-added widget cas: sharpens textures (default disabled)
-added widget gfx_unit_cell_shader: cell shaded outline for units (default disabled)
-map damage disabled by default
-builders can area mex
 
-V9.75.3
-4/10/2019
-
-correct dgun path is shown when aiming
-transports can load stationary units without wobbling about
-units keep formation during move commands and move directly to waypoints
-attack command on ground can detonate crawlings underwater, was previously only land
-
-V9.71
+9.71
 30/06/2019
 
-torpedo bomber ignores blocking terrain and torpedo turns faster towards target
 bantha 16.2% less health, -10k hp
 
-V9.70
-28/06/2019
-
-fix settarget breaking dgun
-add back t2 torpedo
-fix transport unloading
-air repair pads work again
-t2 vehicle transport works again
-disable air collision
-krow does not produce energy
-undo freaker chain
-remove t3 hover
-crown for tournament winner Cartouche
 
 9.45 -> 9.46
 22/09/2016
