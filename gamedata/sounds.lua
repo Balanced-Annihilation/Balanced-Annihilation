@@ -1,7 +1,7 @@
 local Sounds = {
 	SoundItems = {
 		IncomingChat = {
-			file = "sounds/beep4.wav",
+			file = "",
 			in3d = "false",
 		},
 		MultiSelect = {
