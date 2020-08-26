@@ -22,8 +22,9 @@ local CanvasX,CanvasY = 1272,734 --resolution in which the widget was made (for 
 --todo: build categories (eco | labs | defences | etc) basically sublists of buildcmds (maybe for regular orders too)
 
 local iconScaling = true
-
-local Config = {
+local vsx,vsy = Spring.GetViewGeometry()
+		local ui_scale = 1
+local ConfigB = {
 	buildmenu = {
 		menuname = "buildmenu",
 		px = -0.5,py = CanvasY - 415, --default start position
@@ -39,14 +40,14 @@ local Config = {
 		
 		margin = 5, --distance from background border
 		
-		padding = 4, -- for border effect
+		padding = 0.0031*vsy * ui_scale, -- for border effect
 		color2 = {1,1,1,0.022}, -- for border effect
 		
-		fadetime = 0.14, --fade effect time, in seconds
-		fadetimeOut = 0.022, --fade effect time, in seconds
+		--fadetime = 0.14, --fade effect time, in seconds
+		--fadetimeOut = 0.022, --fade effect time, in seconds
 		
 		ctext = {1,1,1,1}, --color {r,g,b,alpha}
-		cbackground = {0,0,0,0.6},
+		cbackground = {0,0,0,0.66},
 		cborder = {0,0,0,1},
 		cbuttonbackground = {0.1,0.1,0.1,1},
 		dragbutton = {2,3}, --middle mouse button
@@ -55,7 +56,7 @@ local Config = {
 		},
 	},
 	
-	ordermenu = {
+	--[[ordermenu = {
 		menuname = "ordermenu",
 		px = -0.5,py = CanvasY - 415 - 145,
 		
@@ -85,7 +86,7 @@ local Config = {
 		tooltip = {
 			background = "In CTRL+F11 mode: Hold \255\255\255\1middle mouse button\255\255\255\255 to drag the ordermenu.",
 		},
-	},
+	},]]--
 }
 
 local guishaderEnabled = WG['guishader_api'] or false
@@ -190,10 +191,10 @@ local function CreateGrid(r)
 		
 		padding=r.padding,
 		
-		effects = {
-			fadein_at_activation = r.fadetime,
-			fadeout_at_deactivation = r.fadetimeOut,
-		},
+		--effects = {
+		--	fadein_at_activation = r.fadetime,
+		--	fadeout_at_deactivation = r.fadetimeOut,
+		--},
 		onupdate=function(self)
 			background2.px = self.px + self.padding
 			background2.py = self.py + self.padding
@@ -387,7 +388,7 @@ local function UpdateGrid(g,cmds,ordertype)
 	
 	local visibleIconCount = #icons
 	if #cmds > #icons then
-		visibleIconCount = visibleIconCount - Config[g.menuname].ix
+		visibleIconCount = visibleIconCount - ConfigB[g.menuname].ix
 	end
 	for i=1,#cmds do
 		local index = i-(#page-1)*visibleIconCount
@@ -572,11 +573,11 @@ function widget:Initialize()
 	PassedStartupCheck = RedUIchecks()
 	if (not PassedStartupCheck) then return end
 	
-	ordermenu = CreateGrid(Config.ordermenu)
-	buildmenu = CreateGrid(Config.buildmenu)		-- the list with the largest grid must be last or it will get buggy with mousehovers
+	--ordermenu = CreateGrid(ConfigB.ordermenu)
+	buildmenu = CreateGrid(ConfigB.buildmenu)		-- the list with the largest grid must be last or it will get buggy with mousehovers
 	
 	buildmenu.page = 1
-	ordermenu.page = 1
+	--ordermenu.page = 1
 	
 	AutoResizeObjects() --fix for displacement on crash issue
 end
@@ -584,10 +585,10 @@ end
 local function onNewCommands(buildcmds,othercmds)
 	if (SelectedUnitsCount==0) then
 		buildmenu.page = 1
-		ordermenu.page = 1
+		--ordermenu.page = 1
 	end
 
-	UpdateGrid(ordermenu,othercmds,2)
+	--UpdateGrid(ordermenu,othercmds,2)
 	UpdateGrid(buildmenu,buildcmds,1)
 end
 
@@ -598,23 +599,23 @@ end
 
 --save/load stuff
 --currently only position
-function widget:GetConfigData() --save config
+function widget:GetConfigBData() --save config
 	if (PassedStartupCheck) then
 		local vsy = Screen.vsy
 		local unscale = CanvasY/vsy --needed due to autoresize, stores unresized variables
-		Config.buildmenu.px = buildmenu.background.px * unscale
-		Config.buildmenu.py = buildmenu.background.py * unscale
-		Config.ordermenu.px = ordermenu.background.px * unscale
-		Config.ordermenu.py = ordermenu.background.py * unscale
-		return {Config=Config, iconScaling=iconScaling}
+		ConfigB.buildmenu.px = buildmenu.background.px * unscale
+		ConfigB.buildmenu.py = buildmenu.background.py * unscale
+		--ConfigB.ordermenu.px = ordermenu.background.px * unscale
+		--ConfigB.ordermenu.py = ordermenu.background.py * unscale
+		return {ConfigB=ConfigB, iconScaling=iconScaling}
 	end
 end
-function widget:SetConfigData(data) --load config
-	if (data.Config ~= nil) then
-		Config.buildmenu.px = data.Config.buildmenu.px
-		Config.buildmenu.py = data.Config.buildmenu.py
-		Config.ordermenu.px = data.Config.ordermenu.px
-		Config.ordermenu.py = data.Config.ordermenu.py
+function widget:SetConfigBData(data) --load config
+	if (data.ConfigB ~= nil) then
+		ConfigB.buildmenu.px = data.ConfigB.buildmenu.px
+		ConfigB.buildmenu.py = data.ConfigB.buildmenu.py
+		--ConfigB.ordermenu.px = data.ConfigB.ordermenu.px
+		--ConfigB.ordermenu.py = data.ConfigB.ordermenu.py
 		if (data.iconScaling ~= nil) then
 			iconScaling = data.iconScaling
 		end
@@ -739,11 +740,11 @@ function widget:Update(dt)
 		if (WG['guishader_api'] ~= guishaderEnabled) then
 			guishaderEnabled = WG['guishader_api']
 			if (guishaderEnabled) then
-				Config.buildmenu.fadetimeOut = 0.02
-				Config.ordermenu.fadetimeOut = 0.02
+				--ConfigB.buildmenu.fadetimeOut = 0.02
+				--ConfigB.ordermenu.fadetimeOut = 0.02
 			else
-				Config.buildmenu.fadetimeOut = Config.buildmenu.fadetime*0.66
-				Config.ordermenu.fadetimeOut = Config.ordermenu.fadetime*0.66
+				--ConfigB.buildmenu.fadetimeOut = ConfigB.buildmenu.fadetime*0.66
+				--ConfigB.ordermenu.fadetimeOut = ConfigB.ordermenu.fadetime*0.66
 			end
 		end
 	end

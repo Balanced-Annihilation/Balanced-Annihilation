@@ -16,7 +16,8 @@ local CanvasX,CanvasY = 1280,734 --resolution in which the widget was made (for 
 
 
 --todo: sy adjustment
-
+local vsx,vsy = Spring.GetViewGeometry()
+		local ui_scale = 1
 local Config = {
 	tooltip = {
 		px = -0.5,py = CanvasY-82, --default start position
@@ -24,12 +25,12 @@ local Config = {
 		
 		fontsize = 10.5,
 		
-		padding = 4,
+		padding = 0.0031*vsy * ui_scale,
 		color2 = {1,1,1,0.022},
 		
 		margin = 11, --distance from background border
 		
-		cbackground = {0,0,0,0.6}, --color {r,g,b,alpha}
+		cbackground = {0,0,0,0.66}, --color {r,g,b,alpha}
 		cborder = {0,0,0,0.2},
 		
 		dragbutton = {2,3}, --middle mouse button
