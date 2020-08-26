@@ -1,12 +1,12 @@
 function widget:GetInfo()
 	return {
-		name = "BA Hotkeys old",
+		name = "BA Hotkeys Old",
 		desc = "Enables BA Hotkeys, including ZXCV,BN,YJ,O,Q" ,
 		author = "Beherith",
 		date = "23 march 2012",
 		license = "GNU LGPL, v2.1 or later",
 		layer = 1,
-		enabled = false,
+		enabled = true,
         handler = true,
 	}
 end

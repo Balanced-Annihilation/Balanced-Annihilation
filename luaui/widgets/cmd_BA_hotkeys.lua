@@ -93,6 +93,15 @@ function MakeBindsTable (swapYZ)
         "bind shift+"..Z.."  buildunit_armfmkr",
         "bind "..Z.."  buildunit_corfmkr",
         "bind shift+"..Z.."  buildunit_corfmkr",
+		
+		--mex exploiters
+		"bind "..Z.." buildunit_armamex",
+        "bind shift+"..Z.." buildunit_armamex",
+        "bind "..Z.." buildunit_corexp",
+        "bind shift+"..Z.." buildunit_corexp",
+		 "bind "..Z.." buildunit_cormexp",
+        "bind shift+"..Z.." buildunit_cormexp",
+		
 		--X = e
 		
 		--afus
