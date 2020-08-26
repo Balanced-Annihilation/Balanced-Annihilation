@@ -11,7 +11,7 @@ function widget:GetInfo()
 	}
 end
 
-local minMaxparticles = 7000
+local minMaxparticles = 8000
 
 local function reducePing()
 	Spring.SendCommands("UseNetMessageSmoothingBuffer ".."0")
@@ -30,8 +30,7 @@ local function reducePing()
 		
 		--Spring.SendCommands("FeatureDrawDistance ".."90000")
 		--Spring.SendCommands("FeatureFadeDistance ".."90000")
-		Spring.SetConfigString("FeatureDrawDistance", '90000')
-		Spring.SetConfigString("FeatureFadeDistance", '90000') 
+		
 end
 
 local function setEngineFont()
@@ -72,14 +71,18 @@ function widget:Initialize()
 
 					--Spring.SendCommands("UnitLodDist ".."90000") --need this to remove it from springsettings
 					Spring.SetConfigString("UnitLodDist", '90000')
-					Spring.SetConfigString("hangtimeout", '0')
-
-   reducePing()
+					Spring.SetConfigString("hangtimeout", '-1')
+	
+	
    
    if firstlaunchsetupDone == false then
-		
+   
+		Spring.SetConfigInt("reduceping", '1')
+		reducePing()
 		Spring.SetConfigInt("LuaShaders", 1)
-
+		Spring.SetConfigString("FeatureDrawDistance", '90000')
+		Spring.SetConfigString("FeatureFadeDistance", '90000') 
+		
 		 if tonumber(Spring.GetConfigInt("MaxParticles",1) or 0) < minMaxparticles then
             Spring.SendCommands("MaxParticles ".. minMaxparticles)
 			Spring.SetConfigInt("MaxParticles", minMaxparticles)
@@ -90,6 +93,10 @@ function widget:Initialize()
 
         firstlaunchsetupDone = true
     end
+	
+	if tonumber(Spring.GetConfigInt("reduceping",1) or 1) == 1 then
+   reducePing()
+   end
    
    setEngineFont()
    
