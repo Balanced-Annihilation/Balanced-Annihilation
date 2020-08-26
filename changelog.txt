@@ -1,4 +1,4 @@
-﻿11.0.1
+﻿11.0.2
 21/08/2020
 
 left click on minimap to pan camera there, hold left click to drag camera view
