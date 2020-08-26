@@ -102,7 +102,8 @@ return {
 			crblmssl = {
 				areaofeffect = 1920,
 				avoidfeature = false,
-				avoidfriendly = false,
+				avoidfriendly = true,
+				collideFriendly = false,
 				commandfire = true,
 				cegtag = "NUKETRAIL",
 				craterareaofeffect = 1920,
