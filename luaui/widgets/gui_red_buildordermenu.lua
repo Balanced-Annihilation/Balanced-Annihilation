@@ -35,7 +35,7 @@ local ConfigB = {
 		roundedPercentage = 0.2,	-- 0.25 == iconsize / 4 == cornersize
 		
 		iconscale = 0.92,
-		iconhoverscale = 0.92,
+		iconhoverscale = 0.975,
 		ispreadx=0,ispready=0, --space between icons
 		
 		margin = 5, --distance from background border
