@@ -12,7 +12,7 @@ return {
 		category = "ALL HOVER MOBILE WEAPON NOTSUB NOTSHIP NOTAIR SURFACE",
 		collisionvolumeoffsets = "0 -17 0",
 		collisionvolumescales = "60 60 84",
-		collisionvolumetype = "CylZ",
+		collisionvolumetype = "box",
 		corpse = "DEAD",
 		description = "Transport Hovercraft",
 		energymake = 2.3,

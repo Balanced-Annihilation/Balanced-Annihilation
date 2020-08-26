@@ -65,7 +65,7 @@ return {
 				category = "corpses",
 				collisionvolumeoffsets = "0 -17 -1",
 				collisionvolumescales = "73 56 89",
-				collisionvolumetype = "CylZ",
+				collisionvolumetype = "box",
 				damage = 2285,
 				description = "Advanced Kbot Lab Wreckage",
 				energy = 0,

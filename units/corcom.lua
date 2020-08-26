@@ -126,7 +126,7 @@ return {
 				hitdensity = 100,
 				metal = 1250,
 				object = "2X2C",
-                collisionvolumescales = "35.0 4.0 6.0",
+                collisionvolumescales = "35.0 4.0 35.0",
                 collisionvolumetype = "cylY",
 				reclaimable = true,
 				resurrectable = 0,

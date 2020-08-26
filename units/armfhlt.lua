@@ -11,7 +11,7 @@ return {
 		category = "ALL NOTLAND WEAPON NOTSUB NOTSHIP NOTAIR NOTHOVER SURFACE",
 		collisionvolumeoffsets = "0 -15 0",
 		collisionvolumescales = "46 59 46",
-		collisionvolumetype = "CylY",
+		collisionvolumetype = "box",
 		corpse = "DEAD",
 		description = "Floating Heavy Laser Tower",
 		energymake = 5,

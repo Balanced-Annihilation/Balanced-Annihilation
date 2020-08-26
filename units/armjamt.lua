@@ -13,7 +13,7 @@ return {
 		cloakcost = 25,
 		collisionvolumeoffsets = "0 0 0",
 		collisionvolumescales = "32 82 32",
-		collisionvolumetype = "CylY",
+		collisionvolumetype = "box",
 		corpse = "DEAD",
 		description = "Cloakable Jammer Tower",
 		energyuse = 40,

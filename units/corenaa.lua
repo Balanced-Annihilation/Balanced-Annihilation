@@ -12,7 +12,7 @@ return {
 		category = "ALL WEAPON NOTSUB SPECIAL NOTAIR NOTHOVER SURFACE",
 		collisionvolumeoffsets = "0 -10 0",
 		collisionvolumescales = "42 44 42",
-		collisionvolumetype = "CylY",
+		collisionvolumetype = "box",
 		corpse = "DEAD",
 		description = "Anti-Air Flak Gun - Naval Series",
 		energyuse = 0.1,

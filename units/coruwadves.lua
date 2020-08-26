@@ -12,7 +12,7 @@ return {
 		category = "ALL NOTSUB NOWEAPON NOTAIR NOTHOVER SURFACE",
 		collisionvolumeoffsets = "0 -16 0",
 		collisionvolumescales = "90 65 90",
-		collisionvolumetype = "CylY",
+		collisionvolumetype = "box",
 		corpse = "DEAD",
 		description = "Increases Energy Storage (40000)",
 		energystorage = 40000,

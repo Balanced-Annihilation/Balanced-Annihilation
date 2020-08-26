@@ -14,7 +14,7 @@ return {
 		category = "ALL NOTLAND NOTSUB NOWEAPON NOTSHIP NOTAIR NOTHOVER SURFACE",
 		collisionvolumeoffsets = "-1 0 -6",
 		collisionvolumescales = "75 34 75",
-		collisionvolumetype = "CylY",
+		collisionvolumetype = "box",
 		corpse = "DEAD",
 		description = "Increases Metal Storage (3000)",
 		explodeas = "SMALL_BUILDINGEX",

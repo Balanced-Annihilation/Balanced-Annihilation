@@ -12,7 +12,7 @@ return {
 		category = "ALL NOTLAND MOBILE WEAPON NOTSUB SHIP NOTAIR NOTHOVER SURFACE",
 		collisionvolumeoffsets = "0 -10 -2",
 		collisionvolumescales = "35 35 77",
-		collisionvolumetype = "CylZ",
+		collisionvolumetype = "box",
 		corpse = "DEAD",
 		description = "Destroyer",
 		energymake = 2,

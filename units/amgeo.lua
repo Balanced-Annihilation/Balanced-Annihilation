@@ -15,7 +15,7 @@ return {
 		category = "ALL NOTSUB NOWEAPON NOTAIR NOTHOVER SURFACE",
 		collisionvolumeoffsets = "-2 -2 6",
 		collisionvolumescales = "69 69 107",
-		collisionvolumetype = "CylZ",
+		collisionvolumetype = "box",
 		description = "Hazardous Energy Source",
 		energymake = 1250,
 		energystorage = 12000,

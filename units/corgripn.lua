@@ -12,7 +12,7 @@ return {
 		collide = false,
 		collisionvolumeoffsets = "0 -3 0",
 		collisionvolumescales = "24 9 24",
-		collisionvolumetype = "CylY",
+		collisionvolumetype = "box",
 		cruisealt = 220,
 		description = "EMP Bomber",
 		energymake = 15,

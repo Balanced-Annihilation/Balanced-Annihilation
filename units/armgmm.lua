@@ -15,7 +15,7 @@ return {
 		category = "ALL NOTLAND NOTSUB NOWEAPON NOTSHIP NOTAIR NOTHOVER SURFACE",
 		collisionvolumeoffsets = "0 6 0",
 		collisionvolumescales = "62 53 62",
-		collisionvolumetype = "CylY",
+		collisionvolumetype = "box",
 		description = "Safe Geothermal Powerplant",
 		energymake = 750,
 		energystorage = 1500,

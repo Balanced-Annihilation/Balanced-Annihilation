@@ -13,7 +13,7 @@ return {
 		cloakcostmoving = 400,
 		collisionvolumeoffsets = "0.5 4 0",
 		collisionvolumescales = "19 17 19",
-		collisionvolumetype = "CylY",
+		collisionvolumetype = "box",
 		description = "Advanced Amphibious Crawling Bomb",
 		energymake = 0.2,
 		energyuse = 0.2,
