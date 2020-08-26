@@ -91,6 +91,8 @@ function gadget:Initialize()
         Spring.SetUnitDefIcon(udid, "star.user")
       elseif string.sub(ud.name, 0, 7) == "critter" then
         Spring.SetUnitDefIcon(udid, "blank.user")
+	elseif (ud.name=="corcarry") or (ud.name=="armcarry") then
+        Spring.SetUnitDefIcon(udid, "nuke.user")
       elseif (ud.name=="armwin") or (ud.name=="corwin") then
         Spring.SetUnitDefIcon(udid, "e.user")
       elseif (ud.name=="armfig") or (ud.name=="corveng") or (ud.name=="armhawk") or (ud.name=="corvamp") then
