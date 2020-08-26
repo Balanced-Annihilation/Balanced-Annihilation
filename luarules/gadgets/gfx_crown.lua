@@ -14,6 +14,8 @@ end
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 
+
+
 if gadgetHandler:IsSyncedCode() then
 
 crown  = {
@@ -22,12 +24,14 @@ crown  = {
 	
 function gadget:UnitCreated(unitID, unitDefID, unitTeam)
 	if UnitDefNames["armcom"].id == unitDefID or UnitDefNames["corcom"].id == unitDefID then
-	--show crown if victor of a tourney
-	local _, leader = Spring.GetTeamInfo(unitTeam)
-	local leader = Spring.GetPlayerInfo(leader)
-	if crown[leader] then
-			Spring.CallCOBScript(unitID, "showcrown", 0)
-	end
+			if(tonumber(Spring.GetModOptions().anon_ffa) == 0) then
+			--show crown if victor of a tourney
+			local _, leader = Spring.GetTeamInfo(unitTeam)
+			local leader = Spring.GetPlayerInfo(leader)
+			if crown[leader] then
+					Spring.CallCOBScript(unitID, "showcrown", 0)
+			end
+		end
 	end
 end
 
