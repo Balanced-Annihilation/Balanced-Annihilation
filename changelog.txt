@@ -1,24 +1,34 @@
-﻿11.0.0
+﻿11.0.1
+21/08/2020
+
+left click on minimap to pan camera there, hold left click to drag camera view
+fix tacnuke/nuke/emp crash on some linux builds
+add square outline for nuke launcher, tac nuke and emp nuke to avoid confusion with antis
+juno icon is now a filled circle inside a square to differentiate it from nukes and antis
+mine icon is half width to differentiate it from turrets
+make decoy com dgun special effects match regular dgun
+update widget "Comblast & Dgun Range" shows geos blast range when building, old renamed to "... old"
+fix anti ranges not showing
+for new keybinds anti air moved from b onto v key
+disable advsky option as it causes crashes
+jugg 20% less health 200k hp, self-d time same as Bantha (10 sec)
+transport ai widget works
+add option "Hide rude chat" to hide rude text from battle chat - toggle in options menu
+add Shard AI
+GUI update
+condensed previous changelog to key changes
+
+
+11.0.0
 07/07/2020
 
-fix tacnuke/nuke/emp crash on some linux builds
-carriers show as an anti nuke icon instead instead of a cross
-hide crowns in anon_ffa mode (bset anon_ffa 1) 
-fix teamstats, ecostats & defense ranges widgets
-add t1 and t2 torpedo launcher to context build
-add back settarget and buildspacing (b and n) to new hotkeys, move AA onto v, add anti and sheild to z
 add setting to vote to enable or disable buzzsaw (bset allow_buzz 1) 
-increase construction hover build range to that of a t1 builder 112>130
-reduce jugg hp 16.6% from 300k to 250k hp, upgrade jugg weapon visual effect
-fixed vanguard high traj barrel animation
-add widget SelectAllUnitsOfSameTypeVisible, press cntrl X to select every visible unit with the same type as selected
-condensed previous changelog to key changes
+jugg 16.6% less health, upgrade jugg weapon visual effect
 
 9.79.4
 16/06/2020
 
 improved unit death explosions
-reduce lag and blocking of rezbot, sea cons and t2 con vehicles
 
 9.78.5
 30/05/2020
