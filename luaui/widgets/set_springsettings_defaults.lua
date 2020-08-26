@@ -71,15 +71,17 @@ function widget:Initialize()
 
 					--Spring.SendCommands("UnitLodDist ".."90000") --need this to remove it from springsettings
 					Spring.SetConfigString("UnitLodDist", '90000')
-					Spring.SetConfigString("hangtimeout", '-1')
-	
+					Spring.SetConfigString("HangTimeout", '-10')
+					Spring.SetConfigString("GuiOpacity", '0.6')
+
 	
    
    if firstlaunchsetupDone == false then
-   
-		Spring.SetConfigInt("reduceping", '1')
+		Spring.SetConfigString("Water", '1')
+		Spring.SetConfigString("AdvSky", '1')
+		Spring.SetConfigString("reduceping", '1')
 		reducePing()
-		Spring.SetConfigInt("LuaShaders", 1)
+		Spring.SetConfigString("LuaShaders", '1')
 		Spring.SetConfigString("FeatureDrawDistance", '90000')
 		Spring.SetConfigString("FeatureFadeDistance", '90000') 
 		
@@ -87,9 +89,9 @@ function widget:Initialize()
             Spring.SendCommands("MaxParticles ".. minMaxparticles)
 			Spring.SetConfigInt("MaxParticles", minMaxparticles)
         end
-		
-		Spring.SendCommands("MiniMapDrawProjectiles ",0)
-		Spring.SetConfigInt("MiniMapDrawProjectiles",0)
+		Spring.SetConfigString("GrassDetail",'0')
+
+		Spring.SetConfigString("MiniMapDrawProjectiles", '0')
 
         firstlaunchsetupDone = true
     end
