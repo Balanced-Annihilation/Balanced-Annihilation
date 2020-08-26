@@ -480,14 +480,15 @@ local function processLine(line,g,cfg,newlinecolor)
 		end		
     end
 	
-	-- filter shadows Confignew changes
-	if sfind(line,"^Set \"shadows\" Confignew(-)parameter to ") then
+	
+	-- filter shadows config changes
+	if sfind(line,"^Set \"shadows\" config(-)parameter to ") then
 		ignoreThisMessage = true
 	end
 	
 	-- filter rude words
 	if tonumber(Spring.GetConfigInt("ProfanityFilter",1) or 1) == 1 then
-   if sfind(line,"cunt") or sfind(line,"fuc")or sfind(line,"nig")or sfind(line,"tard")or sfind(line,"shit")or sfind(line,"fag")or sfind(line,"autis") then
+   if sfind(line,"cunt") or sfind(line,"fuc")or sfind(line,"nig")or sfind(line,"tard")or sfind(line,"shit")or sfind(line,"fag")or sfind(line,"autis")or sfind(line,"assh") then
 			ignoreThisMessage = true
 	end
    end

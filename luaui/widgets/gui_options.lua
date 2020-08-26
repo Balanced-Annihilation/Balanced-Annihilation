@@ -878,7 +878,7 @@ function widget:Initialize()
 			{id="fpstimespeed", name="Display FPS, GameTime and Speed", type="bool", value=tonumber(Spring.GetConfigInt("ShowFPS",1) or 1) == 1, description='Located at the top right of the screen\n\nIndividually toggle them with /fps /clock /speed'},
 
 	
-									{id="Profanity", name="Hide rude chat", type="bool", value=tonumber(Spring.GetConfigInt("ProfanityFilter",1) or 1) == 1, description='Allow swearing'},
+									{id="Profanity", name="Hide rude chat", type="bool", value=tonumber(Spring.GetConfigInt("ProfanityFilter",1) or 1) == 1, description='When green, rude text will be filtered'},
 
 	}
 	
