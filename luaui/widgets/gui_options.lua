@@ -474,7 +474,6 @@ function applyOptionValue(i)
 		elseif id == 'fullscreen' then
 			Spring.SendCommands("Fullscreen "..value)
 		elseif id == 'borderless' then
-			Spring.SendCommands("WindowBorderless "..value)
 			Spring.SetConfigInt("WindowBorderless",value)
 
 		elseif id == 'screenedgemove' then
@@ -503,7 +502,6 @@ function applyOptionValue(i)
 			Spring.SendCommands("clock "..value)
 			Spring.SendCommands("speed "..value)
 		elseif id == '3dtrees' then
-			Spring.SendCommands("3DTrees ".."0")
 			Spring.SetConfigInt("3DTrees","0")
 
 		end
@@ -801,8 +799,8 @@ function widget:Initialize()
 
 		{id="disticon", name="Unit icon distance", type="slider", min=0, max=1000, value=tonumber(Spring.GetConfigInt("UnitIconDist",1) or 172)},
 		--{id="treeradius", name="Tree render distance", type="slider", min=0, max=2000, value=tonumber(Spring.GetConfigInt("TreeRadius",1) or 1000), description='Applies to SpringRTS engine default trees\n\nChanges will be applied next game'},
-		{id="particles", name="Max particles (Expensive)", type="slider", min=1000, max=30000, value=tonumber(Spring.GetConfigInt("MaxParticles",1) or 12000), description='Changes will be applied next game'},
-		{id="nanoparticles", name="Max nano particles", type="slider", min=500, max=6000, value=tonumber(Spring.GetConfigInt("MaxNanoParticles",1) or 500), description='Changes will be applied next game'},
+		{id="particles", name="Max particles (Expensive)", type="slider", min=0, max=30000, value=tonumber(Spring.GetConfigInt("MaxParticles",1) or 12000), description='Changes will be applied next game'},
+		{id="nanoparticles", name="Max nano particles", type="slider", min=0, max=6000, value=tonumber(Spring.GetConfigInt("MaxNanoParticles",1) or 500), description='Changes will be applied next game'},
 
 		--{id="crossalpha", name="Mouse cross alpha", type="slider", min=0, max=1, value=tonumber(Spring.GetConfigInt("CrossAlpha",1) or 1), description='Opacity of mouse icon in center of screen when you are in camera pan mode\n\n(\'icon\' looks like: dot in center with 4 arrowed pointing in all directions) '},
 		
