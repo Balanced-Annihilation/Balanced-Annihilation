@@ -5,13 +5,13 @@ local versionNumber = "6.32"
 
 function widget:GetInfo()
 	return {
-		name      = "Defense Range",
-		desc      = "[v" .. string.format("%s", versionNumber ) .. "] Displays range of defenses (enemy and ally) fixed to be more clear and also show players units",
+		name      = "Defense Range old",
+		desc      = "[v" .. string.format("%s", versionNumber ) .. "] Displays range of defenses (enemy and ally)",
 		author    = "very_bad_soldier",
 		date      = "October 21, 2007",
 		license   = "GNU GPL v2",
 		layer     = -10000000,
-		enabled   = true
+		enabled   = false
 	}
 end
 
@@ -58,7 +58,7 @@ modConfig["BA"]["unitList"] =
 								armflak = { weapons = { 2 } },
 								mercury = { weapons = { 2 } },
 								armemp = { weapons = { 1 } },
-								--armamd = { weapons = { 3 } }, --antinuke
+								armamd = { weapons = { 3 } }, --antinuke
 								
 								armbrtha = { weapons = { 1 } },
 								armvulc = { weapons = { 1 } },
@@ -88,7 +88,7 @@ modConfig["BA"]["unitList"] =
 								corflak = { weapons = { 2 } },
 								screamer = { weapons = { 2 } },
 								cortron = { weapons = { 1 } },
-								--corfmd = { weapons = { 3 } },
+								corfmd = { weapons = { 3 } },
 								corint = { weapons = { 1 } },
 								corbuzz = { weapons = { 1 } }					
 							}
@@ -295,10 +295,10 @@ colorConfig["enemy"]["air"]= {}
 colorConfig["enemy"]["air"]["min"]= {}
 colorConfig["enemy"]["air"]["max"]= {}
 colorConfig["enemy"]["nuke"]= {}
-colorConfig["enemy"]["ground"]["min"] = { 1, 0.80, 0.80 }
-colorConfig["enemy"]["ground"]["max"] = { 1, 0.0, 0.0 }
-colorConfig["enemy"]["air"]["min"] = { 0.2, 0.8, 1.0 }
-colorConfig["enemy"]["air"]["max"] = { 0.05, 0.25, 1 }
+colorConfig["enemy"]["ground"]["min"] = { 1.0, 0.0, 0.0 }
+colorConfig["enemy"]["ground"]["max"] = { 1.0, 1.0, 0.0 }
+colorConfig["enemy"]["air"]["min"] = { 0.0, 1.0, 0.0 }
+colorConfig["enemy"]["air"]["max"] = { 0.0, 0.0, 1.0 }
 colorConfig["enemy"]["nuke"] =  { 1.0, 1.0, 1.0 }
 
 colorConfig["ally"] = colorConfig["enemy"]
@@ -307,22 +307,19 @@ colorConfig["ally"] = colorConfig["enemy"]
 
 --Button display configuration
 --position only relevant if no saved config data found
-
-
-
 local buttonConfig = {}
 buttonConfig["posPercRight"] = 0.98
 buttonConfig["posPercBottom"] = 0.8
 buttonConfig["defaultScreenResY"] = 1050 --do not change
-buttonConfig["defaultWidth"] = 40 --size in pixels in default screen resolution
-buttonConfig["defaultWidth"] = 40 --size in pixels in default screen resolution
+buttonConfig["defaultWidth"] = 23 --size in pixels in default screen resolution
+buttonConfig["defaultWidth"] = 23 --size in pixels in default screen resolution
 buttonConfig["spacingy"] = 3
 buttonConfig["spacingx"] = 3
 buttonConfig["borderColor"] = { 0, 0, 0, 1.0 }
 buttonConfig["currentHeight"] = 0 --do not change
 buttonConfig["currentWidth"] = 0 --do not change
 buttonConfig["nextOrigin"] = {{0,0}, 0, 0, 0, 0} --do not change
-buttonConfig["enabled"] = { ally = { ground = false, air = false, nuke = false }, enemy = { ground = true, air = true, nuke = false } }
+buttonConfig["enabled"] = { ally = { ground = false, air = false, nuke = false }, enemy = { ground = true, air = true, nuke = true } }
 
 buttonConfig["baseColorEnemy"] = { 0.6, 0.0, 0.0, 0.6 }
 buttonConfig["baseColorAlly"] = { 0.0, 0.3, 0.0, 0.6 }
@@ -476,8 +473,6 @@ end
 
 
 function widget:Initialize()
-	vsx, vsy = gl.GetViewSizes()
-	buttonConfig["defaultScreenResY"] = vsy
 	state["myPlayerID"] = spGetLocalTeamID()
 
     widgetHandler:RegisterGlobal('SetOpacity_Defense_Range', SetOpacity)
@@ -485,6 +480,7 @@ function widget:Initialize()
 	DetectMod()
 
 	UpdateButtons()
+	
 	--Recheck units on widget reload
 	local myAllyTeam = Spring.GetMyAllyTeamID()
 	local units = Spring.GetAllUnits()
@@ -510,7 +506,7 @@ end
 function UnitDetected( unitID, allyTeam, teamId )
 	local tag
 	local tabValue = defences[unitID]
-	if ( tabValue ~= nil and tabValue[1] ~= allyTeam) then 
+	if ( tabValue ~= nil and tabValue[1] ~= allyTeam) then
 		--unit already known
 		return
 	end
@@ -569,13 +565,7 @@ function UnitDetected( unitID, allyTeam, teamId )
 				if ( tag ~= nil ) then
 					--printDebug("Salvo: " .. weaponDef.salvoSize 	)
 					damage = dam[Game.armorTypes[tag]]
-					dps = damage * weaponDef.salvoSize / weaponDef.reload	
-
-					if ( weaponDef.salvoSize >10 ) then --for maw
-						dps = 100
-					end
-					
-					
+					dps = damage * weaponDef.salvoSize / weaponDef.reload		
 					--printDebug("DPS: " .. dps 	)
 				end
 						
@@ -615,13 +605,6 @@ end
 function GetColorsByTypeAndDps( dps, type, isEnemy )
 	--BEWARE: dps can be nil here! when antinuke for example
  -- get alternative color for weapons ground AND air
- 
-	if ( dps ~= nil ) then
-		if(dps  > 3000) then
-    	dps = 100
-		end
-	end
-	
 	local color1 = nil
 	local color2 = nil
 	if ( type == 4 ) then -- show combo units with "ground"-colors
@@ -704,8 +687,8 @@ function UpdateButtons()
 	AddButton(3, "LuaUI/Images/air_icon_32.png", (buttonConfig["currentWidth"] + xSpace), 0)
 	AddButton(4, "LuaUI/Images/air_icon_32.png", -(buttonConfig["currentWidth"] + xSpace), ButtonYStep)
 	  
-	--AddButton(5, "LuaUI/Images/nuke_icon_32.png", (buttonConfig["currentWidth"] + xSpace), 0 )
-	--AddButton(6, "LuaUI/Images/nuke_icon_32.png", -(buttonConfig["currentWidth"] + xSpace), ButtonYStep)
+	AddButton(5, "LuaUI/Images/nuke_icon_32.png", (buttonConfig["currentWidth"] + xSpace), 0 )
+	AddButton(6, "LuaUI/Images/nuke_icon_32.png", -(buttonConfig["currentWidth"] + xSpace), ButtonYStep)
 end
 
 function AddButton(index, title, xstep, ystep )
@@ -916,7 +899,7 @@ function widget:Update()
 	local timef = spGetGameSeconds()
 	local time = floor(timef)
 
-	--if ( (timef - updateTimes["line"]) > 0.2 and timef ~= updateTimes["line"] ) then	
+	if ( (timef - updateTimes["line"]) > 0.2 and timef ~= updateTimes["line"] ) then	
 		updateTimes["line"] = timef
 		
 		--adjust line width and alpha by camera height (old code, kept for refence)
@@ -940,15 +923,15 @@ function widget:Update()
 		end
         ]]
         
-        lineConfig["lineWidth"] = 1.8
-        lineConfig["alphaValue"] = 0.4
+        lineConfig["lineWidth"] = 1.0
+        lineConfig["alphaValue"] = darkOpacity
         UpdateCircleList()
 	
-	--end
+	end
     
 	
 	-- update timers once every <updateInt> seconds
-	--if (time % updateTimes["removeInterval"] == 0 and time ~= updateTimes["remove"] ) then	
+	if (time % updateTimes["removeInterval"] == 0 and time ~= updateTimes["remove"] ) then	
 		updateTimes["remove"] = time
 		--do update stuff:
 		
@@ -973,7 +956,7 @@ function widget:Update()
 				end
 			end				
 		end	
-	--end
+	end
 end
 
 function DetectMod()
@@ -1111,7 +1094,7 @@ function CalcBallisticCircle( x, y, z, range, weaponDef )
 		posy = spGetGroundHeight( posx, posz ) + 5.0
 		posy = max( posy, 0.0 )   --hack
 			
-		table.insert( rangeLineStrip, { posx, posy+10, posz } )--float in air
+		table.insert( rangeLineStrip, { posx, posy, posz } )
 	end
 			  
 	return rangeLineStrip
