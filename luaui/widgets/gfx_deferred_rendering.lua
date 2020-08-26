@@ -9,7 +9,7 @@ function widget:GetInfo()
 	author    = "beherith, aeonios",
 	date      = "2015 Sept.",
 	license   = "GPL V2",
-	layer     = -99999990,
+	layer     = -9999999990,
 	enabled   = true
   }
 end
@@ -100,12 +100,6 @@ local collectionFunctionCount = 0
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 
-
-function widget:RecvLuaMsg(msg, playerID)
-	if msg:sub(1,18) == 'LobbyOverlayActive' then
-		chobbyInterface = (msg:sub(1,19) == 'LobbyOverlayActive1')
-	end
-end
 
 function widget:ViewResize()
 	vsx, vsy = gl.GetViewSizes()
