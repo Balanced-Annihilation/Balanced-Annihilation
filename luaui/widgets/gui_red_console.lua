@@ -515,6 +515,10 @@ local function processLine(line,g,cfg,newlinecolor)
 	  ignoreThisMessage = true
 	end
 	
+	if sfind(line,"smart_select") then
+		name = lastConnectionAttempt
+	  ignoreThisMessage = true
+	end
 	
 	if linetype==0 then
 		--filter out some engine messages; 
