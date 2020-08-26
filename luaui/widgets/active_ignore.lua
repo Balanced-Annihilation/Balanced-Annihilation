@@ -1,6 +1,6 @@
 function widget:GetInfo()
     return {
-        name      = "active_ignore",
+        name      = "Active Ignore",
         desc      = "",
         author    = "Ivan Sirko",
         date      = "2020",
@@ -12,6 +12,7 @@ end
 
 if tonumber(Spring.GetModOptions().anon_ffa) ~= 1 or Spring.GetSpectatingState() then return end
 
+local SendCommands = Spring.SendCommands
 local GetSpectatingState = Spring.GetSpectatingState
 local GetPlayerInfo = Spring.GetPlayerInfo
 local GetTeamInfo = Spring.GetTeamInfo
@@ -48,12 +49,16 @@ local function Substitute()
     Spring.GetTeamInfo = Sub_GetTeamInfo
     Spring.GetPlayerRoster = Sub_GetPlayerRoster
     Spring.GetTeamOrigColor = Spring.GetTeamColor
+    function widget:Update() --(disabling it constantly, as user widgets may enable it via SendCommands/input)
+        SendCommands("info 0")
+    end
 end
 local function Restore()
     Spring.GetPlayerInfo = GetPlayerInfo
     Spring.GetTeamInfo = GetTeamInfo
     Spring.GetPlayerRoster = GetPlayerRoster
     Spring.GetTeamOrigColor = GetTeamOrigColor
+    widgetHandler:RemoveWidget(widget)
 end
 
 Substitute()

@@ -90,7 +90,7 @@ local borderPadding					= 4
 	
 local avgFrames 					= 18
 
-local xRelPos, yRelPos				= 1, 1
+local xRelPos, yRelPos				= 0.895, 0.70
 local widgetPosX, widgetPosY        = xRelPos*vsx, yRelPos*vsy
 local widgetRight			 	    = widgetPosX + widgetWidth
 
@@ -100,7 +100,7 @@ local sizeMultiplier   = 1
 	Options["disable"] = {}
 	Options["disable"]["On"] = true
 	Options["resText"] = {}
-	Options["resText"]["On"] = false
+	Options["resText"]["On"] = true
 	Options["removeDead"] = {}
 	Options["removeDead"]["On"] = false
 	
@@ -286,7 +286,7 @@ end
 function processScaling()
 	setDefaults()
 	
-	sizeMultiplier   = 0.45 + (vsx*vsy / 7000000)
+	sizeMultiplier   = 0.1 + (vsx*vsy / 7000000)
 	
 	tH				= math.floor(tH * sizeMultiplier)
 	widgetWidth		= math.floor(widgetWidth * sizeMultiplier)
@@ -302,7 +302,7 @@ end
 
 function setDefaults()
 	widgetWidth 			= 130
-	right 					= true
+	right 					= false
 	tH						= 50
 	vsx,vsy 				= gl.GetViewSizes()
 	widgetPosX, widgetPosY	= xRelPos*vsx, yRelPos*vsy

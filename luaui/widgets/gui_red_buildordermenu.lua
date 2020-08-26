@@ -515,7 +515,11 @@ local function UpdateGrid(g,cmds,ordertype)
 					end
 				end
 			else
-				icon.caption = " "..cmd.name.." "
+				if(cmd.name == "ManualFire") then
+					icon.caption = " ".."D-gun".." "
+				else
+					icon.caption = " "..cmd.name.." "
+				end
 			end
 		end
 	end

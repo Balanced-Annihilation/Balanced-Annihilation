@@ -21,7 +21,7 @@ local bgmargin				= 0.22
 local customPanelWidth 		= 105
 local customPanelHeight 	= 39
 
-local xRelPos, yRelPos		= 0.92, 0.963
+local xRelPos, yRelPos		= 0.81, 0.91
 local vsx, vsy				= gl.GetViewSizes()
 local widgetScale			= customScale
 local panelWidth 			= customPanelWidth
