@@ -12,6 +12,8 @@
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 
+include('keysym.h.lua')
+
 function widget:GetInfo()
 	return {
 		name      = "SmartSelect",
@@ -35,6 +37,7 @@ local includeNanosAsMobile = true
 -- only select new units identical to those already selected
 local sameSelectKey = 'z'
 
+
 -- only select new idle units
 local idleSelectKey = 'space'
 
@@ -44,8 +47,11 @@ local idleSelectKey = 'space'
 local GetTimer = Spring.GetTimer
 local DiffTimers = Spring.DiffTimers
 local GetMouseState = Spring.GetMouseState
-local GetModKeyState = Spring.GetModKeyState
+
+local spGetKeyState = Spring.GetKeyState
 local GetKeyState = Spring.GetKeyState
+local spGetModKeyState = Spring.GetModKeyState
+	
 
 local TraceScreenRay = Spring.TraceScreenRay
 local WorldToScreenCoords = Spring.WorldToScreenCoords
@@ -231,6 +237,10 @@ end
 
 
 function widget:Update()
+
+
+	
+
 	--[[
 	local newUpdate = GetTimer()
 	if (DiffTimers(newUpdate, lastUpdate) < 0.1) then
@@ -243,14 +253,25 @@ function widget:Update()
 		x, y, pressed = GetMouseState()
 		local px, py, sx, sy = GetMiniMapGeometry()
 		
+			--[[
+		if (ctrl and keyPressed) then
+			local team = (playing and GetMyTeamID())
+			local _, c = TraceScreenRay(x, y, true, false, true)
+			referenceCoords = c
+			local d = referenceCoords
+			local x1, y1 = WorldToScreenCoords(d[1], d[2], d[3])
+			mouseSelection = GetUnitsInScreenRectangle(x, y, x1, y1, team)
+		end
+			--]]
 		if (pressed) and (referenceSelection ~= nil) then
-			local alt, ctrl, meta, shift = GetModKeyState()
+			local alt, ctrl, meta, shift = spGetModKeyState()
 			if (#referenceSelection == 0) then
 				-- no point in inverting an empty selection
 				ctrl = false
 			end
 
 			local sameSelect = GetKeyState(sameSelectKey)
+
 			local idleSelect = GetKeyState(idleSelectKey)
 			
 			local sameLast = (referenceScreenCoords ~= nil) and (x == referenceScreenCoords[1] and y == referenceScreenCoords[2])
@@ -308,6 +329,7 @@ function widget:Update()
 				mouseSelection = tmp
 			end
 
+			local sameSelect = GetKeyState(sameSelectKey)
 			if (sameSelect) and (#referenceSelection > 0) then
 				-- only select new units identical to those already selected
 				tmp = {}
@@ -320,10 +342,53 @@ function widget:Update()
 				end
 				mouseSelection = tmp
 			end
+			
+			
+			
+			
+			
+			--[=====[ 
+			if (sameSelectVisible) and (#referenceSelection > 0) then
+					
+					
+					for i=1, #referenceSelection do
+						uid = referenceSelection[i]
+						udid = GetUnitDefID(uid)
+						if (Spring.GetVisibleUnits[udid]) then -- is a combat unit
+							tmp[#tmp+1] = uid
+						end
+					end
+					newSelection = tmp
+
+				-- only select new units identical to those already selected and onscreen
+				tmp = {}
+				for i=1, #mouseSelection do
+					uid = mouseSelection[i]
+					udid = GetUnitDefID(uid)
+					
+				end
+				
+				
+				
+				local visibleUnits = spGetVisibleUnits(-1, 50, false)
+				 visibleUnitsCount = #visibleUnits
+				 Spring.Echo(visibleUnitsCount)
+				if #visibleUnits then
+					for i=1, #visibleUnits do
+					local unitID = visibleUnits[i]
+					local visableID = Spring.GetUnitDefID(unitID)
+						if udid == visableID then
+							tmp[#tmp+1] = udid
+						end
+					end
+				end
+				mouseSelection = visibleUnits
+			
+			end
+				--]=====]
 
 			if (alt) then
 				-- only select mobile combat units
-
 				if (ctrl == false) then
 					tmp = {}
 					for i=1, #referenceSelection do
@@ -423,6 +488,96 @@ function widget:Update()
 			minimapRect = nil
 		end
 	end
+	
+			local keyPressed = spGetKeyState( KEYSYMS.X )
+			local alt,ctrl,meta,shift = spGetModKeyState()
+		
+			if (ctrl and keyPressed) then
+				
+				local visibleUnits = Spring.GetVisibleUnits()
+				if #visibleUnits then
+					for i=1, #visibleUnits do
+					local unitID = visibleUnits[i]
+					local visableID = Spring.GetUnitDefID(unitID)
+					local ud = UnitDefs[visableID]
+					end
+					
+				end
+				
+				local selectedUnits = Spring.GetSelectedUnits()
+				local numselected 
+				if #selectedUnits == nil then
+					numselected = 0
+				else
+					numselected = #selectedUnits
+				end
+				
+				local numvisible
+				if #visibleUnits == nil then
+					numvisible = 0
+				else
+					numvisible = #visibleUnits
+					
+					
+					
+					
+						
+						if  (#selectedUnits > 0) then
+						
+						SelectionTypes = {}
+						for i=1, #selectedUnits do
+							udid = GetUnitDefID(selectedUnits[i])
+							SelectionTypes[udid] = 1
+						end
+						
+						-- only select new units identical to those already selected
+						tmp = {}
+						for i=1, #selectedUnits do
+							uid = selectedUnits[i]
+							udid = GetUnitDefID(uid)
+							if (SelectionTypes[udid] ~= nil) then
+								tmp[#tmp+1] = uid
+							end
+						end
+						
+						tmp2 = {}
+						
+						for i=1, #tmp do
+							uid = tmp[i]
+							udid = GetUnitDefID(uid)
+							--Spring.Echo(tmp)
+							--Spring.Echo(visibleUnits)
+							if contains(visibleUnits, uid) then
+							
+								tmp2[#tmp2+1] = uid
+							end
+								--Spring.Echo(tmp2)
+
+						end
+						
+					
+					
+					
+					SelectUnitArray(tmp2)
+					lastSelection = nil
+					referenceSelection = nil
+					SelectionTypes = nil
+					end
+				end
+				
+				
+				
+				--Spring.Echo("visibleUnits " .. numvisible)
+				--Spring.Echo("selectedUnits " .. numselected)
+			--Spring.Echo("ye")
+			end
+end
+
+function contains(list, x)
+	for _, v in pairs(list) do
+		if v == x then return true end
+	end
+	return false
 end
 
 function init()
@@ -431,7 +586,7 @@ function init()
 	builderFilter = {}
 	buildingFilter = {}
 	mobileFilter = {}
-
+	
 	for udid, udef in pairs(UnitDefs) do
 		local mobile = (udef.canMove and udef.speed > 0.000001) or (includeNanosAsMobile and (UnitDefs[udid].name == "armnanotc" or UnitDefs[udid].name == "cornanotc"))
 		local builder = (udef.canReclaim and udef.reclaimSpeed > 0) or
@@ -441,10 +596,14 @@ function init()
 		local building = (mobile == false)
 		local combat = (builder == false) and (mobile == true) and (#udef.weapons > 0)
 		
+
+		
+		
 		combatFilter[udid] = combat
 		builderFilter[udid] = builder
 		buildingFilter[udid] = building
 		mobileFilter[udid] = mobile
+
 	end
 end
 function widget:Initialize()
@@ -460,7 +619,19 @@ local function DrawRectangle(r)
 	glVertex(r[1], 0, r[2])
 end
 
+
+		
+	
+
 function widget:DrawWorld()
+	
+
+	
+		
+		
+		
+	
+
 	if (minimapRect ~= nil) then
 		glColor(1, 1, 1, 1)
 		glLineWidth(1.0)
@@ -468,4 +639,10 @@ function widget:DrawWorld()
 
 		glBeginEnd(GL_LINE_STRIP, DrawRectangle, minimapRect)
 	end
+	
+	
+	
 end
+
+
+
