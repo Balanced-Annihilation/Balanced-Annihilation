@@ -179,7 +179,9 @@ local function createtooltip(r)
 					for s in text:gmatch("[^\r\n]+") do
 						table.insert(lines, s)
 					end
-					if(table.getn(lines) == 5) then
+					if(table.getn(lines) == 2) then
+						self.caption = "\n" 
+					elseif (table.getn(lines) == 5) then
 						self.caption = self.caption..lines[2].."\n"..lines[3].."\n"..lines[4] 
 					else
 						self.caption = text
