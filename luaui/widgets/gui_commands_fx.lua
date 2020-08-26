@@ -35,6 +35,8 @@ local CMD_RESURRECT = CMD.RESURRECT -- icon unit feature or area
 local CMD_UNLOAD_UNIT = CMD.UNLOAD_UNIT -- icon map
 local CMD_UNLOAD_UNITS = CMD.UNLOAD_UNITS -- icon  unit or area
 local BUILD = -1
+local CMD_RAW_MOVE = 39812
+local CMD_RAW_BUILD = 31110
 
 local diag = math.diag
 local pi = math.pi
@@ -50,7 +52,7 @@ local random = math.random
 local drawBuildQueue			= true
 local drawLineTexture			= true
 local drawUnitHighlight 		= true
-local drawUnitHighlightSkipFPS	= 5		-- (0 to disable) skip drawing when framerate gets below this value
+local drawUnitHighlightSkipFPS	= 30		-- (0 to disable) skip drawing when framerate gets below this value
 
 local opacity      				= 0.95
 local duration     				= 2.5
@@ -114,6 +116,11 @@ local CONFIG = {
 		endSize = 0.2,
         colour = {0.00, 1.00, 0.00, 0.25},
     },
+	 [CMD_RAW_MOVE] = {
+        sizeMult = 1, 
+		endSize = 0.2,
+        colour = {0.00, 1.00, 0.00, 0.25},
+    },
     [CMD_PATROL] = {
         sizeMult = 1,
 		endSize = 0.2,
@@ -157,6 +164,11 @@ local CONFIG = {
         colour = {1.00, 1.00 ,0.00 ,0.25},
     },
     [BUILD] = {
+        sizeMult = 1,
+		endSize = 0.2,
+        colour = {0.00, 1.00 ,0.00 ,0.25},    
+    },
+	[CMD_RAW_BUILD] = {
         sizeMult = 1,
 		endSize = 0.2,
         colour = {0.00, 1.00 ,0.00 ,0.25},    
@@ -414,15 +426,22 @@ function RemovePreviousCommand(unitID)
     end
 end
 
+
+local spGetMyTeamID = Spring.GetMyTeamID
+local spGetUnitTeam = Spring.GetUnitTeam
+local myPlayerID = Spring.GetMyPlayerID()
+
 function widget:UnitCommand(unitID, unitDefID, teamID, cmdID, _, _)
-    -- record that a command was given (note: cmdID is not used, but useful to record for debugging)
-    if string.sub(UnitDefs[unitDefID].name, 1, 7) == "critter" then return end
-    if unitID and (CONFIG[cmdID] or cmdID==CMD_INSERT or cmdID<0) then
-	    local el = {ID=cmdID,time=os.clock(),unitID=unitID,draw=false,selected=spIsUnitSelected(unitID),udid=spGetUnitDefID(unitID)} -- command queue is not updated until next gameframe
-        maxCommand = maxCommand + 1
-        --Spring.Echo("Adding " .. maxCommand)
-        commands[maxCommand] = el
-    end
+	-- record that a command was given (note: cmdID is not used, but useful to record for debugging)
+	if string.sub(UnitDefs[unitDefID].name, 1, 7) == "critter" then return end
+	--Spring.Echo("spGetMyTeamID: " .. spGetMyTeamID() .. " myplayerID: " .. myPlayerID .. " teamID: " .. teamID)
+
+	if spGetMyTeamID() ~= teamID and unitID and (CONFIG[cmdID] or cmdID == CMD_INSERT or cmdID < 0) then
+		local el = {ID=cmdID,time=os.clock(),unitID=unitID,draw=false,selected=spIsUnitSelected(unitID),udid=spGetUnitDefID(unitID)} -- command queue is not updated until next gameframe
+		maxCommand = maxCommand + 1
+		--Spring.Echo("Adding " .. maxCommand)
+		commands[maxCommand] = el
+	end
 end
 
 function ExtractTargetLocation(a,b,c,d,cmdID)
@@ -457,48 +476,52 @@ function widget:GameFrame(gameFrame)
         
         local unitID = commands[i].unitID
         RemovePreviousCommand(unitID)
-        unitCommand[unitID] = i
-
-        -- get pruned command queue
-        local q = spGetUnitCommands(commands[i].unitID,50) or {} --limit to prevent mem leak, hax etc
-        local our_q = {}
-        local gotHighlight = false
-        for _,cmd in ipairs(q) do
-            if CONFIG[cmd.id] or cmd.id < 0 then
-                if cmd.id < 0 then
-                    cmd.buildingID = -cmd.id;
-                    cmd.id = BUILD
-                    if not cmd.params[4] then
-                        cmd.params[4] = 0 --sometimes the facing param is missing (wtf)
-                    end
-                end
-                our_q[#our_q+1] = cmd
-            end
-        end
-        
-        commands[i].queue = our_q
-        commands[i].queueSize = #our_q 
-        if #our_q>0 then
-            commands[i].highlight = CONFIG[our_q[1].id].colour
-            commands[i].draw = true
-        end
-        
-        -- get location of final command
-        local lastCmd = our_q[#our_q]
-        if lastCmd and lastCmd.params then
-            local x,y,z = ExtractTargetLocation(lastCmd.params[1],lastCmd.params[2],lastCmd.params[3],lastCmd.params[4],lastCmd.id)
-            if x then
-                commands[i].x = x
-                commands[i].y = y
-                commands[i].z = z
-            end
-        end
-        
-        commands[i].processed = true
-        
-        minQueueCommand = minQueueCommand + 1
-        i = i + 1
-    end
+		
+		if spGetMyTeamID~=spGetUnitTeam(unitID) then  
+			local udefID = spGetUnitDefID(unitID)
+			unitCommand[unitID] = i
+		
+			-- get pruned command queue
+			local q = spGetUnitCommands(commands[i].unitID,50) or {} --limit to prevent mem leak, hax etc
+			local our_q = {}
+			local gotHighlight = false
+			for _,cmd in ipairs(q) do
+				if CONFIG[cmd.id] or cmd.id < 0 then
+					if cmd.id < 0 then
+						cmd.buildingID = -cmd.id;
+						cmd.id = BUILD
+						if not cmd.params[4] then
+							cmd.params[4] = 0 --sometimes the facing param is missing (wtf)
+						end
+					end
+					our_q[#our_q+1] = cmd
+				end
+			end
+			
+			commands[i].queue = our_q
+			commands[i].queueSize = #our_q 
+			if #our_q>0 then
+				commands[i].highlight = CONFIG[our_q[1].id].colour
+				commands[i].draw = true
+			end
+			
+			-- get location of final command
+			local lastCmd = our_q[#our_q]
+			if lastCmd and lastCmd.params then
+				local x,y,z = ExtractTargetLocation(lastCmd.params[1],lastCmd.params[2],lastCmd.params[3],lastCmd.params[4],lastCmd.id)
+				if x then
+					commands[i].x = x
+					commands[i].y = y
+					commands[i].z = z
+				end
+			end
+			
+			commands[i].processed = true
+			
+			minQueueCommand = minQueueCommand + 1
+			i = i + 1
+		end
+	end
 end
 
 local function IsPointInView(x,y,z)
