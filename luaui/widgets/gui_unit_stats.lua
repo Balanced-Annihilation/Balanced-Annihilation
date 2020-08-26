@@ -349,7 +349,9 @@ function widget:DrawScreen()
 		maxHP = uMaxHp
 	end
 	if uExp ~= 0 then
-		DrawText("Exp:", format("+%d%% health", (uMaxHp/uDef.health-1)*100))
+		if(uMaxHp ~= nil) then
+			DrawText("Exp:", format("+%d%% health", (uMaxHp/uDef.health-1)*100))
+		end
 	end
 	DrawText("Open:", format("maxHP: %d", maxHP) )
 	if uDef.armoredMultiple ~= 1 then DrawText("Closed:", format(" +%d%%, maxHP: %d", (1/uDef.armoredMultiple-1) *100,maxHP/uDef.armoredMultiple)) end
