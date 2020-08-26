@@ -433,20 +433,15 @@ AimPrimary(heading, pitch)
 {
 	bAiming = TRUE;
 	signal SIG_AIM;
-	set-signal-mask 0;
-	set-signal-mask SIG_AIM;
-	while( !Static_Var_3 )
-	{
-		sleep 400;
-	}
 	turn turret to y-axis heading speed <30.000000>;
-	turn barrel to x-axis <0.000000> - pitch speed <45.000000>;
-	wait-for-turn turret around y-axis;
-	wait-for-turn barrel around x-axis;
-	while( gun_1 )
+	turn sleeve to x-axis <0.000000> - pitch speed <45.000000>;
+	if (((get ABS(wpn1_lasthead - heading)) > 65536) OR(((get ABS(wpn1_lasthead - heading)) > <2>) AND ((get ABS(wpn1_lasthead - heading)) < 65536 - <2>)))
 	{
-		sleep 250;
+		wpn1_lasthead = 1000000;
+		wait-for-turn turret around y-axis;
+		wait-for-turn sleeve around x-axis;
 	}
+	wpn1_lasthead = heading;
 	start-script RestoreAfterDelay();
 	return (1);
 }
