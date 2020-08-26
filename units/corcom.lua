@@ -205,6 +205,16 @@ return {
 				damage = {
 					default = 99999,
 				},
+				customparams = {
+					expl_light_color = "2.8 1 0.1",
+					expl_light_heat_radius_mult = 2.2,
+					expl_light_heat_strength_mult = 0.66,
+					expl_light_mult = 1.2,
+					expl_light_radius_mult = 1.75,
+					light_color = "2.8 1 0.1",
+					light_mult = 2,
+					light_radius_mult = 2.55,
+				},
 			},
 			armcomlaser = {
 				areaofeffect = 12,
