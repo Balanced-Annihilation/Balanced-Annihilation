@@ -443,6 +443,22 @@ end
 
 function widget:Initialize()
 	init()
+	
+	WG['teamstats'] = {}
+	WG['teamstats'].toggle = function(state)
+		if state ~= nil then
+			guiData.mainPanel.visible = state
+		else
+			guiData.mainPanel.visible = not guiData.mainPanel.visible
+		end
+		if guiData.mainPanel.visible then
+			widget:GameFrame(GetGameFrame(),true)
+		end
+	end
+	WG['teamstats'].isvisible = function()
+		return guiData.mainPanel.visible
+	end
+	
 	guiData.mainPanel.visible = false
 	local vsx,vsy = widgetHandler:GetViewSizes()
 	widget:ViewResize(vsx,vsy)
@@ -633,10 +649,10 @@ function mouseEvent(mx,my,button,release)
 		return true
 	end
 	if boxType == "smallBox" then
-		if release then
-			guiData.mainPanel.visible = not guiData.mainPanel.visible
-			widget:GameFrame(GetGameFrame(),true)
-		end
+		--if release then
+		--	guiData.mainPanel.visible = not guiData.mainPanel.visible
+		--	widget:GameFrame(GetGameFrame(),true)
+		--end
 		return true
 	elseif boxType == "mainPanel" then
 		if release then
@@ -807,27 +823,27 @@ function DrawButton()
 	if not guiData.smallBox.visible then
 		return
 	end
-	local boxAbsData = guiData.smallBox.absSizes
-	local tempFontSize = 14
+	--local boxAbsData = guiData.smallBox.absSizes
+	--local tempFontSize = 14
 	--[[if widgetHandler:InTweakMode() then
 		rectBoxWithBorder(guiData.smallBox,{0,0,0,0.7})
 	else
 		rectBox(guiData.smallBox,{0,0,0,0.5})
 	end]]--
-	local x1,y1,x2,y2 = guiData.smallBox.absSizes.x.min, guiData.smallBox.absSizes.y.min, guiData.smallBox.absSizes.x.max, guiData.smallBox.absSizes.y.max
+	--local x1,y1,x2,y2 = guiData.smallBox.absSizes.x.min, guiData.smallBox.absSizes.y.min, guiData.smallBox.absSizes.x.max, guiData.smallBox.absSizes.y.max
 	
-	gl.Color(0,0,0,0.6)
-	RectRound(x1,y1,x2,y2,7)
+	--gl.Color(0,0,0,0.6)
+	--RectRound(x1,y1,x2,y2,7)
 	
-	local borderPadding = 0
-	gl.Color(1,1,1,0.022)
-	RectRound(x1+borderPadding,y1+borderPadding,x2-borderPadding,y2-borderPadding,6)
+	--local borderPadding = 0
+	--gl.Color(1,1,1,0.022)
+	--RectRound(x1+borderPadding,y1+borderPadding,x2-borderPadding,y2-borderPadding,6)
 	
-	if (WG['guishader_api'] ~= nil) then
-		WG['guishader_api'].InsertRect(x1,y1,x2,y2,'teamstats_button')
-	end
+	--if (WG['guishader_api'] ~= nil) then
+	--	WG['guishader_api'].InsertRect(x1,y1,x2,y2,'teamstats_button')
+	--end
 	
-	glText(colorToChar({1,1,1}) .. "Stats",boxAbsData.x.min+boxAbsData.x.length/2, boxAbsData.y.max-boxAbsData.y.length/2, tempFontSize*0.8*widgetScale, "ovc")
+	--glText(colorToChar({1,1,1}) .. "Stats",boxAbsData.x.min+boxAbsData.x.length/2, boxAbsData.y.max-boxAbsData.y.length/2, tempFontSize*0.8*widgetScale, "ovc")
 end
 
 function DrawBackground()

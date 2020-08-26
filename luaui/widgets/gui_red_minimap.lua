@@ -44,6 +44,50 @@ local Config = {
 	},
 }
 
+local leftClickDraggingCamera = false
+
+function widget:MousePress(x, y, button)
+	if not Spring.IsAboveMiniMap(x, y) then
+		return false
+	end
+	if Spring.GetActiveCommand() == 0 then
+		if (button == 1) or button == 2 then
+		
+		local traceType,traceValue = Spring.TraceScreenRay(x,y,false,true)
+			local coord
+			if traceType == "ground" then
+				coord = traceValue
+			end
+			if coord then
+				Spring.SetCameraTarget(coord[1],coord[2],coord[3],0,true)
+			end
+				leftClickDraggingCamera = true
+				return true
+		end
+	end
+end
+
+
+
+function widget:MouseMove(x, y, dx, dy, button)
+	if leftClickDraggingCamera then
+			local traceType,traceValue = Spring.TraceScreenRay(x,y,false,true)
+			local coord
+			if traceType == "ground" then
+				coord = traceValue
+			end
+			if coord then
+				Spring.SetCameraTarget(coord[1],coord[2],coord[3],0,true)
+			end
+	end
+end
+
+function widget:MouseRelease(x, y, button)
+	if(leftClickDraggingCamera) then
+	leftClickDraggingCamera = false
+	end
+end
+
 local sformat = string.format
 local sSendCommands = Spring.SendCommands
 local sGetMiniMapGeometry = Spring.GetMiniMapGeometry

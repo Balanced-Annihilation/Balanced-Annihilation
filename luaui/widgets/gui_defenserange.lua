@@ -1393,4 +1393,9 @@ function widget:TweakGetTooltip(x,y)
          'over a button to drag\n'
 end
 
+function widget:ViewResize(viewSizeX, viewSizeY)
+	vsx, vsy = viewSizeX, viewSizeY
+	sizeMultiplier = 0.55 + (vsx*vsy / 8000000)
+end
+
 --END OF TWEAK MODE

@@ -29,16 +29,16 @@ local ConfigB = {
 		menuname = "buildmenu",
 		px = -0.5,py = CanvasY - 415, --default start position
 		
-		isx = 45,isy = 40, --icon size
-		ix = 5,iy = 8, --icons x/y
+		isx = 47,isy = 46.3, --icon size
+		ix = 5,iy = 7, --icons x/y
 		
 		roundedPercentage = 0.2,	-- 0.25 == iconsize / 4 == cornersize
 		
-		iconscale = 0.92,
-		iconhoverscale = 0.975,
+		iconscale = 0.96,
+		iconhoverscale = 1.04,
 		ispreadx=0,ispready=0, --space between icons
 		
-		margin = 5, --distance from background border
+		margin = 3, --distance from background border
 		
 		padding = 0, -- for border effect
 		color2 = {1,1,1,0.022}, -- for border effect

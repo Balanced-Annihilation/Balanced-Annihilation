@@ -7,7 +7,7 @@ function widget:GetInfo()
     license   = "GNU GPL, v2 or later",
     layer     = 0,
     experimental = false,
-    enabled   = true, --  loaded by default?
+    enabled   = false, --  loaded by default?
 	--handler = true, -- allow this widget to use 'widgetHandler:FindWidget()'
   }
 end

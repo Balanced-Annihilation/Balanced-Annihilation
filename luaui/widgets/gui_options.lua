@@ -347,18 +347,18 @@ function widget:DrawScreen()
   if amNewbie and not gameStarted then return end
   
   -- draw the button
-  if not buttonGL then
-    buttonGL = gl.CreateList(DrawButton)
-  end
+  --if not buttonGL then
+  --  buttonGL = gl.CreateList(DrawButton)
+ -- end
   
-  glLineWidth(lineWidth)
+  --glLineWidth(lineWidth)
 
-  glPushMatrix()
-    glTranslate(posX*vsx, posY*vsy, 0)
-    glScale(17*widgetScale, 17*widgetScale, 1)
-		glColor(0, 0, 0, (0.3*bgColorMultiplier))
-    glCallList(buttonGL)
-  glPopMatrix()
+  --glPushMatrix()
+  --  glTranslate(posX*vsx, posY*vsy, 0)
+  --  glScale(17*widgetScale, 17*widgetScale, 1)
+--		glColor(0, 0, 0, (0.3*bgColorMultiplier))
+   -- glCallList(buttonGL)
+ -- glPopMatrix()
 
   glColor(1, 1, 1, 1)
   glLineWidth(1)
@@ -502,6 +502,13 @@ function applyOptionValue(i)
 			Spring.SetConfigInt("fpstimespeed", value)
 		elseif id == '3dtrees' then
 			Spring.SetConfigInt("3DTrees", value)
+		elseif id == 'Profanity' then
+			
+			if value == 0 then
+   Spring.SetConfigString("ProfanityFilter", '0')
+			else
+   Spring.SetConfigString("ProfanityFilter", '1')
+			end
 		elseif id == 'reduceping' then
 			
 			if value == 1 then
@@ -785,23 +792,35 @@ function mouseEvent(x, y, button, release)
 		
 		return true
   else
-		tx = (x - posX*vsx)/(17*widgetScale)
-		ty = (y - posY*vsy)/(17*widgetScale)
-		if tx < 0 or tx > 4.5 or ty < 0 or ty > 1.05 then return false end
-		if release then
-			showOnceMore = show		-- show once more because the guishader lags behind, though this will not fully fix it
-			show = not show
-		end
-		if show then
-			if windowList then gl.DeleteList(windowList) end
-			windowList = gl.CreateList(DrawWindow)
-		end
-		return true
+		--tx = (x - posX*vsx)/(17*widgetScale)
+		--ty = (y - posY*vsy)/(17*widgetScale)
+		--if tx < 0 or tx > 4.5 or ty < 0 or ty > 1.05 then return false end
+		--if release then
+		--	showOnceMore = show		-- show once more because the guishader lags behind, though this will not fully fix it
+		--	show = not show
+		--end
+		--if show then
+		--	if windowList then gl.DeleteList(windowList) end
+		--	windowList = gl.CreateList(DrawWindow)
+		--end
+		--return true
   end
 end
 
 
 function widget:Initialize()
+
+	WG['options'] = {}
+	WG['options'].toggle = function(state)
+		if state ~= nil then
+			show = state
+		else
+			show = not show
+		end
+	end
+	WG['options'].isvisible = function()
+		return show
+	end
 
 	-- get widget list
   for name,data in pairs(widgetHandler.knownWidgets) do
@@ -850,7 +869,7 @@ function widget:Initialize()
 
 		{id="grounddetail", name="Ground mesh detail", type="slider", min=20, max=100, value=tonumber(Spring.GetConfigInt("GroundDetail",1) or 50), description='Ground mesh detail (polygon detail of the map)'},
 								{id="mapedgeextension", widget="Map Edge Extension", name="Map edge extension", type="bool", value=widgetHandler.orderList["Map Edge Extension"] ~= nil and (widgetHandler.orderList["Map Edge Extension"] > 0), description='Mirrors the map at screen edges and darkens and decolorizes them\n\nHave shaders enabled for best result'},
-																			{id="advsky", name="AdvSky", type="bool", value=tonumber(Spring.GetConfigInt("AdvSky",1) or 1) == 1, description='Enables high resolution clouds\n\nChanges will be applied next game'},
+																			--{id="advsky", name="AdvSky", type="bool", value=tonumber(Spring.GetConfigInt("AdvSky",1) or 1) == 1, description='Enables high resolution clouds\n\nChanges will be applied next game'},
 
 															{id="snow", widget="Snow", name="Snow", type="bool", value=widgetHandler.orderList["Snow"] ~= nil and (widgetHandler.orderList["Snow"] > 0), description='Lets it snow on winter maps, auto reduces when your fps gets lower + unitcount higher\n\nYou can give the command /snow to toggle snow for the current map (it remembers)'},
 
@@ -859,6 +878,7 @@ function widget:Initialize()
 			{id="fpstimespeed", name="Display FPS, GameTime and Speed", type="bool", value=tonumber(Spring.GetConfigInt("ShowFPS",1) or 1) == 1, description='Located at the top right of the screen\n\nIndividually toggle them with /fps /clock /speed'},
 
 	
+									{id="Profanity", name="Hide rude chat", type="bool", value=tonumber(Spring.GetConfigInt("ProfanityFilter",1) or 1) == 1, description='Allow swearing'},
 
 	}
 	
