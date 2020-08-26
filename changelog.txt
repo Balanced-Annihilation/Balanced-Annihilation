@@ -1,12 +1,12 @@
 ﻿9.78.4
-28/05/2020
+30/05/2020
 
-texture detail increased 60% by neural network detail
+texture detail increased 60% by neural network
 new explosion effects for plasma and missiles
 new advanced lighting option in settings (default enabled)
 new sharpen option in settings (default enabled)
-improved gui
 high resolution cursor(toggle by typing /cursor)
+improved gui
 press cntrl x to select all of same unit type currently visible
 metal wrecks stay visible when zoomed out
 sea units block sea labs less
