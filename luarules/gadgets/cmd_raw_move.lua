@@ -548,7 +548,7 @@ local function CheckConstructorBuild(unitID)
 		return
 	end
 
-	if cx then
+	if cx and cz then
 		local x,_,z = Spring.GetUnitPosition(unitID)
 		local buildDistSq = (buildDist + 30)^2
 		local distSq = (cx - x)^2 + (cz - z)^2
