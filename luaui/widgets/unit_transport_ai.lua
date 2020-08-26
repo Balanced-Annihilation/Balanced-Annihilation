@@ -13,7 +13,7 @@ function widget:GetInfo()
     enabled   = false
   }
 end
-
+local CMD_RAW_MOVE = 39812
 
 local CONST_IGNORE_BUILDERS = false -- should automated factory transport ignore builders?
 local CONST_IGNORE_GROUNDSCOUTS = true -- should automated factory transport ignore scouts?
@@ -397,10 +397,10 @@ function widget:UnitLoaded(unitID, unitDefID, teamID, transportID)
   local cnt = 0
   for k, v in ipairs(queue) do
     if (not v.options.internal) then 
-      if ((v.id == CMD.MOVE or (v.id==CMD.WAIT) or v.id == CMD.SET_WANTED_MAX_SPEED) and not ender) then
+      if ((v.id == CMD_RAW_MOVE or (v.id==CMD.WAIT) or v.id == CMD.SET_WANTED_MAX_SPEED) and not ender) then
         cnt = cnt +1
-        if (v.id == CMD.MOVE) then 
-          GiveOrderToUnit(transportID, CMD.MOVE, v.params, {"shift"})      
+        if (v.id == CMD_RAW_MOVE) then 
+          GiveOrderToUnit(transportID, CMD_RAW_MOVE, v.params, {"shift"})      
           table.insert(torev, {v.params[1], v.params[2], v.params[3]+20})
           vl = v.params 
         end
@@ -430,12 +430,12 @@ function widget:UnitLoaded(unitID, unitDefID, teamID, transportID)
     
     local i = #torev
     while (i > 0) do 
-      GiveOrderToUnit(transportID, CMD.MOVE, torev[i], {"shift"})      
+      GiveOrderToUnit(transportID, CMD_RAW_MOVE, torev[i], {"shift"})      
       i = i -1
     end
 
     local x,y,z = GetUnitPosition(transportID)
-    GiveOrderToUnit(transportID, CMD.MOVE, {x,y,z}, {"shift"})
+    GiveOrderToUnit(transportID, CMD_RAW_MOVE, {x,y,z}, {"shift"})
   end
 
 end
@@ -576,8 +576,8 @@ function GetPathLength(unitID)
   local queue = GetCommandQueue(unitID,20);
   if (queue == nil) then return 0 end
   for k, v in ipairs(queue) do
-    if (v.id == CMD.MOVE or v.id==CMD.WAIT) then
-      if (v.id == CMD.MOVE) then 
+    if (v.id == CMD_RAW_MOVE or v.id==CMD.WAIT) then
+      if (v.id == CMD_RAW_MOVE) then 
         d = d + Dist(px,py, pz, v.params[1], v.params[2], v.params[3])
         px = v.params[1]
         py = v.params[2]
