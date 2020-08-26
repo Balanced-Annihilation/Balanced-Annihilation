@@ -8,7 +8,7 @@ return {
 	license ="Dental flush",
 	layer   = -1,
 	enabled = true,
-  handler = true, 
+	handler = true, 
 }
 end
 
@@ -466,8 +466,6 @@ function applyOptionValue(i)
 		elseif id == 'advmodelshading' then
 			Spring.SendCommands("AdvModelShading "..value)
 			Spring.SetConfigInt("AdvModelShading", value)
-		elseif id == 'advsky' then
-			Spring.SetConfigInt("AdvSky",value)
 		elseif id == 'shadows' then
 			Spring.SendCommands("Shadows "..value)
 			Spring.SetConfigInt("Shadows", value)
@@ -501,8 +499,52 @@ function applyOptionValue(i)
 			Spring.SendCommands("fps "..value)
 			Spring.SendCommands("clock "..value)
 			Spring.SendCommands("speed "..value)
+			Spring.SetConfigInt("fpstimespeed", value)
 		elseif id == '3dtrees' then
-			Spring.SetConfigInt("3DTrees","0")
+			Spring.SetConfigInt("3DTrees", value)
+		elseif id == 'reduceping' then
+			
+			if value == 1 then
+				
+						Spring.SetConfigInt("reduceping ", '1')
+
+				
+		Spring.SendCommands("UseNetMessageSmoothingBuffer ".."0")
+	Spring.SendCommands("NetworkLossFactor ".."2")
+	Spring.SendCommands("LinkOutgoingBandwidth ".."262144")
+	Spring.SendCommands("LinkIncomingSustainedBandiwdth ".."262144")
+	Spring.SendCommands("LinkIncomingPeakBandiwdth ".."262144")
+	Spring.SendCommands("LinkIncomingMaxPacketRate ".."2048")
+	
+	Spring.SetConfigString("UseNetMessageSmoothingBuffer ", '0')
+		Spring.SetConfigString("NetworkLossFactor ", '2')
+		Spring.SetConfigString("LinkOutgoingBandwidth ", '262144')
+		Spring.SetConfigString("LinkIncomingSustainedBandwidth ", '262144')
+		Spring.SetConfigString("LinkIncomingPeakBandwidth ", '262144')
+		Spring.SetConfigString("LinkIncomingMaxPacketRate ", '2048')
+			else
+									Spring.SetConfigInt("reduceping ", '0')
+
+			
+				Spring.SendCommands("UseNetMessageSmoothingBuffer ".."1")
+	Spring.SendCommands("NetworkLossFactor ".."0")
+	Spring.SendCommands("LinkOutgoingBandwidth ".."98304")
+	Spring.SendCommands("LinkIncomingSustainedBandiwdth ".."98304")
+	Spring.SendCommands("LinkIncomingPeakBandiwdth ".."98304")
+	Spring.SendCommands("LinkIncomingMaxPacketRate ".."128")
+	
+	Spring.SetConfigString("UseNetMessageSmoothingBuffer ", '1')
+		Spring.SetConfigString("NetworkLossFactor ", '0')
+		Spring.SetConfigString("LinkOutgoingBandwidth ", '98304')
+		Spring.SetConfigString("LinkIncomingSustainedBandwidth ", '98304')
+		Spring.SetConfigString("LinkIncomingPeakBandwidth ", '98304')
+		Spring.SetConfigString("LinkIncomingMaxPacketRate ", '128')
+			end
+		
+
+		elseif id == 'advsky' then
+			Spring.SetConfigInt("AdvSky",value)
+
 
 		end
 		
@@ -776,20 +818,21 @@ function widget:Initialize()
 				{id="sharpen", group="gfx", name="Sharpen (Expensive)", type="bool", value=widgetHandler.orderList["Contrast Adaptive Sharpen"] ~= nil and (widgetHandler.orderList["Contrast Adaptive Sharpen"] > 0), description='Sharpen all visible textures'},
 
 		{id="lups", widget="LupsManager", name="Lups particle effects", type="bool", value=widgetHandler.orderList["LupsManager"] ~= nil and (widgetHandler.orderList["LupsManager"] > 0), description='Toggle unit particle effects: jet beams, ground flashes, fusion energy balls'},
+		{id="shadows", name="Shadows", type="bool", value=tonumber(Spring.GetConfigInt("Shadows",1) or 1) == 1, description='Shadow detail is currently controlled by"Shadow Quality Manager" widget\n...this widget will auto reduce detail when fps gets low.\n\nShadows requires"Advanced map shading" option to be enabled'},
+
+		{id="particles", name="Max particles (Expensive)", type="slider", min=0, max=30000, value=tonumber(Spring.GetConfigInt("MaxParticles",1) or 12000), description='Changes will be applied next game'},
+		{id="nanoparticles", name="Max nano particles", type="slider", min=0, max=6000, value=tonumber(Spring.GetConfigInt("MaxNanoParticles",1) or 500), description='Changes will be applied next game'},
+		{id="decals", name="Ground decals (Expensive)", type="slider", min =0, max=5, step=1, value=tonumber(Spring.GetConfigInt("GroundDecals",1) or 1), description='Set how much/duration map decals will be drawn\n\n(unit footsteps/tracks, darkening under buildings and scorns ground at explosions)'},
 
 		-- only one of these shadow options are shown, depending if"Shadow Quality Manager" widget is active
-		{id="shadows", name="Shadows", type="bool", value=tonumber(Spring.GetConfigInt("Shadows",1) or 1) == 1, description='Shadow detail is currently controlled by"Shadow Quality Manager" widget\n...this widget will auto reduce detail when fps gets low.\n\nShadows requires"Advanced map shading" option to be enabled'},
 		{id="shadowslider", name="Shadows", type="slider", min=0, max=6000, value=tonumber(Spring.GetConfigInt("ShadowMapSize",1) or 1000), description='Set shadow detail\nSlider positioned the very left means shadows will be disabled\n\nShadows requires"Advanced map shading" option to be enabled'},
 		{id="fsaa", name="Anti Aliasing", type="slider", min=0, max=8, step=1, value=tonumber(Spring.GetConfigInt("FSAALevel",1) or 0), description='Changes will be applied next game'},
 
-				{id="advsky", name="Advanced sky", type="bool", value=tonumber(Spring.GetConfigInt("AdvSky",1) or 1) == 1, description='Enables high resolution clouds\n\nChanges will be applied next game'},
-						{id="snow", widget="Snow", name="Snow", type="bool", value=widgetHandler.orderList["Snow"] ~= nil and (widgetHandler.orderList["Snow"] > 0), description='Lets it snow on winter maps, auto reduces when your fps gets lower + unitcount higher\n\nYou can give the command /snow to toggle snow for the current map (it remembers)'},
 
 				{id="grassdetail", name="Grass", type="slider", min=0, max=10, step=1, value=tonumber(Spring.GetConfigInt("GrassDetail",1) or 0), description='Amount of grass displayed\n\nChanges will be applied next game'},
+			{id="reduceping", name="Reduce Ping", type="bool", value=tonumber(Spring.GetConfigInt("reduceping",1) or 1) == 1, description='Requires restart, Lowers your ping, do not use if you have an unstable connection'},
 
-						{id="3dtrees", name="3DTrees", type="bool", value=tonumber(Spring.GetConfigInt("3DTrees",1) or 0) == 0, description='3d trees, it looks better disabled'},
 
-			{id="fpstimespeed", name="Display FPS, GameTime and Speed", type="bool", value=tonumber(Spring.GetConfigInt("ShowFPS",1) or 1) == 1, description='Located at the top right of the screen\n\nIndividually toggle them with /fps /clock /speed'},
 
 			{id="camera", name="Camera", type="select", options={'fps','overhead','spring','rot overhead','free'}, value=(tonumber(Spring.GetConfigInt("CamMode",1) or 2))},
 
@@ -799,9 +842,7 @@ function widget:Initialize()
 
 		{id="disticon", name="Unit icon distance", type="slider", min=0, max=1000, value=tonumber(Spring.GetConfigInt("UnitIconDist",1) or 172)},
 		--{id="treeradius", name="Tree render distance", type="slider", min=0, max=2000, value=tonumber(Spring.GetConfigInt("TreeRadius",1) or 1000), description='Applies to SpringRTS engine default trees\n\nChanges will be applied next game'},
-		{id="particles", name="Max particles (Expensive)", type="slider", min=0, max=30000, value=tonumber(Spring.GetConfigInt("MaxParticles",1) or 12000), description='Changes will be applied next game'},
-		{id="nanoparticles", name="Max nano particles", type="slider", min=0, max=6000, value=tonumber(Spring.GetConfigInt("MaxNanoParticles",1) or 500), description='Changes will be applied next game'},
-
+		
 		--{id="crossalpha", name="Mouse cross alpha", type="slider", min=0, max=1, value=tonumber(Spring.GetConfigInt("CrossAlpha",1) or 1), description='Opacity of mouse icon in center of screen when you are in camera pan mode\n\n(\'icon\' looks like: dot in center with 4 arrowed pointing in all directions) '},
 		
 		{id="commandsfx", widget="Commands FX", name="Show Ally Commands", type="bool", value=widgetHandler.orderList["Commands FX"] ~= nil and (widgetHandler.orderList["Commands FX"] > 0), description='Shortly shows unit command target lines when you give orders\n\nAlso see the commands your teammates are giving to their units'},
@@ -809,8 +850,14 @@ function widget:Initialize()
 
 		{id="grounddetail", name="Ground mesh detail", type="slider", min=20, max=100, value=tonumber(Spring.GetConfigInt("GroundDetail",1) or 50), description='Ground mesh detail (polygon detail of the map)'},
 								{id="mapedgeextension", widget="Map Edge Extension", name="Map edge extension", type="bool", value=widgetHandler.orderList["Map Edge Extension"] ~= nil and (widgetHandler.orderList["Map Edge Extension"] > 0), description='Mirrors the map at screen edges and darkens and decolorizes them\n\nHave shaders enabled for best result'},
+																			{id="advsky", name="AdvSky", type="bool", value=tonumber(Spring.GetConfigInt("AdvSky",1) or 1) == 1, description='Enables high resolution clouds\n\nChanges will be applied next game'},
 
-		{id="decals", name="Ground decals", type="slider", min =0, max=5, step=1, value=tonumber(Spring.GetConfigInt("GroundDecals",1) or 1), description='Set how much/duration map decals will be drawn\n\n(unit footsteps/tracks, darkening under buildings and scorns ground at explosions)'},
+															{id="snow", widget="Snow", name="Snow", type="bool", value=widgetHandler.orderList["Snow"] ~= nil and (widgetHandler.orderList["Snow"] > 0), description='Lets it snow on winter maps, auto reduces when your fps gets lower + unitcount higher\n\nYou can give the command /snow to toggle snow for the current map (it remembers)'},
+
+									{id="3dtrees", name="3DTrees", type="bool", value=tonumber(Spring.GetConfigInt("3DTrees",1) or 1) == 1, description='3d trees, it looks better disabled'},
+
+			{id="fpstimespeed", name="Display FPS, GameTime and Speed", type="bool", value=tonumber(Spring.GetConfigInt("ShowFPS",1) or 1) == 1, description='Located at the top right of the screen\n\nIndividually toggle them with /fps /clock /speed'},
+
 	
 
 	}
