@@ -448,7 +448,7 @@ function gadget:GameFrame(n)
                Spring.MoveCtrl.Enable(unitID)
             else
                -- fly towards pad (the pad may move!)
-			   if UnitDefs[Spring.GetUnitDefID(unitID)].canFly then
+			   if UnitDefs[Spring.GetUnitDefID(unitID)].canFly and (not (UnitDefs[Spring.GetUnitDefID(unitID)].reclaimable == false))  then
 				Spring.SetUnitLandGoal(unitID, px, py, pz, r)
 			   end
             end
