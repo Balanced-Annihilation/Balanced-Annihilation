@@ -1,30 +1,19 @@
-﻿9.78.4
+﻿9.79.4
+16/06/2020
+
+enter or exit any unit with brief hold of ctrl+g, drive with wasd/zqsd/arrows, shoot with left click, dgun with right click
+improved unit death explosions
+attempt to reduce lag and blocking of rezbot, sea cons and t2 con vehicles
+nuke won't crash into allied units
+Reduce Ping setting added to options
+condensed 9.78.5 changelog to noticable changes
+
+9.78.5
 30/05/2020
 
-texture detail increased 60% by neural network
-new explosion effects for plasma and missiles
-new advanced lighting option in settings (default enabled)
-new sharpen option in settings (default enabled)
-high resolution cursor(toggle by typing /cursor)
-improved gui
-press cntrl x to select all of same unit type currently visible
-metal wrecks stay visible when zoomed out
-sea units block sea labs less
-mines detonate more reliably on hills
-torpedos of seaplane torpedo gunships don't collide with ground
-fido default firemode returned to regular
-team stats widget shows e and m excess
-context build works for wind/tidal
-anon_ffa mode can work for any game mode
-options menu now saves your changes (try lowering your settings)
-factoryguard widget: cons guard from front of lab rather than side 
-enable widget gui_commanderhurt - shows red tint when com is attacked offscreen
-add widgets NoAltMouseWheel, NoshiftMouseWheel and disable_middle_mouse (default disabled)
-new ba_hotkeys widget: "z mex/mm, x energy, c turret, v radar/jam" old are renamed to ba_hotkeys_old
-when using new hotkeys energy hotkey x will select wind or solar automatically based on map wind
-when using new hotkeys q is settarget and press c when selecting freaker or commando to place mines
-widget gui_defenserange updated, ground ranges are red, air ranges are blue, old version renamed to gui_defenserange_old 
-changelog since 9.46 summarised to balance changes
+texture detail increased 60% by neural network, improve effects
+new ba_hotkeys widget: "z mex/mm, x energy, c turret, v radar/jam" old keys renamed to ba_hotkeys_old
+when using new hotkeys hotkey x will select wind or solar based on map wind, q is settarget and c places mines
 
 9.75.4
 05/01/2020
