@@ -32,7 +32,7 @@ return {
 		seismicsignature = 0,
 		selfdestructas = "NUCLEAR_MISSILE",
 		sightdistance = 455,
-		usebuildinggrounddecal = true,
+		usebuildinggrounddecal = false,
 		yardmap = "ooooooooooooooooooooooooooooooooooooooooooooooooo",
 		featuredefs = {
 			dead = {
@@ -69,8 +69,8 @@ return {
 				hitdensity = 100,
 				metal = 1869,
 				object = "3X3A",
-                collisionvolumescales = "55.0 4.0 6.0",
-                collisionvolumetype = "cylY",
+                collisionvolumescales = "55.0 4.0 55.0",
+                collisionvolumetype = "box",
 				reclaimable = true,
 				resurrectable = 0,
 				seqnamereclamate = "TREE1RECLAMATE",
@@ -102,9 +102,10 @@ return {
 			crblmssl = {
 				areaofeffect = 1920,
 				avoidfeature = false,
-				avoidfriendly = false,
-				collidefriendly = false,
+				avoidfriendly = true,
+				collideFriendly = false,
 				commandfire = true,
+				cegtag = "NUKETRAIL",
 				craterareaofeffect = 1920,
 				craterboost = 2.4,
 				cratermult = 1.2,

@@ -34,7 +34,7 @@ return {
 		seismicsignature = 0,
 		selfdestructas = "LARGE_BUILDING",
 		sightdistance = 442,
-		usebuildinggrounddecal = true,
+		usebuildinggrounddecal = false,
 		yardmap = "ooooooooo",
 		featuredefs = {
 			dead = {
@@ -72,12 +72,19 @@ return {
 				hitdensity = 100,
 				metal = 244,
 				object = "3X3B",
-                collisionvolumescales = "55.0 4.0 6.0",
-                collisionvolumetype = "cylY",
+                collisionvolumescales = "55.0 4.0 55.0",
+                collisionvolumetype = "box",
 				reclaimable = true,
 				resurrectable = 0,
 				seqnamereclamate = "TREE1RECLAMATE",
 				world = "All Worlds",
+			},
+		},
+		sfxtypes = {
+			explosiongenerators = {
+				[1] = "custom:barrelshot-large",
+			},
+			pieceexplosiongenerators = {
 			},
 		},
 		sounds = {
@@ -112,7 +119,7 @@ return {
 				craterboost = 0,
 				cratermult = 0,
 				edgeeffectiveness = 0.25,
-				explosiongenerator = "custom:FLASH96",
+				explosiongenerator = "custom:genericshellexplosion-toaster",
 				gravityaffected = "true",
 				impulseboost = 0.123,
 				impulsefactor = 0.5,
@@ -144,7 +151,7 @@ return {
 				craterboost = 0.0492,
 				cratermult = 0.0492,
 				edgeeffectiveness = 0.5,
-				explosiongenerator = "custom:FLASH96",
+				explosiongenerator = "custom:genericshellexplosion-toaster",
 				gravityaffected = "true",
 				impulseboost = 0.123,
 				impulsefactor = 2,

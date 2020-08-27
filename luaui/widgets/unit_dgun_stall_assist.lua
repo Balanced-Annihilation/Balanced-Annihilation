@@ -7,7 +7,7 @@ function widget:GetInfo()
 		date      = "2 April 2010",
 		license   = "GNU GPL, v2 or later",
 		layer     = 0,
-		enabled   = false  --  loaded by default?
+		enabled   = true  --  loaded by default?
 	}
 end
 
@@ -15,7 +15,7 @@ end
 -- Config
 ----------------------------------------------------------------
 local targetEnergy = 600
-local watchForTime = 5
+local watchForTime = 3
 
 ----------------------------------------------------------------
 -- Globals

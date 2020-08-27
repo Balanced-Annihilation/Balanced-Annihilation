@@ -32,7 +32,7 @@ return {
 		seismicsignature = 0,
 		selfdestructas = "MINE_NUKE",
 		sightdistance = 143,
-		usebuildinggrounddecal = true,
+		usebuildinggrounddecal = false,
 		yardmap = "ooooooooooooooooooooooooo",
 		featuredefs = {
 			dead = {

@@ -3,7 +3,7 @@ return {
 		areaofeffect = 120,
 		craterboost = 0,
 		cratermult = 0,
-		explosiongenerator = "custom:FLASHBIGUNIT",
+		explosiongenerator = "custom:genericunitexplosion-medium",
 		impulseboost = 0.12300000339746,
 		impulsefactor = 0.12300000339746,
 		name = "BigKbot",
@@ -16,5 +16,13 @@ return {
 		damage = {
 			default = 350,
 		},
+		weaponType = "Cannon",
+		customparams = {
+            expl_light_color = "1 0.52 0.33",
+            expl_light_mult = 1.04,
+            expl_light_radius_mult = 1.04,
+            expl_light_life_mult = 1.06,
+            expl_light_heat_radius_mult = 1.1,
+        },
 	},
 }

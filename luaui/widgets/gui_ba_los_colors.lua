@@ -11,12 +11,10 @@ function widget:GetInfo()
     }
 end
 
--- project page: this widget is included in BA repo
-
 --Changelog
 -- v2 Changed colors + remember ; mode + fix keybindings for non english layouts + 2 color presets (/loswithcolors)
 
-local losWithRadarEnabled = false;
+local losWithRadarEnabled = true;
 local colorProfile = "greyscale" -- "colored"
 local specDetected = false
 
@@ -76,14 +74,12 @@ function updateLOS(colors)
 end
 
 function widget:PlayerChanged(playerID)
-    local myPlayerId = Spring.GetMyPlayerID()
-    local _, _, spec, _, _, _, _, _ = Spring.GetPlayerInfo(myPlayerId)
-
-    if spec then
-        specDetected = true
-        withoutRadars()
+    if playerID == Spring.GetMyPlayerID() then
+        if Spring.GetSpectatingState() then
+            specDetected = true
+            withoutRadars()
+        end
     end
-    return true
 end
 
 function widget:Shutdown()
@@ -130,7 +126,7 @@ function toggleLOSColors()
     end
 end
 
-function widget:SetConfigData(data)
+function widget:Initialize()
     widgetHandler:AddAction("losradar", toggleLOSRadars)
     widgetHandler:AddAction("loscolor", toggleLOSColors)
 
@@ -139,18 +135,6 @@ function widget:SetConfigData(data)
 
     always, LOS, radar, jam, radar2 = Spring.GetLosViewColors()
 
-    if data.losWithRadarEnabled ~= nil then
-        losWithRadarEnabled = data.losWithRadarEnabled
-    else
-        losWithRadarEnabled = false
-    end
-
-    if data.colorProfile ~= nil then
-        colorProfile = data.colorProfile
-    else
-        colorProfile = "greyscale"
-    end
-
     if losWithRadarEnabled == true then
         setLosWithRadars()
     else
@@ -158,3 +142,16 @@ function widget:SetConfigData(data)
     end
 end
 
+function widget:SetConfigData(data)
+    if data.losWithRadarEnabled ~= nil then
+        losWithRadarEnabled = data.losWithRadarEnabled
+    else
+        losWithRadarEnabled = true
+    end
+
+    if data.colorProfile ~= nil then
+        colorProfile = data.colorProfile
+    else
+        colorProfile = "greyscale"
+    end
+end

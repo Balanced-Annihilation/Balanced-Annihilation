@@ -15,7 +15,7 @@ return {
 		description = "Light Amphibious Tank",
 		energymake = 0.5,
 		energyuse = 0.5,
-		explodeas = "BIG_UNITEX",
+		explodeas = "big_unitex",
 		footprintx = 3,
 		footprintz = 3,
 		idleautoheal = 5,
@@ -30,7 +30,7 @@ return {
 		nochasecategory = "VTOL",
 		objectname = "ARMPINCER",
 		seismicsignature = 0,
-		selfdestructas = "BIG_UNIT",
+		selfdestructas = "big_unit",
 		sightdistance = 240,
 		trackoffset = 3,
 		trackstrength = 6,
@@ -65,6 +65,11 @@ return {
 				world = "all",
 			},
 		},
+		sfxtypes = {
+			explosiongenerators = {
+				[1] = "custom:barrelshot-small",
+			},
+		},
 		sounds = {
 			canceldestruct = "cancel2",
 			underattack = "warning1",
@@ -93,7 +98,7 @@ return {
 				craterareaofeffect = 0,
 				craterboost = 0,
 				cratermult = 0,
-				explosiongenerator = "custom:LIGHT_PLASMA",
+				explosiongenerator = "custom:genericshellexplosion-small",
 				impulseboost = 0.123,
 				impulsefactor = 0.123,
 				name = "PincerCannon",

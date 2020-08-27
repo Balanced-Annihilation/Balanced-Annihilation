@@ -36,7 +36,7 @@ return {
 		selfdestructas = "TINY_BUILDINGEX",
 		selfdestructcountdown = 1,
 		sightdistance = 273,
-		usebuildinggrounddecal = true,
+		usebuildinggrounddecal = false,
 		yardmap = "ooooooooo",
 		featuredefs = {
 			dead = {
@@ -73,7 +73,7 @@ return {
 				hitdensity = 100,
 				metal = 13,
 				object = "3X3B",
-                collisionvolumescales = "55.0 4.0 6.0",
+                collisionvolumescales = "55.0 4.0 55.0",
                 collisionvolumetype = "cylY",
 				reclaimable = true,
 				resurrectable = 0,

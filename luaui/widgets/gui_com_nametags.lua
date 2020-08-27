@@ -6,7 +6,7 @@ function widget:GetInfo()
     date      = "20 february 2015",
     license   = "GNU GPL, v2 or later",
     layer     = 2,
-    enabled   = true,  --  loaded by default?
+    enabled   = false,  --  loaded by default?
   }
 end
 
@@ -116,15 +116,26 @@ local function createComnameList(attributes)
 			end
 			font:SetTextColor(outlineColor)
 			font:SetOutlineColor(outlineColor)
+if tonumber(Spring.GetModOptions().anon_ffa) == 1 then --is fa
+				font:Print("Player", -(fontSize/38), -(fontSize/33), fontSize, "con")
+				font:Print("Player", (fontSize/38), -(fontSize/33), fontSize, "con")
+				else
+				font:Print(attributes[1], -(fontSize/38), -(fontSize/33), fontSize, "con")
+				font:Print(attributes[1], (fontSize/38), -(fontSize/33), fontSize, "con")
+			end
 			
-			font:Print(attributes[1], -(fontSize/38), -(fontSize/33), fontSize, "con")
-			font:Print(attributes[1], (fontSize/38), -(fontSize/33), fontSize, "con")
 		end
 		font:Begin()
 		font:SetTextColor(attributes[2])
 		font:SetOutlineColor(outlineColor)
-		font:Print(attributes[1], 0, 0, fontSize, "con")
-		font:End()
+		
+if tonumber(Spring.GetModOptions().anon_ffa) == 1 then --is fa
+			font:Print("Player", 0, 0, fontSize, "con")
+			font:End()
+		else
+			font:Print(attributes[1], 0, 0, fontSize, "con")
+			font:End()
+		end
 	end)
 end
 

@@ -114,6 +114,8 @@ Create()
 	start-script SmokeUnit();
 	turn dome to x-axis <-135.032967> now;
 	move gun to x-axis [1.500000] now;
+		move flare to z-axis [4.500000] now;
+
 }
 
 /*
@@ -152,9 +154,8 @@ AimPrimary(heading, pitch)
 
 FirePrimary()
 {
-	show flare;
+	emit-sfx 1024 + 0 from flare;
 	sleep 150;
-	hide flare;
 }
 
 QueryPrimary(piecenum)

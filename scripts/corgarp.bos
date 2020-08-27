@@ -59,6 +59,7 @@ HitByWeapon(Func_Var_1, Func_Var_2)
 
 Create()
 {
+	move emit to z-axis [1] now;
 	restore_delay = 3000;
 	start-script SmokeUnit();
 }
@@ -89,6 +90,7 @@ AimPrimary(heading, pitch)
 
 FirePrimary()
 {
+	emit-sfx 1024 + 0 from emit;
 	move barrel to z-axis [-1.000000] speed [500.000000];
 	sleep 150;
 	wait-for-move barrel along z-axis;

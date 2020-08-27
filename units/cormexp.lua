@@ -15,7 +15,7 @@ return {
 		category = "ALL NOTLAND WEAPON NOTSUB NOTSHIP NOTAIR NOTHOVER SURFACE",
 		collisionvolumeoffsets = "0 -3 0",
 		collisionvolumescales = "75 44 75",
-		collisionvolumetype = "CylY",
+		collisionvolumetype = "box",
 		corpse = "DEAD",
 		damagemodifier = 0.3,
 		description = "Convertible Metal Extractor",
@@ -38,7 +38,7 @@ return {
 		seismicsignature = 0,
 		selfdestructas = "SMALL_BUILDING",
 		sightdistance = 676,
-		usebuildinggrounddecal = true,
+		usebuildinggrounddecal = false,
 		yardmap = "ooooooooooooooooooooooooo",
 		featuredefs = {
 			dead = {

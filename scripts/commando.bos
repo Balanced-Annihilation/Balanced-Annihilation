@@ -393,6 +393,11 @@ RequestState()
 
 Create()
 {
+	turn flare to x-axis <180> now;
+	move flare to y-axis [3] now;
+	move flare to z-axis [3] now;
+
+
 	Static_Var_1 = 0;
 	bMoving = FALSE;
 	Static_Var_3 = 0;
@@ -465,9 +470,7 @@ AimPrimary(heading, pitch)
 FirePrimary()
 {
     move gunbarrel to y-axis [-0.5] speed [3.322148];
-	show flare;
-	sleep 100;
-	hide flare;
+	emit-sfx 1024 + 0 from flare;
 	move gunbarrel to y-axis [0] now;
 }
 

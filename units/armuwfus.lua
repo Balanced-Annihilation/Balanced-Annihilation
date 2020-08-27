@@ -31,7 +31,7 @@ return {
 		objectname = "ARMUWFUS",
 		selfdestructas = "MINE_NUKE",
 		sightdistance = 143,
-		usebuildinggrounddecal = true,
+		usebuildinggrounddecal = false,
 		yardmap = "oooooooooooooooooooo",
 		featuredefs = {
 			dead = {

@@ -15,7 +15,7 @@ return {
 		category = "ALL PLANT NOTSUB NOWEAPON NOTAIR NOTHOVER SURFACE",
 		collisionvolumeoffsets = "0 -5 8",
 		collisionvolumescales = "150 43 150",
-		collisionvolumetype = "CylY",
+		collisionvolumetype = "box",
 		corpse = "ARMSHLT_DEAD",
 		description = "Produces Level 3 Units",
 		energystorage = 1400,
@@ -35,7 +35,7 @@ return {
 		selfdestructas = "LARGE_BUILDING",
 		sightdistance = 273,
 		terraformspeed = 3000,
-		usebuildinggrounddecal = true,
+		usebuildinggrounddecal = false,
 		workertime = 600,
 		yardmap = "oooooooooooooooooooocccccoooocccccoooocccccoooocccccoooocccccoooocccccoooocccccoo",
 		buildoptions = {
@@ -43,7 +43,7 @@ return {
 			[2] = "armraz",
 			[3] = "marauder",
 			[4] = "armshock",
-			[5] = "armlun",
+			--[5] = "armlun",
 		},
 		featuredefs = {
 			armshlt_dead = {
@@ -51,7 +51,7 @@ return {
 				category = "corpses",
 				collisionvolumeoffsets = "0 -14 0",
 				collisionvolumescales = "125 57 145",
-				collisionvolumetype = "Ell",
+				collisionvolumetype = "box",
 				damage = 8640,
 				description = "Experimental Gantry Wreckage",
 				energy = 0,

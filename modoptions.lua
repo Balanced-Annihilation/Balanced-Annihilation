@@ -42,6 +42,22 @@ local options={
         max    = 120,
         step   = 1,
     },
+	{
+		key    = "allow_buzz",
+		name   = "Allow buzz",
+		desc   = "allow buzzsaw and vulcan game enders",
+		type   = "bool",
+		def    = false,
+		section= "ba_modes",
+	},
+	{
+		key    = "anon_ffa",
+		name   = "anon FFA Mode",
+		desc   = "Random FFA colours",
+		type   = "bool",
+		def    = false,
+		section= "ba_modes",
+	},
     {
 		key    = "mo_ffa",
 		name   = "FFA Mode",
@@ -218,6 +234,9 @@ local options={
 		step   = 1,  -- quantization is aligned to the def value
 		-- (step <= 0) means that there is no quantization
 	},
+	
+	
+	
 	{
 		key    = 'captureradius',
 		name   = 'Capture Radius',

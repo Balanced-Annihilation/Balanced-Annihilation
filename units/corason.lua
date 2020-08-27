@@ -16,7 +16,7 @@ return {
 		category = "ALL NOTLAND NOTSUB NOWEAPON NOTSHIP NOTAIR NOTHOVER SURFACE",
 		collisionvolumeoffsets = "0 1 0",
 		collisionvolumescales = "45 28 45",
-		collisionvolumetype = "CylY",
+		collisionvolumetype = "box",
 		corpse = "DEAD",
 		description = "Extended Sonar",
 		energymake = 18,
@@ -37,7 +37,7 @@ return {
 		selfdestructas = "SMALL_BUILDING",
 		sightdistance = 210,
 		sonardistance = 2400,
-		usebuildinggrounddecal = true,
+		usebuildinggrounddecal = false,
 		yardmap = "ooooooooo",
 		featuredefs = {
 			dead = {

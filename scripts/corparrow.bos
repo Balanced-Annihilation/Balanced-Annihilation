@@ -89,10 +89,11 @@ AimPrimary(heading, pitch)
 
 FirePrimary()
 {
+  emit-sfx 1024 + 0 from emit;
 	move barrel to z-axis [-4.000000] speed [500.000000];
-	explode emit type BITMAPONLY | BITMAP5;
 	sleep 150;
-	explode shell type FALL | SMOKE;
+		explode shell type FALL | SMOKE;
+
 	move barrel to z-axis [0.000000] speed [6.000000];
 }
 

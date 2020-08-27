@@ -2,7 +2,7 @@
 function widget:GetInfo()
 	return {
 		name      = "Build Split",
-		desc      = "Splits builds over cons, and vice versa",
+		desc      = "Splits builds over cons, and vice versa (use shift+space to activate)",
 		author    = "Niobium",
 		version   = "v1.0",
 		date      = "Jan 11, 2009",
@@ -14,7 +14,6 @@ end
 
 local floor = math.floor
 
-local spGetGameFrame = Spring.GetGameFrame
 local spGetSpecState = Spring.GetSpectatingState
 
 local spTestBuildOrder = Spring.TestBuildOrder
@@ -31,18 +30,25 @@ local buildID = 0
 local buildLocs = {}
 local buildCount = 0
 
-function widget:Initialize()
-	if spGetGameFrame() > 0 then
-		widget:GameStart()
-	end
+function maybeRemoveSelf()
+    if Spring.GetSpectatingState() and (Spring.GetGameFrame() > 0 or gameStarted) then
+        widgetHandler:RemoveWidget(self)
+    end
 end
 
 function widget:GameStart()
-	
-	local areSpec = spGetSpecState()
-	if areSpec then
-		widgetHandler:RemoveWidget(self)
-	end
+    gameStarted = true
+    maybeRemoveSelf()
+end
+
+function widget:PlayerChanged(playerID)
+    maybeRemoveSelf()
+end
+
+function widget:Initialize()
+    if Spring.IsReplay() or Spring.GetGameFrame() > 0 then
+        maybeRemoveSelf()
+    end
 end
 
 function widget:CommandNotify(cmdID, cmdParams, cmdOpts) -- 3 of 3 parameters
@@ -69,7 +75,8 @@ function widget:CommandNotify(cmdID, cmdParams, cmdOpts) -- 3 of 3 parameters
 	return true
 end
 
-function widget:Update() -- 0 of 0 parameters
+function widget:Update()
+	if chobbyInterface then return end -- 0 of 0 parameters
 	
 	if buildCount == 0 then return end
 	

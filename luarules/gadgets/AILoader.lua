@@ -10,6 +10,21 @@ function gadget:GetInfo()
    }
 end
 
+local enabled = false
+
+local teams = Spring.GetTeamList()
+for i = 1, #teams do
+	local Ai = Spring.GetTeamLuaAI(teams[i])
+	if Ai == "ShardLua" then
+		enabled = true
+	end
+end
+
+if not enabled then
+	return false
+end
+
+
 -- globals
 ShardSpringLua = true -- this is the AI Boot gadget, so we're in Spring Lua
 VFS.Include("luarules/gadgets/ai/preload/globals.lua")

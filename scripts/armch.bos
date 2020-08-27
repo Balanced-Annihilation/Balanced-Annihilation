@@ -89,29 +89,7 @@ StartMoving()
 {
 	signal SIG_MOVE;
 	set-signal-mask SIG_MOVE;
-	while( TRUE )
-	{
-		if( Static_Var_1 == 1 OR Static_Var_1 == 2)
-		{
-			emit-sfx 5 from wake1;
-			emit-sfx 5 from wake2;
-			emit-sfx 5 from wake3;
-			emit-sfx 5 from wake4;
-			emit-sfx 5 from wake5;
-			emit-sfx 5 from wake6;
-			emit-sfx 3 from wake7;
-			emit-sfx 3 from wake8;
-			emit-sfx 3 from wake1;
-			emit-sfx 3 from wake2;
-			emit-sfx 3 from wake3;
-			emit-sfx 3 from wake4;
-			emit-sfx 3 from wake5;
-			emit-sfx 3 from wake6;
-			emit-sfx 5 from wake7;
-			emit-sfx 5 from wake8;
-		}
-		sleep 300;
-	}
+	
 }
 
 StopMoving()

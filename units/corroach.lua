@@ -11,7 +11,7 @@ return {
 		category = "KBOT MOBILE WEAPON ALL NOTSUB NOTSHIP NOTAIR NOTHOVER SURFACE",
 		collisionvolumeoffsets = "0 3 0",
 		collisionvolumescales = "18 14 18",
-		collisionvolumetype = "CylY",
+		collisionvolumetype = "box",
 		description = "Amphibious Crawling Bomb",
 		energymake = 0.1,
 		energyuse = 0.1,
@@ -103,6 +103,8 @@ return {
 				tolerance = 100000,
 				weapontype = "Melee",
 				weaponvelocity = 100000,
+				avoidground = false,
+				waterweapon = true,
 				damage = {
 					default = 0,
 				},

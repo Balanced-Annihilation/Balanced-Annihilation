@@ -14,7 +14,7 @@ return {
 		category = "ALL NOTLAND WEAPON NOTSUB NOTSHIP NOTAIR NOTHOVER SURFACE",
 		collisionvolumeoffsets = "0 -13 0",
 		collisionvolumescales = "52 60 52",
-		collisionvolumetype = "CylY",
+		collisionvolumetype = "box",
 		corpse = "DEAD",
 		description = "Medium Range Plasma Battery",
 		explodeas = "MEDIUM_BUILDINGEX",
@@ -33,7 +33,7 @@ return {
 		seismicsignature = 0,
 		selfdestructas = "MEDIUM_BUILDING",
 		sightdistance = 455,
-		usebuildinggrounddecal = true,
+		usebuildinggrounddecal = false,
 		yardmap = "oooooooooooooooo",
 		featuredefs = {
 			dead = {
@@ -70,12 +70,19 @@ return {
 				hitdensity = 100,
 				metal = 449,
 				object = "4X4B",
-                collisionvolumescales = "85.0 14.0 6.0",
-                collisionvolumetype = "cylY",
+                collisionvolumescales = "85.0 14.0 85.0",
+                collisionvolumetype = "box",
 				reclaimable = true,
 				resurrectable = 0,
 				seqnamereclamate = "TREE1RECLAMATE",
 				world = "All Worlds",
+			},
+		},
+		sfxtypes = {
+			explosiongenerators = {
+				[1] = "custom:barrelshot-medium",
+			},
+			pieceexplosiongenerators = {
 			},
 		},
 		sounds = {
@@ -110,7 +117,7 @@ return {
 				craterboost = 0,
 				cratermult = 0,
 				edgeeffectiveness = 0.25,
-				explosiongenerator = "custom:FLASH96",
+				explosiongenerator = "custom:genericshellexplosion-punisher",
 				gravityaffected = "true",
 				impulseboost = 0.123,
 				impulsefactor = 0.5,
@@ -142,7 +149,7 @@ return {
 				craterboost = 0,
 				cratermult = 0,
 				edgeeffectiveness = 0.5,
-				explosiongenerator = "custom:FLASH96",
+				explosiongenerator = "custom:genericshellexplosion-punisher",
 				gravityaffected = "true",
 				impulseboost = 0.123,
 				impulsefactor = 1.4,

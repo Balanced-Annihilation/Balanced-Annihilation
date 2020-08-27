@@ -1,14 +1,14 @@
 
 function widget:GetInfo()
 return {
-	name    = "Options",
-	desc    = "",
-	author  = "Floris",
-	date    = "September 2016",
-	license = "Dental flush",
+	name    ="Options",
+	desc    ="",
+	author  ="Floris",
+	date    ="September 2016",
+	license ="Dental flush",
 	layer   = -1,
 	enabled = true,
-  handler = true, 
+	handler = true, 
 }
 end
 
@@ -17,9 +17,9 @@ end
 local loadedFontSize = 32
 local font = gl.LoadFont(LUAUI_DIRNAME.."Fonts/FreeSansBold.otf", loadedFontSize, 16,2)
 
-local bgcorner = ":n:"..LUAUI_DIRNAME.."Images/bgcorner.png"
-local bgcorner1 = ":n:"..LUAUI_DIRNAME.."Images/bgcorner1.png"
-local closeButtonTex = ":n:"..LUAUI_DIRNAME.."Images/close.dds"
+local bgcorner =":n:"..LUAUI_DIRNAME.."Images/bgcorner.png"
+local bgcorner1 =":n:"..LUAUI_DIRNAME.."Images/bgcorner1.png"
+local closeButtonTex =":n:"..LUAUI_DIRNAME.."Images/close.dds"
 
 local bgMargin = 6
 
@@ -183,7 +183,7 @@ function DrawButton()
 		{v = {1, 0, 0}},
 	}
 	glShape(GL_LINE_STRIP, vertices)
-  glText("Options", textMargin, textMargin, textSize, "no")
+  glText("Options", textMargin, textMargin, textSize,"no")
 end
 
 
@@ -193,9 +193,15 @@ function DrawWindow()
 	
 		-- cursors
 		addedWidgetOptions = true
+		
+		if (WG['darkenmap'] ~= nil) then
+			table.insert(options, {id="darkenmap", name="Darken map", min=0, max=0.55, type="slider", value=WG['darkenmap'].getMapDarkness(), description='Darkens the whole map (not the units)\n\nRemembers setting per map\nUse /resetmapdarkness if you want to reset all stored map settings'})
+		end
+		
 		local cursorsets = {}
 		local cursor = 1
 		local cursoroption
+		
 		if (WG['cursors'] ~= nil) then
 			cursorsets = WG['cursors'].getcursorsets()
 			local cursorname = WG['cursors'].getcursor()
@@ -208,9 +214,7 @@ function DrawWindow()
 			table.insert(options, {id="cursor", name="Cursor", type="select", options=cursorsets, value=cursor})
 		end
 		-- Darken map
-		if (WG['darkenmap'] ~= nil) then
-			table.insert(options, {id="darkenmap", name="Darken map", min=0, max=0.55, type="slider", value=WG['darkenmap'].getMapDarkness(), description='Darkens the whole map (not the units)\n\nRemembers setting per map\nUse /resetmapdarkness if you want to reset all stored map settings'})
-		end
+		
 	end
 	
   local vsx,vsy = Spring.GetViewGeometry()
@@ -231,7 +235,7 @@ function DrawWindow()
 	gl.Texture(false)
 	
 	-- title
-  local title = "Options"
+  local title ="Options"
 	local titleFontSize = 18
   gl.Color(0,0,0,0.8)
   titleRect = {x-bgMargin, y+bgMargin, x+(glGetTextWidth(title)*titleFontSize)+27-bgMargin, y+37}
@@ -240,7 +244,7 @@ function DrawWindow()
 	font:Begin()
 	font:SetTextColor(1,1,1,1)
 	font:SetOutlineColor(0,0,0,0.4)
-	font:Print(title, x-bgMargin+(titleFontSize*0.75), y+bgMargin+8, titleFontSize, "on")
+	font:Print(title, x-bgMargin+(titleFontSize*0.75), y+bgMargin+8, titleFontSize,"on")
 	font:End()
 	
 	local width = screenWidth/3
@@ -279,7 +283,7 @@ function DrawWindow()
 		end
 		
 		--option name
-  	glText('\255\230\230\230'..option.name, xPos, yPos-(oHeight/3)-oPadding, oHeight, "no")
+  	glText('\255\230\230\230'..option.name, xPos, yPos-(oHeight/3)-oPadding, oHeight,"no")
   	
   	-- define hover area
 		optionHover[oid] = {xPos, yPos-oHeight-oPadding, xPosMax, yPos+oPadding}
@@ -312,7 +316,7 @@ function DrawWindow()
 			optionButtons[oid] = {xPosMax-selectWidth, yPos-oHeight, xPosMax, yPos}
 			glColor(1,1,1,0.11)
 			RectRound(xPosMax-selectWidth, yPos-oHeight, xPosMax, yPos, 3)
-  		glText(option.options[tonumber(option.value)], xPosMax-selectWidth+5, yPos-(oHeight/3)-oPadding, oHeight*0.85, "no")
+  		glText(option.options[tonumber(option.value)], xPosMax-selectWidth+5, yPos-(oHeight/3)-oPadding, oHeight*0.85,"no")
 			glColor(1,1,1,0.11)
 			RectRound(xPosMax-oHeight, yPos-oHeight, xPosMax, yPos, 2.5)
 			glColor(1,1,1,0.16)
@@ -343,18 +347,18 @@ function widget:DrawScreen()
   if amNewbie and not gameStarted then return end
   
   -- draw the button
-  if not buttonGL then
-    buttonGL = gl.CreateList(DrawButton)
-  end
+  --if not buttonGL then
+  --  buttonGL = gl.CreateList(DrawButton)
+ -- end
   
-  glLineWidth(lineWidth)
+  --glLineWidth(lineWidth)
 
-  glPushMatrix()
-    glTranslate(posX*vsx, posY*vsy, 0)
-    glScale(17*widgetScale, 17*widgetScale, 1)
-		glColor(0, 0, 0, (0.3*bgColorMultiplier))
-    glCallList(buttonGL)
-  glPopMatrix()
+  --glPushMatrix()
+  --  glTranslate(posX*vsx, posY*vsy, 0)
+  --  glScale(17*widgetScale, 17*widgetScale, 1)
+--		glColor(0, 0, 0, (0.3*bgColorMultiplier))
+   -- glCallList(buttonGL)
+ -- glPopMatrix()
 
   glColor(1, 1, 1, 1)
   glLineWidth(1)
@@ -402,7 +406,7 @@ function widget:DrawScreen()
 						glColor(1,1,1,0.05)
 						RectRound(o[1]-8, o[2], o[3]+8, o[4], 4)
 						if options[i].description ~= nil then
-							glText('\255\255\210\120'..options[i].description, screenX+15, screenY-screenHeight+64.5, 16, "no")
+							glText('\255\255\210\120'..options[i].description, screenX+15, screenY-screenHeight+64.5, 16,"no")
 						end
 					end
 				end
@@ -436,7 +440,7 @@ function widget:DrawScreen()
 						RectRound(optionButtons[showSelectOptions][1], yPos-oHeight-oPadding, optionButtons[showSelectOptions][3], yPos+oPadding, 4)
 					end
 					table.insert(optionSelect, {optionButtons[showSelectOptions][1], yPos-oHeight-oPadding, optionButtons[showSelectOptions][3], yPos+oPadding, i})
-					glText('\255\255\255\255'..option, optionButtons[showSelectOptions][1]+7, yPos-(oHeight/2.25)-oPadding, oHeight*0.85, "no")
+					glText('\255\255\255\255'..option, optionButtons[showSelectOptions][1]+7, yPos-(oHeight/2.25)-oPadding, oHeight*0.85,"no")
 				end
 			end
 		glPopMatrix()
@@ -458,30 +462,102 @@ function applyOptionValue(i)
 		end
 		if id == 'advmapshading' then
 			Spring.SendCommands("AdvMapShading "..value)
+			Spring.SetConfigInt("AdvMapShading", value)
 		elseif id == 'advmodelshading' then
 			Spring.SendCommands("AdvModelShading "..value)
-		elseif id == 'advsky' then
-			Spring.SetConfigInt("AdvSky",value)
+			Spring.SetConfigInt("AdvModelShading", value)
 		elseif id == 'shadows' then
 			Spring.SendCommands("Shadows "..value)
+			Spring.SetConfigInt("Shadows", value)
 		elseif id == 'fullscreen' then
 			Spring.SendCommands("Fullscreen "..value)
 		elseif id == 'borderless' then
-			Spring.SendCommands("WindowBorderless "..value)
+			Spring.SetConfigInt("WindowBorderless",value)
+
 		elseif id == 'screenedgemove' then
 			Spring.SetConfigInt("FullscreenEdgeMove",value)
 			Spring.SetConfigInt("WindowedEdgeMove",value)
-		elseif id == 'hwcursor' then
-			Spring.SendCommands("hardwareCursor "..value)
+		elseif id == 'lighteffects' then
+			if value ~= 0 then
+				--widgetHandler:EnableWidget("Projectile lights")
+				widgetHandler:EnableWidget("Deferred rendering")
+				widgetHandler:EnableWidget("Light Effects")
+			else
+				--widgetHandler:DisableWidget("Projectile lights")
+				widgetHandler:DisableWidget("Deferred rendering")
+				widgetHandler:DisableWidget("Light Effects")
+			end
+		elseif id == 'sharpen' then
+			if value ~= 0 then
+				--widgetHandler:EnableWidget("Projectile lights")
+				widgetHandler:EnableWidget("Contrast Adaptive Sharpen")
+			else
+				--widgetHandler:DisableWidget("Projectile lights")
+				widgetHandler:DisableWidget("Contrast Adaptive Sharpen")
+			end
 		elseif id == 'fpstimespeed' then
 			Spring.SendCommands("fps "..value)
 			Spring.SendCommands("clock "..value)
 			Spring.SendCommands("speed "..value)
+			Spring.SetConfigInt("fpstimespeed", value)
+		elseif id == '3dtrees' then
+			Spring.SetConfigInt("3DTrees", value)
+		elseif id == 'Profanity' then
+			
+			if value == 0 then
+   Spring.SetConfigString("ProfanityFilter", '0')
+			else
+   Spring.SetConfigString("ProfanityFilter", '1')
+			end
+		elseif id == 'reduceping' then
+			
+			if value == 1 then
+				
+						Spring.SetConfigInt("reduceping ", '1')
+
+				
+		Spring.SendCommands("UseNetMessageSmoothingBuffer ".."0")
+	Spring.SendCommands("NetworkLossFactor ".."2")
+	Spring.SendCommands("LinkOutgoingBandwidth ".."262144")
+	Spring.SendCommands("LinkIncomingSustainedBandiwdth ".."262144")
+	Spring.SendCommands("LinkIncomingPeakBandiwdth ".."262144")
+	Spring.SendCommands("LinkIncomingMaxPacketRate ".."2048")
+	
+	Spring.SetConfigString("UseNetMessageSmoothingBuffer ", '0')
+		Spring.SetConfigString("NetworkLossFactor ", '2')
+		Spring.SetConfigString("LinkOutgoingBandwidth ", '262144')
+		Spring.SetConfigString("LinkIncomingSustainedBandwidth ", '262144')
+		Spring.SetConfigString("LinkIncomingPeakBandwidth ", '262144')
+		Spring.SetConfigString("LinkIncomingMaxPacketRate ", '2048')
+			else
+									Spring.SetConfigInt("reduceping ", '0')
+
+			
+				Spring.SendCommands("UseNetMessageSmoothingBuffer ".."1")
+	Spring.SendCommands("NetworkLossFactor ".."0")
+	Spring.SendCommands("LinkOutgoingBandwidth ".."98304")
+	Spring.SendCommands("LinkIncomingSustainedBandiwdth ".."98304")
+	Spring.SendCommands("LinkIncomingPeakBandiwdth ".."98304")
+	Spring.SendCommands("LinkIncomingMaxPacketRate ".."128")
+	
+	Spring.SetConfigString("UseNetMessageSmoothingBuffer ", '1')
+		Spring.SetConfigString("NetworkLossFactor ", '0')
+		Spring.SetConfigString("LinkOutgoingBandwidth ", '98304')
+		Spring.SetConfigString("LinkIncomingSustainedBandwidth ", '98304')
+		Spring.SetConfigString("LinkIncomingPeakBandwidth ", '98304')
+		Spring.SetConfigString("LinkIncomingMaxPacketRate ", '128')
+			end
+		
+
+		elseif id == 'advsky' then
+			Spring.SetConfigInt("AdvSky",value)
+
+
 		end
 		
 		if options[i].widget ~= nil then
 			if value == 1 then
-				if id == 'bloom' or id == 'guishader' or id == 'xrayshader' or id == 'snow' or id == 'mapedgeextension' then
+				if id == 'bloom' or id == 'guishader' or id == 'xrayshader' or id == 'snow' or id == 'mapedgeextension' or id == 'lighteffects' or id == 'sharpen' then
 					if luaShaders ~= 1 and not enabledLuaShaders then
 						Spring.SetConfigInt("LuaShaders", 1)
 						enabledLuaShaders = true
@@ -496,35 +572,37 @@ function applyOptionValue(i)
 	elseif options[i].type == 'slider' then
 		local value =  options[i].value
 		if id == 'fsaa' then
-			Spring.SetConfigInt("FSAALevel ",value)
+			Spring.SetConfigInt("FSAALevel",value)
 		elseif id == 'shadowslider' then
 			local enabled = 1
 			if value == options.min then 
 				enabled = 0
 			end
-			Spring.SendCommands("shadows "..enabled.." "..value)
+			Spring.SendCommands("shadows "..enabled..""..value)
 		elseif id == 'decals' then
 			Spring.SendCommands("GroundDecals "..value)
 		elseif id == 'scrollspeed' then
-			Spring.SetConfigInt("ScrollWheelSpeed ",value)
+			Spring.SetConfigInt("ScrollWheelSpeed",value)
 		elseif id == 'disticon' then
-			--Spring.SetConfigInt("UnitIconDist "..value)
+			--Spring.SetConfigInt("UnitIconDist"..value)
 			Spring.SendCommands("disticon "..value)
+						Spring.SetConfigInt("UnitIconDist", value)
+
 		elseif id == 'treeradius' then
-			Spring.SetConfigInt("TreeRadius ",value)
+			Spring.SetConfigInt("TreeRadius",value)
 		elseif id == 'particles' then
-			Spring.SetConfigInt("MaxParticles ",value)
+			Spring.SetConfigInt("MaxParticles",value)
 		elseif id == 'nanoparticles' then
-			Spring.SetConfigInt("MaxNanoParticles ",value)
+			Spring.SetConfigInt("MaxNanoParticles",value)
 		elseif id == 'grassdetail' then
-			Spring.SetConfigInt("GrassDetail ",value)
+			Spring.SetConfigInt("GrassDetail",value)
 		elseif id == 'grounddetail' then
-			--Spring.SetConfigInt("GroundDetail "..value)
+			--Spring.SetConfigInt("GroundDetail"..value)
 			Spring.SendCommands("grounddetail "..value)
 		elseif id == 'sndvolmaster' then
 			Spring.SetConfigInt("snd_volmaster", value)
 		elseif id == 'crossalpha' then
-			Spring.SendCommands("cross "..tonumber(Spring.GetConfigInt("CrossSize",1) or 10).." "..value)
+			Spring.SendCommands("cross "..tonumber(Spring.GetConfigInt("CrossSize",1) or 10)..""..value)
 			Spring.SetConfigInt("CrossAlpha", value)
 		elseif id == 'darkenmap' then
 			WG['darkenmap'].setMapDarkness(value)
@@ -535,17 +613,17 @@ function applyOptionValue(i)
 		if id == 'water' then
 			Spring.SendCommands("water "..(value-1))
 		elseif id == 'camera' then
-			Spring.SetConfigInt("CamMode ",value)
+			Spring.SetConfigInt("CamMode",value)
 			if value == 1 then 
-				Spring.SendCommands('viewfps')
+				Spring.SendCommands('viewfps ')
 			elseif value == 2 then 
-				Spring.SendCommands('viewta')
+				Spring.SendCommands('viewta ')
 			elseif value == 3 then 
-				Spring.SendCommands('viewspring')
+				Spring.SendCommands('viewspring ')
 			elseif value == 4 then 
-				Spring.SendCommands('viewrot')
+				Spring.SendCommands('viewrot ')
 			elseif value == 5 then 
-				Spring.SendCommands('viewfree')
+				Spring.SendCommands('viewfree ')
 			end
 		elseif id == 'cursor' then
 			WG['cursors'].setcursor(options[i].options[value])
@@ -714,23 +792,35 @@ function mouseEvent(x, y, button, release)
 		
 		return true
   else
-		tx = (x - posX*vsx)/(17*widgetScale)
-		ty = (y - posY*vsy)/(17*widgetScale)
-		if tx < 0 or tx > 4.5 or ty < 0 or ty > 1.05 then return false end
-		if release then
-			showOnceMore = show		-- show once more because the guishader lags behind, though this will not fully fix it
-			show = not show
-		end
-		if show then
-			if windowList then gl.DeleteList(windowList) end
-			windowList = gl.CreateList(DrawWindow)
-		end
-		return true
+		--tx = (x - posX*vsx)/(17*widgetScale)
+		--ty = (y - posY*vsy)/(17*widgetScale)
+		--if tx < 0 or tx > 4.5 or ty < 0 or ty > 1.05 then return false end
+		--if release then
+		--	showOnceMore = show		-- show once more because the guishader lags behind, though this will not fully fix it
+		--	show = not show
+		--end
+		--if show then
+		--	if windowList then gl.DeleteList(windowList) end
+		--	windowList = gl.CreateList(DrawWindow)
+		--end
+		--return true
   end
 end
 
 
 function widget:Initialize()
+
+	WG['options'] = {}
+	WG['options'].toggle = function(state)
+		if state ~= nil then
+			show = state
+		else
+			show = not show
+		end
+	end
+	WG['options'].isvisible = function()
+		return show
+	end
 
 	-- get widget list
   for name,data in pairs(widgetHandler.knownWidgets) do
@@ -741,41 +831,55 @@ function widget:Initialize()
 		{id="fullscreen", name="Fullscreen", type="bool", value=tonumber(Spring.GetConfigInt("Fullscreen",1) or 1) == 1},
 		{id="borderless", name="Borderless", type="bool", value=tonumber(Spring.GetConfigInt("WindowBorderless",1) or 1) == 1},
 		{id="screenedgemove", name="Screen edge moves camera", type="bool", value=tonumber(Spring.GetConfigInt("FullscreenEdgeMove",1) or 1) == 1, description="If mouse is close to screen edge this will move camera\n\nChanges will be applied next game"},
-		{id="hwcursor", name="Hardware-cursor", type="bool", value=tonumber(Spring.GetConfigInt("hardwareCursor",1) or 1) == 1},
-		{id="fsaa", name="Anti Aliasing", type="slider", min=0, max=16, step=1, value=tonumber(Spring.GetConfigInt("FSAALevel",1) or 2), description='Changes will be applied next game'},
 		{id="advmapshading", name="Advanced map shading", type="bool", value=tonumber(Spring.GetConfigInt("AdvMapShading",1) or 1) == 1, description='When disabled: shadows are disabled too'},
 		{id="advmodelshading", name="Advanced model shading", type="bool", value=tonumber(Spring.GetConfigInt("AdvModelShading",1) or 1) == 1},
-		
-		-- only one of these shadow options are shown, depending if "Shadow Quality Manager" widget is active
-		{id="shadows", name="Shadows", type="bool", value=tonumber(Spring.GetConfigInt("Shadows",1) or 1) == 1, description='Shadow detail is currently controlled by "Shadow Quality Manager" widget\n...this widget will auto reduce detail when fps gets low.\n\nShadows requires "Advanced map shading" option to be enabled'},
-		{id="shadowslider", name="Shadows", type="slider", min=0, max=6000, value=tonumber(Spring.GetConfigInt("ShadowMapSize",1) or 2000), description='Set shadow detail\nSlider positioned the very left means shadows will be disabled\n\nShadows requires "Advanced map shading" option to be enabled'},
-		
-		{id="bloom", widget="Bloom Shader", name="Bloom shader", type="bool", value=widgetHandler.orderList["Bloom Shader"] ~= nil and (widgetHandler.orderList["Bloom Shader"] > 0), description='Bloom will make the map and units glow'},
-		{id="decals", name="Ground decals", type="slider", min =0, max=5, step=1, value=tonumber(Spring.GetConfigInt("GroundDecals",1) or 1), description='Set how much/duration map decals will be drawn\n\n(unit footsteps/tracks, darkening under buildings and scorns ground at explosions)'},
-		{id="guishader", widget="GUI-Shader", name="GUI blur shader", type="bool", value=widgetHandler.orderList["GUI-Shader"] ~= nil and (widgetHandler.orderList["GUI-Shader"] > 0), description='Blurs the background/world under every user interface element\n\nNot always working properly at intel gfx'},
-		{id="mapedgeextension", widget="Map Edge Extension", name="Map edge extension", type="bool", value=widgetHandler.orderList["Map Edge Extension"] ~= nil and (widgetHandler.orderList["Map Edge Extension"] > 0), description='Mirrors the map at screen edges and darkens and decolorizes them\n\nHave shaders enabled for best result'},
-		{id="water", name="Water type", type="select", options={'basic','reflective','reflective&refractive','dynamic','bump-mapped'}, value=(tonumber(Spring.GetConfigInt("Water",1) or 1)+1)},
-		{id="projectilelights", widget="Projectile lights", name="Projectile lights", type="bool", value=widgetHandler.orderList["Projectile lights"] ~= nil and (widgetHandler.orderList["Projectile lights"] > 0), description='Projectiles are plasmaballs and rockets,\nthis will light up the map below them'},
-		{id="lups", widget="LupsManager", name="Lups particle effects", type="bool", value=widgetHandler.orderList["LupsManager"] ~= nil and (widgetHandler.orderList["LupsManager"] > 0), description='Toggle unit particle effects: jet beams, ground flashes, fusion energy balls'},
-		{id="xrayshader", widget="XrayShader", name="Unit xray shader", type="bool", value=widgetHandler.orderList["XrayShader"] ~= nil and (widgetHandler.orderList["XrayShader"] > 0), description='Highlights all units, highlight diminishes on closeup\nFades out and disables at low fps\nWorks less on dark teamcolors'},
-		{id="disticon", name="Unit icon distance", type="slider", min=0, max=1000, value=tonumber(Spring.GetConfigInt("UnitIconDist",1) or 1000)},
+		{id="lighteffects", group="gfx", name="Advanced lighting (Expensive)", type="bool", value=widgetHandler.orderList["Light Effects"] ~= nil and (widgetHandler.orderList["Light Effects"] > 0), description='Adds lights to projectiles, lasers and explosions.\n\nRequires shaders.'},
+				{id="sharpen", group="gfx", name="Sharpen (Expensive)", type="bool", value=widgetHandler.orderList["Contrast Adaptive Sharpen"] ~= nil and (widgetHandler.orderList["Contrast Adaptive Sharpen"] > 0), description='Sharpen all visible textures'},
+
+		{id="lups", widget="LupsManager", name="Lups particle effects (Expensive)", type="bool", value=widgetHandler.orderList["LupsManager"] ~= nil and (widgetHandler.orderList["LupsManager"] > 0), description='Toggle unit particle effects: jet beams, ground flashes, fusion energy balls'},
+		{id="shadows", name="Shadows (Expensive)", type="bool", value=tonumber(Spring.GetConfigInt("Shadows",1) or 1) == 1, description='Shadow detail is currently controlled by"Shadow Quality Manager" widget\n...this widget will auto reduce detail when fps gets low.\n\nShadows requires"Advanced map shading" option to be enabled'},
+
+		{id="particles", name="Max particles (Expensive)", type="slider", min=0, max=30000, value=tonumber(Spring.GetConfigInt("MaxParticles",1) or 12000), description='Changes will be applied next game'},
+		{id="nanoparticles", name="Max nano particles", type="slider", min=0, max=6000, value=tonumber(Spring.GetConfigInt("MaxNanoParticles",1) or 500), description='Changes will be applied next game'},
+		{id="decals", name="Ground decals (Expensive)", type="slider", min =0, max=5, step=1, value=tonumber(Spring.GetConfigInt("GroundDecals",1) or 1), description='Set how much/duration map decals will be drawn\n\n(unit footsteps/tracks, darkening under buildings and scorns ground at explosions)'},
+
+		-- only one of these shadow options are shown, depending if"Shadow Quality Manager" widget is active
+		{id="shadowslider", name="Shadows", type="slider", min=0, max=6000, value=tonumber(Spring.GetConfigInt("ShadowMapSize",1) or 1000), description='Set shadow detail\nSlider positioned the very left means shadows will be disabled\n\nShadows requires"Advanced map shading" option to be enabled'},
+		{id="fsaa", name="Anti Aliasing", type="slider", min=0, max=8, step=1, value=tonumber(Spring.GetConfigInt("FSAALevel",1) or 0), description='Changes will be applied next game'},
+
+
+				{id="grassdetail", name="Grass", type="slider", min=0, max=10, step=1, value=tonumber(Spring.GetConfigInt("GrassDetail",1) or 0), description='Amount of grass displayed\n\nChanges will be applied next game'},
+			{id="reduceping", name="Reduce Ping (Disable if you lag)", type="bool", value=tonumber(Spring.GetConfigInt("reduceping",1) or 1) == 1, description='Requires restart, Lowers your ping, do not use if you have an unstable connection'},
+
+
+
+			{id="camera", name="Camera", type="select", options={'fps','overhead','spring','rot overhead','free'}, value=(tonumber(Spring.GetConfigInt("CamMode",1) or 2))},
+
+		{id="water", name="Water type", type="select", options={'basic','reflective','dynamic','reflective&refractive','bump-mapped'}, value=(tonumber(Spring.GetConfigInt("Water",1) or 1)+1)},
+{id="scrollspeed", name="Zoom direction/speed", type="slider", min=-100, max=100, step=1, value=tonumber(Spring.GetConfigInt("ScrollWheelSpeed",1) or -25), description='Leftside of the bar means inversed scrolling!\nKeep in mind, having the slider centered means no mousewheel zooming at all!\n\nChanges will be applied next game'},		{id="sndvolmaster", name="Sound volume", type="slider", min=0, max=100, value=tonumber(Spring.GetConfigInt("snd_volmaster",1) or 100)},
+
+
+		{id="disticon", name="Unit icon distance", type="slider", min=0, max=1000, value=tonumber(Spring.GetConfigInt("UnitIconDist",1) or 172)},
 		--{id="treeradius", name="Tree render distance", type="slider", min=0, max=2000, value=tonumber(Spring.GetConfigInt("TreeRadius",1) or 1000), description='Applies to SpringRTS engine default trees\n\nChanges will be applied next game'},
-		{id="particles", name="Max particles", type="slider", min=1000, max=6000, value=tonumber(Spring.GetConfigInt("MaxParticles",1) or 1000), description='Changes will be applied next game'},
-		{id="nanoparticles", name="Max nano particles", type="slider", min=500, max=6000, value=tonumber(Spring.GetConfigInt("MaxNanoParticles",1) or 500), description='Changes will be applied next game'},
-		{id="grounddetail", name="Ground mesh detail", type="slider", min=50, max=200, value=tonumber(Spring.GetConfigInt("GroundDetail",1) or 60), description='Ground mesh detail (polygon detail of the map)'},
-		{id="grassdetail", name="Grass", type="slider", min=0, max=10, step=1, value=tonumber(Spring.GetConfigInt("GrassDetail",1) or 5), description='Amount of grass displayed\n\nChanges will be applied next game'},
-		--{id="advsky", name="Advanced sky", type="bool", value=tonumber(Spring.GetConfigInt("AdvSky",1) or 1) == 1, description='Enables high resolution clouds\n\nChanges will be applied next game'},
 		
-		{id="crossalpha", name="Mouse cross alpha", type="slider", min=0, max=1, value=tonumber(Spring.GetConfigInt("CrossAlpha",1) or 1), description='Opacity of mouse icon in center of screen when you are in camera pan mode\n\n(\'icon\' looks like: dot in center with 4 arrowed pointing in all directions) '},
-		{id="commandsfx", widget="Commands FX", name="Unit command FX", type="bool", value=widgetHandler.orderList["Commands FX"] ~= nil and (widgetHandler.orderList["Commands FX"] > 0), description='Shortly shows unit command target lines when you give orders\n\nAlso see the commands your teammates are giving to their units'},
+		--{id="crossalpha", name="Mouse cross alpha", type="slider", min=0, max=1, value=tonumber(Spring.GetConfigInt("CrossAlpha",1) or 1), description='Opacity of mouse icon in center of screen when you are in camera pan mode\n\n(\'icon\' looks like: dot in center with 4 arrowed pointing in all directions) '},
 		
-		{id="scrollspeed", name="Zoom direction/speed", type="slider", min=-45, max=45, step=1, value=tonumber(Spring.GetConfigInt("ScrollWheelSpeed",1) or 25), description='Leftside of the bar means inversed scrolling!\nKeep in mind, having the slider centered means no mousewheel zooming at all!\n\nChanges will be applied next game'},
-		{id="sndvolmaster", name="Sound volume", type="slider", min=0, max=200, value=tonumber(Spring.GetConfigInt("snd_volmaster",1) or 100)},
-		{id="fpstimespeed", name="Display FPS, GameTime and Speed", type="bool", value=tonumber(Spring.GetConfigInt("ShowFPS",1) or 1) == 1, description='Located at the top right of the screen\n\nIndividually toggle them with /fps /clock /speed'},
-		
-		{id="snow", widget="Snow", name="Snow", type="bool", value=widgetHandler.orderList["Snow"] ~= nil and (widgetHandler.orderList["Snow"] > 0), description='Lets it snow on winter maps, auto reduces when your fps gets lower + unitcount higher\n\nYou can give the command /snow to toggle snow for the current map (it remembers)'},
-		
-		{id="camera", name="Camera", type="select", options={'fps','overhead','spring','rot overhead','free'}, value=(tonumber(Spring.GetConfigInt("CamMode",1) or 2))},
+		{id="commandsfx", widget="Commands FX", name="Show Ally Commands", type="bool", value=widgetHandler.orderList["Commands FX"] ~= nil and (widgetHandler.orderList["Commands FX"] > 0), description='Shortly shows unit command target lines when you give orders\n\nAlso see the commands your teammates are giving to their units'},
+
+
+		{id="grounddetail", name="Ground mesh detail", type="slider", min=20, max=100, value=tonumber(Spring.GetConfigInt("GroundDetail",1) or 50), description='Ground mesh detail (polygon detail of the map)'},
+								{id="mapedgeextension", widget="Map Edge Extension", name="Map edge extension", type="bool", value=widgetHandler.orderList["Map Edge Extension"] ~= nil and (widgetHandler.orderList["Map Edge Extension"] > 0), description='Mirrors the map at screen edges and darkens and decolorizes them\n\nHave shaders enabled for best result'},
+																			--{id="advsky", name="AdvSky", type="bool", value=tonumber(Spring.GetConfigInt("AdvSky",1) or 1) == 1, description='Enables high resolution clouds\n\nChanges will be applied next game'},
+
+															{id="snow", widget="Snow", name="Snow", type="bool", value=widgetHandler.orderList["Snow"] ~= nil and (widgetHandler.orderList["Snow"] > 0), description='Lets it snow on winter maps, auto reduces when your fps gets lower + unitcount higher\n\nYou can give the command /snow to toggle snow for the current map (it remembers)'},
+
+									{id="3dtrees", name="3DTrees", type="bool", value=tonumber(Spring.GetConfigInt("3DTrees",1) or 1) == 1, description='3d trees, it looks better disabled'},
+
+			{id="fpstimespeed", name="Display FPS, GameTime and Speed", type="bool", value=tonumber(Spring.GetConfigInt("ShowFPS",1) or 1) == 1, description='Located at the top right of the screen\n\nIndividually toggle them with /fps /clock /speed'},
+
+	
+									{id="Profanity", name="Hide rude chat", type="bool", value=tonumber(Spring.GetConfigInt("ProfanityFilter",1) or 1) == 1, description='When green, rude text will be filtered'},
+
 	}
 	
 	local processedOptions = {}
@@ -786,17 +890,17 @@ function widget:Initialize()
 			if option.value < option.min then option.value = option.min end
 			if option.value > option.max then option.value = option.max end
 		end
-		if option.id == "shadows" and (fullWidgetsList["Shadow Quality Manager"] == nil or (widgetHandler.orderList["Shadow Quality Manager"] == 0)) then
+		if option.id =="shadows" and (fullWidgetsList["Shadow Quality Manager"] == nil or (widgetHandler.orderList["Shadow Quality Manager"] == 0)) then
 			insert = false
 		end
-		if option.id == "shadowslider" and fullWidgetsList["Shadow Quality Manager"] ~= nil and (widgetHandler.orderList["Shadow Quality Manager"] > 0) then
+		if option.id =="shadowslider" and fullWidgetsList["Shadow Quality Manager"] ~= nil and (widgetHandler.orderList["Shadow Quality Manager"] > 0) then
 			insert = false
 		end
 		if option.widget ~= nil and fullWidgetsList[option.widget] == nil then
 			insert = false
 		end
 		if luaShaders ~= 1 then
-			if option.id == "bloom" or option.id == "guishader" or option.id == "xrayshader" or option.id == "mapedgeextension" or option.id == "snow" then
+			if option.id =="bloom" or option.id =="guishader" or option.id =="xrayshader" or option.id =="mapedgeextension" or option.id =="snow" or  id == 'lighteffects' or id == 'sharpen' then
 				option.description = 'You dont have LuaShaders enabled, we will enable it for you but...\n\nChanges will be applied next game'
 			end
 		end

@@ -12,7 +12,7 @@ return {
 		category = "ALL NOTSUB NOWEAPON NOTAIR NOTHOVER SURFACE",
 		collisionvolumeoffsets = "0 -4 8",
 		collisionvolumescales = "62 39 62",
-		collisionvolumetype = "CylY",
+		collisionvolumetype = "box",
 		corpse = "DEAD",
 		description = "Increases Energy Storage (40000)",
 		energystorage = 40000,
@@ -30,7 +30,7 @@ return {
 		seismicsignature = 0,
 		selfdestructas = "MINE_NUKE",
 		sightdistance = 169,
-		usebuildinggrounddecal = true,
+		usebuildinggrounddecal = false,
 		yardmap = "oooooooooooooooo",
 		featuredefs = {
 			dead = {
@@ -66,8 +66,8 @@ return {
 				hitdensity = 100,
 				metal = 201,
 				object = "4X4A",
-                collisionvolumescales = "85.0 14.0 6.0",
-                collisionvolumetype = "cylY",
+                collisionvolumescales = "85.0 14.0 85.0",
+                collisionvolumetype = "box",
 				reclaimable = true,
 				resurrectable = 0,
 				seqnamereclamate = "TREE1RECLAMATE",

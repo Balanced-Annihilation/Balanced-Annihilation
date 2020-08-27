@@ -16,7 +16,8 @@ return {
 		description = "Battleship",
 		energymake = 46,
 		energyuse = 44,
-		explodeas = "BIG_UNITEX",
+		explodeas = "huge_unitex",
+			selfdestructas = "huge_unit",
 		floater = true,
 		footprintx = 6,
 		footprintz = 6,
@@ -31,7 +32,6 @@ return {
 		nochasecategory = "VTOL",
 		objectname = "CORBATS",
 		seismicsignature = 0,
-		selfdestructas = "BIG_UNIT",
 		sightdistance = 455,
 		turninplaceanglelimit = 140,
 		turninplacespeedlimit = 1.7424,
@@ -77,6 +77,13 @@ return {
 				world = "All Worlds",
 			},
 		},
+		sfxtypes = {
+			explosiongenerators = {
+				[1] = "custom:barrelshot-large",
+			},
+			pieceexplosiongenerators = {
+			},
+		},
 		sounds = {
 			canceldestruct = "cancel2",
 			underattack = "warning1",
@@ -106,7 +113,7 @@ return {
 				craterareaofeffect = 96,
 				craterboost = 0,
 				cratermult = 0,
-				explosiongenerator = "custom:FLASH96",
+				explosiongenerator = "custom:genericshellexplosion-battleshiplarge",
 				gravityaffected = "true",
 				impulseboost = 0.123,
 				impulsefactor = 0.123,

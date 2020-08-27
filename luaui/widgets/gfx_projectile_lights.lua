@@ -109,17 +109,12 @@ function widget:Initialize() -- create lighttable
 				if (WeaponDefs[weaponID]['type'] == 'Cannon') and (not WeaponDefs[weaponID]['waterWeapon']) then --hack! for armlun/corsok
 					--Spring.Echo('Cannon',WeaponDefs[weaponID]['name'],'size', WeaponDefs[weaponID]['size'])
 					size=WeaponDefs[weaponID]['size']
-					plighttable[WeaponDefs[weaponID]['name']]={1,1,0.5,0.5*((size-1)/3)}
+					plighttable[WeaponDefs[weaponID]['name']]={1,1,0.25,0.35*((size-1)/3)}
 					
 				elseif (WeaponDefs[weaponID]['type'] == 'Dgun') then
 					--Spring.Echo('Dgun',WeaponDefs[weaponID]['name'],'size', WeaponDefs[weaponID]['size'])
 					--size=WeaponDefs[weaponID]['size']
 					plighttable[WeaponDefs[weaponID]['name']]={1,1,0.5,0.5}
-					
-				elseif (WeaponDefs[weaponID]['type'] == 'MissileLauncher') then
-					--Spring.Echo('MissileLauncher',WeaponDefs[weaponID]['name'],'size', WeaponDefs[weaponID]['size'])
-					size=WeaponDefs[weaponID]['size']
-					plighttable[WeaponDefs[weaponID]['name']]={1,1,0.8,0.5*((size-1)/3)}
 					
 				elseif (WeaponDefs[weaponID]['type'] == 'StarburstLauncher') then
 					--Spring.Echo('StarburstLauncher',WeaponDefs[weaponID]['name'],'size', WeaponDefs[weaponID]['size'])

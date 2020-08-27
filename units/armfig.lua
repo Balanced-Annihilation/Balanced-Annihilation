@@ -11,9 +11,12 @@ return {
 		canmove = true,
 		category = "ALL MOBILE WEAPON NOTSUB ANTIFLAME ANTIEMG ANTILASER NOTLAND VTOL NOTSHIP NOTHOVER",
 		collide = false,
+		collisionvolumeoffsets = "0 0 0",
+		collisionvolumescales = "28 16 28",
+		collisionvolumetype = "box",
 		cruisealt = 110,
 		description = "Fighter",
-		explodeas = "SMALL_UNITEX",
+		explodeas = "small_unitex_air",
 		footprintx = 2,
 		footprintz = 2,
 		icontype = "air",
@@ -25,7 +28,7 @@ return {
 		nochasecategory = "NOTAIR",
 		objectname = "ARMFIG",
 		seismicsignature = 0,
-		selfdestructas = "SMALL_UNIT_AIR",
+		selfdestructas = "small_unit_AIR",
 		sightdistance = 200,
 		turnrate = 891,
 		blocking = false,
@@ -52,6 +55,8 @@ return {
 		},
 		weapondefs = {
 			armvtol_missile_a2a = {
+			cegtag = "missiletrailfighterarm",
+
 				areaofeffect = 48,
 				avoidfeature = false,
 				collidefriendly = false,
@@ -68,7 +73,8 @@ return {
 				noselfdamage = true,
 				range = 530,
 				reloadtime = 0.9,
-				smoketrail = true,
+								smoketrail = true,
+
 				soundhit = "xplosml2",
 				soundhitwet = "splshbig",
 				soundhitwetvolume = 0.5,

@@ -21,7 +21,7 @@ unitDef = {
   reclaimable         = false,
 	----------	
   defaultmissiontype  = [[Standby]],
-  --explodeAs           = [[MEDIUM_UNIT]],
+  --explodeAs           = [[big_unit]],
   footprintX          = 1,
   footprintZ          = 1,
   idleAutoHeal        = 0,  
@@ -37,7 +37,7 @@ unitDef = {
   noAutoFire          = false,
   noChaseCategory     = [[MOBILE STATIC]],
   objectName          = [[critter_penguin.s3o]], --
-  --selfDestructAs      = [[MEDIUM_UNIT]],
+  --selfDestructAs      = [[big_unit]],
   selfDestructCountdown = 0,
   upright=false,
   floater = true,

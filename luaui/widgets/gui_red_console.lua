@@ -41,10 +41,10 @@ local sGetModKeyState = Spring.GetModKeyState
 local spPlaySoundFile = Spring.PlaySoundFile
 local sGetMyPlayerID = Spring.GetMyPlayerID
 
-local Config = {
+local Confignew = {
 	console = {
-		px = 375,py = 35, --default start position
-		sx = 516, --background size
+		px = 420,py = 40, --default start position
+		sx = 460, --background size
 		
 		fontsize = 11.33,
 		
@@ -403,6 +403,19 @@ local function clipHistory(g,oneline)
 end
 
 local function convertColor(r,g,b)
+
+if tonumber(Spring.GetModOptions().anon_ffa) == 1 then --is fa
+
+				return schar(255, (90), (255), (90))
+
+			else
+				return schar(255, (r*255), (g*255), (b*255))
+
+			end
+
+end
+
+local function convertColorSpec(r,g,b)
 	return schar(255, (r*255), (g*255), (b*255))
 end
 
@@ -467,11 +480,18 @@ local function processLine(line,g,cfg,newlinecolor)
 		end		
     end
 	
+	
 	-- filter shadows config changes
 	if sfind(line,"^Set \"shadows\" config(-)parameter to ") then
 		ignoreThisMessage = true
 	end
 	
+	-- filter rude words
+	if tonumber(Spring.GetConfigInt("ProfanityFilter",1) or 1) == 1 then
+   if sfind(line,"cunt") or sfind(line,"fuc")or sfind(line,"nig")or sfind(line,"tard")or sfind(line,"shit")or sfind(line,"fag")or sfind(line,"autis")or sfind(line,"assh") then
+			ignoreThisMessage = true
+	end
+   end
 	
 	-- filter Sync error when its a spectator
 	if sfind(line,"^Sync error for ") then
@@ -502,6 +522,19 @@ local function processLine(line,g,cfg,newlinecolor)
 	  ignoreThisMessage = true
 	end
 	
+	if sfind(line,"Error:") then
+	  ignoreThisMessage = true
+	end
+	
+	if sfind(line,"stack traceback:") then
+	  ignoreThisMessage = true
+	end
+	
+	
+	if sfind(line,"smart_select") then
+		name = lastConnectionAttempt
+	  ignoreThisMessage = true
+	end
 	
 	if linetype==0 then
 		--filter out some engine messages; 
@@ -551,7 +584,7 @@ local function processLine(line,g,cfg,newlinecolor)
 			c = cfg.cspectext
 		end
 		
-		textcolor = convertColor(c[1],c[2],c[3])
+		textcolor = convertColorSpec(c[1],c[2],c[3])
 		local r,g,b,a = sGetTeamColor(names[name][3])
 		local namecolor = convertColor(r,g,b)
 		
@@ -561,7 +594,7 @@ local function processLine(line,g,cfg,newlinecolor)
 		
 	elseif (linetype==2) then --spectatormessage
 		local c = cfg.cothertext
-		local misccolor = convertColor(c[1],c[2],c[3])
+		local misccolor = convertColorSpec(c[1],c[2],c[3])
 		if (sfind(text,"Allies: ") == 1) then
 			text = ssub(text,9)
 			c = cfg.cspectext
@@ -569,9 +602,9 @@ local function processLine(line,g,cfg,newlinecolor)
 			text = ssub(text,13)
 			c = cfg.cspectext
 		end
-		textcolor = convertColor(c[1],c[2],c[3])
+		textcolor = convertColorSpec(c[1],c[2],c[3])
 		c = cfg.cspectext
-		local namecolor = convertColor(c[1],c[2],c[3])
+		local namecolor = convertColorSpec(c[1],c[2],c[3])
 		
 		line = namecolor.."(s) "..name..misccolor..": "..textcolor..text
 		
@@ -598,20 +631,20 @@ local function processLine(line,g,cfg,newlinecolor)
 		elseif (names[name][1] == MyAllyTeamID) then
 			c = cfg.callytext
 		end
-		textcolor = convertColor(c[1],c[2],c[3])
+		textcolor = convertColorSpec(c[1],c[2],c[3])
 		c = cfg.cothertext
-		local misccolor = convertColor(c[1],c[2],c[3])
+		local misccolor = convertColorSpec(c[1],c[2],c[3])
 		
 		line = namecolor..name..misccolor.." * "..textcolor..text
 		
 	elseif (linetype==4) then --gamemessage
 		local c = cfg.cgametext
-		textcolor = convertColor(c[1],c[2],c[3])
+		textcolor = convertColorSpec(c[1],c[2],c[3])
 		
 		line = textcolor.."> "..text
 	else --every other message
 		local c = cfg.cmisctext
-		textcolor = convertColor(c[1],c[2],c[3])
+		textcolor = convertColorSpec(c[1],c[2],c[3])
 		
 		line = textcolor..line
 	end
@@ -755,7 +788,7 @@ function widget:Initialize()
 	PassedStartupCheck = RedUIchecks()
 	if (not PassedStartupCheck) then return end
 	
-	console = createconsole(Config.console)
+	console = createconsole(Confignew.console)
 	Spring.SendCommands("console 0")
 	Spring.SendCommands('inputtextgeo 0.26 0.73 0.02 0.028')
 	AutoResizeObjects()
@@ -768,35 +801,35 @@ end
 function widget:Shutdown()
 	Spring.SendCommands("console 1")
 end
-
+local ready = 0
 function widget:AddConsoleLine(lines,priority)
 	lines = lines:match('^\[f=[0-9]+\] (.*)$') or lines
 	local textcolor
 	for line in lines:gmatch("[^\n]+") do
-		textcolor = processLine(line, console, Config.console, textcolor)[4]
+		textcolor = processLine(line, console, Confignew.console, textcolor)[4]
 	end
 	clipHistory(console,true)
 end
 
 function widget:Update()
-	updateconsole(console,Config.console)
+	updateconsole(console,Confignew.console)
 	AutoResizeObjects()
 end
 
 --save/load stuff
 --currently only position
-function widget:GetConfigData() --save config
+function widget:GetConfignewData() --save Confignew
 	if (PassedStartupCheck) then
 		local vsy = Screen.vsy
 		local unscale = CanvasY/vsy --needed due to autoresize, stores unresized variables
-		Config.console.px = console.background.px * unscale
-		Config.console.py = console.background.py * unscale
-		return {Config=Config}
+		Confignew.console.px = console.background.px * unscale
+		Confignew.console.py = console.background.py * unscale
+		return {Confignew=Confignew}
 	end
 end
-function widget:SetConfigData(data) --load config
-	if (data.Config ~= nil) then
-		Config.console.px = data.Config.console.px
-		Config.console.py = data.Config.console.py
+function widget:SetConfignewData(data) --load Confignew
+	if (data.Confignew ~= nil) then
+		Confignew.console.px = data.Confignew.console.px
+		Confignew.console.py = data.Confignew.console.py
 	end
 end

@@ -68,48 +68,7 @@ StartMoving()
 {
 	signal SIG_MOVE;
 	set-signal-mask SIG_MOVE;
-	while( TRUE )
-	{
-		if( Static_Var_1 == 1 )
-		{
-			emit-sfx 5 from wake1;
-			emit-sfx 5 from wake2;
-			emit-sfx 5 from wake3;
-			emit-sfx 5 from wake4;
-			emit-sfx 5 from wake5;
-			emit-sfx 5 from wake6;
-			emit-sfx 3 from wake7;
-			emit-sfx 3 from wake8;
-			emit-sfx 3 from wake1;
-			emit-sfx 3 from wake2;
-			emit-sfx 3 from wake3;
-			emit-sfx 3 from wake4;
-			emit-sfx 3 from wake5;
-			emit-sfx 3 from wake6;
-			emit-sfx 5 from wake7;
-			emit-sfx 5 from wake8;
-		}
-		if( Static_Var_1 == 2 )
-		{
-			emit-sfx 5 from wake1;
-			emit-sfx 5 from wake2;
-			emit-sfx 5 from wake3;
-			emit-sfx 5 from wake4;
-			emit-sfx 5 from wake5;
-			emit-sfx 5 from wake6;
-			emit-sfx 3 from wake7;
-			emit-sfx 3 from wake8;
-			emit-sfx 3 from wake1;
-			emit-sfx 3 from wake2;
-			emit-sfx 3 from wake3;
-			emit-sfx 3 from wake4;
-			emit-sfx 3 from wake5;
-			emit-sfx 3 from wake6;
-			emit-sfx 5 from wake7;
-			emit-sfx 5 from wake8;
-		}
-		sleep 300;
-	}
+	
 	return (0);
 }
 
@@ -128,6 +87,8 @@ setSFXoccupy(state)
 Create()
 {
 	hide flare;
+		turn flare to x-axis <-30> now;
+	move flare to z-axis [-0.2] now;
 	restore_delay = 3000;
 	start-script SmokeUnit();
 	return (0);
@@ -161,10 +122,10 @@ AimPrimary(heading, pitch)
 
 FirePrimary()
 {
-	show flare;
+		emit-sfx 1024 + 0 from flare;
+
 	move barrel to z-axis [-6.00000] speed [1250.00000];
 	sleep 150;
-	hide flare;
 	wait-for-move barrel along z-axis;
 	move barrel to z-axis [0.00000] speed [7.50000];
 	return (0);

@@ -168,7 +168,14 @@ local function GetTeamName(teamID)
 	local _, teamLeader = spGetTeamInfo(teamID)
 	if not teamLeader then return 'Error:NoLeader' end
 
-	local leaderName = spGetPlayerInfo(teamLeader)
+	local leaderName = ''
+	if tonumber(Spring.GetModOptions().anon_ffa) == 1 then --is fa
+		leaderName = ''
+
+	else
+		leaderName = spGetPlayerInfo(teamLeader)
+
+	end
 	return leaderName or 'Error:NoName'
 end
 
@@ -242,7 +249,7 @@ function widget:DrawScreen()
 	cY = my + yOffset
 	cYstart = cY
 	
-	local text = yellow .. uDef.humanName .. white .. "    " .. uDef.name .. "    (#" .. uID .. " , "..GetTeamColorCode(uTeam) .. GetTeamName(uTeam) .. white .. ")"
+	local text = yellow .. uDef.humanName .. white .. "    " .. uDef.name .. "    (#" .. uID .. " "..GetTeamColorCode(uTeam) .. GetTeamName(uTeam) .. white .. ")"
 	
 	local cornersize = 0
 	glColor(0,0,0,0.73)
@@ -342,7 +349,9 @@ function widget:DrawScreen()
 		maxHP = uMaxHp
 	end
 	if uExp ~= 0 then
-		DrawText("Exp:", format("+%d%% health", (uMaxHp/uDef.health-1)*100))
+		if(uMaxHp ~= nil) then
+			DrawText("Exp:", format("+%d%% health", (uMaxHp/uDef.health-1)*100))
+		end
 	end
 	DrawText("Open:", format("maxHP: %d", maxHP) )
 	if uDef.armoredMultiple ~= 1 then DrawText("Closed:", format(" +%d%%, maxHP: %d", (1/uDef.armoredMultiple-1) *100,maxHP/uDef.armoredMultiple)) end

@@ -28,11 +28,16 @@ return {
 		seismicsignature = 0,
 		selfdestructas = "ATOMIC_BLAST",
 		sightdistance = 273,
-		usebuildinggrounddecal = true,
+		usebuildinggrounddecal = false,
 		usepiececollisionvolumes = 1,
 		yardmap = "oooooooooooooooo",
 		customparams = {
 			canareaattack = 1,
+		},
+			sfxtypes = {
+			explosiongenerators = {
+				[1] = "custom:berthaflare",
+			},
 		},
 		featuredefs = {
 			dead = {
@@ -69,17 +74,12 @@ return {
 				hitdensity = 100,
 				metal = 1088,
 				object = "3X3E",
-                collisionvolumescales = "55.0 4.0 6.0",
-                collisionvolumetype = "cylY",
+                collisionvolumescales = "55.0 4.0 55.0",
+                collisionvolumetype = "box",
 				reclaimable = true,
 				resurrectable = 0,
 				seqnamereclamate = "TREE1RECLAMATE",
 				world = "All Worlds",
-			},
-		},
-		sfxtypes = {
-			explosiongenerators = {
-				[1] = "custom:berthaflare",
 			},
 		},
 		sounds = {
@@ -112,7 +112,8 @@ return {
 				craterboost = 0.1,
 				cratermult = 0.1,
 				energypershot = 3000,
-				explosiongenerator = "custom:FLASHBIGBUILDING",
+				explosiongenerator = "custom:genericshellexplosion-brtha",
+
 				gravityaffected = "true",
 				heightboostfactor = 8,
 				impulseboost = 0.5,

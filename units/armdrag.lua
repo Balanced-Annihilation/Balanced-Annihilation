@@ -16,7 +16,7 @@ return {
 		category = "ALL NOTLAND NOTSUB NOWEAPON NOTSHIP NOTAIR NOTHOVER SURFACE",
 		collisionvolumeoffsets = "0 0 0",
 		collisionvolumescales = "32 22 32",
-		collisionvolumetype = "CylY",
+		collisionvolumetype = "box",
 		corpse = "ROCKTEETH",
 		crushresistance = 250,
 		description = "Dragons Teeth",
@@ -33,7 +33,7 @@ return {
 		repairable = false,
 		seismicsignature = 0,
 		sightdistance = 1,
-		usebuildinggrounddecal = true,
+		usebuildinggrounddecal = false,
 		yardmap = "ffff",
 		featuredefs = {
 			rockteeth = {
@@ -49,8 +49,8 @@ return {
 				hitdensity = 100,
 				metal = 2,
 				object = "2X2A",
-                collisionvolumescales = "35.0 4.0 6.0",
-                collisionvolumetype = "cylY",
+                collisionvolumescales = "35.0 4.0 35.0",
+                collisionvolumetype = "box",
 				reclaimable = true,
 				resurrectable = 0,
 				shadtrans = 1,

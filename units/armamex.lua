@@ -16,7 +16,7 @@ return {
 		cloakcost = 12,
 		collisionvolumeoffsets = "0 0 0",
 		collisionvolumescales = "49 26 49",
-		collisionvolumetype = "CylY",
+		collisionvolumetype = "box",
 		corpse = "DEAD",
 		description = "Stealthy Cloakable Metal Extractor",
 		explodeas = "TWILIGHT",
@@ -40,7 +40,7 @@ return {
 		selfdestructcountdown = 1,
 		sightdistance = 286,
 		stealth = true,
-		usebuildinggrounddecal = true,
+		usebuildinggrounddecal = false,
 		yardmap = "ooooooooo",
 		featuredefs = {
 			dead = {
@@ -76,8 +76,8 @@ return {
 				hitdensity = 100,
 				metal = 41,
 				object = "3X3A",
-                collisionvolumescales = "55.0 4.0 6.0",
-                collisionvolumetype = "cylY",
+                collisionvolumescales = "55.0 4.0 55.0",
+                collisionvolumetype = "box",
 				reclaimable = true,
 				resurrectable = 0,
 				seqnamereclamate = "TREE1RECLAMATE",

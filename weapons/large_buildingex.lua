@@ -3,7 +3,7 @@ return {
 		areaofeffect = 340,
 		craterboost = 0,
 		cratermult = 0,
-		explosiongenerator = "custom:FLASHBIGBUILDINGEX",
+		explosiongenerator = "custom:genericbuildingexplosion-large",
 		impulseboost = 0.12300000339746,
 		impulsefactor = 0.12300000339746,
 		name = "Largebuilding",

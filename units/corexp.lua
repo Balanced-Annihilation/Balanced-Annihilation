@@ -15,7 +15,7 @@ return {
 		category = "ALL NOTLAND NOTSUB ANTIEMG NOWEAPON NOTSHIP NOTAIR NOTHOVER SURFACE",
 		collisionvolumeoffsets = "0 -5 0",
 		collisionvolumescales = "40 51 40",
-		collisionvolumetype = "CylY",
+		collisionvolumetype = "box",
 		corpse = "DEAD",
 		description = "Armed Metal Extractor",
 		explodeas = "MEDIUM_BUILDINGEX",
@@ -36,7 +36,7 @@ return {
 		seismicsignature = 0,
 		selfdestructcountdown = 1,
 		sightdistance = 455,
-		usebuildinggrounddecal = true,
+		usebuildinggrounddecal = false,
 		yardmap = "ooooooooo",
 		featuredefs = {
 			dead = {
@@ -73,8 +73,8 @@ return {
 				hitdensity = 100,
 				metal = 49,
 				object = "3X3A",
-                collisionvolumescales = "55.0 4.0 6.0",
-                collisionvolumetype = "cylY",
+                collisionvolumescales = "55.0 4.0 55.0",
+                collisionvolumetype = "box",
 				reclaimable = true,
 				resurrectable = 0,
 				seqnamereclamate = "TREE1RECLAMATE",

@@ -17,7 +17,7 @@ return {
 		category = "ALL NOTLAND NOTSUB NOWEAPON NOTSHIP NOTAIR NOTHOVER SURFACE",
 		collisionvolumeoffsets = "0 -4 0",
 		collisionvolumescales = "32 52 32",
-		collisionvolumetype = "CylY",
+		collisionvolumetype = "box",
 		corpse = "ROCKTEETHX",
 		crushresistance = 1000,
 		description = "Perimeter Defense",
@@ -34,7 +34,7 @@ return {
 		repairable = false,
 		seismicsignature = 0,
 		sightdistance = 1,
-		usebuildinggrounddecal = true,
+		usebuildinggrounddecal = false,
 		yardmap = "ffff",
 		featuredefs = {
 			rockteethx = {
@@ -50,8 +50,8 @@ return {
 				hitdensity = 100,
 				metal = 7,
 				object = "2X2A",
-                collisionvolumescales = "35.0 4.0 6.0",
-                collisionvolumetype = "cylY",
+                collisionvolumescales = "35.0 4.0 35.0",
+                collisionvolumetype = "box",
 				reclaimable = true,
 				shadtrans = 1,
 				world = "greenworld",

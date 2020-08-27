@@ -7,7 +7,7 @@ piece  support, flare, Thigh1, Thigh2, Torso, Shoulder, Barrel, Foot2,
        Foot1, Forearm, Leg2, Leg1, ground;
 
 static-var  bMoving, bAiming, Static_Var_3, restore_delay, Static_Var_5,
-            Static_Var_6;
+            Static_Var_6, wpn1_lasthead;
 
 // Signal definitions
 #define SIG_AIM				2
@@ -354,6 +354,8 @@ Create()
 	bAiming = FALSE;
 	Static_Var_3 = 1;
 	hide flare;
+	turn flare to x-axis <-30> now;
+	move flare to z-axis [-0.8] now;
 	dont-cache flare;
 	restore_delay = 2000;
 	start-script SmokeUnit();
@@ -387,10 +389,13 @@ SweetSpot(piecenum)
 
 RestoreAfterDelay()
 {
+	set-signal-mask SIG_AIM;
 	sleep restore_delay;
 	turn Torso to y-axis <0.000000> speed <90.021978>;
 	turn support to x-axis <0.000000> speed <45.010989>;
+	wait-for-turn Torso around y-axis;
 	bAiming = FALSE;
+	wpn1_lasthead = 1000000;
 	return (0);
 }
 
@@ -413,12 +418,11 @@ AimPrimary(heading, pitch)
 
 FirePrimary()
 {
-	move Barrel to z-axis [-12.500000] speed [1250.000000];
-	show flare;
+	move Barrel to z-axis [-2.5000] speed [1250.000000];
+	emit-sfx 1024 + 0 from flare;
 	sleep 150;
 	turn Torso to x-axis <-10.000000> speed <500.120879>;
 	sleep 150;
-	hide flare;
 	turn Torso to x-axis <0.000000> speed <20.000000>;
 	move Barrel to z-axis [0.000000] speed [7.500000];
 	return (0);

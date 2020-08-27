@@ -24,3 +24,31 @@ for name,ud in pairs(UnitDefs) do
       SaveDefToCustomParams("UnitDefs", name, ud)    
   end
 end
+
+local function disableunits(unitlist)
+  for name, ud in pairs(UnitDefs) do
+    if (ud.buildoptions) then
+      for _, toremovename in ipairs(unitlist) do
+        for index, unitname in pairs(ud.buildoptions) do
+          if (unitname == toremovename) then
+	    Spring.Echo("Unit removed :-  " .. toremovename)
+            table.remove(ud.buildoptions, index)
+          end
+        end
+      end
+    end
+  end
+end
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+----Disable superunits
+--------------------------------------------------------------------------------
+if (tonumber(Spring.GetModOptions().allow_buzz) == 0) then
+  disableunits({
+	"corbuzz", "armvulc"
+  })
+end

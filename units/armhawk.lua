@@ -11,9 +11,12 @@ return {
 		canmove = true,
 		category = "ALL NOTLAND MOBILE WEAPON NOTSUB ANTIFLAME ANTIEMG ANTILASER VTOL NOTSHIP NOTHOVER",
 		collide = false,
+		collisionvolumeoffsets = "0 0 0",
+		collisionvolumescales = "24 16 24",
+		collisionvolumetype = "box",
 		cruisealt = 160,
 		description = "Stealth Fighter",
-		explodeas = "BIG_UNITEX",
+		explodeas = "big_unitex_air",
 		footprintx = 2,
 		footprintz = 2,
 		icontype = "air",
@@ -25,7 +28,7 @@ return {
 		nochasecategory = "NOTAIR",
 		objectname = "ARMHAWK",
 		seismicsignature = 0,
-		selfdestructas = "SMALL_UNIT_AIR",
+		selfdestructas = "small_unit_AIR",
 		sightdistance = 200,
 		stealth = true,
 		turnrate = 1425,
@@ -53,6 +56,8 @@ return {
 		},
 		weapondefs = {
 			armvtol_advmissile = {
+			cegtag = "missiletrailfighterarm",
+
 				areaofeffect = 8,
 				avoidfeature = false,
 				collidefriendly = false,

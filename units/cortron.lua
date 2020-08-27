@@ -14,7 +14,7 @@ return {
 		category = "ALL NOTLAND WEAPON NOTSUB NOTSHIP NOTAIR NOTHOVER SURFACE",
 		collisionvolumeoffsets = "0 0 0",
 		collisionvolumescales = "59 47 59",
-		collisionvolumetype = "CylY",
+		collisionvolumetype = "box",
 		corpse = "DEAD",
 		description = "Tactical Nuke Launcher",
 		explodeas = "ATOMIC_BLAST",
@@ -31,7 +31,7 @@ return {
 		seismicsignature = 0,
 		selfdestructas = "NUCLEAR_MISSILE",
 		sightdistance = 455,
-		usebuildinggrounddecal = true,
+		usebuildinggrounddecal = false,
 		yardmap = "oooooooooooooooo",
 		featuredefs = {
 			dead = {
@@ -68,8 +68,8 @@ return {
 				hitdensity = 100,
 				metal = 178,
 				object = "3X3A",
-                collisionvolumescales = "55.0 4.0 6.0",
-                collisionvolumetype = "cylY",
+                collisionvolumescales = "55.0 4.0 55.0",
+                collisionvolumetype = "box",
 				reclaimable = true,
 				resurrectable = 0,
 				seqnamereclamate = "TREE1RECLAMATE",
@@ -103,6 +103,8 @@ return {
 				avoidfeature = false,
 				avoidfriendly = false,
 				collidefriendly = false,
+				cegtag = "cruisemissiletrail-tacnuke",
+
 				commandfire = true,
 				craterareaofeffect = 512,
 				craterboost = 1.6,

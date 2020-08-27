@@ -16,20 +16,21 @@ local CanvasX,CanvasY = 1280,734 --resolution in which the widget was made (for 
 
 
 --todo: sy adjustment
-
+local vsx,vsy = Spring.GetViewGeometry()
+		local ui_scale = 1
 local Config = {
 	tooltip = {
 		px = -0.5,py = CanvasY-82, --default start position
-		sx = 270,sy = 82, --background size
+		sx = 242,sy = 86, --background size
 		
-		fontsize = 10.5,
+		fontsize = 12,
 		
-		padding = 4,
+		padding = 0,
 		color2 = {1,1,1,0.022},
 		
 		margin = 11, --distance from background border
 		
-		cbackground = {0,0,0,0.6}, --color {r,g,b,alpha}
+		cbackground = {0,0,0,0.66}, --color {r,g,b,alpha}
 		cborder = {0,0,0,0.2},
 		
 		dragbutton = {2,3}, --middle mouse button
@@ -48,6 +49,14 @@ local sGetCurrentTooltip = Spring.GetCurrentTooltip
 local sGetSelectedUnitsCount = Spring.GetSelectedUnitsCount
 
 local GaiaTeamID  = Spring.GetGaiaTeamID()
+
+local isFa
+
+if tonumber(Spring.GetModOptions().anon_ffa) == 1 then --is fa
+	isFa = true
+end
+
+
 
 
 local function IncludeRedUIFrameworkFunctions()
@@ -126,6 +135,11 @@ local function AutoResizeObjects() --autoresize v2
 end
 local function getEditedCurrentTooltip() 
 	local text = sGetCurrentTooltip() 
+	
+	
+	
+	
+	
 	--extract the exp value with regexp 
 	local expPattern = "Experience (%d+%.%d%d)" 
 	local currentExp = tonumber(text:match(expPattern)) 
@@ -137,7 +151,7 @@ local function createtooltip(r)
 	local text = {"text",
 		px=r.px+r.margin,py=r.py+(r.margin/1.5),
 		fontsize=r.fontsize,
-		color={1,1,1,0.3},
+		--color={1,1,1,0.3},
 		caption="",
 		options="o",
 		
@@ -152,7 +166,35 @@ local function createtooltip(r)
 			if (self._mouseoverself) then
 				self.caption = self.caption..r.tooltip.background
 			else
-				self.caption = self.caption..(getEditedCurrentTooltip() or sGetCurrentTooltip()) 
+			
+			
+				local text = getEditedCurrentTooltip() or sGetCurrentTooltip()
+				
+				
+	
+				
+				
+				if isFa == true then --is fa
+					lines = {}
+					for s in text:gmatch("[^\r\n]+") do
+						table.insert(lines, s)
+					end
+					if(table.getn(lines) == 2) then
+						self.caption = "\n" 
+					elseif (table.getn(lines) == 5) then
+						self.caption = self.caption..lines[2].."\n"..lines[3].."\n"..lines[4] 
+					else
+						self.caption = text
+					end
+				else
+					if (self._mouseoverself) then
+						self.caption = self.caption..r.tooltip.background
+					else
+						self.caption = self.caption..(text) 
+					end
+				end
+				
+				
 			end
 		end
 	}
@@ -264,15 +306,19 @@ local function createtooltip(r)
 	}
 end
 
+
 function widget:Initialize()
 	PassedStartupCheck = RedUIchecks()
 	if (not PassedStartupCheck) then return end
 	
 	tooltip = createtooltip(Config.tooltip)
-		
+		if WG['Red'].font then
+		font = WG['Red'].font
+	end
 	Spring.SetDrawSelectionInfo(false) --disables springs default display of selected units count
 	Spring.SendCommands("tooltip 0")
 	AutoResizeObjects()
+	
 end
 
 function widget:Shutdown()

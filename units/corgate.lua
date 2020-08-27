@@ -16,7 +16,7 @@ return {
 		category = "ALL NOTLAND NOTSUB NOWEAPON NOTSHIP NOTAIR NOTHOVER SURFACE",
 		collisionvolumeoffsets = "0 -4 1",
 		collisionvolumescales = "57 38 57",
-		collisionvolumetype = "CylY",
+		collisionvolumetype = "box",
 		corpse = "DEAD",
 		description = "Plasma Deflector",
 		energystorage = 1500,
@@ -35,7 +35,7 @@ return {
 		seismicsignature = 0,
 		selfdestructas = "MINE_NUKE",
 		sightdistance = 273,
-		usebuildinggrounddecal = true,
+		usebuildinggrounddecal = false,
 		yardmap = "oooooooooooooooo",
 		featuredefs = {
 			dead = {
@@ -72,8 +72,8 @@ return {
 				hitdensity = 100,
 				metal = 971,
 				object = "2X2E",
-                collisionvolumescales = "35.0 4.0 6.0",
-                collisionvolumetype = "cylY",
+                collisionvolumescales = "35.0 4.0 35.0",
+                collisionvolumetype = "box",
 				reclaimable = true,
 				resurrectable = 0,
 				seqnamereclamate = "TREE1RECLAMATE",
@@ -103,6 +103,7 @@ return {
 		},
 		weapondefs = {
 			repulsor = {
+			
 				avoidfeature = false,
 				craterareaofeffect = 0,
 				craterboost = 0,
@@ -116,7 +117,7 @@ return {
 					default = 100,
 				},
 				shield = {
-					alpha = 0.5,
+					alpha = 0.4,
 					energyuse = 0,
 					force = 2.5,
 					intercepttype = 1,

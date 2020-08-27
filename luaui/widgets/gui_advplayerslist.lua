@@ -426,7 +426,7 @@ m_resources = {
 	name 	    = "resources",
 	spec      = true,
 	play      = true,
-	active    = true,
+	active    = false,
 	width     = 28,
 	position  = position,
 	posX      = 0,
@@ -1047,10 +1047,12 @@ function CreatePlayerFromTeam(teamID) -- for when we don't have a human player o
 	if aliveAllyTeams[tallyteam] ~= nil  and  (mySpecStatus or myAllyTeamID == tallyteam) then
 		energy, energyStorage,_, energyIncome = Spring_GetTeamResources(teamID, "energy")
 		metal, metalStorage,_, metalIncome = Spring_GetTeamResources(teamID, "metal")
+		if((energy ~= nil) and (metal ~= nil)) then
 		energy = math.floor(energy)
 		metal = math.floor(metal)
 		if energy < 0 then energy = 0 end
 		if metal < 0 then metal = 0 end
+		end
 	end
 	
 	return{
@@ -1533,7 +1535,7 @@ function CreateBackground()
 		gl_Color(0,0,0,0.6)
 		RectRound(BLcornerX,BLcornerY,TRcornerX,TRcornerY,6)
 		
-		local padding = 2.75
+		local padding = 0
 		gl_Color(1,1,1,0.022)
 		RectRound(BLcornerX+padding,BLcornerY+padding,TRcornerX-padding,TRcornerY-padding,padding)
 		
@@ -1852,7 +1854,7 @@ function DrawPlayer(playerID, leader, vOffset, mouseX, mouseY)
 				end
 			end
 			if playerScores[playerID] ~= nil then
-				DrawChips(playerID, posY)
+				--DrawChips(playerID, posY)
 			end
 			DrawSmallName(name, team, posY, false, playerID, alpha)
 		end		
@@ -1965,6 +1967,10 @@ function DrawChips(playerID, posY)
 end
 
 function DrawSidePic(team, playerID, posY, leader, dark, ai)
+
+	if tonumber(Spring.GetModOptions().anon_ffa) == 1 then --is fa
+	else
+
 	if gameStarted then
 		if leader == true then
 			gl_Texture(sidePics[team])                       -- sets side image (for leaders)
@@ -1986,6 +1992,7 @@ function DrawSidePic(team, playerID, posY, leader, dark, ai)
 		gl_Texture(false)
 	else
 		DrawState(playerID, m_side.posX + widgetPosX, posY)
+	end
 	end
 end
 
@@ -2083,7 +2090,14 @@ function colourNames(teamID)
         if ( B255%10 == 0) then
                 B255 = B255+1
         end
-	return "\255"..string.char(R255)..string.char(G255)..string.char(B255) --works thanks to zwzsg
+		
+	
+if tonumber(Spring.GetModOptions().anon_ffa) == 1 then --is fa
+		return "\255"..string.char(90)..string.char(255)..string.char(90) --works thanks to zwzsg
+	else
+		return "\255"..string.char(R255)..string.char(G255)..string.char(B255) --works thanks to zwzsg
+	end
+
 end 
 
 function DrawState(playerID, posX, posY)
@@ -2133,8 +2147,13 @@ function DrawName(name, team, posY, dark, playerID)
         end
     end
     local nameText = name .. willSub  
-    
-    local nameColourR,nameColourG,nameColourB,nameColourA = Spring_GetTeamColor(team)
+    local nameColourR,nameColourG,nameColourB,nameColourA = 0;
+if tonumber(Spring.GetModOptions().anon_ffa) == 1 then --is fa
+		nameColourR,nameColourG,nameColourB,nameColourA = 0.35,1,0.35,1
+		else
+		nameColourR,nameColourG,nameColourB,nameColourA = Spring_GetTeamColor(team)
+	end
+
     local xPadding = 0
     
     -- includes readystate icon if factions arent shown

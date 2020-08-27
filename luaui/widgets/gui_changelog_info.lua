@@ -377,7 +377,7 @@ function DrawWindow()
 	font:End()
 	
 	-- version links
-	DrawSidebar(x, y, 70, screenHeight)
+	--DrawSidebar(x, y, 70, screenHeight)
 	
 	-- textarea
 	DrawTextarea(x+90, y-10, screenWidth-90, screenHeight-24, 1)
@@ -389,18 +389,18 @@ function widget:DrawScreen()
     if amNewbie and not gameStarted then return end
     
     -- draw the button
-    if not buttonGL then
-        buttonGL = gl.CreateList(DrawButton)
-    end
+    --if not buttonGL then
+    --    buttonGL = gl.CreateList(DrawButton)
+    --end
     
-    glLineWidth(lineWidth)
+    --glLineWidth(lineWidth)
 
-    glPushMatrix()
-        glTranslate(posX*vsx, posY*vsy, 0)
-        glScale(17*widgetScale, 17*widgetScale, 1)
-		glColor(0, 0, 0, (0.3*bgColorMultiplier))
-        glCallList(buttonGL)
-    glPopMatrix()
+   -- glPushMatrix()
+   --     glTranslate(posX*vsx, posY*vsy, 0)
+    --    glScale(17*widgetScale, 17*widgetScale, 1)
+	--	glColor(0, 0, 0, (0.3*bgColorMultiplier))
+    --    glCallList(buttonGL)
+    --glPopMatrix()
 
     glColor(1, 1, 1, 1)
     glLineWidth(1)
@@ -589,6 +589,8 @@ function mouseEvent(x, y, button, release)
 				end]]--
 				
 				-- version buttons
+				
+				--[[
 				if button == 1 and release then
 					local yOffset = 24
 					local usedScreenX = (vsx*0.5) - ((screenWidth/2)*widgetScale)
@@ -629,6 +631,8 @@ function mouseEvent(x, y, button, release)
 					end
 					return true
 				end
+				]]--
+				
 				
 				if button == 1 or button == 3 then
 					return true
@@ -641,14 +645,14 @@ function mouseEvent(x, y, button, release)
 				return true
 			end
     else
-			tx = (x - posX*vsx)/(17*widgetScale)
-			ty = (y - posY*vsy)/(17*widgetScale)
-			if tx < 0 or tx > 4.5 or ty < 0 or ty > 1.05 then return false end
-			if release then
-				showOnceMore = show		-- show once more because the guishader lags behind, though this will not fully fix it
-				show = not show
-			end
-			return true
+			--tx = (x - posX*vsx)/(17*widgetScale)
+			--ty = (y - posY*vsy)/(17*widgetScale)
+			--if tx < 0 or tx > 4.5 or ty < 0 or ty > 1.05 then return false end
+			--if release then
+			--	showOnceMore = show		-- show once more because the guishader lags behind, though this will not fully fix it
+			--	show = not show
+			--end
+			--return true
     end
 end
 
@@ -661,6 +665,19 @@ end
 
 function widget:Initialize()
 	if changelogFile then
+		
+		WG['changelog'] = {}
+		WG['changelog'].toggle = function(state)
+			if state ~= nil then
+				show = state
+			else
+				show = not show
+			end
+		end
+		WG['changelog'].isvisible = function()
+			return show
+		end
+		
 		-- somehow there are a few characters added at the start that we need to remove
 		changelogFile = string.sub(changelogFile, 4)
 		

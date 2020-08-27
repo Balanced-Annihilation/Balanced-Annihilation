@@ -177,16 +177,7 @@ StartMoving()
 {
 	signal SIG_MOVE;
 	set-signal-mask SIG_MOVE;
-	var waketime;
-	start-script waveSplash();
-	while( TRUE )
-	{
-		emit-sfx 2 from Wake1;
-		emit-sfx 2 from Wake2;
-		waketime = (get CURRENT_SPEED) * 100 / get MAX_SPEED;
-		if( waketime < 50 ) waketime = 50;
-		sleep 15000 / waketime;
-	}
+	
 }
 
 StopMoving()

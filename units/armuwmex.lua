@@ -32,7 +32,7 @@ return {
 		seismicsignature = 0,
 		selfdestructcountdown = 1,
 		sightdistance = 182,
-		usebuildinggrounddecal = true,
+		usebuildinggrounddecal = false,
 		yardmap = "ooooooooo",
 		featuredefs = {
 			dead = {
@@ -67,8 +67,8 @@ return {
 				hitdensity = 100,
 				metal = 14,
 				object = "3X3D",
-                collisionvolumescales = "55.0 4.0 6.0",
-                collisionvolumetype = "cylY",
+                collisionvolumescales = "55.0 4.0 55.0",
+                collisionvolumetype = "box",
 				reclaimable = true,
 				resurrectable = 0,
 				seqnamereclamate = "TREE1RECLAMATE",

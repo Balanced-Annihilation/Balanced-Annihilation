@@ -3,7 +3,7 @@ function gadget:GetInfo()
   return {
 	name 	= "Target on the move",
 	desc	= "Adds a command to set a priority attack target",
-	author	= "Google Frog, adapted for BA by BrainDamage",
+	author	= "Google Frog, adapted for BA by BrainDamage, added remove on Dgun by doo",
 	date	= "06/05/2013",
 	license	= "GNU GPL, v2 or later",
 	layer	= 0,
@@ -81,7 +81,7 @@ local tremove					= table.remove
 local diag						= math.diag
 
 local CMD_STOP					= CMD.STOP
-
+local CMD_DGUN					= CMD.DGUN
 
 local SlowUpdate				= 15
 
@@ -107,7 +107,7 @@ for i=1, #UnitDefs do
 end
 
 unitTargets = {} -- data holds all unitID data
-
+pausedTargets = {}
 --------------------------------------------------------------------------------
 -- Commands
 
@@ -168,6 +168,11 @@ local function AreUnitsAllied(unitID,targetID)
 	return ownTeam and enemyTeam and spAreTeamsAllied(ownTeam,enemyTeam)
 end
 
+local function locationInRange(unitID, x, y, z, range)
+	local ux, uy, uz = spGetUnitPosition(unitID)
+	return range and ((ux - x)^2 + (uz - z)^2) < range^2
+end
+
 local function TargetCanBeReached(unitID, teamID, weaponList, target)
 	for weaponID in pairs(weaponList) do
 		--GetUnitWeaponTryTarget tests both target type validity and target to be reachable for the moment
@@ -175,10 +180,12 @@ local function TargetCanBeReached(unitID, teamID, weaponList, target)
 			return weaponID
 		--FIXME: GetUnitWeaponTryTarget is broken in 99.0 for ground targets, yet spGetUnitWeaponTestTarget, spGetUnitWeaponTestRange and spGetUnitWeaponHaveFreeLineOfFire individually work
 		-- replace back with a single function when fixed
-		elseif not tonumber(target) and CallAsTeam(teamID, spGetUnitWeaponTestTarget, unitID, weaponID, target[1], target[2], target[3]) and
-			CallAsTeam(teamID, spGetUnitWeaponTestRange, unitID, weaponID, target[1], target[2], target[3]) and
-			CallAsTeam(teamID, spGetUnitWeaponHaveFreeLineOfFire, unitID, weaponID, target[1], target[2], target[3]) then
+		elseif not tonumber(target) and CallAsTeam(teamID, spGetUnitWeaponTestTarget, unitID, weaponID, target[1], target[2], target[3]) and CallAsTeam(teamID, spGetUnitWeaponTestRange, unitID, weaponID, target[1], target[2], target[3]) then
+			if CallAsTeam(teamID, spGetUnitWeaponHaveFreeLineOfFire, unitID, weaponID, nil,nil,nil, target[1], target[2], target[3]) then
 				return weaponID
+			elseif CallAsTeam(teamID, spGetUnitWeaponHaveFreeLineOfFire, unitID, weaponID, target[1], target[2], target[3]) then
+				return weaponID
+			end
 		end
 	end
 end
@@ -285,13 +292,13 @@ local function addUnitTargets(unitID, unitDefID, targets, append)
 	end
 end
 
-local function removeUnit(unitID)
+local function removeUnit(unitID, keeptrack)
 	spSetUnitTarget(unitID,nil)
 	spSetUnitRulesParam(unitID,"targetID",-1)
 	spSetUnitRulesParam(unitID,"targetCoordX",-1)
 	spSetUnitRulesParam(unitID,"targetCoordY",-1)
 	spSetUnitRulesParam(unitID,"targetCoordZ",-1)
-	if unitTargets[unitID] then
+	if unitTargets[unitID] and not keeptrack == true then
 		SendToUnsynced("targetList",unitID,0)
 	end
 	unitTargets[unitID] = nil
@@ -360,7 +367,7 @@ local function processCommand(unitID, unitDefID, teamID, cmdID, cmdParams, cmdOp
 	if cmdID == CMD_UNIT_SET_TARGET_NO_GROUND or cmdID == CMD_UNIT_SET_TARGET or cmdID == CMD_UNIT_SET_TARGET_RECTANGLE then
 		if validUnits[unitDefID] then
 			local weaponList = UnitDefs[unitDefID].weapons
-			local append = cmdOptions.shift
+			local append = cmdOptions.shift or false
 			local userTarget = not cmdOptions.internal
 			local ignoreStop = cmdOptions.ctrl
 			if #cmdParams > 3 and not (#cmdParams == 4 and cmdParams[4] == 0) then
@@ -512,6 +519,10 @@ function gadget:UnitCmdDone(unitID, unitDefID, teamID, cmdID, cmdTag, cmdParams,
 		if unitTargets[unitID] and not unitTargets[unitID].ignoreStop then
 			removeUnit(unitID)
 		end
+	elseif cmdID == CMD_DGUN then
+		if pausedTargets[unitID] then
+			addUnitTargets(unitID, Spring.GetUnitDefID(unitID), pausedTargets[unitID].targets, true)
+		end			
 	end
 end
 
@@ -523,6 +534,11 @@ function gadget:AllowCommand(unitID, unitDefID, teamID, cmdID, cmdParams, cmdOpt
 			if unitTargets[unitID] and not unitTargets[unitID].ignoreStop then
 				removeUnit(unitID)
 			end
+		elseif cmdID == CMD_DGUN then
+			if unitTargets[unitID] then
+				pausedTargets[unitID] = unitTargets[unitID]
+				removeUnit(unitID, true)
+			end			
 		end
 	end
 	return true  -- command was not used OR was used but not fully processed, so don't block command
@@ -694,11 +710,6 @@ function handleTargetChangeEvent(_,unitID,dataA,dataB,dataC)
     return true
 end
 
-local function pos2func(unitID)
-	local _,_,_,_,_,_,x2,y2,z2 = spGetUnitPosition(unitID,true,true)
-	return x2,y2,z2
-end
-
 local function drawTargetCommand(targetData,spectator,myTeam,myAllyTeam)
 	if targetData and targetData.userTarget and tonumber(targetData.target) and spValidUnitID(targetData.target) then
 		--single unit target
@@ -707,9 +718,16 @@ local function drawTargetCommand(targetData,spectator,myTeam,myAllyTeam)
 			glVertex(x2,y2,z2)
 		else
 			local los = spGetUnitLosState(targetData.target, myAllyTeam, false)
-			if los and (los.los or los.radar) then
-				-- check teams los for target
-				glVertex(CallAsTeam(myTeam, pos2func, targetData.target))
+			if not los then
+				return
+			end
+			local _,_,_,_,_,_,x2,y2,z2 = spGetUnitPosition(targetData.target,true,true)
+			if los.los then
+				glVertex( x2, y2, z2)
+			elseif los.radar then
+				local dx, dy, dz = Spring.GetUnitPosErrorParams(targetData.target)
+				local size = Spring.GetRadarErrorParams(myAllyTeam)
+				glVertex( x2+dx*size,y2+dy*size,z2+dz*size)
 			end
 		end
 	elseif targetData and targetData.userTarget and not tonumber(targetData.target) and targetData.target then

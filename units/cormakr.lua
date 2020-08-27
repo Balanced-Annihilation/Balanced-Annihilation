@@ -31,7 +31,7 @@ return {
 		seismicsignature = 0,
 		selfdestructas = "ARMESTOR_BUILDING",
 		sightdistance = 273,
-		usebuildinggrounddecal = true,
+		usebuildinggrounddecal = false,
 		yardmap = "oooooooooooo",
 		sounds = {
 			activate = "metlon2",

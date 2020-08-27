@@ -37,7 +37,7 @@ return {
 		stealth = true,
 		turnrate = 0,
 		upright = true,
-		usebuildinggrounddecal = true,
+		usebuildinggrounddecal = false,
 		featuredefs = {
 			dead = {
 				autoreclaimable = 0,
@@ -74,8 +74,8 @@ return {
 				hitdensity = 100,
 				metal = 2,
 				object = "2X2A",
-                collisionvolumescales = "35.0 4.0 6.0",
-                collisionvolumetype = "cylY",
+                collisionvolumescales = "35.0 4.0 35.0",
+                collisionvolumetype = "box",
 				reclaimable = true,
 				shadtrans = 1,
 				world = "greenworld",

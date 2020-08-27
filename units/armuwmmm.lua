@@ -33,7 +33,7 @@ return {
 		seismicsignature = 0,
 		selfdestructas = "ATOMIC_BLAST",
 		sightdistance = 156,
-		usebuildinggrounddecal = true,
+		usebuildinggrounddecal = false,
 		waterline = 5,
 		yardmap = "oooooooooooooooooooo",
 		featuredefs = {
@@ -71,7 +71,7 @@ return {
 				hitdensity = 100,
 				metal = 99,
 				object = "4X4C",
-                collisionvolumescales = "85.0 14.0 6.0",
+                collisionvolumescales = "85.0 14.0 85.0",
                 collisionvolumetype = "cylY",
 				reclaimable = true,
 				resurrectable = 0,

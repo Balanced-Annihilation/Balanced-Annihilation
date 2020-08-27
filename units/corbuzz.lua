@@ -14,7 +14,7 @@ return {
 		category = "ALL NOTLAND WEAPON NOTSUB NOTSHIP NOTAIR NOTHOVER SURFACE",
 		collisionvolumeoffsets = "0 -14 0",
 		collisionvolumescales = "80 162 80",
-		collisionvolumetype = "CylY",
+		collisionvolumetype = "box",
 		corpse = "DEAD",
 		description = "Rapid-Fire Long-Range Plasma Cannon",
 		explodeas = "RLRPC_DEATH",
@@ -32,7 +32,7 @@ return {
 		seismicsignature = 0,
 		selfdestructas = "RLRPC_DEATH",
 		sightdistance = 700,
-		usebuildinggrounddecal = true,
+		usebuildinggrounddecal = false,
 		yardmap = "oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo",
 		featuredefs = {
 			dead = {
@@ -112,7 +112,7 @@ return {
 				cratermult = 0.1,
 				edgeeffectiveness = 0.8,
 				energypershot = 15725,
-				explosiongenerator = "custom:FLASHBIGBUILDING",
+				explosiongenerator = "custom:genericshellexplosion-brtha",
 				gravityaffected = "true",
 				impulseboost = 0.5,
 				impulsefactor = 0.5,

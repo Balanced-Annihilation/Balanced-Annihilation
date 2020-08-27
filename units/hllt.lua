@@ -14,7 +14,7 @@ return {
 		category = "ALL NOTLAND WEAPON NOTSUB NOTSHIP NOTAIR NOTHOVER SURFACE",
 		collisionvolumeoffsets = "0 1 0",
 		collisionvolumescales = "32 100 32",
-		collisionvolumetype = "CylY",
+		collisionvolumetype = "box",
 		corpse = "DEAD",
 		description = "Anti-Swarm Double LLT",
 		energystorage = 60,
@@ -32,7 +32,7 @@ return {
 		seismicsignature = 0,
 		selfdestructas = "MEDIUM_BUILDING",
 		sightdistance = 475,
-		usebuildinggrounddecal = true,
+		usebuildinggrounddecal = false,
 		yardmap = "oooo",
 		featuredefs = {
 			dead = {
@@ -69,8 +69,8 @@ return {
 				hitdensity = 100,
 				metal = 48,
 				object = "4X4D",
-                collisionvolumescales = "85.0 14.0 6.0",
-                collisionvolumetype = "cylY",
+                collisionvolumescales = "85.0 14.0 85.0",
+                collisionvolumetype = "box",
 				reclaimable = true,
 				resurrectable = 0,
 				seqnamereclamate = "TREE1RECLAMATE",

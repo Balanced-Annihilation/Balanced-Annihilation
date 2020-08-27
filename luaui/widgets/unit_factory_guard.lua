@@ -37,8 +37,10 @@ local spGetUnitPosition    = Spring.GetUnitPosition
 local spGetUnitRadius      = Spring.GetUnitRadius
 local spGiveOrderToUnit    = Spring.GiveOrderToUnit
 local spSetUnitGroup       = Spring.SetUnitGroup
-
-
+  local CMD_PASSIVE	= 34571
+local spGetUnitStates = Spring.GetUnitStates
+local FindUnitCmdDesc = Spring.FindUnitCmdDesc
+local spGetUnitCmdDescs = Spring.GetUnitCmdDescs
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 
@@ -80,7 +82,7 @@ local function GuardFactory(unitID, unitDefID, factID, factDefID)
   if (not radius) then
     return
   end
-  local dist = radius * 2
+  local dist = radius * 2.3
 
   local facing = spGetUnitBuildFacing(factID)
   if (not facing) then
@@ -93,28 +95,29 @@ local function GuardFactory(unitID, unitDefID, factID, factDefID)
   if (facing == 0) then
     -- south
     dx, dz =  0,  dist
-    rx, rz =  dist,  0
+    rx, rz =  0,  0
   elseif (facing == 1) then
     -- east
     dx, dz =  dist,  0
-    rx, rz =  0, -dist
+    rx, rz =  0, -0
   elseif (facing == 2) then
     -- north
     dx, dz =  0, -dist
-    rx, rz = -dist,  0
+    rx, rz = -0,  0
   else
     -- west
     dx, dz = -dist,  0
-    rx, rz =  0,  dist
+    rx, rz =  0,  0
   end
-  
-  local OrderUnit = spGiveOrderToUnit
 
-  OrderUnit(unitID, CMD_MOVE,  { x + dx, y, z + dz }, { "" })
-  OrderUnit(unitID, CMD_MOVE,  { x + rx, y, z + rz }, { "shift" })
-  OrderUnit(unitID, CMD_GUARD, { factID },            { "shift" })
+
+	  local OrderUnit = spGiveOrderToUnit
+
+	  OrderUnit(unitID, CMD_MOVE,  { x + dx, y, z + dz }, { "" })
+
+	  OrderUnit(unitID, CMD_GUARD, { factID },            { "shift" })
+	  
 end
-
 
 --------------------------------------------------------------------------------
 
@@ -132,6 +135,3 @@ function widget:UnitFromFactory(unitID, unitDefID, unitTeam,
 
   GuardFactory(unitID, unitDefID, factID, factDefID)
 end
-
-
---------------------------------------------------------------------------------

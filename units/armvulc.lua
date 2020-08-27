@@ -29,7 +29,7 @@ return {
 		seismicsignature = 0,
 		selfdestructas = "RLRPC_DEATH",
 		sightdistance = 700,
-		usebuildinggrounddecal = true,
+		usebuildinggrounddecal = false,
 		usepiececollisionvolumes = 1,
 		yardmap = "oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo",
 		featuredefs = {
@@ -73,7 +73,7 @@ return {
 				world = "All Worlds",
 			},
 		},
-		sfxtypes = {
+			sfxtypes = {
 			explosiongenerators = {
 				[1] = "custom:vulcanflare",
 			},
@@ -110,7 +110,7 @@ return {
 				cratermult = 0.1,
 				edgeeffectiveness = 0.75,
 				energypershot = 14500,
-				explosiongenerator = "custom:FLASHBIGBUILDING",
+				explosiongenerator = "custom:genericshellexplosion-brtha",
 				gravityaffected = "true",
 				impulseboost = 0.5,
 				impulsefactor = 0.5,

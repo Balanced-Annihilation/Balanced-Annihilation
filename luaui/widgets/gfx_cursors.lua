@@ -12,10 +12,10 @@ function widget:GetInfo()
 end
 
 -- note: first entry should be icons inside base /anims folder
-local cursorSets = {'old', 'old_150', 'bar', 'bar_133'}
+local cursorSets = {'old', 'old_150','ta_hd', 'bar', 'bar_133'}
 
 local Settings = {}
-Settings['defaultCursorSet'] = 'bar'
+Settings['defaultCursorSet'] = 'ta_hd'
 Settings['cursorSet'] = Settings['defaultCursorSet']
 
 function table_invert(t)

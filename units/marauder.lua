@@ -13,7 +13,7 @@ return {
 		collisionvolumetype = "Box",
 		corpse = "DEAD",
 		description = "Amphibious Assault Mech",
-		explodeas = "BIG_UNITEX",
+		explodeas = "large_unitex",
 		footprintx = 3,
 		footprintz = 3,
 		idleautoheal = 5,
@@ -70,12 +70,29 @@ return {
 				hitdensity = 100,
 				metal = 237,
 				object = "3X3F",
-                collisionvolumescales = "55.0 4.0 6.0",
-                collisionvolumetype = "cylY",
+                collisionvolumescales = "55.0 4.0 55.0",
+                collisionvolumetype = "box",
 				reclaimable = true,
 				resurrectable = 0,
 				seqnamereclamate = "TREE1RECLAMATE",
 				world = "All Worlds",
+			},
+		},
+		sfxtypes = {
+			explosiongenerators = {
+				[1] = "custom:barrelshot-huge",
+			},
+			pieceexplosiongenerators = {
+				[1] = "deathceg2",
+				[2] = "deathceg3",
+				[3] = "deathceg4",
+			},
+		},
+		sfxtypes = {
+			explosiongenerators = {
+				[1] = "custom:barrelshot-medium",
+			},
+			pieceexplosiongenerators = {
 			},
 		},
 		sounds = {
@@ -144,7 +161,7 @@ return {
 				craterareaofeffect = 0,
 				craterboost = 0,
 				cratermult = 0,
-				explosiongenerator = "custom:FLASH2",
+				explosiongenerator = "custom:genericshellexplosion-medium",
 				firestarter = 5,
 				impulseboost = 0.123,
 				impulsefactor = 0.123,

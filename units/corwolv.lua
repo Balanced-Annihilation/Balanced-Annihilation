@@ -15,7 +15,7 @@ return {
 		description = "Light Mobile Artillery",
 		energymake = 0.5,
 		energyuse = 0.5,
-		explodeas = "BIG_UNITEX",
+		explodeas = "big_unitex",
 		footprintx = 2,
 		footprintz = 2,
 		hightrajectory = 1,
@@ -32,7 +32,7 @@ return {
 		objectname = "CORWOLV",
 		pushresistant = true,
 		seismicsignature = 0,
-		selfdestructas = "BIG_UNIT",
+		selfdestructas = "big_unit",
 		sightdistance = 299,
 		trackoffset = 6,
 		trackstrength = 5,
@@ -67,6 +67,13 @@ return {
 				world = "all",
 			},
 		},
+		sfxtypes = {
+			explosiongenerators = {
+				[1] = "custom:barrelshot-small",
+			},
+			pieceexplosiongenerators = {
+			},
+		},
 		sounds = {
 			canceldestruct = "cancel2",
 			underattack = "warning1",
@@ -96,7 +103,7 @@ return {
 				craterareaofeffect = 113,
 				craterboost = 0,
 				cratermult = 0,
-				explosiongenerator = "custom:FLASH4",
+				explosiongenerator = "custom:genericshellexplosion-small",
 				gravityaffected = "true",
 				hightrajectory = 1,
 				impulseboost = 0.123,

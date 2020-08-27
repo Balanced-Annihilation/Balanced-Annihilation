@@ -6,14 +6,24 @@ function widget:GetInfo()
 	author    = "Regret (enhanced by Floris)",
 	date      = "29 may 2015",
 	license   = "GNU GPL, v2 or later",
-	layer     = -99999, --lowest go first
+	layer     = -9999998, --lowest go first
 	enabled   = true, --loaded by default
 	handler   = true, --access to handler
 	}
 end
 
+local fontfile ="LuaUI/Fonts/FreeSansBold.otf"
+local vsx,vsy = Spring.GetViewGeometry()
+local fontfileScale = (0.7 + (vsx*vsy / 7000000))
+local fontfileSize = 44
+local fontfileOutlineSize = 8
+local fontfileOutlineStrength = 1.3
+local font = gl.LoadFont(fontfile, fontfileSize*fontfileScale, fontfileOutlineSize*fontfileScale, fontfileOutlineStrength)
+local fontfile2 =  "LuaUI/Fonts/FreeSansBold.otf"
+local font2 = gl.LoadFont(fontfile2, fontfileSize*fontfileScale, fontfileOutlineSize*fontfileScale, fontfileOutlineStrength)
+
 local useRoundedRectangles = true
-local roundedSizeMultiplier = 1
+local roundedSizeMultiplier = 0.9
 local usedRoundedSize = roundedSize
 
 local TN = "Red"
@@ -21,7 +31,6 @@ local DrawingTN = "Red_Drawing" --WG name for drawing function list
 local version = 9
 
 local clock = os.clock
-local glGetTextWidth = gl.GetTextWidth
 local sgsub = string.gsub
 local function getLineCount(text)
 	_,linecount = sgsub(text,"\n","\n")
@@ -38,8 +47,20 @@ local vsx,vsy = widgetHandler:GetViewSizes()
 if (vsx == 1) then --hax for windowed mode
 	vsx,vsy = Spring.GetWindowGeometry()
 end
+
 function widget:ViewResize(viewSizeX, viewSizeY)
-	vsx,vsy = widgetHandler:GetViewSizes()
+	vsx,vsy = Spring.GetViewGeometry()
+
+
+	local newFontfileScale = (0.5 + (vsx*vsy / 5700000))
+	if (fontfileScale ~= newFontfileScale) then
+		fontfileScale = newFontfileScale
+		font = gl.LoadFont(fontfile, fontfileSize*fontfileScale, fontfileOutlineSize*fontfileScale, fontfileOutlineStrength)
+		font2 = gl.LoadFont(fontfile2, fontfileSize*fontfileScale, fontfileOutlineSize*fontfileScale, fontfileOutlineStrength)
+		WG[TN].font = font
+		WG[TN].font2 = font2
+	end
+
 	Main.vsx,Main.vsy = vsx,vsy
 	Main.Screen.vsx,Main.Screen.vsy = vsx,vsy
 	usedRoundedSize = 4 + math.floor((((vsx*vsy) / 900000))) * roundedSizeMultiplier
@@ -50,7 +71,11 @@ end
 local type = type
 
 local function getTextWidth(o)
-	return glGetTextWidth(o.caption)*o.fontsize
+	if o.font2 then
+		return font2:GetTextWidth(o.caption)*o.fontsize
+	else
+		return font:GetTextWidth(o.caption)*o.fontsize
+	end
 end
 
 local function getTextHeight(o)
@@ -137,7 +162,12 @@ local F = {
 		if (o.caption) then
 			local px2,py2 = px,py
 			local text = o.caption
-			local width = glGetTextWidth(text)
+			local width
+			if o.font2 then
+				width = font2:GetTextWidth(text)
+			else
+				width = font:GetTextWidth(text)
+			end
 			local linecount = getLineCount(text)
 			local fontsize = sx/width
 			local height = linecount*fontsize
@@ -147,7 +177,7 @@ local F = {
 			else
 				py2 = py2 + (sy - height) /2 --center
 			end
-			Text(px2+((sx*(1-iconscale))/2),py2+((sy*(1-iconscale))/2),fontsize*iconscale,text,o.options,captioncolor)
+			Text(px2+((sx*(1-iconscale))/2),py2+((sy*(1-iconscale))/2),fontsize*iconscale,text,o.options,captioncolor,o.font2)
 			o.autofontsize = fontsize
 		end
 		
@@ -178,7 +208,7 @@ local F = {
 		local px,py = o.px,o.py	
 		local fontsize = o.fontsize
 		
-		Text(px,py,fontsize,o.caption,o.options,color or captioncolor)
+		Text(px,py,fontsize,o.caption,o.options,color or captioncolor,o.font2)
 	end,
 
 	[3] = function(o) --area
@@ -228,9 +258,9 @@ local F = {
 			if o.roundedsize ~= nil then
 				roundedSize = o.roundedsize
 			end
-			RectRound(px,py,sx,sy,color,roundedSize,iconscale)
+			RectRound(px,py,sx,sy,color,roundedSize,iconscale,false,(o.guishader ~= nil and o.guishader))
 			if o.glone ~= nil and o.glone > 0 then
-				RectRound(px,py,sx,sy,{color[1],color[2],color[3],o.glone},roundedSize,iconscale,true)
+				RectRound(px,py,sx,sy,{color[1],color[2],color[3],o.glone},roundedSize,iconscale,true,(o.guishader ~= nil and o.guishader))
 			end
 		end
 		
@@ -241,7 +271,12 @@ local F = {
 		if (o.caption) then
 			local px2,py2 = px,py
 			local text = o.caption
-			local width = glGetTextWidth(text)
+			local width
+			if o.font2 then
+				width = font2:GetTextWidth(text)
+			else
+				width = font:GetTextWidth(text)
+			end
 			local linecount = getLineCount(text)
 			local fontsize = sx/width
 			local height = linecount*fontsize
@@ -251,7 +286,7 @@ local F = {
 			else
 				py2 = py2 + (sy - height) /2 --center
 			end
-			Text(px2+((sx*(1-iconscale))/2),py2+((sy*(1-iconscale))/2),fontsize*iconscale,text,o.options,captioncolor)
+			Text(px2+((sx*(1-iconscale))/2),py2+((sy*(1-iconscale))/2),fontsize*iconscale,text,o.options,captioncolor,o.font2)
 			o.autofontsize = fontsize
 		end
 		
@@ -360,7 +395,7 @@ function widget:MousePress(mx,my,mb)
 			dropClick = false
 		end
 	end
-	
+
 	return dropClick
 end
 
@@ -455,8 +490,8 @@ local function processMouseEvents(o)
 					local newpy = Mouse.y + o.wasclicked[2]
 					
 					if (o.obeyscreenedge) then
-						if (newpx<0) then newpx = 0 end
-						if (newpy<0) then newpy = 0 end
+						if (newpx<0) then newpx = -0.1 end
+						if (newpy<0) then newpy = -0.1  end
 						if (newpx>(vsx-o.sx)) then newpx = vsx-o.sx end
 						if (newpy>(vsy-o.sy)) then newpy = vsy-o.sy end
 					elseif (o.movablearea) then
@@ -580,9 +615,12 @@ end
 
 local ssub = string.sub
 function widget:Initialize()
-	WG[TN] = {{}}
+
+	WG[TN] = {{} }
 	Main = WG[TN]
 	Main.Version = version
+	Main.font = font
+	Main.font2 = font2
 	Main.vsx,Main.vsy = vsx,vsy
 	Main.Screen = {vsx=vsx,vsy=vsy}
 	Main.Copytable = copytable
@@ -660,6 +698,8 @@ function widget:Initialize()
 end
 
 function widget:Shutdown()
+	gl.DeleteFont(font)
+	gl.DeleteFont(font2)
 	WG[TN] = nil
 	if (LastProcessedWidget ~= "") then
 		Spring.Echo(widget:GetInfo().name..">> last processed widget was \""..LastProcessedWidget.."\"") --for debugging
@@ -684,13 +724,15 @@ function widget:Update()
 	if (fc > 200) then
 		fc = 0
 		local temp = {}
+		local tempCount = 0
 		for i=1,#WidgetList do
 			local name = WidgetList[i]:GetInfo().name
 			local order = widgetHandler.orderList[name]
 		    local enabled = order and (order > 0)
 			
 			if (enabled) then
-				temp[#temp+1] = WidgetList[i]
+				tempCount = tempCount + 1
+				temp[tempCount] = WidgetList[i]
 			else
 				table.remove(Main[1],i)
 			end
@@ -733,13 +775,15 @@ function widget:Update()
 			--
 			
 			local dellst = {}
+			local dellstCount = 0
 			local objlst = wl[j]
-			
-			for i=1,#objlst do
+			local objlstCount = #objlst
+			for i=1,objlstCount do
 				local o = objlst[i]
 				o.tempactive = nil
 				if (o.scheduledfordeletion) then
-					dellst[#dellst+1] = i
+					dellstCount = dellstCount + 1
+					dellst[dellstCount] = i
 				else
 					if (o.active ~= false) then
 						o.notfirstprocessing = true
@@ -766,19 +810,21 @@ function widget:Update()
 				end
 				
 				--process mouseevents backwards, so topmost drawn objects get to mouseevents first
-				local ro = objlst[#objlst-i+1]
-				if (not ro.scheduledfordeletion) then
-					if (ro.active ~= false) then
-						if (ro.onupdate) then
-							ro.onupdate(ro)
+				if not WG['topbar'] or not WG['topbar'].showingQuit() then
+					local ro = objlst[objlstCount-i+1]
+					if (not ro.scheduledfordeletion) then
+						if (ro.active ~= false) then
+							if (ro.onupdate) then
+								ro.onupdate(ro)
+							end
+							processMouseEvents(ro)
 						end
-						processMouseEvents(ro)
 					end
 				end
 			end
 			
-			for i=1,#dellst do
-				table.remove(objlst,dellst[i])
+			for i=1,dellstCount do
+				objlst[dellst[i]] = nil
 			end
 		end
 	end

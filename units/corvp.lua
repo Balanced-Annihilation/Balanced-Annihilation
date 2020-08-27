@@ -38,7 +38,7 @@ return {
 		selfdestructas = "LARGE_BUILDING",
 		sightdistance = 279,
 		terraformspeed = 500,
-		usebuildinggrounddecal = true,
+		usebuildinggrounddecal = false,
 		workertime = 100,
 		yardmap = "yyyyyyyyyoooyyooooooooocccoooocccoooocccoooocccoo",
 		buildoptions = {
@@ -59,7 +59,7 @@ return {
 				category = "corpses",
 				collisionvolumeoffsets = "0 -13 0",
 				collisionvolumescales = "90 56 90",
-				collisionvolumetype = "CylZ",
+				collisionvolumetype = "box",
 				damage = 1590,
 				description = "Vehicle Plant Wreckage",
 				energy = 0,

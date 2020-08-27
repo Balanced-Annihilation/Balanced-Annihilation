@@ -7,7 +7,7 @@ return {
 		craterboost = 0,
 		cratermult = 0,
 		edgeeffectiveness = 0.5,
-		explosiongenerator = "custom:FLASHSMALLBUILDING",
+		explosiongenerator = "custom:genericunitexplosion-huge",
 		heightboostfactor = 2.7999999523163,
 		impulseboost = 0.5,
 		impulsefactor = 0.5,

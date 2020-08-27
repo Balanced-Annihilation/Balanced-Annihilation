@@ -33,7 +33,7 @@ return {
 		seismicsignature = 0,
 		selfdestructas = "MEDIUM_BUILDING",
 		sightdistance = 494,
-		usebuildinggrounddecal = true,
+		usebuildinggrounddecal = false,
 		yardmap = "oooo",
 		featuredefs = {
 			dead = {
@@ -70,7 +70,7 @@ return {
 				hitdensity = 100,
 				metal = 22,
 				object = "2X2A",
-                collisionvolumescales = "35.0 4.0 6.0",
+                collisionvolumescales = "35.0 4.0 35.0",
                 collisionvolumetype = "cylY",
 				reclaimable = true,
 				resurrectable = 0,

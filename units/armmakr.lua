@@ -15,7 +15,7 @@ return {
 		category = "ALL NOTLAND NOTSUB NOWEAPON NOTSHIP NOTAIR NOTHOVER SURFACE",
 		collisionvolumeoffsets = "-2 0 0",
 		collisionvolumescales = "50 23 50",
-		collisionvolumetype = "CylY",
+		collisionvolumetype = "box",
 		description = "Converts up to 70 energy into 1 metal per second",
 		explodeas = "ARMESTOR_BUILDINGEX",
 		footprintx = 3,
@@ -31,7 +31,7 @@ return {
 		seismicsignature = 0,
 		selfdestructas = "ARMESTOR_BUILDING",
 		sightdistance = 273,
-		usebuildinggrounddecal = true,
+		usebuildinggrounddecal = false,
 		yardmap = "ooooooooo",
 		sounds = {
 			activate = "metlon1",

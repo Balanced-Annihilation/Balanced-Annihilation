@@ -540,9 +540,8 @@ FirePrimary()
 	if( gun_1 == 0 )
 	{
 		move rgun to z-axis [-2.000000] speed [60.000000];
-		show rfirept;
+		emit-sfx 1024 + 0 from rfirept;
 		sleep 100;
-		hide rfirept;
 		wait-for-move rgun along z-axis;
 		gun_1 = gun;
 		move rgun to z-axis [0.000000] speed [4.000000];
@@ -552,9 +551,8 @@ FirePrimary()
 	if( gun_1 == 1 )
 	{
 		move lgun to z-axis [-2.000000] speed [60.000000];
-		show lfirept;
+		emit-sfx 1024 + 0 from lfirept;
 		sleep 100;
-		hide lfirept;
 		wait-for-move lgun along z-axis;
 		gun_1 = torso;
 		move lgun to z-axis [0.000000] speed [4.000000];

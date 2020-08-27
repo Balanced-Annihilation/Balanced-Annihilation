@@ -85,7 +85,8 @@ local diag = math.diag
 --------------------------------------------------------------------------------
 -- Callins
 --------------------------------------------------------------------------------
-
+local GetUnitAllyTeam    			= Spring.GetUnitAllyTeam
+local GetMyAllyTeamID     		= Spring.GetMyAllyTeamID
 
 
 function widget:DrawWorldPreUnit()
@@ -94,10 +95,13 @@ function widget:DrawWorldPreUnit()
 
     for uID, pos in pairs(antiInLos) do
         local LosOrRadar, inLos, inRadar = spGetPositionLosState(pos.x, pos.y, pos.z)
-        if not inLos then
+        
+		if(GetUnitAllyTeam(uID) ~=GetMyAllyTeamID()) then
+		if not inLos then
             antiOutLos[uID] = pos
             antiInLos[uID] = nil
         end
+		end
     end
 
     for uID, pos in pairs(antiInLos) do
@@ -227,6 +231,10 @@ function widget:UnitLeftLos(unitID)
         antiOutLos[unitID] = pos
         antiInLos[unitID] = nil
     end
+end
+
+function widget:UnitEnteredLos(unitID)
+    processVisibleUnit(unitID)
 end
 
 function widget:UnitCreated(unitID, unitDefID, teamID, builderID)

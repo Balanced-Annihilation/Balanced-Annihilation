@@ -103,7 +103,6 @@ return {
 			armcomlaser = {
 				areaofeffect = 12,
 				avoidfeature = false,
-				avoidground = false,
 				beamtime = 0.1,
 				corethickness = 0.1,
 				craterareaofeffect = 0,
@@ -141,22 +140,29 @@ return {
 				},
 			},
 			decoy_disintegrator = {
-				areaofeffect = 32,
+				areaofeffect = 36,
 				avoidfeature = false,
 				avoidfriendly = false,
+				avoidground = false,
 				commandfire = true,
 				craterareaofeffect = 0,
 				craterboost = 0,
 				cratermult = 0,
+				--waterbounce = true, -- weapon will stick to the surface
+				groundbounce = true,
+				bounceRebound = 0, --stick the explosion to ground with 0 vertical component
+				waterweapon = true, --dgun can pass trough water
+				firesubmersed = false, -- but not _fire_ underwater
 				energypershot = 50,
 				explosiongenerator = "custom:DGUNTRACE",
+				firestarter = 100,
 				impulseboost = 0,
 				impulsefactor = 0,
 				name = "Disintegrator",
 				noexplode = true,
 				noselfdamage = true,
 				range = 250,
-				reloadtime = 1.5,
+				reloadtime = 1,
 				soundhit = "xplomas2",
 				soundhitwet = "sizzle",
 				soundhitwetvolume = 0.5,
@@ -169,6 +175,16 @@ return {
 				weaponvelocity = 300,
 				damage = {
 					default = 20,
+				},
+				customparams = {
+					expl_light_color = "2.8 1 0.1",
+					expl_light_heat_radius_mult = 2.2,
+					expl_light_heat_strength_mult = 0.66,
+					expl_light_mult = 1.2,
+					expl_light_radius_mult = 1.75,
+					light_color = "2.8 1 0.1",
+					light_mult = 2,
+					light_radius_mult = 2.55,
 				},
 			},
 		},

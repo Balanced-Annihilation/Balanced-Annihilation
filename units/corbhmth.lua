@@ -32,7 +32,7 @@ return {
 		seismicsignature = 0,
 		selfdestructas = "ESTOR_BUILDING",
 		sightdistance = 650,
-		usebuildinggrounddecal = true,
+		usebuildinggrounddecal = false,
 		yardmap = "ooooo ooooo ooGoo ooooo ooooo",
 		featuredefs = {
 			dead = {
@@ -75,6 +75,13 @@ return {
 				world = "All Worlds",
 			},
 		},
+		sfxtypes = {
+			explosiongenerators = {
+				[1] = "custom:barrelshot-large",
+			},
+			pieceexplosiongenerators = {
+			},
+		},
 		sounds = {
 			canceldestruct = "cancel2",
 			underattack = "warning1",
@@ -100,7 +107,7 @@ return {
 				cratermult = 0,
 				edgeeffectiveness = 0.7,
 				energypershot = 150,
-				explosiongenerator = "custom:FLASHSMALLBUILDINGEX",
+				explosiongenerator = "custom:genericshellexplosion-behe",
 				firestarter = 99,
 				gravityaffected = "true",
 				impulseboost = 0.123,

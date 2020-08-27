@@ -1,7 +1,7 @@
 function widget:GetInfo()
     return {
         name      = "Comblast & Dgun Range",
-        desc      = "Shows the range of commander death explosion and dgun ranges",
+        desc      = "Shows the range of commander death explosion, geo when building, and hold fires crawlings",
         author    = "Bluestone, based on similar widgets by vbs, tfc, decay  (made fancy by Floris)",
         date      = "14 february 2015",
         license   = "GPL v3 or later",
@@ -10,358 +10,278 @@ function widget:GetInfo()
     }
 end
 
---------------------------------------------------------------------------------
--- Console commands
---------------------------------------------------------------------------------
+-- project page on github: https://github.com/jamerlan/unit_crawling_bomb_range
 
---/comranges_nearbyenemy		-- toggles hiding of ranges when enemy is nearby
-
---------------------------------------------------------------------------------
-
-local pairs					= pairs
+--Changelog
+-- v2 [teh]decay Advanced Crawling Bombs are cloaked by default (you can configure using "cloakAdvCrawlingBombs" variable) + hide circles when GUI is hidden
+-- v3 [teh]decay Draw decloak range for Advanced Crawling Bomb
+-- v4 [teh]decay Draw blow radius for adv geos too
+local spGetUnitHealth	= Spring.GetUnitHealth
+local spGetUnitNearestEnemy	= Spring.GetUnitNearestEnemy
+local spGetUnitNearestAlly	= Spring.GetUnitNearestAlly
+local myAllyTeam = Spring.GetMyAllyTeamID()
+local spGetActiveCommand = Spring.GetActiveCommand
+local spGetActiveCmdDesc = Spring.GetActiveCmdDesc
 
 local spGetUnitPosition     = Spring.GetUnitPosition
-local spGetUnitDefID 		= Spring.GetUnitDefID
-local spGetAllUnits			= Spring.GetAllUnits
-local spGetSpectatingState 	= Spring.GetSpectatingState
+local diag					= math.diag
+local cloakAdvCrawlingBombs = true
+local linewidth = 0
+local glLineWidth				= gl.LineWidth
+local GetUnitPosition     = Spring.GetUnitPosition
+local glColor = gl.Color
+local glDepthTest = gl.DepthTest
+local glDrawGroundCircle  = gl.DrawGroundCircle
+local GetUnitDefID = Spring.GetUnitDefID
+local lower                 = string.lower
+local spGetAllUnits = Spring.GetAllUnits
+local spGetSpectatingState = Spring.GetSpectatingState
 local spGetMyPlayerID		= Spring.GetMyPlayerID
 local spGetPlayerInfo		= Spring.GetPlayerInfo
-local spGetGroundHeight		= Spring.GetGroundHeight
-local spIsSphereInView		= Spring.IsSphereInView
-local spValidUnitID			= Spring.ValidUnitID
+local spGiveOrderToUnit = Spring.GiveOrderToUnit
+local spIsGUIHidden = Spring.IsGUIHidden
 local spGetCameraPosition	= Spring.GetCameraPosition
-local spGetUnitNearestEnemy	= Spring.GetUnitNearestEnemy
-local spIsGUIHidden			= Spring.IsGUIHidden
 
-local glDepthTest 			= gl.DepthTest
-local glDrawGroundCircle 	= gl.DrawGroundCircle
-local glLineWidth 			= gl.LineWidth
-local glColor				= gl.Color
-local glTranslate			= gl.Translate
-local glRotate				= gl.Rotate
-local glText				= gl.Text
-local glBlending			= gl.Blending
-local glBeginEnd			= gl.BeginEnd
-local glVertex				= gl.Vertex
+local cmdFireState = CMD.FIRE_STATE
+local cmdCloack = CMD.CLOAK
 
-local diag					= math.diag
-local PI					= math.pi
+local blastCircleDivs   = 100
+local weapNamTab		= WeaponDefNames
+local weapTab		    = WeaponDefs
+local udefTab			= UnitDefs
 
-local floor = math.floor
-local min = math.min
-local huge = math.huge
-local abs = math.abs
-local cos = math.cos
-local sin = math.sin
-local atan2 = math.atan2
+local selfdTag = "selfDExplosion"
+local aoeTag = "damageAreaOfEffect"
 
-local GL_ALWAYS					= GL.ALWAYS
-local GL_SRC_ALPHA				= GL.SRC_ALPHA
-local GL_ONE_MINUS_SRC_ALPHA	= GL.ONE_MINUS_SRC_ALPHA
+local coreCrawling = UnitDefNames["corroach"]
+local coreAdvCrawling = UnitDefNames["corsktl"]
+local armCrawling = UnitDefNames["armvader"]
+local armAdvGEO = UnitDefNames["amgeo"]
+local coreAdvGEO = UnitDefNames["cmgeo"]
 
-local comCenters = {}
-local amSpec = false
-local inSpecFullView = false
-local dgunRange	= WeaponDefNames["armcom_arm_disintegrator"].range + 2*WeaponDefNames["armcom_arm_disintegrator"].damageAreaOfEffect
+local coreCrawlingId = coreCrawling.id
+local coreAdvCrawlingId = coreAdvCrawling.id
+local armCrawlingId = armCrawling.id
+local armAdvGEOId = armAdvGEO.id
+local coreAdvGEOId = coreAdvGEO.id
 
---------------------------------------------------------------------------------
--- OPTIONS
---------------------------------------------------------------------------------
-
-local hideOnDistantEnemy	= true
-local fadeOnCameraDistance	= true
-local opacityMultiplier		= 1
-local fadeMultiplier		= 1.5		-- lower value: fades out sooner
-local circleDivs			= 64		-- circle detail, when fading out it will lower this aswell (minimum always will be 40 anyway)
-local blastRadius			= 360		-- com explosion
-local showOnEnemyDistance	= 660
-local fadeInDistance		= 360
-local smoothoutTime			= 2			-- time to smoothout sudden changes (value = time between max and zero opacity)
-
---------------------------------------------------------------------------------
+local coreCom = UnitDefNames["corcom"]
+local armCom = UnitDefNames["armcom"]
+local coreComId = coreCom.id
+local armComId = armCom.id
 
 
 
 
--- track coms --
 
-function widget:Initialize()
-    checkComs()
-	checkSpecView()
-    return true
+local crawlingBombs = {}
+
+local spectatorMode = false
+local notInSpecfullmode = false
+
+function setBombStates(unitID, unitDefID)
+
+	if isHoldFire(unitDefID) then 
+		spGiveOrderToUnit(unitID, cmdFireState, { 0 }, {  })
+
+		--if unitDefID == coreAdvCrawlingId and cloakAdvCrawlingBombs then
+		--	spGiveOrderToUnit(unitID, cmdCloack, { 1 }, {})
+		--end
+	end
 end
 
-function addCom(unitID)
-	if not spValidUnitID(unitID) then return end --because units can be created AND destroyed on the same frame, in which case luaui thinks they are destroyed before they are created
-	local x,y,z = Spring.GetUnitPosition(unitID)
-    local teamID = Spring.GetUnitTeam(unitID)
-    if x and teamID then
-		comCenters[unitID] = {x,y,z}
+function isBomb(unitDefID)
+    if unitDefID == coreAdvGEOId or unitDefID == armAdvGEOId or unitDefID == coreCrawlingId or coreAdvCrawlingId == unitDefID or unitDefID == armCrawlingId or unitDefID == coreComId or unitDefID == armComId then
+        return true
+    end
+    return false
+end
+
+function isHoldFire(unitDefID)
+    if unitDefID == coreAdvGEOId or unitDefID == armAdvGEOId or unitDefID == coreCrawlingId or coreAdvCrawlingId == unitDefID or unitDefID == armCrawlingId then
+        return true
+    end
+    return false
+end
+
+
+function widget:UnitFinished(unitID, unitDefID, unitTeam)
+    if isBomb(unitDefID) then
+        crawlingBombs[unitID] = true
+        setBombStates(unitID, unitDefID)
     end
 end
 
-function removeCom(unitID)
-	comCenters[unitID] = nil
+function widget:UnitDestroyed(unitID, unitDefID, unitTeam)
+    if crawlingBombs[unitID] then
+        crawlingBombs[unitID] = nil
+    end
 end
 
-function widget:UnitFinished(unitID, unitDefID, unitTeam)
-    if UnitDefs[unitDefID].customParams.iscommander == "1" then
-        addCom(unitID)
+function widget:UnitEnteredLos(unitID, unitTeam)
+    if not spectatorMode then
+        local unitDefID = GetUnitDefID(unitID)
+        if isBomb(unitDefID) then
+            crawlingBombs[unitID] = true
+        end
     end
 end
 
 function widget:UnitCreated(unitID, unitDefID, teamID, builderID)
-    if UnitDefs[unitDefID].customParams.iscommander == "1" then
-        addCom(unitID)
+    if isBomb(unitDefID) then
+        crawlingBombs[unitID] = true
+        setBombStates(unitID, unitDefID)
     end
 end
 
 function widget:UnitTaken(unitID, unitDefID, unitTeam, newTeam)
-    if UnitDefs[unitDefID].customParams.iscommander == "1" then
-        addCom(unitID)
+    if isBomb(unitDefID) then
+        crawlingBombs[unitID] = true
+        setBombStates(unitID, unitDefID)
     end
 end
 
 
 function widget:UnitGiven(unitID, unitDefID, unitTeam, oldTeam)
-    if UnitDefs[unitDefID].customParams.iscommander == "1" then
-        addCom(unitID)
-    end
-end
-
-function widget:UnitDestroyed(unitID, unitDefID, unitTeam)
-    if comCenters[unitID] then
-        removeCom(unitID)
-    end
-end
-
-function widget:UnitEnteredLos(unitID, unitTeam)
-    if not amSpec then
-        local unitDefID = spGetUnitDefID(unitID)
-        if UnitDefs[unitDefID].customParams.iscommander == "1" then
-            addCom(unitID)
-        end
+    if isBomb(unitDefID) then
+        crawlingBombs[unitID] = true
+        setBombStates(unitID, unitDefID)
     end
 end
 
 function widget:UnitLeftLos(unitID, unitDefID, unitTeam)
-    if not amSpec then
-        if comCenters[unitID] then
-            removeCom(unitID)
+    if not spectatorMode then
+        if crawlingBombs[unitID] then
+            crawlingBombs[unitID] = nil
         end
     end
 end
 
+function widget:DrawWorldPreUnit()
+	--if not spectatorMode then
+    local _, specFullView, _ = spGetSpectatingState()
+
+    if not specFullView then
+        notInSpecfullmode = true
+    else
+        if notInSpecfullmode then
+            detectSpectatorView()
+        end
+        notInSpecfullmode = false
+    end
+
+    if spIsGUIHidden() then return end
+
+    glDepthTest(true)
+	local camX, camY, camZ = spGetCameraPosition()
+	if(camY < 10000 ) then
+	local opacitymult = 1-((camY - 5000)/5000)
+	if(opacitymult > 1) then
+		opacitymult = 1
+	end
+	
+
+    for unitID in pairs(crawlingBombs) do
+        local x,y,z = GetUnitPosition(unitID)
+        local udefId = GetUnitDefID(unitID);
+        if udefId ~= nil then
+		
+			
+		
+            local udef = udefTab[udefId]
+
+            local selfdBlastId = weapNamTab[lower(udef[selfdTag])].id
+            local selfdBlastRadius = weapTab[selfdBlastId][aoeTag]
+			glLineWidth(lineWidth)
+			
+					local nearestEnemyUnitID
+					--if	(Spring.GetUnitAllyTeam(unitID) == myAllyTeam) then
+					nearestEnemyUnitID = spGetUnitNearestEnemy(unitID,selfdBlastRadius + 300)
+					--else
+					--nearestEnemyUnitID = spGetUnitNearestAlly(unitID,selfdBlastRadius + 300) -- this makes enemy highlight
+					--end
+			
+				if udefId == armAdvGEOId or udefId == coreAdvGEOId  then --show faintly for placing
+					local idx, cmd_id, _, _ = spGetActiveCommand()
+						if (cmd_id and spGetActiveCmdDesc( idx )["type"] == 20) then
+							if udefId == armAdvGEOId or udefId == coreAdvGEOId  then --show faintly for placing
+							glColor(1, 0.35, 0.15, 0.5*opacitymult)
+							glDrawGroundCircle(x, y, z, selfdBlastRadius, blastCircleDivs)
+							glDepthTest(false)
+							end
+					end
+				else
+				
+				if nearestEnemyUnitID then
+					local ex,ey,ez = spGetUnitPosition(nearestEnemyUnitID)
+					local distance = diag(x-ex, y-ey, z-ez) 
+
+					if distance < (selfdBlastRadius+300) then
+					
+						local distanceopacitymult = 1-((distance-selfdBlastRadius-100)/100)
+						if(distanceopacitymult > 1) then
+							distanceopacitymult = 1
+						end
+						glColor(1, 0.35, 0.15, 0.5*opacitymult*distanceopacitymult)
+						glDrawGroundCircle(x, y, z, selfdBlastRadius, blastCircleDivs)
+						glDepthTest(false)
+					end
+				end	
+				end	
+				
+			
+            
+
+			end 
+	end
+	end
+	--end
+end
+
+function widget:ViewResize(viewSizeX, viewSizeY)
+  resize()
+end
+
 function widget:PlayerChanged(playerID)
-    checkSpecView()
+    detectSpectatorView()
     return true
 end
 
-function widget:GameOver()
-	widgetHandler:RemoveWidget()
+function widget:Initialize()
+
+	resize()
+
+    detectSpectatorView()
+    return true
 end
 
-function checkSpecView()
-	--check if we became a spec
-    local _,_,spec,_ = spGetPlayerInfo(spGetMyPlayerID())
-    if spec ~= amSpec then
-        amSpec = spec 
-		checkComs()
-    end
-end
-
-function checkComs()
-	--remake list of coms
-	for k,_ in pairs(comCenters) do
-		comCenters[k] = nil
+function resize()
+vsx, vsy = gl.GetViewSizes()
+	if(vsy > 2000) then
+		lineWidth = 2
+		else
+		lineWidth = 1
 	end
-	
+end
+
+function detectSpectatorView()
+   --local _, _, spec, teamId = spGetPlayerInfo(spGetMyPlayerID())
+
+    --if spec then
+    --    spectatorMode = true
+    --end
+
     local visibleUnits = spGetAllUnits()
     if visibleUnits ~= nil then
         for _, unitID in ipairs(visibleUnits) do
-            local unitDefID = spGetUnitDefID(unitID)
-            if unitDefID and UnitDefs[unitDefID].customParams.iscommander == "1" then
-				addCom(unitID)
+            local udefId = GetUnitDefID(unitID)
+            if udefId ~= nil then
+                if isBomb(udefId) then
+                    crawlingBombs[unitID] = true
+                end
             end
         end
     end
 end
 
 
--- draw -- 
- 
--- map out what to draw
-function widget:GameFrame(n)
-	-- check if we are in spec full view
-	local _, specFullView, _ = spGetSpectatingState()
-    if specFullView ~= inSpecFullView then
-		checkComs()
-		inSpecFullView = specFullView
-    end
-    
-	-- check com movement
-	for unitID in pairs(comCenters) do
-		local x,y,z = spGetUnitPosition(unitID)
-		if x then
-			local osClock = os.clock()
-			local yg = spGetGroundHeight(x,z) 
-			local draw = true
-			local opacityMultiplier = 1
-			oldOpacityMultiplier = opacityMultiplier
-			-- check if com is off the ground
-			if y-yg>10 then 
-				draw = false
-			-- check if is in view
-			elseif not spIsSphereInView(x,y,z,blastRadius) then
-				draw = false
-			end
-			if draw and hideOnDistantEnemy then
-				local nearestEnemyUnitID = spGetUnitNearestEnemy(unitID,showOnEnemyDistance+fadeInDistance)
-				if nearestEnemyUnitID then
-					local ex,ey,ez = spGetUnitPosition(nearestEnemyUnitID)
-					local distance = diag(x-ex, y-ey, z-ez) 
-					if distance < blastRadius + showOnEnemyDistance then
-						draw = true
-						opacityMultiplier = 1 - (distance - showOnEnemyDistance) / fadeInDistance
-						if opacityMultiplier > 1 then
-							opacityMultiplier = 1
-						elseif opacityMultiplier < 0 then
-							opacityMultiplier = 0
-						end
-						oldOpacityMultiplier = opacityMultiplier
-					end
-				else
-					opacityMultiplier = 0
-					oldOpacityMultiplier = opacityMultiplier
-					draw = false
-				end
-				
-				-- smooth out sudden changes of enemy unit distance
-				if comCenters[unitID] and comCenters[unitID][4] and comCenters[unitID][7] and opacityMultiplier ~= comCenters[unitID][7] and comCenters[unitID][6] and (osClock - comCenters[unitID][6]) < smoothoutTime then
-					draw = true
-					
-					local opacityDifference = comCenters[unitID][7] - opacityMultiplier
-					local opacityAddition = (1 - ((osClock - comCenters[unitID][6]) / smoothoutTime)) * opacityDifference
-					
-					opacityMultiplier = oldOpacityMultiplier + opacityAddition
-					if opacityMultiplier > 1 then
-						opacityMultiplier = 1
-					elseif opacityMultiplier < 0 then
-						opacityMultiplier = 0
-						draw = false
-					end
-					oldOpacityMultiplier = comCenters[unitID][7]	-- keep old
-					osClock = comCenters[unitID][6]					-- keep old
-				end
-			end
-			
-			comCenters[unitID] = {x,y,z,draw,opacityMultiplier,osClock,oldOpacityMultiplier}
-		else
-			--couldn't get position, check if its still a unit 
-			if not spValidUnitID(unitID) then
-				removeCom(unitID)
-			end
-		end
-	end
-end
-
-
-
-function drawBlast(x,y,z,range)
-	local numDivs = circleDivs
-	local maxErr = 5
-	local maxCount = 10
-	for i = 1, numDivs do
-		local radians = 2.0 * PI * i / numDivs
-								
-		local sinR = sin( radians )
-		local cosR = cos( radians )
-
-		local posx
-		local posy
-		local posz
-
-		local radius = range
-		local err = huge
-		local count = 0
-		--tiny shitty newton algo to find the correct radius on a 3d dist
-		while (err > maxErr) and (count < maxCount) do
-			count = count + 1
-			posx = x + sinR * radius
-			posz = z + cosR * radius
-			posy = spGetGroundHeight( posx, posz )
-			err = diag(posx-x,posy-y,posz-z)-range
-			radius = radius - err
-		end
-
-		glVertex(posx,posy+5,posz)
-	end
-end
-
-
--- draw circles
-function widget:DrawWorldPreUnit()
-    if spIsGUIHidden() then return end
-  
-	local camX, camY, camZ = spGetCameraPosition()
-	glDepthTest(true)
-	glBlending(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
-	for unitID,center in pairs(comCenters) do
-		if center[4] then
-			local camDistance = diag(camX-center[1], camY-center[2], camZ-center[3]) 
-			
-			local lineWidthMinus = (camDistance/2000)
-			if lineWidthMinus > 2 then
-				lineWidthMinus = 2
-			end
-			local lineOpacityMultiplier = 0.85
-			if fadeOnCameraDistance then
-				lineOpacityMultiplier = (1150/camDistance)*fadeMultiplier
-				if lineOpacityMultiplier > 1 then
-					lineOpacityMultiplier = 1
-				end
-			end
-			if center[5] then
-				lineOpacityMultiplier = lineOpacityMultiplier * center[5]
-			end
-			if lineOpacityMultiplier > 0.05 then
-				
-				local usedCircleDivs = math.floor(circleDivs*lineOpacityMultiplier)
-				if usedCircleDivs < 48 then
-					usedCircleDivs = 48
-				end
-				
-				glLineWidth(2.5-lineWidthMinus)
-				glColor(1, 0.8, 0, .24*lineOpacityMultiplier*opacityMultiplier)
-				glBeginEnd(GL.LINE_LOOP, drawBlast, center[1], center[2], center[3], dgunRange )
-				
-				glLineWidth(2.7-lineWidthMinus)
-				glColor(1, 0, 0, .41*lineOpacityMultiplier*opacityMultiplier)
-				glBeginEnd(GL.LINE_LOOP, drawBlast, center[1], center[2], center[3], blastRadius )
-			end
-		end
-	end
-	glLineWidth(1)
-	glDepthTest(false)
-end
-
-function widget:GetConfigData(data)
-    savedTable = {}
-    savedTable.hideOnDistantEnemy	= hideOnDistantEnemy
-    return savedTable
-end
-
-function widget:SetConfigData(data)
-    if data.hideOnDistantEnemy ~= nil 	then  hideOnDistantEnemy	= data.hideOnDistantEnemy end
-end
-
-function widget:TextCommand(command)
-    if (string.find(command, "comranges_nearbyenemy") == 1  and  string.len(command) == 21) then 
-		hideOnDistantEnemy = not hideOnDistantEnemy
-		if hideOnDistantEnemy then
-			Spring.Echo("Comblast & Dgun Range:  Hides ranges when enemy isnt near")
-		else
-			Spring.Echo("Comblast & Dgun Range:  Shows ranges regardless of enemy distance")
-		end
-	end
-end
