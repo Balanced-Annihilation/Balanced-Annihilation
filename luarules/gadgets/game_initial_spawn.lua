@@ -91,46 +91,8 @@ end
 ----------------------------------------------------------------
 
 --Newbie Placer (prevents newbies from choosing their own a startpoint and faction)
-local NewbiePlacer
-local processedNewbies = false
-if (tonumber((Spring.GetModOptions() or {}).mo_newbie_placer) == 1) and (Game.startPosType == 2) then
-	NewbiePlacer = true
-else
-	NewbiePlacer = false
-end
 
---check if a player is to be considered as a 'newbie', in terms of startpoint placements
-function isPlayerNewbie(pID)
-	local customtable
-	local name,_,isSpec,tID,_,_,_,_,pRank = Spring.GetPlayerInfo(pID) 
-	playerRank = tonumber(pRank) or 0
-	customtable = select(10,Spring.GetPlayerInfo(pID)) or {}
-	local tsMu = tostring(customtable.skill) or ""
-	local tsSigma = tonumber(customtable.skilluncertainty) or 3
-	local isNewbie
-	if pRank == 0 and (string.find(tsMu, ")") or tsSigma >= 3) then --rank 0 and not enough ts data
-		isNewbie = true
-	else
-		isNewbie = false
-	end
-	return isNewbie
-end
 
---a team is a newbie team if it contains at least one newbie player
-function isNewbie(teamID)
-	if not NewbiePlacer then return false end
-	local playerList = Spring.GetPlayerList(teamID) or {}
-	local isNewbie = false
-	for _,playerID in pairs(playerList) do
-		if playerID then
-		local _,_,isSpec,_ = Spring.GetPlayerInfo(playerID) 
-			if not isSpec then
-				isNewbie = isNewbie or isPlayerNewbie(playerID)
-			end
-		end
-	end
-	return isNewbie
-end
 
 ----------------------------------------------------------------
 -- NoCloseSpawns (modoption)
@@ -167,20 +129,20 @@ function gadget:Initialize()
 			spawnTeams[teamID] = teamAllyID
 			
 			--broadcast if newbie
-			local newbieParam 
-			if isNewbie(teamID) then
-				newbieParam = 1
-			else
-				newbieParam = 0
-			end
-			spSetTeamRulesParam(teamID, 'isNewbie', newbieParam, {public=true}) --visible to all; some widgets (faction choose, initial queue) need to know if its a newbie -> they unload
+			--local newbieParam 
+			--if isNewbie(teamID) then
+			--	newbieParam = 1
+			--else
+			--	newbieParam = 0
+			--end
+			--spSetTeamRulesParam(teamID, 'isNewbie', newbieParam, {public=true}) --visible to all; some widgets (faction choose, initial queue) need to know if its a newbie -> they unload
 		
 			--record that this allyteam will spawn something
 			local _,_,_,_,_,allyTeamID = Spring.GetTeamInfo(teamID)
 			allyTeams[allyTeamID] = allyTeamID
 		end
 	end
-	processedNewbies = true
+
 	
 	-- count allyteams
 	nAllyTeams = 0
@@ -259,12 +221,7 @@ function gadget:AllowStartPosition(x,y,z,playerID,readyState)
 	if not teamID or not allyTeamID then return false end --fail
 	
 	-- NewbiePlacer
-	if NewbiePlacer then
-		if not processedNewbies then return false end
-		if readyState == 0 and Spring.GetTeamRulesParam(teamID, 'isNewbie') == 1 then 
-			return false 
-		end
-	end
+	
 	
 	-- don't allow player to place startpoint unless its inside the startbox, if we have a startbox
 	if allyTeamID == nil then return false end
@@ -418,13 +375,7 @@ function SpawnStartUnit(teamID, x, z)
 	local startUnit = spGetTeamRulesParam(teamID, startUnitParamName)
 
 	--overwrite startUnit with random faction for newbies 
-	if Spring.GetTeamRulesParam(teamID, 'isNewbie') == 1 then
-		if math.random() > 0.5 then
-			startUnit = corcomDefID
-		else
-			startUnit = armcomDefID
-		end
-	end
+	
 	
 	--spawn starting unit
 	local y = spGetGroundHeight(x,z)
@@ -452,7 +403,7 @@ local customScale = 1.15
 local uiScale = customScale
 local myPlayerID = Spring.GetMyPlayerID()
 local _,_,spec,myTeamID = Spring.GetPlayerInfo(myPlayerID) 
-local amNewbie
+
 local ffaMode = (tonumber(Spring.GetModOptions().mo_ffa) or 0) == 1
 local isReplay = Spring.IsReplay()
 
@@ -583,8 +534,7 @@ function gadget:GameSetup(state,ready,playerStates)
 	
 	-- set my readyState to true if i am a newbie, or if ffa 
 	if not readied or not ready then 
-		amNewbie = (Spring.GetTeamRulesParam(myTeamID, 'isNewbie') == 1)
-		if amNewbie or ffaMode then
+		if ffaMode then
 			readied = true
 			return true, true 
 		end
@@ -621,12 +571,7 @@ function gadget:MousePress(sx,sy)
 	end
 	
 	-- message when trying to place startpoint but can't
-	if amNewbie then
-		local target,_ = Spring.TraceScreenRay(sx,sy)
-		if target == "ground" then
-			Spring.Echo("In this match, newbies (rank 0) will have a faction and startpoint chosen for them!")
-		end
-	end
+
 end
 
 function gadget:MouseRelease(x,y)
