@@ -663,9 +663,11 @@ local function processLine(line,g,cfg,newlinecolor)
 		local lineID = #history+1	
 		history[#history+1] = {line,clock(),lineID,textcolor,linetype}
         
+		if tonumber(Spring.GetConfigInt("chatsound",1) or 1) == 1 then
         if ( playSound ) then
             spPlaySoundFile( SoundIncomingChat, SoundIncomingChatVolume, nil, "ui" )
         end
+		end
 	end
 
 	return history[#history]
