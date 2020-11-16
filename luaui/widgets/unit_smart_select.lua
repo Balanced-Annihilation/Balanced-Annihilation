@@ -30,7 +30,9 @@ end
 
 -- whether to select buildings when mobile units are inside selection rectangle
 local selectBuildingsWithMobile = false
-local includeNanosAsMobile = true
+local includeNanosAsMobile = false
+
+local includeBuilders = false
 
 -- only select new units identical to those already selected
 local sameSelectKey = 'z'
@@ -42,7 +44,6 @@ local idleSelectKey = 'space'
 -- manually generated locals because I don't have trepan's script
 -----------------------------------------------------------------
 local GetTimer = Spring.GetTimer
-local DiffTimers = Spring.DiffTimers
 local GetMouseState = Spring.GetMouseState
 local GetModKeyState = Spring.GetModKeyState
 local GetKeyState = Spring.GetKeyState
@@ -63,7 +64,6 @@ local GetUnitTeam = Spring.GetUnitTeam
 
 local GetGroundHeight = Spring.GetGroundHeight
 local GetMiniMapGeometry = Spring.GetMiniMapGeometry
-local GetMiniMapDualScreen = Spring.GetMiniMapDualScreen
 local IsAboveMiniMap = Spring.IsAboveMiniMap
 
 local GetUnitDefID = Spring.GetUnitDefID
@@ -104,8 +104,6 @@ local lastCoords
 local lastMeta
 local filtered
 
-local lastUpdate = GetTimer()
-local spectating = false
 local myPlayerID
 
 local function sort(v1, v2)
@@ -114,14 +112,6 @@ local function sort(v1, v2)
 	else
 		return v1, v2
 	end
-end
-
-local function GetUnitsInArbitraryRectangle(x1, z1, x2, z2, team)
-	x1, x2 = sort(x1, x2)
-	z1, z2 = sort(z1, z2)
-
-	local units = GetUnitsInRectangle(x1, z1, x2, z2, team)
-	return units
 end
 
 
@@ -178,7 +168,9 @@ function widget:MousePress(x, y, button)
 		referenceSelectionTypes = {}
 		for i=1, #referenceSelection do
 			udid = GetUnitDefID(referenceSelection[i])
-			referenceSelectionTypes[udid] = 1
+			if udid then
+				referenceSelectionTypes[udid] = 1
+			end
 		end
 		referenceScreenCoords = {x, y}
 		lastMeta = nil
@@ -221,12 +213,14 @@ function widget:GetConfigData(data)
     savedTable = {}
     savedTable.selectBuildingsWithMobile = selectBuildingsWithMobile
     savedTable.includeNanosAsMobile = includeNanosAsMobile
+	savedTable.includeBuilders = includeBuilders
     return savedTable
 end
 
 function widget:SetConfigData(data)
     if data.selectBuildingsWithMobile ~= nil 	then  selectBuildingsWithMobile	= data.selectBuildingsWithMobile end
-    if data.includeNanosAsMobile ~= nil 	then  includeNanosAsMobile	= data.includeNanosAsMobile end
+	if data.includeNanosAsMobile ~= nil 	then  includeNanosAsMobile	= data.includeNanosAsMobile end
+	if data.includeBuilders ~= nil 	then  includeBuilders	= data.includeBuilders end
 end
 
 
@@ -271,23 +265,22 @@ function widget:Update()
 			local team = (playing and GetMyTeamID())
 			if (r ~= nil and IsAboveMiniMap(r[1], r[2])) then
 				local mx, my = max(px, min(px+sx, x)), max(py, min(py+sy, y))
-				mouseSelection = GetUnitsInMinimapRectangle(r[1], r[2], x, y, team)
+				mouseSelection = GetUnitsInMinimapRectangle(r[1], r[2], x, y, nil)
 			else
 				local d = referenceCoords
 				local x1, y1 = WorldToScreenCoords(d[1], d[2], d[3])
-				mouseSelection = GetUnitsInScreenRectangle(x, y, x1, y1, team)
+				mouseSelection = GetUnitsInScreenRectangle(x, y, x1, y1, nil)
 			end
 			originalMouseSelection = mouseSelection
 
-			if (#mouseSelection > 0) then
-				filtered = true
-			end
 			
 			-- filter gaia units
 			local filteredselection = {}
+			local filteredselectionCount = 0
 			for i=1, #mouseSelection do
 				if GetUnitTeam(mouseSelection[i]) ~= GaiaTeamID then
-					table.insert(filteredselection, mouseSelection[i])
+					filteredselectionCount = filteredselectionCount + 1
+					filteredselection[filteredselectionCount] = mouseSelection[i]
 				end
 			end
 			mouseSelection = filteredselection
@@ -320,6 +313,7 @@ function widget:Update()
 				end
 				mouseSelection = tmp
 			end
+
 
 			if (alt) then
 				-- only select mobile combat units
@@ -359,12 +353,20 @@ function widget:Update()
 
 				if (mobiles) then
 					tmp = {}
+					local tmp2 = {}
 					for i=1, #mouseSelection do
 						uid = mouseSelection[i]
 						udid = GetUnitDefID(uid)
 						if (buildingFilter[udid] == false) then
-							tmp[#tmp+1] = uid
+							if (includeBuilders or not builderFilter[udid]) then
+								tmp[#tmp+1] = uid
+							else
+								tmp2[#tmp2+1] = uid
+							end
 						end
+					end
+					if #tmp == 0 then
+						tmp = tmp2
 					end
 					mouseSelection = tmp
 				end
@@ -373,6 +375,7 @@ function widget:Update()
 			if (#newSelection < 1) then
 				newSelection = referenceSelection
 			end
+
 
 			if (ctrl) then
 				-- deselect units inside the selection rectangle, if we already had units selected
@@ -407,9 +410,8 @@ function widget:Update()
 				lastSelection = nil
 				return
 			end
-
 			lastSelection = GetSelectedUnits()
-		elseif (lastSelection ~= nil) and (filtered == true) then
+		elseif (lastSelection ~= nil) then
 			SelectUnitArray(lastSelection)
 			lastSelection = nil
 			referenceSelection = nil
@@ -431,7 +433,7 @@ function init()
 	builderFilter = {}
 	buildingFilter = {}
 	mobileFilter = {}
-
+	
 	for udid, udef in pairs(UnitDefs) do
 		local mobile = (udef.canMove and udef.speed > 0.000001) or (includeNanosAsMobile and (UnitDefs[udid].name == "armnanotc" or UnitDefs[udid].name == "cornanotc"))
 		local builder = (udef.canReclaim and udef.reclaimSpeed > 0) or
@@ -447,7 +449,26 @@ function init()
 		mobileFilter[udid] = mobile
 	end
 end
+
+function widget:Shutdown()
+	WG['smartselect'] = nil
+end
+
 function widget:Initialize()
+
+  WG['smartselect'] = {}
+	WG['smartselect'].getIncludeBuildings = function()
+		return selectBuildingsWithMobile
+	end
+	WG['smartselect'].setIncludeBuildings = function(value)
+		selectBuildingsWithMobile = value
+	end
+	WG['smartselect'].getIncludeBuilders = function()
+		return includeBuilders
+	end
+	WG['smartselect'].setIncludeBuilders = function(value)
+		includeBuilders = value
+	end
 	init()
 end
 
@@ -465,7 +486,6 @@ function widget:DrawWorld()
 		glColor(1, 1, 1, 1)
 		glLineWidth(1.0)
 		glDepthTest(false)
-
 		glBeginEnd(GL_LINE_STRIP, DrawRectangle, minimapRect)
 	end
 end
