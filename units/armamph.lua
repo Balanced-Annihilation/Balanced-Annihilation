@@ -154,7 +154,7 @@ return {
 				name = "Laser",
 				noselfdamage = true,
 				range = 275,
-				reloadtime = 0.75,
+				reloadtime = 0.65,
 				rgbcolor = "1 0 0",
 				soundhitdry = "",
 				soundhitwet = "sizzle",

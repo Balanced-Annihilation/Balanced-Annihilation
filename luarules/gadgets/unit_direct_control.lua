@@ -32,11 +32,24 @@ if (not gadgetHandler:IsSyncedCode()) then
 end
 
 
--- direct control ("fps mode") is blocked for all units because commands given in fps mode bypass lua & would bypass all anti-hax gadgets
-local enabled = false
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+
+local enabled = true
 
 local badUnitDefs = {
-    -- if enabled, block particular UnitDefIDs here
+	--UnitDefNames['cormexp'].id,
+	--UnitDefNames['corvipe'].id,
+	--UnitDefNames['armraven'].id,
+	--UnitDefNames['armsptk'].id,
+	--UnitDefNames['cortron'].id,
+	--UnitDefNames['cortl'].id,
+	--UnitDefNames['armtl'].id,
+	--UnitDefNames['cormship'].id,
+	--UnitDefNames['armmship'].id,
+	--UnitDefNames['corhurc'].id,
+	--UnitDefNames['corvroc'].id,
+	--UnitDefNames['cormship'].id,
 }
 
 
@@ -77,6 +90,8 @@ function gadget:Initialize()
 --      badUnitDefs[udid] = ud.humanName
 --    end
 --  end
+  Spring.SendCommands("unbind o controlunit")
+  Spring.SendCommands("bind o controlunit")
   local cmd  = "fpsctrl"
   local help = " [0|1]:  direct unit control blocking"
   gadgetHandler:AddChatAction(cmd, ChatControl, help)
@@ -94,8 +109,8 @@ end
 
 
 function gadget:AllowDirectUnitControl(unitID, unitDefID, unitTeam, playerID)
-  if (not enabled) and (not Spring.IsCheatingEnabled()) then
-    return false
+  if (not enabled) then
+    return true
   end
   
   if (select(3,Spring.GetPlayerInfo(playerID)) == true) then

@@ -138,6 +138,7 @@ return {
 				soundstart = "Lasrhvy2",
 				tolerance = 10000,
 				turret = true,
+				thickness = 6,
 				weapontype = "LaserCannon",
 				weaponvelocity = 400,
 				damage = {

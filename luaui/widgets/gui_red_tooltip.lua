@@ -146,7 +146,7 @@ local function getEditedCurrentTooltip()
 	--replace with limexp: exp/(1+exp) since all spring exp effects are linear in limexp, multiply by 10 because people like big numbers instead of [0,1] 
 	return currentExp and text:gsub(expPattern,string.format("Experience %.2f", 10*currentExp/(1+currentExp)) ) or text 
 end 
-
+local sfind = string.find
 local function createtooltip(r)
 	local text = {"text",
 		px=r.px+r.margin,py=r.py+(r.margin/1.5),
@@ -180,9 +180,14 @@ local function createtooltip(r)
 						table.insert(lines, s)
 					end
 					if(table.getn(lines) == 2) then
-						self.caption = "\n" 
+					
+						if(sfind(text,"Wreckage")) then
+							self.caption = text
+						else
+							self.caption = "\n" 
+						end
 					elseif (table.getn(lines) == 5) then
-						self.caption = self.caption..lines[2].."\n"..lines[3].."\n"..lines[4] 
+						self.caption = self.caption..lines[1].."\n"..lines[2].."\n"..lines[3].."\n"..lines[4] 
 					else
 						self.caption = text
 					end

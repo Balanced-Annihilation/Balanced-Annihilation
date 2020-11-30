@@ -20,7 +20,7 @@ OPTIONS.defaults = {	-- these will be loaded when switching style, but the style
 	name				= "Defaults",
 	imageSize			= 55,
 	xOffset				= -1.6,
-	yOffset				= -58/5,
+	yOffset				= (-58/5) + 22,
 	blinkDuration		= 0.12,
 	blinkTimeout		= 6,
 }
@@ -32,7 +32,7 @@ table.insert(OPTIONS, {
 	santahat			= imageDirectory.."santahat.dds",
 	imageSize			= 53,
 	xOffset				= -1.6,
-	yOffset				= -58/5,
+	yOffset				= -(58/5) + 22,
 	head_xOffset		= 0,
 	head_yOffset		= 0,
 })
@@ -44,7 +44,7 @@ table.insert(OPTIONS, {
 	santahat			= imageDirectory.."santahat.dds",
 	imageSize			= 53,
 	xOffset				= -1.6,
-	yOffset				= -58/5,
+	yOffset				=( -58/5 ) + 22,
 	head_xOffset		= 0,
 	head_yOffset		= 0,
 })

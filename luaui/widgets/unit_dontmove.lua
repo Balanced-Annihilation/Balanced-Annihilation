@@ -26,6 +26,11 @@ local unitArray = {
   "armcom",
   "corcom",
 
+  "armmerl",
+  "corvroc",
+	"armmart",
+  "cormart",
+  
   --aa units
   "armjeth",
   "armaak",

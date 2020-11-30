@@ -22,7 +22,7 @@ return {
 		icontype = "building",
 		idleautoheal = 5,
 		idletime = 1800,
-		maxdamage = 3837,
+		maxdamage = 3262,
 		minwaterdepth = 2,
 		name = "Stingray",
 		nochasecategory = "MOBILE",

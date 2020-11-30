@@ -57,7 +57,17 @@ function widget:MousePress(x, y, button)
 			local coord
 			if traceType == "ground" then
 				coord = traceValue
-			end
+			elseif traceType == "unit" then
+					local x,y,z = Spring.GetUnitPosition(traceValue)
+					if x and y and z then
+						coord = {x,y,z}
+					end
+				elseif traceType == "feature" then
+					local x,y,z = Spring.GetFeaturePosition(traceValue)
+					if x and y and z then
+						coord = {x,y,z}
+					end
+				end
 			if coord then
 				Spring.SetCameraTarget(coord[1],coord[2],coord[3],0,true)
 			end
@@ -75,7 +85,18 @@ function widget:MouseMove(x, y, dx, dy, button)
 			local coord
 			if traceType == "ground" then
 				coord = traceValue
-			end
+			elseif traceType == "unit" then
+					local x,y,z = Spring.GetUnitPosition(traceValue)
+					if x and y and z then
+						coord = {x,y,z}
+					end
+				elseif traceType == "feature" then
+					local x,y,z = Spring.GetFeaturePosition(traceValue)
+					if x and y and z then
+						coord = {x,y,z}
+					end
+				end
+			
 			if coord then
 				Spring.SetCameraTarget(coord[1],coord[2],coord[3],0,true)
 			end
@@ -87,6 +108,7 @@ function widget:MouseRelease(x, y, button)
 	leftClickDraggingCamera = false
 	end
 end
+
 
 local sformat = string.format
 local sSendCommands = Spring.SendCommands

@@ -1,7 +1,7 @@
 
 function widget:GetInfo()
 	return {
-		name = "Cursors",
+		name = "Cursors3",
 		desc = "Toggle a different cursor set with /cursor" ,
 		author = "Floris",
 		date = "",
@@ -12,10 +12,10 @@ function widget:GetInfo()
 end
 
 -- note: first entry should be icons inside base /anims folder
-local cursorSets = {'old', 'old_150','ta_hd', 'bar', 'bar_133'}
+local cursorSets = {'small','large'}
 
 local Settings = {}
-Settings['defaultCursorSet'] = 'ta_hd'
+Settings['defaultCursorSet'] = 'large'
 Settings['cursorSet'] = Settings['defaultCursorSet']
 
 function table_invert(t)
@@ -57,7 +57,7 @@ function SetCursor(cursorSet)
     }
     for i=1, #cursorNames do
         local topLeft = (cursorNames[i] == 'cursornormal')
-        if cursorSet == 'old' then 
+        if cursorSet == 'small' then 
             Spring.ReplaceMouseCursor(cursorNames[i], cursorNames[i], topLeft)
         else
             Spring.ReplaceMouseCursor(cursorNames[i], cursorSet..'/'..cursorNames[i], topLeft)
@@ -87,8 +87,8 @@ end
 function widget:SetConfigData(data)
     if data and type(data) == 'table' then
    			if 'number' == type(data['cursorSet']) then -- correct legacy settings
-   				data['cursorSet'] = 'bar'
-   				if data['cursorSet'] == 1 then data['cursorSet'] = 'old' end
+   				data['cursorSet'] = 'small'
+   				if data['cursorSet'] == 1 then data['cursorSet'] = 'small' end
    			end
 				if not cursorSetsInv[data['cursorSet']] then
 					data['cursorSet'] = Settings['defaultCursorSet']

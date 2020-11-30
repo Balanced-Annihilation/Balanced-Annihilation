@@ -51,6 +51,14 @@ local options={
 		section= "ba_modes",
 	},
 	{
+		key    = "allow_jugg",
+		name   = "Allow jugg",
+		desc   = "allow jugg the slow core t3 unit",
+		type   = "bool",
+		def    = false,
+		section= "ba_modes",
+	},
+	{
 		key    = "anon_ffa",
 		name   = "anon FFA Mode",
 		desc   = "Random FFA colours",
@@ -90,6 +98,14 @@ local options={
 		def    = false,
 		section= "ba_modes",
     },
+	{
+		key    = "mo_allowuserwidgets",
+		name   = "Allow user widgets",
+		desc   = "Allow custom user widgets or disallow them",
+		type   = "bool",
+		def    = true,
+		section= 'ba_modes',
+	},
     {
 		key="mo_transportenemy",
 		name="Enemy Transporting",

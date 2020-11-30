@@ -22,7 +22,7 @@ return {
 		icontype = "building",
 		idleautoheal = 5,
 		idletime = 1800,
-		maxdamage = 3927,
+		maxdamage = 3337,
 		minwaterdepth = 5,
 		name = "Thunderbolt",
 		nochasecategory = "MOBILE",

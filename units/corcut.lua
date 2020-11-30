@@ -61,7 +61,7 @@ return {
 		},
 		weapondefs = {
 			vtol_rocket2 = {
-				areaofeffect = 18,
+				areaofeffect = 72,
 				avoidfeature = false,
 				burnblow = true,
 				burst = 2,

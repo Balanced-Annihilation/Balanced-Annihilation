@@ -114,7 +114,7 @@ return {
 		},
 		weapondefs = {
 			trem1 = {
-				accuracy = 1400,
+				accuracy = 1000,
 				areaofeffect = 160,
 				avoidfeature = false,
 				craterareaofeffect = 160,

@@ -386,6 +386,7 @@ end
 --  Local
 ---------------------------------------------------------------------------------------------------
 
+
 local function round(num, idp)
   local mult = 10^(idp or 0)
   return floor(num * mult + 0.5) / mult
@@ -393,19 +394,15 @@ end
 
 
 local function formatRes(number)
-	local label = ""
-	if(number ~= nil) then
-	if number >= 1000 then
+	local label
+	if number > 10000 then
 		label = tconcat({floor(round(number/1000)),"k"})
-	--elseif number > 1000 then
-		--label = tconcat({strsub(round(number/1000,1),1,2+strfind(round(number/1000,1),".", nil, true)),"k"})
-	--elseif number > 10 then
-		--label = strsub(round(number,0),1,3+strfind(round(number,0),".", nil, true))
+	elseif number > 1000 then
+		label = tconcat({strsub(round(number/1000,1),1,2+strfind(round(number/1000,1),".")),"k"})
+	elseif number > 10 then
+		label = strsub(round(number,0),1,3+strfind(round(number,0),"."))
 	else
-		label = floor(round(number))
-
-		--label = strsub(round(number,1),1,2+strfind(round(number,1),".", nil, true))
-	end
+		label = strsub(round(number,1),1,2+strfind(round(number,1),"."))
 	end
 	return tostring(label)
 end
@@ -543,7 +540,7 @@ end
 local function DrawEBar(tE,tEp,vOffset)-- where tE = team Energy = [0,1]
 	vOffset = math.floor(vOffset - (borderPadding*0.5))
 	tE = math.max(tE, 0)
-
+	tEp = math.max(tEp, 0)
 	local dx = math.floor(15*sizeMultiplier)
 	local dy = math.floor(tH*0.43)
 	local maxW = widgetWidth - (30*sizeMultiplier)
@@ -634,8 +631,10 @@ end
 
 
 local function DrawMBar(tM,tMp,vOffset) -- where tM = team Metal = [0,1]
-	vOffset = math.floor(vOffset - (borderPadding*0.5))
+	vOffset = math.floor(
+	vOffset - (borderPadding*0.5))
 	tM = math.max(tM, 0)
+	tMp = math.max(tMp, 0)
 	local dx = math.floor(15*sizeMultiplier)
 	local dy = math.floor(tH*0.67)
 	local maxW = widgetWidth - (30*sizeMultiplier)
@@ -1453,12 +1452,10 @@ function widget:TeamDied(teamID)
 	--reclaimerUnits[teamID] = nil
 
 	if not (Spring.GetSpectatingState() or isReplay) then
-		if inSpecMode then Spring.Echo("Ecostats: widget now in active player mode.") end
 		inSpecMode = false
 		UpdateAllies()
 		UpdateAllTeams()
 	else
-		if not inSpecMode then Spring.Echo("Ecostats: widget now in spectator mode.") end
 		inSpecMode = true
 		UpdateAllTeams()
 		Reinit()

@@ -43,8 +43,9 @@ local sGetMyPlayerID = Spring.GetMyPlayerID
 
 local Confignew = {
 	console = {
-		px = 420,py = 40, --default start position
+		px = 400,py = 40, --default start position
 		sx = 460, --background size
+	
 		
 		fontsize = 11.33,
 		
@@ -122,7 +123,7 @@ local function AutoResizeObjects() --autoresize v2
 	local vsx,vsy = Screen.vsx,Screen.vsy
 	if ((lx ~= vsx) or (ly ~= vsy)) then
 		local objects = GetWidgetObjects(widget)
-		local scale = vsy/ly
+		local scale = vsx/lx
 		local skippedobjects = {}
 		for i=1,#objects do
 			local o = objects[i]
@@ -453,6 +454,8 @@ local function processLine(line,g,cfg,newlinecolor)
 	
 	local ignoreThisMessage = false
 	
+
+	
 	if (not newlinecolor) then
 		if (names[ssub(line,2,(sfind(line,"> ") or 1)-1)] ~= nil) then
 			linetype = 1 --playermessage
@@ -488,7 +491,8 @@ local function processLine(line,g,cfg,newlinecolor)
 	
 	-- filter rude words
 	if tonumber(Spring.GetConfigInt("ProfanityFilter",1) or 1) == 1 then
-   if sfind(line,"cunt") or sfind(line,"fuc")or sfind(line,"nig")or sfind(line,"tard")or sfind(line,"shit")or sfind(line,"fag")or sfind(line,"autis")or sfind(line,"assh") then
+		local line2 = string.lower(line)
+   if sfind(line2,"cunt") or sfind(line2,"fuc")or sfind(line2,"nigg")or sfind(line2,"tard")or sfind(line2,"shit")or sfind(line2,"fag")or sfind(line2,"autis")or sfind(line2,"rape")or sfind(line2,"dick")or sfind(line2,"penis")or sfind(line2,"pussy")or sfind(line2,"porn")or sfind(line2,"sex")or sfind(line2,"gay")or sfind(line2,"homo")or sfind(line2,"cancer") then
 			ignoreThisMessage = true
 	end
    end
@@ -659,9 +663,11 @@ local function processLine(line,g,cfg,newlinecolor)
 		local lineID = #history+1	
 		history[#history+1] = {line,clock(),lineID,textcolor,linetype}
         
+		if tonumber(Spring.GetConfigInt("chatsound",1) or 1) == 1 then
         if ( playSound ) then
             spPlaySoundFile( SoundIncomingChat, SoundIncomingChatVolume, nil, "ui" )
         end
+		end
 	end
 
 	return history[#history]
@@ -785,12 +791,17 @@ local function updateconsole(g,cfg)
 end
 
 function widget:Initialize()
+
 	PassedStartupCheck = RedUIchecks()
 	if (not PassedStartupCheck) then return end
 	
 	console = createconsole(Confignew.console)
 	Spring.SendCommands("console 0")
 	Spring.SendCommands('inputtextgeo 0.26 0.73 0.02 0.028')
+	AutoResizeObjects()
+end
+
+function widget:ViewResize(newX,newY)
 	AutoResizeObjects()
 end
 
@@ -820,8 +831,8 @@ end
 --currently only position
 function widget:GetConfignewData() --save Confignew
 	if (PassedStartupCheck) then
-		local vsy = Screen.vsy
-		local unscale = CanvasY/vsy --needed due to autoresize, stores unresized variables
+		local vsx = Screen.vsx
+		local unscale = CanvasX/vsx --needed due to autoresize, stores unresized variables
 		Confignew.console.px = console.background.px * unscale
 		Confignew.console.py = console.background.py * unscale
 		return {Confignew=Confignew}

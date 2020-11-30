@@ -639,7 +639,7 @@ function widget:DrawWorld()
   if (weaponType == "ballistic") then
     local states = GetUnitStates(aoeUnitID)
     local trajectory
-    if (states.trajectory) then
+    if (states ~= nil and states.trajectory) then
       trajectory = 1
     else
       trajectory = -1

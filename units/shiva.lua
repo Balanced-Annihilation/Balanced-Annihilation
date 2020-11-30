@@ -21,7 +21,7 @@ return {
 		mass = 200000,
 		maxdamage = 8500,
 		maxslope = 36,
-		maxvelocity = 1.61,
+		maxvelocity = 1.80,
 		maxwaterdepth = 32,
 		movementclass = "HAKBOT4",
 		name = "Shiva",

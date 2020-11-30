@@ -1,7 +1,7 @@
 function widget:GetInfo()
     return {
-        name      = "Comblast & Dgun Range",
-        desc      = "Shows the range of commander death explosion, geo when building, and hold fires crawlings",
+        name      = "crawling bomb holdfire",
+        desc      = "set crawlings to hold fire",
         author    = "Bluestone, based on similar widgets by vbs, tfc, decay  (made fancy by Floris)",
         date      = "14 february 2015",
         license   = "GPL v3 or later",
@@ -91,14 +91,14 @@ function setBombStates(unitID, unitDefID)
 end
 
 function isBomb(unitDefID)
-    if unitDefID == coreAdvGEOId or unitDefID == armAdvGEOId  or unitDefID == coreComId or unitDefID == armComId then
+    if  unitDefID == coreCrawlingId or coreAdvCrawlingId == unitDefID or unitDefID == armCrawlingId then
         return true
     end
     return false
 end
 
 function isHoldFire(unitDefID)
-    if unitDefID == coreAdvGEOId or unitDefID == armAdvGEOId  then
+    if unitDefID == coreCrawlingId or coreAdvCrawlingId == unitDefID or unitDefID == armCrawlingId then
         return true
     end
     return false
@@ -157,86 +157,6 @@ function widget:UnitLeftLos(unitID, unitDefID, unitTeam)
     end
 end
 
-function widget:DrawWorldPreUnit()
-	--if not spectatorMode then
-    local _, specFullView, _ = spGetSpectatingState()
-
-    if not specFullView then
-        notInSpecfullmode = true
-    else
-        if notInSpecfullmode then
-            detectSpectatorView()
-        end
-        notInSpecfullmode = false
-    end
-
-    if spIsGUIHidden() then return end
-
-    glDepthTest(true)
-	local camX, camY, camZ = spGetCameraPosition()
-	if(camY < 10000 ) then
-	local opacitymult = 1-((camY - 5000)/5000)
-	if(opacitymult > 1) then
-		opacitymult = 1
-	end
-	
-
-    for unitID in pairs(crawlingBombs) do
-        local x,y,z = GetUnitPosition(unitID)
-        local udefId = GetUnitDefID(unitID);
-        if udefId ~= nil then
-		
-			
-		
-            local udef = udefTab[udefId]
-
-            local selfdBlastId = weapNamTab[lower(udef[selfdTag])].id
-            local selfdBlastRadius = weapTab[selfdBlastId][aoeTag]
-			glLineWidth(lineWidth)
-			
-					local nearestEnemyUnitID
-					--if	(Spring.GetUnitAllyTeam(unitID) == myAllyTeam) then
-					nearestEnemyUnitID = spGetUnitNearestEnemy(unitID,selfdBlastRadius + 300)
-					--else
-					--nearestEnemyUnitID = spGetUnitNearestAlly(unitID,selfdBlastRadius + 300) -- this makes enemy highlight
-					--end
-			
-				if udefId == armAdvGEOId or udefId == coreAdvGEOId  then --show faintly for placing
-					local idx, cmd_id, _, _ = spGetActiveCommand()
-						if (cmd_id and spGetActiveCmdDesc( idx )["type"] == 20) then
-							if udefId == armAdvGEOId or udefId == coreAdvGEOId  then --show faintly for placing
-							glColor(1, 0.35, 0.15, 0.5*opacitymult)
-							glDrawGroundCircle(x, y, z, selfdBlastRadius, blastCircleDivs)
-							glDepthTest(false)
-							end
-					end
-				else
-				
-				if nearestEnemyUnitID then
-					local ex,ey,ez = spGetUnitPosition(nearestEnemyUnitID)
-					local distance = diag(x-ex, y-ey, z-ez) 
-
-					if distance < (selfdBlastRadius+300) then
-					
-						local distanceopacitymult = 1-((distance-selfdBlastRadius-100)/100)
-						if(distanceopacitymult > 1) then
-							distanceopacitymult = 1
-						end
-						glColor(1, 0.35, 0.15, 0.5*opacitymult*distanceopacitymult)
-						glDrawGroundCircle(x, y, z, selfdBlastRadius, blastCircleDivs)
-						glDepthTest(false)
-					end
-				end	
-				end	
-				
-			
-            
-
-			end 
-	end
-	end
-	--end
-end
 
 function widget:ViewResize(viewSizeX, viewSizeY)
   resize()

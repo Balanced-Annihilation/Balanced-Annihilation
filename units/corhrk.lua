@@ -101,9 +101,9 @@ return {
 		},
 		weapondefs = {
 			corhrk_rocket = {
-				areaofeffect = 70,
+				areaofeffect = 75,
 				avoidfeature = false,
-				craterareaofeffect = 70,
+				craterareaofeffect = 75,
 				craterboost = 0,
 				cratermult = 0,
 				edgeeffectiveness = 0.46,
