@@ -91,14 +91,14 @@ function setBombStates(unitID, unitDefID)
 end
 
 function isBomb(unitDefID)
-    if unitDefID == coreAdvGEOId or unitDefID == armAdvGEOId or unitDefID == coreCrawlingId or coreAdvCrawlingId == unitDefID or unitDefID == armCrawlingId or unitDefID == coreComId or unitDefID == armComId then
+    if unitDefID == coreAdvGEOId or unitDefID == armAdvGEOId  or unitDefID == coreComId or unitDefID == armComId then
         return true
     end
     return false
 end
 
 function isHoldFire(unitDefID)
-    if unitDefID == coreAdvGEOId or unitDefID == armAdvGEOId or unitDefID == coreCrawlingId or coreAdvCrawlingId == unitDefID or unitDefID == armCrawlingId then
+    if unitDefID == coreAdvGEOId or unitDefID == armAdvGEOId  then
         return true
     end
     return false
