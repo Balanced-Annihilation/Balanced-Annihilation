@@ -543,6 +543,15 @@ function applyOptionValue(i)
 				--widgetHandler:DisableWidget("Projectile lights")
 				widgetHandler:DisableWidget("Contrast Adaptive Sharpen")
 			end
+			
+			elseif id == 'adaptive' then
+			if value ~= 0 then
+				--widgetHandler:EnableWidget("Projectile lights")
+				widgetHandler:EnableWidget("Adaptive graphics")
+			else
+				--widgetHandler:DisableWidget("Projectile lights")
+				widgetHandler:DisableWidget("Adaptive graphics")
+			end
 		elseif id == 'fpstimespeed' then
 			Spring.SendCommands("fps "..value)
 			Spring.SendCommands("clock "..value)
@@ -920,6 +929,7 @@ function widget:Initialize()
 {id="blank2", name="GRAPHICS", type="label", value=1},
 
 			{id="advgraphics", name="Light effects and shadows", type="bool", value=tonumber(Spring.GetConfigInt("advgraphics",1) or 1) == 1, description='Enable adv graphics'},
+				{id="adaptive", name="Lower graphics if fps below 10 ", type="bool", value=widgetHandler.orderList["Adaptive graphics"] ~= nil and (widgetHandler.orderList["Adaptive graphics"] > 0), description='Lower graphics if fps below 10'},
 
 		
 		--{id="advmapshading", name="Advanced map shading", type="bool", value=tonumber(Spring.GetConfigInt("AdvMapShading",1) or 1) == 1, description='When disabled: shadows are disabled too'},
@@ -943,7 +953,7 @@ function widget:Initialize()
 
 					
 
-{id="blank3", name="", type="label", value=1},
+
 {id="blank4", name="SETTINGS", type="label", value=1},
 			--{id="water2", name="aa2", type="label", value=1},
 

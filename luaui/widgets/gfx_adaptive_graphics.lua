@@ -15,7 +15,7 @@ end
 
 local turnedShadowsOff = false
 local spGetFPS				= Spring.GetFPS
-
+local isSpec = Spring.GetSpectatingState()
 
 function widget:Shutdown()
 
@@ -27,12 +27,12 @@ function widget:Shutdown()
 				widgetHandler:EnableWidget("Deferred rendering")
 				widgetHandler:EnableWidget("Light Effects")
 				widgetHandler:EnableWidget("Contrast Adaptive Sharpen")
-				widgetHandler:EnableWidget("LupsManager")
-							Spring.SendCommands("AdvMapShading "..1)
+				--widgetHandler:EnableWidget("LupsManager")
+						--	Spring.SendCommands("AdvMapShading "..1)
 
-			Spring.SetConfigString("AdvMapShading", "1")
-			Spring.SendCommands("AdvModelShading "..1)
-			Spring.SetConfigString("AdvModelShading", "1")
+			--Spring.SetConfigString("AdvMapShading", "1")
+			--Spring.SendCommands("AdvModelShading "..1)
+			--Spring.SetConfigString("AdvModelShading", "1")
 	end
 	
 	
@@ -42,22 +42,22 @@ local maxfpsmode = false
 
 function widget:GameFrame(gameFrame)
 		if not maxfpsmode then
-		if gameFrame > 1000 and gameFrame%500==0 then 
+		if gameFrame > 1000 and gameFrame%500==0 and (not isSpec) then 
 			--local modelCount = #spGetVisibleUnits(-1,nil,false) + #spGetVisibleFeatures(-1,nil,false,false) -- expensive
 
 			
 			
-			if spGetFPS() <= 15 and (not maxfpsmode)  then
+			if spGetFPS() <= 10 and (not maxfpsmode)  then
 						maxfpsmode = true
-						Spring.SendCommands("AdvMapShading "..0)
-						Spring.SendCommands("AdvModelShading "..0)
+						--Spring.SendCommands("AdvMapShading "..0)
+						--Spring.SendCommands("AdvModelShading "..0)
 														Spring.SendCommands({"shadows 0"})
 
 						widgetHandler:DisableWidget("Projectile lights")
 						widgetHandler:DisableWidget("Deferred rendering")
 						widgetHandler:DisableWidget("Light Effects")
 						widgetHandler:DisableWidget("Contrast Adaptive Sharpen")
-						widgetHandler:DisableWidget("LupsManager")
+						--widgetHandler:DisableWidget("LupsManager")
 			end
 		end
 		end
