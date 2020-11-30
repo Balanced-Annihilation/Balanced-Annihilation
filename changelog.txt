@@ -1,15 +1,14 @@
-﻿11.0.5
-13/11/2020
+﻿11.0.7
+16/11/2020
 
 hurricane and phoenix +8% speed
 mercury and screamer max stockpile reduced by 1 to 4 missiles
 flash tank and AK +5% dps 
 t1 vehicle arty +10% movement speed
 t2 vehicle arty +10% hp
-t2 rocket vehicle +4% range, not self-jamming
+t2 rocket vehicle +5% range, not self-jamming
 arm emp spider +5% speed and has a low passive autoheal
 toaster and ambusher -5% metal cost
-commando can make ak
 dominator +5% aoe
 gimp +15% hp pelican +15% dps
 tremor firing spread reduced by 30%
