@@ -49,7 +49,7 @@ local customScale			= 1
 local customScaleStep		= 0.025
 local pointDuration    		= 40
 local cpuText				= false
-
+local m_side = nil
 --------------------------------------------------------------------------------
 -- SPEED UPS
 --------------------------------------------------------------------------------
@@ -276,6 +276,13 @@ local widgetRight   	= 1
 local widgetHeight  	= 0
 local widgetWidth   	= 0
 local widgetPosX    	= vsx-200
+
+local ui_scale2 = 0.96
+local orgHeight = 46
+local height2 = orgHeight * (1+(ui_scale2-1)/1.7)
+local widgetScale2 = (vsy / height2) * 0.046
+local widgetScale2 = widgetScale2 * ui_scale2
+--local widgetPosY    	= height2*widgetScale2
 local widgetPosY    	= 0
 local widgetScale		= 1
 
@@ -302,7 +309,6 @@ local modules = {}
 local modulesCount = 0
 local m_indent;   modulesCount = modulesCount + 1
 local m_rank;     modulesCount = modulesCount + 1
-local m_side;     modulesCount = modulesCount + 1
 local m_ID;       modulesCount = modulesCount + 1
 local m_name;     modulesCount = modulesCount + 1
 local m_share;    modulesCount = modulesCount + 1
@@ -371,18 +377,6 @@ m_country = {
 }
 position = position + 1
 
-m_side = {
-	name	  = "side",
-	spec      = true,
-	play      = true,
-	active    = false,
-	width     = 18,
-	position  = position,
-	posX      = 0,
-	pic       = pics["sidePic"],
-}
-position = position + 1
-
 m_skill = {
 	name	  = "skill",
 	spec      = true,
@@ -426,7 +420,7 @@ m_resources = {
 	name 	    = "resources",
 	spec      = true,
 	play      = true,
-	active    = false,
+	active    = true,
 	width     = 28,
 	position  = position,
 	posX      = 0,
@@ -509,7 +503,6 @@ modules = {
 	m_rank,
 	m_country,
 	m_ID,
-	m_side,
 	m_name,
 	m_skill,
 	m_resources,
@@ -1532,12 +1525,12 @@ function CreateBackground()
 	end
 	
 	Background = gl_CreateList(function()
-		gl_Color(0,0,0,0.6)
-		RectRound(BLcornerX,BLcornerY,TRcornerX,TRcornerY,6)
+		gl_Color(0,0,0,0.66)
+		RectRound(BLcornerX,BLcornerY,TRcornerX,TRcornerY,0)
 		
-		local padding = 0
-		gl_Color(1,1,1,0.022)
-		RectRound(BLcornerX+padding,BLcornerY+padding,TRcornerX-padding,TRcornerY-padding,padding)
+		--local padding = 0
+		--gl_Color(1,1,1,0.022)
+		--RectRound(BLcornerX+padding,BLcornerY+padding,TRcornerX-padding,TRcornerY-padding,padding)
 		
 		--DrawRect(BLcornerX,BLcornerY,TRcornerX,TRcornerY)
 		-- draws highlight (top and left sides)
@@ -1545,7 +1538,7 @@ function CreateBackground()
 		--gl_Rect(widgetPosX-margin-1,					widgetPosY + widgetHeight +margin, 	widgetPosX + widgetWidth+margin, 			widgetPosY + widgetHeight-1+margin)
 		--gl_Rect(widgetPosX-margin-1 , 					widgetPosY-margin, 					widgetPosX-margin, 							widgetPosY-margin + widgetHeight + 1  - 1+margin+margin)
 		
-		gl_Color(1,1,1,1)
+		--gl_Color(1,1,1,1)
 	end)	
 end
 
@@ -1819,9 +1812,7 @@ function DrawPlayer(playerID, leader, vOffset, mouseX, mouseY)
 		end
 		--gl_Color(red,green,blue,1)
 		gl_Color(1,1,1,0.45)
-		if name ~= absentName and m_side.active == true then
-			DrawSidePic(team, playerID, posY, leader, dark, ai)
-		end
+		
 		gl_Color(red,green,blue,1)
 		if m_name.active == true then
 			DrawName(name, team, posY, dark, playerID)
@@ -1977,7 +1968,7 @@ function DrawSidePic(team, playerID, posY, leader, dark, ai)
 		else
 			gl_Texture(pics["notFirstPic"])                          -- sets image for not leader of team players
 		end
-		DrawRect(m_side.posX + widgetPosX  + 2, posY+1, m_side.posX + widgetPosX  + 16, posY + 15) -- draws side image
+		--DrawRect(m_side.posX + widgetPosX  + 2, posY+1, m_side.posX + widgetPosX  + 16, posY + 15) -- draws side image
 		--[[if dark == true then	-- draws outline if player color is dark
 			gl_Color(1,1,1)
 			if leader == true then
@@ -1991,7 +1982,7 @@ function DrawSidePic(team, playerID, posY, leader, dark, ai)
 		]]--
 		gl_Texture(false)
 	else
-		DrawState(playerID, m_side.posX + widgetPosX, posY)
+		--DrawState(playerID, m_side.posX + widgetPosX, posY)
 	end
 	end
 end
@@ -2157,7 +2148,7 @@ if tonumber(Spring.GetModOptions().anon_ffa) == 1 then --is fa
     local xPadding = 0
     
     -- includes readystate icon if factions arent shown
-	if not gameStarted and not m_side.active then
+	if not gameStarted then
 		xPadding = 16
 		DrawState(playerID, m_name.posX + widgetPosX, posY)
 	end
@@ -2181,7 +2172,7 @@ function DrawSmallName(name, team, posY, dark, playerID, alpha)
 		end
 		local textindent = 4
 		local explayerindent = -3
-		if m_indent.active or m_rank.active or m_side.active or m_ID.active then
+		if m_indent.active or m_rank.active or m_ID.active then
 			textindent = 0
 		end
 		local nameColourR,nameColourG,nameColourB,nameColourA = 1,1,1,1
@@ -3018,7 +3009,7 @@ end
 ---------------------------------------------------------------------------------------------------
 
 function widget:GetConfigData(data)      -- save
-	if m_side ~= nil then
+	--if m_side ~= nil then
 		
 		--put module.active into a table
 		local m_active_Table = {}
@@ -3051,7 +3042,7 @@ function widget:GetConfigData(data)      -- save
 		}
 		
 		return settings
-	end
+	--end
 end
 
 function widget:SetConfigData(data)      -- load
