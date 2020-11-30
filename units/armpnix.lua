@@ -22,7 +22,7 @@ return {
 		idletime = 1800,
 		maxdamage = 1020,
 		maxslope = 10,
-		maxvelocity = 8.6,
+		maxvelocity = 9.37,
 		maxwaterdepth = 0,
 		name = "Phoenix",
 		noautofire = true,

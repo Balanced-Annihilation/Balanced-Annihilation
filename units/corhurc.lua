@@ -22,7 +22,7 @@ return {
 		idletime = 1800,
 		maxdamage = 1371,
 		maxslope = 10,
-		maxvelocity = 8.28,
+		maxvelocity = 9,
 		maxwaterdepth = 0,
 		name = "Hurricane",
 		noautofire = true,
