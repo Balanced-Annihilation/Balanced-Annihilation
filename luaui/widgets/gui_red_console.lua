@@ -43,7 +43,7 @@ local sGetMyPlayerID = Spring.GetMyPlayerID
 
 local Confignew = {
 	console = {
-		px = 400,py = 36, --default start position
+		px = 400,py = 40, --default start position
 		sx = 460, --background size
 	
 		
