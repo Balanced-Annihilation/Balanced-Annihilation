@@ -52,3 +52,9 @@ if (tonumber(Spring.GetModOptions().allow_buzz) == 0) then
 	"corbuzz", "armvulc"
   })
 end
+
+if (tonumber(Spring.GetModOptions().allow_jugg) == 0) then
+  disableunits({
+	"gorg"
+  })
+end

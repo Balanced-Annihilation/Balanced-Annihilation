@@ -51,6 +51,14 @@ local options={
 		section= "ba_modes",
 	},
 	{
+		key    = "allow_jugg",
+		name   = "Allow jugg",
+		desc   = "allow jugg the slow core t3 unit",
+		type   = "bool",
+		def    = false,
+		section= "ba_modes",
+	},
+	{
 		key    = "anon_ffa",
 		name   = "anon FFA Mode",
 		desc   = "Random FFA colours",
