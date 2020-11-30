@@ -121,7 +121,7 @@ return {
 				model = "corvrocket",
 				name = "Rocket",
 				noselfdamage = true,
-				range = 1290,
+				range = 1300,
 				reloadtime = 16,
 				smoketrail = true,
 				soundhit = "xplomed4",
