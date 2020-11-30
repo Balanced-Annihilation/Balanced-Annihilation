@@ -37,11 +37,7 @@ local bladeSpeedMultiplier = 0.2
 local armcomDefID = UnitDefNames.armcom.id
 local corcomDefID = UnitDefNames.corcom.id
 
-local playSounds = true
-local leftclick = 'LuaUI/Sounds/tock.wav'
-local resourceclick = 'LuaUI/Sounds/buildbar_click.wav'
-local middleclick = 'LuaUI/Sounds/buildbar_click.wav'
-local rightclick = 'LuaUI/Sounds/buildbar_rem.wav'
+
 
 local barGlowCenterTexture = ":l:LuaUI/Images/barglow-center.png"
 local barGlowEdgeTexture = ":l:LuaUI/Images/barglow-edge.png"
@@ -304,7 +300,7 @@ local function DrawRectRound(px,py,sx,sy,cs, tl,tr,br,bl, c1,c2)
 	gl.Vertex(sx, sy-cs, 0)
 end
 function RectRound(px,py,sx,sy,cs, tl,tr,br,bl, c1,c2)		-- (coordinates work differently than the RectRound func in other widgets)
-	--gl.Texture(false)
+	gl.Texture(false)
 	gl.BeginEnd(GL.QUADS, DrawRectRound, px,py,sx,sy,cs, tl,tr,br,bl, c1,c2)
 end
 
@@ -388,9 +384,7 @@ local function updateRejoin()
         font2:End()
 
 	end)
-	if WG['tooltip'] ~= nil then
-		WG['tooltip'].AddTooltip('rejoin', area, "Displays the catchup progress")
-	end
+	
 end
 
 
@@ -434,7 +428,7 @@ local function updateButtons()
 	end
 	dlistButtons1 = glCreateList( function()
 
-		-- background
+			-- background
 		--glColor(0,0,0,ui_opacity)
 		RectRound(area[1], area[2], area[3], area[4], 5.5*widgetScale, 1,1,1,1, {0,0,0,0.38+(ui_opacity*0.44)}, {0.1,0.1,0.1,(ui_opacity)})
 		local bgpadding = 3*widgetScale
@@ -443,6 +437,7 @@ local function updateButtons()
 
 		RectRound(area[1]+bgpadding, area[4]+bgpadding-((area[4]-area[2])*0.5), area[3], area[4], 3.3*widgetScale, 0,0,0,0, {1,1,1,0.07}, {1,1,1,0.21})
 		RectRound(area[1]+bgpadding, area[2]+bgpadding, area[3], area[2]+bgpadding+((area[4]-area[2])*0.35), bgpadding*1.25, 0,0,1,1, {1,1,1,0.09},{0,0,0,0})
+
 
 		if WG['guishader'] then
 			WG['guishader'].InsertDlist(dlistButtonsGuishader, 'topbar_buttons')
@@ -565,9 +560,7 @@ local function updateComs(forceText)
 	end)
 	comcountChanged = nil
 
-	if WG['tooltip'] ~= nil then
-		WG['tooltip'].AddTooltip('coms', area, "\255\215\255\215Commander Counter\n\255\240\240\240Displays the number of ally\nand enemy commanders")
-	end
+
 end
 
 
@@ -647,11 +640,8 @@ local function updateWind()
 
 	end)
 
-	if WG['tooltip'] ~= nil then
-		WG['tooltip'].AddTooltip('wind', area, "\255\215\255\215Wind Display\n\255\240\240\240Displays current wind strength\n\255\240\240\240also minimum ("..minWind..") and maximum ("..maxWind..")\n\255\255\215\215Rather build solars when average\n\255\255\215\215wind is below 5 (arm) or 6 (core)")
-	end
-end
 
+end
 
 local function updateResbarText(res)
 
@@ -797,7 +787,6 @@ local function updateResbarText(res)
 	end)
 end
 
-
 local function updateResbar(res)
 	local area = resbarArea[res]
 
@@ -916,23 +905,8 @@ local function updateResbar(res)
 	end)
 
 	-- add tooltips
-	if WG['tooltip'] ~= nil and conversionIndicatorArea then
-		if res == 'energy' then
-			WG['tooltip'].AddTooltip(res..'_share_slider', {resbarDrawinfo[res].barArea[1], shareIndicatorArea[res][2], conversionIndicatorArea[1], shareIndicatorArea[res][4]}, "\255\215\255\215"..res:sub(1,1):upper()..res:sub(2).." Share Slider\n\255\240\240\240Overflowing to your team when \n"..res.." goes beyond this point")
-			WG['tooltip'].AddTooltip(res..'_share_slider2', {conversionIndicatorArea[3], shareIndicatorArea[res][2], resbarDrawinfo[res].barArea[3], shareIndicatorArea[res][4]}, "\255\215\255\215"..res:sub(1,1):upper()..res:sub(2).." Share Slider\n\255\240\240\240Overflowing to your team when \n"..res.." goes beyond this point")
-
-			WG['tooltip'].AddTooltip(res..'_metalmaker_slider', conversionIndicatorArea, "\255\215\255\215Energy Conversion slider\n\255\240\240\240Excess energy beyond this point will be\nconverted to metal\n(by your Energy Convertor units)")
-		else
-			WG['tooltip'].AddTooltip(res..'_share_slider', {resbarDrawinfo[res].barArea[1], shareIndicatorArea[res][2], resbarDrawinfo[res].barArea[3], shareIndicatorArea[res][4]}, "\255\215\255\215"..res:sub(1,1):upper()..res:sub(2).." Share Slider\n\255\240\240\240Overflowing to your team when \n"..res.." goes beyond this point")
-		end
-		WG['tooltip'].AddTooltip(res..'_pull', {resbarDrawinfo[res].textPull[2]-(resbarDrawinfo[res].textPull[4]*2.5), resbarDrawinfo[res].textPull[3], resbarDrawinfo[res].textPull[2]+(resbarDrawinfo[res].textPull[4]*0.5), resbarDrawinfo[res].textPull[3]+resbarDrawinfo[res].textPull[4]}, ""..res.." pull (per second)")
-		WG['tooltip'].AddTooltip(res..'_income', {resbarDrawinfo[res].textIncome[2]-(resbarDrawinfo[res].textIncome[4]*2.5), resbarDrawinfo[res].textIncome[3], resbarDrawinfo[res].textIncome[2]+(resbarDrawinfo[res].textIncome[4]*0.5), resbarDrawinfo[res].textIncome[3]+resbarDrawinfo[res].textIncome[4]}, ""..res.." income (per second)")
-		WG['tooltip'].AddTooltip(res..'_expense', {resbarDrawinfo[res].textExpense[2]-(4*widgetScale),	resbarDrawinfo[res].textExpense[3], resbarDrawinfo[res].textExpense[2]+(30*widgetScale), resbarDrawinfo[res].textExpense[3]+resbarDrawinfo[res].textExpense[4]}, ""..res.." expense  (per second)")
-		WG['tooltip'].AddTooltip(res..'_storage', {resbarDrawinfo[res].textStorage[2]-(resbarDrawinfo[res].textStorage[4]*2.75), resbarDrawinfo[res].textStorage[3], resbarDrawinfo[res].textStorage[2], resbarDrawinfo[res].textStorage[3]+resbarDrawinfo[res].textStorage[4]}, ""..res.." storage")
-		WG['tooltip'].AddTooltip(res..'_curent', {resbarDrawinfo[res].textCurrent[2]-(resbarDrawinfo[res].textCurrent[4]*1.75), resbarDrawinfo[res].textCurrent[3], resbarDrawinfo[res].textCurrent[2]+(resbarDrawinfo[res].textCurrent[4]*1.75), resbarDrawinfo[res].textCurrent[3]+resbarDrawinfo[res].textCurrent[4]}, "\255\215\255\215"..string.upper(res).."\n\255\240\240\240Share "..res.." to a specific player by...\n1) Using the (adv)playerlist,\n    dragging up the "..res.." icon at the rightside.\n2) An interface brought up with the H key.")
-	end
+	
 end
-
 
 
 
@@ -1365,21 +1339,7 @@ function widget:DrawScreen()
 			end
 			glCallList(dlistWindText[currentWind])
 		else
-			if now < 60 and WG['tooltip'] ~= nil then
-				if (minWind + maxWind)/2 < 5.5 then
-					WG['tooltip'].ShowTooltip('topbar_windinfo', 'Wind isnt worth', windArea[1], windArea[2]-13*widgetScale)
-				elseif (minWind + maxWind)/2 >= 5.5 and (minWind + maxWind)/2 < 7 then
-					WG['tooltip'].ShowTooltip('topbar_windinfo', 'Wind is viable', windArea[1], windArea[2]-13*widgetScale)
-				elseif (minWind + maxWind)/2 >= 7 and (minWind + maxWind)/2 < 8.5 then
-					WG['tooltip'].ShowTooltip('topbar_windinfo', 'Average wind is okay', windArea[1], windArea[2]-13*widgetScale)
-				elseif (minWind + maxWind)/2 >= 8.5 and (minWind + maxWind)/2 < 10 then
-					WG['tooltip'].ShowTooltip('topbar_windinfo', 'Average wind is good', windArea[1], windArea[2]-13*widgetScale)
-				elseif (minWind + maxWind)/2 >= 10  and (minWind + maxWind)/2 < 15 then
-					WG['tooltip'].ShowTooltip('topbar_windinfo', 'Average wind is really good', windArea[1], windArea[2]-13*widgetScale)
-				elseif (minWind + maxWind)/2 >= 15 then
-					WG['tooltip'].ShowTooltip('topbar_windinfo', 'Wind is insanely good', windArea[1], windArea[2]-13*widgetScale)
-				end
-			end
+			
 		end
 	end
 
@@ -1403,9 +1363,7 @@ function widget:DrawScreen()
 		if WG['guishader'] then
 			WG['guishader'].RemoveDlist('topbar_rejoin')
 		end
-		if WG['tooltip'] ~= nil then
-			WG['tooltip'].RemoveTooltip('rejoin')
-		end
+		
 	end
 
 	if dlistButtons1 then
@@ -1600,9 +1558,7 @@ end
 
 local function applyButtonAction(button)
 
-	if playSounds then
-		Spring.PlaySoundFile(leftclick, 0.8, 'ui')
-	end
+
 
 	local isvisible = false
 	if button == 'quit' then
@@ -1634,14 +1590,6 @@ local function applyButtonAction(button)
 		if (WG['options'] ~= nil and isvisible ~= true) then
 			WG['options'].toggle()
 		end
-	elseif button == 'scavengers' then
-		if (WG['scavengerinfo'] ~= nil) then
-			isvisible = WG['scavengerinfo'].isvisible()
-		end
-		hideWindows()
-		if (WG['scavengerinfo'] ~= nil and isvisible ~= true) then
-			WG['scavengerinfo'].toggle()
-		end
 	elseif button == 'changelog' then
 		if (WG['changelog'] ~= nil) then
 			isvisible = WG['changelog'].isvisible()
@@ -1658,14 +1606,6 @@ local function applyButtonAction(button)
 		if (WG['keybinds'] ~= nil and isvisible ~= true) then
 			WG['keybinds'].toggle()
 		end
-    elseif button == 'commands' then
-		if (WG['commands'] ~= nil) then
-			isvisible = WG['commands'].isvisible()
-		end
-        hideWindows()
-        if (WG['commands'] ~= nil and isvisible ~= true) then
-            WG['commands'].toggle()
-        end
     elseif button == 'stats' then
 		if (WG['teamstats'] ~= nil) then
 			isvisible = WG['teamstats'].isvisible()
@@ -1702,18 +1642,14 @@ function widget:MousePress(x, y, button)
 			if IsOnRect(x, y, quitscreenArea[1], quitscreenArea[2], quitscreenArea[3], quitscreenArea[4]) then
 
 				if IsOnRect(x, y, quitscreenQuitArea[1], quitscreenQuitArea[2], quitscreenQuitArea[3], quitscreenQuitArea[4]) then
-					if playSounds then
-						Spring.PlaySoundFile(leftclick, 0.75, 'ui')
-					end
+					
 					Spring.SendCommands("QuitForce")
 					showQuitscreen = nil
 					hideQuitWindow = os.clock()
 					return true
 				end
 				if not spec and IsOnRect(x, y, quitscreenResignArea[1], quitscreenResignArea[2], quitscreenResignArea[3], quitscreenResignArea[4]) then
-					if playSounds then
-						Spring.PlaySoundFile(leftclick, 0.75, 'ui')
-					end
+				
 					Spring.SendCommands("spectator")
 					showQuitscreen = nil
 					if WG['guishader'] then
@@ -1753,9 +1689,7 @@ function widget:MousePress(x, y, button)
 				adjustSliders(x, y)
 			end
 			if draggingShareIndicator or draggingConversionIndicator then
-				if playSounds then
-					Spring.PlaySoundFile(resourceclick, 0.7, 'ui')
-				end
+			
 				return true
 			end
 		end
@@ -1891,7 +1825,7 @@ function widget:Initialize()
 		return showQuitscreen
 	end
 
-	init()
+
 	widget:ViewResize(vsx,vsy)
 
 	if gameFrame > 0 then
@@ -1942,34 +1876,15 @@ function shutdown()
 		WG['guishader'].RemoveDlist('topbar_buttons')
 		WG['guishader'].RemoveDlist('topbar_rejoin')
 	end
-	if WG['tooltip'] ~= nil then
-		WG['tooltip'].RemoveTooltip('coms')
-		WG['tooltip'].RemoveTooltip('wind')
-		WG['tooltip'].RemoveTooltip('rejoin')
-		local res = 'energy'
-		WG['tooltip'].RemoveTooltip(res..'_share_slider')
-		WG['tooltip'].RemoveTooltip(res..'_share_slider2')
-		WG['tooltip'].RemoveTooltip(res..'_metalmaker_slider')
-		WG['tooltip'].RemoveTooltip(res..'_pull')
-		WG['tooltip'].RemoveTooltip(res..'_income')
-		WG['tooltip'].RemoveTooltip(res..'_storage')
-		WG['tooltip'].RemoveTooltip(res..'_curent')
-		res = 'metal'
-		WG['tooltip'].RemoveTooltip(res..'_share_slider')
-		WG['tooltip'].RemoveTooltip(res..'_share_slider2')
-		WG['tooltip'].RemoveTooltip(res..'_pull')
-		WG['tooltip'].RemoveTooltip(res..'_income')
-		WG['tooltip'].RemoveTooltip(res..'_storage')
-		WG['tooltip'].RemoveTooltip(res..'_curent')
-	end
+	
 end
 
 function widget:Shutdown()
-	Spring.SendCommands("resbar 1")
 	shutdown()
 	gl.DeleteFont(font)
 	gl.DeleteFont(font2)
 	font = nil
 	font2 = nil
 	WG['topbar'] = nil
+	Spring.SendCommands("resbar 0")
 end
