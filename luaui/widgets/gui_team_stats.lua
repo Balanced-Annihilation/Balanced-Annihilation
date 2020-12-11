@@ -13,7 +13,7 @@ end
 
 local bgcorner	= ":n:"..LUAUI_DIRNAME.."Images/bgcorner.png"
 
-local fontSize = 13
+local fontSize = 12
 local update = 30 -- in frames
 local replaceEndStats = false
 local highLightColour = {0.5,0.8,0.5,0.66}
@@ -21,7 +21,7 @@ local activeSortColour = {0.7,0.7,1,0.95}
 local oddLineColour = {0.22,0.22,0.22,0.33}
 local evenLineColour = {0.7,0.7,0.7,0.33}
 local header = {
-	"frame",
+		"frame",
 	"damageDealt",
 	"damageReceived",
 	"unitsProduced",
@@ -91,13 +91,6 @@ local format				= string.format
 local SIsuffixes = {"p","n","u","m","","k","M","G","T"}
 local borderRemap = {left={"x","min",-1},right={"x","max",1},top={"y","max",1},bottom={"y","min",-1}}
 
-local vsx, vsy				= gl.GetViewSizes()
-local widgetScale			= 1
-
-function init()
-	vsx, vsy = gl.GetViewSizes()
-	widgetScale = (0.60 + (vsx*vsy / 5000000)) * 1
-end
 
 function roundNumber(num,useFirstDecimal)
 	return useFirstDecimal and format("%0.1f",round(num,1)) or round(num)
@@ -284,13 +277,13 @@ local guiData = {
 	smallBox = {
 		relSizes = {
 			x = {
-				min = 0.95,
-				max = 0.99,
+				min = 0.96,
+				max = 1,
 				length = 0.04,
 			},
 			y = {
-				min = 0.96,
-				max = 1,
+				min = 0.7,
+				max = 0.74,
 				length = 0.04,
 			},
 		},
@@ -434,16 +427,13 @@ function calcAbsSizes()
 end
 
 function widget:ViewResize(viewSizeX, viewSizeY)
-	init()
 	vsx,vsy = viewSizeX, viewSizeY
 	calcAbsSizes()
 	updateFontSize()
-	createButtonList()
+	--createButtonList()
 end
 
 function widget:Initialize()
-	init()
-	
 	WG['teamstats'] = {}
 	WG['teamstats'].toggle = function(state)
 		if state ~= nil then
@@ -458,7 +448,7 @@ function widget:Initialize()
 	WG['teamstats'].isvisible = function()
 		return guiData.mainPanel.visible
 	end
-	
+
 	guiData.mainPanel.visible = false
 	local vsx,vsy = widgetHandler:GetViewSizes()
 	widget:ViewResize(vsx,vsy)
@@ -466,7 +456,7 @@ function widget:Initialize()
 	if paused then
 		widget:GameFrame(GetGameFrame(),true)
 	end
-	createButtonList()
+	--createButtonList()
 end
 
 function createButtonList()
@@ -649,10 +639,10 @@ function mouseEvent(mx,my,button,release)
 		return true
 	end
 	if boxType == "smallBox" then
-		--if release then
-		--	guiData.mainPanel.visible = not guiData.mainPanel.visible
-		--	widget:GameFrame(GetGameFrame(),true)
-		--end
+		if release then
+			guiData.mainPanel.visible = not guiData.mainPanel.visible
+			widget:GameFrame(GetGameFrame(),true)
+		end
 		return true
 	elseif boxType == "mainPanel" then
 		if release then
@@ -686,7 +676,7 @@ function widget:TweakMousePress(x, y, button)
 	if button == 2  or button == 3 then
 		local ok
 		ok, guiData = tweakMousePress({x=x,y=y},guiData)
-		createButtonList()
+		--createButtonList()
 		return ok
 	else
 		return false
@@ -706,14 +696,14 @@ function widget:TweakMouseMove(x, y, dx, dy, button)
 	textDisplayList = glCreateList(ReGenerateTextDisplayList)
 	glDeleteList(backgroundDisplayList)
 	backgroundDisplayList = glCreateList(ReGenerateBackgroundDisplayList)
-	createButtonList()
+	--createButtonList()
 end
 
 function widget:TweakMouseRelease(mx,my,button)
 	guiData = tweakMouseRelease(guiData)
 	forceWithinScreen()
 	calcAbsSizes()
-	createButtonList()
+	--createButtonList()
 end
 
 function widget:MouseMove(mx,my,dx,dy)
@@ -744,7 +734,7 @@ function widget:DrawScreen()
 	if (WG['guishader_api'] ~= nil) then
 		WG['guishader_api'].RemoveRect('teamstats_window')
 	end
-	gl.CallList(buttonDrawList)
+	--gl.CallList(buttonDrawList)
 	DrawBackground()
 	DrawAllStats()
 end
@@ -823,27 +813,27 @@ function DrawButton()
 	if not guiData.smallBox.visible then
 		return
 	end
-	--local boxAbsData = guiData.smallBox.absSizes
-	--local tempFontSize = 14
+	local boxAbsData = guiData.smallBox.absSizes
+	local tempFontSize = 14
 	--[[if widgetHandler:InTweakMode() then
 		rectBoxWithBorder(guiData.smallBox,{0,0,0,0.7})
 	else
 		rectBox(guiData.smallBox,{0,0,0,0.5})
 	end]]--
-	--local x1,y1,x2,y2 = guiData.smallBox.absSizes.x.min, guiData.smallBox.absSizes.y.min, guiData.smallBox.absSizes.x.max, guiData.smallBox.absSizes.y.max
+	local x1,y1,x2,y2 = guiData.smallBox.absSizes.x.min, guiData.smallBox.absSizes.y.min, guiData.smallBox.absSizes.x.max, guiData.smallBox.absSizes.y.max
 	
-	--gl.Color(0,0,0,0.6)
-	--RectRound(x1,y1,x2,y2,7)
+	gl.Color(0,0,0,0.6)
+	RectRound(x1,y1,x2,y2,7)
 	
-	--local borderPadding = 0
-	--gl.Color(1,1,1,0.022)
-	--RectRound(x1+borderPadding,y1+borderPadding,x2-borderPadding,y2-borderPadding,6)
+	local borderPadding = 3.5
+	gl.Color(1,1,1,0.022)
+	RectRound(x1+borderPadding,y1+borderPadding,x2-borderPadding,y2-borderPadding,6)
 	
-	--if (WG['guishader_api'] ~= nil) then
-	--	WG['guishader_api'].InsertRect(x1,y1,x2,y2,'teamstats_button')
-	--end
+	if (WG['guishader_api'] ~= nil) then
+		WG['guishader_api'].InsertRect(x1,y1,x2,y2,'teamstats_button')
+	end
 	
-	--glText(colorToChar({1,1,1}) .. "Stats",boxAbsData.x.min+boxAbsData.x.length/2, boxAbsData.y.max-boxAbsData.y.length/2, tempFontSize*0.8*widgetScale, "ovc")
+	glText(colorToChar({1,1,1}) .. "Team Stats",boxAbsData.x.min+boxAbsData.x.length/2, boxAbsData.y.max-boxAbsData.y.length/2, tempFontSize, "ovc")
 end
 
 function DrawBackground()
