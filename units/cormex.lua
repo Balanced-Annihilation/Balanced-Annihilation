@@ -74,7 +74,7 @@ return {
 				metal = 13,
 				object = "3X3E",
                 collisionvolumescales = "55.0 4.0 55.0",
-                collisionvolumetype = "cylY",
+                collisionvolumetype = "box",
 				reclaimable = true,
 				resurrectable = 0,
 				seqnamereclamate = "TREE1RECLAMATE",

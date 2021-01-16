@@ -101,7 +101,7 @@ teamDeathMessages = {
 	"XX forgot to read the small print",
 	"XX experienced an adverse liquidity event",
 	"XX would like to speak to the manager",
-	"XX was made on offer they couldn't refuse",
+	"XX was made an offer they couldn't refuse",
 	"If you listen closely, you can hear XX crying",
 	"XX came to terms with losing",
 	"XX parted on good terms",
