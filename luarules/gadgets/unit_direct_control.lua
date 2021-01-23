@@ -90,8 +90,8 @@ function gadget:Initialize()
 --      badUnitDefs[udid] = ud.humanName
 --    end
 --  end
-  Spring.SendCommands("unbind o controlunit")
-  Spring.SendCommands("bind o controlunit")
+  Spring.SendCommands("unbind ctrl+o controlunit")
+  Spring.SendCommands("bind ctrl+o controlunit")
   local cmd  = "fpsctrl"
   local help = " [0|1]:  direct unit control blocking"
   gadgetHandler:AddChatAction(cmd, ChatControl, help)
