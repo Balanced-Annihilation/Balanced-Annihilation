@@ -21,6 +21,7 @@ if (gadgetHandler:IsSyncedCode()) then
 	["cordecom_decoy_disintegrator"] = true,
     ["armthund_armbomb"] = true,
     ["armpnix_armadvbomb"] = true,
+	["armsb_arm_seaadvbomb"] = true,
     ["armshock_shocker"] = true,
     ["armfboy_arm_fatboy_notalaser"] = true,
     ["armsb_seaadvbomb"] = true,
