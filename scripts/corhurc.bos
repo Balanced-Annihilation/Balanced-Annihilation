@@ -3,8 +3,8 @@
 #include "sfxtype.h"
 #include "exptype.h"
 
-piece  flare1, flare2, base, bombs, turret, wing1, wing2, tail1,
-       tail2, barrels, thrusta1, thrusta2, arm1, arm2, thrust;
+piece  flare1, flare2, base, bombs, wing1, wing2, tail1,
+       tail2, thrusta1, thrusta2, arm1, arm2, thrust;
 
 static-var  Static_Var_1, gun_2, statechg_DesiredState, statechg_StateChanging;
 
@@ -128,13 +128,6 @@ Deactivate()
 	start-script RequestState(1);
 }
 
-RestoreAfterDelay()
-{
-	sleep Static_Var_1;
-	turn turret to y-axis <0.000000> speed <90.016484>;
-	turn barrels to x-axis <0.000000> speed <50.005495>;
-}
-
 QueryPrimary(piecenum)
 {
 	piecenum = bombs;
@@ -143,40 +136,6 @@ QueryPrimary(piecenum)
 QuerySecondary(piecenum)
 {
 	piecenum = gun_2;
-}
-
-AimSecondary(heading, pitch)
-{
-	signal SIG_AIM_2;
-	set-signal-mask SIG_AIM_2;
-	turn turret to y-axis heading speed <390.093407>;
-	turn barrels to x-axis pitch speed <350.082418>;
-	wait-for-turn turret around y-axis;
-	wait-for-turn barrels around x-axis;
-	start-script RestoreAfterDelay();
-	return (1);
-}
-
-FireSecondary()
-{
-	if( gun_2 == 0 )
-	{
-		show flare1;
-		sleep 150;
-		hide flare1;
-	}
-	if( gun_2 == 1 )
-	{
-		show flare2;
-		sleep 150;
-		hide flare2;
-	}
-	gun_2 = !gun_2;
-}
-
-AimFromSecondary(piecenum)
-{
-	piecenum = turret;
 }
 
 SweetSpot(piecenum)
@@ -196,7 +155,6 @@ Killed(severity, corpsetype)
 	if( severity <= 25 )
 	{
 		corpsetype = 1;
-		explode barrels type BITMAPONLY | BITMAP1;
 		explode base type BITMAPONLY | BITMAP2;
 		explode bombs type BITMAPONLY | BITMAP3;
 		explode flare1 type BITMAPONLY | BITMAP4;
@@ -205,7 +163,6 @@ Killed(severity, corpsetype)
 		explode tail2 type BITMAPONLY | BITMAP2;
 		explode thrusta1 type BITMAPONLY | BITMAP3;
 		explode thrusta2 type BITMAPONLY | BITMAP4;
-		explode turret type BITMAPONLY | BITMAP1;
 		explode wing1 type BITMAPONLY | BITMAP2;
 		explode wing2 type BITMAPONLY | BITMAP3;
 		return (corpsetype);
@@ -213,7 +170,6 @@ Killed(severity, corpsetype)
 	if( severity <= 50 )
 	{
 		corpsetype = 2;
-		explode barrels type FALL | BITMAP1;
 		explode base type BITMAPONLY | BITMAP2;
 		explode bombs type FALL | BITMAP3;
 		explode flare1 type FALL | BITMAP4;
@@ -222,7 +178,6 @@ Killed(severity, corpsetype)
 		explode tail2 type FALL | BITMAP2;
 		explode thrusta1 type FALL | BITMAP3;
 		explode thrusta2 type FALL | BITMAP4;
-		explode turret type FALL | BITMAP1;
 		explode wing1 type SHATTER | BITMAP2;
 		explode wing2 type BITMAPONLY | BITMAP3;
 		return (corpsetype);
@@ -230,7 +185,6 @@ Killed(severity, corpsetype)
 	if( severity <= 99 )
 	{
 		corpsetype = 3;
-		explode barrels type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
 		explode base type BITMAPONLY | BITMAP2;
 		explode bombs type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
 		explode flare1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP4;
@@ -239,13 +193,11 @@ Killed(severity, corpsetype)
 		explode tail2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2;
 		explode thrusta1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
 		explode thrusta2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP4;
-		explode turret type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
 		explode wing1 type SHATTER | BITMAP2;
 		explode wing2 type BITMAPONLY | BITMAP3;
 		return (corpsetype);
 	}
 	corpsetype = 3;
-	explode barrels type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
 	explode base type BITMAPONLY | BITMAP2;
 	explode bombs type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
 	explode flare1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP4;
@@ -254,7 +206,6 @@ Killed(severity, corpsetype)
 	explode tail2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2;
 	explode thrusta1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
 	explode thrusta2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP4;
-	explode turret type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
 	explode wing1 type SHATTER | EXPLODE_ON_HIT | BITMAP2;
 	explode wing2 type BITMAPONLY | BITMAP3;
 	return corpsetype;
