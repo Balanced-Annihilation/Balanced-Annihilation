@@ -54,6 +54,9 @@ return {
 		},
 		weapondefs = {
 			armair_torpedo = {
+				avoidGround = false,
+				collideFeature = false,
+				flighttime = 3,
 				areaofeffect = 16,
 				avoidfeature = false,
 				avoidfriendly = false,
@@ -64,7 +67,6 @@ return {
 				craterboost = 0,
 				cratermult = 0,
 				explosiongenerator = "custom:FLASH2",
-				flighttime = 1.5,
 				impulseboost = 0.123,
 				impulsefactor = 0.123,
 				model = "torpedo",

@@ -60,6 +60,9 @@ return {
 		},
 		weapondefs = {
 			armseap_weapon1 = {
+				avoidGround = false,
+				collideFeature = false,
+				flighttime = 3,
 				areaofeffect = 16,
 				avoidfeature = false,
 				avoidfriendly = false,
@@ -70,7 +73,6 @@ return {
 				cratermult = 0,
 				edgeeffectiveness = 0.1,
 				explosiongenerator = "custom:FLASH2",
-				flighttime = 1.5,
 				impulseboost = 0.123,
 				impulsefactor = 0.123,
 				model = "torpedo",
