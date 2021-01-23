@@ -99,14 +99,14 @@ return {
 		},
 		weapondefs = {
 			cortron_weapon = {
-				areaofeffect = 512,
+				areaofeffect = 333,
 				avoidfeature = false,
 				avoidfriendly = false,
 				collidefriendly = false,
 				cegtag = "cruisemissiletrail-tacnuke",
 
 				commandfire = true,
-				craterareaofeffect = 512,
+				craterareaofeffect = 256,
 				craterboost = 1.6,
 				cratermult = 0.7,
 				edgeeffectiveness = 0.4,
