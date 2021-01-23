@@ -216,6 +216,18 @@ local moveDatas = {
 			maxValue = 0.7,
 		}
 	},
+	REZ = {
+		crushstrength = 10,
+		footprintx = 1,
+		footprintz = 1,
+		maxslope = 36,
+		maxwaterdepth = 22,
+		depthModParams = {
+			minHeight = 4,
+			linearCoeff = 0.03,
+			maxValue = 0.7,
+		}
+	},
 	TANK2 = {
 		crushstrength = 15,
 		footprintx = 2,

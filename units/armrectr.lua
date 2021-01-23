@@ -28,7 +28,7 @@ return {
 		maxslope = 14,
 		maxvelocity = 2.6,
 		maxwaterdepth = 22,
-		movementclass = "KBOT2",
+		movementclass = "REZ",
 		name = "Rector",
 		objectname = "ARMRECTR",
 		radardistance = 50,
