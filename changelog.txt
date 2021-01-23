@@ -1,11 +1,27 @@
-﻿11.0.8
+﻿11.0.9
+22/01/2021
+
+select arm com and type /dance to do a dance (Beta)
+can +4% hp
+dominator +2% blast radius
+t2 mobile arty +5% hp
+mobile anti nukes make 200e again instead of 100e
+tac missile -17.5% blast radius
+tremor firing spread reduced by 15%
+shiva +10% dps
+floating hlt -5% hp
+fix rezbot lag by shrinking footprint (hitbox is the same)
+core torpedo seaplane dps increased to 20% less than arm dps and range increased to 5% less than arm range
+core seaplane bomber +15% dps, arm seaplane bomber -5% hp, updated seaplane bomber effects to match factions 
+fix bug where torpedo weapons wouldn't hit, remove unused turret from core t2 bomber script
+FPS mode is now activated by pressing cntrl+o as people kept pressing "o" by accident
+condense previous changelog to balance changes
+
+11.0.8
 16/11/2020
 
-fix middle mouse button bug freezing camera
-fix team stats widget making mouse vanish
-gimp hp change lowered to +10% instead of +15%
+gimp +10% hp
 can +4% hp
-
 hurricane and phoenix +8% speed
 mercury and screamer max stockpile reduced by 1 to 4 missiles
 flash tank and AK +5% dps 
@@ -21,20 +37,6 @@ t3 lab costs approx 10% more metal (1000)
 vanguard +10% damage per shot, shiva +10% speed
 floating heavy laser tower -15% hp
 black hydra and epoch -20% hp
-seaplane gunships have a small AOE effect
-setting to vote to enable or disable Jugg (bset allow_jugg 1) 
-
-drive unit in FPS mode by pressing "o", control with mouse and arrows
-anon_ffa mode fixes: selected unit names show and wrecks show metal values
-cntrl x to select all of selected unit type visible, widget and performance improvements
-add widgets auto_reclaim_heal_assist, cmd_dgun_no_ground_enemies, and unit_factory_guard_passive (off)
-add widget adaptive graphics, will try to boost your FPS if it goes below 10, lasts until next game
-condense previous changelog to balance changes
-
-11.0.0
-07/07/2020
-
-add setting to vote to enable or disable buzzsaw (bset allow_buzz 1) 
 
 9.75.4
 05/01/2020
