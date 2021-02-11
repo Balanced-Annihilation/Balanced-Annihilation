@@ -60,6 +60,9 @@ return {
 		},
 		weapondefs = {
 			armseap_weapon1 = {
+				avoidGround = false,
+				collideFeature = false,
+				flighttime = 3,
 				areaofeffect = 16,
 				avoidfeature = false,
 				avoidfriendly = false,
@@ -70,13 +73,12 @@ return {
 				cratermult = 0,
 				edgeeffectiveness = 0.2,
 				explosiongenerator = "custom:FLASH2",
-				flighttime = 1.5,
 				impulseboost = 0.123,
 				impulsefactor = 0.123,
 				model = "torpedo",
 				name = "TorpedoLauncher",
 				noselfdamage = true,
-				range = 500,
+				range = 630,
 				reloadtime = 1.75,
 				soundhit = "xplodep2",
 				soundstart = "bombrel",
@@ -93,7 +95,7 @@ return {
 				damage = {
 					bombers = 15,
 					commanders = 63,
-					default = 125,
+					default = 175,
 					fighters = 15,
 					vtol = 15,
 				},
