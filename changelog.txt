@@ -1,18 +1,19 @@
-﻿11.1.1
-26/01/2021
+﻿11.1.3
+07/02/2021
 
-spy wont break cloak to reclaim if autoreclaiming is enabled
 can +4% hp
 dominator +2% blast radius
 t2 mobile arty +5% hp
-mobile anti nukes make 200e again instead of 100e
+mobile anti nukes make 200 e again instead of 100 e
+commando is not ampibious
 tac missile -17.5% blast radius
 tremor firing spread reduced by 15%
 shiva +10% dps
 floating hlt -5% hp
-fix rezbot lag by shrinking footprint (hitbox is the same)
-core torpedo seaplane dps increased to 20% less than arm dps and range increased to 5% less than arm range
-core seaplane bomber +15% dps, arm seaplane bomber -5% hp, updated seaplane bomber effects to match factions 
+fix factory hold position for t3 arm lab + underwater t3 labs
+fix rezbot lag and perfomance improvements
+core torp seaplane dps increased to 20% less than arm and range 5% less than arm
+core seaplane bomber +15% dps, arm seaplane bomber -5% hp, effects now match factions 
 fix bug where torpedo weapons wouldn't hit, remove unused turret from core t2 bomber script
 FPS mode is now activated by pressing cntrl+o as people kept pressing "o" by accident
 condense previous changelog to balance changes
