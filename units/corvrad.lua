@@ -14,7 +14,7 @@ return {
 		collisionvolumescales = "24 18 29",
 		collisionvolumetype = "box",
 		corpse = "dead",
-		description = "Radar Vehicle",
+		description = "Radar Vehicle/Minesweeper",
 		energymake = 8,
 		energyuse = 20,
 		explodeas = "big_unitex",
