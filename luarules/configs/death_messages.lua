@@ -79,6 +79,8 @@ allyTeamDeathMessages = {
 }	
 	
 teamDeathMessages = {
+	"XX has to go for dinner",
+	"XX would like a plaster",
 	"XX requires regulatory supervision",
 	"XX's trueskill fell below zero",
 	"XX upgraded engine version",
@@ -231,7 +233,6 @@ teamDeathMessages = {
 	"XX was converted to nuclear waste",
 	"XX has been burned for witchery",
 	"XX was gunned down by angry circus people",
-	"XX drowned in a toilet",
 	"XX has been decommissioned",
 	"XX won't be bothering you anymore, m'ame",
 	"XX forgot to turn off the gas",
@@ -351,7 +352,6 @@ teamDeathMessages = {
 	"XX phoned home",
 	"XX was dependent on the kindness of strangers",
 	"XX dreamed a dream in times gone by",
-	"XX had a dream",
 	"XX just didn't want to live any more",
 	"Houston, XX has a problem",
 	"XX wasn't in Kansas anymore",
@@ -776,7 +776,6 @@ teamDeathMessages = {
     "Let's face it, this is not the worst thing you've caught XX doing",
     "XX was discharged",
     "XX was terminated",
-    "XX was fresh out of Chlorine",
     "XX is just gonna stand there and bleed",
     "XX democratically voted against paying its own debts",
     "XX took its final shower",

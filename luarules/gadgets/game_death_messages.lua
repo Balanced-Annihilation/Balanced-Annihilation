@@ -61,10 +61,10 @@ function TeamDeathMessage(teamID)
 	end
 	plNames = ssub(plNames, 1, slen(plNames)-2) --remove final ", "
 	if plNames ~= "" then
-		plNames = " (" .. plNames .. ")"
+		plNames = " " .. plNames .. ""
 	end
 	local toCut = "XX" 
-	local toPaste = "Team " .. teamID .. plNames 
+	local toPaste = plNames 
 	local msg,_ = sgsub(msg, toCut, toPaste)
 
 	--send msg
