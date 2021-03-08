@@ -929,7 +929,7 @@ function widget:Initialize()
 {id="blank2", name="GRAPHICS", type="label", value=1},
 
 			{id="advgraphics", name="Light effects and shadows", type="bool", value=tonumber(Spring.GetConfigInt("advgraphics",1) or 1) == 1, description='Enable adv graphics'},
-				{id="adaptive", name="Lower graphics if fps below 10 ", type="bool", value=widgetHandler.orderList["Adaptive graphics"] ~= nil and (widgetHandler.orderList["Adaptive graphics"] > 0), description='Lower graphics if fps below 10'},
+				{id="adaptive", name="Boost perfomance if FPS below 10 ", type="bool", value=widgetHandler.orderList["Adaptive graphics"] ~= nil and (widgetHandler.orderList["Adaptive graphics"] > 0), description='Boost perfomance if FPS below 10'},
 
 		
 		--{id="advmapshading", name="Advanced map shading", type="bool", value=tonumber(Spring.GetConfigInt("AdvMapShading",1) or 1) == 1, description='When disabled: shadows are disabled too'},
