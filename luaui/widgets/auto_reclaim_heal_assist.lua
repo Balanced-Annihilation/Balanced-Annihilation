@@ -101,35 +101,8 @@ function widget:GameFrame()
 end
 
 local unitArray = { 
-
-
-
---"cornecro",
---"armrectr",
-
---"CORCOM",
---"ARMCOM",
-
---"ARMCK", 
---"CORCK", 
-"ARMACV",
-"CORACV", 
-"CORCA",
-"ARMCA",
-"ARMCAC", 
-"CORCAC", 
-"ARMACA",
-"CORACA",
-"ARMACK",
-"CORACK",
---"ARMCS",
---"CORCS",
-"ARMCSA",
-"CORCSA",
-"ARMBEAVER",
-"CORBEAVER",
-"ARMCH",
-"CORCH",
+"CORCOM",
+"ARMCOM",
 "ARMSPY",
 "CORSPY"
 }
@@ -153,7 +126,7 @@ function widget:UnitIdle(unitID, unitDefID, unitTeam)
 	--check if unit is mine
 		local udef = Spring.GetUnitDefID(unitID)
 		local ud = UnitDefs[udef] 
-		if (UnitDefs[unitDefID]["canReclaim"] and not ud.canManualFire) then     --check if unit can reclaim
+		if (UnitDefs[unitDefID]["canReclaim"] and IsSkirm(ud)==false and ud.isFactory == false) then     --check if unit can reclaim
 			  idleReclaimers[unitID]=true                 --add unit to register
 			  lastRegiInSecs=gameInSecs
 			  --echo("Registering unit "..unitID.." as idle")
