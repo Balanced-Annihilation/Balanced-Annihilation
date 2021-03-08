@@ -208,6 +208,11 @@ function MakeBindsTable (swapYZ)
 		"bind c buildunit_cormine4", 
         "bind shift+c buildunit_cormine4",
 
+		
+		"bind c buildunit_armfhlt",
+		"bind shift+c buildunit_armfhlt",
+		"bind c buildunit_corfhlt",
+        "bind shift+c buildunit_corfhlt",	
 		--torp
 		"bind c buildunit_armtl",
 		"bind shift+c buildunit_armtl",
@@ -241,6 +246,11 @@ function MakeBindsTable (swapYZ)
         "bind shift+c buildunit_cormaw",	
 		
 		--torp
+		"bind c buildunit_armfhlt",
+		"bind shift+c buildunit_armfhlt",
+		"bind c buildunit_corfhlt",
+        "bind shift+c buildunit_corfhlt",
+		
 		"bind c buildunit_armatl",
 		"bind shift+c buildunit_armatl",
 		"bind c buildunit_coratl",
