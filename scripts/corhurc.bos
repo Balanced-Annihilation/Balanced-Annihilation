@@ -114,8 +114,6 @@ Create()
 	Static_Var_1 = 3000;
 	call-script InitState();
 	start-script SmokeUnit();
-	spin arm1 around y-axis speed <950.225275>;
-	spin arm2 around y-axis speed <750.181319>;
 }
 
 Activate()
