@@ -103,12 +103,12 @@ function AllyTeamDeathMessage(allyTeamID)
 		plNames = " (" .. plNames .. ")"
 	end
 	local toCut = "XX" 
-	local toPaste = "Allyteam " .. allyTeamID .. plNames 
+	local toPaste = "Team " .. allyTeamID  
 	local msg,_ = sgsub(msg, toCut, toPaste)
 
 	--send msg
 	msg = msgColour .. msg
-	Spring.SendMessage(msg)	
+	Spring.SendMessage(msg .. plNames)	
 end
 
 function gadget:Initialize()

@@ -79,15 +79,19 @@ allyTeamDeathMessages = {
 }	
 	
 teamDeathMessages = {
+	"XX's value was determined by the free market",
+	"XX suffered unlimited losses",
+	"XX finished testing their new experimetal build",
 	"XX has to go for dinner",
 	"XX would like a plaster",
 	"XX requires regulatory supervision",
-	"XX's trueskill fell below zero",
+	"XX's trueskill briefly dropped below zero",
 	"XX upgraded engine version",
 	"XX had to die so BAR can live",
 	"XX transferred their github repo to Bluestone",
 	"XX was trolled too hard",
 	"XX unplugged the lobby server",
+	"XX was donated to BAR",
 	"XX fell like the last cherry blossom of Spring",
 	"XX asked for their mod to be unbanned",
 	"In retrospect, XX realises that was a bad idea",
