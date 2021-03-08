@@ -65,7 +65,7 @@ return {
 			armseap_weapon1 = {
 				avoidGround = false,
 				collideFeature = false,
-				flighttime = 3,
+				flighttime = 1.5,
 				areaofeffect = 16,
 				avoidfeature = false,
 				avoidfriendly = false,
