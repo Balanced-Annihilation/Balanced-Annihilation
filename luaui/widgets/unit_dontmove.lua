@@ -116,7 +116,7 @@ local unitArray = {
   "armscab",
   "cormabm",
   "armcarry",
-  "corcarry",
+  "corcarry"
   
   --misc
   

@@ -10,6 +10,9 @@ return {
 		canmove = true,
 		category = "ALL NOTLAND MOBILE WEAPON VTOL ANTIFLAME ANTIEMG ANTILASER NOTSUB NOTSHIP NOTHOVER",
 		collide = false,
+		collisionvolumeoffsets = "0 0 0",
+		collisionvolumescales = "32 16 32",
+		collisionvolumetype = "box",
 		cruisealt = 120,
 		description = "Torpedo Bomber",
 		energymake = 1.5,
@@ -57,7 +60,7 @@ return {
 			armair_torpedo = {
 				avoidGround = false,
 				collideFeature = false,
-				flighttime = 3,
+				flighttime = 1.5,
 				areaofeffect = 16,
 				avoidfeature = false,
 				avoidfriendly = false,

@@ -27,7 +27,7 @@ function widget:Shutdown()
 				widgetHandler:EnableWidget("Deferred rendering")
 				widgetHandler:EnableWidget("Light Effects")
 				widgetHandler:EnableWidget("Contrast Adaptive Sharpen")
-				--widgetHandler:EnableWidget("LupsManager")
+				widgetHandler:EnableWidget("LupsManager")
 						--	Spring.SendCommands("AdvMapShading "..1)
 
 			--Spring.SetConfigString("AdvMapShading", "1")
@@ -37,17 +37,23 @@ function widget:Shutdown()
 	
 	
 end
-
+local supermaxfpsmode = false
 local maxfpsmode = false
 
 function widget:GameFrame(gameFrame)
-		if not maxfpsmode then
-		if gameFrame > 1000 and gameFrame%500==0 and (not isSpec) then 
+		if (not isSpec) and (not supermaxfpsmode) then
+		if gameFrame > 1000 and gameFrame%500==0 then 
 			--local modelCount = #spGetVisibleUnits(-1,nil,false) + #spGetVisibleFeatures(-1,nil,false,false) -- expensive
 
+			if (not supermaxfpsmode) and maxfpsmode and spGetFPS() <= 10 then
+						supermaxfpsmode = true
+						Spring.SendCommands("AdvMapShading "..0)
+						Spring.SendCommands("AdvModelShading "..0)
+						widgetHandler:DisableWidget("LupsManager")
+						Spring.Echo("Max perfomance mode on until next game")
+			end
 			
-			
-			if spGetFPS() <= 10 and (not maxfpsmode)  then
+			if (not maxfpsmode) and spGetFPS() <= 10 then
 						maxfpsmode = true
 						--Spring.SendCommands("AdvMapShading "..0)
 						--Spring.SendCommands("AdvModelShading "..0)
@@ -57,8 +63,12 @@ function widget:GameFrame(gameFrame)
 						widgetHandler:DisableWidget("Deferred rendering")
 						widgetHandler:DisableWidget("Light Effects")
 						widgetHandler:DisableWidget("Contrast Adaptive Sharpen")
+						Spring.Echo("High perfomance mode on until next game")
+
 						--widgetHandler:DisableWidget("LupsManager")
 			end
+			
+			
 		end
 		end
 end

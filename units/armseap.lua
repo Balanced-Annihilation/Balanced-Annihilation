@@ -11,6 +11,9 @@ return {
 		cansubmerge = true,
 		category = "ALL NOTLAND MOBILE WEAPON NOTSUB ANTIFLAME ANTIEMG ANTILASER VTOL NOTSHIP NOTHOVER",
 		collide = false,
+		collisionvolumeoffsets = "0 0 0",
+		collisionvolumescales = "28 16 28",
+		collisionvolumetype = "box",
 		cruisealt = 100,
 		description = "Torpedo Gunship",
 		energymake = 0.7,
@@ -62,7 +65,7 @@ return {
 			armseap_weapon1 = {
 				avoidGround = false,
 				collideFeature = false,
-				flighttime = 3,
+				flighttime = 1.5,
 				areaofeffect = 16,
 				avoidfeature = false,
 				avoidfriendly = false,
