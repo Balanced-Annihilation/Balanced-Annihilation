@@ -361,6 +361,91 @@ local options={
 		step   = 1,  -- quantization is aligned to the def value
 		-- (step <= 0) means that there is no quantization
 	},
+
+
+	---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	-- Chickens
+	---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	{
+		key 	= 'chicken_defense_options',
+		name 	= 'Chickens',
+		desc 	= 'Various gameplay options that will change how the Chicken Defense is played.',
+		type 	= 'section',
+	},
+	{
+		key="chicken_chickenstart",
+		name="Burrow Placement",
+		desc="Control where burrows spawn",
+		type="list",
+		def="alwaysbox",
+		section="chicken_defense_options",
+		items={
+			{key="anywhere", name="Anywhere", desc="Burrows can spawn anywhere"},
+			{key="avoid", name="Avoid Players", desc="Burrows do not spawn on player units"},
+			{key="initialbox", name="Initial Start Box", desc="First wave spawns in chicken start box, following burrows avoid players"},
+			{key="alwaysbox", name="Always Start Box", desc="Burrows always spawn in chicken start box"},
+		}
+	},
+	{
+		key="chicken_queendifficulty",
+		name="Queen Difficulty",
+		desc="How hard doth the Chicken Queen",
+		type="list",
+		def="n_chickenq",
+		section="chicken_defense_options",
+		items={
+			{key="ve_chickenq", name="Very Easy", desc="Cakewalk"},
+			{key="e_chickenq", name="Easy", desc="Somewhat Challenging"},
+			{key="n_chickenq", name="Normal", desc="A Good Challenge"},
+			{key="h_chickenq", name="Hard", desc="Serious Business"},
+			{key="vh_chickenq", name="Very Hard", desc="Extreme Challenge"},
+			{key="epic_chickenq", name="Epic!", desc="Impossible!"},
+			{key="asc", name="Ascending", desc="Each difficulty after the next"},
+		}
+	},
+	{
+		key    = "chicken_queentime",
+		name   = "Max Queen Arrival (Minutes)",
+		desc   = "Queen will spawn after given time.",
+		type   = "number",
+		def    = 40,
+		min    = 1,
+		max    = 90,
+		step   = 1,
+		section= "chicken_defense_options",
+	},
+	{
+		key    = "chicken_maxchicken",
+		name   = "Chicken Limit",
+		desc   = "Maximum number of chickens on map.",
+		type   = "number",
+		def    = 300,
+		min    = 50,
+		max    = 5000,
+		step   = 25,
+		section= "chicken_defense_options",
+	},
+	{
+		key    = "chicken_graceperiod",
+		name   = "Grace Period (Seconds)",
+		desc   = "Time before chickens become active.",
+		type   = "number",
+		def    = 300,
+		min    = 5,
+		max    = 900,
+		step   = 5,
+		section= "chicken_defense_options",
+	},
+	{
+		key    = "chicken_queenanger",
+		name   = "Add Queen Anger",
+		desc   = "Killing burrows adds to queen anger.",
+		type   = "bool",
+		def    = true,
+		section= "chicken_defense_options",
+    },
 -- End Control Victory Options
 }
 return options
