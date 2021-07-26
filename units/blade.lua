@@ -6,7 +6,8 @@ return {
 		buildcostmetal = 1271,
 		buildpic = "BLADE.DDS",
 		buildtime = 23964,
-		canfly = true,
+		canfly = true, 
+ 
 		canmove = true,
 		category = "ALL WEAPON NOTSUB VTOL NOTHOVER",
 		collide = false,

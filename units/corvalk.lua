@@ -6,7 +6,8 @@ return {
 		buildcostmetal = 74,
 		buildpic = "CORVALK.DDS",
 		buildtime = 4122,
-		canfly = true,
+		canfly = true, 
+ 
 		canmove = true,
 		category = "ALL MOBILE WEAPON NOTLAND VTOL ANTIFLAME ANTIEMG ANTILASER NOTSUB NOTSHIP NOTHOVER",
 		collide = false,

@@ -45,16 +45,8 @@ end
 ----------------------------
 -- load cursors
 function SetCursor(cursorSet)
-    local cursorNames = {
-        'cursornormal','cursorareaattack','cursorattack','cursorattack',
-        'cursorbuildbad','cursorbuildgood','cursorcapture','cursorcentroid',
-        'cursorwait','cursortime','cursorwait','cursorunload','cursorwait',
-        'cursordwatch','cursorwait','cursordgun','cursorattack','cursorfight',
-        'cursorattack','cursorgather','cursorwait','cursordefend','cursorpickup',
-        'cursorrepair','cursorrevive','cursorrepair','cursorrestore','cursorrepair',
-        'cursormove','cursorpatrol','cursorreclamate','cursorselfd','cursornumber',
-        'cursorsettarget','cursorupgmex',
-    }
+    	local cursorNames = {'cursornormal', 'cursorareaattack', 'cursorattack', 'cursorattack', 'cursorbuildbad', 'cursorbuildgood', 'cursorcapture', 'cursorcentroid', 'cursor', 'cursortime', 'cursor', 'cursorunload', 'cursor', 'cursordwatch', 'cursor', 'cursordgun', 'cursorattack', 'cursorfight', 'cursorattack', 'cursorgather', 'cursor', 'cursordefend', 'cursorpickup', 'cursorrepair', 'cursorrevive', 'cursorrepair', 'cursorrepair', 'cursormove', 'cursorpatrol', 'cursorreclamate', 'cursorselfd', 'cursornumber', 'cursorsettarget', 'cursorupgmex'}
+
     for i=1, #cursorNames do
         local topLeft = (cursorNames[i] == 'cursornormal')
         if cursorSet == 'small' then 

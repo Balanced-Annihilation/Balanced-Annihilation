@@ -145,6 +145,14 @@ return {
 					subs = 10,
 					vtol = 250,
 				},
+					customparams = {
+					expl_light_life_mult = 0,
+					expl_light_mult = 0,
+					expl_light_radius_mult = 0,
+					light_mult = 0,
+					light_radius_mult = 0,
+					expl_noheatdistortion = 1,
+				},
 			},
 		},
 		weapons = {

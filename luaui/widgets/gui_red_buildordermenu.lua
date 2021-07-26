@@ -648,7 +648,6 @@ local function GetCommands()
 		[8] = true, --squadwait
 		[7] = true, --deathwait
 		[6] = true, --timewait
-		[39812] = true, --raw move
 		[34922] = true, -- set unit target
 		--[34923] = true, -- set target
 	}

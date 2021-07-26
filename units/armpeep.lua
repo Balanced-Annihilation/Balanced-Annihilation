@@ -6,7 +6,8 @@ return {
 		buildcostmetal = 52,
 		buildpic = "ARMPEEP.DDS",
 		buildtime = 2585,
-		canfly = true,
+		canfly = true, 
+ 
 		canmove = true,
 		category = "ALL MOBILE NOTLAND NOTSUB ANTIFLAME ANTIEMG ANTILASER VTOL NOWEAPON NOTSHIP NOTHOVER LIGHTAIRSCOUT",
 		collide = false,

@@ -14,13 +14,23 @@ if (not gadgetHandler:IsSyncedCode()) then
 	return
 end
 
-function LoadMissiles()
+function Load()
 	if not Spring.IsCheatingEnabled() then return end
 
 	for _,unitID in pairs(Spring.GetAllUnits()) do
 		Spring.SetUnitStockpile(unitID, select(2,Spring.GetUnitStockpile(unitID)) or 0) --no effect if the unit can't stockpile
 	end
 
+end
+
+function Dev()
+	if not Spring.IsCheatingEnabled() then return end
+		Spring.SendCommands("globallos")
+		Spring.SendCommands("godmode")
+		Spring.SendCommands("give 20 aafus 1")
+		Spring.SendCommands("give 20 armmmkr 1")
+		Spring.SendCommands("give 20 aafus")
+		Spring.SendCommands("give 20 armmmkr")
 end
 
 function gadget:HalfHealth()
@@ -34,14 +44,18 @@ end
 
 
 function gadget:Initialize()
-	gadgetHandler:AddChatAction('loadmissiles', LoadMissiles, "")
+	gadgetHandler:AddChatAction('load', Load, "")
 	gadgetHandler:AddChatAction('halfhealth', HalfHealth, "")
+		gadgetHandler:AddChatAction('dev', Dev, "")
+
 end
 
 
 function gadget:Shutdown()
-	gadgetHandler:RemoveChatAction('loadmissiles')
+	gadgetHandler:RemoveChatAction('load')
 	gadgetHandler:RemoveChatAction('halfhealth')
+			gadgetHandler:RemoveChatAction('dev')
+
 end
 
 

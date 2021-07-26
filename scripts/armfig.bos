@@ -128,6 +128,10 @@ FirePrimary()
 	return (0);
 }
 
+AimPrimary()
+{
+    return (1);
+}
 QueryPrimary(piecenum)
 {
 	piecenum = gun_1;

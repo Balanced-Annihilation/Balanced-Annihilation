@@ -110,22 +110,6 @@ ProjXPW(Func_Var_1, Func_Var_2)
 	}
 }
 
-RockZ(Func_Var_1, Func_Var_2)
-{
-	signal 16;
-	set-signal-mask 16;
-	call-script ProjXPW(10920 / Func_Var_2,Func_Var_1);
-	Static_Var_8 = Static_Var_8 + Static_Var_7;
-	Static_Var_7 = get ABS(Static_Var_8);
-	while( Static_Var_7 > 91 )
-	{
-		turn base to z-axis Static_Var_8 speed Static_Var_7 * 2;
-		wait-for-turn base around z-axis;
-		Static_Var_8 = Static_Var_8 * -1 / 2;
-		Static_Var_7 = get ABS(Static_Var_8);
-	}
-	turn base to z-axis <0.000000> speed <1.5>;
-}
 
 Create()
 {
@@ -247,7 +231,6 @@ AimWeapon1(heading, pitch)
 
 FireWeapon1()
 {
-	start-script RockZ(-13, aimDir);
 	if( Static_Var_1 == 0 )
 	{
 			emit-sfx 1024 + 0 from flare1a;

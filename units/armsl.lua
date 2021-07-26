@@ -6,12 +6,13 @@ return {
 		buildcostmetal = 367,
 		buildpic = "ARMSL.DDS",
 		buildtime = 15289,
-		canfly = true,
+		canfly = true, 
+ 
 		canmove = true,
 		category = "ALL NOTSUB VTOL NOWEAPON NOTHOVER",
 		collide = false,
 		collisionvolumeoffsets = "0 0 0",
-		collisionvolumescales = "32 16 32",
+		collisionvolumescales = "32 16 36",
 		collisionvolumetype = "box",
 		cruisealt = 150,
 		description = "Assault Transport",
@@ -43,6 +44,7 @@ return {
 		name = "Seahook",
 		objectname = "ARMSL",
 		releaseheld = true,
+		script = "corseah_lus.lua",
 		seismicsignature = 0,
 		selfdestructas = "small_unit",
 		sightdistance = 260,
@@ -54,6 +56,10 @@ return {
 		blocking = false,
 		customparams = {
 			paralyzemultiplier = 0.025,
+		},
+		sfxtypes = { 
+ 			pieceExplosionGenerators = { 
+			},
 		},
 		sounds = {
 			canceldestruct = "cancel2",

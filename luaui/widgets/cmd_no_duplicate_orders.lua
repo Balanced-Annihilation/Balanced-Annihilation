@@ -26,20 +26,33 @@ end
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 
-local GetSelectedUnits = Spring.GetSelectedUnits
-local GetCommandQueue  = Spring.GetCommandQueue
-local GetUnitPosition  = Spring.GetUnitPosition
-local GiveOrderToUnit  = Spring.GiveOrderToUnit
-local GetUnitHealth    = Spring.GetUnitHealth
+local GetSelectedUnits        = Spring.GetSelectedUnits
+local GetCommandQueue         = Spring.GetCommandQueue
+local GetUnitCurrentCommand   = Spring.GetUnitCurrentCommand
+local GetUnitPosition         = Spring.GetUnitPosition
+local GiveOrderToUnit         = Spring.GiveOrderToUnit
+local GetUnitHealth           = Spring.GetUnitHealth
 
 local buildList = {}
 
+function widget:PlayerChanged(playerID)
+  if Spring.GetSpectatingState() then
+    widgetHandler:RemoveWidget(self)
+  end
+end
+
 function widget:Initialize()
-  if Spring.GetSpectatingState() or Spring.IsReplay() then widgetHandler:RemoveWidget() end
+  if Spring.IsReplay() or Spring.GetGameFrame() > 0 then
+    widget:PlayerChanged()
+  end
   for _,unitID in ipairs(Spring.GetTeamUnits(Spring.GetMyTeamID())) do
     local _, _, _, _, buildProgress = GetUnitHealth(unitID)
     if (buildProgress < 1) then widget:UnitCreated(unitID) end    
   end
+end
+
+function widget:GameStart()
+    widget:PlayerChanged()
 end
 
 local function toLocString(posX,posY,posZ)
@@ -66,23 +79,26 @@ function widget:CommandNotify(id, params, options)
     if (id == CMD.REPAIR) then
       local selUnits = GetSelectedUnits()
       local blockUnits = {}
-      for _,unitID in ipairs(selUnits) do
-        local cQueue = GetCommandQueue(unitID, 1)
-        if (#cQueue > 0) then
-          if (cQueue[1].id < 0) and (params[1] == buildList[toLocString(cQueue[1].params[1], 0, cQueue[1].params[3])]) then
+      for i=1,#selUnits do
+        local unitID = selUnits[i]
+        local cmdID, _, _, cmdParam1, _, cmdParam3 = GetUnitCurrentCommand(unitID)
+        if cmdID then
+          if cmdID < 0 and (params[1] == buildList[toLocString(cmdParam1, 0, cmdParam3)]) then
             blockUnits[unitID] = true
-          elseif (cQueue[1].id == CMD.REPAIR) and (params[1] == cQueue[1].params[1]) then
+          elseif (cmdID == CMD.REPAIR) and (params[1] == cmdParam1) then
             blockUnits[unitID] = true
           end
         end
       end
       if next(blockUnits) then
-        for _,unitID in ipairs(selUnits) do
+        for i=1,#selUnits do
+          local unitID = selUnits[i]
           if not blockUnits[unitID] then
             GiveOrderToUnit(unitID, id, params, options)
           else
-            local cQueue = GetCommandQueue(unitID,50)
-            for _,v in ipairs(cQueue) do
+            local cQueue = GetCommandQueue(unitID,50) or {}
+            for i=1,#cQueue do
+              local v = cQueue[i]
               if (v.tag ~= cQueue[1].tag) then
                 GiveOrderToUnit(unitID,v.id,v.params,{"shift"})
               end
@@ -96,19 +112,22 @@ function widget:CommandNotify(id, params, options)
     elseif (id == CMD.ATTACK) then
       local selUnits = GetSelectedUnits()
       local blockUnits = {}
-      for _,unitID in ipairs(selUnits) do
-        local cQueue = GetCommandQueue(unitID,50)
+      for i=1,#selUnits do
+        local unitID = selUnits[i]
+        local cQueue = GetCommandQueue(unitID,50) or {}
         if (#cQueue > 0) and (params[1] == cQueue[1].params[1]) then
           blockUnits[unitID] = true
         end
       end
       if next(blockUnits) then
-        for _,unitID in ipairs(selUnits) do
+        for i=1,#selUnits do
+          local unitID = selUnits[i]
           if not blockUnits[unitID] then
             GiveOrderToUnit(unitID, id, params, options)
           else
-            local cQueue = GetCommandQueue(unitID,50)
-            for _,v in ipairs(cQueue) do
+            local cQueue = GetCommandQueue(unitID,50) or {}
+            for i=1,#cQueue do
+              local v = cQueue[i]
               if (v.tag ~= cQueue[1].tag) then
                 GiveOrderToUnit(unitID,v.id,v.params,{"shift"})
               end

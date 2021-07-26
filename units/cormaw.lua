@@ -38,6 +38,7 @@ return {
 		turnrate = 0,
 		upright = true,
 		usebuildinggrounddecal = false,
+		yardmap = "ffff",
 		featuredefs = {
 			dead = {
 				autoreclaimable = 0,

@@ -42,13 +42,19 @@ CallInsList = {
   "UnitCommand",
   "UnitIdle",
   "UnitSeismicPing",
+  "UnitEnteredWater",
+  "UnitEnteredAir",
+  "UnitLeftWater",
+  "UnitLeftAir",
   "UnitEnteredRadar",
   "UnitEnteredLos",
   "UnitLeftRadar",
   "UnitLeftLos",
   "UnitLoaded",
   "UnitUnloaded",
-  
+  "UnitCloaked",
+  "UnitDecloaked",
+
   "ShieldPreDamaged",
 
   "FeatureCreated",
@@ -68,6 +74,8 @@ CallInsList = {
   "DrawInMiniMap",
   "DrawUnit",
 
+  "SunChanged",
+
   "Explosion",
   "ShockFront",
 
@@ -77,13 +85,19 @@ CallInsList = {
   "CommandFallback",
   "AllowUnitCreation",
   "AllowUnitTransfer",
+  "AllowUnitTransport",
+  "AllowUnitTransportLoad",
+  "AllowUnitTransportUnload",
   "AllowUnitBuildStep",
+  "AllowUnitCloak",
+  "AllowUnitDecloak",
   "AllowFeatureCreation",
   "AllowFeatureBuildStep",
   "AllowResourceLevel",
   "AllowResourceTransfer",
   "MoveCtrlNotify",
   "TerraformComplete",
+  "UnsyncedHeightMapUpdate"
 }
 
 

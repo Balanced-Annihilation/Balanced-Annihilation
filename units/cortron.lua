@@ -99,14 +99,14 @@ return {
 		},
 		weapondefs = {
 			cortron_weapon = {
-				areaofeffect = 333,
+				areaofeffect = 350,
 				avoidfeature = false,
 				avoidfriendly = false,
 				collidefriendly = false,
 				cegtag = "cruisemissiletrail-tacnuke",
 
 				commandfire = true,
-				craterareaofeffect = 256,
+				craterareaofeffect = 350,
 				craterboost = 1.6,
 				cratermult = 0.7,
 				edgeeffectiveness = 0.4,
@@ -122,17 +122,32 @@ return {
 				noselfdamage = true,
 				range = 2750,
 				reloadtime = 2,
-				smoketrail = true,
+				smoketrail = false,
 				soundhit = "xplomed4",
 				soundstart = "misicbm1",
 				stockpile = true,
 				stockpiletime = 75,
+				texture1 = "trans",
+				texture2 = "null",
+				texture3 = "null",
 				tolerance = 4000,
 				turnrate = 32768,
 				weaponacceleration = 180,
 				weapontimer = 4,
 				weapontype = "StarburstLauncher",
 				weaponvelocity = 1200,
+				customparams = {
+					expl_light_color = "1 0.9 0.7",
+					expl_light_life_mult = 1.7,
+					expl_light_mult = 1.25,
+					expl_light_radius_mult = 1.5,
+					light_color = "1 0.6 0.2",
+					light_mult = 4.5,
+					light_radius_mult = 1.4,
+				},
+				
+				
+				
 				damage = {
 					commanders = 499,
 					default = 2500,

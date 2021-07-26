@@ -69,7 +69,7 @@ function widget:MousePress(x, y, button)
 					end
 				end
 			if coord then
-				Spring.SetCameraTarget(coord[1],coord[2],coord[3],0,true)
+				Spring.SetCameraTarget(coord[1],coord[2],coord[3],0,1)
 			end
 				leftClickDraggingCamera = true
 				return true
@@ -98,7 +98,7 @@ function widget:MouseMove(x, y, dx, dy, button)
 				end
 			
 			if coord then
-				Spring.SetCameraTarget(coord[1],coord[2],coord[3],0,true)
+				Spring.SetCameraTarget(coord[1],coord[2],coord[3],0,1)
 			end
 	end
 end

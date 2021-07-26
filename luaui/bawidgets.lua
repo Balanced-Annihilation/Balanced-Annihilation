@@ -24,11 +24,15 @@ include("system.lua")
 include("callins.lua")
 include("savetable.lua")
 
+Spring.Utilities = {}
+VFS.Include("LuaRules/Utilities/tablefunctions.lua")
+
 
 local gl = gl
 
-local CONFIG_FILENAME    = LUAUI_DIRNAME .. 'Config/' .. Game.modShortName .. '.lua'
-local WIDGET_DIRNAME     = LUAUI_DIRNAME .. 'Widgets/'
+local CONFIG_FILENAME    = LUAUI_DIRNAME .. 'Config/' .. Game.gameShortName .. '.lua'
+local WIDGET_DIRNAME     = LUAUI_DIRNAME .. 'widgets/'
+local WIDGET_DIRNAME_MAP = LUAUI_DIRNAME .. 'widgets/'
 
 local SELECTOR_BASENAME = 'selector.lua'
 
@@ -61,11 +65,11 @@ Spring.SendCommands({
 --
 --  the widgetHandler object
 --
-local mo_allowuserwidgets = true
-if Spring.GetModOptions and (tonumber(Spring.GetModOptions().mo_allowuserwidgets) or 0) == 0 then
-  mo_allowuserwidgets = false
-end
 
+local allowuserwidgets = true
+if Spring.GetModOptions and (tonumber(Spring.GetModOptions().allowuserwidgets) or 1) == 0 then
+  allowuserwidgets = false
+end
 
 widgetHandler = {
 
@@ -148,16 +152,23 @@ local flexCallIns = {
   'UnitMoveFailed',
   'RecvLuaMsg',
   'StockpileChanged',
+  'SelectionChanged',
   'DrawGenesis',
   'DrawWorld',
   'DrawWorldPreUnit',
+  'DrawWorldPreParticles',
   'DrawWorldShadow',
   'DrawWorldReflection',
   'DrawWorldRefraction',
+  'DrawUnitsPostDeferred',
+  'DrawFeaturesPostDeferred',
   'DrawScreenEffects',
+  'DrawScreenPost',
   'DrawInMiniMap',
+  'SunChanged',
   'FeatureCreated',
   'FeatureDestroyed',
+  'UnsyncedHeightMapUpdate',
 }
 local flexCallInMap = {}
 for _,ci in ipairs(flexCallIns) do
@@ -176,6 +187,7 @@ local callInLists = {
   'DrawScreen',
   'KeyPress',
   'KeyRelease',
+  'TextInput',
   'MousePress',
   'MouseWheel',
   'JoyAxis',
@@ -185,6 +197,7 @@ local callInLists = {
   'IsAbove',
   'GetTooltip',
   'GroupChanged',
+  'GameProgress',
   'CommandsChanged',
   'TweakMousePress',
   'TweakMouseWheel',
@@ -232,7 +245,7 @@ local function rev_iter(t, key)
   end
 end
 
-local function ripairs(t)
+local function r_ipairs(t)
   return rev_iter, t, (1 + #t)
 end
 
@@ -244,7 +257,7 @@ function widgetHandler:LoadConfigData()
 	local chunk, err = loadfile(CONFIG_FILENAME)
 	if (chunk == nil) or (err) then
 		if err then
-			Spring.Log("bawidgets.lua", LOG.INFO, err)
+			Spring.Log("widgets.lua", LOG.INFO, err)
 		end
 		return {}
 	elseif (chunk() == nil) then
@@ -343,36 +356,46 @@ function widgetHandler:Initialize()
   -- do we allow userland widgets?
   --local autoUserWidgets = Spring.GetConfigInt('LuaAutoEnableUserWidgets', 1)
   --self.autoUserWidgets = (autoUserWidgets ~= 0)
-  if self.allowUserWidgets==nil then 
-    self.allowUserWidgets = true 
+  if self.allowUserWidgets==nil then
+    self.allowUserWidgets = true
   end
-  if self.allowUserWidgets and mo_allowuserwidgets then
+  if self.allowUserWidgets and allowuserwidgets then
     Spring.Echo("LuaUI: Allowing User Widgets")
   else
     Spring.Echo("LuaUI: Disallowing User Widgets")
   end
-  
+
   -- create the "LuaUI/Config" directory
   Spring.CreateDir(LUAUI_DIRNAME .. 'Config')
 
   local unsortedWidgets = {}
 
   -- stuff the raw widgets into unsortedWidgets
-  if self.allowUserWidgets and mo_allowuserwidgets then
-    local widgetFiles = VFS.DirList(WIDGET_DIRNAME, "*.lua", VFS.RAW_ONLY)
+  if self.allowUserWidgets and allowuserwidgets then
+    local widgetFiles = VFS.DirList(WIDGET_DIRNAME, "*.lua", VFS.RAW)
     for k,wf in ipairs(widgetFiles) do
-      GetWidgetInfo(wf, VFS.RAW_ONLY)
+      GetWidgetInfo(wf, VFS.RAW)
       local widget = self:LoadWidget(wf, false)
       if (widget) and not zipOnly[widget.whInfo.name] then
         table.insert(unsortedWidgets, widget)
       end
     end
   end
-  
+
   -- stuff the zip widgets into unsortedWidgets
-  local widgetFiles = VFS.DirList(WIDGET_DIRNAME, "*.lua", VFS.ZIP_ONLY)
+  local widgetFiles = VFS.DirList(WIDGET_DIRNAME, "*.lua", VFS.ZIP)
   for k,wf in ipairs(widgetFiles) do
-    GetWidgetInfo(wf, VFS.ZIP_ONLY)
+    GetWidgetInfo(wf, VFS.ZIP)
+    local widget = self:LoadWidget(wf, true)
+    if (widget) then
+      table.insert(unsortedWidgets, widget)
+    end
+  end
+
+  -- stuff the map widgets into unsortedWidgets
+  local widgetFiles = VFS.DirList(WIDGET_DIRNAME_MAP, "*.lua", VFS.MAP)
+  for k,wf in ipairs(widgetFiles) do
+    GetWidgetInfo(wf, VFS.MAP)
     local widget = self:LoadWidget(wf, true)
     if (widget) then
       table.insert(unsortedWidgets, widget)
@@ -403,7 +426,7 @@ function widgetHandler:Initialize()
     local basename = w.whInfo.basename
     local source = self.knownWidgets[name].fromZip and "mod: " or "user:"
     Spring.Echo(string.format("Loading widget from %s  %-18s  <%s> ...", source, name, basename))
-    
+
     widgetHandler:InsertWidget(w)
   end
 
@@ -488,7 +511,7 @@ function widgetHandler:LoadWidget(filename, fromZip)
            order = nil
         end
     else
-         if info.enabled and (knownInfo.fromZip or (self.allowUserWidgets and not mo_allowuserwidgets)) then
+        if info.enabled and (knownInfo.fromZip or (self.allowUserWidgets and not allowuserwidgets)) then
             order = 12345
         end
     end
@@ -849,8 +872,12 @@ function widgetHandler:UpdateCallIns()
   end
 end
 
-
 --------------------------------------------------------------------------------
+
+function widgetHandler:IsWidgetKnown(name)
+  return self.knownWidgets[name] and true or false
+end
+
 
 function widgetHandler:EnableWidget(name)
   local ki = self.knownWidgets[name]
@@ -1086,17 +1113,17 @@ end
 
 function widgetHandler:Shutdown()
   -- record if we will allow user widgets on next load
-  if self.__allowUserWidgets~=nil then 
+  if self.__allowUserWidgets~=nil then
       self.allowUserWidgets = self.__allowUserWidgets
   end
 
   -- save config
   if self.__blankOutConfig then
-    table.save({["allowUserWidgets"]=self.allowUserWidgets}, CONFIG_FILENAME, '-- Widget Custom data and order')  
+    table.save({["allowUserWidgets"]=self.allowUserWidgets}, CONFIG_FILENAME, '-- Widget Custom data and order')
   else
     self:SaveConfigData()
   end
-  
+
   for _,w in ipairs(self.ShutdownList) do
     w:Shutdown()
   end
@@ -1134,7 +1161,7 @@ function widgetHandler:ConfigureLayout(command)
         return true  -- there can only be one
       end
     end
-    local sw = self:LoadWidget(LUAUI_DIRNAME .. SELECTOR_BASENAME) -- load BAs widget_selector.lua, instead of the default selector.lua
+    local sw = self:LoadWidget(LUAUI_DIRNAME .. SELECTOR_BASENAME) -- load the game's included widget_selector.lua, instead of the default selector.lua
     self:InsertWidget(sw)
     self:RaiseWidget(sw)
     return true
@@ -1189,6 +1216,9 @@ end
 
 
 function widgetHandler:CommandsChanged()
+  if widgetHandler:UpdateSelection() then -- for selectionchanged
+    return -- selection updated, don't call commands changed.
+  end
   self.inCommandsChanged = true
   self.customCommands = {}
   for _,w in ipairs(self.CommandsChangedList) do
@@ -1241,7 +1271,7 @@ function widgetHandler:DrawScreen()
     })
     gl.Color(1, 1, 1)
   end
-  for _,w in ripairs(self.DrawScreenList) do
+  for _,w in r_ipairs(self.DrawScreenList) do
     w:DrawScreen()
     if (self.tweakMode and w.TweakDrawScreen) then
       w:TweakDrawScreen()
@@ -1252,7 +1282,7 @@ end
 
 
 function widgetHandler:DrawGenesis()
-  for _,w in ripairs(self.DrawGenesisList) do
+  for _,w in r_ipairs(self.DrawGenesisList) do
     w:DrawGenesis()
   end
   return
@@ -1260,7 +1290,7 @@ end
 
 
 function widgetHandler:DrawWorld()
-  for _,w in ripairs(self.DrawWorldList) do
+  for _,w in r_ipairs(self.DrawWorldList) do
     w:DrawWorld()
   end
   return
@@ -1268,15 +1298,22 @@ end
 
 
 function widgetHandler:DrawWorldPreUnit()
-  for _,w in ripairs(self.DrawWorldPreUnitList) do
+  for _,w in r_ipairs(self.DrawWorldPreUnitList) do
     w:DrawWorldPreUnit()
+  end
+  return
+end
+
+function widgetHandler:DrawWorldPreParticles()
+  for _,w in r_ipairs(self.DrawWorldPreParticlesList) do
+    w:DrawWorldPreParticles()
   end
   return
 end
 
 
 function widgetHandler:DrawWorldShadow()
-  for _,w in ripairs(self.DrawWorldShadowList) do
+  for _,w in r_ipairs(self.DrawWorldShadowList) do
     w:DrawWorldShadow()
   end
   return
@@ -1284,7 +1321,7 @@ end
 
 
 function widgetHandler:DrawWorldReflection()
-  for _,w in ripairs(self.DrawWorldReflectionList) do
+  for _,w in r_ipairs(self.DrawWorldReflectionList) do
     w:DrawWorldReflection()
   end
   return
@@ -1292,24 +1329,56 @@ end
 
 
 function widgetHandler:DrawWorldRefraction()
-  for _,w in ripairs(self.DrawWorldRefractionList) do
+  for _,w in r_ipairs(self.DrawWorldRefractionList) do
     w:DrawWorldRefraction()
   end
   return
 end
 
 
+function widgetHandler:DrawUnitsPostDeferred()
+  for _,w in r_ipairs(self.DrawUnitsPostDeferredList) do
+    w:DrawUnitsPostDeferred()
+  end
+  return
+end
+
+
+function widgetHandler:DrawFeaturesPostDeferred()
+  for _,w in r_ipairs(self.DrawFeaturesPostDeferredList) do
+    w:DrawFeaturesPostDeferred()
+  end
+  return
+end
+
+
 function widgetHandler:DrawScreenEffects(vsx, vsy)
-  for _,w in ripairs(self.DrawScreenEffectsList) do
+  for _,w in r_ipairs(self.DrawScreenEffectsList) do
     w:DrawScreenEffects(vsx, vsy)
   end
   return
 end
 
 
+function widgetHandler:DrawScreenPost()
+  for _,w in r_ipairs(self.DrawScreenPostList) do
+    w:DrawScreenPost()
+  end
+  return
+end
+
+
 function widgetHandler:DrawInMiniMap(xSize, ySize)
-  for _,w in ripairs(self.DrawInMiniMapList) do
+  for _,w in r_ipairs(self.DrawInMiniMapList) do
     w:DrawInMiniMap(xSize, ySize)
+  end
+  return
+end
+
+
+function widgetHandler:SunChanged()
+  for _,w in r_ipairs(self.SunChangedList) do
+    w:SunChanged()
   end
   return
 end
@@ -1366,6 +1435,19 @@ function widgetHandler:KeyRelease(key, mods, label, unicode)
   return false
 end
 
+
+function widgetHandler:TextInput(utf8, ...)
+  if (self.tweakMode) then
+    return true
+  end
+
+  for _,w in r_ipairs(self.TextInputList) do
+    if (w:TextInput(utf8, ...)) then
+      return true
+    end
+  end
+  return false
+end
 
 --------------------------------------------------------------------------------
 --
@@ -1624,11 +1706,71 @@ function widgetHandler:GameFrame(frameNum)
   return
 end
 
+-- local helper (not a real call-in)
+local oldSelection = {}
+function widgetHandler:UpdateSelection()
+  local changed
+  local newSelection = Spring.GetSelectedUnits()
+  if (#newSelection == #oldSelection) then
+    for i = 1, #oldSelection do
+      if (newSelection[i] ~= oldSelection[i]) then -- it seems the order stays
+        changed = true
+        break
+      end
+    end
+  else
+    changed = true
+  end
+  if (changed) then
+    local subselection = true
+    if #newSelection > #oldSelection then
+      subselection = false
+    else
+      local newSeen = 0
+      local oldSelectionMap = {}
+      for i = 1, #oldSelection do
+        oldSelectionMap[oldSelection[i]] = true
+      end
+      for i = 1, #newSelection do
+        if not oldSelectionMap[newSelection[i]] then
+          subselection = false
+          break
+        end
+      end
+    end
+    if widgetHandler:SelectionChanged(newSelection, subselection) then
+      -- selection changed, don't set old selection to new selection as it is soon to change.
+      return true
+    end
+  end
+  oldSelection = newSelection
+  return false
+end
+
+function widgetHandler:SelectionChanged(selectedUnits, subselection)
+  for _,w in ipairs(self.SelectionChangedList) do
+    if widgetHandler.WG['smartselect'] and not widgetHandler.WG['smartselect'].updateSelection then return end
+      local unitArray = w:SelectionChanged(selectedUnits, subselection)
+      if (unitArray) then
+        Spring.SelectUnitArray(unitArray)
+        return true
+      end
+  end
+  return false
+end
+
 function widgetHandler:GameProgress(serverFrameNum)
   for _,w in ipairs(self.GameProgressList) do
     w:GameProgress(serverFrameNum)
   end
   return
+end
+
+function widgetHandler:UnsyncedHeightMapUpdate(x1,z1,x2,z2)
+	for _,w in r_ipairs(self.UnsyncedHeightMapUpdateList) do
+		w:UnsyncedHeightMapUpdate(x1,z1,x2,z2)
+	end
+	return
 end
 
 function widgetHandler:ShockFront(power, dx, dy, dz)
@@ -1674,7 +1816,7 @@ end
 
 
 function widgetHandler:DefaultCommand(...)
-  for _,w in ripairs(self.DefaultCommandList) do
+  for _,w in r_ipairs(self.DefaultCommandList) do
     local result = w:DefaultCommand(...)
     if (type(result) == 'number') then
       return result
@@ -1689,9 +1831,9 @@ end
 --  Unit call-ins
 --
 
-function widgetHandler:UnitCreated(unitID, unitDefID, unitTeam,builderID)
+function widgetHandler:UnitCreated(unitID, unitDefID, unitTeam, builderID)
   for _,w in ipairs(self.UnitCreatedList) do
-    w:UnitCreated(unitID, unitDefID, unitTeam,builderID)
+    w:UnitCreated(unitID, unitDefID, unitTeam, builderID)
   end
   return
 end
@@ -1758,10 +1900,10 @@ end
 
 
 function widgetHandler:UnitCommand(unitID, unitDefID, unitTeam,
-                                   cmdId, cmdParams, cmdOpts, cmdTag)
+                                   cmdId, cmdParams, cmdOpts, cmdTag, playerID, fromSynced, fromLua)
   for _,w in ipairs(self.UnitCommandList) do
     w:UnitCommand(unitID, unitDefID, unitTeam,
-                  cmdId, cmdParams, cmdOpts, cmdTag)
+                  cmdId, cmdParams, cmdOpts, cmdTag, playerID, fromSynced, fromLua)
   end
   return
 end
@@ -1939,6 +2081,7 @@ function widgetHandler:FeatureDestroyed(featureID, allyTeam)
   end
   return
 end
+
 
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------

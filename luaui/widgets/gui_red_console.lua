@@ -43,7 +43,7 @@ local sGetMyPlayerID = Spring.GetMyPlayerID
 
 local Confignew = {
 	console = {
-		px = 400,py = 40, --default start position
+		px = 400,py = 36, --default start position
 		sx = 460, --background size
 	
 		
@@ -514,31 +514,45 @@ local function processLine(line,g,cfg,newlinecolor)
 	end
 	
 	-- filter Connection attempts
-	if sfind(line,"^Connection attempt from ") then
+	if sfind(line,"^Connection a") then --	if sfind(line,"^Connection attempt from ") then
 		name = ssub(line,25)
 		lastConnectionAttempt = name
 	  ignoreThisMessage = true
 	end
 	
 	-- filter Connection established
-	if sfind(line," Connection established") then
+	if sfind(line," Connection est") then --	if sfind(line," Connection established") then
 		name = lastConnectionAttempt
 	  ignoreThisMessage = true
 	end
 	
-	if sfind(line,"Error:") then
+	if sfind(line,"ror:") then --	if sfind(line,"Error:") then
+	  ignoreThisMessage = true
+	end
+	if sfind(line,"rver=") then --	if sfind(line,"server=") then
+	  ignoreThisMessage = true
+	end
+	if sfind(line,"ceback:") then --	if sfind(line,"stack traceback:") then
 	  ignoreThisMessage = true
 	end
 	
-	if sfind(line,"stack traceback:") then
+	if sfind(line,"ient=") then-- if sfind(line,"client=") then
 	  ignoreThisMessage = true
 	end
-	
-	
-	if sfind(line,"smart_select") then
+	if sfind(line,"cTeamAction") then 	--if sfind(line,"SpecTeamAction") then
+
+	  ignoreThisMessage = true
+	end
+	if sfind(line,"t_select") then --	if sfind(line,"smart_select") then
 		name = lastConnectionAttempt
 	  ignoreThisMessage = true
 	end
+	
+	if sfind(line,"mpt rej") then --	Connection attempt rejected from ::ffff:186.227.58.214: Unpack failure (type)
+		name = lastConnectionAttempt
+	  ignoreThisMessage = true
+	end
+	
 	
 	if linetype==0 then
 		--filter out some engine messages; 

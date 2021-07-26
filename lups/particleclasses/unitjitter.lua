@@ -253,7 +253,7 @@ function UnitJitter:ReInitialize()
 end
 
 function UnitJitter:CreateParticle()
-  self.isS3o = (UnitDefs[self.unitDefID].model.name:lower():find("s3o") and true)
+  self.isS3o = (UnitDefs[self.unitDefID].modelname:lower():find("s3o") and true)
   self.teamColor = {spGetTeamColor(self.team)}
   self.firstGameFrame = thisGameFrame
   self.dieGameFrame   = self.firstGameFrame + self.life

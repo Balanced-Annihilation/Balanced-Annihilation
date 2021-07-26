@@ -17,7 +17,7 @@ if (gadgetHandler:IsSyncedCode()) then
 local mercDefID = UnitDefNames.mercury.id
 local scrDefID = UnitDefNames.screamer.id
 
-local pilelimit = 4
+local pilelimit = 3
 
 local CMD_STOCKPILE = CMD.STOCKPILE
 local CMD_INSERT = CMD.INSERT

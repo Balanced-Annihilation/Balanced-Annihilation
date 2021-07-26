@@ -30,7 +30,6 @@ return {
 		icontype = "sea",
 		idleautoheal = 15,
 		idletime = 600,
-		isairbase = true,
 		losemitheight = 50,
 		mass = 10000,
 		maxdamage = 7950,
@@ -54,6 +53,9 @@ return {
 		waterline = 6,
 		windgenerator = 0.001,
 		workertime = 1000,
+		customparams = {
+			isairbase = true,
+		},
 		featuredefs = {
 			dead = {
 				blocking = false,
@@ -122,12 +124,14 @@ return {
 				avoidfeature = false,
 				avoidfriendly = false,
 				collidefriendly = false,
+									cegtag = "cruisemissiletrail-tacnuke",
+
 				coverage = 2000,
 				craterareaofeffect = 420,
 				craterboost = 0,
 				cratermult = 0,
 				energypershot = 7500,
-				explosiongenerator = "custom:FLASH4",
+				explosiongenerator = "custom:BLANK",
 				firestarter = 100,
 				flighttime = 120,
 				impulseboost = 0.123,
@@ -156,7 +160,17 @@ return {
 				damage = {
 					default = 1500,
 				},
+						customparams = {
+					expl_light_color = "1 0.85 0.55",
+					expl_light_life_mult = 2.2,
+					expl_light_mult = 1.4,
+					expl_light_radius_mult = 1.5,
+					light_color = "1 0.6 0.2",
+					light_mult = 2.1,
+					light_radius_mult = 2,
+				},	
 			},
+			
 		},
 		weapons = {
 			[1] = {

@@ -6,7 +6,8 @@ return {
 		buildcostmetal = 180,
 		buildpic = "CORAWAC.DDS",
 		buildtime = 13264,
-		canfly = true,
+		canfly = true, 
+ 
 		canmove = true,
 		category = "ALL ANTIEMG NOTLAND MOBILE NOTSUB ANTIFLAME ANTILASER VTOL NOWEAPON NOTSHIP NOTHOVER",
 		collide = false,

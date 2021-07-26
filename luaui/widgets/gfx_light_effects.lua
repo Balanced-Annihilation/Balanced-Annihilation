@@ -16,6 +16,8 @@ end
 
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
+local lups
+local lupsenabled
 
 local spGetProjectilesInRectangle = Spring.GetProjectilesInRectangle
 local spGetVisibleProjectiles     = Spring.GetVisibleProjectiles
@@ -37,7 +39,7 @@ local fadeProjectiles, fadeProjectileTimes = {}, {}
 
 local useLOD = false		-- Reduces the number of lights drawn based on camera distance and current fps.
 local projectileFade = true
-local FADE_TIME = 0.1
+local FADE_TIME = 2
 
 
 local overrideParam = {r = 1, g = 1, b = 1, radius = 200}
@@ -46,21 +48,20 @@ local doOverride = false
 
 
 
-local globalLightMult = 1.5
+local globalLightMult = 1.7
 local globalRadiusMult = 1.3
 local globalLightMultLaser = 1.4	-- gets applied on top op globalRadiusMult
 local globalRadiusMultLaser = 0.9	-- gets applied on top op globalRadiusMult
-local globalLifeMult = 0.3
+local globalLifeMult = 0.75
 
-local enableHeatDistortion = false
+local enableHeatDistortion = true
 local enableDeferred = true     -- else use groundflashes instead
 local enableNanolaser = false
-local enableThrusters = true
+local enableThrusters = false
 local nanolaserLights = {}
 local thrusterLights = {}
 
-local gibParams = {r = 0.145*globalLightMult, g = 0.1*globalLightMult, b = 0.05*globalLightMult, radius = 75*globalRadiusMult, gib = true}
-
+local gibParams = {r = 0.18*globalLightMult, g = 0.09*globalLightMult, b = 0.03*globalLightMult, radius = 100*globalRadiusMult, gib = true}
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 
@@ -241,13 +242,15 @@ local function GetLightsFromUnitDefs()
 		local recalcRGB = false
 
 		if (weaponDef.type == 'Cannon') then
+			
+		
 			if customParams.single_hit then
 				weaponData.beamOffset = 1
 				weaponData.beam = true
 			else
-				weaponData.radius = 110 * weaponDef.size
+				weaponData.radius = 120 * weaponDef.size
 				if weaponDef.damageAreaOfEffect ~= nil  then
-					weaponData.radius = 110 * ((weaponDef.size*0.4) + (weaponDef.damageAreaOfEffect * 0.025))
+					weaponData.radius = 120 * ((weaponDef.size*0.4) + (weaponDef.damageAreaOfEffect * 0.025))
 				end
 				lightMultiplier = 0.02 * ((weaponDef.size*0.66) + (weaponDef.damageAreaOfEffect * 0.012))
 				if lightMultiplier > 0.08 then
@@ -255,6 +258,7 @@ local function GetLightsFromUnitDefs()
 				end
 				recalcRGB = true
 			end
+		
 		elseif (weaponDef.type == 'LaserCannon') then
 			weaponData.radius = 70 * weaponDef.size
 		elseif (weaponDef.type == 'DGun') then
@@ -262,8 +266,8 @@ local function GetLightsFromUnitDefs()
 			lightMultiplier = 0.25
 		elseif (weaponDef.type == 'MissileLauncher') then
 			if weaponDef.damageAreaOfEffect ~= nil and weaponDef.damageAreaOfEffect > 50  then
-				weaponData.radius = 75 * (weaponDef.size + (weaponDef.damageAreaOfEffect * 0.01))
-				lightMultiplier = 0.01 + (weaponDef.size/120)
+				weaponData.radius = 30 * (weaponDef.size + (weaponDef.damageAreaOfEffect * 0.01))
+				lightMultiplier = (0.01 + (weaponDef.size/120))*0.9
 				recalcRGB = true
 			end
 			
@@ -272,8 +276,8 @@ local function GetLightsFromUnitDefs()
 			weaponData.radius1 = weaponData.radius
 			weaponData.radius2 = weaponData.radius*0.6
 		elseif (weaponDef.type == 'Flame') then
-			weaponData.radius = 70 * weaponDef.size
-			lightMultiplier = 0.02
+			weaponData.radius = 35 * weaponDef.size
+			lightMultiplier = 0.03
 			recalcRGB = true
 			--skip = true
 		elseif (weaponDef.type == 'LightningCannon') then
@@ -562,14 +566,14 @@ local function GetProjectileLights(beamLights, beamLightCount, pointLights, poin
 						if projectileDrawParams then
 							projectileDrawParams[#projectileDrawParams + 1] = drawParams
 						end
-						if enableHeatDistortion and WG['Lups'] then
+						if enableHeatDistortion and lupsenabled then
 							local weaponDefID = Spring.GetProjectileDefID(pID)
-							if weaponDefID and weaponConf[weaponDefID] and not weaponConf[weaponDefID].noheatdistortion and Spring.IsSphereInView(x,y,z,100) then
+							if weaponDefID and weaponConf[weaponDefID]  then --and not weaponConf[weaponDefID].noheatdistortion and Spring.IsSphereInView(x,y,z,100)
 								if weaponConf[weaponDefID].wtype == 'DGun' then
 									local distance = math.diag(x-cx, y-cy, z-cz)
 									local strengthMult = 1 / (distance*0.001)
 
-									WG['Lups'].AddParticles('JitterParticles2', {
+									lups.AddParticles('JitterParticles2', {
 										layer = -35,
 										life = weaponConf[weaponDefID].heatlife/4,
 										pos = {x,y,z},
@@ -794,12 +798,36 @@ function RemoveLight(lightID, life)
 	end
 end
 
+local COM_BLAST = WeaponDefNames['commander_blast'].id
+local CORE_NUKE = WeaponDefNames['crblmssl'].id
+local ARM_NUKE = WeaponDefNames['nuclear_missile'].id
+
+
 
 -- function called by explosion_lights gadget
 function GadgetWeaponExplosion(px, py, pz, weaponID, ownerID)
-	if weaponConf[weaponID] ~= nil then
-		--Spring.Echo(weaponConf[weaponID].orgMult..'   '..weaponConf[weaponID].radius..'  '..weaponConf[weaponID].life)
-		local params = {
+	--	if (weaponConf[weaponID] ~= nil) and (weaponConf[weaponID].wtype ~= 'MissileLauncher') and (weaponConf[weaponID].wtype ~= 'TorpedoLauncher') and (weaponConf[weaponID].wtype ~= 'StarburstLauncher') and (not (WeaponDefs[weaponID].reload < 1 and WeaponDefs[weaponID].damageAreaOfEffect >= 64)) or WeaponDefs[weaponID].damageAreaOfEffect > 200 then --and weaponConf[weaponID].wtype == 'Cannon' then
+	if weaponConf[weaponID] ~= nil and not weaponConf[weaponID].noheatdistortion and((weaponConf[weaponID].wtype ~= 'MissileLauncher' and weaponConf[weaponID].wtype ~= 'TorpedoLauncher' and weaponConf[weaponID].wtype ~= 'StarburstLauncher') or WeaponDefs[weaponID].damageAreaOfEffect > 150) then --and weaponConf[weaponID].wtype == 'Cannon' then
+
+		local params
+		if weaponID == COM_BLAST then
+			params = {
+			life = weaponConf[weaponID].life * 3.5,
+			orgMult = weaponConf[weaponID].orgMult * 5,
+			frame = Spring.GetGameFrame(),
+			px = px,
+			py = py + weaponConf[weaponID].yoffset,
+			pz = pz,
+			param = {
+				type = 'explosion',
+				r = weaponConf[weaponID].r,
+				g = weaponConf[weaponID].g,
+				b = weaponConf[weaponID].b,
+				radius = weaponConf[weaponID].radius,
+			},
+		}
+		else
+		params = {
 			life = weaponConf[weaponID].life,
 			orgMult = weaponConf[weaponID].orgMult,
 			frame = Spring.GetGameFrame(),
@@ -814,10 +842,11 @@ function GadgetWeaponExplosion(px, py, pz, weaponID, ownerID)
 				radius = weaponConf[weaponID].radius,
 			},
 		}
+		end
 
 		if not enableDeferred then
-            if WG['Lups'] then
-                WG['Lups'].AddParticles('GroundFlash', {
+            if lupsenabled then
+                lups.AddParticles('GroundFlash', {
                     worldspace = true,
                     layer = -35,
                     life = weaponConf[weaponID].life,
@@ -832,44 +861,36 @@ function GadgetWeaponExplosion(px, py, pz, weaponID, ownerID)
 			explosionLightsCount = explosionLightsCount + 1
 			explosionLights[explosionLightsCount] = params
 		end
+--weaponID > -1 exclude death explosions -- or weaponID == CORE_NUKE or weaponID == ARM_NUKE or COM_BLAST
+--		if  ((weaponConf[weaponID].wtype == 'Cannon') and py > 0 and WG['Lups'] and params.param.radius > 80)or ((WeaponDefs[weaponID].damageAreaOfEffect > 300)and (WeaponDefs[weaponID].damageAreaOfEffect ~=700 )) then --and Spring.IsSphereInView(px,py,pz,100)
 
-		if py > 0 and enableHeatDistortion and WG['Lups'] and params.param.radius > 80 and not weaponConf[weaponID].noheatdistortion and Spring.IsSphereInView(px,py,pz,100) then
-
+		if  (weaponConf[weaponID].wtype == 'Cannon' and params.param.radius > 80) or ((WeaponDefs[weaponID].damageAreaOfEffect > 150)) then --and Spring.IsSphereInView(px,py,pz,100)
 			local strength,animSpeed,life,heat,sizeGrowth,size,force
 
 			local cx, cy, cz = Spring.GetCameraPosition()
 			local distance = math.diag(px-cx, py-cy, pz-cz)
 			local strengthMult = 1 / (distance*0.001)
 
-			if weaponConf[weaponID].type == 'paralyzer' then
-				strength = 10
-				animSpeed = 0.1
-				life = params.life*0.6 + (params.param.radius/80)
-				sizeGrowth = 0
-				heat = 15
-				size =  params.param.radius/16
-				force = {0,0.15,0}
-			else
-				animSpeed = 1
-				sizeGrowth = 0.4
-				if weaponConf[weaponID].type == 'flame' then
-					strength = 1 + (params.life/50)
-					size = params.param.radius/4
-					life = 0.1
-					force = {1,3.5,1}
-					heat = 1
-				else
-					strength = weaponConf[weaponID].heatstrength
-					size = weaponConf[weaponID].heatradius
-					life = weaponConf[weaponID].heatlife
-					force = {0,0.25,0}
-					heat = 1
-				end
+			animSpeed = 1
+			sizeGrowth = 0.4
+			strength = weaponConf[weaponID].heatstrength
+			size = weaponConf[weaponID].heatradius
+			life = weaponConf[weaponID].heatlife
+			force = {0,0.25,0}
+			heat = 1
+			if weaponID == COM_BLAST then --comblast
+				life = life * 2
+				size = size * 1.3
+				strength = strength*1.6
 			end
+			--if weaponID == CORE_NUKE or weaponID == AFUS_EXPLOSION then --afus
+			--	size = size * 0.8
+			--	strength = strength * 0.8
+			--end
 			if size*strengthMult > 5 then
-				WG['Lups'].AddParticles('JitterParticles2', {
+				lups.AddParticles('JitterParticles2', {
 					layer = -35,
-					life = life,
+					life = life*0.8,
 					pos = {px,py+10,pz},
 					size = size,
 					sizeGrowth = sizeGrowth,
@@ -879,7 +900,6 @@ function GadgetWeaponExplosion(px, py, pz, weaponID, ownerID)
 					force = force,
 				})
 			end
-		end
 
 
 		-- a test to replace stumpy weapon ceg 'explosion' effect, so when maxparticles is reached, there is still this lups shown, only thing missing is the directional=true options :(
@@ -921,28 +941,9 @@ function GadgetWeaponExplosion(px, py, pz, weaponID, ownerID)
 		--end
 	end
 end
-
-function GadgetWeaponBarrelfire(px, py, pz, weaponID, ownerID)
-	if enableDeferred and weaponConf[weaponID] ~= nil then
-		local params = {
-			life = (2.5+(weaponConf[weaponID].life/4))*globalLifeMult,
-			orgMult = 0.44 + (weaponConf[weaponID].orgMult*0.4),
-			frame = Spring.GetGameFrame(),
-			px = px,
-			py = py,
-			pz = pz,
-			param = {
-				type = 'explosion',
-				r = weaponConf[weaponID].r,
-				g = weaponConf[weaponID].g,
-				b = weaponConf[weaponID].b,
-				radius = 20 + weaponConf[weaponID].radius*0.44,
-			},
-		}
-		explosionLightsCount = explosionLightsCount + 1
-		explosionLights[explosionLightsCount] = params
-	end
 end
+
+
 
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
@@ -951,11 +952,17 @@ function widget:Shutdown()
 	WG['lighteffects'] = nil
 end
 
+
+
 function widget:Initialize()
+	lups = WG['Lups']
+	if WG['Lups'] then
+		lupsenabled = true
+	end
+	
 	loadWeaponDefs()
 
 	widgetHandler:RegisterGlobal('GadgetWeaponExplosion', GadgetWeaponExplosion)
-	widgetHandler:RegisterGlobal('GadgetWeaponBarrelfire', GadgetWeaponBarrelfire)
 	widgetHandler:RegisterGlobal('GadgetCreateLight', CreateLight)
 	widgetHandler:RegisterGlobal('GadgetEditLight', EditLight)
 	widgetHandler:RegisterGlobal('GadgetRemoveLight', RemoveLight)

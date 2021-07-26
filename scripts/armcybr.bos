@@ -147,6 +147,10 @@ FirePrimary()
 	gun_1 = !gun_1;
 }
 
+AimPrimary()
+{
+    return (1);
+}
 QueryPrimary(piecenum)
 {
 	piecenum = gun_1;

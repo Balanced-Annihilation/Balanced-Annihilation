@@ -212,10 +212,12 @@ return {
 				tolerance = 8000,
 				tracks = true,
 				turnrate = 72000,
+				smoketrail = true,
+				texture2 = "coresmoketrail",
 				turret = true,
 				weaponacceleration = 150,
 				weapontimer = 7,
-				weapontype = "Cannon",
+				weapontype = "MissileLauncher",
 				weaponvelocity = 950,
 				damage = {
 					default = 125,

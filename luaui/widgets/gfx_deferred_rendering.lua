@@ -9,7 +9,7 @@ function widget:GetInfo()
 	author    = "beherith, aeonios",
 	date      = "2015 Sept.",
 	license   = "GPL V2",
-	layer     = -9999999990,
+	layer     = -99999990,
 	enabled   = true
   }
 end
@@ -49,6 +49,7 @@ local glTranslate            = gl.Translate
 local spEcho                 = Spring.Echo
 local spGetCameraPosition    = Spring.GetCameraPosition
 local spWorldToScreenCoords  = Spring.WorldToScreenCoords
+local spGetGroundHeight      = Spring.GetGroundHeight
 
 local math_sqrt = math.sqrt
 local math_min = math.min
@@ -100,6 +101,12 @@ local collectionFunctionCount = 0
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 
+
+function widget:RecvLuaMsg(msg, playerID)
+	if msg:sub(1,18) == 'LobbyOverlayActive' then
+		chobbyInterface = (msg:sub(1,19) == 'LobbyOverlayActive1')
+	end
+end
 
 function widget:ViewResize()
 	vsx, vsy = gl.GetViewSizes()
@@ -153,7 +160,7 @@ uniform mat4 viewProjectionInv;
 float attenuate(float dist, float radius) {
 	// float raw = constant-linear * dist / radius - squared * dist * dist / (radius * radius);
 	// float att = clamp(raw, 0.0, 0.5);
-	float raw = 0.7 - 0.3 * dist / radius - 1.0 * dist * dist / (radius * radius);
+	float raw = 0.7 - 0.3 * dist / radius - lightcolor.a * dist * dist / (radius * radius);
 	float att = clamp(raw, 0.0, 1.0);
 	return (att * att);
 }
@@ -422,27 +429,40 @@ local function DrawLightType(lights, lightsCount, lighttype) -- point = 0 beam =
 		end
 		if lighttype == 0 then -- point
 			local lightradius = param.radius
+      local falloffsquared = param.falloffsquared or 1.0
 			--Spring.Echo("Drawlighttype position = ", light.px, light.py, light.pz)
-			local sx, sy, sz = spWorldToScreenCoords(light.px, light.py, light.pz) -- returns x, y, z, where x and y are screen pixels, and z is z buffer depth.
+      local groundheight = math_max(0, spGetGroundHeight(light.px, light.pz))
+			local sx, sy, sz = spWorldToScreenCoords(light.px, groundheight, light.pz) -- returns x, y, z, where x and y are screen pixels, and z is z buffer depth.
 			sx = sx/vsx
 			sy = sy/vsy --since FOV is static in the Y direction, the Y ratio is the correct one
-			local dist_sq = (light.px-cx)^2 + (light.py-cy)^2 + (light.pz-cz)^2
+			--local dist_sq = (light.px-cx)^2 + (groundheight-cy)^2 + (light.pz-cz)^2
+			local dist_sq = (light.px-cx)^2 + (groundheight-cy)^2 + (light.pz-cz)^2
 			local ratio = lightradius / math_sqrt(dist_sq) * 1.5
 			glUniform(lightposlocPoint, light.px, light.py, light.pz, param.radius) --in world space
-			glUniform(lightcolorlocPoint, param.r * light.colMult, param.g * light.colMult, param.b * light.colMult, 1) 
+			glUniform(lightcolorlocPoint, param.r * light.colMult, param.g * light.colMult, param.b * light.colMult, falloffsquared) 
+      local tx1 = (sx-0.5)*2-ratio*screenratio
+      local ty1 = (sy-0.5)*2-ratio
+      local tx2 = (sx-0.5)*2+ratio*screenratio
+      local ty2 = (sy-0.5)*2+ratio
+      --PtaQ uncomment this if you want to debug: 
+      --Spring.Echo(string.format("sx=%.4f sy = %.4f dist_sq=%.1f ratio = %.4f, {%.4f : %.4f}-{%.4f :  %.4f}",sx,sy,dist_sq,ratio,tx1,ty1,tx2,ty2))
+      
 			glTexRect(
-				math_max(-1 , (sx-0.5)*2-ratio*screenratio),
-				math_max(-1 , (sy-0.5)*2-ratio),
-				math_min( 1 , (sx-0.5)*2+ratio*screenratio),
-				math_min( 1 , (sy-0.5)*2+ratio),
+				math_max(-1 , tx1),
+				math_max(-1 , ty1),
+				math_min( 1 , tx2),
+				math_min( 1 , ty2),
 				math_max( 0 , sx - 0.5*ratio*screenratio),
 				math_max( 0 , sy - 0.5*ratio),
 				math_min( 1 , sx + 0.5*ratio*screenratio),
 				math_min( 1 , sy + 0.5*ratio)
 			) -- screen size goes from -1, -1 to 1, 1; uvs go from 0, 0 to 1, 1
-		end 
+      
+        		end 
 		if lighttype == 1 then -- beam
 			local lightradius = 0
+      
+      local falloffsquared = param.falloffsquared or 1.0
 			local px = light.px+light.dx*0.5
 			local py = light.py+light.dy*0.5
 			local pz = light.pz+light.dz*0.5
@@ -457,7 +477,7 @@ local function DrawLightType(lights, lightsCount, lighttype) -- point = 0 beam =
 
 			glUniform(lightposlocBeam, light.px, light.py, light.pz, param.radius) --in world space
 			glUniform(lightpos2locBeam, light.px+light.dx, light.py+light.dy+24, light.pz+light.dz, param.radius) --in world space, the magic constant of +24 in the Y pos is needed because of our beam distance calculator function in GLSL
-			glUniform(lightcolorlocBeam, param.r * light.colMult, param.g * light.colMult, param.b * light.colMult, 1) 
+			glUniform(lightcolorlocBeam, param.r * light.colMult, param.g * light.colMult, param.b * light.colMult, falloffsquared) 
 			--TODO: use gl.Shape instead, to avoid overdraw
 			glTexRect(
 				math_max(-1 , (sx-0.5)*2-ratio*screenratio),

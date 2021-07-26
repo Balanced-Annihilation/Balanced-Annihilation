@@ -83,7 +83,7 @@ OPTIONS[1] = {
 OPTIONS[2] = {
   choppedCorners            = true,
   showOutline               = true,
-  showInnerBg               = true,
+  showInnerBg               = false,
 }
 local currentOption = 2
 

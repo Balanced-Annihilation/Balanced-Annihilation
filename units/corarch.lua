@@ -129,6 +129,14 @@ return {
 				damage = {
 					default = 0,
 				},
+					customparams = {
+					expl_light_life_mult = 0,
+					expl_light_mult = 0,
+					expl_light_radius_mult = 0,
+					light_mult = 0,
+					light_radius_mult = 0,
+					expl_noheatdistortion = 1,
+				},
 			},
 			ga2 = {
 				areaofeffect = 64,
@@ -210,6 +218,14 @@ return {
 					nanos = 10,
 					subs = 5,
 					vtol = 200,
+				},
+					customparams = {
+					expl_light_life_mult = 0,
+					expl_light_mult = 0,
+					expl_light_radius_mult = 0,
+					light_mult = 0,
+					light_radius_mult = 0,
+					expl_noheatdistortion = 1,
 				},
 			},
 		},

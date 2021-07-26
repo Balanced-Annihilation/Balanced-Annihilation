@@ -779,6 +779,9 @@ function widget:Initialize()
 	WG['advplayerlist_api'].GetLockPlayerID = function()
 		return lockPlayerID
 	end
+	WG['advplayerlist_api'].SetLockPlayerID = function(playerID)
+        LockCamera(playerID)
+    end
 end
 
 function widget:GameStart()
@@ -895,7 +898,7 @@ function round(num, idp)
 end
 
 function GetSkill(playerID)
-	local customtable = select(10,Spring_GetPlayerInfo(playerID)) -- player custom table
+	local customtable = select(11, Spring.GetPlayerInfo(playerID))	
 	local tsMu = customtable.skill
 	local tsSigma = customtable.skilluncertainty
 	local tskill = ""

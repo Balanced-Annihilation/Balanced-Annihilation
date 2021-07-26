@@ -35,8 +35,6 @@ local CMD_RESURRECT = CMD.RESURRECT -- icon unit feature or area
 local CMD_UNLOAD_UNIT = CMD.UNLOAD_UNIT -- icon map
 local CMD_UNLOAD_UNITS = CMD.UNLOAD_UNITS -- icon  unit or area
 local BUILD = -1
-local CMD_RAW_MOVE = 39812
-local CMD_RAW_BUILD = 31110
 
 local diag = math.diag
 local pi = math.pi
@@ -116,11 +114,6 @@ local CONFIG = {
 		endSize = 0.2,
         colour = {0.00, 1.00, 0.00, 0.25},
     },
-	 [CMD_RAW_MOVE] = {
-        sizeMult = 1, 
-		endSize = 0.2,
-        colour = {0.00, 1.00, 0.00, 0.25},
-    },
     [CMD_PATROL] = {
         sizeMult = 1,
 		endSize = 0.2,
@@ -168,11 +161,6 @@ local CONFIG = {
 		endSize = 0.2,
         colour = {0.00, 1.00 ,0.00 ,0.25},    
     },
-	[CMD_RAW_BUILD] = {
-        sizeMult = 1,
-		endSize = 0.2,
-        colour = {0.00, 1.00 ,0.00 ,0.25},    
-    }
 }
 
 --------------------------------------------------------------------------------

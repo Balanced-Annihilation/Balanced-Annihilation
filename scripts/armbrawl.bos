@@ -164,6 +164,10 @@ FirePrimary()
 	}
 }
 
+AimPrimary()
+{
+    return (1);
+}
 QueryPrimary(piecenum)
 {
 	if( gun_1 == 0 )

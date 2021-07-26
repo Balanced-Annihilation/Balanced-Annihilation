@@ -120,6 +120,7 @@ local resources = {
 			starexplo='starexplo.tga',
 			greenexplo='greenexplo.tga',
 			gunshot='CC/gunshot.tga',
+			gunshotglow='gunshotglow.tga',
 			flash1='flash1.tga',
 			flash2='flash2.tga',
 			flash3='flash3.tga',

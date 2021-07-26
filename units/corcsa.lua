@@ -8,7 +8,8 @@ return {
 		builder = true,
 		buildpic = "CORCSA.DDS",
 		buildtime = 20904,
-		canfly = true,
+		canfly = true, 
+ 
 		canmove = true,
 		cansubmerge = true,
 		category = "ALL NOTLAND MOBILE NOTSUB ANTIFLAME ANTIEMG ANTILASER VTOL NOWEAPON NOTSHIP NOTHOVER",

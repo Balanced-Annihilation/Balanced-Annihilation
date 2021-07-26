@@ -96,13 +96,17 @@ Spring.AddUnitIcon("juno.user", "LuaUI/Icons/juno.png",1)
         Spring.SetUnitDefIcon(udid, "blank.user")
 	elseif (ud.name=="corcarry") or (ud.name=="armcarry") then
         Spring.SetUnitDefIcon(udid, "nuke.user")
+		
+		elseif (ud.name=="corason") or (ud.name=="armason") or (ud.name=="armarad") or (ud.name=="corarad") then
+           Spring.SetUnitDefIcon(udid, "hourglass-side.user")
+		
 		elseif (ud.name=="ajuno") or (ud.name=="cjuno") then
         Spring.SetUnitDefIcon(udid, "juno.user")
 		elseif (ud.name=="armsilo") or (ud.name=="corsilo") or (ud.name=="cortron") or (ud.name=="armemp") then
         Spring.SetUnitDefIcon(udid, "launcher.user")
 		elseif (ud.name=="armmine1") or (ud.name=="armmine2") or (ud.name=="armmine3") or (ud.name=="cormine1") or (ud.name=="cormine2") or (ud.name=="cormine3")or (ud.name=="cormine4")  or (ud.name=="corfmine3") or (ud.name=="armfmine3")  then
         Spring.SetUnitDefIcon(udid, "mine.user")
-      elseif (ud.name=="armwin") or (ud.name=="corwin") then
+      elseif (ud.name=="armwin") or (ud.name=="corwin") or (ud.name=="armsolar") or (ud.name=="corsolar") or (ud.name=="armtide") or (ud.name=="cortide")  then
         Spring.SetUnitDefIcon(udid, "e.user")
       elseif (ud.name=="armfig") or (ud.name=="corveng") or (ud.name=="armhawk") or (ud.name=="corvamp") then
         Spring.SetUnitDefIcon(udid, "tri-up_fighter.user") 
@@ -173,13 +177,26 @@ Spring.AddUnitIcon("juno.user", "LuaUI/Icons/juno.png",1)
 		  end
         end
       else
-        if (ud.techLevel == 4) then
-          Spring.SetUnitDefIcon(udid, "sphere2.user")
-        elseif (ud.techLevel == 6) then
-          Spring.SetUnitDefIcon(udid, "sphere3.user")
-        else
-          Spring.SetUnitDefIcon(udid, "sphere.user")
-        end
+       -- if (ud.techLevel == 4) then
+       --   Spring.SetUnitDefIcon(udid, "sphere2.user")
+       -- elseif (ud.techLevel == 6) then
+        --  Spring.SetUnitDefIcon(udid, "sphere3.user")
+        --else
+       --   Spring.SetUnitDefIcon(udid, "sphere.user")
+        --end
+		
+				if(ud.name) then
+				 if (ud.name=="armjeth" or ud.name=="armwar" or ud.name=="armrock" or ud.name=="armham" or ud.name=="corham" or ud.name=="corcrash" or ud.name=="corthud"or ud.name=="armsam"or ud.name=="tawf013" or ud.name=="armjanus" or ud.name=="corlevlr" or ud.name=="armpincer" or ud.name=="cormist" or ud.name=="corwolv" or ud.name=="armstump" or ud.name=="corgarp" or ud.name=="corraid" or ud.name=="corgator" or ud.name=="armflash") then
+						Spring.SetUnitDefIcon(udid, "sphere.user")
+				elseif (ud.name=="armraven" or ud.name=="gorg" or ud.name=="armraz" or ud.name=="armbanth" or ud.name=="armshock" or ud.name=="marauder" or ud.name=="corkarg"  or ud.name=="shiva") then
+						Spring.SetUnitDefIcon(udid, "sphere3.user")
+				else
+						Spring.SetUnitDefIcon(udid, "sphere2.user")
+				end
+				else
+				Spring.SetUnitDefIcon(udid, "sphere.user")
+				end
+		
       end
     end
   end

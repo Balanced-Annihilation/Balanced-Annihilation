@@ -6,7 +6,8 @@ return {
 		buildcostmetal = 368,
 		buildpic = "CORAPE.DDS",
 		buildtime = 14500,
-		canfly = true,
+		canfly = true, 
+ 
 		canmove = true,
 		category = "ALL MOBILE WEAPON NOTLAND VTOL ANTIFLAME ANTIEMG ANTILASER NOTSUB NOTSHIP NOTHOVER",
 		collide = false,

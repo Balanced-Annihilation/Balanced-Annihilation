@@ -1985,6 +1985,22 @@
 	}
 }
 
+[FLASHNUKE720]
+{
+	usedefaultexplosions=1;
+	[GROUNDFLASH]
+	{
+		flashsize=414;
+		flashalpha=2;
+		circlegrowth=11;
+		circlealpha=3;
+		ttl=21;
+		color=1,0.7,0.7;
+	}
+}
+
+
+
 [FLASHNUKE768]
 {
 	usedefaultexplosions=1;

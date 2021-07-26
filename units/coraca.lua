@@ -8,7 +8,8 @@ return {
 		builder = true,
 		buildpic = "CORACA.DDS",
 		buildtime = 18001,
-		canfly = true,
+		canfly = true, 
+ 
 		canmove = true,
 		collisionvolumeoffsets = "0 0 0",
 		collisionvolumescales = "24 16 24",

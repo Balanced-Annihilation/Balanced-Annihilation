@@ -1,6 +1,7 @@
 diff a/units/armcybr.lua b/units/armcybr.lua	(rejected hunks)
 @@ -9,7 +9,7 @@
- 		canfly = true,
+ 		canfly = true, 
+ 
  		canmove = true,
  		category = "ALL WEAPON NOTSUB VTOL NOTHOVER",
 -		collide = false,

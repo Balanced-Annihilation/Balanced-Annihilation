@@ -95,11 +95,19 @@ Deactivate()
 	start-script RequestState(1);
 }
 
+AimPrimary()
+{
+    return (1);
+}
 QueryPrimary(piecenum)
 {
 	piecenum = winga;
 }
 
+AimSecondary()
+{
+    return (1);
+}
 QuerySecondary(piecenum)
 {
 	piecenum = wingb;

@@ -7,7 +7,8 @@ return {
 		buildcostmetal = 122,
 		buildpic = "ARMHAWK.DDS",
 		buildtime = 7685,
-		canfly = true,
+		canfly = true, 
+ 
 		canmove = true,
 		category = "ALL NOTLAND MOBILE WEAPON NOTSUB ANTIFLAME ANTIEMG ANTILASER VTOL NOTSHIP NOTHOVER",
 		collide = false,

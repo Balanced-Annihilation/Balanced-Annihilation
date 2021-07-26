@@ -15,7 +15,7 @@ return {
 		category = "ALL NOTLAND WEAPON NOTSUB NOTSHIP NOTAIR NOTHOVER SURFACE",
 		collisionvolumeoffsets = "-1 5 -2",
 		collisionvolumescales = "45 54 45",
-		collisionvolumetype = "box",
+		collisionvolumetype = "cylY",
 		corpse = "DEAD",
 		description = "Hardened Missile Battery",
 		energyuse = 5,

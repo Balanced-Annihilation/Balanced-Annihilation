@@ -6,12 +6,15 @@ return {
 		buildcostmetal = 2243,
 		buildpic = "ARMCYBR.DDS",
 		buildtime = 56203,
-		canfly = true,
+		canfly = true, 
+  
+
+		
 		canmove = true,
 		category = "ALL WEAPON NOTSUB VTOL NOTHOVER",
 		collide = false,
 		collisionvolumeoffsets = "0 0 0",
-		collisionvolumescales = "32 16 32",
+		collisionvolumescales = "32 16 36",
 		collisionvolumetype = "box",
 		cruisealt = 150,
 		description = "Atomic Bomber",
@@ -36,6 +39,7 @@ return {
 		sightdistance = 455,
 		turnrate = 535,
 		blocking = false,
+		turnradius =250,
 		sounds = {
 			canceldestruct = "cancel2",
 			underattack = "warning1",

@@ -7,7 +7,7 @@ function widget:GetInfo()
 		date      = "2 April 2010",
 		license   = "GNU GPL, v2 or later",
 		layer     = 0,
-		enabled   = true  --  loaded by default?
+		enabled   = false  --  loaded by default?
 	}
 end
 
@@ -15,7 +15,7 @@ end
 -- Config
 ----------------------------------------------------------------
 local targetEnergy = 600
-local watchForTime = 3
+local watchForTime = 5
 
 ----------------------------------------------------------------
 -- Globals
@@ -30,7 +30,7 @@ local isFactory = {} -- isFactory[uDefID] = true / nil
 ----------------------------------------------------------------
 local spGetActiveCommand = Spring.GetActiveCommand
 local spGiveOrderToUnitArray = Spring.GiveOrderToUnitArray
-local spGetUnitCommands = Spring.GetUnitCommands
+local spGetUnitCurrentCommand = Spring.GetUnitCurrentCommand
 local spGetFactoryCommands = Spring.GetFactoryCommands
 local spGetMyTeamID = Spring.GetMyTeamID
 local spGetTeamResources = Spring.GetTeamResources
@@ -44,12 +44,26 @@ local CMD_WAIT = CMD.WAIT
 ----------------------------------------------------------------
 -- Callins
 ----------------------------------------------------------------
+
+function maybeRemoveSelf()
+    if Spring.GetSpectatingState() and (Spring.GetGameFrame() > 0 or gameStarted) then
+        widgetHandler:RemoveWidget(self)
+    end
+end
+
+function widget:GameStart()
+    gameStarted = true
+    maybeRemoveSelf()
+end
+
+function widget:PlayerChanged(playerID)
+    maybeRemoveSelf()
+end
+
 function widget:Initialize()
-	
-	if spGetSpectatingState() then
-		widgetHandler:RemoveWidget(self)
-		return
-	end
+    if Spring.IsReplay() or Spring.GetGameFrame() > 0 then
+        maybeRemoveSelf()
+    end
 	
 	for uDefID, uDef in pairs(UnitDefs) do
 		if (uDef.buildSpeed > 0) and uDef.canAssist and (not uDef.canManualFire) then
@@ -75,23 +89,25 @@ function widget:Update(dt)
 			for i = 1, #waitedUnits do
 				local uID = waitedUnits[i]
 				local uDefID = spGetUnitDefID(uID)
-				local uCmds = isFactory[uDefID] and spGetFactoryCommands(uID, 1) or spGetUnitCommands(uID, 1)
-				if uCmds and (#uCmds > 0) and (uCmds[1].id == CMD_WAIT) then
-					toUnwait[#toUnwait + 1] = uID
+				if isFactory[uDefID] then
+					local uCmds = spGetFactoryCommands(uID, 1)
+					if uCmds and #uCmds > 0 and uCmds[1].id == CMD_WAIT then
+						toUnwait[#toUnwait + 1] = uID
+					end
+				else
+					local uCmd = spGetUnitCurrentCommand(uID, 1)
+					if uCmd and uCmd == CMD_WAIT then
+						toUnwait[#toUnwait + 1] = uID
+					end
 				end
 			end
-			spGiveOrderToUnitArray(toUnwait, CMD_WAIT, {}, {})
+			spGiveOrderToUnitArray(toUnwait, CMD_WAIT, {}, 0)
 			
 			waitedUnits = nil
 		end
 	end
 	
 	if (watchTime > 0) and (not waitedUnits) then
-		
-		if spGetSpectatingState() then
-			widgetHandler:RemoveWidget(self)
-			return
-		end
 		
 		local myTeamID = spGetMyTeamID()
 		local currentEnergy, energyStorage = spGetTeamResources(myTeamID, "energy")
@@ -103,13 +119,20 @@ function widget:Update(dt)
 				local uID = myUnits[i]
 				local uDefID = spGetUnitDefID(uID)
 				if shouldWait[uDefID] then
-					local uCmds = isFactory[uDefID] and spGetFactoryCommands(uID, 1) or spGetUnitCommands(uID, 1)
-					if (#uCmds == 0) or (uCmds[1].id ~= CMD_WAIT) then
-						waitedUnits[#waitedUnits + 1] = uID
+					if isFactory[uDefID] then
+						local uCmds = spGetFactoryCommands(uID, 1)
+						if #uCmds == 0 or uCmds[1].id ~= CMD_WAIT then
+							waitedUnits[#waitedUnits + 1] = uID
+						end
+					else
+						local uCmd = spGetUnitCurrentCommand(uID, 1)
+						if not uCmd or uCmd ~= CMD_WAIT then
+							waitedUnits[#waitedUnits + 1] = uID
+						end
 					end
 				end
 			end
-			spGiveOrderToUnitArray(waitedUnits, CMD_WAIT, {}, {})
+			spGiveOrderToUnitArray(waitedUnits, CMD_WAIT, {}, 0)
 		end
 	end
 end

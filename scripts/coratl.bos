@@ -13,26 +13,25 @@ default()
 {
 	if( TRUE )
 	{
-		move barrel to z-axis [0.00000] now;
-		move barrel to z-axis [-8.25000] speed [149.99998];
-		move coil1 to z-axis [0.00000] now;
-		move coil1 to z-axis [-2.37498] speed [43.18178];
-		move coil2 to z-axis [0.00000] now;
-		move coil2 to z-axis [-4.62500] speed [84.09090];
-		move coil3 to z-axis [0.00000] now;
-		move coil3 to z-axis [-6.87500] speed [124.99997];
+		move barrel to z-axis [0.000000] now;
+		move barrel to z-axis [-3.300000] speed [59.999994];
+		move coil1 to z-axis [0.000000] now;
+		move coil1 to z-axis [-0.949994] speed [17.272711];
+		move coil2 to z-axis [0.000000] now;
+		move coil2 to z-axis [-1.850000] speed [33.636359];
+		move coil3 to z-axis [0.000000] now;
+		move coil3 to z-axis [-2.750000] speed [49.999988];
 		sleep 55;
 	}
 	if( TRUE )
 	{
-		move barrel to z-axis [0.00000] speed [11.87050];
-		move coil1 to z-axis [0.00000] speed [3.41725];
-		move coil2 to z-axis [0.00000] speed [6.65466];
-		move coil3 to z-axis [0.00000] speed [9.89207];
+		move barrel to z-axis [0.000000] speed [4.748199];
+		move coil1 to z-axis [0.000000] speed [1.366901];
+		move coil2 to z-axis [0.000000] speed [2.661865];
+		move coil3 to z-axis [0.000000] speed [3.956830];
 		sleep 695;
 	}
 	sleep 10;
-	return (0);
 }
 
 SmokeUnit(healthpercent, sleeptime, smoketype)
@@ -60,20 +59,18 @@ SmokeUnit(healthpercent, sleeptime, smoketype)
 		}
 		sleep sleeptime;
 	}
-	return (0);
 }
 
 Create()
 {
 	start-script SmokeUnit();
-	return (0);
 }
 
 AimPrimary(heading, pitch)
 {
 	signal SIG_AIM;
 	set-signal-mask SIG_AIM;
-	turn launcher to y-axis heading speed <80.01648>;
+	turn launcher to y-axis heading speed <80.016484>;
 	wait-for-turn launcher around y-axis;
 	return (1);
 }
@@ -81,25 +78,21 @@ AimPrimary(heading, pitch)
 FirePrimary()
 {
 	start-script default();
-	return (0);
 }
 
 AimFromPrimary(piecenum)
 {
 	piecenum = bubbles;
-	return (0);
 }
 
 QueryPrimary(piecenum)
 {
 	piecenum = flare;
-	return (0);
 }
 
 SweetSpot(piecenum)
 {
 	piecenum = base;
-	return (0);
 }
 
 Killed(severity, corpsetype)
@@ -107,50 +100,50 @@ Killed(severity, corpsetype)
 	if( severity <= 25 )
 	{
 		corpsetype = 1;
-		explode base type BITMAPONLY | BITMAP1;
-		explode barrel type BITMAPONLY | BITMAP2;
-		explode bubbles type BITMAPONLY | BITMAP2;
-		explode coil1 type BITMAPONLY | BITMAP2;
-		explode coil2 type BITMAPONLY | BITMAP2;
-		explode coil3 type BITMAPONLY | BITMAP2;
-		explode flare type BITMAPONLY | BITMAP2;
-		explode launcher type BITMAPONLY | BITMAP2;
+		explode base type NOHEATCLOUD;
+		explode barrel type NOHEATCLOUD;
+		explode bubbles type NOHEATCLOUD;
+		explode coil1 type NOHEATCLOUD;
+		explode coil2 type NOHEATCLOUD;
+		explode coil3 type NOHEATCLOUD;
+		explode flare type NOHEATCLOUD;
+		explode launcher type NOHEATCLOUD;
 		return (corpsetype);
 	}
 	if( severity <= 50 )
 	{
 		corpsetype = 2;
-		explode base type BITMAPONLY | BITMAP1;
-		explode barrel type SHATTER | BITMAP2;
-		explode bubbles type FALL | BITMAP2;
-		explode coil1 type FALL | BITMAP2;
-		explode coil2 type FALL | BITMAP2;
-		explode coil3 type FALL | BITMAP2;
-		explode flare type FALL | BITMAP2;
-		explode launcher type BITMAPONLY | BITMAP2;
+		explode base type NOHEATCLOUD;
+		explode barrel type NOHEATCLOUD | SHATTER;
+		explode bubbles type NOHEATCLOUD | FALL;
+		explode coil1 type NOHEATCLOUD | FALL;
+		explode coil2 type NOHEATCLOUD | FALL;
+		explode coil3 type NOHEATCLOUD | FALL;
+		explode flare type NOHEATCLOUD | FALL;
+		explode launcher type NOHEATCLOUD;
 		return (corpsetype);
 	}
 	if( severity <= 99 )
 	{
 		corpsetype = 3;
-		explode base type BITMAPONLY | BITMAP1;
-		explode barrel type SHATTER | BITMAP2;
-		explode bubbles type FALL | FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP2;
-		explode coil1 type FALL | FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP2;
-		explode coil2 type FALL | FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP2;
-		explode coil3 type FALL | FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP2;
-		explode flare type FALL | FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP2;
-		explode launcher type BITMAPONLY | BITMAP2;
+		explode base type NOHEATCLOUD;
+		explode barrel type NOHEATCLOUD | SHATTER;
+		explode bubbles type NOHEATCLOUD | FALL | FIRE | SMOKE | EXPLODE_ON_HIT;
+		explode coil1 type NOHEATCLOUD | FALL | FIRE | SMOKE | EXPLODE_ON_HIT;
+		explode coil2 type NOHEATCLOUD | FALL | FIRE | SMOKE | EXPLODE_ON_HIT;
+		explode coil3 type NOHEATCLOUD | FALL | FIRE | SMOKE | EXPLODE_ON_HIT;
+		explode flare type NOHEATCLOUD | FALL | FIRE | SMOKE | EXPLODE_ON_HIT;
+		explode launcher type NOHEATCLOUD;
 		return (corpsetype);
 	}
 	corpsetype = 3;
-	explode base type BITMAPONLY | BITMAP1;
-	explode barrel type SHATTER | EXPLODE_ON_HIT | BITMAP2;
-	explode bubbles type FALL | FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP2;
-	explode coil1 type FALL | FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP2;
-	explode coil2 type FALL | FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP2;
-	explode coil3 type FALL | FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP2;
-	explode flare type FALL | FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP2;
-	explode launcher type BITMAPONLY | BITMAP2;
+	explode base type NOHEATCLOUD;
+	explode barrel type NOHEATCLOUD | SHATTER | EXPLODE_ON_HIT;
+	explode bubbles type NOHEATCLOUD | FALL | FIRE | SMOKE | EXPLODE_ON_HIT;
+	explode coil1 type NOHEATCLOUD | FALL | FIRE | SMOKE | EXPLODE_ON_HIT;
+	explode coil2 type NOHEATCLOUD | FALL | FIRE | SMOKE | EXPLODE_ON_HIT;
+	explode coil3 type NOHEATCLOUD | FALL | FIRE | SMOKE | EXPLODE_ON_HIT;
+	explode flare type NOHEATCLOUD | FALL | FIRE | SMOKE | EXPLODE_ON_HIT;
+	explode launcher type NOHEATCLOUD;
 	return (corpsetype);
 }

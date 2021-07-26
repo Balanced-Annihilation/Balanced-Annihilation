@@ -30,9 +30,12 @@ local modrules  = {
     featureVisibility = 3; -- Can be 0 - no default LOS for features, 1 - Gaia features always visible, 2 - allyteam & Gaia features always visible, or 3 - all features always visible.
   },
 
-  system = {
-        pathFinderSystem = (Spring.GetModOptions() and (Spring.GetModOptions().pathfinder == "qtpfs") and 1) or 0,
-  },
+	system = {
+      	pathFinderSystem = 0,           -- Which pathfinder does the game use? Can be 0 - The legacy default pathfinder, 1 - Quad-Tree Pathfinder System (QTPFS) or -1 - disabled.
+		pathFinderRawDistMult = 1000,    
+		pathFinderUpdateRate =  0.002, --0.007,   -- Controls how often the pathfinder updates; larger values means more rapid updates.
+		allowTake = true,               -- Enables and disables the /take UI command.
+},
 
 }
 

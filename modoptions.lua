@@ -168,7 +168,7 @@ local options={
 	},
     {
         key    = 'critters_multiplier',
-        name   = 'How many cute amimals?)',
+        name   = 'How many cute animals?)',
         desc   = 'This multiplier will be applied on the amount of critters a map will end up with',
         type   = 'number',
         section= 'ba_others',
@@ -361,6 +361,25 @@ local options={
 		step   = 1,  -- quantization is aligned to the def value
 		-- (step <= 0) means that there is no quantization
 	},
+		{
+		key="options",
+		name="Options",
+		desc="Options",
+		type="section",
+	},
+	{
+		key="map_terraintype",
+		name="Map TerrainTypes",
+		desc="Allows to cancel the TerrainType movespeed buffs of a map.",
+		type="list",
+		def="enabled",
+		section="options",
+		items={
+			{key="disabled", name="Disabled", desc="Disable TerrainTypes related MoveSpeed Buffs"},
+			{key="enabled", name="Enabled", desc="Enable TerrainTypes related MoveSpeed Buffs"},
+		}
+	},
+
 -- End Control Victory Options
 }
 return options

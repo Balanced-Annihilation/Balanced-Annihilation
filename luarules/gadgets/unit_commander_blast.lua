@@ -44,7 +44,7 @@ function gadget:Initialize()
             local playerList = Spring.GetPlayerList(tID)
             local teamSkillClass = 5
             for _,pID in pairs(playerList) do
-                local customtable = select(10,Spring.GetPlayerInfo(pID))
+                local customtable = select(11,Spring.GetPlayerInfo(pID))
                 local skillClass = customtable.skillclass -- 1 (1st), 2 (top5), 3 (top10), 4 (top20), 5 (other) 
                 teamSkillClass = math.min(teamSkillClass, skillClass or 5)
             end

@@ -77,7 +77,7 @@ function widget:PlayerChanged(playerID)
     if playerID == Spring.GetMyPlayerID() then
         if Spring.GetSpectatingState() then
             specDetected = true
-            withoutRadars()
+            --withoutRadars()
         end
     end
 end

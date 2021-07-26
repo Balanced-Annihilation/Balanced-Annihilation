@@ -46,14 +46,26 @@ end
 function widget:Shutdown()
     TurnOffLOS()
 end
-
+firsttime = true
 function widget:PlayerChanged(playerID)
 	if Spring.GetGameFrame() > 0 then
 		if playerID == myPlayerID then
 			if Spring.GetSpectatingState() then
-				TurnOffLOS()
-			else
-				TurnOnLOS()
+			
+				if firsttime == true then
+					TurnOffLOS()
+					firsttime = false
+				end
+				--TurnOffLOS()
+			--else
+			
+				if Spring.GetMapDrawMode()~="los" then
+					TurnOffLOS()
+				else
+					TurnOnLOS()
+				end
+			
+				
 			end
 		end
 	end

@@ -2,7 +2,7 @@
 -- genericshellexplosion-small-lightning
 -- genericshellexplosion-large-lightning
 
-local definitions = {
+return {
 
   ["genericshellexplosion-small-lightning"] = {
     blueelectricityspikes = {
@@ -20,10 +20,10 @@ local definitions = {
         emitrotspread      = 32,
         emitvector         = [[0, 1, 0]],
         gravity            = [[0, -0.01, 0]],
-        numparticles       = 3,
-        particlelife       = 6,
+        numparticles       = 6,
+        particlelife       = 7,
         particlelifespread = 1,
-        particlesize       = 6,
+        particlesize       = 8,
         particlesizespread = 1,
         particlespeed      = 2,
         particlespeedspread = 1.5,
@@ -94,7 +94,7 @@ local definitions = {
         emitrotspread      = 5,
         emitvector         = [[0, 1.1, 0]],
         gravity            = [[0, 0.1, 0]],
-        numparticles       = 3,
+        numparticles       = 5,
         particlelife       = 3,
         particlelifespread = 24,
         particlesize       = 0.8,
@@ -144,8 +144,8 @@ local definitions = {
         emitrotspread      = 32,
         emitvector         = [[0, 1, 0]],
         gravity            = [[0, -0.01, 0]],
-        numparticles       = 3,
-        particlelife       = 6,
+        numparticles       = 8,
+        particlelife       = 7,
         particlelifespread = 1,
         particlesize       = 2,
         particlesizespread = 6,
@@ -218,7 +218,7 @@ local definitions = {
         emitrotspread      = 5,
         emitvector         = [[0, 1.1, 0]],
         gravity            = [[0, 0.07, 0]],
-        numparticles       = 3,
+        numparticles       = 4,
         particlelife       = 3,
         particlelifespread = 26,
         particlesize       = 0.5,
@@ -269,7 +269,7 @@ local definitions = {
         emitvector         = [[0, 1, 0]],
         gravity            = [[0, -0.01, 0]],
         numparticles       = 1,
-        particlelife       = 6,
+        particlelife       = 7,
         particlelifespread = 1,
         particlesize       = 2,
         particlesizespread = 6,
@@ -294,10 +294,10 @@ local definitions = {
         heatfalloff        = 1.6,
         maxheat            = 12,
         pos                = [[r-2 r2, 5, r-2 r2]],
-        size               = 1.2,
+        size               = 1,
         sizegrowth         = 7,
         speed              = [[0, 1 0, 0]],
-        texture            = [[plasmaball]],
+        texture            = [[flare]],
       },
     },
     --electricstorm = {
@@ -315,10 +315,10 @@ local definitions = {
     --},
     groundflash = {
       air                = true,
-      flashalpha         = 0.04,
+      flashalpha         = 0.02,
       flashsize          = 80,
       ground             = true,
-      ttl                = 12,
+      ttl                = 25,
       water              = true,
       underwater         = true,
       color = {
@@ -392,8 +392,8 @@ local definitions = {
         emitrotspread      = 32,
         emitvector         = [[0, 1, 0]],
         gravity            = [[0, -0.01, 0]],
-        numparticles       = 5,
-        particlelife       = 6,
+        numparticles       = 20,
+        particlelife       = 8,
         particlelifespread = 4,
         particlesize       = 3,
         particlesizespread = 3,
@@ -466,7 +466,7 @@ local definitions = {
         emitrotspread      = -30,
         emitvector         = [[0, 1.15, 0]],
         gravity            = [[0, 0.05, 0]],
-        numparticles       = 5,
+        numparticles       = 16,
         particlelife       = 3,
         particlelifespread = 37,
         particlesize       = 0.8,
@@ -516,8 +516,8 @@ local definitions = {
         emitrotspread      = 32,
         emitvector         = [[0, 1, 0]],
         gravity            = [[0, -0.01, 0]],
-        numparticles       = 6,
-        particlelife       = 6,
+        numparticles       = 30,
+        particlelife       = 12,
         particlelifespread = 8,
         particlesize       = 3,
         particlesizespread = 5,
@@ -590,7 +590,7 @@ local definitions = {
         emitrotspread      = -30,
         emitvector         = [[0, 1.15, 0]],
         gravity            = [[0, 0.05, 0]],
-        numparticles       = 6,
+        numparticles       = 16,
         particlelife       = 3,
         particlelifespread = 37,
         particlesize       = 0.8,
@@ -707,50 +707,36 @@ local definitions = {
 
 
 
-
-  ["juno_stormbolt"] = {
-    groundflash = {
-      circlealpha        = 1,
-      circlegrowth       = 0,
-      flashalpha         = 0.12,
-      flashsize          = 40,
-      ttl                = 3,
-      color = {
-        [1]  = 0.66,
-        [2]  = 0.66,
-        [3]  = 1,
-      },
-    },
-    lightningballs = {
-      air                = true,
-      class              = [[CSimpleParticleSystem]],
-      count              = 1,
-      ground             = true,
-      water              = true,
-      underwater		 = true,
-      properties = {
-        airdrag            = 1,
-        colormap           = [[0 0 0 0.01   0.66 1 0.5 0.01   0 0 0 0.01]],
-        directional        = true,
-        emitrot            = 80,
-        emitrotspread      = 0,
-        emitvector         = [[0, 1, 0]],
-        gravity            = [[0, 0, 0]],
-        numparticles       = 1,
-        particlelife       = 3,
-        particlelifespread = 0,
-        particlesize       = 1.8,
-        particlesizespread = 7.5,
-        particlespeed      = 0.01,
-        particlespeedspread = 0,
-        pos                = [[-10 r10, 1.0, -10 r10]],
-        sizegrowth         = 0,
-        sizemod            = 1.0,
-        texture            = [[lightbw]],
-      },
-    },
-  },
   ["genericshellexplosion-juno-lightning"] = {
+    --blueelectricityspikes = {
+    --  air                = true,
+    --  class              = [[CSimpleParticleSystem]],
+    --  count              = 1,
+    --  ground             = true,
+    --  water              = true,
+    --  underwater         = true,
+    --  properties = {
+    --    airdrag            = 0.7,
+    --    colormap           = [[0.5 0.7 0.5 0.03   0.45 0.8 0.45 0.01]],
+    --    directional        = true,
+    --    emitrot            = 45,
+    --    emitrotspread      = 32,
+    --    emitvector         = [[0, 1, 0]],
+    --    gravity            = [[0, -0.01, 0]],
+    --    numparticles       = 20,
+    --    particlelife       = 12,
+    --    particlelifespread = 8,
+    --    particlesize       = 2,
+    --    particlesizespread = 4,
+    --    particlespeed      = 0,
+    --    particlespeedspread = 18,
+    --    pos                = [[0, 2, 0]],
+    --    sizegrowth         = 0.5,
+    --    sizemod            = 1,
+    --    texture            = [[whitelightb]],
+    --    useairlos          = false,
+    --  },
+    --},
     centerflare = {
       air                = true,
       class              = [[heatcloud]],
@@ -812,7 +798,7 @@ local definitions = {
         emitrotspread      = -30,
         emitvector         = [[0, 1.15, 0]],
         gravity            = [[0, 0.05, 0]],
-        numparticles       = 6,
+        numparticles       = 18,
         particlelife       = 15,
         particlelifespread = 75,
         particlesize       = 0.8,
@@ -828,36 +814,3 @@ local definitions = {
   },
 }
 
-
-function tableMerge(t1, t2)
-  for k,v in pairs(t2) do
-    if type(v) == "table" then
-      if type(t1[k] or false) == "table" then
-        tableMerge(t1[k] or {}, t2[k] or {})
-      else
-        t1[k] = v
-      end
-    else
-      t1[k] = v
-    end
-  end
-  return t1
-end
-
-function deepcopy(orig)
-  local orig_type = type(orig)
-  local copy
-  if orig_type == 'table' then
-    copy = {}
-    for orig_key, orig_value in next, orig, nil do
-      copy[deepcopy(orig_key)] = deepcopy(orig_value)
-    end
-    setmetatable(copy, deepcopy(getmetatable(orig)))
-  else -- number, string, boolean, etc
-    copy = orig
-  end
-  return copy
-end
-
-
-return definitions

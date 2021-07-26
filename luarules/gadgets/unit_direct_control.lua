@@ -85,11 +85,6 @@ end
 --------------------------------------------------------------------------------
 
 function gadget:Initialize()
---  for udid, ud in pairs(UnitDefs) do
---    if ((not ud.isCommander) and (ud.techLevel < 6)) then
---      badUnitDefs[udid] = ud.humanName
---    end
---  end
   Spring.SendCommands("unbind ctrl+o controlunit")
   Spring.SendCommands("bind ctrl+o controlunit")
   local cmd  = "fpsctrl"

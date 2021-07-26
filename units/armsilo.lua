@@ -137,6 +137,13 @@ return {
 					commanders = 2500,
 					default = 9500,
 				},
+					customparams = {
+					expl_light_life_mult = 2,
+					expl_light_mult = 1.25,
+					expl_light_radius_mult = 0.9,
+					light_mult = 7,
+					light_radius_mult = 2.1,
+				},
 			},
 		},
 		weapons = {

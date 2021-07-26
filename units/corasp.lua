@@ -26,7 +26,6 @@ return {
 		icontype = "building",
 		idleautoheal = 5,
 		idletime = 1800,
-		isairbase = true,
 		mass = 200000,
 		maxdamage = 1600,
 		maxslope = 10,
@@ -41,6 +40,9 @@ return {
 		usebuildinggrounddecal = false,
 		workertime = 1000,
 		yardmap = "ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo",
+		customparams = {
+			isairbase = true,
+		},
 		featuredefs = {
 			dead = {
 				blocking = true,

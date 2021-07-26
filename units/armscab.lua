@@ -107,12 +107,14 @@ return {
 				avoidfeature = false,
 				avoidfriendly = false,
 				collidefriendly = false,
+									cegtag = "cruisemissiletrail-tacnuke",
+
 				coverage = 1600,
 				craterareaofeffect = 420,
 				craterboost = 0,
 				cratermult = 0,
 				energypershot = 6500,
-				explosiongenerator = "custom:FLASH4",
+				explosiongenerator = "custom:BLANK",
 				firestarter = 100,
 				flighttime = 120,
 				impulseboost = 0.123,
@@ -141,6 +143,15 @@ return {
 				damage = {
 					default = 500,
 				},
+					customparams = {
+					expl_light_color = "0.98 0.95 0.8",
+					expl_light_life_mult = 2.3,
+					expl_light_mult = 1.5,
+					expl_light_radius_mult = 1.5,
+					expl_light_color =  "0.98 0.95 0.8",
+					light_mult = 2.4,
+					light_radius_mult = 2,
+				},	
 			},
 		},
 		weapons = {

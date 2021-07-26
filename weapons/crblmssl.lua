@@ -8,7 +8,7 @@ return {
 		cratermult = 3,
 		edgeeffectiveness = 0.30000001192093,
 		energypershot = 187500,
-		explosiongenerator = "custom:FLASHNUKE1920",
+				explosiongenerator = "custom:AFUS_EXPLOSION",
 		firestarter = 0,
 		flighttime = 400,
 		impulseboost = 0.5,
@@ -32,5 +32,14 @@ return {
 			commanders = 2500,
 			default = 11500,
 		},
+		customparams = {
+						--	expl_light_color = "1 0.85 0.55",
+	--light_color = "1 0.6 0.2",
+					expl_light_life_mult = 2.5,
+					expl_light_mult = 1.25,
+					expl_light_radius_mult = 0.9,
+					light_mult = 2,
+					light_radius_mult = 2,
+				},
 	},
 }

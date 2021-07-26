@@ -23,7 +23,33 @@ local SendCommmands = Spring.SendCommands
 
 local hotKeys = {}
 
+
+local hasSetTarget = {}
+for udid, ud in pairs(UnitDefs) do
+	if ( ud.canMove and ud.speed > 0 and not ud.canFly and ud.canAttack and ud.maxWeaponRange and ud.maxWeaponRange > 0 ) or ud.isFactory then
+		hasSetTarget[udid] = true
+	end
+end
+
+function maybeRemoveSelf()
+    if Spring.GetSpectatingState() and (Spring.GetGameFrame() > 0 or gameStarted) then
+        widgetHandler:RemoveWidget(self)
+    end
+end
+
+function widget:GameStart()
+    gameStarted = true
+    maybeRemoveSelf()
+end
+
+function widget:PlayerChanged(playerID)
+    maybeRemoveSelf()
+end
+
 function widget:Initialize()
+    if Spring.IsReplay() or Spring.GetGameFrame() > 0 then
+        maybeRemoveSelf()
+    end
 	if rebindKeys then
 		for _, keycombo in ipairs(GetActionHotKeys("attack")) do
 			hotKeys[keycombo] = true
@@ -38,18 +64,14 @@ function widget:Shutdown()
 	end
 end
 
-function hasSetTarget(unitDefID)
-	local ud = UnitDefs[unitDefID]
-	return ud and ( ( ud.canMove and ud.speed > 0 and not ud.canFly and ud.canAttack and ud.maxWeaponRange and ud.maxWeaponRange > 0 ) or ud.isFactory )
-end
-
 function widget:DefaultCommand()
-	local targettype,data = TraceScreenRay(GetMouseState())
+	local mouseX, mouseY, onlyCoords, useMinimap, includeSky, ignoreWater = GetMouseState()
+	local targettype,data = TraceScreenRay(mouseX, mouseY, onlyCoords, useMinimap, includeSky, ignoreWater)
 	if targettype ~= "unit" or IsUnitAllied(data) then
 		return
 	end
 	for unitDefID in pairs(GetSelectedUnitsCounts()) do
-		if hasSetTarget(unitDefID) then
+		if hasSetTarget[unitDefID] then
 			return CMD_UNIT_SET_TARGET
 		end
 	end

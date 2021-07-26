@@ -116,7 +116,7 @@ return {
 		},
 		weapondefs = {
 			core_artillery = {
-				accuracy = 960,
+				accuracy = 800,
 				areaofeffect = 129,
 				avoidfeature = false,
 				craterareaofeffect = 129,

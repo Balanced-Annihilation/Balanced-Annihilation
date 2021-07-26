@@ -116,7 +116,7 @@ return {
 		},
 		weapondefs = {
 			arm_artillery = {
-				accuracy = 900,
+				accuracy = 750,
 				areaofeffect = 120,
 				avoidfeature = false,
 				craterareaofeffect = 120,

@@ -2,9 +2,9 @@ return {
   name='Balanced Annihilation',
   description='Balanced Annihilation',
   shortname='BA',
-  version='$VERSION',
+  version='V12.1.0',
   mutator='Official',
-  game='Total Annihilation',
-  shortGame='TA',
+  game='Balanced Annihilation',
+  shortGame='BA',
   modtype=1,
 }

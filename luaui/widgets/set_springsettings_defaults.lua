@@ -6,13 +6,13 @@ function widget:GetInfo()
 		author    = "Niobium",
 		date      = "3 April 2010",
 		license   = "GNU GPL, v2 or later",
-		layer     = 0,
+		layer     = -9999,
 		handler = true,
 		enabled   = true
 	}
 end
 
-local minMaxparticles = 15000
+local minMaxparticles = 20000
 
 local function reducePing()
 	--Spring.SendCommands("UseNetMessageSmoothingBuffer ".."0")
@@ -48,20 +48,12 @@ local function setEngineFont()
 		Spring.SendCommands("font ".."")
 		Spring.SetConfigString("SmallFontFile", 'FreeSansBold.otf')
 		Spring.SetConfigString("FontFile", 'FreeSansBold.otf')
+		Spring.SetConfigString("ba_font", 'FreeSansBold.otf')
+		Spring.SetConfigString("ba_font2", 'FreeSansBold.otf')
 end
 
-local firstlaunchsetupDone = false
-function widget:GetConfigData()
-    savedTable = {}
-    savedTable.firsttimesetupDone = firstlaunchsetupDone
-    return savedTable
-end
 
-function widget:SetConfigData(data)
-    if data.firsttimesetupDone ~= nil then
-        firstlaunchsetupDone = data.firsttimesetupDone
-    end
-end
+
 
 function widget:Initialize()
 
@@ -77,34 +69,62 @@ function widget:Initialize()
    reducePing()
    end
    
-   if firstlaunchsetupDone == false then
+   local firstlaunchsetupDone = Spring.GetConfigString('bafirstlaunchsetupDone1', "missing")
+   
+   if firstlaunchsetupDone ~= "done" then
+   		Spring.SetConfigString("bafirstlaunchsetupDone1", "done")   
+
 	Spring.SetConfigString("UseNetMessageSmoothingBuffer", '0')
 		Spring.SetConfigString("Water", '1')
 		Spring.SetConfigString("ProfanityFilter", '1')
 		Spring.SetConfigString("chatsound", '1')
-		Spring.SetConfigString("modernGUI", '1')
 		Spring.SetConfigString("reduceping", '1')
+		Spring.SetConfigString("GroundDecals", '1')
 		reducePing()
 		Spring.SetConfigString("LuaShaders", '1')
-		Spring.SetConfigInt("GroundDetail", 70)   
-		firstlaunchsetupDone = true
+		Spring.SetConfigInt("GroundDetail", 80)   
 		Spring.SetConfigInt("MaxNanoParticles", 3000)
 		Spring.SetConfigInt("MaxParticles", minMaxparticles)
+					Spring.SetConfigInt("AdvMapShading", 1)
+			Spring.SetConfigInt("AdvUnitShading", 1)
+			Spring.SetConfigInt("EdgeMoveWidth", 0.1) 
+			Spring.SetConfigString("MouseDragScrollThreshold",'0.3')	
+			local icondist = 199
+			Spring.SetConfigInt("UnitIconDist", icondist)
+			Spring.SetConfigInt("UnitLodDist", icondist+30)
+			Spring.SetConfigInt("ShadowMapSize", 6144)
+			Spring.SendCommands({"shadows 1 "..6144})
     end
-	
+			
 			local camState = Spring.GetCameraState()
 			camState.mode = 1
 			Spring.SetCameraState(camState,0)
-			Spring.SetConfigString("UnitLodDist", '90000')
+			--Spring.SetConfigString("UnitLodDist", '90000')
 			Spring.SetConfigString("FeatureDrawDistance", '90000')
 			Spring.SetConfigString("FeatureFadeDistance", '90000') 
 			Spring.SetConfigString("GuiOpacity", '0.6')  
-			Spring.SetConfigInt("EdgeMoveWidth", 0.1)    
+					
 			Spring.SetConfigString("AdvSky", '0') --always disable this
 			Spring.SetConfigString("Vsync", '0')
 			Spring.SetConfigString("GrassDetail",'0')
-			Spring.SetConfigString("MouseDragScrollThreshold",'0.3')
+			
 			Spring.SetConfigString("MiniMapDrawProjectiles", '0')
+		
+					
+
+		
+		----
+
+
+			 
+			 	-- Spring.SendCommands("AllowDeferredMapRendering ".. true)
+			-- Spring.SendCommands("AllowDeferredModelRendering ".. true)
+			--Spring.SendCommands("AllowDeferredMapRendering "..1)
+			--Spring.SendCommands ("AllowDeferredMapRendering " .. 1)
+			--Spring.SendCommands ("AllowDeferredModelRendering " .. 1)
+			--Spring.SendCommands ("AllowDeferredMapRendering " .. 1)
+			--Spring.SendCommands ("AllowDeferredModelRendering " .. 1)
+			----------
 		--Spring.SetConfigInt("ScrollWheelSpeed", 40)  
 		
 		--local scrollspeed = 40
@@ -119,6 +139,9 @@ function widget:Initialize()
 
    
    setEngineFont()   
+
+
+
     widgetHandler:RemoveWidget(self)
 end
 

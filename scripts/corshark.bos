@@ -14,7 +14,6 @@ static-var  gun_1;
 Create()
 {
 	gun_1 = torp1;
-	return (0);
 }
 
 StartMoving()
@@ -26,31 +25,31 @@ StartMoving()
 		emit-sfx 256 | 3 from wake;
 		sleep 250;
 	}
-	return (0);
 }
 
 StopMoving()
 {
 	signal SIG_MOVE;
-	return (0);
+}
+
+AimPrimary()
+{
+	return (1);
 }
 
 FirePrimary()
 {
 	gun_1 = !gun_1;
-	return (0);
 }
 
 QueryPrimary(piecenum)
 {
 	piecenum = gun_1;
-	return (0);
 }
 
 SweetSpot(piecenum)
 {
 	piecenum = base;
-	return (0);
 }
 
 Killed(severity, corpsetype)
@@ -58,34 +57,34 @@ Killed(severity, corpsetype)
 	if( severity <= 25 )
 	{
 		corpsetype = 1;
-		explode base type BITMAPONLY | BITMAP1;
-		explode torp1 type BITMAPONLY | BITMAP2;
-		explode torp2 type BITMAPONLY | BITMAP3;
-		explode wake type BITMAPONLY | BITMAP4;
+		explode base type NOHEATCLOUD;
+		explode torp1 type NOHEATCLOUD;
+		explode torp2 type NOHEATCLOUD;
+		explode wake type NOHEATCLOUD;
 		return (corpsetype);
 	}
 	if( severity <= 50 )
 	{
 		corpsetype = 2;
-		explode base type BITMAPONLY | BITMAP1;
-		explode torp1 type BITMAPONLY | BITMAP2;
-		explode torp2 type BITMAPONLY | BITMAP3;
-		explode wake type BITMAPONLY | BITMAP4;
+		explode base type NOHEATCLOUD;
+		explode torp1 type NOHEATCLOUD;
+		explode torp2 type NOHEATCLOUD;
+		explode wake type NOHEATCLOUD;
 		return (corpsetype);
 	}
 	if( severity <= 99 )
 	{
 		corpsetype = 3;
-		explode base type BITMAPONLY | BITMAP1;
-		explode torp1 type BITMAPONLY | BITMAP2;
-		explode torp2 type BITMAPONLY | BITMAP3;
-		explode wake type BITMAPONLY | BITMAP4;
+		explode base type NOHEATCLOUD;
+		explode torp1 type NOHEATCLOUD;
+		explode torp2 type NOHEATCLOUD;
+		explode wake type NOHEATCLOUD;
 		return (corpsetype);
 	}
 	corpsetype = 3;
-	explode base type BITMAPONLY | BITMAP1;
-	explode torp1 type BITMAPONLY | BITMAP2;
-	explode torp2 type BITMAPONLY | BITMAP3;
-	explode wake type BITMAPONLY | BITMAP4;
+	explode base type NOHEATCLOUD;
+	explode torp1 type NOHEATCLOUD;
+	explode torp2 type NOHEATCLOUD;
+	explode wake type NOHEATCLOUD;
 	return (corpsetype);
 }

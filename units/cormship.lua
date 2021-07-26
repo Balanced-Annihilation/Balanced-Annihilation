@@ -143,6 +143,8 @@ return {
 				areaofeffect = 96,
 				avoidfeature = false,
 				burnblow = true,
+									cegtag = "cruisemissiletrail-tacnuke",
+
 				craterareaofeffect = 96,
 				craterboost = 0,
 				cratermult = 0,
@@ -174,6 +176,15 @@ return {
 					default = 1100,
 					subs = 5,
 				},
+						customparams = {
+					expl_light_color = "1 0.5 0.75",
+					expl_light_life_mult = 2.2,
+					expl_light_mult = 1.4,
+					expl_light_radius_mult = 1.5,
+					expl_light_color = "1 0.5 0.75",
+					light_mult = 2.1,
+					light_radius_mult = 2,
+				},	
 			},
 		},
 		weapons = {

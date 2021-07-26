@@ -43,7 +43,7 @@ if (gadgetHandler:IsSyncedCode()) then
     function gadget:Initialize()
         IsIt82 = true
         for v = 70, 81 do
-            if string.match(Game.version, tostring(v)) then
+            if string.match(Engine.version, tostring(v)) then
                 IsIt82 = false
             end
         end
@@ -706,7 +706,7 @@ else
     vsy = vsy * yRelPos
     ScoreBoard.Show = false
     local TextWidthFixHack = 1
-    if tonumber(string.sub(Game.version, 1, 4)) <= 0.785 and string.sub(Game.version, 1, 5) ~= "0.78+" then
+    if tonumber(string.sub(Engine.version, 1, 4)) <= 0.785 and string.sub(Engine.version, 1, 5) ~= "0.78+" then
         TextWidthFixHack = (vsx / vsy) * (4 / 3)
     end
     local myteam = Spring.GetMyTeamID()

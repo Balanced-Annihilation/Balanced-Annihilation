@@ -5,7 +5,7 @@ function gadget:GetInfo()
     author    = "TheFatController",
     date      = "15 Dec 2008",
     license   = "GNU GPL, v2 or later",
-    layer     = 0,
+    layer     = 333,
     enabled   = true  --  loaded by default?
   }
 end
@@ -29,7 +29,7 @@ local AIRPLANT = {
   [UnitDefNames["corplat"].id] = true,
   [UnitDefNames["armap"].id] = true,
   [UnitDefNames["armaap"].id] = true,
-  [UnitDefNames["armplat"].id] = true
+  [UnitDefNames["armplat"].id] = true,
 }
 
 local plantList = {}

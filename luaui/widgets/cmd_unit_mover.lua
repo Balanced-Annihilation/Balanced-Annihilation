@@ -41,14 +41,25 @@ local engineers = {}
 local engineerDefs = {}
 local moveUnitsDefs = {}
 
-function widget:PlayerChanged()
-	if GetSpectatingState() then
-		widgetHandler:RemoveWidget()
-	end
+function maybeRemoveSelf()
+    if Spring.GetSpectatingState() and (Spring.GetGameFrame() > 0 or gameStarted) then
+        widgetHandler:RemoveWidget(self)
+    end
+end
+
+function widget:GameStart()
+    gameStarted = true
+    maybeRemoveSelf()
+end
+
+function widget:PlayerChanged(playerID)
+    maybeRemoveSelf()
 end
 
 function widget:Initialize()
-	widget:PlayerChanged()
+    if Spring.IsReplay() or Spring.GetGameFrame() > 0 then
+        maybeRemoveSelf()
+    end
 	for unitDefID,unitDef in pairs(UnitDefs) do
 		if unitDef.canMove and unitDef.speed > 0 then --mobile builder
 			for _,buildeeDefID in pairs(unitDef.buildOptions) do
@@ -60,7 +71,10 @@ function widget:Initialize()
 			end
 		end
 	end
-	for _,unitID in pairs(Spring.GetTeamUnits(myTeamID)) do
+
+	local units = Spring.GetTeamUnits(myTeamID);
+	for i=1,#units do
+		local unitID = units[i]
 		widget:UnitCreated(unitID,GetUnitDefID(unitID),myTeamID)
 	end
 end
@@ -78,7 +92,7 @@ function widget:UnitCreated(unitID, unitDefID, unitTeam,builderID)
 		local x, y, z = GetUnitPosition(unitID)
 		local dx,dy,dz = GetUnitDirection(unitID)
 		local moveDist = 50
-		GiveOrderToUnit(unitID, CMD_MOVE, {x+dx*moveDist, y, z+dz*moveDist}, { "" })
+		GiveOrderToUnit(unitID, CMD_MOVE, {x+dx*moveDist, y, z+dz*moveDist}, 0)
 	end
 end
 

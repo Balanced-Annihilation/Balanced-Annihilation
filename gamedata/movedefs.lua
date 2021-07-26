@@ -1,6 +1,7 @@
 
 local moveDatas = {
 	AKBOT2 = {
+		allowrawmovement = true,
 		crushstrength = 50,
 		depthmod = 0,
 		footprintx = 2,
@@ -11,6 +12,7 @@ local moveDatas = {
 		
 	},
 	AKBOTBOMB2 = {
+		allowrawmovement = true,
 		crushstrength = 50,
 		depthmod = 0,
 		footprintx = 2,
@@ -24,6 +26,7 @@ local moveDatas = {
 		
 	},
 	ANT = {
+		allowrawmovement = true,
 		footprintX = 1,
 		footprintZ = 1,
 		maxWaterDepth = 2,
@@ -31,6 +34,7 @@ local moveDatas = {
 		speedModClass = 1, -- 0 = tank, 1 = kbot, 2 = hover, 3 = ship 
 	},
 	ATANK3 = {
+		allowrawmovement = true,
 		crushstrength = 30,
 		depthmod = 0,
 		footprintx = 3,
@@ -40,12 +44,14 @@ local moveDatas = {
 		maxwaterslope = 80,
 	},
 	BOAT4 = {
+		allowrawmovement = true,
 		crushstrength = 40,
 		footprintx = 3,
 		footprintz = 3,
 		minwaterdepth = 8,
 	},
 	BOAT5 = {
+		allowrawmovement = true,
 		crushstrength = 50,
 		footprintx = 4,
 		footprintz = 4,
@@ -60,6 +66,7 @@ local moveDatas = {
 	},
 	]]--
 	CRITTERH = {
+		allowrawmovement = true,
 		crushstrength = 0,
 		footprintx = 1,
 		footprintz = 1,
@@ -70,12 +77,14 @@ local moveDatas = {
 		speedModClass = 2, -- 0 = tank, 1 = kbot, 2 = hover, 3 = ship 
 	},
 	DBOAT6 = {
+        allowrawmovement = true,
 		crushstrength = 252,
 		footprintx = 6,
 		footprintz = 6,
 		minwaterdepth = 15,
 	},
 	HAKBOT4 = {
+	        allowrawmovement = true,
 		crushstrength = 252,
 		depthmod = 0,
 		footprintx = 4,
@@ -93,6 +102,7 @@ local moveDatas = {
 	},
 	]]--
 	HKBOT3 = {
+	        allowrawmovement = true,
 		crushstrength = 1400,
 		footprintx = 3,
 		footprintz = 3,
@@ -105,6 +115,7 @@ local moveDatas = {
 		}
 	},
 	HKBOT4 = {
+	        allowrawmovement = true,
 		crushstrength = 1400,
 		footprintx = 4,
 		footprintz = 4,
@@ -117,6 +128,7 @@ local moveDatas = {
 		}
 	},
 	HKBOT5 = {
+	        allowrawmovement = true,
 		crushstrength = 1400,
 		footprintx = 5,
 		footprintz = 5,
@@ -129,6 +141,7 @@ local moveDatas = {
 		}
 	},
 	HOVER3 = {
+	        allowrawmovement = true,
 		badslope = 22,
 		badwaterslope = 255,
 		crushstrength = 25,
@@ -138,6 +151,7 @@ local moveDatas = {
 		maxwaterslope = 255,
 	},
 	HHOVER3 = {
+	        allowrawmovement = true,
 		badslope = 22,
 		badwaterslope = 255,
 		crushstrength = 252,
@@ -147,6 +161,7 @@ local moveDatas = {
 		maxwaterslope = 255,
 	},
 	HOVER4 = {
+	        allowrawmovement = true,
 		badslope = 22,
 		badwaterslope = 255,
 		crushstrength = 25,
@@ -156,6 +171,7 @@ local moveDatas = {
 		maxwaterslope = 255,
 	},
 	HTANK3 = {
+	        allowrawmovement = true,
 		crushstrength = 250,
 		footprintx = 3,
 		footprintz = 3,
@@ -168,6 +184,7 @@ local moveDatas = {
 		}
 	},
 	HTANK4 = {
+	        allowrawmovement = true,
 		crushstrength = 250,
 		footprintx = 4,
 		footprintz = 4,
@@ -180,6 +197,7 @@ local moveDatas = {
 		}
 	},
 	HTKBOT4 = {
+	        allowrawmovement = true,
 		crushstrength = 252,
 		footprintx = 4,
 		footprintz = 4,
@@ -192,6 +210,7 @@ local moveDatas = {
 		}
 	},
 	KBOT1 = {
+	        allowrawmovement = true,
 		crushstrength = 5,
 		footprintx = 1,
 		footprintz = 1,
@@ -205,6 +224,7 @@ local moveDatas = {
 		
 	},
 	KBOT2 = {
+	        allowrawmovement = true,
 		crushstrength = 10,
 		footprintx = 2,
 		footprintz = 2,
@@ -217,6 +237,7 @@ local moveDatas = {
 		}
 	},
 	REZ = {
+	        allowrawmovement = true,
 		crushstrength = 10,
 		footprintx = 1,
 		footprintz = 1,
@@ -229,6 +250,7 @@ local moveDatas = {
 		}
 	},
 	TANK2 = {
+	        allowrawmovement = true,
 		crushstrength = 15,
 		footprintx = 2,
 		footprintz = 2,
@@ -241,6 +263,7 @@ local moveDatas = {
 		}
 	},
 	TANK3 = {
+	        allowrawmovement = true,
 		crushstrength = 30,
 		footprintx = 3,
 		footprintz = 3,
@@ -253,6 +276,7 @@ local moveDatas = {
 		}
 	},
 	TKBOT2 = {
+	        allowrawmovement = true,
 		crushstrength = 15,
 		footprintx = 2,
 		footprintz = 2,
@@ -264,6 +288,7 @@ local moveDatas = {
 		}
 	},
 	TKBOT3 = {
+	        allowrawmovement = true,
 		crushstrength = 15,
 		footprintx = 3,
 		footprintz = 3,
@@ -275,6 +300,7 @@ local moveDatas = {
 		}
 	},
 	VKBOT3 = {
+	        allowrawmovement = true,
 		crushstrength = 1400,
 		depthmod = 0,
 		footprintx = 3,
@@ -284,6 +310,7 @@ local moveDatas = {
 		maxwaterslope = 30,
 	},
 	VKBOT5 = {
+	        allowrawmovement = true,
 		crushstrength = 1400,
 		depthmod = 0,
 		footprintx = 5,
@@ -295,6 +322,7 @@ local moveDatas = {
 	
 	-- Subs
 	UBOAT3 = {
+	        allowrawmovement = true,
 		footprintx = 2,
 		footprintz = 2,
 		minwaterdepth = 15,
@@ -311,6 +339,7 @@ local moveDatas = {
 	},
 	]]--
 	NANO = {
+	        allowrawmovement = true,
 		crushstrength = 0,
 		footprintx = 3,
 		footprintz = 3,

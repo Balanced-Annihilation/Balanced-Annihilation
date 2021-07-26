@@ -107,7 +107,7 @@ return {
 				cratermult = 0,
 				edgeeffectiveness = 0.6,
 				energypershot = 1800,
-				explosiongenerator = "custom:BURNTEAL",
+				explosiongenerator = "custom:genericshellexplosion-huge-aa",
 				firestarter = 90,
 				flighttime = 1.5,
 				impulseboost = 0,

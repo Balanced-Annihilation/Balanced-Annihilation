@@ -124,7 +124,8 @@ return {
 				projectiles = 10,
 				range = 590,
 				reloadtime = 1.4,
-				rgbcolor = "1 0.75 0.25",
+				rgbcolor = "1 0.65 0.25",
+				
 				size = 4,
 				soundhit = "xplomed2",
 				soundhitwet = "splsmed",

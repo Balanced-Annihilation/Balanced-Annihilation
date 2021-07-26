@@ -1,6 +1,6 @@
 function widget:GetInfo()
 	return {
-	name      = "Red Tooltip",
+	name      = "Red Tooltips",
 	desc      = "Toggle unitcounter with /unitcounter   (Requires Red UI Framework)",
 	author    = "Regret",
 	date      = "29 may 2015",

@@ -166,12 +166,20 @@ StopMoving()
 	return (0);
 }
 
+AimPrimary()
+{
+    return (1);
+}
 QueryPrimary(piecenum)
 {
 	piecenum = weapon1;
 	return (0);
 }
 
+AimSecondary()
+{
+    return (1);
+}
 QuerySecondary(piecenum)
 {
 	piecenum = weapon2;

@@ -57,5 +57,17 @@ include "LuaHandler/handler.lua"
 --// print Lua & LuaUI version
 Spring.Log(LUA_NAME, "info", LUA_VERSION .. " (" .. _VERSION .. ")")
 
+
+
+local firstlaunchsetupDone = Spring.GetConfigString('bafirstlaunchsetupDone1', "missing")
+   
+if firstlaunchsetupDone ~= "done" then
+Spring.SetConfigInt("AllowDeferredMapRendering", 1)
+Spring.SetConfigInt("AllowDeferredModelRendering", 1)
+end
+--Spring.SetConfigInt("Sound", "false")
+Spring.SetConfigInt("snd_airAbsorption", 0)
+
+
 -------------------------------------------------------------------------------
 -------------------------------------------------------------------------------

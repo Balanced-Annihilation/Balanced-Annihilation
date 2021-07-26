@@ -41,7 +41,7 @@ return {
 		upright = false,
 		waterline = 0,
 		workertime = 0,
-		yardmap = "ooooooooo",
+		--yardmap = "ooooooooo",
 		featuredefs = {},
 		sfxtypes = {
 			explosiongenerators = {},

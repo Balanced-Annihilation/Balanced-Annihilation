@@ -145,6 +145,9 @@ return {
 					subs = 1,
 					vtol = 1,
 				},
+				customparams = {
+					expl_noheatdistortion = 1,
+				},
 			},
 		},
 		weapons = {

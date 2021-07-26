@@ -317,16 +317,7 @@ function widget:Initialize()
 		gameStarted = true
 	end
 	
-	drawinfolist = gl.CreateList( function()
-		local text = "Snowing less when FPS gets lower \n"
-		local text2 = "/snow to toggle snow... for this map \n".."disable 'Snow' widget... for all maps "
-		local fontSize = 30
-		--local textWidth = gl.GetTextWidth(text)*fontSize
-		local textHeight = gl.GetTextHeight(text)*fontSize
-		--gl.Text(text, -textWidth/2, -textHeight/2, fontSize, "")
-		gl.Text(text, 0, textHeight/2, fontSize, "c")
-		gl.Text(text2, 0, -textHeight/1.6, fontSize*0.8, "c")
-	end)
+
 	
 	startOsClock = os.clock()
 	-- check for keywords
@@ -418,12 +409,7 @@ function widget:DrawScreen()
 		if opacityMultiplier > 1 then opacityMultiplier = 1 end
 		
 		if opacityMultiplier > 0 then
-			gl.PushMatrix()
-			gl.Translate(vsx/2, vsy/1.5, 0)
-			gl.Scale(widgetScale,widgetScale,0)
-			gl.Color(1,1,1,textStartOpacity*opacityMultiplier)
-			gl.CallList(drawinfolist)
-			gl.PopMatrix()
+		
 		end
 	end
 end

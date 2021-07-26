@@ -97,7 +97,6 @@ local hiddencmds = {
   [8] = true, --squadwait
   [7] = true, --deathwait
   [6] = true, --timewait
-  [39812] = true, --raw move
   [34922] = true, -- set unit target
   --[34923] = true, -- set target
 }
@@ -520,28 +519,6 @@ function drawOrders()
     RectRound(cellRects[cell][1]+cellMarginPx+padding, cellRects[cell][4]-cellMarginPx-((cellRects[cell][4]-cellRects[cell][2])*0.38)-padding, cellRects[cell][3]-cellMarginPx-padding, (cellRects[cell][4]-cellMarginPx)-padding, padding*1.35, 2,2,0,0, {1,1,1,0.055}, {1,1,1,0.14})
     RectRound(cellRects[cell][1]+cellMarginPx+padding, cellRects[cell][2]+cellMarginPx+padding, cellRects[cell][3]-cellMarginPx-padding, (cellRects[cell][2]-cellMarginPx)+((cellRects[cell][4]-cellRects[cell][2])*0.5)-padding, padding*1.35, 0,0,2,2, {1,1,1,0.12}, {1,1,1,0})
 
-    -- icon
-    if showIcons then
-      if cursorTextures[cmd.cursor] == nil then
-        local cursorTexture = 'anims/icexuick_200/cursor'..string.lower(cmd.cursor)..'_0.png'
-        cursorTextures[cmd.cursor] = VFS.FileExists(cursorTexture) and cursorTexture or false
-      end
-      if cursorTextures[cmd.cursor] then
-        local cursorTexture = 'anims/icexuick_200/cursor'..string.lower(cmd.cursor)..'_0.png'
-        if VFS.FileExists(cursorTexture) then
-          local s = 0.45
-          local halfsize = s * ((cellRects[cell][4]-cellMarginPx-padding)-(cellRects[cell][2]+cellMarginPx+padding))
-          --local midPosX = (cellRects[cell][3]-cellMarginPx-padding) - halfsize - (halfsize*((1-s-s)/2))
-          --local midPosY = (cellRects[cell][4]-cellMarginPx-padding) - (((cellRects[cell][4]-cellMarginPx-padding)-(cellRects[cell][2]+cellMarginPx+padding)) / 2)
-          local midPosX = (cellRects[cell][3]-cellMarginPx-padding) - (((cellRects[cell][3]-cellMarginPx-padding) - (cellRects[cell][1]+cellMarginPx+padding)) / 2)
-          local midPosY = (cellRects[cell][4]-cellMarginPx-padding) - (((cellRects[cell][4]-cellMarginPx-padding)-(cellRects[cell][2]+cellMarginPx+padding)) / 2)
-          glColor(1,1,1,0.66)
-          glTexture(''..cursorTexture)
-          glTexRect(midPosX-halfsize,  midPosY-halfsize,  midPosX+halfsize,  midPosY+halfsize)
-          glTexture(false)
-        end
-      end
-    end
 
     if colorize > 0.01 and not isActiveCmd then
       local x1 = cellRects[cell][1] + cellMarginPx

@@ -1,14 +1,14 @@
 
 function gadget:GetInfo()
-  return {
-	name 	= "Target on the move",
-	desc	= "Adds a command to set a priority attack target",
-	author	= "Google Frog, adapted for BA by BrainDamage, added remove on Dgun by doo",
-	date	= "06/05/2013",
-	license	= "GNU GPL, v2 or later",
-	layer	= 0,
-	enabled = true,
-  }
+	return {
+		name 	= "Target on the move",
+		desc	= "Adds a command to set a priority attack target",
+		author	= "Google Frog, adapted by BrainDamage, added priority to Dgun by doo",
+		date	= "06/05/2013",
+		license	= "GNU GPL, v2 or later",
+		layer	= 0,
+		enabled = true,
+	}
 end
 
 
@@ -18,7 +18,7 @@ local CMD_UNIT_SET_TARGET_NO_GROUND = 34922
 local CMD_UNIT_SET_TARGET = 34923
 local CMD_UNIT_CANCEL_TARGET = 34924
 local CMD_UNIT_SET_TARGET_RECTANGLE = 34925
-
+local pauseEnd = {}
 --export to CMD table
 CMD.CMD_UNIT_SET_TARGET_NO_GROUND = CMD_UNIT_SET_TARGET_NO_GROUND
 CMD[CMD_UNIT_SET_TARGET_NO_GROUND] = 'UNIT_SET_TARGET_NO_GROUND'
@@ -69,12 +69,14 @@ local spGetUnitsInRectangle		= Spring.GetUnitsInRectangle
 local spGetUnitsInCylinder		= Spring.GetUnitsInCylinder
 local spSetUnitRulesParam		= Spring.SetUnitRulesParam
 local spGetCommandQueue     	= Spring.GetCommandQueue
+local spGetUnitCurrentCommand   = Spring.GetUnitCurrentCommand
 local spGiveOrderArrayToUnitArray = Spring.GiveOrderArrayToUnitArray
 local spGetUnitWeaponTryTarget	= Spring.GetUnitWeaponTryTarget
 local spGetUnitWeaponTestTarget = Spring.GetUnitWeaponTestTarget
 local spGetUnitWeaponTestRange	= Spring.GetUnitWeaponTestRange
 local spGetUnitWeaponHaveFreeLineOfFire	= Spring.GetUnitWeaponHaveFreeLineOfFire
 local spGetUnitWeaponTarget		= Spring.GetUnitWeaponTarget
+local spGetGroundHeight			= Spring.GetGroundHeight
 
 local tremove					= table.remove
 
@@ -111,13 +113,13 @@ pausedTargets = {}
 --------------------------------------------------------------------------------
 -- Commands
 
-local tooltipText = 'Sets a top priority attack target, to be used if within range (not removed by move commands)'
+local tooltipText = 'Set a priority attack target,\nto be used when within range\n(not removed by move commands)'
 
 
 local unitSetTargetNoGroundCmdDesc = {
 	id		= CMD_UNIT_SET_TARGET_NO_GROUND,
 	type	= CMDTYPE.ICON_UNIT,
-	name	= '\n Set\nUnit\nTarget\n',
+	name	= 'Set Unit Target',
 	action	= 'settargetnoground',
 	cursor	= 'settarget',
 	tooltip	= tooltipText,
@@ -127,7 +129,7 @@ local unitSetTargetNoGroundCmdDesc = {
 local unitSetTargetRectangleCmdDesc = {
 	id		= CMD_UNIT_SET_TARGET_RECTANGLE,
 	type	= CMDTYPE.ICON_UNIT_OR_RECTANGLE,
-	name	= '\n  Set\nTarget\n',
+	name	= 'Set Target',
 	action	= 'settargetrectangle',
 	cursor	= 'settarget',
 	tooltip	= tooltipText,
@@ -137,7 +139,7 @@ local unitSetTargetRectangleCmdDesc = {
 local unitSetTargetCircleCmdDesc = {
 	id		= CMD_UNIT_SET_TARGET,
 	type	= CMDTYPE.ICON_UNIT_OR_AREA,
-	name	= '\n  Set\nTarget\n', --extra spaces center the 'Set' text
+	name	= 'Set Target', --extra spaces center the 'Set' text
 	action	= 'settarget',
 	cursor	= 'settarget',
 	tooltip	= tooltipText,
@@ -148,7 +150,7 @@ local unitSetTargetCircleCmdDesc = {
 local unitCancelTargetCmdDesc = {
 	id		= CMD_UNIT_CANCEL_TARGET,
 	type	= CMDTYPE.ICON,
-	name	= '\nCancel\nTarget\n',
+	name	= 'Cancel Target',
 	action	= 'canceltarget',
 	tooltip	= 'Removes top priority target, if set',
 	hidden	= false,
@@ -168,22 +170,18 @@ local function AreUnitsAllied(unitID,targetID)
 	return ownTeam and enemyTeam and spAreTeamsAllied(ownTeam,enemyTeam)
 end
 
-local function locationInRange(unitID, x, y, z, range)
-	local ux, uy, uz = spGetUnitPosition(unitID)
-	return range and ((ux - x)^2 + (uz - z)^2) < range^2
-end
+--local function locationInRange(unitID, x, y, z, range)
+--	local ux, uy, uz = spGetUnitPosition(unitID)
+--	return range and ((ux - x)^2 + (uz - z)^2) < range^2
+--end
 
 local function TargetCanBeReached(unitID, teamID, weaponList, target)
 	for weaponID in pairs(weaponList) do
 		--GetUnitWeaponTryTarget tests both target type validity and target to be reachable for the moment
 		if tonumber(target) and CallAsTeam(teamID, spGetUnitWeaponTryTarget, unitID, weaponID, target) then
 			return weaponID
-		--FIXME: GetUnitWeaponTryTarget is broken in 99.0 for ground targets, yet spGetUnitWeaponTestTarget, spGetUnitWeaponTestRange and spGetUnitWeaponHaveFreeLineOfFire individually work
-		-- replace back with a single function when fixed
 		elseif not tonumber(target) and CallAsTeam(teamID, spGetUnitWeaponTestTarget, unitID, weaponID, target[1], target[2], target[3]) and CallAsTeam(teamID, spGetUnitWeaponTestRange, unitID, weaponID, target[1], target[2], target[3]) then
 			if CallAsTeam(teamID, spGetUnitWeaponHaveFreeLineOfFire, unitID, weaponID, nil,nil,nil, target[1], target[2], target[3]) then
-				return weaponID
-			elseif CallAsTeam(teamID, spGetUnitWeaponHaveFreeLineOfFire, unitID, weaponID, target[1], target[2], target[3]) then
 				return weaponID
 			end
 		end
@@ -198,7 +196,13 @@ end
 local function setTarget(unitID, targetData)
 	local unitData = unitTargets[unitID]
 	if not TargetCanBeReached(unitID, unitData.teamID, unitData.weapons, targetData.target) then
-		return false
+		local currentCmdID = spGetUnitCurrentCommand(unitID)
+		if currentCmdID and currentCmdID == CMD.ATTACK then
+			return false
+		else
+			Spring.SetUnitTarget(unitID, nil)
+			return false
+		end
 	end
 	if tonumber(targetData.target) then
 		if not spSetUnitTarget(unitID, targetData.target,false,targetData.userTarget) then
@@ -226,8 +230,8 @@ end
 
 local function removeUnseenTarget(targetData,attackerAllyTeam)
 	if tonumber(targetData.target) and not targetData.alwaysSeen and spValidUnitID(targetData.target) then
-		local los = spGetUnitLosState(targetData.target, attackerAllyTeam, false)
-		if not (los and (los.los or los.radar)) then
+		local los = spGetUnitLosState(targetData.target, attackerAllyTeam, true)
+		if not los or (los % 4 == 0) then
 			if targetData.unseenTargetTimer == UNSEEN_TIMEOUT then
 				return true
 			elseif not targetData.unseenTargetTimer then
@@ -326,7 +330,7 @@ function gadget:Initialize()
 	gadgetHandler:RegisterCMDID(CMD_UNIT_SET_TARGET)
 	gadgetHandler:RegisterCMDID(CMD_UNIT_CANCEL_TARGET)
 	gadgetHandler:RegisterCMDID(CMD_UNIT_SET_TARGET_RECTANGLE)
-	gadgetHandler:RegisterCMDID(CMD_UNIT_SET_TARGET_NO_GROUND)	
+	gadgetHandler:RegisterCMDID(CMD_UNIT_SET_TARGET_NO_GROUND)
 
 	-- load active units
 	for _, unitID in pairs(Spring.GetAllUnits()) do
@@ -399,18 +403,24 @@ local function processCommand(unitID, unitDefID, teamID, cmdID, cmdParams, cmdOp
 				if targets then
 					local orders = {}
 					local optionKeys = {}
+					local optionKeysCount = 0
 					local optionKeysWithShift = {}
+					local optionKeysWithShiftCount = 0
 					--re-insert back the command options
 					for optionName,optionValue in pairs(cmdOptions) do
 						if optionValue then
-							optionKeys[#optionKeys+1] = optionName
-							optionKeysWithShift[#optionKeysWithShift+1] = optionName
+							optionKeysCount = optionKeysCount + 1
+							optionKeys[optionKeysCount] = optionName
+							optionKeysWithShiftCount = optionKeysWithShiftCount + 1
+							optionKeysWithShift[optionKeysWithShiftCount] = optionName
 						end
 						if  optionName == "shift" then --add a version with shift to swap between
-							optionKeysWithShift[#optionKeys+1] = optionName
+							optionKeysWithShiftCount = optionKeysWithShiftCount + 1
+							optionKeysWithShift[optionKeysWithShiftCount] = optionName
 						end
 					end
-					for i,target in ipairs(targets) do
+					for i=1,#targets do
+						local target = targets[i]
 						--if the order didn't have append (shift), we have to add for consequent area target inserts
 						orders[i] = {
 							CMD_UNIT_SET_TARGET,
@@ -421,33 +431,38 @@ local function processCommand(unitID, unitDefID, teamID, cmdID, cmdParams, cmdOp
 					end
 					--re-insert in the queue as list of individual orders instead of processing directly, so that allowcommand etc can work
 					spGiveOrderArrayToUnitArray({unitID},orders)
-					
+
 				end
 			else
 				if #cmdParams == 3 or #cmdParams == 4 then
 					-- if radius is 0, it's a single click
-					if cmdParams[4] == 0 then 
+					if cmdParams[4] == 0 then
 						cmdParams[4] = nil
 					end
 					local target = cmdParams
 					--coordinate
 					local validTarget = false
+					if target[2] > spGetGroundHeight(target[1], target[3]) then target[2] = spGetGroundHeight(target[1], target[3]) end -- clip to ground level
 					--only accept valid targets
 					for weaponID in ipairs(weaponList) do
 						validTarget = spGetUnitWeaponTestTarget(unitID,weaponID,target[1],target[2],target[3])
 						if validTarget then
 							break
+						elseif target[2] < 0 and spGetUnitWeaponTestTarget(unitID,weaponID,target[1],1,target[3]) then
+							target[2] = 1 -- clip to waterlevel +1
+							validTarget = spGetUnitWeaponTestTarget(unitID,weaponID,target[1],target[2],target[3])
+							break
 						end
 					end
 					if validTarget then
-						addUnitTargets(unitID, unitDefID, { 
+						addUnitTargets(unitID, unitDefID, {
 							{
 								alwaysSeen = true,
 								ignoreStop = ignoreStop,
 								userTarget = userTarget,
 								target = target,
 							}
-						}, append )	
+						}, append )
 					end
 				elseif #cmdParams == 1 then
 					--single target
@@ -463,14 +478,14 @@ local function processCommand(unitID, unitDefID, teamID, cmdID, cmdParams, cmdOp
 							end
 						end
 						if validTarget then
-							addUnitTargets(unitID, unitDefID, { 
+							addUnitTargets(unitID, unitDefID, {
 								{
 									alwaysSeen = UnitDefs[spGetUnitDefID(target)].isBuilding or UnitDefs[spGetUnitDefID(target)].speed == 0,
 									ignoreStop = ignoreStop,
 									userTarget = userTarget,
 									target = target,
 								}
-							}, append )	
+							}, append )
 						end
 					end
 				elseif #cmdParams == 0 then
@@ -514,31 +529,45 @@ local function processCommand(unitID, unitDefID, teamID, cmdID, cmdParams, cmdOp
 end
 
 function gadget:UnitCmdDone(unitID, unitDefID, teamID, cmdID, cmdTag, cmdParams, cmdOptions)
+	if type(cmdOptions) ~= 'table' then	-- does UnitCmdDone always returns number instead of table?
+		cmdOptions = {}
+	end
 	processCommand(unitID, unitDefID, teamID, cmdID, cmdParams, cmdOptions)
 	if cmdID == CMD_STOP then
 		if unitTargets[unitID] and not unitTargets[unitID].ignoreStop then
 			removeUnit(unitID)
+		elseif pausedTargets[unitID] then
+			SendToUnsynced("targetList",unitID,0)
+			pausedTargets[unitID] = nil
+			pauseEnd[unitID] = nil
 		end
 	elseif cmdID == CMD_DGUN then
 		if pausedTargets[unitID] then
 			addUnitTargets(unitID, Spring.GetUnitDefID(unitID), pausedTargets[unitID].targets, true)
-		end			
+			pausedTargets[unitID] = nil
+			pauseEnd[unitID] = nil
+		end
 	end
 end
 
-function gadget:AllowCommand(unitID, unitDefID, teamID, cmdID, cmdParams, cmdOptions)
-	if spGetCommandQueue(unitID, -1, false) == 0 or not cmdOptions.meta then
+function gadget:AllowCommand(unitID, unitDefID, teamID, cmdID, cmdParams, cmdOptions, cmdTag, playerID, fromSynced, fromLua)
+	if spGetCommandQueue(unitID, 0) == 0 or not cmdOptions.meta then
 		if processCommand(unitID, unitDefID, teamID, cmdID, cmdParams, cmdOptions) then
 			return false --command was used & fully processed, so block command
 		elseif cmdID == CMD_STOP then
 			if unitTargets[unitID] and not unitTargets[unitID].ignoreStop then
 				removeUnit(unitID)
+			elseif pausedTargets[unitID] then
+				SendToUnsynced("targetList",unitID,0)
+				pausedTargets[unitID] = nil
+				pauseEnd[unitID] = nil
 			end
 		elseif cmdID == CMD_DGUN then
 			if unitTargets[unitID] then
 				pausedTargets[unitID] = unitTargets[unitID]
 				removeUnit(unitID, true)
-			end			
+				pauseEnd[unitID] = Spring.GetGameFrame() + 45
+			end
 		end
 	end
 	return true  -- command was not used OR was used but not fully processed, so don't block command
@@ -553,8 +582,18 @@ function gadget:GameFrame(n)
 	-- unfortunately since 103 that's not possible, attempt to override every frame
 	-- it might create a slight increase of cpu usage when hundreds of units gets
 	-- a set target command, howrever a quick test with 300 fidos only increased by 1%
-	-- sim here 
-
+	-- sim here
+	for unitID, pauseend in pairs(pauseEnd) do
+		if pauseEnd[unitID] and pauseEnd[unitID] == n then
+			addUnitTargets(unitID, Spring.GetUnitDefID(unitID), pausedTargets[unitID].targets, true)
+			pausedTargets[unitID] = nil
+			pauseEnd[unitID] = nil
+		else
+			if spGetCommandQueue(unitID, 0) == 2 then
+				pauseEnd[unitID] = Spring.GetGameFrame() + 15
+			end
+		end
+	end
 	for unitID, unitData in pairs(unitTargets) do
 		local targetIndex
 		for index,targetData in ipairs(unitData.targets) do
@@ -605,7 +644,8 @@ local glDeleteList  = gl.DeleteList
 local GL_LINE_STRIP	= GL.LINE_STRIP
 local GL_LINES		= GL.LINES
 
-local spIsUnitInView 		= Spring.IsUnitInView
+local spIsUnitInLos			= Spring.IsUnitInLos
+local spIsUnitInRadar		= Spring.IsUnitInRadar
 local spGetUnitPosition 	= Spring.GetUnitPosition
 local spGetUnitLosState 	= Spring.GetUnitLosState
 local spValidUnitID 		= Spring.ValidUnitID
@@ -645,7 +685,7 @@ function gadget:Initialize()
 	Spring.SetCustomCommandDrawData(CMD_UNIT_SET_TARGET,"settarget",queueColour,true)
 	Spring.SetCustomCommandDrawData(CMD_UNIT_SET_TARGET_NO_GROUND,"settargetrectangle",queueColour,true)
 	Spring.SetCustomCommandDrawData(CMD_UNIT_SET_TARGET_RECTANGLE,"settargetnoground",queueColour,true)
-	
+
 end
 
 function gadget:Shutdown()
@@ -710,68 +750,78 @@ function handleTargetChangeEvent(_,unitID,dataA,dataB,dataC)
     return true
 end
 
-local function drawTargetCommand(targetData,spectator,myTeam,myAllyTeam)
-	if targetData and targetData.userTarget and tonumber(targetData.target) and spValidUnitID(targetData.target) then
-		--single unit target
-		if spectator then
-			local _,_,_,_,_,_,x2,y2,z2 = spGetUnitPosition(targetData.target,true,true)
-			glVertex(x2,y2,z2)
-		else
-			local los = spGetUnitLosState(targetData.target, myAllyTeam, false)
-			if not los then
-				return
+local function drawTargetCommand(targetData,myTeam,myAllyTeam)
+
+	if targetData then
+
+		if targetData.userTarget and tonumber(targetData.target) and spValidUnitID(targetData.target) then
+			--single unit target
+			if fullview then
+				local _,_,_,_,_,_,x2,y2,z2 = spGetUnitPosition(targetData.target,true,true)
+				glVertex(x2,y2,z2)
+			else
+				local los = spGetUnitLosState(targetData.target, myAllyTeam, true)
+				if not los then
+					return
+				end
+				local _,_,_,_,_,_,x2,y2,z2 = spGetUnitPosition(targetData.target,true,true)
+				if los % 2 == 1 then -- in los
+					glVertex( x2, y2, z2)
+				elseif los == 14 then -- in radar   spIsUnitInRadar(targetData.target, myAllyTeam)
+					local dx, dy, dz = Spring.GetUnitPosErrorParams(targetData.target)
+					local size = Spring.GetRadarErrorParams(myAllyTeam)
+					glVertex( x2+dx*size,y2+dy*size,z2+dz*size)
+				end
 			end
-			local _,_,_,_,_,_,x2,y2,z2 = spGetUnitPosition(targetData.target,true,true)
-			if los.los then
-				glVertex( x2, y2, z2)
-			elseif los.radar then
-				local dx, dy, dz = Spring.GetUnitPosErrorParams(targetData.target)
-				local size = Spring.GetRadarErrorParams(myAllyTeam)
-				glVertex( x2+dx*size,y2+dy*size,z2+dz*size)
-			end
+		elseif targetData.userTarget and not tonumber(targetData.target) and targetData.target then
+			-- 3d coordinate target
+			glVertex(targetData.target)
 		end
-	elseif targetData and targetData.userTarget and not tonumber(targetData.target) and targetData.target then
-		-- 3d coordinate target
-		glVertex(targetData.target)
 	end
 end
 
-local function drawCurrentTarget(unitID, unitData, spectator, myTeam, myAllyTeam)
+local function drawCurrentTarget(unitID, unitData, myTeam, myAllyTeam)
 	local _,_,_,x1,y1,z1 = spGetUnitPosition(unitID,true)
 	glVertex(x1,y1,z1)
 	--TODO: show cursor animation at target point
-	drawTargetCommand(unitData.targets[unitData.targetIndex],spectator,myTeam,myAllyTeam)
+	drawTargetCommand(unitData.targets[unitData.targetIndex],myTeam,myAllyTeam)
 end
 
-local function drawTargetQueue(unitID, unitData, spectator, myTeam, myAllyTeam)
+local function drawTargetQueue(unitID, unitData, myTeam, myAllyTeam)
 	local _,_,_,x1,y1,z1 = spGetUnitPosition(unitID,true)
 	glVertex(x1,y1,z1)
 	for _,targetData in ipairs(unitData.targets) do
-		drawTargetCommand(targetData,spectator,myTeam,myAllyTeam)
+		drawTargetCommand(targetData,myTeam,myAllyTeam)
 	end
 end
 
 function gadget:DrawWorld()
-	local spectator = spGetSpectatingState()
-	glPushAttrib(GL.LINE_BITS)
-	glLineStipple("any") -- use spring's default line stipple pattern, moving
-	glDepthTest(false)
-	glLineWidth(lineWidth)
+	_, fullview = spGetSpectatingState()
+	local init = false
 	for unitID, unitData in pairs(targetList) do
 		if drawTarget[unitID] or drawAllTargets[spGetUnitTeam(unitID)] or spIsUnitSelected(unitID) then
-			if spectator or spGetUnitAllyTeam(unitID) == myAllyTeam then
+			if fullview or spGetUnitAllyTeam(unitID) == myAllyTeam then
+				if not init then
+					init = true
+					glPushAttrib(GL.LINE_BITS)
+					glLineStipple("any") -- use spring's default line stipple pattern, moving
+					glDepthTest(false)
+					glLineWidth(lineWidth)
+				end
 				glColor(queueColour)
-				glBeginEnd(GL_LINE_STRIP, drawTargetQueue, unitID, unitData, spectator, myTeam, myAllyTeam)
+				glBeginEnd(GL_LINE_STRIP, drawTargetQueue, unitID, unitData, myTeam, myAllyTeam)
 				if unitData.targetIndex then
 					glColor(commandColour)
-					glBeginEnd(GL_LINES, drawCurrentTarget, unitID, unitData, spectator, myTeam, myAllyTeam)
+					glBeginEnd(GL_LINES, drawCurrentTarget, unitID, unitData, myTeam, myAllyTeam)
 				end
 			end
 		end
 	end
-	glColor(1,1,1,1)
-	glLineStipple(false)
-	glPopAttrib()
+	if init then
+		glColor(1,1,1,1)
+		glLineStipple(false)
+		glPopAttrib()
+	end
 	drawTarget = {}
 end
 
