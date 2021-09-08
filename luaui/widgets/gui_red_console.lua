@@ -872,14 +872,14 @@ end
 
 function widget:AddConsoleLine(lines,priority)
 		--if Spring.GetConfigString("showchat", "1") == "1" then
-		if (pauseelapsed or (Spring.GetGameSeconds() >0) or (spDiffTimers(spGetTimer(),inittime) > 10)) then
-			local textcolor
+		--if (pauseelapsed or (Spring.GetGameSeconds() >0) or (spDiffTimers(spGetTimer(),inittime) > 10)) then
+		--	local textcolor
 
 				
-			if(not pauseelapsed) then
-				textcolor = processLine(" ", console, Confignew.console, textcolor)[4]
-				pauseelapsed = true
-			end
+		--	if(not pauseelapsed) then
+		--		textcolor = processLine(" ", console, Confignew.console, textcolor)[4]
+		--		pauseelapsed = true
+		--	end
 		
 			local textcolor
 			lines = lines:match('^\[f=[0-9]+\] (.*)$') or lines
@@ -887,7 +887,7 @@ function widget:AddConsoleLine(lines,priority)
 				textcolor = processLine(line, console, Confignew.console, textcolor)[4]
 			end
 			clipHistory(console,true)
-		end
+		--end
 		
 		--end
 end

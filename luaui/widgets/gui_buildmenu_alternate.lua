@@ -32,7 +32,7 @@ local minColls = 5
 local maxColls = 5
 
 local showOrderDebug = false
-local smartOrderUnits = true
+local smartOrderUnits = false
 
 local maxPosY = 0.73
 
