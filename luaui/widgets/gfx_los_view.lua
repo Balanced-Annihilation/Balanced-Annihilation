@@ -44,7 +44,7 @@ function widget:GameStart()
 end
 
 function widget:Shutdown()
-    TurnOffLOS()
+    --TurnOffLOS()
 end
 firsttime = true
 function widget:PlayerChanged(playerID)

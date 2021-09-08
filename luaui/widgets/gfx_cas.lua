@@ -28,7 +28,7 @@ end
 
 local GL_RGBA8 = 0x8058
 
-local SHARPNESS = 0.7
+local SHARPNESS = 1
 
 -----------------------------------------------------------------
 -- Lua Shortcuts
@@ -214,14 +214,3 @@ function widget:DrawScreenEffects()
 	glTexture(0, false)
 end
 
-function widget:GetConfigData(data)
-	savedTable = {}
-	savedTable.SHARPNESS = SHARPNESS
-	return savedTable
-end
-
-function widget:SetConfigData(data)
-	if data.SHARPNESS ~= nil then
-		SHARPNESS = data.SHARPNESS
-	end
-end

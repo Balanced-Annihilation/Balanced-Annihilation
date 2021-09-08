@@ -16,8 +16,8 @@ end
 -- Globals
 -------------------------------------------------------------------
 local watchList = {} -- watchList[uID] = tID
-local isTransport = {} -- isTransport[uDefID] = UnitDefs[uDefID].isTransport
 
+local isTransport = {} -- isTransport[uDefID] = UnitDefs[uDefID].isTransport
 for uDefID, uDef in pairs(UnitDefs) do
 	if uDef.isTransport and uDef.canFly then
 		isTransport[uDefID] = true
@@ -29,7 +29,7 @@ end
 -------------------------------------------------------------------
 local spGetMyTeamID = Spring.GetMyTeamID
 local spGetUnitTeam = Spring.GetUnitTeam
-local spGetUnitCommands = Spring.GetUnitCommands
+local spGetUnitCurrentCommand = Spring.GetUnitCurrentCommand
 local spGiveOrderToUnit = Spring.GiveOrderToUnit
 local spGetUnitSeparation = Spring.GetUnitSeparation
 local spGetUnitVelocity = Spring.GetUnitVelocity
@@ -38,19 +38,18 @@ local CMD_INSERT = CMD.INSERT
 local CMD_LOAD_UNITS = CMD.LOAD_UNITS
 local CMD_OPT_ALT = CMD.OPT_ALT
 
+local gameStarted
+
 -------------------------------------------------------------------
 -- Local functions
 -------------------------------------------------------------------
 local function GetTransportTarget(uID)
-	
-	local uCmds = spGetUnitCommands(uID, 1)
-	if not uCmds then return end
-	
-	local uCmd = uCmds[1]
-	if uCmd and uCmd.id == CMD_LOAD_UNITS and #uCmd.params == 1 then
-		local tID = uCmd.params[1]
-		if spGetUnitTeam(tID) == spGetMyTeamID() then
-			return tID
+
+	local uCmd, _, _, cmdParam1, cmdParam2 = spGetUnitCurrentCommand(uID)
+	if not uCmd then return end
+	if uCmd == CMD_LOAD_UNITS and cmdParam2 == nil then
+		if spGetUnitTeam(cmdParam1) == spGetMyTeamID() then
+			return cmdParam1
 		end
 	end
 end
@@ -68,19 +67,19 @@ function widget:UnitCmdDone(uID, uDefID, uTeam)
 end
 
 function widget:GameFrame(n)
-	
+
 	-- Limit command rate to 3/sec (Sufficient for coms)
 	if n % 10 > 0 then return end
-	
+
 	for uID, _ in pairs(watchList) do
-		
+
 		-- Re-get transports target
 		local tID = GetTransportTarget(uID)
 		if tID then
-			
+
 			-- Only issue if transport is close
 			if spGetUnitSeparation(uID, tID, true) < 100 then
-				
+
 				-- Only issue if target is moving
 				local vx, _, vz = spGetUnitVelocity(tID)
 				if vx ~= 0 or vz ~= 0 then
@@ -96,4 +95,25 @@ end
 
 function widget:UnitTaken(uID)
 	watchList[uID] = nil
+end
+
+function maybeRemoveSelf()
+    if Spring.GetSpectatingState() and (Spring.GetGameFrame() > 0 or gameStarted) then
+        widgetHandler:RemoveWidget()
+    end
+end
+
+function widget:GameStart()
+    gameStarted = true
+    maybeRemoveSelf()
+end
+
+function widget:PlayerChanged(playerID)
+    maybeRemoveSelf()
+end
+
+function widget:Initialize()
+    if Spring.IsReplay() or Spring.GetGameFrame() > 0 then
+        maybeRemoveSelf()
+    end
 end

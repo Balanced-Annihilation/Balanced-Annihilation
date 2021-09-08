@@ -5,6 +5,7 @@ return {
 		autoheal = 0,
 		bmcode = "0",
 		brakerate = 0,
+		buildpic = "ARMCOM.DDS",
 		buildcostenergy = 1,
 		buildcostmetal = 1,
 		builder = false,

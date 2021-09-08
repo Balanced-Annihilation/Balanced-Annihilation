@@ -148,7 +148,7 @@ return {
 		},
 		weapons = {
 			[1] = {
-				badtargetcategory = "VTOL",
+				badtargetcategory = "VTOL GROUNDSCOUT",
 				def = "TAWF_BANISHER",
 				maindir = "0 0 1",
 				maxangledif = 270,

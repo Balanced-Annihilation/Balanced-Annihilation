@@ -12,121 +12,160 @@
 --------------------------------------------------------------------------------
 
 function widget:GetInfo()
-  local grey   = "\255\192\192\192"
-  local yellow = "\255\255\255\128"
-  return {
-    name      = "Highlight Unit",
-    desc      = "Highlights the unit or feature under the cursor\n",
-    author    = "trepan",
-    date      = "Apr 16, 2007",
-    license   = "GNU GPL, v2 or later",
-    layer     = 5,
-    enabled   = false  --  loaded by default?
-  }
+	local grey = "\255\192\192\192"
+	local yellow = "\255\255\255\128"
+	return {
+		name = "Highlight Unit",
+		desc = "Highlights the unit or feature under the cursor\n",
+		author = "trepan",
+		date = "Apr 16, 2007",
+		license = "GNU GPL, v2 or later",
+		layer = 5,
+		enabled = true  --  loaded by default?
+	}
 end
 
-local drawFeatureHighlight	= false
-local unitAlpha				= 0.22
-local featureAlpha			= 0.15
+local drawFeatureHighlight = false
+local unitAlpha = 0.23
+local featureAlpha = 0.15
+
+local useShader = true
+local edgeExponent = 1.25
+local shaderUnitAlphaMultiplier = 0.7
 
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 
--- Automatically generated local definitions
-
-local GL_BACK                   = GL.BACK
-local GL_EYE_LINEAR             = GL.EYE_LINEAR
-local GL_EYE_PLANE              = GL.EYE_PLANE
-local GL_FILL                   = GL.FILL
-local GL_FRONT                  = GL.FRONT
-local GL_FRONT_AND_BACK         = GL.FRONT_AND_BACK
-local GL_INVERT                 = GL.INVERT
-local GL_LINE                   = GL.LINE
-local GL_ONE                    = GL.ONE
-local GL_ONE_MINUS_SRC_ALPHA    = GL.ONE_MINUS_SRC_ALPHA
-local GL_POINT                  = GL.POINT
-local GL_QUAD_STRIP             = GL.QUAD_STRIP
-local GL_SRC_ALPHA              = GL.SRC_ALPHA
-local GL_T                      = GL.T
-local GL_TEXTURE_GEN_MODE       = GL.TEXTURE_GEN_MODE
-local GL_TRIANGLE_FAN           = GL.TRIANGLE_FAN
-local glBeginEnd                = gl.BeginEnd
-local glBlending                = gl.Blending
-local glCallList                = gl.CallList
-local glColor                   = gl.Color
-local glCreateList              = gl.CreateList
-local glCulling                 = gl.Culling
-local glDeleteList              = gl.DeleteList
-local glDeleteTexture           = gl.DeleteTexture
-local glDepthTest               = gl.DepthTest
-local glFeature                 = gl.Feature
-local glGetTextWidth            = gl.GetTextWidth
-local glLineWidth               = gl.LineWidth
-local glLogicOp                 = gl.LogicOp
-local glPointSize               = gl.PointSize
-local glPolygonMode             = gl.PolygonMode
-local glPolygonOffset           = gl.PolygonOffset
-local glPopMatrix               = gl.PopMatrix
-local glPushMatrix              = gl.PushMatrix
-local glScale                   = gl.Scale
-local glSmoothing               = gl.Smoothing
-local glTexCoord                = gl.TexCoord
-local glTexGen                  = gl.TexGen
-local glText                    = gl.Text
-local glTexture                 = gl.Texture
-local glTranslate               = gl.Translate
-local glUnit                    = gl.Unit
-local glVertex                  = gl.Vertex
-local spDrawUnitCommands        = Spring.DrawUnitCommands
-local spGetFeatureAllyTeam      = Spring.GetFeatureAllyTeam
-local spGetFeatureDefID         = Spring.GetFeatureDefID
-local spGetFeaturePosition      = Spring.GetFeaturePosition
-local spGetFeatureRadius        = Spring.GetFeatureRadius
-local spGetFeatureTeam          = Spring.GetFeatureTeam
-local spGetModKeyState          = Spring.GetModKeyState
-local spGetMouseState           = Spring.GetMouseState
-local spGetMyAllyTeamID         = Spring.GetMyAllyTeamID
-local spGetMyPlayerID           = Spring.GetMyPlayerID
-local spGetMyTeamID             = Spring.GetMyTeamID
+local GL_BACK = GL.BACK
+local GL_EYE_LINEAR = GL.EYE_LINEAR
+local GL_EYE_PLANE = GL.EYE_PLANE
+local GL_FRONT = GL.FRONT
+local GL_INVERT = GL.INVERT
+local GL_ONE = GL.ONE
+local GL_ONE_MINUS_SRC_ALPHA = GL.ONE_MINUS_SRC_ALPHA
+local GL_QUAD_STRIP = GL.QUAD_STRIP
+local GL_SRC_ALPHA = GL.SRC_ALPHA
+local GL_T = GL.T
+local GL_TEXTURE_GEN_MODE = GL.TEXTURE_GEN_MODE
+local GL_TRIANGLE_FAN = GL.TRIANGLE_FAN
+local glBeginEnd = gl.BeginEnd
+local glBlending = gl.Blending
+local glCallList = gl.CallList
+local glColor = gl.Color
+local glCreateList = gl.CreateList
+local glCulling = gl.Culling
+local glDeleteList = gl.DeleteList
+local glDepthTest = gl.DepthTest
+local glFeature = gl.Feature
+local glLogicOp = gl.LogicOp
+local glPolygonOffset = gl.PolygonOffset
+local glPopMatrix = gl.PopMatrix
+local glPushMatrix = gl.PushMatrix
+local glScale = gl.Scale
+local glTexCoord = gl.TexCoord
+local glTexGen = gl.TexGen
+local glTexture = gl.Texture
+local glTranslate = gl.Translate
+local glUnit = gl.Unit
+local glVertex = gl.Vertex
+local spDrawUnitCommands = Spring.DrawUnitCommands
+local spGetFeatureDefID = Spring.GetFeatureDefID
+local spGetFeaturePosition = Spring.GetFeaturePosition
+local spGetFeatureRadius = Spring.GetFeatureRadius
+local spGetModKeyState = Spring.GetModKeyState
+local spGetMouseState = Spring.GetMouseState
+local spGetMyAllyTeamID = Spring.GetMyAllyTeamID
+local spGetMyPlayerID = Spring.GetMyPlayerID
+local spGetMyTeamID = Spring.GetMyTeamID
 local spGetPlayerControlledUnit = Spring.GetPlayerControlledUnit
-local spGetPlayerInfo           = Spring.GetPlayerInfo
-local spGetTeamColor            = Spring.GetTeamColor
-local spGetTeamInfo             = Spring.GetTeamInfo
-local spGetUnitAllyTeam         = Spring.GetUnitAllyTeam
-local spGetUnitIsCloaked        = Spring.GetUnitIsCloaked
-local spGetUnitTeam             = Spring.GetUnitTeam
-local spIsCheatingEnabled       = Spring.IsCheatingEnabled
-local spTraceScreenRay          = Spring.TraceScreenRay
-
+local spGetUnitAllyTeam = Spring.GetUnitAllyTeam
+local spGetUnitTeam = Spring.GetUnitTeam
+local spTraceScreenRay = Spring.TraceScreenRay
 
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 
+local shader, chobbyInterface
 
-local texName = LUAUI_DIRNAME .. 'Images/highlight_strip.png'
+local texName = 'LuaUI/Images/highlight_strip.png'
 
 local cylDivs = 64
 local cylList = 0
 
 local vsx, vsy = widgetHandler:GetViewSizes()
 function widget:ViewResize(viewSizeX, viewSizeY)
-  vsx = viewSizeX
-  vsy = viewSizeY
+	vsx = viewSizeX
+	vsy = viewSizeY
 end
 
-local smoothPolys = (glSmoothing ~= nil) and false
+function CreateHighlightShader()
+	if shader then
+		gl.DeleteShader(shader)
+	end
+	if gl.CreateShader ~= nil then
+		shader = gl.CreateShader({
+
+			uniform = {
+				edgeExponent = edgeExponent,
+			},
+
+			vertex = [[
+				#version 150 compatibility
+				// Application to vertex shader
+				varying vec3 normal;
+				varying vec3 eyeVec;
+				varying vec3 color;
+				uniform mat4 camera;
+				uniform mat4 caminv;
+
+				void main()
+				{
+				  vec4 P = gl_ModelViewMatrix * gl_Vertex;
+
+				  eyeVec = P.xyz;
+
+				  normal  = gl_NormalMatrix * gl_Normal;
+
+				  color = gl_Color.rgb;
+
+				  gl_Position = gl_ProjectionMatrix * P;
+				}
+			]],
+
+			fragment = [[
+				#version 150 compatibility
+				varying vec3 normal;
+				varying vec3 eyeVec;
+				varying vec3 color;
+
+				uniform float edgeExponent;
+
+				void main()
+				{
+				  float opac = dot(normalize(normal), normalize(eyeVec));
+				  opac = 1.0 - abs(opac);
+				  opac = pow(opac, edgeExponent)*0.33;
+
+				  gl_FragColor.rgb = color + opac);
+				  gl_FragColor.a = opac;
+
+				}
+			]],
+		})
+	end
+end
 
 
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 
 function widget:Initialize()
-  cylList = glCreateList(DrawCylinder, cylDivs)
+	cylList = glCreateList(DrawCylinder, cylDivs)
+	CreateHighlightShader()
 end
 
-
 function widget:Shutdown()
-  glDeleteList(cylList)
+	glDeleteList(cylList)
 end
 
 
@@ -134,31 +173,31 @@ end
 --------------------------------------------------------------------------------
 
 function DrawCylinder(divs)
-  local cos = math.cos
-  local sin = math.sin
-  local divRads = (2.0 * math.pi) / divs
-  -- top
-  glBeginEnd(GL_TRIANGLE_FAN, function()
-    for i = 1, divs do
-      local a = i * divRads
-      glVertex(sin(a), 1.0, cos(a))
-    end
-  end)
-  -- bottom
-  glBeginEnd(GL_TRIANGLE_FAN, function()
-    for i = 1, divs do
-      local a = -i * divRads
-      glVertex(sin(a), -1.0, cos(a))
-    end
-  end)
-  -- sides
-  glBeginEnd(GL_QUAD_STRIP, function()
-    for i = 0, divs do
-      local a = i * divRads
-      glVertex(sin(a),  1.0, cos(a))
-      glVertex(sin(a), -1.0, cos(a))
-    end
-  end)
+	local cos = math.cos
+	local sin = math.sin
+	local divRads = (2.0 * math.pi) / divs
+	-- top
+	glBeginEnd(GL_TRIANGLE_FAN, function()
+		for i = 1, divs do
+			local a = i * divRads
+			glVertex(sin(a), 1.0, cos(a))
+		end
+	end)
+	-- bottom
+	glBeginEnd(GL_TRIANGLE_FAN, function()
+		for i = 1, divs do
+			local a = -i * divRads
+			glVertex(sin(a), -1.0, cos(a))
+		end
+	end)
+	-- sides
+	glBeginEnd(GL_QUAD_STRIP, function()
+		for i = 0, divs do
+			local a = i * divRads
+			glVertex(sin(a), 1.0, cos(a))
+			glVertex(sin(a), -1.0, cos(a))
+		end
+	end)
 end
 
 
@@ -166,128 +205,111 @@ end
 --------------------------------------------------------------------------------
 
 local function HilightModel(drawFunc, drawData)
-  glDepthTest(true)
-  glPolygonOffset(-2, -2)
-  glBlending(GL_SRC_ALPHA, GL_ONE)
+	glDepthTest(true)
+	glPolygonOffset(-2, -2)
+	glBlending(GL_SRC_ALPHA, GL_ONE)
 
-  if (smoothPolys) then
-    glSmoothing(nil, nil, true)
-  end
+	local scale = 35
+	local shift = (0.85 * widgetHandler:GetHourTimer()) % scale
+	glTexCoord(0, 0)
+	glTexGen(GL_T, GL_TEXTURE_GEN_MODE, GL_EYE_LINEAR)
+	glTexGen(GL_T, GL_EYE_PLANE, 0, (1 / scale), 0, shift)
+	glTexture(texName)
 
-  local scale = 35
-  local shift = (2 * widgetHandler:GetHourTimer()) % scale
-  glTexCoord(0, 0)
-  glTexGen(GL_T, GL_TEXTURE_GEN_MODE, GL_EYE_LINEAR)
-  glTexGen(GL_T, GL_EYE_PLANE, 0, (1 / scale), 0, shift)
-  glTexture(texName)
+	drawFunc(drawData)
 
-  drawFunc(drawData)
+	glTexture(false)
+	glTexGen(GL_T, false)
 
-  glTexture(false)
-  glTexGen(GL_T, false)
-
-  if (smoothPolys) then
-    glSmoothing(nil, nil, false)
-  end
-
-  glBlending(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
-  glPolygonOffset(false)
-  glDepthTest(false)
+	glBlending(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
+	glPolygonOffset(false)
+	glDepthTest(false)
 end
 
 
 --------------------------------------------------------------------------------
 
 local function SetUnitColor(unitID, alpha)
-  local teamID = spGetUnitTeam(unitID)
-  if (teamID == nil) then
-    glColor(1.0, 0.0, 0.0, alpha) -- red
-  elseif (teamID == spGetMyTeamID()) then
-    glColor(0.0, 1.0, 1.0, alpha) -- cyan
-  elseif (spGetUnitAllyTeam(unitID) == spGetMyAllyTeamID()) then
-    glColor(0.0, 1.0, 0.0, alpha) -- green
-  else
-    glColor(1.0, 0.0, 0.0, alpha) -- red
-  end
+	local teamID = spGetUnitTeam(unitID)
+	if teamID == nil then
+		glColor(1.0, 0.0, 0.0, alpha) -- red
+	elseif teamID == spGetMyTeamID() then
+		glColor(0.0, 1.0, 1.0, alpha) -- cyan
+	elseif spGetUnitAllyTeam(unitID) == spGetMyAllyTeamID() then
+		glColor(0.0, 1.0, 0.0, alpha) -- green
+	else
+		glColor(1.0, 0.0, 0.0, alpha) -- red
+	end
 end
-
 
 local function SetFeatureColor(featureID, alpha)
-  glColor(1.0, 0.0, 1.0, alpha) -- purple
-  do return end  -- FIXME -- wait for feature team/allyteam resolution
-
-  local allyTeamID = spGetFeatureAllyTeam(featureID)
-  if ((allyTeamID == nil) or (allyTeamID < 0)) then
-    glColor(1.0, 1.0, 1.0, alpha) -- white
-  elseif (allyTeamID == spGetMyAllyTeamID()) then
-    glColor(0.0, 1.0, 1.0, alpha) -- cyan
-  else
-    glColor(1.0, 0.0, 0.0, alpha) -- red
-  end
+	glColor(1.0, 0.0, 1.0, alpha) -- purple
 end
-
 
 local function UnitDrawFunc(unitID)
-  glUnit(unitID, true)
+	glUnit(unitID, true)
 end
-
 
 local function FeatureDrawFunc(featureID)
-  glFeature(featureID, true)
+	glFeature(featureID, true)
 end
-
 
 local function HilightUnit(unitID)
-  --local outline = (spGetUnitIsCloaked(unitID) ~= true)
-  SetUnitColor(unitID, unitAlpha)
-  HilightModel(UnitDrawFunc, unitID)
+	--local outline = (spGetUnitIsCloaked(unitID) ~= true)
+	SetUnitColor(unitID, (useShader and shader) and unitAlpha * shaderUnitAlphaMultiplier or unitAlpha)
+	HilightModel(UnitDrawFunc, unitID)
 end
-
 
 local function HilightFeatureModel(featureID)
-  SetFeatureColor(featureID, featureAlpha)
-  HilightModel(FeatureDrawFunc, featureID, true)
+	SetFeatureColor(featureID, (useShader and shader) and featureAlpha * shaderUnitAlphaMultiplier or featureAlpha)
+	HilightModel(FeatureDrawFunc, featureID, true)
 end
 
+local featureDrawType0 = {}
+for id, def in pairs(FeatureDefs) do
+	if def.drawType == 0 then
+		featureDrawType0[id] = true
+	end
+end
 
 local function HilightFeature(featureID)
-  local fDefID = spGetFeatureDefID(featureID)
-  local fd = FeatureDefs[fDefID]
-  if (fd == nil) then return end
+	--if (FeatureDefs[spGetFeatureDefID(featureID)] == nil) then return end
 
-  if (fd.drawType == 0) then
-    HilightFeatureModel(featureID)
-    return
-  end
+	if featureDrawType0[spGetFeatureDefID(featureID)] then
+		HilightFeatureModel(featureID)
+		return
+	end
 
-  local radius = spGetFeatureRadius(featureID)
-  if (radius == nil) then
-    return
-  end
+	local radius = spGetFeatureRadius(featureID)
+	if radius == nil then
+		return
+	end
 
-  local px, py, pz = spGetFeaturePosition(featureID)
-  if (px == nil) then return end
+	local px, py, pz = spGetFeaturePosition(featureID)
+	if (px == nil) then
+		return
+	end
 
-  local yScale = 4
-  glPushMatrix()
-  glTranslate(px, py, pz)
-  glScale(radius, yScale * radius, radius)
-  -- FIXME: needs an 'inside' check
+	local yScale = 4
+	glPushMatrix()
+	glTranslate(px, py, pz)
+	glScale(radius, yScale * radius, radius)
+	-- FIXME: needs an 'inside' check
 
-  glDepthTest(true)
-  glLogicOp(GL_INVERT)
+	glDepthTest(true)
+	glLogicOp(GL_INVERT)
 
-  glCulling(GL_FRONT)
-  glCallList(cylList)
+	glCulling(GL_FRONT)
+	glCallList(cylList)
 
-  glCulling(GL_BACK)
-  glCallList(cylList)
+	glCulling(GL_BACK)
+	glCallList(cylList)
 
-  glLogicOp(false)
-  glCulling(false)
-  glDepthTest(false)
+	glLogicOp(false)
+	glCulling(false)
+	glDepthTest(false)
 
-  glPopMatrix()
+	glPopMatrix()
 end
 
 
@@ -298,27 +320,45 @@ local type, data  --  for the TraceScreenRay() call
 
 
 function widget:Update()
-  local mx, my = spGetMouseState()
-  type, data = spTraceScreenRay(mx, my)
+	local mx, my = spGetMouseState()
+	type, data = spTraceScreenRay(mx, my)
 end
-
 
 function widget:DrawWorld()
-  if drawFeatureHighlight and (type == 'feature') then
-    HilightFeature(data)
-  elseif (type == 'unit') then
-    local unitID = spGetPlayerControlledUnit(spGetMyPlayerID())
-    if (data ~= unitID) then
-      HilightUnit(data)
-      -- also draw the unit's command queue
-      local a,c,m,s = spGetModKeyState()
-      if (m) then
-        spDrawUnitCommands(data)
-      end
-    end
-  end
-end
+	if select(7, spGetMouseState()) then
+		-- when camera panning
+		return
+	end
+	if Spring.IsGUIHidden() then
+		return
+	end
 
+	if drawFeatureHighlight and (type == 'feature') then
+		HilightFeature(data)
+		if useShader and shader then
+			gl.UseShader(shader)
+			HilightModel(FeatureDrawFunc, data)
+			gl.UseShader(0)
+		end
+	elseif type == 'unit' then
+		local unitID = spGetPlayerControlledUnit(spGetMyPlayerID())
+		if data ~= unitID and not Spring.IsUnitIcon(data) then
+
+			HilightUnit(data)
+
+			if useShader and shader then
+				gl.UseShader(shader)
+				HilightModel(UnitDrawFunc, data)
+				gl.UseShader(0)
+			end
+			-- also draw the unit's command queue
+			local a, c, m, s = spGetModKeyState()
+			if m then
+				spDrawUnitCommands(data)
+			end
+		end
+	end
+end
 
 widget.DrawWorldReflection = widget.DrawWorld
 

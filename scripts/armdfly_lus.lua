@@ -132,6 +132,11 @@ function MoveRate()
 	end
 end
 
+local spGetUnitDefID 	= Spring.GetUnitDefID
+local id
+local size
+local height
+
 
 function script.QueryTransport ( passengerID )
 	-- Spring.SetUnitRulesParam(passengerID, "IsTranported", "true")
@@ -162,18 +167,45 @@ function script.QueryTransport ( passengerID )
 			full = true
 			return link0
 		end
-		if full == true then -- Transport is full, do not attemps to load more units
-			local cmd = Spring.GetUnitCommands(unitID, 1)
-			if cmd[1] and cmd[1].id == CMD.LOAD_UNITS then
-				Spring.GiveOrderToUnit(unitID, CMD.REMOVE, {CMD.LOAD_UNITS}, {"alt"})
-			end
-		end
+		
 	surplus = passengerID
 	return link0
 end
 
 
-
+function script.QueryTransport ( passengerID )
+	if(not link[0]) then	
+		local size = UnitDefs[Spring.GetUnitDefID(passengerID)].xsize
+		local height = UnitDefs[Spring.GetUnitDefID(passengerID)].height
+		if size <= 6 then
+			if not link[1] then
+				link[1] = passengerID
+				Move(link1, 2, -height + 4.5)
+				return link1
+			elseif not link[2] then
+				link[2] = passengerID
+				Move(link2, 2, -height+ 4.5)
+				return link2
+			elseif not link[3] then
+				link[3] = passengerID
+				Move(link3, 2, -height+ 4.5)
+				return link3
+			elseif not link[4] then
+				link[4] = passengerID
+				Move(link4, 2, -height+ 4.5)
+				full = true
+				return link4
+			end
+		elseif (not link[1]) and (not link[2]) and not (link[3]) and not (link[4]) then
+			link[0] = passengerID
+			Move(link0, 2, -height)
+			full = true
+			return link0
+		end
+	end
+	surplus = passengerID
+	return link0
+end
 
 local function RestoreAfterDelay()
 	Sleep(2000)

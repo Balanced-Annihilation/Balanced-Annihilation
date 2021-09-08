@@ -23,7 +23,7 @@ return {
 		icontype = "building",
 		idleautoheal = 5,
 		idletime = 1800,
-		maxdamage = 3200,
+		maxdamage = 2700,
 		maxslope = 10,
 		maxwaterdepth = 0,
 		name = "Catalyst",

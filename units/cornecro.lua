@@ -19,7 +19,7 @@ return {
 		description = "Stealthy Rez Kbot",
 		energymake = 1.75,
 		energyuse = 1.75,
-		explodeas = "big_unitex",
+		explodeas = "FLEA_EX",
 		footprintx = 2,
 		footprintz = 2,
 		idleautoheal = 5,

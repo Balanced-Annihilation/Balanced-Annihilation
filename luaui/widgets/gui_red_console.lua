@@ -20,6 +20,9 @@ local gameOver = false
 local lastConnectionAttempt = ''
 --todo: dont cut words apart when clipping text 
 
+local spGetTimer = Spring.GetTimer
+local spDiffTimers = Spring.DiffTimers
+local inittime
 
 local clock = os.clock
 local slen = string.len
@@ -498,20 +501,20 @@ local function processLine(line,g,cfg,newlinecolor)
    end
 	
 	-- filter Sync error when its a spectator
-	if sfind(line,"^Sync error for ") then
-		name = ssub(line,16,sfind(line," in frame ")-1)
-		if names[name] ~= nil and names[name][2] ~= nil and names[name][2] and sGetMyPlayerID() ~= names[name][4] then	-- when spec
-			ignoreThisMessage = true
-		end
-	end
+	--if sfind(line,"^Sync error for ") then
+	--	name = ssub(line,16,sfind(line," in frame ")-1)
+	--	if names[name] ~= nil and names[name][2] ~= nil and names[name][2] and sGetMyPlayerID() ~= names[name][4] then	-- when spec
+	--		ignoreThisMessage = true
+	--	end
+	--end
 	
 	-- filter Sync error when its a spectator
-	if sfind(line,"^Error: %[DESYNC WARNING%] ") then
-		name = ssub(line,sfind(line," %(")+2,sfind(line,"%) ")-1)
-		if names[name] ~= nil and names[name][2] ~= nil and names[name][2] and sGetMyPlayerID() ~= names[name][4] then	-- when spec
-			ignoreThisMessage = true
-		end
-	end
+	--if sfind(line,"^Error: %[DESYNC WARNING%] ") then
+	--	name = ssub(line,sfind(line," %(")+2,sfind(line,"%) ")-1)
+	--	if names[name] ~= nil and names[name][2] ~= nil and names[name][2] and sGetMyPlayerID() ~= names[name][4] then	-- when spec
+	--		ignoreThisMessage = true
+	--	end
+	--end
 	
 	-- filter Connection attempts
 	if sfind(line,"^Connection a") then --	if sfind(line,"^Connection attempt from ") then
@@ -526,7 +529,7 @@ local function processLine(line,g,cfg,newlinecolor)
 	  ignoreThisMessage = true
 	end
 	
-	if sfind(line,"ror:") then --	if sfind(line,"Error:") then
+	if sfind(line,"rror:") then --	if sfind(line,"Error:") then
 	  ignoreThisMessage = true
 	end
 	if sfind(line,"rver=") then --	if sfind(line,"server=") then
@@ -537,10 +540,11 @@ local function processLine(line,g,cfg,newlinecolor)
 	end
 	
 	if sfind(line,"ient=") then-- if sfind(line,"client=") then
+	  	name = lastConnectionAttempt
 	  ignoreThisMessage = true
 	end
-	if sfind(line,"cTeamAction") then 	--if sfind(line,"SpecTeamAction") then
-
+	if sfind(line,"cTeamA") then 	--if sfind(line,"SpecTeamAction") then
+	name = lastConnectionAttempt
 	  ignoreThisMessage = true
 	end
 	if sfind(line,"t_select") then --	if sfind(line,"smart_select") then
@@ -553,6 +557,42 @@ local function processLine(line,g,cfg,newlinecolor)
 	  ignoreThisMessage = true
 	end
 	
+	if sfind(line,"bled!") then --	model shaders is enabled!
+		name = lastConnectionAttempt
+	  ignoreThisMessage = true
+	end
+	
+	if sfind(line,".lua") then --	Removed: widget.lua disbaled
+		name = lastConnectionAttempt
+	  ignoreThisMessage = true
+	end
+	
+	if sfind(line,"->") then 
+		name = lastConnectionAttempt
+	  ignoreThisMessage = true
+	end
+	
+	if sfind(line,"normal quit") then  -- "Spectator " normal quit remove spectator quit spam
+		name = lastConnectionAttempt
+	  ignoreThisMessage = true
+	end
+	
+	if sfind(line,"n attempt fr") then -- Reconnection attempt from/ reconnection attemp reestablish??
+		name = lastConnectionAttempt
+	  ignoreThisMessage = true
+	end
+	
+	if sfind(line,"not authorized") then -- User name not authorized to connect
+		name = lastConnectionAttempt
+	  ignoreThisMessage = true
+	end
+	
+	if sfind(line,"not reconnect") then  -- User can not reconnect
+		name = lastConnectionAttempt
+	  ignoreThisMessage = true
+	end
+	
+
 	
 	if linetype==0 then
 		--filter out some engine messages; 
@@ -687,6 +727,7 @@ local function processLine(line,g,cfg,newlinecolor)
 	return history[#history]
 end
 
+
 local function updateconsole(g,cfg)
 	local forceupdate = g.vars._forceupdate
 	local justforcedupdate = g.vars._justforcedupdate
@@ -806,6 +847,7 @@ end
 
 function widget:Initialize()
 
+	inittime = spGetTimer()
 	PassedStartupCheck = RedUIchecks()
 	if (not PassedStartupCheck) then return end
 	
@@ -813,6 +855,7 @@ function widget:Initialize()
 	Spring.SendCommands("console 0")
 	Spring.SendCommands('inputtextgeo 0.26 0.73 0.02 0.028')
 	AutoResizeObjects()
+
 end
 
 function widget:ViewResize(newX,newY)
@@ -826,14 +869,27 @@ end
 function widget:Shutdown()
 	Spring.SendCommands("console 1")
 end
-local ready = 0
+
 function widget:AddConsoleLine(lines,priority)
-	lines = lines:match('^\[f=[0-9]+\] (.*)$') or lines
-	local textcolor
-	for line in lines:gmatch("[^\n]+") do
-		textcolor = processLine(line, console, Confignew.console, textcolor)[4]
-	end
-	clipHistory(console,true)
+		--if Spring.GetConfigString("showchat", "1") == "1" then
+		if (pauseelapsed or (Spring.GetGameSeconds() >0) or (spDiffTimers(spGetTimer(),inittime) > 10)) then
+			local textcolor
+
+				
+			if(not pauseelapsed) then
+				textcolor = processLine(" ", console, Confignew.console, textcolor)[4]
+				pauseelapsed = true
+			end
+		
+			local textcolor
+			lines = lines:match('^\[f=[0-9]+\] (.*)$') or lines
+			for line in lines:gmatch("[^\n]+") do
+				textcolor = processLine(line, console, Confignew.console, textcolor)[4]
+			end
+			clipHistory(console,true)
+		end
+		
+		--end
 end
 
 function widget:Update()

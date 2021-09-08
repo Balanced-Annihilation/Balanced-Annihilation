@@ -99,6 +99,7 @@ local iconMargin = usedIconSizeX / 15		-- changed in ViewResize anyway
 local fontSize = iconSizeY * 0.3		-- changed in ViewResize anyway
 local picList
 
+local font
 -------------------------------------------------------------------------------
 -------------------------------------------------------------------------------
 
@@ -123,6 +124,7 @@ end
 
 local vsx, vsy = widgetHandler:GetViewSizes()
 function widget:ViewResize(viewSizeX, viewSizeY)
+font = WG['fonts'].getFont(nil, 1.8, 0.45, 1.8)
   vsx = viewSizeX
   vsy = viewSizeY
   
@@ -255,7 +257,14 @@ function DrawUnitDefTexture(unitDefID, iconPos, count, row)
 
   -- draw the count text
   local offset = math.ceil((ymax - (ymin+iconMargin+iconMargin)) / 20)
-  glText(count, xmax-iconMargin-offset, ymin+iconMargin+iconMargin+offset+(fontSize/16) , fontSize, "or")
+	
+	--  glText(count, xmax-iconMargin-offset, ymin+iconMargin+iconMargin+offset+(fontSize/16) , fontSize, "or")
+
+	
+	font:Begin()
+	font:Print("\255\200\255\200" .. count, xmax-iconMargin-offset, ymin+iconMargin+iconMargin+offset+(fontSize/16), fontSize, "or")
+	font:End()
+  
 end
 
 

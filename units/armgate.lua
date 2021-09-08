@@ -120,7 +120,7 @@ return {
 					energyuse = 0,
 					force = 2.5,
 					intercepttype = 1,
-					power = 6500,
+					power = 5500,
 					powerregen = 105,
 					powerregenenergy = 562.5,
 					radius = 500,

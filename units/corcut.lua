@@ -65,7 +65,7 @@ return {
 		},
 		weapondefs = {
 			vtol_rocket2 = {
-				areaofeffect = 72,
+				areaofeffect = 22,
 				avoidfeature = false,
 				burnblow = true,
 				burst = 2,
@@ -73,7 +73,7 @@ return {
 				craterareaofeffect = 0,
 				craterboost = 0,
 				cratermult = 0,
-				explosiongenerator = "custom:FLASHSMALLBUILDINGEX",
+				explosiongenerator = "custom:genericshellexplosion-reap",
 				impulseboost = 0.123,
 				impulsefactor = 0.123,
 				name = "RiotCannon",

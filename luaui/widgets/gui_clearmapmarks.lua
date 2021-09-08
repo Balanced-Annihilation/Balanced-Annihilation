@@ -11,15 +11,8 @@ function widget:GetInfo()
 end
 
 local iconTexture = ":n:"..LUAUI_DIRNAME.."Images/mapmarksfx/eraser.dds"
-local iconSize = 14
+local iconSize = 16
 
-local spGetGameFrame			= Spring.GetGameFrame
-local myPlayerID				= Spring.GetMyPlayerID()
-
-local glText	          		= gl.Text
-local glBlending          		= gl.Blending
-local glScale          			= gl.Scale
-local glRotate					= gl.Rotate
 local glTranslate				= gl.Translate
 local glPushMatrix          	= gl.PushMatrix
 local glPopMatrix				= gl.PopMatrix
@@ -32,8 +25,13 @@ local drawlist = {}
 local xPos = 0
 local yPos = 0
 
-local shown = false
 local mouseover = false
+
+local usedImgSize = iconSize
+
+local chobbyInterface
+
+local continuouslyClean = false
 
 ---------------------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------------------
@@ -67,12 +65,16 @@ end
 
 local advplayerlistPos = {}
 function updatePosition(force)
-	if (WG['advplayerlist_api'] ~= nil) then
+	if WG['advplayerlist_api'] ~= nil then
 		local prevPos = advplayerlistPos
 		advplayerlistPos = WG['advplayerlist_api'].GetPosition()		-- returns {top,left,bottom,right,widgetScale}
 		usedImgSize = iconSize * advplayerlistPos[5]
-		xPos = advplayerlistPos[2] - 5
-		yPos = 5 --advplayerlistPos[1] - iconSize
+		xPos = advplayerlistPos[2] - (5.3*advplayerlistPos[5])
+		yPos = advplayerlistPos[3]
+		if advplayerlistPos[3] < 0 then
+			yPos = 0
+		end
+		yPos = yPos + (4*advplayerlistPos[5])
 		if (prevPos[1] == nil or prevPos[1] ~= advplayerlistPos[1] or prevPos[2] ~= advplayerlistPos[2] or prevPos[5] ~= advplayerlistPos[5]) or force then
 			createList(usedImgSize)
 		end
@@ -80,35 +82,52 @@ function updatePosition(force)
 end
 
 function widget:Initialize()
-	updatePosition()
+	WG.clearmapmarks = {}
+	WG.clearmapmarks.continuous = continuouslyClean
+	updatePosition(true)
 end
 
 function widget:Shutdown()
 	if drawlist[1] ~= nil then
 		glDeleteList(drawlist[1])
 	end
+	WG.clearmapmarks = nil
 end
 
-function widget:PlayerChanged(playerID)
-	if playerID == myPlayerID then
-		
+local sec = 0
+function widget:Update(dt)
+	sec = sec + dt
+	if sec > 0.5 then
+		sec = 0
+		updatePosition()
+	end
+	--if continuouslyClean then
+	--	Spring.SendCommands({"clearmapmarks"})
+	--end
+end
+
+
+function widget:MapDrawCmd(playerID, cmdType, startx, starty, startz, a, b, c)
+	if continuouslyClean then
+		return true
 	end
 end
 
 function widget:DrawScreen()
-	--if spGetGameFrame() == 0 then return end
-	updatePosition()
+	if chobbyInterface then return end
+
 	if drawlist[1] ~= nil then
+		local mx,my = Spring.GetMouseState()
 		glPushMatrix()
 			glTranslate(xPos, yPos, 0)
-				if mouseover then
+				if isInBox(mx, my, {xPos-usedImgSize, yPos, xPos, yPos+usedImgSize}) then
+					--Spring.SetMouseCursor('cursornormal')
 					gl.Color(1,1,1,1)
 				else
-					gl.Color(1,1,1,0.55)
+					gl.Color(0.96,0.96,0.96,0.92)
 				end
 			glCallList(drawlist[1])
 		glPopMatrix()
-		mouseover = false
 	end
 end
 
@@ -126,18 +145,16 @@ function widget:MouseRelease(mx, my, mb)
 	if mb == 1 and isInBox(mx, my, {xPos-usedImgSize, yPos, xPos, yPos+usedImgSize}) then
 		Spring.SendCommands({"clearmapmarks"})
 		updatePosition(true)
-	end
-end
 
-function widget:IsAbove(mx, my)
-	if isInBox(mx, my, {xPos-usedImgSize, yPos, xPos, yPos+usedImgSize}) then
-		mouseover = true
-	end
-	return mouseover
-end
-
-function widget:GetTooltip(mx, my)
-	if widget:IsAbove(mx,my) then
-		return string.format("This buttons clears all mapmarks and drawings.")
+		local alt, ctrl, meta, shift = Spring.GetModKeyState()
+		if ctrl then
+			continuouslyClean = not continuouslyClean
+			WG.clearmapmarks.continuous = continuouslyClean
+			if continuouslyClean then
+				Spring.Echo("clearmapmarks: continously cleaning all mapmarks enabled (for current game)")
+			else
+				Spring.Echo("clearmapmarks: continously cleaning all mapmarks disabled")
+			end
+		end
 	end
 end

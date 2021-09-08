@@ -136,7 +136,7 @@ return {
 		},
 		weapons = {
 			[1] = {
-				badtargetcategory = "MOBILE",
+				badtargetcategory = "MOBILE GROUNDSCOUT",
 				def = "CORHRK_ROCKET",
 				onlytargetcategory = "SURFACE",
 			},

@@ -9,6 +9,7 @@ unitDef = {
   buildCostEnergy        = 0,
   buildCostMetal         = 0,
   builder                = false,
+     buildPic            = [[ARMCOM.DDS]],
   buildTime              = 600,
   canAttack              = true,
   canGuard               = true,

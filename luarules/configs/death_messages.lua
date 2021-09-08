@@ -79,6 +79,10 @@ allyTeamDeathMessages = {
 }	
 	
 teamDeathMessages = {
+	"XX was removed from the engine",
+	"XX ascended to the astral plane",
+	"XX socialised their losses",
+	"XX tapped out",
 	"XX's value was determined by the free market",
 	"XX suffered unlimited losses",
 	"XX finished testing their new experimetal build",

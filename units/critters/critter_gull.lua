@@ -9,7 +9,7 @@ unitDef = {
   bmcode              = [[1]],
   
   builder             = false,
-  buildPic            = [[placeholder.png]],
+   buildPic            = [[ARMCOM.DDS]],
   buildTime           = 10,
   ----cost
   buildCostEnergy     = 0,

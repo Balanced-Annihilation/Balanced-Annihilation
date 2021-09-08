@@ -12,7 +12,7 @@ function widget:GetInfo()
 	}
 end
 
-local minMaxparticles = 20000
+local minMaxparticles = 25000
 
 local function reducePing()
 	--Spring.SendCommands("UseNetMessageSmoothingBuffer ".."0")
@@ -69,38 +69,49 @@ function widget:Initialize()
    reducePing()
    end
    
+
+   
    local firstlaunchsetupDone = Spring.GetConfigString('bafirstlaunchsetupDone1', "missing")
    
-   if firstlaunchsetupDone ~= "done" then
-   		Spring.SetConfigString("bafirstlaunchsetupDone1", "done")   
+   
+   	if tonumber(Spring.GetConfigInt("water",1) or 1) == 2 then
+   		Spring.SetConfigString("Water", '1')
 
+   end
+   
+   if firstlaunchsetupDone ~= "done" then
+   			--Spring.SetConfigString("FeatureDrawDistance", '90000')
+
+		Spring.SetConfigString("immersiveborder", '1')
+   		Spring.SetConfigString("bafirstlaunchsetupDone1", "done")   
+	Spring.SetConfigString("advgraphics", '2')
+	Spring.SetConfigString("MSAALevel", '2')
 	Spring.SetConfigString("UseNetMessageSmoothingBuffer", '0')
 		Spring.SetConfigString("Water", '1')
 		Spring.SetConfigString("ProfanityFilter", '1')
+		Spring.SetConfigString("immersiveborder", '1')
 		Spring.SetConfigString("chatsound", '1')
 		Spring.SetConfigString("reduceping", '1')
-		Spring.SetConfigString("GroundDecals", '1')
+		Spring.SetConfigString("GroundDecals", '2')
 		reducePing()
 		Spring.SetConfigString("LuaShaders", '1')
 		Spring.SetConfigInt("GroundDetail", 80)   
 		Spring.SetConfigInt("MaxNanoParticles", 3000)
 		Spring.SetConfigInt("MaxParticles", minMaxparticles)
-					Spring.SetConfigInt("AdvMapShading", 1)
+				Spring.SetConfigInt("AdvMapShading", 1)
 			Spring.SetConfigInt("AdvUnitShading", 1)
 			Spring.SetConfigInt("EdgeMoveWidth", 0.1) 
 			Spring.SetConfigString("MouseDragScrollThreshold",'0.3')	
-			local icondist = 199
-			Spring.SetConfigInt("UnitIconDist", icondist)
-			Spring.SetConfigInt("UnitLodDist", icondist+30)
+			Spring.SetConfigInt("UnitIconDist", 172)
+			Spring.SendCommands("disticon "..172)
 			Spring.SetConfigInt("ShadowMapSize", 6144)
-			Spring.SendCommands({"shadows 1 "..6144})
+			Spring.SendCommands("Shadows 1 6144")
     end
 			
 			local camState = Spring.GetCameraState()
 			camState.mode = 1
 			Spring.SetCameraState(camState,0)
-			--Spring.SetConfigString("UnitLodDist", '90000')
-			Spring.SetConfigString("FeatureDrawDistance", '90000')
+			Spring.SetConfigString("UnitLodDist", '90000')
 			Spring.SetConfigString("FeatureFadeDistance", '90000') 
 			Spring.SetConfigString("GuiOpacity", '0.6')  
 					
@@ -110,9 +121,23 @@ function widget:Initialize()
 			
 			Spring.SetConfigString("MiniMapDrawProjectiles", '0')
 		
-					
-
+	
+	
+	
+			--local setGraphicsPreset = Spring.GetConfigString('setGraphicsPreset', "missing")
+			--if setGraphicsPreset ~= "done" then
+			--	Spring.SetConfigString("setGraphicsPreset", "done")   
+			--	Spring.SetConfigString("advgraphics", 1)
+			--end
 		
+
+	
+				value = tonumber(Spring.GetConfigString("advgraphics", 1)) --set ultra graphics on first launch, otherwise to 1
+				Spring.SetConfigString("advgraphics", value) --add 1 to advgraphics value, if there was no BA version recorded
+			
+			
+		
+			
 		----
 
 

@@ -1,4 +1,4 @@
-local versionNum = '3.031'
+local versionNum = '4.000'
 
 function widget:GetInfo()
 	return {
@@ -35,9 +35,17 @@ include("keysym.h.lua")
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 
-local vsx, vsy = Spring.GetViewGeometry()
+local addall = true
+local immediate = true
+local verbose = true
+
+local cutoffDistance = 3500
+local falloffDistance = 2500
 
 local debug = false --of true generates debug messages
+
+local vsx, vsy = Spring.GetViewGeometry()
+
 local unit2group = {} -- list of unit types to group
 
 local groupableBuildingTypes = { 'tacnuke', 'empmissile', 'napalmmissile', 'seismic' }
@@ -49,51 +57,10 @@ for _, v in ipairs(groupableBuildingTypes) do
 	end
 end
 
-local options = {
-	loadgroups = {
-		name = 'Preserve Auto Groups',
-		desc = 'Preserve auto groupings for next game. Unchecking this clears the groups!',
-		type = 'bool',
-		value = true,
-		OnChange = function(self)
-			if not self.value then
-				unit2group = {}
-				Spring.Echo('Cleared Autogroups.')
-			end
-		end
-	},
-	addall = {
-		name = 'Add All',
-		desc = 'Existing units will be added to group# when setting autogroup#.',
-		type = 'bool',
-		value = true,
-	},
-	verbose = {
-		name = 'Verbose Mode',
-		type = 'bool',
-		value = true,
-	},
-	immediate = {
-		name = 'Immediate Mode',
-		desc = 'Units built/resurrected/received are added to autogroups immediately instead of waiting them to be idle.',
-		type = 'bool',
-		value = true,
-	},
-
-	cleargroups = {
-		name = 'Clear Auto Groups',
-		type = 'button',
-		OnChange = function()
-			unit2group = {}
-			Spring.Echo('Cleared Autogroups.')
-		end,
-	},
-}
-
 local finiGroup = {}
 local myTeam = Spring.GetMyTeamID()
 local createdFrame = {}
-local textSize = 13.0
+local textSize = 14
 
 local font, dlists, gameStarted, chobbyInterface
 
@@ -112,18 +79,17 @@ local UDefTab = UnitDefs
 local GetGroupList = Spring.GetGroupList
 local GetGroupUnits = Spring.GetGroupUnits
 local GetGameFrame = Spring.GetGameFrame
-
+local IsGuiHidden = Spring.IsGUIHidden
+local spIsUnitInView = Spring.IsUnitInView
+local spGetUnitViewPosition = Spring.GetUnitViewPosition
+local spGetCameraPosition = Spring.GetCameraPosition
 local Echo = Spring.Echo
-
-function printDebug(value)
-	if debug then
-		Echo(value)
-	end
-end
+local diag = math.diag
+local min = math.min
 
 function widget:ViewResize()
 	vsx, vsy = Spring.GetViewGeometry()
-	font = WG['fonts'].getFont(nil, 1, 0.2, 1.3)
+	font = WG['fonts'].getFont(nil, 1.4, 0.35, 1.4)
 
 	if dlists then
 		for i, _ in ipairs(dlists) do
@@ -134,7 +100,7 @@ function widget:ViewResize()
 	for i = 0, 9 do
 		dlists[i] = gl.CreateList(function()
 			font:Begin()
-			font:Print("\255\200\255\200" .. i, 20.0, -10.0, textSize, "cns")
+			font:Print("\255\200\255\200" .. i, -15.0, -10.0, textSize, "cno")
 			font:End()
 		end)
 	end
@@ -147,7 +113,7 @@ end
 
 function widget:PlayerChanged(playerID)
 	if Spring.GetSpectatingState() and (Spring.GetGameFrame() > 0 or gameStarted) then
-		widgetHandler:RemoveWidget(self)
+		widgetHandler:RemoveWidget()
 		return
 	end
 	myTeam = Spring.GetMyTeamID()
@@ -159,15 +125,11 @@ function widget:Initialize()
 
 	WG['autogroup'] = {}
 	WG['autogroup'].getImmediate = function()
-		return options.immediate.value
+		return immediate
 	end
 	WG['autogroup'].setImmediate = function(value)
-		options.immediate.value = value
+		immediate = value
 	end
-
-	--if Spring.IsReplay() or Spring.GetGameFrame() > 0 then
-	--	widget:PlayerChanged()
-	--end
 end
 
 function widget:Shutdown()
@@ -190,12 +152,37 @@ function widget:DrawWorld()
 	if chobbyInterface then
 		return
 	end
+	if not IsGuiHidden() then
 		local existingGroups = GetGroupList()
+		local camX, camY, camZ = spGetCameraPosition()
+		local camDistance
+		for inGroup, _ in pairs(existingGroups) do
+			local units = GetGroupUnits(inGroup)
+			for i = 1, #units do
+				local unitID = units[i]
+				if spIsUnitInView(unitID) then
+					local ux, uy, uz = spGetUnitViewPosition(unitID)
+					local camDistance = diag(camX - ux, camY - uy, camZ - uz)
+					if camDistance < cutoffDistance then
+						local scale = min(1, 1 - (camDistance - falloffDistance) / cutoffDistance)
+						gl.PushMatrix()
+						gl.Translate(ux, uy, uz)
+						if scale <=1 then
+							gl.Scale(scale, scale, scale)
+						end
+						gl.Billboard()
+						gl.CallList(dlists[inGroup])
+						gl.PopMatrix()
+					end
+				end
+			end
+		end
+	end
 end
 
 function widget:UnitFinished(unitID, unitDefID, unitTeam)
-	if (unitTeam == myTeam and unitID ~= nil) then
-		if (createdFrame[unitID] == GetGameFrame()) then
+	if unitTeam == myTeam and unitID ~= nil then
+		if createdFrame[unitID] == GetGameFrame() then
 			local gr = unit2group[unitDefID]
 			if gr ~= nil then
 				SetUnitGroup(unitID, gr)
@@ -207,13 +194,13 @@ function widget:UnitFinished(unitID, unitDefID, unitTeam)
 end
 
 function widget:UnitCreated(unitID, unitDefID, unitTeam, builderID)
-	if (unitTeam == myTeam) then
+	if unitTeam == myTeam then
 		createdFrame[unitID] = GetGameFrame()
 	end
 end
 
 function widget:UnitFromFactory(unitID, unitDefID, unitTeam)
-	if options.immediate.value or groupableBuildings[unitDefID] then
+	if immediate or groupableBuildings[unitDefID] then
 		if unitTeam == myTeam then
 			createdFrame[unitID] = GetGameFrame()
 			local gr = unit2group[unitDefID]
@@ -309,16 +296,6 @@ function widget:KeyPress(key, modifier, isRepeat)
 				local unitID = units[i]
 				local udid = GetUnitDefID(unitID)
 				if not UDefTab[udid]["isFactory"] and (groupableBuildings[udid] or not UDefTab[udid]["isBuilding"]) then
-					--if unit2group[udid] ~= nil then
-					--	unit2group[udid] = nil
-					--	unit2groupDeleted[udid] = true
-					--	SelectUnitArray({})
-					--	for _, uID in ipairs(Spring.GetTeamUnits(myTeam)) do -- ungroup all units of this unitdef
-					--		if GetUnitDefID(uID) == udid then
-					--			SetUnitGroup(uID, -1)
-					--		end
-					--	end
-					--elseif unit2groupDeleted[udid] == nil then
 					selUnitDefIDs[udid] = true
 					unit2group[udid] = gr
 					exec = true
@@ -327,22 +304,21 @@ function widget:KeyPress(key, modifier, isRepeat)
 					else
 						SetUnitGroup(unitID, gr)
 					end
-					--end
 				end
 			end
 			if exec == false then
 				return false --nothing to do
 			end
 			for udid, _ in pairs(selUnitDefIDs) do
-				if options.verbose.value then
-					if gr then
+				if verbose then
+						if gr then
 						Echo('Added ' .. UnitDefs[udid].humanName .. ' to autogroup #' .. gr .. '.')
 					else
 						Echo('Removed ' .. UnitDefs[udid].humanName .. ' from autogroups.')
 					end
 				end
 			end
-			if options.addall.value then
+			if addall then
 				local myUnits = Spring.GetTeamUnits(myTeam)
 				for i = 1, #myUnits do
 					local unitID = myUnits[i]
@@ -388,47 +364,8 @@ function widget:KeyPress(key, modifier, isRepeat)
 				SelectUnitArray({ muid })
 			end
 		end
-		--[[
-	   if (key == KEYSYMS.Q) then
-		   local units = GetSelectedUnits()
-		   for _, unitID in ipairs(units) do
-		   SetUnitGroup(unitID,-1)
-		 end
-	   end
-	   --]]
 	end
 	return false
-end
-
-function tableMerge(t1, t2)
-	for k, v in pairs(t2) do
-		if type(v) == "table" then
-			if type(t1[k] or false) == "table" then
-				tableMerge(t1[k] or {}, t2[k] or {})
-			else
-				t1[k] = v
-			end
-		else
-			t1[k] = v
-		end
-	end
-	return t1
-end
-
-function deepcopy(orig)
-	local orig_type = type(orig)
-	local copy
-	if orig_type == 'table' then
-		copy = {}
-		for orig_key, orig_value in next, orig, nil do
-			copy[deepcopy(orig_key)] = deepcopy(orig_value)
-		end
-		setmetatable(copy, deepcopy(getmetatable(orig)))
-	else
-		-- number, string, boolean, etc
-		copy = orig
-	end
-	return copy
 end
 
 function widget:GetConfigData()
@@ -439,14 +376,20 @@ function widget:GetConfigData()
 	local ret = {
 		version = versionNum,
 		groups = groups,
-		options = options,
+		immediate = immediate,
+		verbose = verbose,
+		addall = addall,
 	}
 	return ret
 end
 
 function widget:SetConfigData(data)
-	if data and type(data) == 'table' and data.version and (data.version + 0) > 2.1 and data.options then
-		options = tableMerge(deepcopy(options), deepcopy(data.options))
+	if data and type(data) == 'table' and data.version and (data.version + 0) > 2.1 then
+		if data.immediate ~= nil then
+			immediate = data.immediate
+			verbose = data.verbose
+			addall = data.addall
+		end
 		local groupData = data.groups
 		if groupData and type(groupData) == 'table' then
 			for _, nam in ipairs(groupData) do
@@ -460,4 +403,3 @@ function widget:SetConfigData(data)
 		end
 	end
 end
---------------------------------------------------------------------------------

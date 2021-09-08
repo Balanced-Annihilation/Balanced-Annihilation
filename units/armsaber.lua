@@ -66,7 +66,7 @@ return {
 		weapondefs = {
 			vtol_emg2 = {
 				accuracy = 100,
-				areaofeffect = 36,
+				areaofeffect = 20,
 				avoidfeature = false,
 				burnblow = true,
 				cegtag = "banthablaster",

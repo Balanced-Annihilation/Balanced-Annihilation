@@ -27,9 +27,18 @@ local big_unit_air = WeaponDefNames['big_unit_air'].id
 
 if (gadgetHandler:IsSyncedCode()) then
 
+local cacheids = {}
+cacheids[#cacheids + 1] = flea_ex
+cacheids[#cacheids + 1] = small_unitex
+cacheids[#cacheids + 1] = small_unit
+cacheids[#cacheids + 1] = small_unit_air
+cacheids[#cacheids + 1] = small_unitex_air
+cacheids[#cacheids + 1] = big_unitex_air
+cacheids[#cacheids + 1] = big_unit_air
 
-
-
+			
+			
+			
  --local wantedList = {}
 
   --// find weapons which cause a shockwave
@@ -110,16 +119,22 @@ if (gadgetHandler:IsSyncedCode()) then
     end
 
     function gadget:Explosion(weaponID, px, py, pz, ownerID)
-			if(
+		
+			--[[if(
 			weaponID ~= flea_ex and
 			weaponID ~= small_unitex and
 			weaponID ~= small_unit and
 			weaponID ~= small_unit_air and
 			weaponID~= small_unitex_air and
 			weaponID ~= big_unitex_air and
-			weaponID  ~= big_unit_air
+			weaponID  ~= big_unit_air]]--
+			--)then	
+		if not cacheids[weaponID] then
+			
+			
+		
 
-			)then
+		
 				SendToUnsynced("explosion_light", px, py, pz, weaponID, ownerID)
 			end
     end

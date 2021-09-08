@@ -4,7 +4,7 @@ return {
 		brakerate = 0.714,
 		buildcostenergy = 631421,
 		buildcostmetal = 37831,
-		buildpic = "ARMORCO.DDS",
+		buildpic = "ARMCOM.DDS",
 		buildtime = 499801,
 		canmove = true,
 		category = "KBOT WEAPON ALL NOTSUB NOTSHIP NOTAIR NOTHOVER SURFACE",

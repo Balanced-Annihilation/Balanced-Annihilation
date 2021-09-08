@@ -257,9 +257,9 @@ function widget:Initialize()
 	
 	--spLoadCmdColorsConfig('useQueueIcons  0 ')
 	spLoadCmdColorsConfig('queueIconScale  0.66 ')
-	spLoadCmdColorsConfig('queueIconAlpha  0.5 ')
+	spLoadCmdColorsConfig('queueIconAlpha  1 ')
 	
-	setCmdLineColors(0.5)
+	setCmdLineColors(1.0)
 end
 
 function widget:Shutdown()
@@ -268,7 +268,7 @@ function widget:Shutdown()
 	spLoadCmdColorsConfig('queueIconScale  1 ')
 	spLoadCmdColorsConfig('queueIconAlpha  1 ')
 	
-	setCmdLineColors(0.7)
+	setCmdLineColors(1.0)
 end
 
 

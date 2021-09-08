@@ -147,7 +147,7 @@ return {
 		},
 		weapons = {
 			[1] = {
-				badtargetcategory = "VTOL",
+				badtargetcategory = "VTOL GROUNDSCOUT",
 				def = "TREM1",
 				maindir = "0 0 1",
 				maxangledif = 270,

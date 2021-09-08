@@ -6,7 +6,7 @@ return {
 	author  ="Floris",
 	date    ="September 2016",
 	license ="Dental flush",
-	layer   = -1,
+	layer   = -2,
 	enabled = true,
 	handler = true, 
 }
@@ -195,7 +195,7 @@ function DrawWindow()
 		addedWidgetOptions = true
 		
 		if (WG['darkenmap'] ~= nil) then
-			table.insert(options, {id="darkenmap", name="Darken map", min=0, max=0.55,step=0.05, type="slider", value=WG['darkenmap'].getMapDarkness(), description='Darkens the whole map (not the units)\n\nRemembers setting per map\nUse /resetmapdarkness if you want to reset all stored map settings'})
+			table.insert(options, {id="darkenmap", name="Darken map", min=0, max=0.5,step=0.05, type="slider", value=WG['darkenmap'].getMapDarkness(), description='Darkens the whole map (not the units)\n\nRemembers setting per map\nUse /resetmapdarkness if you want to reset all stored map settings'})
 		end
 		
 		local cursorsets = {}
@@ -475,48 +475,19 @@ function applyOptionValue(i)
 		if options[i].value then
 			value = 1
 		end
-		if id == 'advmapshading' then
-			Spring.SendCommands("AdvMapShading "..value)
-			Spring.SetConfigInt("AdvMapShading", value)
-		elseif id == 'advmodelshading' then
-			Spring.SendCommands("AdvModelShading "..value)
-			Spring.SetConfigInt("AdvModelShading", value)
-		elseif id == 'shadows' then
+		--if id == 'advmapshading' then
+		--	Spring.SendCommands("AdvMapShading "..value)
+		--	Spring.SetConfigInt("AdvMapShading", value)
+		--elseif id == 'advmodelshading' then
+		--	Spring.SendCommands("AdvModelShading "..value)
+		--	Spring.SetConfigInt("AdvModelShading", value)
+		--else
+		if id == 'shadows' then
 			Spring.SendCommands("Shadows "..value)
 			Spring.SetConfigInt("Shadows", value)
-		elseif id == 'advgraphics' then
-			
-						Spring.SetConfigString("advgraphics", value)
 
-			
-			
-			if value ~= 0 then
-			
-								Spring.SendCommands({"shadows 1 "..6144})
+		
 
-				widgetHandler:EnableWidget("Projectile lights")
-				widgetHandler:EnableWidget("Deferred rendering")
-				widgetHandler:EnableWidget("Light Effects")
-				widgetHandler:EnableWidget("Contrast Adaptive Sharpen")
-				widgetHandler:EnableWidget("LupsManager")
-							Spring.SendCommands("AdvMapShading "..1)
-
-			Spring.SetConfigString("AdvMapShading", "1")
-			Spring.SendCommands("AdvModelShading "..1)
-			Spring.SetConfigString("AdvModelShading", "1")
-			else
-								Spring.SendCommands({"shadows 0"})
-				widgetHandler:DisableWidget("Projectile lights")
-				widgetHandler:DisableWidget("Deferred rendering")
-				widgetHandler:DisableWidget("Light Effects")
-				widgetHandler:DisableWidget("Contrast Adaptive Sharpen")
-				widgetHandler:DisableWidget("LupsManager")
-			Spring.SendCommands("AdvMapShading "..0)
-			Spring.SetConfigString("AdvMapShading", "0")
-			Spring.SendCommands("AdvModelShading "..0)
-			Spring.SetConfigString("AdvModelShading", "0")
-
-			end
 		elseif id == 'fullscreen' then
 			Spring.SendCommands("Fullscreen "..value)
 		elseif id == 'borderless' then
@@ -535,6 +506,32 @@ function applyOptionValue(i)
 				widgetHandler:DisableWidget("Deferred rendering")
 				widgetHandler:DisableWidget("Light Effects")
 			end
+			elseif id == 'alwaysrenderwrecksandtrees' then
+			if value == 0 then
+				Spring.SetConfigInt("alwaysrenderwrecksandtrees",0)
+				Spring.SendCommands({"FeatureDrawDistance 5000"}) 
+												--Spring.SetConfigInt("FeatureDrawDistance",5000)
+
+			else
+				Spring.SetConfigInt("alwaysrenderwrecksandtrees",1)
+				Spring.SendCommands({"FeatureDrawDistance 90000"}) 
+							--	Spring.SetConfigInt("FeatureDrawDistance",90000)
+
+			end
+			
+		elseif id == 'immersiveborder' then
+			if value == 0 then
+			widgetHandler:DisableWidget("Map Edge Extension Colourful")
+				widgetHandler:DisableWidget("Volumetric Clouds")
+				Spring.SetConfigInt("immersiveborder",0)
+				
+
+			elseif value == 1 then
+				widgetHandler:EnableWidget("Map Edge Extension Colourful")
+				widgetHandler:EnableWidget("Volumetric Clouds")
+				Spring.SetConfigInt("immersiveborder",1)
+			end
+			
 		elseif id == 'sharpen' then
 			if value ~= 0 then
 				--widgetHandler:EnableWidget("Projectile lights")
@@ -544,6 +541,25 @@ function applyOptionValue(i)
 				widgetHandler:DisableWidget("Contrast Adaptive Sharpen")
 			end
 			
+			elseif id == 'Cursorcanleavewindow' then
+			if value == 1 then
+													widgetHandler:DisableWidget("Grabinput")
+																	Spring.SendCommands("grabinput 0")
+
+			else
+													widgetHandler:EnableWidget("Grabinput")
+													Spring.SendCommands("grabinput 1")
+
+			end
+							Spring.SetConfigInt("Cursorcanleavewindow",value)
+
+			elseif id == 'fancyunitselection' then --classic unit selection boxes
+			if value == 1 then
+					widgetHandler:EnableWidget("Fancy Selected Units")
+			else
+					widgetHandler:DisableWidget("Fancy Selected Units")
+			end
+				Spring.SetConfigInt("fancyunitselection",value)
 			elseif id == 'adaptive' then
 			if value ~= 0 then
 				--widgetHandler:EnableWidget("Projectile lights")
@@ -573,6 +589,36 @@ function applyOptionValue(i)
 			else
    Spring.SetConfigString("chatsound", '1')
 			end
+			
+			elseif id == 'showchat' then
+			
+			if value == 0 then
+				Spring.SetConfigInt("showchat",0)
+											widgetHandler:DisableWidget("Red Console")	
+
+				Spring.SendCommands({"mapmarks 0"}) --clear maps
+			
+					Spring.SendCommands("console 0")
+			elseif value == 1 then
+				Spring.SendCommands({"mapmarks 1"}) --clear maps
+				Spring.SetConfigInt("showchat",1)
+											widgetHandler:EnableWidget("Red Console")	
+
+			
+			end
+			
+			elseif id == 'speccursors' then
+			
+			if value == 0 then
+			Spring.SetConfigString("speccursors", '0')
+														widgetHandler:DisableWidget("AllyCursorsAll")	
+
+			else
+			Spring.SetConfigString("speccursors", '1')
+														widgetHandler:EnableWidget("AllyCursorsAll")	
+			end
+			
+			
 		elseif id == 'reduceping' then
 			
 			if value == 1 then
@@ -619,7 +665,7 @@ function applyOptionValue(i)
 		
 		if options[i].widget ~= nil then
 			if value == 1 then
-				if id == 'bloom' or id == 'guishader' or id == 'xrayshader' or id == 'snow' or id == 'mapedgeextension' or id == 'lighteffects' or id == 'sharpen' or id == 'advgraphics' then
+				if  id == 'guishader' or id == 'xrayshader' or id == 'snow' or id == 'mapedgeextension' or id == 'lighteffects' or id == 'sharpen' or id == 'advgraphics' or id == 'immersiveborder' then
 					if luaShaders ~= 1 and not enabledLuaShaders then
 						Spring.SetConfigInt("LuaShaders", 1)
 						enabledLuaShaders = true
@@ -640,9 +686,10 @@ function applyOptionValue(i)
 			if value == options.min then 
 				enabled = 0
 			end
-			Spring.SendCommands("shadows "..enabled..""..value)
+			 Spring.SendCommands("shadows " .. enabled .. " " .. value)
 		elseif id == 'decals' then
 			Spring.SetConfigInt("GroundDecals ",value)
+
 		elseif id == 'zoomspeed' then
 			Spring.SetConfigInt("ScrollWheelSpeed",value)
 		elseif id == 'scrollspeed' then
@@ -656,7 +703,6 @@ function applyOptionValue(i)
 			--Spring.SetConfigInt("UnitIconDist"..value)
 			Spring.SendCommands("disticon "..value)
 			Spring.SetConfigInt("UnitIconDist", value)
-			Spring.SetConfigInt("UnitLodDist", value+30)
 
 
 
@@ -673,6 +719,9 @@ function applyOptionValue(i)
 			Spring.SendCommands("grounddetail "..value)
 		elseif id == 'sndvolmaster' then
 			Spring.SetConfigInt("snd_volmaster", value)
+			elseif id == 'msaa' then
+			Spring.SetConfigInt("MSAALevel", value)
+
 		elseif id == 'crossalpha' then
 			Spring.SendCommands("cross "..tonumber(Spring.GetConfigInt("CrossSize",1) or 10)..""..value)
 			Spring.SetConfigInt("CrossAlpha", value)
@@ -682,7 +731,13 @@ function applyOptionValue(i)
 		
 	elseif options[i].type == 'select' then
 		local value =  options[i].value
-		if id == 'water' then
+		 if id == 'advgraphics' then
+			Spring.SetConfigString("advgraphics", value-1)
+			 setGraphicsPreset(value-1)
+		elseif id == 'water' then
+			if(value == 3) then
+				value = 2
+			end
 			Spring.SendCommands("water "..(value-1))
 		elseif id == 'camera' then
 			Spring.SetConfigInt("CamMode",value)
@@ -712,6 +767,57 @@ function IsOnRect(x, y, BLcornerX, BLcornerY,TRcornerX,TRcornerY)
 	return x >= BLcornerX and x <= TRcornerX
 	                      and y >= BLcornerY
 	                      and y <= TRcornerY
+end
+
+function setGraphicsPreset(value)
+
+			if value == 0 then
+				 Spring.SendCommands("shadows 0 1024")
+				 widgetHandler: DisableWidget("Deferred rendering")
+				 widgetHandler: DisableWidget("Projectile lights")
+				 widgetHandler: DisableWidget("Light Effects")
+				 widgetHandler: DisableWidget("Contrast Adaptive Sharpen")
+				 widgetHandler: DisableWidget("LupsManager")
+				 Spring.SendCommands("AdvMapShading "..0)
+				 Spring.SetConfigInt("AdvMapShading", 0)
+				 Spring.SendCommands("AdvModelShading "..0)
+				 Spring.SetConfigInt("AdvModelShading", 0)
+				 widgetHandler: DisableWidget("Bloom Shader Alternate Deferred")
+				  widgetHandler: DisableWidget("Bloom Shader Alternate")
+				 --Spring.SetConfigInt("ssao", "0")
+				-- widgetHandler: DisableWidget("SSAO")
+				 
+			 elseif value == 1 then
+				 widgetHandler: EnableWidget("Deferred rendering")
+				 Spring.SendCommands("AdvMapShading "..1)
+				 Spring.SetConfigInt("AdvMapShading", 1)
+				 Spring.SendCommands("AdvModelShading "..1)
+				 Spring.SetConfigInt("AdvModelShading", 1)
+				 Spring.SendCommands("shadows 1 6144")
+				 widgetHandler: EnableWidget("Projectile lights")
+				 widgetHandler: EnableWidget("Light Effects")
+				 widgetHandler: EnableWidget("Contrast Adaptive Sharpen")
+				 widgetHandler: EnableWidget("LupsManager")
+				 widgetHandler: DisableWidget("Bloom Shader Alternate Deferred")
+				  widgetHandler: DisableWidget("Bloom Shader Alternate")
+				-- Spring.SetConfigInt("ssao", "0")
+				-- widgetHandler: DisableWidget("SSAO")
+			 elseif value == 2 then
+				 widgetHandler: EnableWidget("Deferred rendering")
+				 Spring.SendCommands("AdvMapShading "..1)
+				 Spring.SetConfigInt("AdvMapShading", 1)
+				 Spring.SendCommands("AdvModelShading "..1)
+				 Spring.SetConfigInt("AdvModelShading", 1)
+				 Spring.SendCommands("shadows 1 8192")
+				 widgetHandler: EnableWidget("Projectile lights")
+				 widgetHandler: EnableWidget("Light Effects")
+				 widgetHandler: EnableWidget("Contrast Adaptive Sharpen")
+				 widgetHandler: EnableWidget("LupsManager")
+				 widgetHandler: EnableWidget("Bloom Shader Alternate Deferred")
+				  widgetHandler: EnableWidget("Bloom Shader Alternate")
+				-- Spring.SetConfigInt("ssao", "1")
+				-- widgetHandler: EnableWidget("SSAO")
+			 end
 end
 
 function widget:IsAbove(x, y)
@@ -913,26 +1019,114 @@ function widget:Initialize()
 		fullWidgetsList[name] = data
   end
 	  
+	
+			
+		--set stuff initially
+		value = tonumber(Spring.GetConfigString("alwaysrenderwrecksandtrees", "1"))
+		if value == 0 then
+				Spring.SetConfigInt("alwaysrenderwrecksandtrees",0)
+				Spring.SendCommands({"FeatureDrawDistance 5000"}) 
+												--Spring.SetConfigInt("FeatureDrawDistance",5000)
+
+			else
+				Spring.SetConfigInt("alwaysrenderwrecksandtrees",1)
+				Spring.SendCommands({"FeatureDrawDistance 90000"}) 
+							--Spring.SetConfigInt("FeatureDrawDistance",90000)
+
+			end
+		
+		value = tonumber(Spring.GetConfigString("advgraphics", "1"))
+		Spring.SetConfigString("advgraphics", value)
+		setGraphicsPreset(value)
+		
+		immersiveborderpreset=tonumber(Spring.GetConfigInt("immersiveborder",0))
+		if immersiveborderpreset == 0 then
+			widgetHandler:DisableWidget("Map Edge Extension Colourful")
+				widgetHandler:DisableWidget("Volumetric Clouds")
+				Spring.SetConfigInt("immersiveborder",0)
+			elseif immersiveborderpreset == 1 then
+				widgetHandler:EnableWidget("Map Edge Extension Colourful")
+				widgetHandler:EnableWidget("Volumetric Clouds")
+				Spring.SetConfigInt("immersiveborder",1)
+			end
+		
+	  value = tonumber(Spring.GetConfigString("Cursorcanleavewindow", "1"))
+		if value == 1 then
+			widgetHandler:DisableWidget("Grabinput")
+			Spring.SendCommands("grabinput 0")
+				Spring.SetConfigInt("Cursorcanleavewindow",1)
+			elseif value == 0 then
+				widgetHandler:EnableWidget("Grabinput")
+				Spring.SendCommands("grabinput 1")
+				Spring.SetConfigInt("Cursorcanleavewindow",0)
+			end
+		
+		
+		value = tonumber(Spring.GetConfigString("fancyunitselection", "1"))
+		Spring.SetConfigString("fancyunitselection", value)
+		if value == 0 then
+			widgetHandler:DisableWidget("Fancy Selected Units")
+				Spring.SetConfigInt("fancyunitselection",0)
+			elseif value == 1 then
+				widgetHandler:EnableWidget("Fancy Selected Units")
+				Spring.SetConfigInt("fancyunitselection",1)
+			end
+			
+			value = tonumber(Spring.GetConfigString("showchat", "1"))
+		Spring.SetConfigString("showchat", value)
+		if value == 0 then
+						Spring.SetConfigInt("showchat",0)
+
+							widgetHandler:DisableWidget("Red Console")	
+
+				Spring.SendCommands({"mapmarks 0"}) --clear maps
+					Spring.SendCommands("console 0")
+			elseif value == 1 then
+
+				Spring.SendCommands({"mapmarks 1"}) --clear maps
+				Spring.SetConfigInt("showchat",1)
+
+												widgetHandler:EnableWidget("Red Console")	
+
+			end
+			
+		value = tonumber(Spring.GetConfigString("speccursors", "1"))
+		Spring.SetConfigString("speccursors", value)
+			if value == 0 then
+			Spring.SetConfigString("speccursors", '0')
+														widgetHandler:DisableWidget("AllyCursorsAll")	
+
+			else
+			Spring.SetConfigString("speccursors", '1')
+														widgetHandler:EnableWidget("AllyCursorsAll")	
+			end
+			
+		
+	  
 	options = {
 
-		{id="fullscreen", name="Fullscreen", type="bool", value=tonumber(Spring.GetConfigInt("Fullscreen",1) or 1) == 1},
-		--{id="borderless", name="Borderless", type="bool", value=tonumber(Spring.GetConfigInt("WindowBorderless",1) or 1) == 1},
-			
-							{id="screenedgemove", name="Screen edge moves camera", type="bool", value=tonumber(Spring.GetConfigInt("FullscreenEdgeMove",1) or 1) == 1, description="If mouse is close to screen edge this will move camera\n\n"},
-
-{id="zoomspeed", name="Camera zoom speed/invert", type="slider", min=-100, max=100, step=1, value=tonumber(Spring.GetConfigInt("ScrollWheelSpeed",1) or -25), description='Leftside of the bar means inversed scrolling!\nKeep in mind, having the slider centered means no mousewheel zooming at all!\n\n'},		
+	
+{id="zoomspeed", name="Zoom speed (-100 to 100)", type="slider", min=-100, max=100, step=1, value=tonumber(Spring.GetConfigInt("ScrollWheelSpeed",1) or -25), description='Leftside of the bar means inversed scrolling!\nKeep in mind, having the slider centered means no mousewheel zooming at all!\n\n'},		
 {id="scrollspeed", name="Camera pan speed", type="slider", min=1, max=100, step=1, value=tonumber(Spring.GetConfigInt("CamSpringScrollSpeed",1) or 10), description='How fast the camera pans when moving the screen'},		
-{id="fpsspeed", name="FPS mode camera speed", type="slider", min=1, max=100, step=1, value=tonumber(Spring.GetConfigInt("FPSScrollSpeed",1) or 10), description='How fast the camera move in FPS mode'},		
+--{id="fpsspeed", name="FPS mode camera speed", type="slider", min=1, max=100, step=1, value=tonumber(Spring.GetConfigInt("FPSScrollSpeed",1) or 10), description='How fast the camera move in FPS mode'},		
 
 				{id="disticon", name="Unit icon distance", type="slider", min=0, max=1000,step=1, value=tonumber(Spring.GetConfigInt("UnitIconDist",1) or 172)},
-		{id="camera type", name="Camera", type="select", options={'fps','overhead','spring','rot overhead','free'}, value=(tonumber(Spring.GetConfigInt("CamMode",1) or 2))},
-
+	--	{id="camera type", name="Camera", type="select", options={'fps','overhead','spring','rot overhead','free'}, value=(tonumber(Spring.GetConfigInt("CamMode",1) or 2))},
 
 					{id="blank1", name="", type="label", value=1},
-{id="blank2", name="GRAPHICS", type="label", value=1},
 
-			{id="advgraphics", name="High graphics", type="bool", value=tonumber(Spring.GetConfigInt("advgraphics",1) or 1) == 1, description='Enable adv graphics, light effects and shadows'},
-				{id="adaptive", name="Boost perfomance if FPS below 10 ", type="bool", value=widgetHandler.orderList["Adaptive graphics"] ~= nil and (widgetHandler.orderList["Adaptive graphics"] > 0), description='Boost perfomance if FPS below 10'},
+--{id="blank2", name="GRAPHICS", type="label", value=1},
+
+				--{id="water", name="Water type", type="select", options={'basic','reflective','dynamic','reflective&refractive','bump-mapped'}, value=(tonumber(Spring.GetConfigInt("Water",1) or 1)+1)},
+			{id="advgraphics", name="Graphics", type="select", options={'Minimum','High','Ultra'}, value=(tonumber(Spring.GetConfigInt("advgraphics",1) or 1))+1, description='Enable adv graphics, light effects and shadows'},
+
+									{id="immersiveborder", name="Immersive map border", type="bool", value=tonumber(Spring.GetConfigInt("immersiveborder",1) or 1) == 1, description='Adds cloudy border.'},
+
+
+
+			--{id="advgraphics", name="High graphics", type="bool", value=tonumber(Spring.GetConfigInt("advgraphics",1) or 1) == 1, description='Enable adv graphics, light effects and shadows'},
+				{id="adaptive", name="Boost perfomance when FPS drops ", type="bool", value=widgetHandler.orderList["Adaptive graphics"] ~= nil and (widgetHandler.orderList["Adaptive graphics"] > 0), description='Boost perfomance if FPS is low'},
+			{id="alwaysrenderwrecksandtrees", name="Always render wrecks and trees", type="bool", value=tonumber(Spring.GetConfigInt("alwaysrenderwrecksandtrees",1) or 1) == 1, description='Always render wrecks and trees.'},
 
 		
 		--{id="advmapshading", name="Advanced map shading", type="bool", value=tonumber(Spring.GetConfigInt("AdvMapShading",1) or 1) == 1, description='When disabled: shadows are disabled too'},
@@ -943,8 +1137,8 @@ function widget:Initialize()
 		
 		--{id="shadows", name="Shadows ", type="bool", value=tonumber(Spring.GetConfigInt("Shadows",1) or 1) == 1, description='Shadow detail is currently controlled by"Shadow Quality Manager" widget\n...this widget will auto reduce detail when fps gets low.\n\nShadows requires"Advanced map shading" option to be enabled'},
 
-		{id="particles", name="Max particles (Lag)", type="slider", min=0, max=40000,step=1, value=tonumber(Spring.GetConfigInt("MaxParticles",1) or 13000), description='20000 default value, lag but pretty to look at'},
-		{id="nanoparticles", name="Max nano particles", type="slider", min=0, max=6000,step=1, value=tonumber(Spring.GetConfigInt("MaxNanoParticles",1) or 500), description=''},
+		{id="particles", name="Max explosion particles", type="slider", min=0, max=60000,step=1, value=tonumber(Spring.GetConfigInt("MaxParticles",1) or 25000), description='How many explosion particles can exist'},
+		{id="nanoparticles", name="Max nano particles", type="slider", min=0, max=10000,step=1, value=tonumber(Spring.GetConfigInt("MaxNanoParticles",1) or 500), description=''},
 		{id="decals", name="Ground decals ", type="slider", min =0, max=10, step=1, value=tonumber(Spring.GetConfigInt("GroundDecals",1) or 1), description='Set how much/duration map decals will be drawn\n\n(unit footsteps/tracks, darkening under buildings and scorns ground at explosions)'},
 			--	{id="grassdetail", name="Grass", type="slider", min=0, max=10, step=1, value=tonumber(Spring.GetConfigInt("GrassDetail",1) or 0), description='Amount of grass displayed\n\n'},
 
@@ -952,32 +1146,42 @@ function widget:Initialize()
 		--{id="shadowslider", name="Shadows", type="slider", min=0, max=6000, step=1,value=tonumber(Spring.GetConfigInt("ShadowMapSize",1) or 1000), description='Set shadow detail\nSlider positioned the very left means shadows will be disabled\n\nShadows requires"Advanced map shading" option to be enabled'},
 		--{id="fsaa", name="Anti Aliasing", type="slider", min=0, max=8, step=1, value=tonumber(Spring.GetConfigInt("FSAALevel",1) or 0), description=''},
 
-				{id="water", name="Water type", type="select", options={'basic','reflective','dynamic','reflective&refractive','bump-mapped'}, value=(tonumber(Spring.GetConfigInt("Water",1) or 1)+1)},
+					{id="msaa", name="Anti Aliasing", type="slider", min=0, max=8, step=2, value=tonumber(Spring.GetConfigInt("MSAALevel",2) or 2), description='Requires restart, reduce jagged edges.'},
+					--	{id="water", name="Water type", type="select", options={'basic','reflective','dynamic','reflective&refractive','bump-mapped'}, value=(tonumber(Spring.GetConfigInt("Water",1) or 1)+1)},
+									{id="water", name="Water type", type="select", options={'basic','reflective','dynamic','reflective&refractive','bump-mapped'}, value=(tonumber(Spring.GetConfigInt("Water",1) or 1)+1)},
 
-					
+					{id="blank1", name="", type="label", value=1},
+					{id="blank1", name="", type="label", value=1},
 
+--{id="blank4", name="SETTINGS", type="label", value=1},
 
-{id="blank4", name="SETTINGS", type="label", value=1},
 			--{id="water2", name="aa2", type="label", value=1},
 
-							{id="reduceping", name="Reduce Ping (Disable if you lag)", type="bool", value=tonumber(Spring.GetConfigInt("reduceping",1) or 1) == 1, description='Requires restart, Lowers your ping, disable this if you have an unstable connection'},
+				{id="fullscreen", name="Fullscreen", type="bool", value=tonumber(Spring.GetConfigInt("Fullscreen",1) or 1) == 1},
+		--{id="borderless", name="Borderless", type="bool", value=tonumber(Spring.GetConfigInt("WindowBorderless",1) or 1) == 1},
+												{id="Cursorcanleavewindow", name="Cursor can leave window", type="bool", value=tonumber(Spring.GetConfigInt("Cursorcanleavewindow",1) or 1) == 1, description='Cursor can leave window'},
+
+							{id="screenedgemove", name="Screen edge moves camera", type="bool", value=tonumber(Spring.GetConfigInt("FullscreenEdgeMove",1) or 1) == 1, description="If mouse is close to screen edge this will move camera\n\n"},
+
+								{id="blank1", name="", type="label", value=1},
+
+			
 
 		{id="commandsfx", widget="Commands FX", name="Show Ally Commands", type="bool", value=widgetHandler.orderList["Commands FX"] ~= nil and (widgetHandler.orderList["Commands FX"] > 0), description='Shortly shows unit command target lines when you give orders\n\nAlso see the commands your teammates are giving to their units'},
 
 			
 
-									{id="chatsound", name="Chat notification sound", type="bool", value=tonumber(Spring.GetConfigInt("chatsound",1) or 1) == 1, description='When green, incoming messages make a sound'},
 
-									{id="Profanity", name="Hide rude chat", type="bool", value=tonumber(Spring.GetConfigInt("ProfanityFilter",1) or 1) == 1, description='When green, rude text will be filtered'},
-{id="sndvolmaster", name="Sound volume", type="slider", min=0, max=100,step=1, value=tonumber(Spring.GetConfigInt("snd_volmaster",1) or 100)},
 
 		--{id="treeradius", name="Tree render distance", type="slider", min=0, max=2000, value=tonumber(Spring.GetConfigInt("TreeRadius",1) or 1000), description='Applies to SpringRTS engine default trees\n\n'},
 		
 		--{id="crossalpha", name="Mouse cross alpha", type="slider", min=0, max=1, value=tonumber(Spring.GetConfigInt("CrossAlpha",1) or 1), description='Opacity of mouse icon in center of screen when you are in camera pan mode\n\n(\'icon\' looks like: dot in center with 4 arrowed pointing in all directions) '},
 		
 
-
 		
+											--{id="border", name="Immersive map border", type="bool", value=tonumber(Spring.GetConfigInt("chatsound",1) or 1) == 1, description='Adds cloudy border.'},
+
+
 
 
 		--{id="grounddetail", name="Ground mesh detail", type="slider", min=20, max=100,step=1, value=tonumber(Spring.GetConfigInt("GroundDetail",1) or 50), description='Ground mesh detail (polygon detail of the map)'},
@@ -990,7 +1194,21 @@ function widget:Initialize()
 
 			--{id="fpstimespeed", name="Display FPS, GameTime and Speed", type="bool", value=tonumber(Spring.GetConfigInt("ShowFPS",1) or 1) == 1, description='Located at the top right of the screen\n\nIndividually toggle them with /fps /clock /speed'},
 
-	
+									{id="fancyunitselection", name="Show Selected unit rings", type="bool", value=tonumber(Spring.GetConfigInt("fancyunitselection",1) or 1) == 1, description='Fancy selected unit boxes'},
+									{id="speccursors", name="Show player and spectator cursors", type="bool", value=tonumber(Spring.GetConfigInt("speccursors",1) or 1) == 1, description='Show player and spec cursors'},
+
+									{id="showchat", name="Allow chat, map marks & drawings", type="bool", value=tonumber(Spring.GetConfigInt("showchat",1) or 1) == 1, description='Show chat and map marks'},
+									{id="chatsound", name="Chat notification sound", type="bool", value=tonumber(Spring.GetConfigInt("chatsound",1) or 1) == 1, description='When green, incoming messages make a sound'},
+									{id="Profanity", name="Hide rude chat", type="bool", value=tonumber(Spring.GetConfigInt("ProfanityFilter",1) or 1) == 1, description='When green, rude text will be filtered'},
+
+							{id="reduceping", name="Reduce Ping (Disable if you lag)", type="bool", value=tonumber(Spring.GetConfigInt("reduceping",1) or 1) == 1, description='Requires restart, Lowers your ping, disable this if you have an unstable connection'},
+
+									
+									{id="sndvolmaster", name="Sound volume", type="slider", min=0, max=100,step=1, value=tonumber(Spring.GetConfigInt("snd_volmaster",1) or 100)},
+
+
+									
+										
 
 	}
 	
@@ -1012,7 +1230,7 @@ function widget:Initialize()
 			insert = false
 		end
 		if luaShaders ~= 1 then
-			if option.id =="bloom" or option.id =="guishader" or option.id =="xrayshader" or option.id =="mapedgeextension" or option.id =="snow" or  id == 'lighteffects' or id == 'sharpen' or id == 'advgraphics' then
+			if option.id =="ssao" or  option.id =="dof" or  option.id =="bloom" or option.id =="guishader" or option.id =="xrayshader" or option.id =="mapedgeextension" or option.id =="snow" or  id == 'lighteffects' or id == 'sharpen' or id == 'advgraphics' or id == 'immersiveborder' then
 				option.description = 'You dont have LuaShaders enabled, we will enable it for you but...\n\n'
 			end
 		end
@@ -1021,6 +1239,13 @@ function widget:Initialize()
 		end
 	end
 	options = processedOptions
+	
+	
+	--Spring.SetConfigString("advgraphics", value)
+
+			
+	
+	
 end
 
 function widget:Shutdown()

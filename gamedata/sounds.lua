@@ -3,7 +3,7 @@ local Sounds = {
 
 	SoundItems = {
 		IncomingChat = {
-			file = "",
+			file = "sounds/blank.wav",
 			in3d = "false",
 			gain = 0.7,
 	

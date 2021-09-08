@@ -104,6 +104,10 @@ local imageDirectory  = ":n:"..LUAUI_DIRNAME.."Images/advplayerslist/"
 
 local flagsDirectory  = imageDirectory.."flags/"
 
+
+local rankDirectory  = ":n:"..LUAUI_DIRNAME.."Images/Ranks/"
+
+
 local bgcorner        = ":n:"..LUAUI_DIRNAME.."Images/bgcorner.png"
 
 local pics = {
@@ -149,14 +153,14 @@ local pics = {
 	sizednPic       = imageDirectory.."sizedn.dds",
 	sizeupPic       = imageDirectory.."sizeup.dds",
 	
-	rank0      = imageDirectory.."ranks/rank0.dds",
-	rank1      = imageDirectory.."ranks/rank1.dds",
-	rank2      = imageDirectory.."ranks/rank2.dds",
-	rank3      = imageDirectory.."ranks/rank3.dds",
-	rank4      = imageDirectory.."ranks/rank4.dds",
-	rank5      = imageDirectory.."ranks/rank5.dds",
-	rank6      = imageDirectory.."ranks/rank6.dds",
-	rank7      = imageDirectory.."ranks/rank7.dds",
+	rank0      = rankDirectory.."rank1.png",
+	rank1      = rankDirectory.."rank2.png",
+	rank2      = rankDirectory.."rank3.png",
+	rank3      = rankDirectory.."rank4.png",
+	rank4      = rankDirectory.."rank5.png",
+	rank5      = rankDirectory.."rank6.png",
+	rank6      = rankDirectory.."rank7.png",
+	rank7      = rankDirectory.."rank8.png",
 	rank8      = imageDirectory.."ranks/rank_unknown.dds",
 }
 

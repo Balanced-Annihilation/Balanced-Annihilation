@@ -250,6 +250,9 @@ definitions["barrelshot-small"].smoke.properties.particlespeedspread		= definiti
 
 
 
+
+
+
 size = 1.8
 definitions["barrelshot-large"] = deepcopy(definitions["barrelshot-medium"])
 definitions["barrelshot-large"].fire.properties.length 									= definitions["barrelshot-large"].fire.properties.length * size
@@ -546,6 +549,13 @@ definitions["barrelshot-sniper"].fireglow.properties.colormap = [[0.122 0.066 0.
 definitions["barrelshot-sniper"].smoke.properties.colormap = [[0 0 0 0   0.15 0.055 0.03 0.2    0.48 0.26 0.15 0.44    0.2 0.135 0.1 0.4     0.16 0.12 0.11 0.4    0.145 0.11 0.095 0.4    0.13 0.095 0.075 0.4     0.115 0.088 0.07 0.35    0.1 0.075 0.066 0.3    0.09 0.07 0.06 0.26   0.08 0.065 0.06 0.22  0 0 0 0]]
 
 
+size = 1
+definitions["barrelshot-large-alt"] = deepcopy(definitions["barrelshot-large"])
+definitions["barrelshot-large-alt"].fire.properties.length                                  = definitions["barrelshot-large-alt"].fire.properties.length * size * 1.3
+definitions["barrelshot-large-alt"].fire.properties.size                                    = definitions["barrelshot-large-alt"].fire.properties.size * size * 0.7
+definitions["barrelshot-large-alt"].fire2.properties.length                                 = definitions["barrelshot-large-alt"].fire.properties.length * size * 1.3
+definitions["barrelshot-large-alt"].fire2.properties.size                                   = definitions["barrelshot-large-alt"].fire.properties.size * size * 0.7
+definitions["barrelshot-large-alt"].fireglow.properties.particlesize                        = definitions["barrelshot-large-alt"].fireglow.properties.particlesize * size * 0.95
 
 
 definitions["barrelshot-lightning"] = {

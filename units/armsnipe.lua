@@ -83,7 +83,7 @@ return {
 		},
 		sfxtypes = {
 			explosiongenerators = {
-				[1] = "custom:barrelshot-small",
+				[1] = "custom:barrelshot-large-alt",
 			},
 			pieceexplosiongenerators = {
 			},
@@ -150,6 +150,7 @@ return {
 		},
 		weapons = {
 			[1] = {
+				badtargetcategory = "GROUNDSCOUT",
 				def = "ARMSNIPE_WEAPON",
 				onlytargetcategory = "SURFACE",
 			},

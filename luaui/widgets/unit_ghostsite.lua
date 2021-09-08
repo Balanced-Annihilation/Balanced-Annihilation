@@ -21,19 +21,18 @@ end
 local lastUpdate
 local ghostSites = {}
 
-local floor                 = math.floor
 local glColor               = gl.Color
 local glDepthTest           = gl.DepthTest
 local glTexture             = gl.Texture
-local glTexEnv				= gl.TexEnv
 local glPopMatrix           = gl.PopMatrix
 local glPushMatrix          = gl.PushMatrix
 local glTranslate           = gl.Translate
 local glRotate              = gl.Rotate
 local glUnitShape           = gl.UnitShape
+local glLoadIdentity       	= gl.LoadIdentity
 
 local spGetUnitDefID        = Spring.GetUnitDefID
-local spValidUnitID       = Spring.ValidUnitID
+local spValidUnitID       	= Spring.ValidUnitID
 local spIsUnitAllied		= Spring.IsUnitAllied
 local spGetUnitDirection    = Spring.GetUnitDirection
 local spGetUnitBasePosition = Spring.GetUnitBasePosition
@@ -44,6 +43,13 @@ local mdeg = math.deg
 local matan2 = math.atan2
 
 local spec,_ = Spring.GetSpectatingState()
+
+local isBuilding = {}
+for unitDefID, unitDef in pairs(UnitDefs) do
+	if unitDef.isBuilding then
+		isBuilding[unitDefID] = true
+	end
+end
 
 function widget:Update()
     if spec then return end
@@ -70,9 +76,7 @@ function widget:UnitEnteredLos(unitID, teamID)
 	end
 
     local uDID = spGetUnitDefID(unitID)
-	local uDef = UnitDefs[uDID]
-		
-	if uDef.isBuilding==true and spGetUnitRulesParam(unitID,"under_construction")==1 then
+	if isBuilding[uDID] and spGetUnitRulesParam(unitID,"under_construction")==1 then
 		local x, y, z = spGetUnitBasePosition(unitID)
 		local dx,_,dz = spGetUnitDirection(unitID)
 		local angle = mdeg(matan2(dx,dz))	
@@ -94,9 +98,10 @@ function DrawGhostSites()
 			--gl.Blending(GL.SRC_ALPHA, GL.ONE)
             
 			glPushMatrix()
-            glTranslate( x, y, z)
-            glRotate(ghost.angle,0,y,0)			
-            glUnitShape(ghost.uDID, ghost.teamID, false, true, false)
+				glLoadIdentity()
+            	glTranslate( x, y, z)
+            	glRotate(ghost.angle,0,y,0)
+            	glUnitShape(ghost.uDID, ghost.teamID, false, false, false)
 			glPopMatrix()
 		end
 	end
@@ -125,5 +130,5 @@ function widget:PlayerChanged()
 end
 
 function widget:GameOver()
-    widgetHandler:RemoveWidget(self)
+    widgetHandler:RemoveWidget()
 end

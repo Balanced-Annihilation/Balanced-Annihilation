@@ -9,7 +9,7 @@ function widget:GetInfo()
 		author    = "Floris (original by beherith)",
 		date      = "May 2017",
 		license   = "GPL V2",
-		layer     = 99999,
+		layer     = math.huge,
 		enabled   = true,
 	}
 end
@@ -90,6 +90,9 @@ end
 
 
 local weaponConf = {}
+local cacheA = {} 
+local cacheB = {}
+
 function loadWeaponDefs()
 	weaponConf = {}
 	for i=1, #WeaponDefs do
@@ -195,7 +198,25 @@ function loadWeaponDefs()
 				if params.yoffset > 25 then params.yoffset = 25 end
 			end
 
+			
+			
+			
 			weaponConf[i] = params
+			
+			local weaponID = i
+			
+			if weaponConf[weaponID] ~= nil and not weaponConf[weaponID].noheatdistortion and((weaponConf[weaponID].wtype ~= 'MissileLauncher' and weaponConf[weaponID].wtype ~= 'TorpedoLauncher' and weaponConf[weaponID].wtype ~= 'StarburstLauncher') or WeaponDefs[weaponID].damageAreaOfEffect > 150) then --and weaponConf[weaponID].wtype == 'Cannon' then
+				cacheA[#cacheA + 1] = weaponID
+			end
+			
+		--	if  weaponConf[weaponID] ~= nil and ((weaponConf[weaponID].wtype == 'Cannon' and weaponConf[weaponID].radius > 80) or (weaponConf[weaponID].damageAreaOfEffect > 150)) then --and Spring.IsSphereInView(px,py,pz,100)
+				--cacheB[#cacheB + 1] = weaponID
+		--	end
+		
+			if  (weaponConf[weaponID].wtype == 'Cannon' and weaponConf[weaponID].radius > 80) or ((WeaponDefs[weaponID].damageAreaOfEffect > 150)) then --and Spring.IsSphereInView(px,py,pz,100)
+					cacheB[#cacheB + 1] = weaponID
+			end
+			
 		end
 	end
 end
@@ -806,9 +827,8 @@ local ARM_NUKE = WeaponDefNames['nuclear_missile'].id
 
 -- function called by explosion_lights gadget
 function GadgetWeaponExplosion(px, py, pz, weaponID, ownerID)
-	--	if (weaponConf[weaponID] ~= nil) and (weaponConf[weaponID].wtype ~= 'MissileLauncher') and (weaponConf[weaponID].wtype ~= 'TorpedoLauncher') and (weaponConf[weaponID].wtype ~= 'StarburstLauncher') and (not (WeaponDefs[weaponID].reload < 1 and WeaponDefs[weaponID].damageAreaOfEffect >= 64)) or WeaponDefs[weaponID].damageAreaOfEffect > 200 then --and weaponConf[weaponID].wtype == 'Cannon' then
-	if weaponConf[weaponID] ~= nil and not weaponConf[weaponID].noheatdistortion and((weaponConf[weaponID].wtype ~= 'MissileLauncher' and weaponConf[weaponID].wtype ~= 'TorpedoLauncher' and weaponConf[weaponID].wtype ~= 'StarburstLauncher') or WeaponDefs[weaponID].damageAreaOfEffect > 150) then --and weaponConf[weaponID].wtype == 'Cannon' then
-
+	--if weaponConf[weaponID] ~= nil and not weaponConf[weaponID].noheatdistortion and((weaponConf[weaponID].wtype ~= 'MissileLauncher' and weaponConf[weaponID].wtype ~= 'TorpedoLauncher' and weaponConf[weaponID].wtype ~= 'StarburstLauncher') or WeaponDefs[weaponID].damageAreaOfEffect > 150) then --and weaponConf[weaponID].wtype == 'Cannon' then
+		if cacheA[weaponID] then
 		local params
 		if weaponID == COM_BLAST then
 			params = {
@@ -864,7 +884,11 @@ function GadgetWeaponExplosion(px, py, pz, weaponID, ownerID)
 --weaponID > -1 exclude death explosions -- or weaponID == CORE_NUKE or weaponID == ARM_NUKE or COM_BLAST
 --		if  ((weaponConf[weaponID].wtype == 'Cannon') and py > 0 and WG['Lups'] and params.param.radius > 80)or ((WeaponDefs[weaponID].damageAreaOfEffect > 300)and (WeaponDefs[weaponID].damageAreaOfEffect ~=700 )) then --and Spring.IsSphereInView(px,py,pz,100)
 
-		if  (weaponConf[weaponID].wtype == 'Cannon' and params.param.radius > 80) or ((WeaponDefs[weaponID].damageAreaOfEffect > 150)) then --and Spring.IsSphereInView(px,py,pz,100)
+	--	if  (weaponConf[weaponID].wtype == 'Cannon' and params.param.radius > 80) or ((WeaponDefs[weaponID].damageAreaOfEffect > 150)) then --and Spring.IsSphereInView(px,py,pz,100)
+
+	--if  (weaponConf[weaponID].wtype == 'Cannon' and params.param.radius > 80) or ((WeaponDefs[weaponID].damageAreaOfEffect > 150)) then --and Spring.IsSphereInView(px,py,pz,100)
+
+		if cacheB[weaponID] then			
 			local strength,animSpeed,life,heat,sizeGrowth,size,force
 
 			local cx, cy, cz = Spring.GetCameraPosition()

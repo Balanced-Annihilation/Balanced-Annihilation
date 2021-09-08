@@ -5,7 +5,7 @@ return {
 		buildcostenergy = 16082,
 		buildcostmetal = 231,
 		buildpic = "ARMPNIX.DDS",
-		buildtime = 22064,
+		buildtime = 21181,
 		canfly = true, 
  
 		canmove = true,

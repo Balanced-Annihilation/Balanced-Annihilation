@@ -165,7 +165,7 @@ function widget:GameFrame (f)
 		buttons[1].text= "  ||"
 	end
 end
-
+local font
 ------------------------------------------------------------------------------------------
 --a simple UI framework with buttons 
 --Feb 2011 by knorke
@@ -192,6 +192,8 @@ function widget:ViewResize(viewSizeX, viewSizeY)
 	vsx = viewSizeX
 	vsy = viewSizeY
     sceduleUpdate = true
+		font = WG['fonts'].getFont(nil, 1.4, 0.35, 1.4)
+
 end
 ----zeichen funktionen---------
 function uiRect (x,y,x2,y2)
@@ -201,7 +203,11 @@ end
 
 function uiText (text, x,y,s,options)
 	if (text==" " or text=="  ") then return end --archivement: unlock +20 fps
-	glText (text, sX(x), sY(y), sX(s), options)
+			font:Begin()
+			font:Print("\255\255\255\255" .. text,  sX(x)/2, sY(y), sX(s), options)
+			font:End()
+	
+	--glText (text, sX(x), sY(y), sX(s), options)
 end
 --------------------------------
 -----message boxxy-----

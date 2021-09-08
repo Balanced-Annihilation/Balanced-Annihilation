@@ -92,11 +92,11 @@ function CloseHook()
 end
 
 function script.QueryTransport ( passengerID )
-	OpenHook()
-	-- Spring.SetUnitRulesParam(passengerID, "IsTranported", "true")
-	local fp = UnitDefs[Spring.GetUnitDefID(passengerID)].xsize
-	local height = UnitDefs[Spring.GetUnitDefID(passengerID)].height
-		if fp <= 4 then
+	if(not link[0]) then	
+		OpenHook()
+		local size = UnitDefs[Spring.GetUnitDefID(passengerID)].xsize
+		local height = UnitDefs[Spring.GetUnitDefID(passengerID)].height
+		if size <= 6 then
 			if not link[1] then
 				link[1] = passengerID
 				Move(link1, 2, -height + 4.5)
@@ -115,18 +115,13 @@ function script.QueryTransport ( passengerID )
 				full = true
 				return link4
 			end
-		elseif fp > 4 and (not link[1]) and (not link[2]) and not (link[3]) and not (link[4]) and (not link[0]) then
+		elseif (not link[1]) and (not link[2]) and not (link[3]) and not (link[4]) then
 			link[0] = passengerID
 			Move(link0, 2, -height)
 			full = true
 			return link0
 		end
-		if full == true then -- Transport is full, do not attemps to load more units
-			local cmd = Spring.GetUnitCommands(unitID, 1)
-			if cmd[1] and cmd[1].id == CMD.LOAD_UNITS then
-				Spring.GiveOrderToUnit(unitID, CMD.REMOVE, {CMD.LOAD_UNITS}, {"alt"})
-			end
-		end
+	end
 	surplus = passengerID
 	return link0
 end

@@ -43,17 +43,19 @@ local message3 = ""
 
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
-
+local font
 include("colors.h.lua")
 
 local floor = math.floor
 
 
-local font = "LuaUI/Fonts/FreeSansBold.otf"
-local fh = fontHandler.UseFont(font)
+--local font = "LuaUI/Fonts/FreeSansBold.otf"
+--local fh = fontHandler.UseFont(font)
 
 local vsx, vsy = widgetHandler:GetViewSizes()
 function widget:ViewResize(viewSizeX, viewSizeY)
+		font = WG['fonts'].getFont(nil, 1.4, 0.35, 1.4)
+
   vsx = viewSizeX
   vsy = viewSizeY
 end
@@ -95,10 +97,17 @@ function widget:DrawScreen()
   local msg3 = "\255\255\0\0" .. message3
   glPushMatrix()
   glTranslate((vsx * 0.5), (vsy * 0.22), 0) --has to be below where newbie info appears!
-  glScale(1.5, 1.5, 1)
-  glText(msg, 0, 0, 24, "oc")
-  glText(msg2, 0, -30, 14, "oc")
-  glText(msg3, 0, -50, 12, "oc")
+  glScale(2, 2, 1)
+  
+  
+ font:Begin()
+			font:Print("\255\255\255\255" .. msg, 0, 0, 24, "oc")
+			font:Print("\255\255\255\255" .. msg2, 0, -30, 14, "oc")
+			font:Print("\255\255\255\255" .. msg3, 0, -50, 12, "oc")
+
+font:End()
+  
+
   glPopMatrix()
 end
 
