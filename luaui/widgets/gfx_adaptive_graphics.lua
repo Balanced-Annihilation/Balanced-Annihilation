@@ -57,7 +57,7 @@ function widget:Shutdown()
 				 Spring.SetConfigInt("AdvMapShading", 1)
 				 Spring.SendCommands("AdvModelShading "..1)
 				 Spring.SetConfigInt("AdvModelShading", 1)
-				 Spring.SendCommands("shadows 1 8192")
+				 Spring.SendCommands("shadows 1 6144")
 				 widgetHandler: EnableWidget("Projectile lights")
 				 widgetHandler: EnableWidget("Light Effects")
 				 widgetHandler: EnableWidget("Contrast Adaptive Sharpen")
@@ -100,7 +100,7 @@ function widget:GameFrame(gameFrame)
 						previmmersiveborderpreset=tonumber(Spring.GetConfigInt("immersiveborder",0))
 
 						widgetHandler:DisableWidget("Map Edge Extension Colourful")
-						widgetHandler:DisableWidget("Volumetric Clouds")
+						--widgetHandler:DisableWidget("Volumetric Clouds")
 					
 						Spring.SendCommands("AdvMapShading "..0)
 						Spring.SendCommands("AdvModelShading "..0)
@@ -108,8 +108,8 @@ function widget:GameFrame(gameFrame)
 						Spring.Echo("Max perfomance mode on until next game")
 						graphicslevel = graphicslevel-1
 						prevnumparticles = Spring.GetConfigInt("MaxParticles",20000)
-						if prevnumparticles > 3000 then
-							Spring.SetConfigInt("MaxParticles",0)
+						if prevnumparticles > 10000 then
+							Spring.SetConfigInt("MaxParticles",10000)
 						end
 						
 						minimumenabled= 1

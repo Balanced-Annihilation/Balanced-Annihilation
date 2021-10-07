@@ -1,28 +1,23 @@
-﻿14.0.1
-09/09/2021
+﻿14.1.0
+07/10/2021
 
-ultra graphics preset (default on)
+ultra graphics preset (default off)
 immersive map border setting (default on)
-anti aliasing setting (default 2x)
-selected unit rings setting (default on)
-cursor can leave window setting (default on)
-allow chat, map marks and drawing setting (default on)
-show player and spec cursors setting (default on)
-always render wrecks and trees setting (default on)
-new player rank and unit xp icons
+anti aliasing setting (default off)
+new settings: selected unit rings, cursor can leave window, allow chat, show cursors, render wrecks (default on)
 
-revert sheild changes, max sheild charge -15%
-t2 transport aircraft can load up to 4 t2 units or nanos
-unguided missiles and units or turrets with a slow reload will target scouts last
+bantha and krog +5% hp
+revert sheild and jugg
+emp bomber -8% aoe
 dragon's claw and dragon's maw -15% damage resistance
-rezbots don't chain explode
-jugg can be enabled in battle settings
-annihilator reload +1.5 seconds, doomsday -3.5% hp, tac nuke -15% hp 
-can +3% hp, sumo +2% hp
-revert seaplane gunship aoe increase
-t3 lab costs +3.3% more metal
-t2 bombers -4% buildtime
+t2 bomber -4% buildtime
 t2 aircon buildpower +5%
+t3 lab +3.3% metal cost
+scouts are lower priority targets for heavy units
+annihilator reload +1.5 seconds, doomsday -3.5% hp, tac nuke -9% hp 
+t2 transport aircraft can load up to 4 t2 units or nanos
+can +3% hp, sumo +2% hp
+rezbots don't chain explode
 
 12.1.0
 20/03/2021
@@ -31,7 +26,7 @@ bantha +3.5% hp
 tac missile +2.5% blast radius
 mercury stockpile limit reduced from 4 to 3
 t2 vehicle arty +15% accuracy
-sheilds absorb damage instead of deflecting them and can be directly attacked by enemies underneath them
+shields absorb damage instead of deflecting them and can be directly attacked by enemies underneath them
 
 11.1.3
 07/02/2021
@@ -43,7 +38,6 @@ mobile anti nukes make 200 e again instead of 100 e
 commando is not ampibious
 tac missile -17.5% blast radius
 tremor firing spread reduced by 15%
-jugg cannon doesn't pass through enemies
 shiva +10% dps
 floating hlt -5% hp
 core torp seaplane dps increased to 20% less than arm and range 5% less than arm

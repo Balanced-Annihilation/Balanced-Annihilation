@@ -510,11 +510,13 @@ function applyOptionValue(i)
 			if value == 0 then
 				Spring.SetConfigInt("alwaysrenderwrecksandtrees",0)
 				Spring.SendCommands({"FeatureDrawDistance 5000"}) 
+				Spring.SendCommands({"FeatureFadeDistance 90000"}) 
 												--Spring.SetConfigInt("FeatureDrawDistance",5000)
 
 			else
 				Spring.SetConfigInt("alwaysrenderwrecksandtrees",1)
 				Spring.SendCommands({"FeatureDrawDistance 90000"}) 
+				Spring.SendCommands({"FeatureFadeDistance 90000"}) 
 							--	Spring.SetConfigInt("FeatureDrawDistance",90000)
 
 			end
@@ -522,13 +524,13 @@ function applyOptionValue(i)
 		elseif id == 'immersiveborder' then
 			if value == 0 then
 			widgetHandler:DisableWidget("Map Edge Extension Colourful")
-				widgetHandler:DisableWidget("Volumetric Clouds")
+				--widgetHandler:DisableWidget("Volumetric Clouds")
 				Spring.SetConfigInt("immersiveborder",0)
 				
 
 			elseif value == 1 then
 				widgetHandler:EnableWidget("Map Edge Extension Colourful")
-				widgetHandler:EnableWidget("Volumetric Clouds")
+				--widgetHandler:EnableWidget("Volumetric Clouds")
 				Spring.SetConfigInt("immersiveborder",1)
 			end
 			
@@ -808,7 +810,7 @@ function setGraphicsPreset(value)
 				 Spring.SetConfigInt("AdvMapShading", 1)
 				 Spring.SendCommands("AdvModelShading "..1)
 				 Spring.SetConfigInt("AdvModelShading", 1)
-				 Spring.SendCommands("shadows 1 8192")
+				 Spring.SendCommands("shadows 1 6144")
 				 widgetHandler: EnableWidget("Projectile lights")
 				 widgetHandler: EnableWidget("Light Effects")
 				 widgetHandler: EnableWidget("Contrast Adaptive Sharpen")
@@ -1026,12 +1028,13 @@ function widget:Initialize()
 		if value == 0 then
 				Spring.SetConfigInt("alwaysrenderwrecksandtrees",0)
 				Spring.SendCommands({"FeatureDrawDistance 5000"}) 
+				Spring.SendCommands({"FeatureFadeDistance 90000"}) 
 												--Spring.SetConfigInt("FeatureDrawDistance",5000)
 
 			else
 				Spring.SetConfigInt("alwaysrenderwrecksandtrees",1)
 				Spring.SendCommands({"FeatureDrawDistance 90000"}) 
-							--Spring.SetConfigInt("FeatureDrawDistance",90000)
+				Spring.SendCommands({"FeatureFadeDistance 90000"}) 
 
 			end
 		
@@ -1137,7 +1140,7 @@ function widget:Initialize()
 		
 		--{id="shadows", name="Shadows ", type="bool", value=tonumber(Spring.GetConfigInt("Shadows",1) or 1) == 1, description='Shadow detail is currently controlled by"Shadow Quality Manager" widget\n...this widget will auto reduce detail when fps gets low.\n\nShadows requires"Advanced map shading" option to be enabled'},
 
-		{id="particles", name="Max explosion particles", type="slider", min=0, max=60000,step=1, value=tonumber(Spring.GetConfigInt("MaxParticles",1) or 25000), description='How many explosion particles can exist'},
+		{id="particles", name="Max explosion particles", type="slider", min=0, max=50000,step=1, value=tonumber(Spring.GetConfigInt("MaxParticles",1) or 20000), description='How many explosion particles can exist'},
 		{id="nanoparticles", name="Max nano particles", type="slider", min=0, max=10000,step=1, value=tonumber(Spring.GetConfigInt("MaxNanoParticles",1) or 500), description=''},
 		{id="decals", name="Ground decals ", type="slider", min =0, max=10, step=1, value=tonumber(Spring.GetConfigInt("GroundDecals",1) or 1), description='Set how much/duration map decals will be drawn\n\n(unit footsteps/tracks, darkening under buildings and scorns ground at explosions)'},
 			--	{id="grassdetail", name="Grass", type="slider", min=0, max=10, step=1, value=tonumber(Spring.GetConfigInt("GrassDetail",1) or 0), description='Amount of grass displayed\n\n'},

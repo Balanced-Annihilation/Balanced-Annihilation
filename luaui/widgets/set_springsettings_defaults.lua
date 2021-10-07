@@ -12,7 +12,7 @@ function widget:GetInfo()
 	}
 end
 
-local minMaxparticles = 25000
+local minMaxparticles = 20000
 
 local function reducePing()
 	--Spring.SendCommands("UseNetMessageSmoothingBuffer ".."0")
@@ -84,15 +84,15 @@ function widget:Initialize()
 
 		Spring.SetConfigString("immersiveborder", '1')
    		Spring.SetConfigString("bafirstlaunchsetupDone1", "done")   
-	Spring.SetConfigString("advgraphics", '2')
-	Spring.SetConfigString("MSAALevel", '2')
+	Spring.SetConfigString("advgraphics", '1')
+	Spring.SetConfigString("MSAALevel", '0')
 	Spring.SetConfigString("UseNetMessageSmoothingBuffer", '0')
 		Spring.SetConfigString("Water", '1')
 		Spring.SetConfigString("ProfanityFilter", '1')
 		Spring.SetConfigString("immersiveborder", '1')
 		Spring.SetConfigString("chatsound", '1')
 		Spring.SetConfigString("reduceping", '1')
-		Spring.SetConfigString("GroundDecals", '2')
+		Spring.SetConfigString("GroundDecals", '1')
 		reducePing()
 		Spring.SetConfigString("LuaShaders", '1')
 		Spring.SetConfigInt("GroundDetail", 80)   

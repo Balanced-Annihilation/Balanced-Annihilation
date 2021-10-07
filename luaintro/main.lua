@@ -68,12 +68,12 @@ Spring.SetConfigInt("AllowDeferredModelRendering", 1)
 end
 Spring.SetConfigInt("AdvMapShading", 1)
 
-local enableimmersiveborderonce = Spring.GetConfigString('enableimmersiveborderonce', "missing") --remove later
+local enableimmersiveborderonce = Spring.GetConfigString('enableimmersiveborderfirst', "missing") --remove later
 if enableimmersiveborderonce ~= "done" then
-   		Spring.SetConfigString("enableimmersiveborderonce", 'done')
+   		Spring.SetConfigString("enableimmersiveborderfirst", 'done')
 		Spring.SetConfigString("immersiveborder", '1')
-		Spring.SetConfigString("advgraphics", '2')
-		Spring.SetConfigString("MSAALevel", '2')
+		--Spring.SetConfigString("advgraphics", '1')
+		--Spring.SetConfigString("MSAALevel", '2')
 end
 Spring.SetConfigInt("HangTimeout", -1)
 --Spring.SetConfigInt("Sound", "false")
