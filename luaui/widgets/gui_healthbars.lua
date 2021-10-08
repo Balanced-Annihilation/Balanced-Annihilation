@@ -93,7 +93,7 @@ end
 local selectedUnits = {}
 local SelectedUnitsCount = Spring.GetSelectedUnitsCount()
 
-local unba_enabled = (Spring.GetModOptions() and Spring.GetModOptions().unba and Spring.GetModOptions().unba == "enabled")
+local unba_enabled = Spring.GetModOptions().unba
 
 local chobbyInterface
 
@@ -843,7 +843,7 @@ do
 		barInfo.title = title
 		barInfo.progress = progress
 		barInfo.color = color or barColors[color_index]
-		barInfo.text = '' --		barInfo.text = tex
+		barInfo.text = text
 	end
 
 	function DrawBars(fullText, scale)
@@ -862,9 +862,9 @@ do
 				end
 				glColor(1, 1, 1, barAlpha)
 				glText(barInfo.text, barStart, -outlineSize, 4, "r")
-				if (drawBarTitles and barInfo.title ~= "health") then
-				glColor(1,1,1,titlesAlpha)
-				glText(barInfo.title,0,yoffset-outlineSize,2.35,"cd")
+				if drawBarTitles and barInfo.title ~= "health" then
+					glColor(1, 1, 1, titlesAlpha)
+					glText(barInfo.title, 0, 0, 2.35, "cd")
 				end
 				if barShader then
 					glMyText(0)
@@ -891,7 +891,7 @@ do
 					glColor(1, 1, 1, featureBarAlpha)
 					glText(barInfo.text, fBarStart, yoffset - outlineSize, 4, "r")
 				end
-			if (drawBarTitles and barInfo.title ~= "health") then
+				if drawBarTitles and barInfo.title ~= "health" then
 					glColor(1, 1, 1, featureTitlesAlpha)
 					glText(barInfo.title, 0, yoffset - outlineSize, 2.35, "cd")
 				end
@@ -911,7 +911,9 @@ end --//end do
 
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
-
+local DrawOverlays
+local drawStunnedOverlay = true
+local paraUnits   = {};
 local DrawUnitInfos
 
 local spGetUnitHealth = Spring.GetUnitHealth
@@ -1011,7 +1013,7 @@ do
 						if shieldOn ~= 0 and build == 1 and shieldPower < ci.maxShield then
 							ci.maxShield = WeaponDefs[UnitDefs[unitDefID].weapons[i].weaponDef].shieldPower
 							shieldPower = shieldPower / ci.maxShield
-          AddBar("shield",shieldPower,"shield",(fullText and floor(shieldPower*100)..'%') or '')
+							AddBar("shield", shieldPower, "shield", (fullText and floor(shieldPower * 100) .. '%') or '')
 						end
 					end
 				end
@@ -1019,7 +1021,7 @@ do
 				local shieldOn, shieldPower = GetUnitShieldState(unitID)
 				if shieldOn and build == 1 and shieldPower < ci.maxShield then
 					shieldPower = shieldPower / ci.maxShield
-          AddBar("shield",shieldPower,"shield",(fullText and floor(shieldPower*100)..'%') or '')
+					AddBar("shield", shieldPower, "shield", (fullText and floor(shieldPower * 100) .. '%') or '')
 				end
 			end
 		end
@@ -1043,7 +1045,7 @@ do
 						infotext = hp100 .. '%'
 					end
 				end
-          AddBar("health",hp,nil,infotext or '',bfcolormap[hp100])
+				AddBar("health", hp, nil, infotext or '', bfcolormap[hp100])
 			end
 		end
 
@@ -1053,7 +1055,7 @@ do
 			if fullText and (drawBarPercentage > 0 or dist < minPercentageDistance * drawDistanceMult) then
 				infotext = floor(build * 100) .. '%'
 			end
-        AddBar("building",build,"build",infotext or '')
+			AddBar("building", build, "build", infotext or '')
 		end
 
 		--// STOCKPILE
@@ -1063,7 +1065,7 @@ do
 			if numStockpiled then
 				stockpileBuild = stockpileBuild or 0
 				if stockpileBuild > 0 then
-            AddBar("stockpile",stockpileBuild,"stock",(fullText and floor(stockpileBuild*100)..'%') or '')
+					AddBar("stockpile", stockpileBuild, "stock", (fullText and floor(stockpileBuild * 100) .. '%') or '')
 				end
 			end
 		else
@@ -1075,6 +1077,7 @@ do
 			local stunned = GetUnitIsStunned(unitID)
 			local infotext = ''
 			if stunned then
+				paraUnits[#paraUnits+1]=unitID
 				if fullText then
 					infotext = floor((paralyzeDamage - maxHealth) / (maxHealth * empDecline)) .. 's'
 				end
@@ -1088,7 +1091,7 @@ do
 				end
 			end
 			local empcolor_index = (stunned and ((blink and "emp_b") or "emp_p")) or ("emp")
-        AddBar("paralyze",emp,empcolor_index,infotext)
+			AddBar("paralyze", emp, empcolor_index, infotext)
 		end
 
 		--// CAPTURE
@@ -1097,7 +1100,7 @@ do
 			if fullText and drawBarPercentage > 0 then
 				infotext = floor(capture * 100) .. '%'
 			end
-        AddBar("capture",capture,"capture",infotext or '')
+			AddBar("capture", capture, "capture", infotext or '')
 		end
 
 		--// RELOAD
@@ -1113,7 +1116,7 @@ do
 				if fullText and drawBarPercentage > 0 then
 					infotext = reload .. '%'
 				end
-          AddBar("reload",reload,"reload",infoText or '')
+				AddBar("reload", reload, "reload", infotext or '')
 			end
 		end
 
@@ -1196,17 +1199,17 @@ do
 		--// HEALTH
 		if hp < featureHpThreshold and drawFeatureHealth then
 			local color = { GetColor(fhpcolormap, hp) }
-        AddBar("health",hp,nil,(floor(hp*100) <= drawFeatureBarPercentage and floor(hp*100)..'%') or '',color)
+			AddBar("health", hp, nil, (floor(hp * 100) <= drawFeatureBarPercentage and floor(hp * 100) .. '%') or '', color)
 		end
 
 		--// RESURRECT
 		if resurrect > 0 then
-        AddBar("resurrect",resurrect,"resurrect",(fullText and floor(resurrect*100)..'%') or '')
+			AddBar("resurrect", resurrect, "resurrect", (fullText and floor(resurrect * 100) .. '%') or '')
 		end
 
 		--// RECLAIMING
 		if reclaimLeft > 0 and reclaimLeft < 1 then
-        AddBar("reclaim",reclaimLeft,"reclaim",(fullText and floor(reclaimLeft*100)..'%') or '')
+			AddBar("reclaim", reclaimLeft, "reclaim", (fullText and floor(reclaimLeft * 100) .. '%') or '')
 		end
 
 		if barsN > 0 then
@@ -1233,11 +1236,74 @@ do
 
 end --// end do
 
+
+
+do
+  local GL_TEXTURE_GEN_MODE    = GL.TEXTURE_GEN_MODE
+  local GL_EYE_PLANE           = GL.EYE_PLANE
+  local GL_EYE_LINEAR          = GL.EYE_LINEAR
+  local GL_T                   = GL.T
+  local GL_S                   = GL.S
+  local GL_ONE                 = GL.ONE
+  local GL_SRC_ALPHA           = GL.SRC_ALPHA
+  local GL_ONE_MINUS_SRC_ALPHA = GL.ONE_MINUS_SRC_ALPHA
+  local glUnit                 = gl.Unit
+  local glTexGen               = gl.TexGen
+  local glTexCoord             = gl.TexCoord
+  local glPolygonOffset        = gl.PolygonOffset
+  local glBlending             = gl.Blending
+  local glTexture              = gl.Texture
+  local GetCameraVectors       = Spring.GetCameraVectors
+  local abs                    = math.abs
+  function DrawOverlays()
+    --// draw an overlay for stunned units
+    if (drawStunnedOverlay)and(#paraUnits>0) then
+      glDepthTest(true)
+      glPolygonOffset(-2, -2)
+      glBlending(GL_SRC_ALPHA, GL_ONE)
+      
+      
+      glColor(0.25,0.25,1,0.25)
+      for i=1,#paraUnits do
+        glUnit(paraUnits[i],true)
+      end
+      local shift = widgetHandler:GetHourTimer() / 15
+      
+      glTexCoord(0,0)
+      glTexGen(GL_T, GL_TEXTURE_GEN_MODE, GL_EYE_LINEAR)
+      local cvs = GetCameraVectors()
+      local v = cvs.right
+      glTexGen(GL_T, GL_EYE_PLANE, v[1]*0.008,v[2]*0.008,v[3]*0.008, shift)
+      glTexGen(GL_S, GL_TEXTURE_GEN_MODE, GL_EYE_LINEAR)
+      v = cvs.forward
+      glTexGen(GL_S, GL_EYE_PLANE, v[1]*0.008,v[2]*0.008,v[3]*0.008, shift)
+      glTexture("LuaUI/Images/paralyzed.png")
+
+      glColor(0.8,0.8,1,0.45)
+      for i=1,#paraUnits do
+        glUnit(paraUnits[i],true)
+      end
+
+      glTexture(false)
+      glTexGen(GL_T, false)
+      glTexGen(GL_S, false)
+      glBlending(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
+      glPolygonOffset(false)
+      glDepthTest(false)
+
+      paraUnits = {}
+    end
+
+  end
+
+end --//end do
+
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 
 local visibleFeatures = {}
 local visibleUnits = {}
+
 
 do
 	local GetCameraPosition = Spring.GetCameraPosition
@@ -1247,6 +1313,12 @@ do
 	local GetFeatureHealth = Spring.GetFeatureHealth
 	local GetFeatureResources = Spring.GetFeatureResources
 	local GetUnitViewPosition = Spring.GetUnitViewPosition
+
+	function widget:RecvLuaMsg(msg, playerID)
+		if msg:sub(1, 18) == 'LobbyOverlayActive' then
+			chobbyInterface = (msg:sub(1, 19) == 'LobbyOverlayActive1')
+		end
+	end
 
 	function widget:DrawWorld()
 		if chobbyInterface then
@@ -1344,11 +1416,13 @@ do
 			end
 			glDepthMask(false)
 		end
-
+		DrawOverlays()
 		glColor(1, 1, 1, 1)
 		--glDepthTest(false)
 	end
 end --//end do
+
+
 
 do
 	local GetGameFrame = Spring.GetGameFrame
