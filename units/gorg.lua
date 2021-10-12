@@ -200,7 +200,7 @@ return {
 				soundstart = "Krogun1",
 				rgbcolor = "1 0.7 0.3",
 				turret = true,
-				weapontype = "DGun",
+				weapontype = "EmgCannon",
 				weaponvelocity = 530,
 				damage = {
 					default = 300,

@@ -12,7 +12,7 @@ function widget:GetInfo()
 	}
 end
 
-local minMaxparticles = 20000
+local minMaxparticles = 25000
 
 local function reducePing()
 	--Spring.SendCommands("UseNetMessageSmoothingBuffer ".."0")
@@ -102,8 +102,8 @@ function widget:Initialize()
 			Spring.SetConfigInt("AdvUnitShading", 1)
 			Spring.SetConfigInt("EdgeMoveWidth", 0.1) 
 			Spring.SetConfigString("MouseDragScrollThreshold",'0.3')	
-			Spring.SetConfigInt("UnitIconDist", 172)
-			Spring.SendCommands("disticon "..172)
+			Spring.SetConfigInt("UnitIconDist", 200)
+			Spring.SendCommands("disticon "..200)
 			Spring.SetConfigInt("ShadowMapSize", 6144)
 			Spring.SendCommands("Shadows 1 6144")
     end
@@ -121,7 +121,7 @@ function widget:Initialize()
 			
 			Spring.SetConfigString("MiniMapDrawProjectiles", '0')
 		
-	
+			Spring.SetConfigString("UsePBO", '0')
 	
 	
 			--local setGraphicsPreset = Spring.GetConfigString('setGraphicsPreset', "missing")

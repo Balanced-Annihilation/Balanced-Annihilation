@@ -1045,11 +1045,11 @@ function widget:Initialize()
 		immersiveborderpreset=tonumber(Spring.GetConfigInt("immersiveborder",0))
 		if immersiveborderpreset == 0 then
 			widgetHandler:DisableWidget("Map Edge Extension Colourful")
-				widgetHandler:DisableWidget("Volumetric Clouds")
+				--widgetHandler:DisableWidget("Volumetric Clouds")
 				Spring.SetConfigInt("immersiveborder",0)
 			elseif immersiveborderpreset == 1 then
 				widgetHandler:EnableWidget("Map Edge Extension Colourful")
-				widgetHandler:EnableWidget("Volumetric Clouds")
+				--widgetHandler:EnableWidget("Volumetric Clouds")
 				Spring.SetConfigInt("immersiveborder",1)
 			end
 		
@@ -1140,9 +1140,9 @@ function widget:Initialize()
 		
 		--{id="shadows", name="Shadows ", type="bool", value=tonumber(Spring.GetConfigInt("Shadows",1) or 1) == 1, description='Shadow detail is currently controlled by"Shadow Quality Manager" widget\n...this widget will auto reduce detail when fps gets low.\n\nShadows requires"Advanced map shading" option to be enabled'},
 
-		{id="particles", name="Max explosion particles", type="slider", min=0, max=50000,step=1, value=tonumber(Spring.GetConfigInt("MaxParticles",1) or 20000), description='How many explosion particles can exist'},
+		{id="particles", name="Max explosion particles", type="slider", min=0, max=50000,step=1, value=tonumber(Spring.GetConfigInt("MaxParticles",1) or 25000), description='How many explosion particles can exist'},
 		{id="nanoparticles", name="Max nano particles", type="slider", min=0, max=10000,step=1, value=tonumber(Spring.GetConfigInt("MaxNanoParticles",1) or 500), description=''},
-		{id="decals", name="Ground decals ", type="slider", min =0, max=10, step=1, value=tonumber(Spring.GetConfigInt("GroundDecals",1) or 1), description='Set how much/duration map decals will be drawn\n\n(unit footsteps/tracks, darkening under buildings and scorns ground at explosions)'},
+		{id="decals", name="Crator duration ", type="slider", min =0, max=10, step=1, value=tonumber(Spring.GetConfigInt("GroundDecals",1) or 1), description='Set how much/duration map decals will be drawn\n\n(unit footsteps/tracks, darkening under buildings and scorns ground at explosions)'},
 			--	{id="grassdetail", name="Grass", type="slider", min=0, max=10, step=1, value=tonumber(Spring.GetConfigInt("GrassDetail",1) or 0), description='Amount of grass displayed\n\n'},
 
 		-- only one of these shadow options are shown, depending if"Shadow Quality Manager" widget is active
@@ -1197,7 +1197,7 @@ function widget:Initialize()
 
 			--{id="fpstimespeed", name="Display FPS, GameTime and Speed", type="bool", value=tonumber(Spring.GetConfigInt("ShowFPS",1) or 1) == 1, description='Located at the top right of the screen\n\nIndividually toggle them with /fps /clock /speed'},
 
-									{id="fancyunitselection", name="Show Selected unit rings", type="bool", value=tonumber(Spring.GetConfigInt("fancyunitselection",1) or 1) == 1, description='Fancy selected unit boxes'},
+									{id="fancyunitselection", name="Selected unit rings", type="bool", value=tonumber(Spring.GetConfigInt("fancyunitselection",1) or 1) == 1, description='Fancy selected unit boxes'},
 									{id="speccursors", name="Show player and spectator cursors", type="bool", value=tonumber(Spring.GetConfigInt("speccursors",1) or 1) == 1, description='Show player and spec cursors'},
 
 									{id="showchat", name="Allow chat, map marks & drawings", type="bool", value=tonumber(Spring.GetConfigInt("showchat",1) or 1) == 1, description='Show chat and map marks'},

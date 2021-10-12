@@ -14,7 +14,7 @@ end
 
 local spGetFPS				= Spring.GetFPS
 local isSpec = Spring.GetSpectatingState()
-local prevnumparticles = Spring.GetConfigInt("MaxParticles",20000)
+local prevnumparticles = Spring.GetConfigInt("MaxParticles",25000)
 local graphicslevel = 2
 local previmmersiveborderpreset=tonumber(Spring.GetConfigInt("immersiveborder",1))
 local minimumenabled = 0
@@ -107,7 +107,7 @@ function widget:GameFrame(gameFrame)
 						widgetHandler:DisableWidget("LupsManager")
 						Spring.Echo("Max perfomance mode on until next game")
 						graphicslevel = graphicslevel-1
-						prevnumparticles = Spring.GetConfigInt("MaxParticles",20000)
+						prevnumparticles = Spring.GetConfigInt("MaxParticles",25000)
 						if prevnumparticles > 10000 then
 							Spring.SetConfigInt("MaxParticles",10000)
 						end

@@ -323,7 +323,7 @@ function widget:DrawWorldRefraction()
 end
 
 function widget:Initialize()
-	Spring.SendCommands("luaui disablewidget Map Edge Extension")
+	--Spring.SendCommands("luaui disablewidget Map Edge Extension")
 	island = IsIsland()
 	InitGroundHeights()
 	DspLst = glCreateList(DrawTiles)
