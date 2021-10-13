@@ -34,8 +34,8 @@ function widget:Shutdown()
 				 Spring.SetConfigInt("AdvModelShading", 0)
 				 widgetHandler: DisableWidget("Bloom Shader Alternate Deferred")
 				  widgetHandler: DisableWidget("Bloom Shader Alternate")
-				-- Spring.SetConfigInt("ssao", "0")
-				-- widgetHandler: DisableWidget("SSAO")
+				 Spring.SetConfigInt("ssao", "0")
+				-- widgetHandler: DisableWidget("SSAO_alternative")
 			 elseif value == 1 then
 				 widgetHandler: EnableWidget("Deferred rendering")
 				 Spring.SendCommands("AdvMapShading "..1)
@@ -49,8 +49,8 @@ function widget:Shutdown()
 				 widgetHandler: EnableWidget("LupsManager")
 				 widgetHandler: DisableWidget("Bloom Shader Alternate Deferred")
 				  widgetHandler: DisableWidget("Bloom Shader Alternate")
-				-- Spring.SetConfigInt("ssao", "0")
-				-- widgetHandler: DisableWidget("SSAO")
+				 Spring.SetConfigInt("ssao", "0")
+				-- widgetHandler: DisableWidget("SSAO_alternative")
 			 elseif value == 2 then
 				 widgetHandler: EnableWidget("Deferred rendering")
 				 Spring.SendCommands("AdvMapShading "..1)
@@ -64,8 +64,8 @@ function widget:Shutdown()
 				 widgetHandler: EnableWidget("LupsManager")
 				 widgetHandler: EnableWidget("Bloom Shader Alternate Deferred")
 				  widgetHandler: EnableWidget("Bloom Shader Alternate")
-				-- Spring.SetConfigInt("ssao", "1")
-				-- widgetHandler: EnableWidget("SSAO")
+				 Spring.SetConfigInt("ssao", "1")
+				-- widgetHandler: EnableWidget("SSAO_alternative")
 			 end
 			 if(minimumenabled == 1) then
 				Spring.SetConfigInt("MaxParticles",prevnumparticles) --reset max particles
@@ -81,13 +81,13 @@ function widget:GameFrame(gameFrame)
 				if graphicslevel == 2 and spGetFPS() < 25 then
 					widgetHandler: DisableWidget("Bloom Shader Alternate Deferred")
 					widgetHandler: DisableWidget("Bloom Shader Alternate")
-				--	widgetHandler: DisableWidget("SSAO")
+					--widgetHandler: DisableWidget("SSAO_alternative")
 					graphicslevel = graphicslevel-1
 				elseif spGetFPS() < 20 then
 					if graphicslevel == 1 then
 						widgetHandler: DisableWidget("Bloom Shader Alternate Deferred")
 						widgetHandler: DisableWidget("Bloom Shader Alternate")
-					--	widgetHandler: DisableWidget("SSAO")
+						--widgetHandler: DisableWidget("SSAO_alternative")
 						Spring.SendCommands({"shadows 0"})
 						widgetHandler:DisableWidget("Projectile lights")
 						widgetHandler:DisableWidget("Deferred rendering")

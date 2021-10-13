@@ -786,8 +786,8 @@ function setGraphicsPreset(value)
 				 Spring.SetConfigInt("AdvModelShading", 0)
 				 widgetHandler: DisableWidget("Bloom Shader Alternate Deferred")
 				  widgetHandler: DisableWidget("Bloom Shader Alternate")
-				 --Spring.SetConfigInt("ssao", "0")
-				-- widgetHandler: DisableWidget("SSAO")
+				 Spring.SetConfigInt("ssao", "0")
+				-- widgetHandler: DisableWidget("SSAO_alternative")
 				 
 			 elseif value == 1 then
 				 widgetHandler: EnableWidget("Deferred rendering")
@@ -802,8 +802,8 @@ function setGraphicsPreset(value)
 				 widgetHandler: EnableWidget("LupsManager")
 				 widgetHandler: DisableWidget("Bloom Shader Alternate Deferred")
 				  widgetHandler: DisableWidget("Bloom Shader Alternate")
-				-- Spring.SetConfigInt("ssao", "0")
-				-- widgetHandler: DisableWidget("SSAO")
+				 Spring.SetConfigInt("ssao", "0")
+				-- widgetHandler: DisableWidget("SSAO_alternative")
 			 elseif value == 2 then
 				 widgetHandler: EnableWidget("Deferred rendering")
 				 Spring.SendCommands("AdvMapShading "..1)
@@ -817,8 +817,8 @@ function setGraphicsPreset(value)
 				 widgetHandler: EnableWidget("LupsManager")
 				 widgetHandler: EnableWidget("Bloom Shader Alternate Deferred")
 				  widgetHandler: EnableWidget("Bloom Shader Alternate")
-				-- Spring.SetConfigInt("ssao", "1")
-				-- widgetHandler: EnableWidget("SSAO")
+				 Spring.SetConfigInt("ssao", "1")
+				-- widgetHandler: EnableWidget("SSAO_alternative")
 			 end
 end
 
@@ -1140,7 +1140,7 @@ function widget:Initialize()
 		
 		--{id="shadows", name="Shadows ", type="bool", value=tonumber(Spring.GetConfigInt("Shadows",1) or 1) == 1, description='Shadow detail is currently controlled by"Shadow Quality Manager" widget\n...this widget will auto reduce detail when fps gets low.\n\nShadows requires"Advanced map shading" option to be enabled'},
 
-		{id="particles", name="Max explosion particles", type="slider", min=0, max=50000,step=1, value=tonumber(Spring.GetConfigInt("MaxParticles",1) or 25000), description='How many explosion particles can exist'},
+		{id="particles", name="Max explosion particles", type="slider", min=0, max=60000,step=1, value=tonumber(Spring.GetConfigInt("MaxParticles",1) or 25000), description='How many explosion particles can exist'},
 		{id="nanoparticles", name="Max nano particles", type="slider", min=0, max=10000,step=1, value=tonumber(Spring.GetConfigInt("MaxNanoParticles",1) or 500), description=''},
 		{id="decals", name="Crator duration ", type="slider", min =0, max=10, step=1, value=tonumber(Spring.GetConfigInt("GroundDecals",1) or 1), description='Set how much/duration map decals will be drawn\n\n(unit footsteps/tracks, darkening under buildings and scorns ground at explosions)'},
 			--	{id="grassdetail", name="Grass", type="slider", min=0, max=10, step=1, value=tonumber(Spring.GetConfigInt("GrassDetail",1) or 0), description='Amount of grass displayed\n\n'},
