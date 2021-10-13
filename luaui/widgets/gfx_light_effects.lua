@@ -807,7 +807,10 @@ local ARM_NUKE = WeaponDefNames['nuclear_missile'].id
 -- function called by explosion_lights gadget
 function GadgetWeaponExplosion(px, py, pz, weaponID, ownerID)
 	--	if (weaponConf[weaponID] ~= nil) and (weaponConf[weaponID].wtype ~= 'MissileLauncher') and (weaponConf[weaponID].wtype ~= 'TorpedoLauncher') and (weaponConf[weaponID].wtype ~= 'StarburstLauncher') and (not (WeaponDefs[weaponID].reload < 1 and WeaponDefs[weaponID].damageAreaOfEffect >= 64)) or WeaponDefs[weaponID].damageAreaOfEffect > 200 then --and weaponConf[weaponID].wtype == 'Cannon' then
-	if weaponConf[weaponID] ~= nil and not weaponConf[weaponID].noheatdistortion and((weaponConf[weaponID].wtype ~= 'MissileLauncher' and weaponConf[weaponID].wtype ~= 'TorpedoLauncher' and weaponConf[weaponID].wtype ~= 'StarburstLauncher') or WeaponDefs[weaponID].damageAreaOfEffect > 150) then --and weaponConf[weaponID].wtype == 'Cannon' then
+--	if weaponConf[weaponID] ~= nil and not weaponConf[weaponID].noheatdistortion and((weaponConf[weaponID].wtype ~= 'MissileLauncher' and weaponConf[weaponID].wtype ~= 'TorpedoLauncher' and weaponConf[weaponID].wtype ~= 'StarburstLauncher') or WeaponDefs[weaponID].damageAreaOfEffect > 150) then --and weaponConf[weaponID].wtype == 'Cannon' then
+
+
+	if weaponConf[weaponID] ~= nil and not weaponConf[weaponID].noheatdistortion and((weaponConf[weaponID].wtype ~= 'TorpedoLauncher') or WeaponDefs[weaponID].damageAreaOfEffect > 150) then --and weaponConf[weaponID].wtype == 'Cannon' then
 
 		local params
 		if weaponID == COM_BLAST then
