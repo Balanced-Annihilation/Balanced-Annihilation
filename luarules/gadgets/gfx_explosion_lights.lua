@@ -23,7 +23,7 @@ local small_unitex_air = WeaponDefNames['small_unitex_air'].id
 local big_unitex_air = WeaponDefNames['big_unitex_air'].id
 local big_unit_air = WeaponDefNames['big_unit_air'].id
 
-
+local cacheids = {}
 
 if (gadgetHandler:IsSyncedCode()) then
 
@@ -97,6 +97,16 @@ if (gadgetHandler:IsSyncedCode()) then
 					Script.SetWatchExplosion(wdid, true)    -- might be getting too expensive
 				end
         end
+		
+			
+cacheids[flea_ex] ='a'
+cacheids[small_unitex]='a'
+cacheids[small_unit]='a'
+cacheids[small_unit_air]='a'
+cacheids[small_unitex_air]='a'
+cacheids[big_unitex_air]='a'
+cacheids[big_unit_air]='a'
+		
     end
     function gadget:Shutdown()
         for wdid, wd in pairs(WeaponDefs) do
@@ -109,17 +119,10 @@ if (gadgetHandler:IsSyncedCode()) then
         end
     end
 
-    function gadget:Explosion(weaponID, px, py, pz, ownerID)
-			if(
-			weaponID ~= flea_ex and
-			weaponID ~= small_unitex and
-			weaponID ~= small_unit and
-			weaponID ~= small_unit_air and
-			weaponID~= small_unitex_air and
-			weaponID ~= big_unitex_air and
-			weaponID  ~= big_unit_air
 
-			)then
+	
+    function gadget:Explosion(weaponID, px, py, pz, ownerID)
+			if not cacheids[weaponID] then
 				SendToUnsynced("explosion_light", px, py, pz, weaponID, ownerID)
 			end
     end

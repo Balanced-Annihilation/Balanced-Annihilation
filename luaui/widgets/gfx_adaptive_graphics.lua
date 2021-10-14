@@ -92,7 +92,7 @@ function widget:GameFrame(gameFrame)
 						widgetHandler:DisableWidget("Projectile lights")
 						widgetHandler:DisableWidget("Deferred rendering")
 						widgetHandler:DisableWidget("Light Effects")
-						widgetHandler:DisableWidget("Contrast Adaptive Sharpen")
+						--widgetHandler:DisableWidget("Contrast Adaptive Sharpen")
 						Spring.Echo("High perfomance mode on until next game")
 						graphicslevel = graphicslevel-1
 

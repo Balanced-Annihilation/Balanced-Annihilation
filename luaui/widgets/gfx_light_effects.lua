@@ -90,6 +90,10 @@ end
 
 
 local weaponConf = {}
+local cacheA = {} 
+local cacheB = {}
+
+
 function loadWeaponDefs()
 	weaponConf = {}
 	for i=1, #WeaponDefs do
@@ -196,9 +200,21 @@ function loadWeaponDefs()
 			end
 
 			weaponConf[i] = params
+			
+			local weaponID = i
+			if weaponConf[weaponID] ~= nil and not weaponConf[weaponID].noheatdistortion and((weaponConf[weaponID].wtype ~= 'TorpedoLauncher') or WeaponDefs[weaponID].damageAreaOfEffect > 150) then --and weaponConf[weaponID].wtype == 'Cannon' then
+				cacheA[weaponID] = "a"
+				if  (weaponConf[weaponID].wtype == 'Cannon' and params.radius > 80) or ((WeaponDefs[weaponID].damageAreaOfEffect > 150)) then --and Spring.IsSphereInView(px,py,pz,100)
+					cacheB[weaponID] = "a"
+				end
+			end
 		end
 	end
 end
+
+
+
+
 loadWeaponDefs()
 
 
@@ -806,12 +822,7 @@ local ARM_NUKE = WeaponDefNames['nuclear_missile'].id
 
 -- function called by explosion_lights gadget
 function GadgetWeaponExplosion(px, py, pz, weaponID, ownerID)
-	--	if (weaponConf[weaponID] ~= nil) and (weaponConf[weaponID].wtype ~= 'MissileLauncher') and (weaponConf[weaponID].wtype ~= 'TorpedoLauncher') and (weaponConf[weaponID].wtype ~= 'StarburstLauncher') and (not (WeaponDefs[weaponID].reload < 1 and WeaponDefs[weaponID].damageAreaOfEffect >= 64)) or WeaponDefs[weaponID].damageAreaOfEffect > 200 then --and weaponConf[weaponID].wtype == 'Cannon' then
---	if weaponConf[weaponID] ~= nil and not weaponConf[weaponID].noheatdistortion and((weaponConf[weaponID].wtype ~= 'MissileLauncher' and weaponConf[weaponID].wtype ~= 'TorpedoLauncher' and weaponConf[weaponID].wtype ~= 'StarburstLauncher') or WeaponDefs[weaponID].damageAreaOfEffect > 150) then --and weaponConf[weaponID].wtype == 'Cannon' then
-
-
-	if weaponConf[weaponID] ~= nil and not weaponConf[weaponID].noheatdistortion and((weaponConf[weaponID].wtype ~= 'TorpedoLauncher') or WeaponDefs[weaponID].damageAreaOfEffect > 150) then --and weaponConf[weaponID].wtype == 'Cannon' then
-
+	if cacheA[weaponID] then
 		local params
 		if weaponID == COM_BLAST then
 			params = {
@@ -864,10 +875,7 @@ function GadgetWeaponExplosion(px, py, pz, weaponID, ownerID)
 			explosionLightsCount = explosionLightsCount + 1
 			explosionLights[explosionLightsCount] = params
 		end
---weaponID > -1 exclude death explosions -- or weaponID == CORE_NUKE or weaponID == ARM_NUKE or COM_BLAST
---		if  ((weaponConf[weaponID].wtype == 'Cannon') and py > 0 and WG['Lups'] and params.param.radius > 80)or ((WeaponDefs[weaponID].damageAreaOfEffect > 300)and (WeaponDefs[weaponID].damageAreaOfEffect ~=700 )) then --and Spring.IsSphereInView(px,py,pz,100)
-
-		if  (weaponConf[weaponID].wtype == 'Cannon' and params.param.radius > 80) or ((WeaponDefs[weaponID].damageAreaOfEffect > 150)) then --and Spring.IsSphereInView(px,py,pz,100)
+		if cacheB[weaponID] then
 			local strength,animSpeed,life,heat,sizeGrowth,size,force
 
 			local cx, cy, cz = Spring.GetCameraPosition()
@@ -886,10 +894,7 @@ function GadgetWeaponExplosion(px, py, pz, weaponID, ownerID)
 				size = size * 1.3
 				strength = strength*1.6
 			end
-			--if weaponID == CORE_NUKE or weaponID == AFUS_EXPLOSION then --afus
-			--	size = size * 0.8
-			--	strength = strength * 0.8
-			--end
+		
 			if size*strengthMult > 5 then
 				lups.AddParticles('JitterParticles2', {
 					layer = -35,
@@ -904,44 +909,6 @@ function GadgetWeaponExplosion(px, py, pz, weaponID, ownerID)
 				})
 			end
 
-
-		-- a test to replace stumpy weapon ceg 'explosion' effect, so when maxparticles is reached, there is still this lups shown, only thing missing is the directional=true options :(
-		--if WG['Lups'] then
-		--	WG['Lups'].AddParticles('SimpleParticles2', {
-		--		emitVector     = {0,1,0},
-		--		pos            = {px,py+2,pz}, --// start pos
-		--		partpos        = "0,0,0",  --//particle relative start pos (can contain lua code!)
-		--		layer          = 0,
-		--
-		--		--// visibility check
-		--		los            = true,
-		--		airLos         = true,
-		--		radar          = false,
-		--
-		--		count          = 8,
-		--		force          = {0,0,0}, --// global effect force
-		--		forceExp       = 1,
-		--		speed          = 0.3,
-		--		speedSpread    = 2.5,
-		--		speedExp       = 0.3, --// >1 : first decrease slow, then fast;  <1 : decrease fast, then slow
-		--		life           = 6,
-		--		lifeSpread     = 5,
-		--		delaySpread    = 0,
-		--		rotSpeed       = 0,
-		--		rotSpeedSpread = 0,
-		--		rotSpread      = 0,
-		--		rotExp         = 1, --// >1 : first decrease slow, then fast;  <1 : decrease fast, then slow;  <0 : invert x-axis (start large become smaller)
-		--		emitRot        = 45,
-		--		emitRotSpread  = 32,
-		--		size           = 2,
-		--		sizeSpread     = 3.2,
-		--		sizeGrowth     = 0.4,
-		--		sizeExp        = 1, --// >1 : first decrease slow, then fast;  <1 : decrease fast, then slow;  <0 : invert x-axis (start large become smaller)
-		--		colormap       = { {0,0,0,0}, {1,0.9,0.6,0.09}, {0.9,0.5,0.2,0.066}, {0.66,0.28,0.04,0.033}, {0,0,0,0} }, --//max 16 entries
-		--		texture        = 'bitmaps/projectiletextures/flashside2.tga',
-		--		repeatEffect   = false, --can be a number,too
-		--	})
-		--end
 	end
 end
 end

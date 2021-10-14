@@ -60,13 +60,13 @@ return {
 		},
 		weapondefs = {
 			corgripn_bomb = {
-				areaofeffect = 220,
+				areaofeffect = 200,
 				avoidfeature = false,
 				burst = 5,
 				burstrate = 0.19,
 				collidefriendly = false,
 				commandfire = true,
-				craterareaofeffect = 240,
+				craterareaofeffect = 200,
 				craterboost = 0,
 				cratermult = 0,
 				edgeeffectiveness = 0.1,
