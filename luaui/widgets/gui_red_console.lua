@@ -374,12 +374,12 @@ local function clipLine(line,fontsize,maxwidth)
 end
 
 local function clipHistory(g,oneline)
-	local history = g.vars.consolehistory
+	local history = g.vars.consolehistory or {}
 	local maxsize = g.background.sx - (g.lines.px-g.background.px)
 	
 	local fontsize = g.lines.fontsize
 	
-	if (oneline) then
+	if (oneline and #history > 0) then
 		local line = history[#history]
 		local lines,firstclip = clipLine(line[1],fontsize,maxsize)	
 		line[1] = ssub(line[1],1,firstclip)
@@ -482,8 +482,12 @@ local function processLine(line,g,cfg,newlinecolor)
             if ssub(line,1,3) == "> <" then --player speaking in battleroom
                 local i = sfind(ssub(line,4,slen(line)), ">")
                 name = ssub(line,4,i+2)
-            end
-		end		
+			end
+		elseif (ssub(line, 1, 10) == "[ShowUser]") then
+			line = ssub(line, 11, slen(line))
+		elseif Spring.GetConfigInt("DebugMode", 0) == 0 then
+			ignoreThisMessage = true
+		end
     end
 	
 	
@@ -884,7 +888,10 @@ function widget:AddConsoleLine(lines,priority)
 			local textcolor
 			lines = lines:match('^\[f=[0-9]+\] (.*)$') or lines
 			for line in lines:gmatch("[^\n]+") do
-				textcolor = processLine(line, console, Confignew.console, textcolor)[4]
+				local result = processLine(line, console, Confignew.console, textcolor)
+				if result then
+					textcolor = result[4]
+				end
 			end
 			clipHistory(console,true)
 		--end
