@@ -11,7 +11,7 @@ function widget:GetInfo()
 	}
 end
 
-local minMaxparticles = 25000
+local minMaxparticles = 30000
 
 local function reducePing()
 	--Spring.SendCommands("UseNetMessageSmoothingBuffer ".."0")
@@ -39,7 +39,7 @@ local function setEngineFont()
 	Spring.SetConfigString("SmallFontOutlineWidth", "2")
 	Spring.SetConfigString("SmallFontSize", "14")
 	Spring.SendCommands("font " .. font)
-	Spring.SendCommands("font " .. "")
+	--Spring.SendCommands("font " .. "")
 	Spring.SetConfigString("SmallFontFile", "FreeSansBold.otf")
 	Spring.SetConfigString("FontFile", "FreeSansBold.otf")
 	Spring.SetConfigString("ba_font", "FreeSansBold.otf")
@@ -52,28 +52,31 @@ function widget:Initialize()
 		reducePing()
 	end
 
-	local firstlaunchsetupDone = Spring.GetConfigString("bafirstlaunchsetupDone1", "missing")
+	local firstlaunchsetupDone = Spring.GetConfigString("bafirstlaunchsetupcomplete", "missing")
 
-	if tonumber(Spring.GetConfigInt("water", 1) or 1) == 2 then
-		Spring.SetConfigString("Water", "1")
-	end
+	--if tonumber(Spring.GetConfigInt("Water", 1) or 1) == 2 then
+	--	Spring.SetConfigString("Water", "1")
+	--end
 
+	
 	if firstlaunchsetupDone ~= "done" then
+		
+		widgetHandler:EnableWidget("Adaptive graphics")
+		widgetHandler:EnableWidget("Commands FX")
 		--Spring.SetConfigString("FeatureDrawDistance", "90000")
-		Spring.SetConfigString("immersiveborder", "1")
-		Spring.SetConfigString("bafirstlaunchsetupDone1", "done")
+		Spring.SetConfigString("immersiveborder", "0")
+		Spring.SetConfigString("bafirstlaunchsetupcomplete", "done")
 		Spring.SetConfigString("advgraphics", "1")
 		Spring.SetConfigString("MSAALevel", "0")
 		Spring.SetConfigString("UseNetMessageSmoothingBuffer", "0")
 		Spring.SetConfigString("Water", "1")
 		Spring.SetConfigString("ProfanityFilter", "1")
-		Spring.SetConfigString("immersiveborder", "1")
 		Spring.SetConfigString("chatsound", "1")
 		Spring.SetConfigString("reduceping", "1")
 		Spring.SetConfigString("GroundDecals", "1")
 		reducePing()
 		Spring.SetConfigString("LuaShaders", "1")
-		Spring.SetConfigInt("GroundDetail", 80)
+		Spring.SendCommands("grounddetail " .. 80)
 		Spring.SetConfigInt("MaxNanoParticles", 3000)
 		Spring.SetConfigInt("MaxParticles", minMaxparticles)
 		Spring.SetConfigInt("AdvMapShading", 1)
@@ -82,15 +85,13 @@ function widget:Initialize()
 		Spring.SetConfigString("MouseDragScrollThreshold", "0.3")
 		Spring.SetConfigInt("UnitIconDist", 200)
 		Spring.SendCommands("disticon " .. 200)
-		Spring.SetConfigInt("ShadowMapSize", 2048)
-		Spring.SendCommands("Shadows 2 2048")
+		Spring.SendCommands("FeatureDrawDistance 99999999")
+		Spring.SendCommands("FeatureFadeDistance 99999999")
 	end
 
-	local camState = Spring.GetCameraState()
-	camState.mode = 1
-	Spring.SetCameraState(camState, 0)
-	Spring.SetConfigString("UnitLodDist", "90000")
-	Spring.SetConfigString("FeatureFadeDistance", "90000")
+	
+	
+	--Spring.SetConfigString("UnitLodDist", "9999999")
 	Spring.SetConfigString("GuiOpacity", "0.6")
 	Spring.SetConfigString("AdvSky", "0") --always disable this
 	Spring.SetConfigString("Vsync", "0")
@@ -102,8 +103,8 @@ function widget:Initialize()
 	--	Spring.SetConfigString("setGraphicsPreset", "done")   
 	--	Spring.SetConfigString("advgraphics", 1)
 	--end
-	value = tonumber(Spring.GetConfigString("advgraphics", 1)) --set ultra graphics on first launch, otherwise to 1
-	Spring.SetConfigString("advgraphics", value) --add 1 to advgraphics value, if there was no BA version recorded
+	local value = tonumber(Spring.GetConfigInt("advgraphics", 1) or 1) --set ultra graphics on first launch, otherwise to 1
+	Spring.SetConfigInt("advgraphics", value) --add 1 to advgraphics value, if there was no BA version recorded
 	----
 	-- Spring.SendCommands("AllowDeferredMapRendering ".. true)
 	-- Spring.SendCommands("AllowDeferredModelRendering ".. true)

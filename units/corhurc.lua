@@ -5,9 +5,8 @@ return {
 	buildcostenergy = 26783,
 		buildcostmetal = 317,
 		buildpic = "CORHURC.DDS",
-		buildtime = 35003,
+		buildtime = 35367,
 		canfly = true, 
- 
 		canmove = true,
 		category = "ALL NOTLAND MOBILE WEAPON VTOL ANTIFLAME ANTIEMG ANTILASER NOTSUB NOTSHIP NOTHOVER",
 		collide = false,

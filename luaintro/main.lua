@@ -62,19 +62,24 @@ Spring.Log(LUA_NAME, "info", LUA_VERSION .. " (" .. _VERSION .. ")")
 local firstlaunchsetupDone = Spring.GetConfigString('bafirstlaunchsetupDone1', "missing")
    
 if firstlaunchsetupDone ~= "done" then
-Spring.SetConfigInt("AllowDeferredMapRendering", 1)
-Spring.SetConfigInt("AllowDeferredModelRendering", 1)
+
 
 end
-Spring.SetConfigInt("AdvMapShading", 1)
 
-local enableimmersiveborderonce = Spring.GetConfigString('enableimmersiveborderfirst', "missing") --remove later
+
+local enableimmersiveborderonce = Spring.GetConfigString('bafirstlaunchsetupcomplete', "missing") --remove later
 if enableimmersiveborderonce ~= "done" then
-   		Spring.SetConfigString("enableimmersiveborderfirst", 'done')
-		Spring.SetConfigString("immersiveborder", '1')
-		--Spring.SetConfigString("advgraphics", '1')
-		--Spring.SetConfigString("MSAALevel", '2')
+   		Spring.SetConfigString("bafirstlaunchsetupcomplete", 'done')
+		Spring.SetConfigString("immersiveborder", '0')
+			--Spring.SetConfigString("MSAALevel", '4')
+			Spring.SetConfigInt("AllowDeferredMapRendering", 1)
+			Spring.SetConfigInt("AllowDeferredModelRendering", 1)
+			Spring.SetConfigInt("AdvMapShading", 1)
+			Spring.SetConfigInt("AdvModelShading", 1)
 end
+
+Spring.SetConfigString("UnitLodDist", "99999999")
+
 Spring.SetConfigInt("HangTimeout", -1)
 --Spring.SetConfigInt("Sound", "false")
 Spring.SetConfigInt("snd_airAbsorption", 0)

@@ -1,24 +1,23 @@
-﻿14.1.6
-14/10/2021
+﻿14.1.8
+27/10/2021
 
 new smoother performance and improved graphics
 ultra graphics option (default off)
-immersive map border setting (default on)
+immersive map border setting (default off)
 anti aliasing setting (default off)
 new settings: selected unit rings, cursor can leave window, allow chat, show cursors, render wrecks (default on)
 
 bantha and krog +3% hp
-dragon's claw and dragon's maw 10% less closed damage resistance
-t2 bomber -4% buildtime
-t2 transport aircraft can load up to 4 t2 units or nanos
+dragon's claw and dragon's maw 10% less damage resistance when closed
 emp bomber -15% blast radius
-t3 lab +3.3% metal cost
-annihilator reload +1.5 seconds, doomsday -3.5% hp, tac nuke -9% hp 
-scouts are lower priority targets for heavy units
-can +3% hp, sumo +2% hp
-revert shield and jugg
+t2 transport aircraft can load up to 4 t2 units or nanos
+t2 bomber -3% buildtime
+t3 lab +2% metal cost
+annihilator reload +1.5 seconds, doomsday -3.5% hp, tac nuke -6% hp 
+can and sumo +2% hp
 rezbots don't chain
-t2 aircon buildpower +5%
+revert shield
+revert jugg hp and weapon
 
 12.1.0
 20/03/2021

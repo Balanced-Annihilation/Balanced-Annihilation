@@ -19,7 +19,7 @@ local globalBlursizeMult = 1
 local glowAmplifier = 1            -- intensity multiplier when filtering a glow source fragment [1, n]
 local blurAmplifier = 1        -- intensity multiplier when applying a blur pass [1, n] (should be set close to 1)
 local drawWorldAlpha = 0		-- darken world so bloom doesnt blown-white out the brightest areas too much
-local illumThreshold = 0            -- how bright does a fragment need to be before being considered a glow source? [0, 1]
+local illumThreshold = 1            -- how bright does a fragment need to be before being considered a glow source? [0, 1]
 
 local presets = {
 	--{
@@ -33,7 +33,7 @@ local presets = {
 	--	quality = 2,
 	--},
 	{
-		blursize = 3,
+		blursize = 2,
 		blurPasses = 1,
 		quality = 4,
 	},
@@ -347,11 +347,11 @@ function widget:Initialize()
 		return
 	end
 
-	local hasdeferredmodelrendering = (Spring.GetConfigString("AllowDeferredModelRendering")=='1')
+	local hasdeferredmodelrendering = (Spring.GetConfigInt("AllowDeferredModelRendering")==1)
 	if hasdeferredmodelrendering == false then
 		RemoveMe("[BloomShader::Initialize] removing widget, AllowDeferredModelRendering is required")
 	end
-	local hasdeferredmaprendering = (Spring.GetConfigString("AllowDeferredMapRendering")=='1')
+	local hasdeferredmaprendering = (Spring.GetConfigInt("AllowDeferredMapRendering")==1)
 	if hasdeferredmaprendering == false then
 		RemoveMe("[BloomShader::Initialize] removing widget, AllowDeferredMapRendering is required")
 	end

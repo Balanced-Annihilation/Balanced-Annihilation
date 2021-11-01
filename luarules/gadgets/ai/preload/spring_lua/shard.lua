@@ -22,8 +22,7 @@ end
 function Shard:shardify_unit( unitID )
 	if not unitID then return end
 	if not self.unitsByID[unitID] then
-		local unit = ShardSpringUnit()
-		unit:Init(unitID)
+		local unit = ShardUnit( unitID )
 		self.unitsByID[unitID] = unit
 	end
 	return self.unitsByID[unitID]
@@ -35,19 +34,21 @@ function Shard:unshardify_unit( unitID )
 end
 
 function Shard:shardify_unittype( unitDefID )
-	if not unitDefID then return end
+	if not unitDefID then
+		Spring.Echo( 'shard: error: shardify_unittype recieved "'..unitDefID..'" of type "'.. type(unitDefID).. '" ' )
+		return nil
+	end
 	if not self.unittypesByID[unitDefID] then
-		local unittype = ShardSpringUnitType()
-		unittype:Init(unitDefID)
+		local unittype = ShardUnitType(unitDefID)
 		self.unittypesByID[unitDefID] = unittype
 	end
 	return self.unittypesByID[unitDefID]
 end
 
 function Shard:shardify_damage( damage, weaponDefID, paralyzer, projectileID, engineAttacker )
-	local sharddamage = ShardSpringDamage()
+ 	local sharddamage = ShardSpringDamage()
 	sharddamage:Init(damage, weaponDefID, paralyzer, projectileID, engineAttacker)
-	return sharddamage
+ 	return sharddamage
 end
 
 function Shard:shardify_feature( featureID )

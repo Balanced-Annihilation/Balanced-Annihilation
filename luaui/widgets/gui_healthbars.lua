@@ -647,11 +647,11 @@ end
 
 function widget:Initialize()
 	--// catch f9
-	Spring.SendCommands({ "showhealthbars 0" })
-	Spring.SendCommands({ "showrezbars 0" })
+	Spring.SendCommands( "showhealthbars 0" )
+	Spring.SendCommands( "showrezbars 0" )
 	widgetHandler:AddAction("showhealthbars", showhealthbars)
-	Spring.SendCommands({ "unbind f9 showhealthbars" })
-	Spring.SendCommands({ "bind f9 luaui showhealthbars" })
+	Spring.SendCommands( "unbind f9 showhealthbars" )
+	Spring.SendCommands( "bind f9 luaui showhealthbars" )
 
 	WG['healthbars'] = {}
 	WG['healthbars'].getScale = function()
@@ -687,8 +687,8 @@ end
 function widget:Shutdown()
 	--// catch f9
 	widgetHandler:RemoveAction("showhealthbars", showhealthbars)
-	Spring.SendCommands({ "unbind f9 luaui" })
-	Spring.SendCommands({ "bind f9 showhealthbars" })
+	Spring.SendCommands( "unbind f9 luaui" )
+	Spring.SendCommands( "bind f9 showhealthbars" )
 	--Spring.SendCommands({"showhealthbars 1"}) -- don't re-enable, nobody ever uses engines built in healthbars
 	--Spring.SendCommands({"showrezbars 1"})
 

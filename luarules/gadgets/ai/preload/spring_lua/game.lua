@@ -22,8 +22,12 @@ local game = {}
 	end
 
 	function game:GetTypeByName(typename) -- returns unittype
-		if not UnitDefNames[typename] then return end
-		return Shard:shardify_unittype(UnitDefNames[typename].id)
+		if not UnitDefNames[typename] then
+			Spring.Echo( 'shard: debug: could not find "'..typename..'" in UnitDefNames' )
+			return nil
+		end
+		local def = UnitDefNames[typename]
+		return Shard:shardify_unittype(def.id)
 	end
 
 
@@ -110,6 +114,22 @@ local game = {}
 
 	function game:GetResources() -- returns a table of Resource objects, takes the name of the resource
 		return { self:GetResource(1), self:GetResource(2) }
+
+		--[[local rcount = game_engine:GetResourceCount()
+		if(rcount > 0) then
+
+			local resources = {}
+
+			for i = 0,rcount do
+				local res = game:GetResource(i)
+				if res.name ~= "" then
+					resources[res.name] = res
+				end
+			end
+			return resources
+		else
+			return nil
+		end]]--
 	end
 
 	function game:UsesControlPoints()
@@ -128,14 +148,6 @@ local game = {}
 			return Script.LuaRules.NonCapturingUnits() or {}
 		end
 		return {}
-	end
-
-	function game:StartTimer(name)
-		SendToUnsynced('ShardStartTimer', name)
-	end
-
-	function game:StopTimer(name)
-		SendToUnsynced('ShardStopTimer', name)
 	end
 
 return game

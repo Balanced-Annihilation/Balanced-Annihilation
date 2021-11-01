@@ -70,7 +70,7 @@ local function SetupCommandColors(state)
   if (f) then
     f:write('unitBox  0 1 0 ' .. alpha)
     f:close()
-    spSendCommands({'cmdcolors cmdcolors.tmp'})
+    spSendCommands('cmdcolors cmdcolors.tmp')
   end
   os.remove('cmdcolors.tmp')
 end

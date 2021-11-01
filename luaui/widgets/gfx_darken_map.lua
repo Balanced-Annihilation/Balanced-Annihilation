@@ -51,10 +51,10 @@ function widget:Initialize()
 	widgetHandler:AddAction("mapdarkness", mapDarkness, nil, "t")
 	
 	widgetHandler:AddAction("mapDarknessIncrease", mapDarknessIncrease, nil, "t")
-	Spring.SendCommands({"bind "..darknessIncrease.." mapDarknessIncrease"})
+	Spring.SendCommands("bind "..darknessIncrease.." mapDarknessIncrease")
 
 	widgetHandler:AddAction("mapDarknessDecrease", mapDarknessDecrease, nil, "t")
-	Spring.SendCommands({"bind "..darknessDecrease.." mapDarknessDecrease"})
+	Spring.SendCommands("bind "..darknessDecrease.." mapDarknessDecrease")
 end
 
 

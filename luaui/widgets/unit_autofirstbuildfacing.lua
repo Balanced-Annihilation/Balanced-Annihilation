@@ -55,7 +55,7 @@ function widget:Update()
         facing="south"
       end
     end
-    Spring.SendCommands({"buildfacing "..facing})
+    Spring.SendCommands("buildfacing "..facing)
     widget.widgetHandler.RemoveCallIn(widget.widget,"Update")
   end
 end

@@ -346,12 +346,12 @@ local function MiddleMouseButton(unitDefID, unitTable)
   -- center the view
   if (ctrl) then
     -- center the view on the entire selection
-    spSendCommands({"viewselection"})
+    spSendCommands("viewselection")
   else
     -- center the view on this type on unit
     local selUnits = spGetSelectedUnits()
     spSelectUnitArray(unitTable)
-    spSendCommands({"viewselection"})
+    spSendCommands("viewselection")
     spSelectUnitArray(selUnits)
   end
 end

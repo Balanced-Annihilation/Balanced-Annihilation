@@ -1,419 +1,244 @@
+shard_include( "attackers" )
+
+
+-- speedups
+local SpGetGameFrame = Spring.GetGameFrame
+local SpGetUnitPosition = Spring.GetUnitPosition
+local SpGetUnitSeparation = Spring.GetUnitSeparation
+local SpGetUnitVelocity = Spring.GetUnitVelocity
+local SpGetUnitMaxRange = Spring.GetUnitMaxRange
+local SpValidUnitID = Spring.ValidUnitID
+local SpGetUnitCurrentBuildPower = Spring.GetUnitCurrentBuildPower
+local SpGetUnitNearestEnemy = Spring.GetUnitNearestEnemy
+------
+
+
 function IsRaider(unit)
-	return raiderList[unit:Internal():Name()] or false
+	for i,name in ipairs(raiderlist) do
+		if name == unit:Internal():Name() then
+			return true
+		end
+	end
+	return false
 end
 
 RaiderBehaviour = class(Behaviour)
 
-function RaiderBehaviour:Name()
-	return "RaiderBehaviour"
+function RaiderBehaviour:Init()
+	--self.ai.game:SendToConsole("raider!")
+	--self.game:AddMarker({ x = startPosx, y = startPosy, z = startPosz }, "my start position")
+	CMD.MOVE_STATE = 50
+	CMD.FIRE_STATE = 45
+	aiTeamsCount = #Spring.GetTeamList()
 end
 
-local CMD_IDLEMODE = 145
-local CMD_MOVE_STATE = 50
-local MOVESTATE_HOLDPOS = 0
-local MOVESTATE_MANEUVER = 1
-local MOVESTATE_ROAM = 2
-local IDLEMODE_LAND = 1
-local IDLEMODE_FLY = 0
+local function Distance(x1,z1, x2,z2)
+	local vectx = x2 - x1
+	local vectz = z2 - z1
+	local dis = math.sqrt(vectx^2+vectz^2)
+	return dis
+end
 
-function RaiderBehaviour:Init()
-	self.DebugEnabled = false
-
-	self:EchoDebug("init")
-	local mtype, network = self.ai.maphandler:MobilityOfUnit(self.unit:Internal())
-	self.mtype = mtype
-	self.name = self.unit:Internal():Name()
-	local utable = unitTable[self.name]
-	if self.mtype == "sub" then
-		self.range = utable.submergedRange
-	else
-		self.range = utable.groundRange
+function RaiderBehaviour:Update()
+	local frame = SpGetGameFrame()
+	if not self.unitID then
+		self.unitID = self.unit:Internal().id
 	end
-	self.groundAirSubmerged = 'ground'
-	if self.mtype == 'sub' then
-		self.groundAirSubmerged = 'submerged'
-	elseif self.mtype == 'air' then
-		self.groundAirSubmerged = 'air'
+	if not self.unitIDrefreshrate then
+		self.unitIDrefreshrate = self.unitID*10000
 	end
-	self.hurtsList = UnitWeaponLayerList(self.name)
-	self.sightRange = utable.losRadius
+	if not self.active then -- do not even attempt anything if the unit is inactive...	
+		if frame%90 == self.unitID%90 then
+			local unit = self.unit:Internal()
+			if (unit:GetHealth()/unit:GetMaxHealth())*100 == 100 then
+				self.active = true
+			else
+				return
+			end
+		else
+			return
+		end
+	end
+	if not self.AggFactor then
+		self.AggFactor = self.ai.mainsquadhandler:GetAggressiveness(self)
+	end
+	local frame = SpGetGameFrame()
+	local unit = self.unit:Internal()
+	if (frame%2000 == self.unitIDrefreshrate%2000) or self.myRange == nil or self.myUnitCount == nil or raidRangeUpdateRate == nil or raidMapUpdateRate == nil then --refresh "myRange" casually because it can change with experience
+		self.myUnitCount = Spring.GetTeamUnitCount(self.ai.id)
+		self.myRange = math.min(SpGetUnitMaxRange(self.unitID),500)
+		raidRangeUpdateRate = self.myUnitCount
+		raidMapUpdateRate = raidRangeUpdateRate*3
+	end
+	if (frame%raidMapUpdateRate == self.unitIDrefreshrate%raidMapUpdateRate) then -- a unit on map stays 'visible' for max 3s, this also reduces lag
+		local nearestVisibleAcrossMap = SpGetUnitNearestEnemy(self.unitID, self.AggFactor*self.myRange)
+		if nearestVisibleAcrossMap and (GG.AiHelpers.VisibilityCheck.IsUnitVisible(nearestVisibleAcrossMap, self.ai.id)) then
+			self.nearestVisibleAcrossMap = nearestVisibleAcrossMap
+			if not self.behaviourcontroled then
+				self.ai.mainsquadhandler:RemoveFromSquad(self)
+			end
+		else
+			self.nearestVisibleAcrossMap = nil
+			if self.behaviourcontroled then
+				self.ai.mainsquadhandler:AssignToASquad(self)
+				return
+			end
+		end
+	end
+	if (frame%raidRangeUpdateRate == self.unitIDrefreshrate%raidRangeUpdateRate) then -- a unit in range stays 'visible' for max 1.5s, this also reduces lag
+		local nearestVisibleInRange = SpGetUnitNearestEnemy(self.unitID, 1.75*self.myRange)
+		local closestVisible = nearestVisibleInRange and GG.AiHelpers.VisibilityCheck.IsUnitVisible(nearestVisibleInRange, self.ai.id)
+		if nearestVisibleInRange and closestVisible then
+			self.nearestVisibleInRange = nearestVisibleInRange
+			self.enemyRange = SpGetUnitMaxRange(nearestVisibleInRange)
+			if not self.behaviourcontroled then
+				self.ai.mainsquadhandler:RemoveFromSquad(self)
+			end
+		else
+			self.nearestVisibleInRange = nil
+			if self.behaviourcontroled then
+				self.ai.mainsquadhandler:AssignToASquad(self)
+				return
+			end
+		end
+	end
+	if not (self.nearestVisibleAcrossMap or self.nearestVisibleInRange) then
+		if self.behaviourcontroled then
+			self.ai.mainsquadhandler:AssignToASquad(self)
+			return
+		end
+	end
+	if self.unitIDrefreshrate%raidRangeUpdateRate == frame%raidRangeUpdateRate then
+		self:AttackCell(self.nearestVisibleAcrossMap, self.nearestVisibleInRange, self.enemyRange, self.alliedNear)
+	end
+end
 
-	-- for pathfinding
-	self.graph = self.ai.maphandler:GetPathGraph(self.mtype)
-	self.validFunc = self.ai.raidhandler:GetPathValidFunc(self.name)
-	self.modifierFunc = self.ai.targethandler:GetPathModifierFunc(self.name)
-	local nodeSize = self.graph.positionUnitsPerNodeUnits
-	self.nearDistance = nodeSize * 0.1 -- move this far away from path nodes
-	self.nearAttackDistance = nodeSize * 0.3 -- move this far away from targets before arriving
-	self.attackDistance = nodeSize * 0.6 -- move this far away from targets once arrived
-	self.pathingDistance = nodeSize * 0.67 -- how far away from a node means you've arrived there
-	self.minPathfinderDistance = nodeSize * 3 -- closer than this and i don't pathfind
-	self.id = self.unit:Internal():ID()
-	self.disarmer = raiderDisarms[self.name]
-	self.ai.raiderCount[mtype] = (self.ai.raiderCount[mtype] or 0) + 1
-	self.lastGetTargetFrame = 0
-	self.lastMovementFrame = 0
-	self.lastPathCheckFrame = 0
+function RaiderBehaviour:OwnerBuilt()
+	self.unit:Internal():ExecuteCustomCommand(CMD.MOVE_STATE, { 2 }, {})
+	self.unit:Internal():ExecuteCustomCommand(CMD.FIRE_STATE, { 2 }, {})
+	self.attacking = true
+	self.active = true
+	self.unitID = self.unit:Internal().id
+	self.AggFactor = self.ai.mainsquadhandler:GetAggressiveness(self)
+	self.ai.mainsquadhandler:AssignToASquad(self)
 end
 
 function RaiderBehaviour:OwnerDead()
-	-- game:SendToConsole("raider " .. self.name .. " died")
-	if self.DebugEnabled then
-		self.map:EraseLine(nil, nil, nil, self.unit:Internal():ID(), nil, 8)
+	if not self.behaviourcontroled then
+		self.ai.mainsquadhandler:RemoveFromSquad(self)
 	end
-	if self.target then
-		self.ai.targethandler:AddBadPosition(self.target, self.mtype)
-	end
-	self.ai.raidhandler:NeedLess(self.mtype)
-	self.ai.raiderCount[self.mtype] = self.ai.raiderCount[self.mtype] - 1
 end
 
 function RaiderBehaviour:OwnerIdle()
-	-- does recursion, which is bad
-	-- if self.active then
-	-- 	self:ResumeCourse()
-	-- end
+	self.attacking = true
+	self.active = true
 end
 
-function RaiderBehaviour:Priority()
-	if self.path then
-		return 100
+function RaiderBehaviour:AttackCell(nearestVisibleAcrossMap, nearestVisibleInRange, enemyRange, alliedNear)
+	local p
+	local unit = self.unit:Internal()
+	local unitID = unit.id
+	local currenthealth = unit:GetHealth()
+	local maxhealth = unit:GetMaxHealth()
+	-- Retreating first so we have less data process/only what matters
+	if not (currenthealth >= maxhealth*0.75 or currenthealth > 3000) then
+	local nanotcx, nanotcy, nanotcz = GG.AiHelpers.NanoTC.GetClosestNanoTC(self.unitID)
+		if nanotcx and nanotcy and nanotcz then
+			p = api.Position()
+			p.x, p.y, p.z = nanotcx, nanotcy, nanotcz
+		else
+			p = self.ai.triggerhandler.commpos
+		end
+		self.target = p
+		self.attacking = false
+		if self.active then
+			self.active = false -- until it is idle (= getting repaired)
+			self.unit:Internal():Move(self.target)
+		end
+		return
+	end
+	
+	local utype = self.game:GetTypeByName(unit:Name())
+	
+	-- nil/invalid checks
+	if nearestVisibleInRange and (not SpValidUnitID(nearestVisibleInRange)) then 
+		nearestVisibleInRange = nil 
+		self.nearestVisibleInRange = nil
+	end
+	if nearestVisibleAcrossMap and (not SpValidUnitID(nearestVisibleAcrossMap)) then 
+		nearestVisibleAcrossMap = nil 
+		self.nearestVisibleAcrossMap = nil 
+	end
+	if not (nearestVisibleAcrossMap or nearestVisibleInRange) then
+		return
+	end
+	
+	if nearestVisibleInRange then -- process cases where there isn't any visible nearestVisibleInRange first
+		local ex,ey,ez = SpGetUnitPosition(nearestVisibleInRange)
+		local ux,uy,uz = SpGetUnitPosition(self.unitID)
+		local pointDis = SpGetUnitSeparation(self.unitID,nearestVisibleInRange)
+		local dis = 120
+		local f = dis/pointDis
+		local wantedRange
+		wantedRange = (math.random(25,75)/100)*self.myRange
+		-- offset upos randomly so it moves a bit while keeping distance
+		local dx, _, dz, dw = SpGetUnitVelocity(self.unitID) -- attempt to not always queue awful turns
+		local modifier = "ctrl"
+		ux = ux + 10*dx + math.random (-80,80)
+		uy = uy
+		uz = uz + 10*dz + math.random (-80,80)
+		if wantedRange <= pointDis then
+			modifier = nil -- Do not try to move backwards if attempting to get closer to target
+		end
+		-- here we find the goal position
+		if (pointDis+dis > wantedRange) then
+			f = (wantedRange-pointDis)/pointDis
+		end
+		local cx = ux+(ux-ex)*f
+		local cy = uy
+		local cz = uz+(uz-ez)*f
+		self.unit:Internal():ExecuteCustomCommand(CMD.MOVE, {cx, cy, cz}, {modifier})
+		return
+	end
+	
+	-- We have processed units that had to retreat and units that had visible enemies within 2* their range
+	-- what are left are units with no visible enemies within 2*maxRange (no radar/los/prevLOS buildings)
+	local enemyposx, enemyposy, enemyposz
+	if nearestVisibleAcrossMap then
+		enemyposx, enemyposy, enemyposz = SpGetUnitPosition(nearestVisibleAcrossMap) -- visible on map
 	else
+		return
+	end
+	p = api.Position()
+	p.x = enemyposx + math.random(-math.sqrt(2)/2*self.myRange*0.90, math.sqrt(2)/2*self.myRange*0.90)
+	p.z = enemyposz + math.random(-math.sqrt(2)/2*self.myRange*0.90, math.sqrt(2)/2*self.myRange*0.90)
+	p.y = enemyposy
+	self.target = p
+	self.attacking = true
+	unit:Move(self.target)
+end
+
+
+function RaiderBehaviour:Priority()
+	if not self.attacking then
 		return 0
+	else
+		return 100
 	end
 end
 
 function RaiderBehaviour:Activate()
-	self:EchoDebug("activate")
 	self.active = true
-	self:SetMoveState()
-end
-
-function RaiderBehaviour:Deactivate()
-	self:EchoDebug("deactivate")
-	self.active = false
-	if self.DebugEnabled then
-		self.map:EraseLine(nil, nil, nil, self.unit:Internal():ID(), nil, 8)
-	end
-end
-
-function RaiderBehaviour:Update()
-	local f = game:Frame()
-	if self.active then
-		if self.path and f > self.lastPathCheckFrame + 90 then
-			self.lastPathCheckFrame = f
-			self:CheckPath()
-		end
-		if self.moveNextUpdate then
-			self.unit:Internal():Move(self.moveNextUpdate)
-			self.moveNextUpdate = nil
-		elseif f > self.lastMovementFrame + 30 then
-			self.ai.targethandler:RaiderHere(self)
-			self.lastMovementFrame = f
-			-- attack nearby targets immediately
-			local attackThisUnit = self:GetImmediateTargetUnit()
-			if self.arrived and not attackThisUnit then
-				self:GetTarget()
-			end
-			if attackThisUnit then
-				self.offPath = true
-				CustomCommand(self.unit:Internal(), CMD_ATTACK, {attackThisUnit:ID()})
-			elseif self.offPath then
-				self.offPath = false
-				self:ResumeCourse()
-			else
-				self:ArrivalCheck()
-				if not self.arrived then
-					self:UpdatePathProgress()
-				end
-			end
-		end
+	if self.target then
+		self.unit:Internal():MoveAndFire(self.target)
+		self.target = nil
 	else
-		if f > self.lastGetTargetFrame + 90 then
-			self.lastGetTargetFrame = f
-			self:GetTarget()
-		elseif not self.path and self.pathfinder then
-			self:FindPath()
-		end
 	end
 end
 
-function RaiderBehaviour:GetImmediateTargetUnit()
-	if self.arrived and self.unitTarget then
-		local utpos = self.unitTarget:GetPosition()
-		if utpos and utpos.x then
-			return self.unitTarget
-		end
-	end
-	local unit = self.unit:Internal()
-	local position
-	if self.arrived then position = self.target end
-	local safeCell = self.ai.targethandler:RaidableCell(unit, position)
-	if safeCell then
-		if self.disarmer then
-			if safeCell.disarmTarget then
-				return safeCell.disarmTarget.unit
-			end
-		end
-		local mobTargets = safeCell.targets[self.groundAirSubmerged]
-		if mobTargets then
-			for i = 1, #self.hurtsList do
-				local groundAirSubmerged = self.hurtsList[i]
-				if mobTargets[groundAirSubmerged] then
-					return mobTargets[groundAirSubmerged].unit
-				end
-			end
-		end
-		local vulnerable = self.ai.targethandler:NearbyVulnerable(unit)
-		if vulnerable then
-			return vulnerable.unit
-		end
-	end
-end
 
-function RaiderBehaviour:RaidCell(cell)
-	self:EchoDebug(self.name .. " raiding cell...")
-	if self.unit == nil then
-		self:EchoDebug("no raider unit to raid cell with!")
-		-- self.ai.raidhandler:RemoveRecruit(self)
-	elseif self.unit:Internal() == nil then 
-		self:EchoDebug("no raider unit internal to raid cell with!")
-		-- self.ai.raidhandler:RemoveRecruit(self)
-	else
-		if self.buildingIDs ~= nil then
-			self.ai.raidhandler:IDsWeAreNotRaiding(self.buildingIDs)
-		end
-		self.ai.raidhandler:IDsWeAreRaiding(cell.buildingIDs, self.mtype)
-		self.buildingIDs = cell.buildingIDs
-		self.target = cell.pos
-		self:BeginPath(self.target)
-		if self.mtype == "air" then
-			if self.disarmer and cell.disarmTarget then
-				self.unitTarget = cell.disarmTarget.unit
-			elseif cell.targets.air.ground then
-				self.unitTarget = cell.targets.air.ground.unit
-			end
-			if self.unitTarget then
-				self:EchoDebug("air raid target: " .. self.unitTarget:Name())
-			end
-		end
-		self.unit:ElectBehaviour()
-	end
-end
-
-function RaiderBehaviour:MoveNear(position, distance)
-	distance = distance or self.nearDistance
-	self.unit:Internal():Move(RandomAway(position, distance))
-end
-
-function RaiderBehaviour:GetTarget()
-	self.target = nil
-	self.unitTarget = nil
-	self.pathfinder = nil
-	self.path = nil
-	self.pathStep = nil
-	self.targetNode = nil
-	self.clearShot = nil
-	self.offPath = nil
-	self.arrived = nil
-	if self.DebugEnabled then
-		self.map:EraseLine(nil, nil, nil, self.unit:Internal():ID(), nil, 8)
-	end
-	local unit = self.unit:Internal()
-	local bestCell = self.ai.targethandler:GetBestRaidCell(unit)
-	self.ai.targethandler:RaiderHere(self)
-	if bestCell then
-		self:EchoDebug("got target")
-		self:RaidCell(bestCell)
-	else
-		self.unit:ElectBehaviour()
-	end
-end
-
-function RaiderBehaviour:ArrivalCheck()
-	if not self.target then return end
-	if Distance(self.unit:Internal():GetPosition(), self.target) < self.pathingDistance then
-		self:EchoDebug("arrived at target")
-		self:AttackTarget(self.attackDistance)
-		self.arrived = true
-	end
-end
-
--- set all raiders to roam
-function RaiderBehaviour:SetMoveState()
-	local thisUnit = self.unit
-	if thisUnit then
-		local floats = api.vectorFloat()
-		floats:push_back(MOVESTATE_ROAM)
-		thisUnit:Internal():ExecuteCustomCommand(CMD_MOVE_STATE, floats)
-		if self.mtype == "air" then
-			local floats = api.vectorFloat()
-			floats:push_back(IDLEMODE_FLY)
-			thisUnit:Internal():ExecuteCustomCommand(CMD_IDLEMODE, floats)
-		end
-	end
-end
-
-function RaiderBehaviour:BeginPath(position)
-	if Distance(position, self.unit:Internal():GetPosition()) < self.minPathfinderDistance then
-		self:EchoDebug("target is too close to unit to bother pathfinding, going straight to target")
-		self.path = true
-		self.clearShot = true
-		return
-	end
-	self:EchoDebug("getting new path")
-	local upos = self.unit:Internal():GetPosition()
-	self.graph = self.graph or self.ai.maphandler:GetPathGraph(self.mtype)
-	self.pathfinder = self.graph:PathfinderPosPos(upos, position, nil, self.validFunc, nil, self.modifierFunc)
-	self:FindPath() -- try once
-end
-
-function RaiderBehaviour:FindPath()
-	if not self.pathfinder then return end
-	local path, remaining, maxInvalid = self.pathfinder:Find(2)
-	-- self:EchoDebug(tostring(remaining) .. " remaining to find path")
-	if path then
-		self:EchoDebug("got path of", #path, "nodes", maxInvalid, "maximum invalid neighbors")
-		if maxInvalid == 0 then
-			self:EchoDebug("path is entirely clear of danger, not using")
-			self.path = path
-			self.pathStep = 1
-			self.clearShot = true
-		else
-			self:ReceivePath(path)
-		end
-		self.pathfinder = nil
-		self.unit:ElectBehaviour()
-	elseif remaining == 0 then
-		self:EchoDebug("no path found")
-		self.pathfinder = nil
-	end
-end
-
-function RaiderBehaviour:ReceivePath(path)
-	if not path then return end
-	-- if self.DebugEnabled then
-	-- 	self.map:EraseLine(nil, nil, {0,0,1}, self.unit:Internal():ID(), nil, 8)
-	-- 	for i = 2, #path do
-	-- 		local pos1 = path[i-1].position
-	-- 		local pos2 = path[i].position
-	-- 		local arrow = i == #path
-	-- 		self.map:DrawLine(pos1, pos2, {0,0,1}, self.unit:Internal():ID(), arrow, 8)
-	-- 	end
-	-- end
-	-- path = SimplifyPathByAngle(path)
-	self.path = path
-	if not self.path[2] then
-		self.pathStep = 1
-	else
-		self.pathStep = 2
-	end
-	self.targetNode = self.path[self.pathStep]
-	self:ResumeCourse()
-	if self.DebugEnabled then
-		self.map:EraseLine(nil, nil, {0,1,1}, self.unit:Internal():ID(), nil, 8)
-		for i = 2, #self.path do
-			local pos1 = self.path[i-1].position
-			local pos2 = self.path[i].position
-			local arrow = i == #self.path
-			self.map:DrawLine(pos1, pos2, {0,1,1}, self.unit:Internal():ID(), arrow, 8)
-		end
-	end
-end
-
-function RaiderBehaviour:UpdatePathProgress()
-	if self.targetNode and not self.clearShot then
-		-- have a path and it's not clear
-		local myPos = self.unit:Internal():GetPosition()
-		local x = myPos.x
-		local z = myPos.z
-		local r = self.pathingDistance
-		local nx, nz = self.targetNode.position.x, self.targetNode.position.z
-		if nx < x + r and nx > x - r and nz < z + r and nz > z - r and self.pathStep < #self.path then
-			-- we're at the targetNode and it's not the last node
-			self.pathStep = self.pathStep + 1
-			self:EchoDebug("advancing to next step of path " .. self.pathStep)
-			self.targetNode = self.path[self.pathStep]
-			if self.pathStep == #self.path then
-				self:AttackTarget()
-			else
-				self:MoveToNode(self.targetNode)
-			end
-		end
-	elseif self.target then
-		self:AttackTarget()
-	end
-end
-
-function RaiderBehaviour:ResumeCourse()
-	if not self.path then return end
-	self:EchoDebug("resuming course on path")
-	if self.clearShot then
-		self:AttackTarget()
-		return
-	end
-	local upos = self.unit:Internal():GetPosition()
-	local lowestDist
-	local nearestNode
-	local nearestStep
-	for i = 1, #self.path do
-		local node = self.path[i]
-		local dx = upos.x - node.position.x
-		local dz = upos.z - node.position.z
-		local distSq = dx*dx + dz*dz
-		if not lowestDist or distSq < lowestDist then
-			lowestDist = distSq
-			nearestNode = node
-			nearestStep = i
-		end
-	end
-	if nearestNode then
-		self.targetNode = nearestNode
-		self.pathStep = nearestStep
-		if self.pathStep == #self.path then
-			self:AttackTarget()
-		else
-			self:MoveToNode(self.targetNode)
-		end
-	end
-end
-
-function RaiderBehaviour:AttackTarget(distance)
-	distance = distance or self.nearAttackDistance
-	if self.unitTarget ~= nil then
-		local utpos = self.unitTarget:GetPosition()
-		if utpos and utpos.x then
-			CustomCommand(self.unit:Internal(), CMD_ATTACK, {self.unitTarget:ID()})
-			return
-		end
-	end
-	self:MoveNear(self.target, distance)
-end
-
-function RaiderBehaviour:MoveToNode(node)
-	self:EchoDebug("moving to node")
-	self:MoveNear(node.position)
-end
-
-function RaiderBehaviour:CheckPath()
-	if not self.path then return end
-	if type(self.path) == 'boolean' then return end
-	for i = self.pathStep, #self.path do
-		local node = self.path[i]
-		if not self.ai.targethandler:IsSafePosition(node.position, self.name, 1) then
-			self:EchoDebug("unsafe path, get a new one")
-			self:GetTarget()
-			self:MoveToSafety()
-			return
-		end
-	end
-end
-
-function RaiderBehaviour:MoveToSafety()
-	local upos = self.unit:Internal():GetPosition()
-	self.graph = self.graph or self.ai.maphandler:GetPathGraph(self.mtype)
-	local node = self.graph:NearestNodePosition(upos, self.validFunc)
-	if node then
-		self:MoveNear(node.position)
-	end
+function RaiderBehaviour:OwnerDied()
+	self.attacking = nil
+	self.active = nil
+	self.unit = nil
 end

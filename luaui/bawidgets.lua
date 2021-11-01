@@ -50,14 +50,14 @@ local glPushAttrib = gl.PushAttrib
 
 -- install bindings for TweakMode and the Widget Selector
 
-Spring.SendCommands({
+Spring.SendCommands(
   "unbindkeyset  Any+f11",
   "unbindkeyset Ctrl+f11",
   "bind    f11  luaui selector",
   "bind  C+f11  luaui tweakgui",
   "echo LuaUI: bound F11 to the widget selector",
   "echo LuaUI: bound CTRL+F11 to tweak mode"
-})
+)
 
 
 --------------------------------------------------------------------------------

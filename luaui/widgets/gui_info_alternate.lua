@@ -1316,11 +1316,11 @@ local function MiddleMouseButton(unitDefID, unitTable)
 	-- center the view
 	if ctrl then
 		-- center the view on the entire selection
-		Spring.SendCommands({ "viewselection" })
+		Spring.SendCommands( "viewselection" )
 	else
 		-- center the view on this type on unit
 		spSelectUnitArray(unitTable)
-		Spring.SendCommands({ "viewselection" })
+		Spring.SendCommands( "viewselection" )
 		spSelectUnitArray(selectedUnits)
 	end
 end

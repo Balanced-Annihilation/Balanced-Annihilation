@@ -775,7 +775,7 @@ function widget:MouseRelease(x, y, button)
 	elseif (button == 2) then
 		-- middle mouse
 		SelectUnitArray({ unitID })
-		SendCommands({ "viewselection" })
+		SendCommands( "viewselection" )
 	
 	end
 

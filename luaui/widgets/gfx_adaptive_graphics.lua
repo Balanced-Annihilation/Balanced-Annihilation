@@ -14,63 +14,97 @@ end
 
 local spGetFPS				= Spring.GetFPS
 local isSpec = Spring.GetSpectatingState()
-local prevnumparticles = Spring.GetConfigInt("MaxParticles",25000)
+local prevnumparticles = Spring.GetConfigInt("MaxParticles",30000)
 local graphicslevel = 2
 local previmmersiveborderpreset=tonumber(Spring.GetConfigInt("immersiveborder",1))
 local minimumenabled = 0
 
+local function RestartLightFXWidgets()
+   widgetHandler:DisableWidget("Deferred rendering")
+   widgetHandler:DisableWidget("Light Effects")
+   widgetHandler:DisableWidget("Lups")
+   widgetHandler:DisableWidget("LupsManager")
+   widgetHandler:DisableWidget("Projectile lights")
+   widgetHandler:EnableWidget("Deferred rendering")
+   widgetHandler:EnableWidget("Light Effects")
+   widgetHandler:EnableWidget("Projectile lights")
+   widgetHandler:EnableWidget("Lups")
+   widgetHandler:EnableWidget("LupsManager")
+end
+
+
 function widget:Shutdown()
-			value = tonumber(Spring.GetConfigString("advgraphics", 1))
+			value = tonumber(Spring.GetConfigInt("advgraphics", 1))
 			if value == 0 then
-				 Spring.SendCommands("shadows 0 1024")
-				 widgetHandler: DisableWidget("Deferred rendering")
-				 widgetHandler: DisableWidget("Projectile lights")
-				 widgetHandler: DisableWidget("Light Effects")
-				 widgetHandler: DisableWidget("Contrast Adaptive Sharpen")
-				 widgetHandler: DisableWidget("LupsManager")
+				 
+				
+				 
+				 
+				  widgetHandler:DisableWidget("Deferred rendering")
+				   widgetHandler:DisableWidget("Light Effects")
+				   widgetHandler:DisableWidget("Lups")
+				   widgetHandler:DisableWidget("LupsManager")
+				   --widgetHandler:EnableWidget("Lups")
+					--widgetHandler:EnableWidget("LupsManager")
+				   widgetHandler:DisableWidget("Projectile lights")
+				 					widgetHandler: DisableWidget("SSAO_alternative")
+
+					widgetHandler: DisableWidget("Contrast Adaptive Sharpen")
+
+				 Spring.SendCommands("shadows 0")
 				 Spring.SendCommands("AdvMapShading "..0)
 				 Spring.SetConfigInt("AdvMapShading", 0)
 				 Spring.SendCommands("AdvModelShading "..0)
 				 Spring.SetConfigInt("AdvModelShading", 0)
 				 widgetHandler: DisableWidget("Bloom Shader Alternate Deferred")
 				  widgetHandler: DisableWidget("Bloom Shader Alternate")
-				 Spring.SetConfigInt("ssao", "0")
-				-- widgetHandler: DisableWidget("SSAO_alternative")
+				 Spring.SetConfigInt("ssao", 0)
 			 elseif value == 1 then
-				 widgetHandler: EnableWidget("Deferred rendering")
-				 Spring.SendCommands("AdvMapShading "..1)
+				RestartLightFXWidgets()
+				
+				Spring.SendCommands("Shadows 1 4096")
+
+				Spring.SendCommands("AdvMapShading "..1)
 				 Spring.SetConfigInt("AdvMapShading", 1)
 				 Spring.SendCommands("AdvModelShading "..1)
 				 Spring.SetConfigInt("AdvModelShading", 1)
-				 Spring.SendCommands("shadows 1 6144")
-				 widgetHandler: EnableWidget("Projectile lights")
-				 widgetHandler: EnableWidget("Light Effects")
-				 widgetHandler: EnableWidget("Contrast Adaptive Sharpen")
-				 widgetHandler: EnableWidget("LupsManager")
+				 
+				 				--widgetHandler: DisableWidget("SSAO_alternative")
+
 				 widgetHandler: DisableWidget("Bloom Shader Alternate Deferred")
 				  widgetHandler: DisableWidget("Bloom Shader Alternate")
-				 Spring.SetConfigInt("ssao", "0")
-				-- widgetHandler: DisableWidget("SSAO_alternative")
+				  widgetHandler: EnableWidget("Contrast Adaptive Sharpen")
+
+				 Spring.SetConfigInt("ssao",0)
 			 elseif value == 2 then
-				 widgetHandler: EnableWidget("Deferred rendering")
+				RestartLightFXWidgets()
+			
+				Spring.SendCommands("Shadows 1 4096")
 				 Spring.SendCommands("AdvMapShading "..1)
 				 Spring.SetConfigInt("AdvMapShading", 1)
 				 Spring.SendCommands("AdvModelShading "..1)
 				 Spring.SetConfigInt("AdvModelShading", 1)
-				 Spring.SendCommands("shadows 1 6144")
-				 widgetHandler: EnableWidget("Projectile lights")
-				 widgetHandler: EnableWidget("Light Effects")
-				 widgetHandler: EnableWidget("Contrast Adaptive Sharpen")
-				 widgetHandler: EnableWidget("LupsManager")
+				 
+				 
 				 widgetHandler: EnableWidget("Bloom Shader Alternate Deferred")
 				  widgetHandler: EnableWidget("Bloom Shader Alternate")
-				 Spring.SetConfigInt("ssao", "1")
+				  widgetHandler: EnableWidget("Contrast Adaptive Sharpen")
+				 --Spring.SetConfigInt("ssao", 1)
 				-- widgetHandler: EnableWidget("SSAO_alternative")
 			 end
 			 if(minimumenabled == 1) then
 				Spring.SetConfigInt("MaxParticles",prevnumparticles) --reset max particles
 				Spring.SetConfigInt("immersiveborder",previmmersiveborderpreset) 
 			end
+			
+			--value = tonumber(Spring.GetConfigString("ssao", 0))
+			 --if value == 0 then
+			--	widgetHandler:DisableWidget("SSAO_alternative")
+			--	Spring.SetConfigInt("ssao", 0)
+			--else
+			--	widgetHandler: EnableWidget("SSAO_alternative")
+			--	Spring.SetConfigInt("ssao", 1)
+			--end
 
 end
 
@@ -78,21 +112,21 @@ function widget:GameFrame(gameFrame)
 		if (not isSpec) and (graphicslevel > -1) then
 		if gameFrame > 1000 and gameFrame%500==0 then 
 				fps = spGetFPS()	
-				if graphicslevel == 2 and spGetFPS() < 25 then
+				if graphicslevel == 2 and spGetFPS() < 20 then
 					widgetHandler: DisableWidget("Bloom Shader Alternate Deferred")
 					widgetHandler: DisableWidget("Bloom Shader Alternate")
-					--widgetHandler: DisableWidget("SSAO_alternative")
+					widgetHandler: DisableWidget("SSAO_alternative")
 					graphicslevel = graphicslevel-1
-				elseif spGetFPS() < 20 then
+				elseif spGetFPS() < 15 then
 					if graphicslevel == 1 then
 						widgetHandler: DisableWidget("Bloom Shader Alternate Deferred")
 						widgetHandler: DisableWidget("Bloom Shader Alternate")
-						--widgetHandler: DisableWidget("SSAO_alternative")
-						Spring.SendCommands({"shadows 0"})
+						widgetHandler: DisableWidget("SSAO_alternative")
+						Spring.SendCommands("shadows 0")
 						widgetHandler:DisableWidget("Projectile lights")
 						widgetHandler:DisableWidget("Deferred rendering")
 						widgetHandler:DisableWidget("Light Effects")
-						--widgetHandler:DisableWidget("Contrast Adaptive Sharpen")
+						widgetHandler:DisableWidget("Contrast Adaptive Sharpen")
 						Spring.Echo("High perfomance mode on until next game")
 						graphicslevel = graphicslevel-1
 
@@ -102,12 +136,19 @@ function widget:GameFrame(gameFrame)
 						widgetHandler:DisableWidget("Map Edge Extension Colourful")
 						--widgetHandler:DisableWidget("Volumetric Clouds")
 					
+					
+						Spring.SendCommands("shadows 0")
+						widgetHandler:DisableWidget("Projectile lights")
+						widgetHandler:DisableWidget("Deferred rendering")
+						widgetHandler:DisableWidget("Light Effects")
+						widgetHandler:DisableWidget("Contrast Adaptive Sharpen")
 						Spring.SendCommands("AdvMapShading "..0)
 						Spring.SendCommands("AdvModelShading "..0)
+						   widgetHandler:DisableWidget("Lups")
 						widgetHandler:DisableWidget("LupsManager")
 						Spring.Echo("Max perfomance mode on until next game")
 						graphicslevel = graphicslevel-1
-						prevnumparticles = Spring.GetConfigInt("MaxParticles",25000)
+						prevnumparticles = Spring.GetConfigInt("MaxParticles",30000)
 						if prevnumparticles > 10000 then
 							Spring.SetConfigInt("MaxParticles",10000)
 						end

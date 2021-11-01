@@ -374,13 +374,13 @@ local function clipLine(line,fontsize,maxwidth)
 end
 
 local function clipHistory(g,oneline)
-	local history = g.vars.consolehistory or {}
+	local history = g.vars.consolehistory
 	local maxsize = g.background.sx - (g.lines.px-g.background.px)
 	
 	local fontsize = g.lines.fontsize
 	
 	if (oneline and #history > 0) then
-		local line = history[#history]
+		local line = history[#history] or {}
 		local lines,firstclip = clipLine(line[1],fontsize,maxsize)	
 		line[1] = ssub(line[1],1,firstclip)
 		for i=1,#lines do
@@ -423,6 +423,8 @@ local function convertColorSpec(r,g,b)
 	return schar(255, (r*255), (g*255), (b*255))
 end
 
+
+local pauseelapsed = false
 local function processLine(line,g,cfg,newlinecolor)
 	if (g.vars.browsinghistory) then
 		if (g.vars.historyoffset == nil) then
@@ -482,12 +484,8 @@ local function processLine(line,g,cfg,newlinecolor)
             if ssub(line,1,3) == "> <" then --player speaking in battleroom
                 local i = sfind(ssub(line,4,slen(line)), ">")
                 name = ssub(line,4,i+2)
-			end
-		elseif (ssub(line, 1, 10) == "[ShowUser]") then
-			line = ssub(line, 11, slen(line))
-		elseif Spring.GetConfigInt("DebugMode", 0) == 0 then
-			ignoreThisMessage = true
-		end
+            end
+		end		
     end
 	
 	
@@ -519,6 +517,10 @@ local function processLine(line,g,cfg,newlinecolor)
 	--		ignoreThisMessage = true
 	--	end
 	--end
+	
+	
+	
+
 	
 	-- filter Connection attempts
 	if sfind(line,"^Connection a") then --	if sfind(line,"^Connection attempt from ") then
@@ -705,9 +707,15 @@ local function processLine(line,g,cfg,newlinecolor)
 		
 		line = textcolor.."> "..text
 	else --every other message
+	
+		if (pauseelapsed or (Spring.GetGameSeconds() >0) or (spDiffTimers(spGetTimer(),inittime) > 13)) then
+		pauseelapsed = true
+		else
+		ignoreThisMessage = true
+		end
+		
 		local c = cfg.cmisctext
 		textcolor = convertColorSpec(c[1],c[2],c[3])
-		
 		line = textcolor..line
 	end
 	

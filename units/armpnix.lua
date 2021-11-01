@@ -5,9 +5,8 @@ return {
 		buildcostenergy = 16082,
 		buildcostmetal = 231,
 		buildpic = "ARMPNIX.DDS",
-		buildtime = 21181,
+		buildtime = 21402,
 		canfly = true, 
- 
 		canmove = true,
 		category = "ALL NOTLAND MOBILE WEAPON NOTSUB ANTIFLAME ANTIEMG ANTILASER VTOL NOTSHIP NOTHOVER",
 		collide = false,

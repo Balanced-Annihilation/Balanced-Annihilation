@@ -529,21 +529,33 @@ function applyOptionValue(i)
             widgetHandler:DisableWidget("Deferred rendering")
             widgetHandler:DisableWidget("Light Effects")
          end
+		 
+
+		 
+		--elseif id == "ssao" then
+        --  if value == 0 then
+		--		widgetHandler:DisableWidget("SSAO_alternative")
+		--		Spring.SetConfigInt("ssao", 0)
+		--	else
+		--		widgetHandler: EnableWidget("SSAO_alternative")
+		--		Spring.SetConfigInt("ssao", 1)
+			--end
+		 
       elseif id == "alwaysrenderwrecksandtrees" then
          if value == 0 then
             Spring.SetConfigInt("alwaysrenderwrecksandtrees", 0)
 
-            Spring.SendCommands({"FeatureDrawDistance 5000"})
+            Spring.SendCommands("FeatureDrawDistance 5000")
 
-            Spring.SendCommands({"FeatureFadeDistance 90000"})
-            --Spring.SetConfigInt("FeatureDrawDistance",5000)
+            Spring.SendCommands("FeatureFadeDistance 99999999")
+           
          else
             Spring.SetConfigInt("alwaysrenderwrecksandtrees", 1)
 
-            Spring.SendCommands({"FeatureDrawDistance 90000"})
+            Spring.SendCommands("FeatureDrawDistance 99999999")
 
-            Spring.SendCommands({"FeatureFadeDistance 90000"})
-            -- Spring.SetConfigInt("FeatureDrawDistance",90000)
+            Spring.SendCommands("FeatureFadeDistance 99999999")
+           
          end
       elseif id == "immersiveborder" then
          if value == 0 then
@@ -607,12 +619,12 @@ function applyOptionValue(i)
             widgetHandler:DisableWidget("Red Console")
 
             --clear maps
-            Spring.SendCommands({"mapmarks 0"})
+            Spring.SendCommands("mapmarks 0")
 
             Spring.SendCommands("console 0")
          elseif value == 1 then
             --clear maps
-            Spring.SendCommands({"mapmarks 1"})
+            Spring.SendCommands("mapmarks 1")
 
             Spring.SetConfigInt("showchat", 1)
             widgetHandler:EnableWidget("Red Console")
@@ -627,7 +639,7 @@ function applyOptionValue(i)
          end
       elseif id == "reduceping" then
          if value == 1 then
-            Spring.SetConfigInt("reduceping ", "1")
+            Spring.SetConfigInt("reduceping ", 1)
             Spring.SendCommands("UseNetMessageSmoothingBuffer " .. "0")
             Spring.SendCommands("NetworkLossFactor " .. "2")
             Spring.SendCommands("LinkOutgoingBandwidth " .. "262144")
@@ -641,7 +653,7 @@ function applyOptionValue(i)
             Spring.SetConfigString("LinkIncomingPeakBandwidth ", "262144")
             Spring.SetConfigString("LinkIncomingMaxPacketRate ", "2048")
          else
-            Spring.SetConfigInt("reduceping ", "0")
+            Spring.SetConfigInt("reduceping ", 0)
             Spring.SendCommands("UseNetMessageSmoothingBuffer " .. "1")
             Spring.SendCommands("NetworkLossFactor " .. "0")
             Spring.SendCommands("LinkOutgoingBandwidth " .. "98304")
@@ -726,14 +738,18 @@ function applyOptionValue(i)
       local value = options[i].value
 
       if id == "advgraphics" then
-         Spring.SetConfigString("advgraphics", value - 1)
+         Spring.SetConfigInt("advgraphics", value - 1)
          setGraphicsPreset(value - 1)
-      elseif id == "water" then
+      elseif id == "Water" then
+	  
+	        --   options = {"basic", "reflective", "dynamic", "reflective&refractive", "bump-mapped"},
+
+	  
          if (value == 3) then
-            value = 2
+            value = 5
          end
 
-         Spring.SendCommands("water " .. (value - 1))
+         Spring.SendCommands("Water " .. (value - 1))
       elseif id == "camera" then
          Spring.SetConfigInt("CamMode", value)
 
@@ -780,6 +796,7 @@ end
 
 function setGraphicsPreset(value)
    if value == 0 then
+       widgetHandler: DisableWidget("SSAO_alternative")
       Spring.SendCommands("Shadows 0")
       widgetHandler:DisableWidget("Deferred rendering")
       widgetHandler:DisableWidget("Projectile lights")
@@ -787,26 +804,27 @@ function setGraphicsPreset(value)
       widgetHandler:DisableWidget("Contrast Adaptive Sharpen")
       widgetHandler:DisableWidget("LupsManager")
       widgetHandler:DisableWidget("Lups")
+	  
       widgetHandler:DisableWidget("Bloom Shader Alternate Deferred")
       widgetHandler:DisableWidget("Bloom Shader Alternate")
       Spring.SendCommands("AdvMapShading " .. 0)
       Spring.SetConfigInt("AdvMapShading", 0)
       Spring.SendCommands("AdvModelShading " .. 0)
       Spring.SetConfigInt("AdvModelShading", 0)
-      Spring.SetConfigInt("ssao", "0")
-      -- widgetHandler: DisableWidget("SSAO_alternative")
+      Spring.SetConfigInt("ssao", 0)
    elseif value == 1 then
       RestartLightFXWidgets()
+	   widgetHandler:DisableWidget("SSAO_alternative")
+
       widgetHandler:EnableWidget("Contrast Adaptive Sharpen")
       widgetHandler:DisableWidget("Bloom Shader Alternate Deferred")
       widgetHandler:DisableWidget("Bloom Shader Alternate")
-      widgetHandler:DisableWidget("SSAO_alternative")
       Spring.SendCommands("AdvMapShading " .. 1)
       Spring.SetConfigInt("AdvMapShading", 1)
       Spring.SendCommands("AdvModelShading " .. 1)
       Spring.SetConfigInt("AdvModelShading", 1)
-      Spring.SendCommands("Shadows 2 2048") -- default is 2048, 2 - skip terrian
-      Spring.SetConfigInt("ssao", "0")
+      Spring.SendCommands("Shadows 1 4096") -- default is 2048, 2 - skip terrian
+      Spring.SetConfigInt("ssao", 0)
      
    elseif value == 2 then
       RestartLightFXWidgets()
@@ -818,7 +836,7 @@ function setGraphicsPreset(value)
       Spring.SendCommands("AdvModelShading " .. 1)
       Spring.SetConfigInt("AdvModelShading", 1)
       Spring.SendCommands("Shadows 1 4096")
-      Spring.SetConfigInt("ssao", "1")
+      --Spring.SetConfigInt("ssao", 1)
    end
    -- widgetHandler: EnableWidget("SSAO_alternative")
 end
@@ -1036,39 +1054,43 @@ function widget:Initialize()
    end
 
    --set stuff initially
+ 
    value = tonumber(Spring.GetConfigString("alwaysrenderwrecksandtrees", "1"))
 
    if value == 0 then
       Spring.SetConfigInt("alwaysrenderwrecksandtrees", 0)
 
-      Spring.SendCommands({"FeatureDrawDistance 5000"})
+      Spring.SendCommands("FeatureDrawDistance 5000")
 
-      Spring.SendCommands({"FeatureFadeDistance 90000"})
-      --Spring.SetConfigInt("FeatureDrawDistance",5000)
+      Spring.SendCommands("FeatureFadeDistance 99999999")
+   
    else
       Spring.SetConfigInt("alwaysrenderwrecksandtrees", 1)
 
-      Spring.SendCommands({"FeatureDrawDistance 90000"})
+      Spring.SendCommands("FeatureDrawDistance 99999999")
 
-      Spring.SendCommands({"FeatureFadeDistance 90000"})
+      Spring.SendCommands("FeatureFadeDistance 99999999")
+	  
+	 
+	 
    end
 
-   value = tonumber(Spring.GetConfigString("advgraphics", "1"))
-   Spring.SetConfigString("advgraphics", value)
+  -- value = tonumber(Spring.GetConfigString("ssao", "0"))
+
+  -- if value == 0 then
+	-- widgetHandler:DisableWidget("SSAO_alternative")
+	--  Spring.SetConfigInt("ssao", 0)
+   --else
+  --    widgetHandler: EnableWidget("SSAO_alternative")
+	--  Spring.SetConfigInt("ssao", 1)
+  -- end
+
+   value = tonumber(Spring.GetConfigInt("advgraphics", 1))
+   Spring.SetConfigInt("advgraphics", value)
    setGraphicsPreset(value)
-   immersiveborderpreset = tonumber(Spring.GetConfigInt("immersiveborder", 0))
 
-   if immersiveborderpreset == 0 then
-      widgetHandler:DisableWidget("Map Edge Extension Colourful")
-      --widgetHandler:DisableWidget("Volumetric Clouds")
-      Spring.SetConfigInt("immersiveborder", 0)
-   elseif immersiveborderpreset == 1 then
-      widgetHandler:EnableWidget("Map Edge Extension Colourful")
-      --widgetHandler:EnableWidget("Volumetric Clouds")
-      Spring.SetConfigInt("immersiveborder", 1)
-   end
 
-   value = tonumber(Spring.GetConfigString("Cursorcanleavewindow", "1"))
+   value = tonumber(Spring.GetConfigInt("Cursorcanleavewindow", 1))
 
    if value == 1 then
       widgetHandler:DisableWidget("Grabinput")
@@ -1080,8 +1102,8 @@ function widget:Initialize()
       Spring.SetConfigInt("Cursorcanleavewindow", 0)
    end
 
-   value = tonumber(Spring.GetConfigString("fancyunitselection", "1"))
-   Spring.SetConfigString("fancyunitselection", value)
+   value = tonumber(Spring.GetConfigInt("fancyunitselection", 1))
+   Spring.SetConfigInt("fancyunitselection", value)
 
    if value == 0 then
       widgetHandler:DisableWidget("Fancy Selected Units")
@@ -1091,34 +1113,60 @@ function widget:Initialize()
       Spring.SetConfigInt("fancyunitselection", 1)
    end
 
-   value = tonumber(Spring.GetConfigString("showchat", "1"))
-   Spring.SetConfigString("showchat", value)
+   value = tonumber(Spring.GetConfigInt("showchat", 1))
+   Spring.SetConfigInt("showchat", value)
 
    if value == 0 then
       Spring.SetConfigInt("showchat", 0)
       widgetHandler:DisableWidget("Red Console")
 
       --clear maps
-      Spring.SendCommands({"mapmarks 0"})
+      Spring.SendCommands("mapmarks 0")
 
       Spring.SendCommands("console 0")
    elseif value == 1 then
       --clear maps
-      Spring.SendCommands({"mapmarks 1"})
+      Spring.SendCommands("mapmarks 1")
 
       Spring.SetConfigInt("showchat", 1)
       widgetHandler:EnableWidget("Red Console")
    end
 
-   value = tonumber(Spring.GetConfigString("speccursors", "1"))
-   Spring.SetConfigString("speccursors", value)
+   value = tonumber(Spring.GetConfigInt("speccursors", 1))
+   Spring.SetConfigInt("speccursors", value)
 
    if value == 0 then
-      Spring.SetConfigString("speccursors", "0")
+      Spring.SetConfigInt("speccursors", 0)
       widgetHandler:DisableWidget("AllyCursorsAll")
    else
-      Spring.SetConfigString("speccursors", "1")
+      Spring.SetConfigInt("speccursors", 1)
       widgetHandler:EnableWidget("AllyCursorsAll")
+   end
+   
+   	local camState = Spring.GetCameraState()
+	camState.mode = 1
+   Spring.SetCameraState(camState, 0)
+   
+      	if (Spring.GetConfigInt("Water", 1) == 2) or (Spring.GetConfigInt("Water", 1) == 3) then
+		Spring.SetConfigInt("Water", 1)
+		Spring.SendCommands("Water " .. 1)
+	end
+   	if (Spring.GetConfigInt("Water", 1) > 3) then
+	Spring.SetConfigInt("Water", 2)
+	end
+	
+
+	
+	   value = tonumber(Spring.GetConfigInt("immersiveborder", 0))
+
+   if value == 0 then
+      widgetHandler:DisableWidget("Map Edge Extension Colourful")
+      --widgetHandler:DisableWidget("Volumetric Clouds")
+      Spring.SetConfigInt("immersiveborder", 0)
+   elseif value == 1 then
+      widgetHandler:EnableWidget("Map Edge Extension Colourful")
+      --widgetHandler:EnableWidget("Volumetric Clouds")
+      Spring.SetConfigInt("immersiveborder", 1)
    end
 
    options = {
@@ -1159,7 +1207,7 @@ function widget:Initialize()
          type = "label",
          value = 1
       },
-      --{id="blank2", name="GRAPHICS", type="label", value=1}, --{id="water", name="Water type", type="select", options={"basic","reflective","dynamic","reflective&refractive","bump-mapped"}, value=(tonumber(Spring.GetConfigInt("Water",1) or 1)+1)},
+      --{id="blank2", name="GRAPHICS", type="label", value=1}, --{id="Water", name="Water type", type="select", options={"basic","reflective","dynamic","reflective&refractive","bump-mapped"}, value=(tonumber(Spring.GetConfigInt("Water",1) or 1)+1)},
       {
          id = "advgraphics",
          name = "Graphics",
@@ -1185,10 +1233,10 @@ function widget:Initialize()
       },
       {
          id = "alwaysrenderwrecksandtrees",
-         name = "Always render wrecks and trees",
+         name = "Always show wrecks and trees",
          type = "bool",
          value = tonumber(Spring.GetConfigInt("alwaysrenderwrecksandtrees", 1) or 1) == 1,
-         description = "Always render wrecks and trees."
+         description = "Always show wrecks and trees"
       },
       --{id="advmapshading", name="Advanced map shading", type="bool", value=tonumber(Spring.GetConfigInt("AdvMapShading",1) or 1) == 1, description="When disabled: shadows are disabled too"}, --{id="advmodelshading", name="Advanced model shading", type="bool", value=tonumber(Spring.GetConfigInt("AdvModelShading",1) or 1) == 1}, --{id="lighteffects", group="gfx", name="Advanced lighting ", type="bool", value=widgetHandler.orderList["Light Effects"] ~= nil and (widgetHandler.orderList["Light Effects"] > 0), description="Adds lights to projectiles, lasers and explosions.\n\nRequires shaders."}, --    {id="sharpen", group="gfx", name="Sharpen ", type="bool", value=widgetHandler.orderList["Contrast Adaptive Sharpen"] ~= nil and (widgetHandler.orderList["Contrast Adaptive Sharpen"] > 0), description="Sharpen all visible textures"}, --{id="lups", widget="LupsManager", name="Special effects ", type="bool", value=widgetHandler.orderList["LupsManager"] ~= nil and (widgetHandler.orderList["LupsManager"] > 0), description="Toggle unit particle effects: jet beams, ground flashes, fusion energy balls"}, --{id="shadows", name="Shadows ", type="bool", value=tonumber(Spring.GetConfigInt("Shadows",1) or 1) == 1, description="Shadow detail is currently controlled by"Shadow Quality Manager" widget\n...this widget will auto reduce detail when fps gets low.\n\nShadows requires"Advanced map shading" option to be enabled"},
       {
@@ -1198,7 +1246,7 @@ function widget:Initialize()
          min = 0,
          max = 60000,
          step = 1,
-         value = tonumber(Spring.GetConfigInt("MaxParticles", 1) or 25000),
+         value = tonumber(Spring.GetConfigInt("MaxParticles", 1) or 30000),
          description = "How many explosion particles can exist"
       },
       {
@@ -1213,7 +1261,7 @@ function widget:Initialize()
       },
       {
          id = "decals",
-         name = "Crator duration ",
+         name = "Ground decal duration",
          type = "slider",
          min = 0,
          max = 10,
@@ -1229,15 +1277,15 @@ function widget:Initialize()
          min = 0,
          max = 4,
          step = 2,
-         value = tonumber(Spring.GetConfigInt("MSAALevel", 2) or 2),
+         value = tonumber(Spring.GetConfigInt("MSAALevel", 0) or 0),
          description = "Requires restart, reduce jagged edges."
       },
-      -- {id="water", name="Water type", type="select", options={"basic","reflective","dynamic","reflective&refractive","bump-mapped"}, value=(tonumber(Spring.GetConfigInt("Water",1) or 1)+1)},
+      -- {id="Water", name="Water type", type="select", options={"basic","reflective","dynamic","reflective&refractive","bump-mapped"}, value=(tonumber(Spring.GetConfigInt("Water",1) or 1)+1)},
       {
-         id = "water",
+         id = "Water",
          name = "Water type",
          type = "select",
-         options = {"basic", "reflective", "dynamic", "reflective&refractive", "bump-mapped"},
+         options = {"basic", "reflective", "bump-mapped"},
          value = (tonumber(Spring.GetConfigInt("Water", 1) or 1) + 1)
       },
       {
@@ -1246,13 +1294,20 @@ function widget:Initialize()
          type = "label",
          value = 1
       },
-      {
+	   {
          id = "blank1",
          name = "",
          type = "label",
          value = 1
       },
-      --{id="blank4", name="SETTINGS", type="label", value=1}, --{id="water2", name="aa2", type="label", value=1},
+      --{
+       --  id = "ssao",
+       --  name = "SSAO (Caution, extreme lag)",
+       --  type = "bool",
+       --  value = tonumber(Spring.GetConfigInt("ssao", 0) or 0) == 0,
+      --   description = "Shading effect."
+      --},
+      --{id="blank4", name="SETTINGS", type="label", value=1}, --{id="Water2", name="aa2", type="label", value=1},
       {
          id = "fullscreen",
          name = "Fullscreen",
@@ -1383,6 +1438,8 @@ function widget:Initialize()
 
    options = processedOptions
    --Spring.SetConfigString("advgraphics", value)
+   
+     
 end
 
 function widget:Shutdown()
