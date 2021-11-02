@@ -83,7 +83,6 @@ local positionCmds = {
     [CMD_SETTARGET] = true -- set target
 }
 
-local chobbyInterface
 
 function widget:Initialize()
     if not requiresAlt[CMD.ATTACK] then
@@ -825,14 +824,7 @@ function widget:ViewResize(viewSizeX, viewSizeY)
     Xs, Ys = Xs*0.5, Ys*0.5
 end
 
-function widget:RecvLuaMsg(msg, playerID)
-	if msg:sub(1,18) == 'LobbyOverlayActive' then
-		chobbyInterface = (msg:sub(1,19) == 'LobbyOverlayActive1')
-	end
-end
-
 function widget:DrawWorld()
-	if chobbyInterface then return end
     if #fNodes > 1 or #dimmNodes > 1 then
         local camX, camY, camZ = spGetCameraPosition()
         local at, p = spTraceScreenRay(Xs,Ys,true,false,false)

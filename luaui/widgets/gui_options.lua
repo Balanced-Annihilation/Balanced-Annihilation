@@ -393,13 +393,7 @@ function widget:DrawScreen()
       glScale(widgetScale, widgetScale, 1)
       glCallList(windowList)
 
-      if (WG["guishader_api"] ~= nil) then
-         local rectX1 = ((screenX - bgMargin) * widgetScale) - ((vsx * (widgetScale - 1)) / 2)
-         local rectY1 = ((screenY + bgMargin) * widgetScale) - ((vsy * (widgetScale - 1)) / 2)
-         local rectX2 = ((screenX + screenWidth + bgMargin) * widgetScale) - ((vsx * (widgetScale - 1)) / 2)
-         local rectY2 = ((screenY - screenHeight - bgMargin) * widgetScale) - ((vsy * (widgetScale - 1)) / 2)
-         WG["guishader_api"].InsertRect(rectX1, rectY2, rectX2, rectY1, "options")
-      end
+   
 
       showOnceMore = false
       -- draw button hover
@@ -484,10 +478,7 @@ function widget:DrawScreen()
       end
 
       glPopMatrix()
-   else
-      if (WG["guishader_api"] ~= nil) then
-         WG["guishader_api"].RemoveRect("options")
-      end
+  
    end
 end
 
@@ -673,7 +664,7 @@ function applyOptionValue(i)
 
       if options[i].widget ~= nil then
          if value == 1 then
-            if id == "guishader" or id == "xrayshader" or id == "snow" or id == "mapedgeextension" or id == "lighteffects" or id == "sharpen" or id == "advgraphics" or id == "immersiveborder" then
+            if id == "xrayshader" or id == "snow" or id == "mapedgeextension" or id == "lighteffects" or id == "sharpen" or id == "advgraphics" or id == "immersiveborder" then
                if luaShaders ~= 1 and not enabledLuaShaders then
                   Spring.SetConfigInt("LuaShaders", 1)
                   enabledLuaShaders = true
@@ -690,14 +681,6 @@ function applyOptionValue(i)
 
       if id == "fsaa" then
          Spring.SetConfigInt("FSAALevel", value)
-      elseif id == "shadowslider" then
-         local enabled = 1
-
-         if value == options.min then
-            enabled = 0
-         end
-
-         Spring.SendCommands("shadows " .. enabled .. " " .. value)
       elseif id == "decals" then
          Spring.SetConfigInt("GroundDecals ", value)
       elseif id == "zoomspeed" then
@@ -723,7 +706,6 @@ function applyOptionValue(i)
          Spring.SetConfigInt("GrassDetail", value)
       elseif id == "grounddetail" then
          --Spring.SetConfigInt("GroundDetail"..value)
-         Spring.SendCommands("grounddetail " .. value)
       elseif id == "sndvolmaster" then
          Spring.SetConfigInt("snd_volmaster", value)
       elseif id == "msaa" then
@@ -823,7 +805,7 @@ function setGraphicsPreset(value)
       Spring.SetConfigInt("AdvMapShading", 1)
       Spring.SendCommands("AdvModelShading " .. 1)
       Spring.SetConfigInt("AdvModelShading", 1)
-      Spring.SendCommands("Shadows 1 4096") -- default is 2048, 2 - skip terrian
+      Spring.SendCommands("Shadows 1") -- default is 2048, 2 - skip terrian
       Spring.SetConfigInt("ssao", 0)
      
    elseif value == 2 then
@@ -835,7 +817,7 @@ function setGraphicsPreset(value)
       Spring.SetConfigInt("AdvMapShading", 1)
       Spring.SendCommands("AdvModelShading " .. 1)
       Spring.SetConfigInt("AdvModelShading", 1)
-      Spring.SendCommands("Shadows 1 4096")
+      Spring.SendCommands("Shadows 1")
       --Spring.SetConfigInt("ssao", 1)
    end
    -- widgetHandler: EnableWidget("SSAO_alternative")
@@ -995,7 +977,7 @@ function mouseEvent(x, y, button, release)
 
          if IsOnRect(x, y, brectX1, brectY2, rectX2, rectY1) then
             if release then
-               showOnceMore = true -- show once more because the guishader lags behind, though this will not fully fix it
+               showOnceMore = true -- show once more because the  lags behind, though this will not fully fix it
                show = not show
             end
 
@@ -1005,7 +987,7 @@ function mouseEvent(x, y, button, release)
          if button == 1 or button == 3 then return true end
       elseif titleRect == nil or not IsOnRect(x, y, (titleRect[1] * widgetScale) - ((vsx * (widgetScale - 1)) / 2), (titleRect[2] * widgetScale) - ((vsy * (widgetScale - 1)) / 2), (titleRect[3] * widgetScale) - ((vsx * (widgetScale - 1)) / 2), (titleRect[4] * widgetScale) - ((vsy * (widgetScale - 1)) / 2)) then
          if release then
-            showOnceMore = true -- show once more because the guishader lags behind, though this will not fully fix it
+            showOnceMore = true -- show once more because the  lags behind, though this will not fully fix it
             show = not show
          end
       end
@@ -1024,7 +1006,7 @@ function mouseEvent(x, y, button, release)
       --ty = (y - posY*vsy)/(17*widgetScale)
       --if tx < 0 or tx > 4.5 or ty < 0 or ty > 1.05 then return false end
       --if release then
-      -- showOnceMore = show     -- show once more because the guishader lags behind, though this will not fully fix it
+      -- showOnceMore = show     -- show once more because the  lags behind, though this will not fully fix it
       -- show = not show
       --end
       --if show then
@@ -1426,7 +1408,7 @@ function widget:Initialize()
       end
 
       if luaShaders ~= 1 then
-         if option.id == "ssao" or option.id == "dof" or option.id == "bloom" or option.id == "guishader" or option.id == "xrayshader" or option.id == "mapedgeextension" or option.id == "snow" or id == "lighteffects" or id == "sharpen" or id == "advgraphics" or id == "immersiveborder" then
+         if option.id == "ssao" or option.id == "dof" or option.id == "bloom" or option.id == "xrayshader" or option.id == "mapedgeextension" or option.id == "snow" or id == "lighteffects" or id == "sharpen" or id == "advgraphics" or id == "immersiveborder" then
             option.description = "You dont have LuaShaders enabled, we will enable it for you but...\n\n"
          end
       end

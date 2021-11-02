@@ -111,7 +111,7 @@ local buttonTop = 20 -- offset between top of buttons and bottom of widget
 
 function widget:Initialize()
   widgetHandler.knownChanged = true
-  Spring.SendCommands('unbindkeyset f11')
+  Spring.SendCommands("unbindkeyset f11")
   
   if widgetHandler.allowUserWidgets then
     buttons[3] = "Disallow User Widgets"
@@ -339,25 +339,15 @@ function widget:KeyPress(key, mods, isRepeat)
   end
   return false
 end
-local activeGuishader = false
 local scrollbarOffset = -15
 function widget:DrawScreen()
   if not show then 
-    if activeGuishader and (WG['guishader_api'] ~= nil) then
-      activeGuishader = false
-      WG['guishader_api'].RemoveRect('widgetselector')
-    end
+
     return
   end
   UpdateList()
   gl.BeginText()
-  if (WG['guishader_api'] == nil) then
-    activeGuishader = false 
-  end
-  if (WG['guishader_api'] ~= nil) and not activeGuishader then
-    activeGuishader = true
-    WG['guishader_api'].InsertRect(minx-(bgPadding*sizeMultiplier), miny-(bgPadding*sizeMultiplier), maxx+(bgPadding*sizeMultiplier), maxy+(bgPadding*sizeMultiplier),'widgetselector')
-  end
+
   borderx = (yStep*sizeMultiplier) * 0.75
   bordery = (yStep*sizeMultiplier) * 0.75
 
@@ -798,11 +788,9 @@ end
 
 
 function widget:Shutdown()
-  Spring.SendCommands('bind f11 luaui selector') -- if this one is removed or crashes, then have the backup one take over.
+  Spring.SendCommands("bind f11 luaui selector") -- if this one is removed or crashes, then have the backup one take over.
   
-	if (WG['guishader_api'] ~= nil) then
-		WG['guishader_api'].RemoveRect('widgetselector')
-	end
+
 end
 
 

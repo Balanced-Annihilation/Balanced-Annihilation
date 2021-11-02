@@ -417,7 +417,7 @@ function DrawWindow()
 	local y = screenY --upwards
 
 	-- background
-	RectRound(x - bgMargin, y - screenHeight - bgMargin, x + screenWidth + bgMargin, y + bgMargin, 8, 0, 1, 1, 1, { 0.05, 0.05, 0.05, WG['guishader'] and 0.8 or 0.88 }, { 0, 0, 0, WG['guishader'] and 0.8 or 0.88 })
+	RectRound(x - bgMargin, y - screenHeight - bgMargin, x + screenWidth + bgMargin, y + bgMargin, 8, 0, 1, 1, 1, { 0.05, 0.05, 0.05, 0.88 }, { 0, 0, 0, 0.88 })
 	-- content area
 	RectRound(x, y - screenHeight, x + screenWidth, y, 5.5, 1, 1, 1, 1, { 0.25, 0.25, 0.25, 0.2 }, { 0.5, 0.5, 0.5, 0.2 })
 
@@ -437,16 +437,9 @@ function DrawWindow()
 	DrawTextarea(x, y - 10, screenWidth, screenHeight - 24, 1)
 end
 
-function widget:RecvLuaMsg(msg, playerID)
-	if msg:sub(1, 18) == 'LobbyOverlayActive' then
-		chobbyInterface = (msg:sub(1, 19) == 'LobbyOverlayActive1')
-	end
-end
+
 
 function widget:DrawScreen()
-	if chobbyInterface then
-		return
-	end
 	if spIsGUIHidden() then
 		return
 	end
@@ -467,32 +460,10 @@ function widget:DrawScreen()
 		glScale(widgetScale, widgetScale, 1)
 		glCallList(changelogList)
 		glPopMatrix()
-		if WG['guishader'] then
-			local rectX1 = ((screenX - bgMargin) * widgetScale) - ((vsx * (widgetScale - 1)) / 2)
-			local rectY1 = ((screenY + bgMargin) * widgetScale) - ((vsy * (widgetScale - 1)) / 2)
-			local rectX2 = ((screenX + screenWidth + bgMargin) * widgetScale) - ((vsx * (widgetScale - 1)) / 2)
-			local rectY2 = ((screenY - screenHeight - bgMargin) * widgetScale) - ((vsy * (widgetScale - 1)) / 2)
-			if backgroundGuishader ~= nil then
-				glDeleteList(backgroundGuishader)
-			end
-			backgroundGuishader = glCreateList(function()
-				-- background
-				RectRound(rectX1, rectY2, rectX2, rectY1, 8 * widgetScale, 0, 1, 1, 1)
-				-- title
-				rectX1 = (titleRect[1] * widgetScale) - ((vsx * (widgetScale - 1)) / 2)
-				rectY1 = (titleRect[2] * widgetScale) - ((vsy * (widgetScale - 1)) / 2)
-				rectX2 = (titleRect[3] * widgetScale) - ((vsx * (widgetScale - 1)) / 2)
-				rectY2 = (titleRect[4] * widgetScale) - ((vsy * (widgetScale - 1)) / 2)
-				RectRound(rectX1, rectY1, rectX2, rectY2, 9 * widgetScale, 1, 1, 0, 0)
-			end)
-			WG['guishader'].InsertDlist(backgroundGuishader, 'gameinfo')
-		end
+		
 		showOnceMore = false
 
-	else
-		if WG['guishader'] then
-			WG['guishader'].DeleteDlist('gameinfo')
-		end
+	
 	end
 end
 
@@ -672,7 +643,5 @@ function widget:Shutdown()
 		glDeleteList(changelogList)
 		changelogList = nil
 	end
-	if WG['guishader'] then
-		WG['guishader'].DeleteDlist('gameinfo')
-	end
+
 end

@@ -418,13 +418,7 @@ function widget:DrawScreen()
 			glScale(widgetScale, widgetScale, 1)
 			glCallList(changelogList)
 		glPopMatrix()
-		if (WG['guishader_api'] ~= nil) then
-			local rectX1 = ((screenX-bgMargin) * widgetScale) - ((vsx * (widgetScale-1))/2)
-			local rectY1 = ((screenY+bgMargin) * widgetScale) - ((vsy * (widgetScale-1))/2)
-			local rectX2 = ((screenX+screenWidth+bgMargin) * widgetScale) - ((vsx * (widgetScale-1))/2)
-			local rectY2 = ((screenY-screenHeight-bgMargin) * widgetScale) - ((vsy * (widgetScale-1))/2)
-			WG['guishader_api'].InsertRect(rectX1, rectY2, rectX2, rectY1, 'changelog')
-		end
+		
 		showOnceMore = false
 		
 		-- draw button hover
@@ -468,10 +462,7 @@ function widget:DrawScreen()
 				lineKey = lineKey + 1
 			end
 		end
-    else
-		if (WG['guishader_api'] ~= nil) then
-			WG['guishader_api'].RemoveRect('changelog')
-		end
+   
 	end
 end
 

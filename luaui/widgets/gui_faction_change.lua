@@ -155,9 +155,7 @@ function widget:Initialize()
 end
 
 function widget:Shutdown()
-	if (WG['guishader_api'] ~= nil) then
-		WG['guishader_api'].RemoveRect('factionchange')
-	end
+	
 	if factionChangeList then
 		glDeleteList(factionChangeList)
 	end
@@ -217,9 +215,7 @@ function GenerateFactionChangeList()
 	RectRound(2*widgetScale, 2*widgetScale, 126*widgetScale, 78*widgetScale, 5*widgetScale)
 	
 	
-	if (WG['guishader_api'] ~= nil) then
-		WG['guishader_api'].InsertRect(px+(2*widgetScale), py+(2*widgetScale), px+(126*widgetScale), py+(78*widgetScale), 'factionchange')
-	end
+	
 	
 		-- Highlight
 	glColor(0.8, 0.8, 0.8, 0.3)

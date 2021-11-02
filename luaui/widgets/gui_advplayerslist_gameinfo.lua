@@ -217,12 +217,7 @@ local function createList()
 	if drawlist[3] ~= nil then
 		glDeleteList(drawlist[3])
 	end
-	if WG['guishader'] then
-		drawlist[3] = glCreateList( function()
-			RectRound(left, bottom, right, top, bgpadding*1.6)
-		end)
-		WG['guishader'].InsertDlist(drawlist[3], 'displayinfo')
-	end
+	
 	if drawlist[1] ~= nil then
 		glDeleteList(drawlist[1])
 	end
@@ -253,9 +248,7 @@ end
 
 
 function widget:Shutdown()
-	if WG['guishader'] then
-		WG['guishader'].RemoveDlist('displayinfo')
-	end
+	
 	for i=1,#drawlist do
 		glDeleteList(drawlist[i])
 	end
@@ -265,7 +258,6 @@ function widget:Shutdown()
 	WG['displayinfo'] = nil
 end
 
-local guishaderEnabled = (WG['guishader'])
 
 local passedTime = 0
 local passedTime2 = 0
@@ -280,8 +272,7 @@ function widget:Update(dt)
 			widget:ViewResize()
 		end
 		uiOpacitySec = 0
-		if ui_opacity ~= 0.66 or guishaderEnabled ~= (WG['guishader']) then
-			guishaderEnabled = (WG['guishader'])
+		if ui_opacity ~= 0.66 then
 			ui_opacity = 0.66
 			glossMult = 1 + (2-(ui_opacity*2))
 			createList()
@@ -341,14 +332,9 @@ local fontfileOutlineStrength = 1.3
 	end
 end
 
-function widget:RecvLuaMsg(msg, playerID)
-	if msg:sub(1,18) == 'LobbyOverlayActive' then
-		chobbyInterface = (msg:sub(1,19) == 'LobbyOverlayActive1')
-	end
-end
+
 
 function widget:DrawScreen()
-	if chobbyInterface then return end
 
 	if drawlist[1] ~= nil then
 		glPushMatrix()

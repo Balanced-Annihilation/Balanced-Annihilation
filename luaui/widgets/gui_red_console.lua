@@ -865,7 +865,7 @@ function widget:Initialize()
 	
 	console = createconsole(Confignew.console)
 	Spring.SendCommands("console 0")
-	Spring.SendCommands('inputtextgeo 0.26 0.73 0.02 0.028')
+	Spring.SendCommands("inputtextgeo 0.26 0.73 0.02 0.028")
 	AutoResizeObjects()
 
 end

@@ -100,13 +100,7 @@ local function activateBuilder(unitID)
     spGiveOrderToUnit(unitID, CMD_PASSIVE, {0}, {})
 end
 
-function widget:DrawScreen()
-    -- do not delete this method or "widget:TweakDrawScreen()" will not be called
-    
-    if (WG['guishader_api'] ~= nil) then
-        WG['guishader_api'].RemoveRect('passivebuilders')
-    end
-end
+
 
 
 function widget:TweakDrawScreen()
@@ -119,7 +113,7 @@ function widget:TweakDrawScreen()
 		drawCheckbox(xPos + (12*sizeMultiplier), yPos + (10*sizeMultiplier), passiveCons,  "cons")
 		drawCheckbox(xPos + (12*sizeMultiplier), yPos + (30*sizeMultiplier), passiveNanos, "nanos")
 		drawCheckbox(xPos + (12*sizeMultiplier), yPos + (50*sizeMultiplier), passiveLabs,  "labs")
-		processGuishader()
+		
 	end
 end
 
@@ -343,15 +337,7 @@ function widget:PlayerChanged(playerID)
 	IsSpec = spGetSpectatingState()
 end
 
-function processGuishader()
-    if (WG['guishader_api'] ~= nil) then
-        WG['guishader_api'].InsertRect(xPos, yPos, xPos + (panelWidth*sizeMultiplier), yPos + (panelHeight*sizeMultiplier), 'passivebuilders')
-    end
-end
 
-function widget:Shutdown()
-    if (WG['guishader_api'] ~= nil) then
-        WG['guishader_api'].RemoveRect('passivebuilders')
-    end
-end
+
+
 

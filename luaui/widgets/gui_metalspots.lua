@@ -178,11 +178,7 @@ function widget:Shutdown()
 end
 
 
-function widget:RecvLuaMsg(msg, playerID)
-	if msg:sub(1,18) == 'LobbyOverlayActive' then
-		chobbyInterface = (msg:sub(1,19) == 'LobbyOverlayActive1')
-	end
-end
+
 
 function widget:PlayerChanged(playerID)
 	local prevFullView = fullView
@@ -238,7 +234,6 @@ end
 
 function widget:DrawWorldPreUnit()
 	--if Spring.GetMapDrawMode() ~= 'metal' then return end
-	if chobbyInterface then return end
 	if spIsGUIHidden() then return end
 	
 	local clockDifference = (os.clock() - previousOsClock)

@@ -111,7 +111,6 @@ function widget:UnitGiven(unitID, unitDefID, newTeam, oldTeam)
 end
 
 function widget:Update()
-	if chobbyInterface then return end
 	local _,cmd,_ = spGetActiveCommand()
 	if (cmd == CMD_AREA_MEX) then
 		if (spGetMapDrawMode() ~= 'metal') then

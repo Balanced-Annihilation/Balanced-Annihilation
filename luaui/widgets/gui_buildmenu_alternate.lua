@@ -773,24 +773,6 @@ function IsOnRect(x, y, BLcornerX, BLcornerY, TRcornerX, TRcornerY)
 	return x >= BLcornerX and x <= TRcornerX and y >= BLcornerY and y <= TRcornerY
 end
 
-local function checkGuishader(force)
-	if WG['guishader'] then
-		if force and dlistGuishader then
-			dlistGuishader = gl.DeleteList(dlistGuishader)
-		end
-		if not dlistGuishader then
-			dlistGuishader = gl.CreateList(function()
-				RectRound(backgroundRect[1], backgroundRect[2], backgroundRect[3], backgroundRect[4], bgpadding * 1.6)
-			end)
-			if selectedBuilderCount > 0 then
-				WG['guishader'].InsertDlist(dlistGuishader, 'buildmenu')
-			end
-		end
-	elseif dlistGuishader then
-		dlistGuishader = gl.DeleteList(dlistGuishader)
-	end
-end
-
 function widget:PlayerChanged(playerID)
 	isSpec = Spring.GetSpectatingState()
 	myTeamID = Spring.GetMyTeamID()
@@ -891,7 +873,6 @@ function widget:ViewResize()
 
 	backgroundRect = { posX, (posY - height) * vsy, posX2, posY * vsy }
 
-	checkGuishader(true)
 	refreshUnitIconCache()
 	clear()
 	doUpdate = true
@@ -948,10 +929,7 @@ function widget:Shutdown()
 		Spring.ForceLayoutUpdate()
 	end
 	clear()
-	if WG['guishader'] and dlistGuishader then
-		WG['guishader'].DeleteDlist('buildmenu')
-		dlistGuishader = nil
-	end
+	
 	if dlistCache then
 		dlistCache = gl.DeleteList(dlistCache)
 	end
@@ -970,7 +948,6 @@ function widget:Update(dt)
 	sec = sec + dt
 	if sec > 0.33 then
 		sec = 0
-		checkGuishader()
 		if ui_scale ~= Spring.GetConfigFloat("ui_scale", 1) then
 			ui_scale = Spring.GetConfigFloat("ui_scale", 1)
 			refreshUnitIconCache()
@@ -1301,10 +1278,10 @@ function drawBuildmenu()
 		paginatorRects[1] = { activeArea[1], activeArea[2], activeArea[1] + paginatorCellWidth, activeArea[2] + paginatorCellHeight - cellPadding - activeAreaMargin }
 		paginatorRects[2] = { activeArea[3] - paginatorCellWidth, activeArea[2], activeArea[3], activeArea[2] + paginatorCellHeight - cellPadding - activeAreaMargin }
 
-		RectRound(paginatorRects[1][1] + cellPadding, paginatorRects[1][2] + cellPadding, paginatorRects[1][3] - cellPadding, paginatorRects[1][4] - cellPadding, cellSize * 0.03, 2, 2, 2, 2, { 0.28, 0.28, 0.28, WG['guishader'] and 0.66 or 0.8 }, { 0.36, 0.36, 0.36, WG['guishader'] and 0.66 or 0.88 })
-		RectRound(paginatorRects[2][1] + cellPadding, paginatorRects[2][2] + cellPadding, paginatorRects[2][3] - cellPadding, paginatorRects[2][4] - cellPadding, cellSize * 0.03, 2, 2, 2, 2, { 0.28, 0.28, 0.28, WG['guishader'] and 0.66 or 0.8 }, { 0.36, 0.36, 0.36, WG['guishader'] and 0.66 or 0.88 })
-		RectRound(paginatorRects[1][1] + cellPadding + paginatorBorderSize, paginatorRects[1][2] + cellPadding + paginatorBorderSize, paginatorRects[1][3] - cellPadding - paginatorBorderSize, paginatorRects[1][4] - cellPadding - paginatorBorderSize, cellSize * 0.02, 2, 2, 2, 2, { 0, 0, 0, WG['guishader'] and 0.48 or 0.55 }, { 0, 0, 0, WG['guishader'] and 0.45 or 0.55 })
-		RectRound(paginatorRects[2][1] + cellPadding + paginatorBorderSize, paginatorRects[2][2] + cellPadding + paginatorBorderSize, paginatorRects[2][3] - cellPadding - paginatorBorderSize, paginatorRects[2][4] - cellPadding - paginatorBorderSize, cellSize * 0.02, 2, 2, 2, 2, { 0, 0, 0, WG['guishader'] and 0.48 or 0.55 }, { 0, 0, 0, WG['guishader'] and 0.45 or 0.55 })
+		RectRound(paginatorRects[1][1] + cellPadding, paginatorRects[1][2] + cellPadding, paginatorRects[1][3] - cellPadding, paginatorRects[1][4] - cellPadding, cellSize * 0.03, 2, 2, 2, 2, { 0.28, 0.28, 0.28,  0.8 }, { 0.36, 0.36, 0.36, 0.88 })
+		RectRound(paginatorRects[2][1] + cellPadding, paginatorRects[2][2] + cellPadding, paginatorRects[2][3] - cellPadding, paginatorRects[2][4] - cellPadding, cellSize * 0.03, 2, 2, 2, 2, { 0.28, 0.28, 0.28, 0.8 }, { 0.36, 0.36, 0.36,  0.88 })
+		RectRound(paginatorRects[1][1] + cellPadding + paginatorBorderSize, paginatorRects[1][2] + cellPadding + paginatorBorderSize, paginatorRects[1][3] - cellPadding - paginatorBorderSize, paginatorRects[1][4] - cellPadding - paginatorBorderSize, cellSize * 0.02, 2, 2, 2, 2, { 0, 0, 0,  0.55 }, { 0, 0, 0,  0.55 })
+		RectRound(paginatorRects[2][1] + cellPadding + paginatorBorderSize, paginatorRects[2][2] + cellPadding + paginatorBorderSize, paginatorRects[2][3] - cellPadding - paginatorBorderSize, paginatorRects[2][4] - cellPadding - paginatorBorderSize, cellSize * 0.02, 2, 2, 2, 2, { 0, 0, 0,  0.55 }, { 0, 0, 0,  0.55 })
 
 		-- glossy half
 		glBlending(GL_SRC_ALPHA, GL_ONE)
@@ -1322,11 +1299,6 @@ function drawBuildmenu()
 	font2:End()
 end
 
-function widget:RecvLuaMsg(msg, playerID)
-	if msg:sub(1, 18) == 'LobbyOverlayActive' then
-		chobbyInterface = (msg:sub(1, 19) == 'LobbyOverlayActive1')
-	end
-end
 
 local function GetBuildingDimensions(uDefID, facing)
 	local bDef = UnitDefs[uDefID]
@@ -1419,9 +1391,7 @@ if not preGamestartPlayer then
 
 	WG['buildmenu'].hoverID = nil
 	if not preGamestartPlayer and selectedBuilderCount == 0 and not alwaysShow then
-		if WG['guishader'] and dlistGuishader then
-			WG['guishader'].RemoveDlist('buildmenu')
-		end
+		
 	else
 		local x, y, b, b2, b3 = spGetMouseState()
 		local now = os_clock()
@@ -1436,9 +1406,7 @@ if not preGamestartPlayer then
 		end
 
 		-- create buildmenu drawlists
-		if WG['guishader'] and dlistGuishader then
-			WG['guishader'].InsertDlist(dlistGuishader, 'buildmenu')
-		end
+	
 		if not dlistBuildmenu then
 			dlistBuildmenuBg = gl.CreateList(function()
 				drawBuildmenuBg()

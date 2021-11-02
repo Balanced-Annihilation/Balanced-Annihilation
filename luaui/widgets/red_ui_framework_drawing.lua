@@ -325,7 +325,6 @@ end
 
 
 function widget:DrawScreen()
-	if chobbyInterface then return end
 
 	newBlurRect = {}
 
@@ -346,43 +345,11 @@ function widget:DrawScreen()
 	glResetState()
 	glResetMatrices()
 
-	if WG['guishader'] then
 
-		-- remove changed blur areas
-		for id, rect in pairs(blurRect) do
-			if newBlurRect[id] == nil and rect.id ~= nil then
-				WG['guishader'].DeleteDlist('red_ui_'..rect.id)
-				blurRect[id] = nil
-			else
-				newBlurRect[id] = rect
-			end
-		end
-		-- add new blur areas
-		local count = 0
-		for id, rect in pairs(newBlurRect) do
-			if blurRect[id] == nil then
-				local x = rect.px
-				local y = vsy-rect.py
-				local x2 = (rect.px+rect.sx)
-				local y2 = vsy-(rect.py+rect.sy)
-
-				local rectid = rect.px..' '..rect.py..' '..rect.sx..' '..rect.sy
-
-				WG['guishader'].InsertDlist(glCreateList( function() RectRoundOrg(x,y2,x2,y,rect.cs) end), 'red_ui_'..rectid)
-				newBlurRect[rectid].id = rectid
-			end
-			count = count + 1
-		end
-		--Spring.Echo(count)
-		blurRect = newBlurRect
-	else
-		blurRect = {}
-	end
 end
 
 local sec = 0
 function widget:Update(dt)
-	if chobbyInterface then return end
 	if (sIsGUIHidden()) then
 		for i=1,#Todo do
 			Todo[i] = nil
@@ -393,16 +360,7 @@ end
 function widget:Shutdown()
 	glDeleteList(StartList)
 
-	if WG['guishader'] then
-
-		-- remove blur areas
-		for id, rect in pairs(blurRect) do
-			if rect.id ~= nil then
-				WG['guishader'].DeleteDlist('red_ui_'..rect.id)
-				blurRect[id] = nil
-			end
-		end
-	end
+	
 
 	if (WG[TN].LastWidget) then
 		Spring.Echo(widget:GetInfo().name..">> last processed widget was \""..WG[TN].LastWidget.."\"") --for debugging

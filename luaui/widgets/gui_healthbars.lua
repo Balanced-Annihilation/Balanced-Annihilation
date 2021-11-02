@@ -95,7 +95,6 @@ local SelectedUnitsCount = Spring.GetSelectedUnitsCount()
 
 local unba_enabled = Spring.GetModOptions().unba
 
-local chobbyInterface
 
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
@@ -689,8 +688,7 @@ function widget:Shutdown()
 	widgetHandler:RemoveAction("showhealthbars", showhealthbars)
 	Spring.SendCommands( "unbind f9 luaui" )
 	Spring.SendCommands( "bind f9 showhealthbars" )
-	--Spring.SendCommands({"showhealthbars 1"}) -- don't re-enable, nobody ever uses engines built in healthbars
-	--Spring.SendCommands({"showrezbars 1"})
+
 
 	if barShader then
 		gl.DeleteShader(barShader)
@@ -1314,16 +1312,10 @@ do
 	local GetFeatureResources = Spring.GetFeatureResources
 	local GetUnitViewPosition = Spring.GetUnitViewPosition
 
-	function widget:RecvLuaMsg(msg, playerID)
-		if msg:sub(1, 18) == 'LobbyOverlayActive' then
-			chobbyInterface = (msg:sub(1, 19) == 'LobbyOverlayActive1')
-		end
-	end
+
 
 	function widget:DrawWorld()
-		if chobbyInterface then
-			return
-		end
+
 
 		if Spring.IsGUIHidden() then
 			return

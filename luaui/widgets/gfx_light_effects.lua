@@ -61,7 +61,7 @@ local enableThrusters = false
 local nanolaserLights = {}
 local thrusterLights = {}
 
-local gibParams = {r = 0.145*globalLightMult, g = 0.1*globalLightMult, b = 0.05*globalLightMult, radius = 100*globalRadiusMult, gib = true}
+local gibParams = {r = 0.18*globalLightMult, g = 0.09*globalLightMult, b = 0.03*globalLightMult, radius = 100*globalRadiusMult, gib = true}
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 

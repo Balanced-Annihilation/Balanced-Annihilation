@@ -5,7 +5,7 @@ function widget:GetInfo()
 		author = "Floris",
 		date = "April 2020",
 		license = "GNU GPL, v2 or later",
-		layer = 0,
+		layer = 1,
 		enabled = true
 	}
 end
@@ -397,21 +397,7 @@ local function refreshUnitIconCache()
 	end)
 end
 
-local function checkGuishader(force)
-	if WG['guishader'] then
-		if force and dlistGuishader then
-			dlistGuishader = gl.DeleteList(dlistGuishader)
-		end
-		if not dlistGuishader then
-			dlistGuishader = gl.CreateList(function()
-				RectRound(backgroundRect[1], backgroundRect[2], backgroundRect[3], backgroundRect[4], bgpadding * 1.6)
-			end)
-			WG['guishader'].InsertDlist(dlistGuishader, 'info')
-		end
-	elseif dlistGuishader then
-		dlistGuishader = gl.DeleteList(dlistGuishader)
-	end
-end
+
 
 function widget:PlayerChanged(playerID)
 	isSpec = Spring.GetSpectatingState()
@@ -452,7 +438,6 @@ function widget:ViewResize()
 		unitIconSize2 = 256
 	end
 
-	checkGuishader(true)
 
 	font, loadedFontSize = WG['fonts'].getFont(fontfile)
 	font2 = WG['fonts'].getFont(fontfile2)
@@ -520,10 +505,7 @@ function widget:Shutdown()
 	Spring.SetDrawSelectionInfo(true) --disables springs default display of selected units count
 	Spring.SendCommands("tooltip 1")
 	clear()
-	if WG['guishader'] and dlistGuishader then
-		WG['guishader'].DeleteDlist('info')
-		dlistGuishader = nil
-	end
+	
 end
 
 local uiOpacitySec = 0
@@ -532,7 +514,6 @@ function widget:Update(dt)
 	uiOpacitySec = uiOpacitySec + dt
 	if uiOpacitySec > 0.5 then
 		uiOpacitySec = 0
-		checkGuishader()
 		if WG['buildpower'] then
 			addonWidth, _ = WG['buildpower'].getSize()
 			if not addonWidth then
@@ -993,7 +974,8 @@ local function drawUnitInfo()
 		)
 		glBlending(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
 		
-		if(WG['buildmenu'].hoverID) then
+		--if WG['buildmenu'] and (WG['buildmenu'].hoverID) then
+		if WG['buildmenu'] and (WG['buildmenu'].hoverID) then
 			local padding = (halfSize + halfSize) * 0.045
 			local size = fontSize * 0.85
 			
@@ -1218,12 +1200,13 @@ local function drawUnitInfo()
 		
 		
 		local editedline = lines[3]
-		if(sfind(lines[3],'Range')) then
+		if lines[3] and (sfind(lines[3],'Range')) then
 			editedline = lines[3]:match("^[^R]+")
 		end
-		
+
+		if lines[2] and editedline and lines[4] then
 		words = lines[2].."\n"..editedline .."\n"..lines[4].."\n"
-		
+		end
 		
 		
 		--sfind(line2,"cunt")
@@ -1281,11 +1264,7 @@ local function drawInfo()
 	end
 end
 
-function widget:RecvLuaMsg(msg, playerID)
-	if msg:sub(1, 18) == 'LobbyOverlayActive' then
-		chobbyInterface = (msg:sub(1, 19) == 'LobbyOverlayActive1')
-	end
-end
+
 
 local function LeftMouseButton(unitDefID, unitTable)
 	local alt, ctrl, meta, shift = spGetModKeyState()
@@ -1444,9 +1423,7 @@ function widget:MouseRelease(x, y, button)
 end
 
 function widget:DrawScreen()
-	if chobbyInterface then
-		return
-	end
+
 
 	if ViewResizeUpdate then
 		ViewResizeUpdate = nil

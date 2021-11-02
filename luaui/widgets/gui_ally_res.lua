@@ -124,21 +124,7 @@ local function getTeamNames()
   return teamNames
 end
 
-local function updateGuishader()
-  if (WG['guishader_api'] ~= nil) then
-	if not enabled then
-		WG['guishader_api'].RemoveRect('allyres')
-	else
-		WG['guishader_api'].InsertRect(
-			x1-(BAR_MARGIN/1.75)+(bgcornerSize*0.2),
-			y1-BAR_MARGIN+(bgcornerSize*0.2),
-			x1+w+(BAR_MARGIN/1.75)-(bgcornerSize*0.2),
-			y1+h+BAR_MARGIN-(bgcornerSize*0.2),
-			'allyres'
-		)
-	end
-  end
-end
+
 
 function widget:Initialize()
   vsx, vsy = gl.GetViewSizes()
@@ -151,7 +137,6 @@ end
 function widget:Shutdown()
   gl.DeleteList(displayList)
   enabled = false
-  updateGuishader()
 end
 
 local function setUpTeam()
@@ -257,7 +242,6 @@ local function updateStatics()
 	end
     gl.PopMatrix()
   end)
-  updateGuishader()
 end
 
 
@@ -502,8 +486,7 @@ function widget:DrawScreen()
         gl.Text(labelText[2].label,labelText[2].x,labelText[2].y,labelText[2].size,labelText[2].config)
         gl.PopMatrix()
       end
-  else
-	updateGuishader()
+
   end
 end
 
@@ -514,7 +497,6 @@ function widget:TweakMouseMove(x, y, dx, dy, button)
 		y1 = y1 + dy
 
 		coords2Percentage()
-		updateGuishader()
 		updateBars()
 		updateStatics()
 	end
@@ -665,7 +647,6 @@ function processScaling()
   setUpTeam()
   updateBars()
   updateStatics()
-  updateGuishader()
 end
 
 function widget:ViewResize(viewSizeX, viewSizeY)

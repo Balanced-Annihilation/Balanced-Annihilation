@@ -29,7 +29,7 @@ local mouseover = false
 
 local usedImgSize = iconSize
 
-local chobbyInterface
+
 
 local continuouslyClean = false
 
@@ -101,9 +101,6 @@ function widget:Update(dt)
 		sec = 0
 		updatePosition()
 	end
-	--if continuouslyClean then
-	--	Spring.SendCommands({"clearmapmarks"})
-	--end
 end
 
 
@@ -114,7 +111,6 @@ function widget:MapDrawCmd(playerID, cmdType, startx, starty, startz, a, b, c)
 end
 
 function widget:DrawScreen()
-	if chobbyInterface then return end
 
 	if drawlist[1] ~= nil then
 		local mx,my = Spring.GetMouseState()

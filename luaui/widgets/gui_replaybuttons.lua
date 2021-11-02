@@ -47,9 +47,6 @@ function widget:Initialize()
 end
 
 function widget:Shutdown()	
-	if (WG['guishader_api'] ~= nil) then
-		WG['guishader_api'].RemoveRect('replaybuttons')
-	end
 	gl.DeleteList(speedButtonsList)
 	gl.DeleteList(buttonsList)
 end
@@ -59,15 +56,7 @@ function speedButtonColor (i)
 end
 
 function widget:DrawScreen()
-	if (WG['guishader_api'] ~= nil) then
-		if isActive then
-			local h = 0.033
-			local dy = (#speeds +1) * h
-			WG['guishader_api'].InsertRect(sX(wPos.x), sY(wPos.y), sX(wPos.x+0.037), sY(wPos.y+dy), 'replaybuttons')
-		else
-			WG['guishader_api'].RemoveRect('replaybuttons')
-		end
-	end
+	
 	
 	if not isActive then return end
 	if sceduleUpdate then

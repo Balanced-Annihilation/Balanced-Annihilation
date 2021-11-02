@@ -486,11 +486,7 @@ function DrawIconQuad(iconPos, color, size)
 	glColor(color)
 	RectRound(X1 - corneradjust, Y_MIN - corneradjust, X2 + corneradjust, Y_MAX + corneradjust, bgcornerSize)
 
-	if WG['guishader'] then
-		WG['guishader'].InsertDlist(glCreateList(function()
-			RectRound(X1 - corneradjust, Y_MIN - corneradjust, X2 + corneradjust, Y_MAX + corneradjust, bgcornerSize)
-		end), 'idlebuilders')
-	end
+	
 
 end--]]
 
@@ -520,9 +516,6 @@ local doUpdate = true
 local uiOpacitySec = 0.5
 function widget:Update(dt)
 
-	if chobbyInterface then
-		return
-	end
 
 	if not enabled then
 		return
@@ -620,16 +613,10 @@ function calcSizes(numIcons)
 	Y_MAX = POSITION_Y * vsy + 0.5 * ICON_SIZE_Y
 end
 
-function widget:RecvLuaMsg(msg, playerID)
-	if msg:sub(1, 18) == 'LobbyOverlayActive' then
-		chobbyInterface = (msg:sub(1, 19) == 'LobbyOverlayActive1')
-	end
-end
+
 
 function widget:DrawScreen()
-	if chobbyInterface then
-		return
-	end
+
 
 	if widgetHandler:InTweakMode() then
 		calcSizes(MAX_ICONS)
@@ -644,9 +631,7 @@ function widget:DrawScreen()
 		return
 	end
 
-	if WG['guishader'] then
-		WG['guishader'].DeleteDlist('idlebuilders')
-	end
+
 
 	if enabled and noOfIcons > 0 then
 		local x, y, lb, mb, rb = GetMouseState()
@@ -783,9 +768,7 @@ function widget:MouseRelease(x, y, button)
 end
 
 function widget:DrawWorld()
-	if chobbyInterface then
-		return
-	end
+
 	if mouseOnUnitID and (not WG['topbar'] or not WG['topbar'].showingQuit()) then
 		if widgetHandler:InTweakMode() then
 			return -1
@@ -795,8 +778,4 @@ function widget:DrawWorld()
 	end
 end
 
-function widget:Shutdown()
-	if WG['guishader'] then
-		WG['guishader'].DeleteDlist('idlebuilders')
-	end
-end
+

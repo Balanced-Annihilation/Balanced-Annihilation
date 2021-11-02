@@ -183,11 +183,7 @@ function widget:Initialize()
 end
 
 function widget:Shutdown()
-	if WG['guishader'] then
-        for name, tooltip in pairs(tooltips) do
-		    WG['guishader'].DeleteScreenDlist('tooltip_'..name)
-        end
-	end
+
 	WG['tooltip'] = nil
 end
 
@@ -302,21 +298,15 @@ function drawTooltip(name, x, y)
 
 	-- draw background
 	local cornersize = 0
-	--glColor(0.45,0.45,0.45,(WG['guishader'] and 0.66 or 0.8))
-	RectRound(posX-paddingW+cornersize, posY-maxHeight-paddingH+cornersize, posX+maxWidth+paddingW-cornersize, posY+paddingH-cornersize, 3.3*widgetScale, 2,2,2,2, {0.44,0.44,0.44,(WG['guishader'] and 0.67 or 0.94)}, {0.66,0.66,0.66 ,(WG['guishader'] and 0.67 or 0.94)})
-	if WG['guishader'] then
-		WG['guishader'].InsertScreenDlist( gl.CreateList( function()
-			RectRound(posX-paddingW+cornersize, posY-maxHeight-paddingH+cornersize, posX+maxWidth+paddingW-cornersize, posY+paddingH-cornersize, 3.3*widgetScale)
-		end), 'tooltip_'..name)
-	end
+	RectRound(posX-paddingW+cornersize, posY-maxHeight-paddingH+cornersize, posX+maxWidth+paddingW-cornersize, posY+paddingH-cornersize, 3.3*widgetScale, 2,2,2,2, {0.44,0.44,0.44,0.94}, {0.66,0.66,0.66 ,0.94})
+	
 	cornersize = math_floor(2.4*widgetScale)
-	--glColor(0,0,0,(WG['guishader'] and 0.22 or 0.26))
 	RectRound(posX-paddingW+cornersize,
 		posY-maxHeight-paddingH+cornersize,
 		posX+maxWidth+paddingW-cornersize,
 		posY+paddingH-cornersize-0.06,
 		2.2*widgetScale,
-		2,2,2,2, {0,0,0,(WG['guishader'] and 0.5 or 0.55)}, {0.15,0.15,0.15,(WG['guishader'] and 0.5 or 0.55)})
+		2,2,2,2, {0,0,0,(0.55)}, {0.15,0.15,0.15,(0.55)})
 
 	-- draw text
 	maxHeight = math_floor(-fontSize*0.93)
@@ -332,27 +322,16 @@ function drawTooltip(name, x, y)
 	glTranslate(-posX, -posY, 0)
 end
 
-local cleanupGuishaderAreas = {}
-function widget:RecvLuaMsg(msg, playerID)
-	if msg:sub(1,18) == 'LobbyOverlayActive' then
-		chobbyInterface = (msg:sub(1,19) == 'LobbyOverlayActive1')
-	end
-end
+
 
 function widget:DrawScreen()
-	if chobbyInterface then return end
 	if (WG['topbar'] and WG['topbar'].showingQuit()) then
 		return
 	end
 	local x, y = spGetMouseState()
 	local now = os.clock()
 
-	if WG['guishader'] then
-		for name, _ in pairs(cleanupGuishaderAreas) do
-			WG['guishader'].DeleteScreenDlist(name)
-			cleanupGuishaderAreas[name] = nil
-		end
-	end
+	
 	for name, tooltip in pairs(tooltips) do
 		if tooltip.area == nil or (tooltip.area[4]~= nil and IsOnRect(x, y, tooltip.area[1], tooltip.area[2], tooltip.area[3], tooltip.area[4])) then
 			if tooltip.area == nil then
@@ -362,7 +341,6 @@ function widget:DrawScreen()
                     drawTooltip(name, x + (xOffset*widgetScale), y + (yOffset*widgetScale))
                 end
 				tooltips[name] = nil
-				cleanupGuishaderAreas['tooltip_'..name] = true
 			else
 				if tooltip.displayTime == nil then
 					tooltip.displayTime = now + tooltip.delay
@@ -377,9 +355,7 @@ function widget:DrawScreen()
 		else
 			if tooltip.displayTime ~= nil then
 				tooltip.displayTime = nil
-				if WG['guishader'] then
-					WG['guishader'].DeleteScreenDlist('tooltip_'..name)
-				end
+				
 			end
 		end
 	end

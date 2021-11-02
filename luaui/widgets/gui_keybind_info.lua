@@ -276,18 +276,9 @@ function widget:DrawScreen()
 			glScale(widgetScale, widgetScale, 1)
 			glCallList(keybinds)
 		glPopMatrix()
-		if (WG['guishader_api'] ~= nil) then
-			local rectX1 = ((screenX-bgMargin) * widgetScale) - ((vsx * (widgetScale-1))/2)
-			local rectY1 = ((screenY+bgMargin) * widgetScale) - ((vsy * (widgetScale-1))/2)
-			local rectX2 = ((screenX+screenWidth+bgMargin) * widgetScale) - ((vsx * (widgetScale-1))/2)
-			local rectY2 = ((screenY-screenHeight-bgMargin) * widgetScale) - ((vsy * (widgetScale-1))/2)
-			WG['guishader_api'].InsertRect(rectX1, rectY2, rectX2, rectY1, 'keybindinfo')
-		end
+		
 		showOnceMore = false
-    else
-		if (WG['guishader_api'] ~= nil) then
-			WG['guishader_api'].RemoveRect('keybindinfo')
-		end
+   
 	end
 end
 
@@ -325,7 +316,7 @@ function mouseEvent(x, y, button, release)
 				rectY2 = rectY1 - ((closeButtonSize+bgMargin+bgMargin) * widgetScale)
 				if IsOnRect(x, y, rectX1, rectY2, rectX2, rectY1) then
 					if release then
-						showOnceMore = true		-- show once more because the guishader lags behind, though this will not fully fix it
+						showOnceMore = true		-- show once more because the  lags behind, though this will not fully fix it
 						show = not show
 					end
 					return true
@@ -333,7 +324,7 @@ function mouseEvent(x, y, button, release)
 				return true
 			elseif titleRect == nil or not IsOnRect(x, y, (titleRect[1] * widgetScale) - ((vsx * (widgetScale-1))/2), (titleRect[2] * widgetScale) - ((vsy * (widgetScale-1))/2), (titleRect[3] * widgetScale) - ((vsx * (widgetScale-1))/2), (titleRect[4] * widgetScale) - ((vsy * (widgetScale-1))/2)) then
 				if release then
-					showOnceMore = show		-- show once more because the guishader lags behind, though this will not fully fix it
+					showOnceMore = show		-- show once more because the  lags behind, though this will not fully fix it
 					show = not show
 				end
 				return true
@@ -344,7 +335,7 @@ function mouseEvent(x, y, button, release)
 			--ty = (y - posY*vsy)/(17*widgetScale)
 			--if tx < 0 or tx > 4 or ty < 0 or ty > 1.05 then return false end
 			--if release then
-			--	showOnceMore = show		-- show once more because the guishader lags behind, though this will not fully fix it
+			--	showOnceMore = show		-- show once more because the  lags behind, though this will not fully fix it
 			--	show = not show
 			--end
 			--return true

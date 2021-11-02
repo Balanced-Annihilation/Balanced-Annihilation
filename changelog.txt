@@ -1,11 +1,10 @@
-﻿14.1.8
-27/10/2021
+﻿14.1.9
+02/11/2021
 
-new smoother performance and improved graphics
 ultra graphics option (default off)
 immersive map border setting (default off)
 anti aliasing setting (default off)
-new settings: selected unit rings, cursor can leave window, allow chat, show cursors, render wrecks (default on)
+new settings: selected unit rings, cursor can leave window, allow chat, show cursors, always show wrecks (default on)
 
 bantha and krog +3% hp
 dragon's claw and dragon's maw 10% less damage resistance when closed
@@ -16,8 +15,7 @@ t3 lab +2% metal cost
 annihilator reload +1.5 seconds, doomsday -3.5% hp, tac nuke -6% hp 
 can and sumo +2% hp
 rezbots don't chain
-revert shield
-revert jugg hp and weapon
+revert shield and jugg hp and weapon
 
 12.1.0
 20/03/2021

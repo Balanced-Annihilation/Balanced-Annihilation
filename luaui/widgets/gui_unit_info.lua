@@ -509,19 +509,11 @@ function widget:DrawScreen()
 			glCallList(windowDlist)
 			DrawUnit(screenX, screenY, 150, 150)
 		glPopMatrix()
-		if (WG['guishader_api'] ~= nil) then
-			local rectX1 = ((screenX-bgMargin) * widgetScale) - ((vsx * (widgetScale-1))/2)
-			local rectY1 = ((screenY+bgMargin) * widgetScale) - ((vsy * (widgetScale-1))/2)
-			local rectX2 = ((screenX+screenWidth+bgMargin) * widgetScale) - ((vsx * (widgetScale-1))/2)
-			local rectY2 = ((screenY-screenHeight-bgMargin) * widgetScale) - ((vsy * (widgetScale-1))/2)
-			WG['guishader_api'].InsertRect(rectX1, rectY2, rectX2, rectY1, 'unitinfo')
-		end
+		
 		showOnceMore = false
 		
     else
-		if (WG['guishader_api'] ~= nil) then
-			WG['guishader_api'].RemoveRect('unitinfo')
-		end
+	
 	end
 end
 
@@ -632,7 +624,7 @@ function widget:MousePress(x, y, button)
 			local brectX1 = rectX2 - (closeButtonSize+bgMargin+bgMargin * widgetScale)
 			local brectY2 = rectY1 - (closeButtonSize+bgMargin+bgMargin * widgetScale)
 			if IsOnRect(x, y, brectX1, brectY2, rectX2, rectY1) then
-				showOnceMore = true		-- show once more because the guishader lags behind, though this will not fully fix it
+				showOnceMore = true		-- show once more because the lags behind, though this will not fully fix it
 				show = not show
 				return true
 			end
@@ -671,7 +663,7 @@ function widget:MousePress(x, y, button)
 				return true
 			end
 		elseif titleRect == nil or not IsOnRect(x, y, (titleRect[1] * widgetScale) - ((vsx * (widgetScale-1))/2), (titleRect[2] * widgetScale) - ((vsy * (widgetScale-1))/2), (titleRect[3] * widgetScale) - ((vsx * (widgetScale-1))/2), (titleRect[4] * widgetScale) - ((vsy * (widgetScale-1))/2)) then
-			showOnceMore = true		-- show once more because the guishader lags behind, though this will not fully fix it
+			showOnceMore = true		-- show once more because the lags behind, though this will not fully fix it
 			show = not show
 		end
     end

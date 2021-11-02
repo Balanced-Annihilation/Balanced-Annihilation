@@ -33,7 +33,7 @@ end
 -- v11.3 (Bluestone): More cleaning up
 -- v11.4 (Bluestone): Mute people with ctrl+click on their name
 -- v12   (Floris): Restyled looks + added imageDirectory var + HD-ified rank and some other icons
--- v13   (Floris): Added scale buttons. Added grey cpu/ping icons for spectators. Resized elements. Textured bg. Spec label click to unfold/fold. Added guishader. Lockcamera on doubleclick. Ping in ms/sec/min. Shows dot icon in front of tracked player. HD-ified lots of other icons. Speccing/dead player keep their color. Improved e/m share gui responsiveness. + removed the m_spec option
+-- v13   (Floris): Added scale buttons. Added grey cpu/ping icons for spectators. Resized elements. Textured bg. Spec label click to unfold/fold. Added . Lockcamera on doubleclick. Ping in ms/sec/min. Shows dot icon in front of tracked player. HD-ified lots of other icons. Speccing/dead player keep their color. Improved e/m share gui responsiveness. + removed the m_spec option
 -- v14   (Floris): Added country flags + Added camera icons for locked camera + specs show bright when they are broadcasting new lockcamera positions + bugfixed lockcamera for specs. Added small gaps between in tweakui icons. Auto scales with resolution changes.
 -- v15   (Floris): Integrated LockCamers widget code
 -- v16	 (Floris): Added chips next to gambling-spectators for betting system
@@ -806,9 +806,7 @@ end
 
 
 function widget:Shutdown()
-	if (WG['guishader_api'] ~= nil) then
-		WG['guishader_api'].RemoveRect('advplayerlist')
-	end
+
 	widgetHandler:DeregisterGlobal('CameraBroadcastEvent')
 	widgetHandler:DeregisterGlobal('ActivityEvent')
   widgetHandler:DeregisterGlobal('FpsEvent')
@@ -1523,13 +1521,7 @@ function CreateBackground()
 	local TRcornerX = widgetPosX + widgetWidth + margin
 	local TRcornerY = widgetPosY + widgetHeight - 1 + margin
 	
-	if (WG['guishader_api'] ~= nil) then
-		local left		= BLcornerX - ((widgetPosX - BLcornerX) * (widgetScale-1))
-		local bottom	= BLcornerY - ((widgetPosY - BLcornerY) * (widgetScale-1))
-		local right		= TRcornerX - ((widgetPosX - TRcornerX) * (widgetScale-1))
-		local top		= TRcornerY - ((widgetPosY - TRcornerY) * (widgetScale-1))
-		WG['guishader_api'].InsertRect(left,bottom,right,top,'advplayerlist')
-	end
+
 	
 	Background = gl_CreateList(function()
 		gl_Color(0,0,0,0.66)

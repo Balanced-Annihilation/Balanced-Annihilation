@@ -375,9 +375,7 @@ end
 function widget:Shutdown()
 	glDeleteList(textDisplayList)
 	glDeleteList(backgroundDisplayList)
-	if WG['guishader'] then
-		WG['guishader'].DeleteDlist('teamstats_window')
-	end
+	
 end
 
 function compareAllyTeams(a,b)
@@ -605,18 +603,11 @@ function widget:Update()
 	mousex,mousey = x,y
 end
 
-function widget:RecvLuaMsg(msg, playerID)
-	if msg:sub(1,18) == 'LobbyOverlayActive' then
-		chobbyInterface = (msg:sub(1,19) == 'LobbyOverlayActive1')
-	end
-end
+
 
 function widget:DrawScreen()
-	if chobbyInterface then return end
 	if IsGUIHidden() then return end
-	if not guiData.mainPanel.visible and WG['guishader'] then
-		WG['guishader'].DeleteDlist('teamstats_window')
-	end
+
 	DrawBackground()
 	DrawAllStats()
 end
@@ -741,22 +732,14 @@ function DrawBackground()
 
 	local x1,y1,x2,y2 = guiData.mainPanel.absSizes.x.min, guiData.mainPanel.absSizes.y.min, guiData.mainPanel.absSizes.x.max, guiData.mainPanel.absSizes.y.max
 
-	if WG['guishader'] then
-		gl.Color(0,0,0,0.8)
-	else
+	
 		gl.Color(0,0,0,0.85)
-	end
+	
 	local padding = 5*widgetScale
-	RectRound(x1-padding,y1-padding,x2+padding,y2+padding,8*widgetScale, 1,1,1,1, {0.05,0.05,0.05,WG['guishader'] and 0.85 or 0.85}, {0,0,0,WG['guishader'] and 0.85 or 0.85})
-	if WG['guishader'] then
-		if backgroundGuishader ~= nil then
-			glDeleteList(backgroundGuishader)
-		end
-		backgroundGuishader = glCreateList( function()
-			RectRound(x1-padding,y1-padding,x2+padding,y2+padding, 9*widgetScale)
-		end)
-		WG['guishader'].InsertDlist(backgroundGuishader,'teamstats_window')
-	end
+	
+
+	RectRound(x1-padding,y1-padding,x2+padding,y2+padding,8*widgetScale, 1,1,1,1, {0.05,0.05,0.05,0.85}, {0,0,0,0.85})
+
 end
 
 function DrawAllStats()

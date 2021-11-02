@@ -20,5 +20,5 @@ end
 	end
 
 	function widget:Shutdown()
-	  widgetHandler:RemoveAction('take2')
+	  widgetHandler:RemoveAction("take2")
 	end

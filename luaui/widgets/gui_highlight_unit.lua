@@ -85,7 +85,7 @@ local spTraceScreenRay = Spring.TraceScreenRay
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 
-local shader, chobbyInterface
+local shader
 
 local texName = 'LuaUI/Images/highlight_strip.png'
 

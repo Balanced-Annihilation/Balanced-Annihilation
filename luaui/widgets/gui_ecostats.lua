@@ -124,8 +124,7 @@ local singleTeams = true
 if #Spring.GetTeamList()-1  ==  #Spring.GetAllyTeamList()-1 then
 	singleTeams = true
 end
-local guishaderRects = {}
-local guishaderRectsDlists = {}
+
 
 Options = {}
 Options["resText"] = {}
@@ -179,37 +178,8 @@ local fontfileOutlineStrength = 1.3
 	Init()
 end
 
-function removeGuiShaderRects()
-	if WG['guishader'] then
-		for _, data in pairs(allyData) do
-			local aID = data.aID
-			if isTeamReal(aID) and (aID == GetMyAllyTeamID() or inSpecMode) and (aID ~= gaiaAllyID or haveZombies) then
-				WG['guishader'].DeleteDlist('ecostats_'..aID)
-				guishaderRectsDlists['ecostats_'..aID] = nil
-			end
-		end
-	end
-
-	if WG['tooltip'] ~= nil then
-		for _, data in pairs(allyData) do
-			local aID = data.aID
-			if isTeamReal(aID) and (aID == GetMyAllyTeamID() or inSpecMode) and (aID ~= gaiaAllyID or haveZombies) then
-				if tooltipAreas['ecostats_'..aID] ~= nil then
-					WG['tooltip'].RemoveTooltip('ecostats_'..aID)
-					tooltipAreas['ecostats_'..aID] = nil
-					local teams = Spring.GetTeamList(aID)
-					for _, tID in ipairs(teams) do
-						WG['tooltip'].RemoveTooltip('ecostats_team_'..tID)
-					end
-				end
-			end
-		end
-	end
-
-end
 
 function widget:Shutdown()
-	removeGuiShaderRects()
 	if (sideImageList) then
 		gl.DeleteList(sideImageList)
 	end
@@ -742,7 +712,6 @@ local function DrawBackground(posY, allyID, sideimagesWidth)
 	RectRound(widgetPosX+sideimagesWidth+borderPadding,y1+borderPadding, widgetPosX + widgetWidth-borderPaddingRight, y1+borderPadding+((y2-y1)*0.35), borderPadding*0.8, 0,0,0,1, {1,1,1,0.025*glossMult}, {1,1,1,0})
 	glBlending(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
 
-	guishaderRects['ecostats_'..allyID] = {widgetPosX+sideimagesWidth, y1, widgetPosX + widgetWidth, y2, 4*widgetScale}
 
 	area[1] = area[1]+(widgetWidth/12)
 	if WG['tooltip'] ~= nil and (tooltipAreas['ecostats_'..allyID] == nil or tooltipAreas['ecostats_'..allyID] ~= area[1]..'_'..area[2]..'_'..area[3]..'_'..area[4]) then
@@ -1448,7 +1417,6 @@ function widget:TeamDied(teamID)
 
 	lastPlayerChange = frame
 
-	removeGuiShaderRects()
 	--reclaimerUnits[teamID] = nil
 
 	if not (Spring.GetSpectatingState() or isReplay) then
@@ -1675,15 +1643,7 @@ function makeSideImageList()
 
 	if (sideImageList) then gl.DeleteList(sideImageList) end
 	sideImageList = gl.CreateList(DrawSideImages)
-	if WG['guishader'] then
-		for id, rect in pairs(guishaderRects) do
-			if guishaderRectsDlists[id] then
-				gl.DeleteList(guishaderRectsDlists[id])
-			end
-			guishaderRectsDlists[id] = gl.CreateList( function() RectRound(rect[1],rect[2],rect[3],rect[4],rect[5]) end)
-			WG['guishader'].InsertDlist(guishaderRectsDlists[id], id)
-		end
-	end
+	
 end
 
 function widget:TweakDrawScreen()
@@ -1714,8 +1674,7 @@ function widget:Update(dt)
 		myFullview = select(2,Spring.GetSpectatingState())
 		if myFullView then
 			Reinit()
-		else
-			removeGuiShaderRects()
+	
 		end
 	end
 	if myFullview and not singleTeams and WG['playercolorpalette'] ~= nil and WG['playercolorpalette'].getSameTeamColors() then
@@ -1726,14 +1685,9 @@ function widget:Update(dt)
 	end
 end
 
-function widget:RecvLuaMsg(msg, playerID)
-	if msg:sub(1,18) == 'LobbyOverlayActive' then
-		chobbyInterface = (msg:sub(1,19) == 'LobbyOverlayActive1')
-	end
-end
+
 
 function widget:DrawScreen()
-	if chobbyInterface then return end
 	if not inSpecMode or not myFullview then return end
 	if Spring.IsGUIHidden() or (not inSpecMode) then return end
 

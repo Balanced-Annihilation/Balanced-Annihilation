@@ -151,9 +151,7 @@ function widget:Shutdown()
 	widgetHandler:DeregisterGlobal('selectedUnitsClear')
 	widgetHandler:DeregisterGlobal('selectedUnitsAdd')
 	gl.DeleteList(circleLines)
-	if (WG['guishader_api'] ~= nil) then
-		WG['guishader_api'].RemoveRect('allyselectedunits')
-	end
+
 end
 
 function widget:PlayerAdded(playerID)
@@ -382,13 +380,8 @@ function widget:DrawScreen()
 		glText("Ally Selected Units", xPos + (10*sizeMultiplier), yPos + ((panelHeight - 19)*sizeMultiplier), 13*sizeMultiplier, "n")
 		glColor(1, 1, 1, 0.2)
 		drawCheckbox(xPos + (12*sizeMultiplier), yPos + (10*sizeMultiplier), selectPlayerUnits,  "Select tracked player units")
-		if (WG['guishader_api'] ~= nil) then
-			WG['guishader_api'].InsertRect(xPos, yPos, xPos + (panelWidth*sizeMultiplier), yPos + (panelHeight*sizeMultiplier), 'allyselectedunits')
-		end
-	else
-		if (WG['guishader_api'] ~= nil) then
-			WG['guishader_api'].RemoveRect('allyselectedunits')
-		end
+		
+	
 	end
 end
 

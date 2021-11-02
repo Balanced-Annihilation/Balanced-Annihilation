@@ -51,7 +51,7 @@ function widget:Shutdown()
 
 					widgetHandler: DisableWidget("Contrast Adaptive Sharpen")
 
-				 Spring.SendCommands("shadows 0")
+				 Spring.SendCommands("Shadows 0")
 				 Spring.SendCommands("AdvMapShading "..0)
 				 Spring.SetConfigInt("AdvMapShading", 0)
 				 Spring.SendCommands("AdvModelShading "..0)
@@ -62,7 +62,7 @@ function widget:Shutdown()
 			 elseif value == 1 then
 				RestartLightFXWidgets()
 				
-				Spring.SendCommands("Shadows 1 4096")
+				Spring.SendCommands("Shadows 1")
 
 				Spring.SendCommands("AdvMapShading "..1)
 				 Spring.SetConfigInt("AdvMapShading", 1)
@@ -79,7 +79,7 @@ function widget:Shutdown()
 			 elseif value == 2 then
 				RestartLightFXWidgets()
 			
-				Spring.SendCommands("Shadows 1 4096")
+				Spring.SendCommands("Shadows 1")
 				 Spring.SendCommands("AdvMapShading "..1)
 				 Spring.SetConfigInt("AdvMapShading", 1)
 				 Spring.SendCommands("AdvModelShading "..1)
@@ -122,7 +122,7 @@ function widget:GameFrame(gameFrame)
 						widgetHandler: DisableWidget("Bloom Shader Alternate Deferred")
 						widgetHandler: DisableWidget("Bloom Shader Alternate")
 						widgetHandler: DisableWidget("SSAO_alternative")
-						Spring.SendCommands("shadows 0")
+						Spring.SendCommands("Shadows 0")
 						widgetHandler:DisableWidget("Projectile lights")
 						widgetHandler:DisableWidget("Deferred rendering")
 						widgetHandler:DisableWidget("Light Effects")
@@ -137,7 +137,7 @@ function widget:GameFrame(gameFrame)
 						--widgetHandler:DisableWidget("Volumetric Clouds")
 					
 					
-						Spring.SendCommands("shadows 0")
+						Spring.SendCommands("Shadows 0")
 						widgetHandler:DisableWidget("Projectile lights")
 						widgetHandler:DisableWidget("Deferred rendering")
 						widgetHandler:DisableWidget("Light Effects")

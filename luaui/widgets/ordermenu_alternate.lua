@@ -140,21 +140,7 @@ end
 -------------------------------------------------------------------------------
 -------------------------------------------------------------------------------
 
-local function checkGuishader(force)
-  if WG['guishader'] then
-    if force and dlistGuishader then
-      dlistGuishader = gl.DeleteList(dlistGuishader)
-    end
-    if not dlistGuishader then
-      dlistGuishader = gl.CreateList( function()
-        RectRound(backgroundRect[1],backgroundRect[2],backgroundRect[3],backgroundRect[4], (bgBorder*vsy)*2)
-      end)
-      WG['guishader'].InsertDlist(dlistGuishader, 'ordermenu')
-    end
-  elseif dlistGuishader then
-    dlistGuishader = gl.DeleteList(dlistGuishader)
-  end
-end
+
 
 function widget:PlayerChanged(playerID)
   isSpec = Spring.GetSpectatingState()
@@ -278,7 +264,6 @@ function widget:ViewResize()
 
   dlistOrders = gl.DeleteList(dlistOrders)
 
-  checkGuishader(true)
   setupCellGrid(true)
   doUpdate = true
 
@@ -318,10 +303,7 @@ function widget:Initialize()
 end
 
 function widget:Shutdown()
-  if WG['guishader'] and dlistGuishader then
-    WG['guishader'].DeleteDlist('ordermenu')
-    dlistGuishader = nil
-  end
+ 
   dlistOrders = gl.DeleteList(dlistOrders)
 end
 
@@ -330,7 +312,7 @@ function widget:Update(dt)
   sec = sec + dt
   if sec > 0.5 then
     sec = 0
-    checkGuishader()
+    
     if ui_scale ~= 1 then
       ui_scale = 1
       widget:ViewResize()
@@ -501,13 +483,10 @@ function drawOrders()
       color1 = {0,0,0,0.95}
       color2 = {0.9,0,0,0.95}
     else
-      if WG['guishader'] then
-        color1 = (cmd.type == 5) and {0.4,0.4,0.4,0.6} or {0.6,0.6,0.6,0.6}
-        color2 = {0.8,0.8,0.8,0.6}
-      else
+      
         color1 = (cmd.type == 5) and {0.1,0.1,0.1,1} or {0.1,0.1,0.1,1}
         color2 = {0.4,0.4,0.4,0.95}
-      end
+      
       RectRound(cellRects[cell][1]+cellMarginPx, cellRects[cell][2]+cellMarginPx, cellRects[cell][3]-cellMarginPx, cellRects[cell][4]-cellMarginPx, padding*1.66 ,2,2,2,2, color1,color2)
 
       color1 = {0,0,0,0.85}
@@ -655,7 +634,6 @@ end
 
 local clickCountDown = 2
 function widget:DrawScreen()
-  if chobbyInterface then return end
   clickCountDown = clickCountDown - 1
   if clickCountDown == 0 then
     doUpdate = true
@@ -705,13 +683,9 @@ function widget:DrawScreen()
   end
 
   if #cmds == 0 then
-    if dlistGuishader and WG['guishader'] then
-      WG['guishader'].RemoveDlist('ordermenu')
-    end
+   
   else
-    if dlistGuishader and WG['guishader'] then
-      WG['guishader'].InsertDlist(dlistGuishader, 'ordermenu')
-    end
+    
     if doUpdate then
       dlistOrders = gl.DeleteList(dlistOrders)
     end

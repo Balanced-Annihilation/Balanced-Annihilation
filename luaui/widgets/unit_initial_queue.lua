@@ -15,7 +15,7 @@ end
 -- 12 jun 2012: "uDef.isMetalExtractor" was replaced by "uDef.extractsMetal > 0" to fix "metal" mode map switching (by [teh]decay, thx to vbs and Beherith)
 -- 20 march 2013: added keyboard support with BA keybinds (Bluestone)
 -- august 2013: send queue length to cmd_idle_players (BrainDamage)
--- june 2015: guishader + rounded corners + hover effect + widget scales with resolution + remembers queue after /luaui reload (Floris)
+-- june 2015:  rounded corners + hover effect + widget scales with resolution + remembers queue after /luaui reload (Floris)
 
 
 ------------------------------------------------------------
@@ -387,19 +387,10 @@ function widget:Initialize()
 		InitializeFaction(sDefID)
 		WG["faction_change"] = InitializeFaction
 	end
-	processGuishader()
+	
 end
 
-function processGuishader()
-	if (WG['guishader_api'] ~= nil) then
-		local sBuilds = UnitDefs[sDefID].buildOptions
-		local numCols = math.min(#sBuilds, maxCols)
-		local numRows = math.ceil(#sBuilds / numCols)
-		local bgheight = ((numRows*iconHeight)+margin)*widgetScale
-		local bgwidth = ((numCols*iconWidth)+margin)*widgetScale
-		WG['guishader_api'].InsertRect(wl-(margin*widgetScale), wt-bgheight, wl+bgwidth, wt+margin*widgetScale, 'initialqueue')
-	end
-end
+
 
 function RectRound(px,py,sx,sy,cs)
 	
@@ -507,9 +498,7 @@ function widget:Shutdown()
 		gl.DeleteList(panelList)
 	end
 	WG["faction_change"] = nil
-	if (WG['guishader_api'] ~= nil) then
-		WG['guishader_api'].RemoveRect('initialqueue')
-	end
+
 end
 
 
@@ -916,7 +905,7 @@ function widget:MouseMove(mx, my, dx, dy, mButton)
 		if wt > vsy then 
 			wt = vsy
 		end
-		processGuishader()
+		
 	end
 end
 
@@ -1007,7 +996,7 @@ end
 function widget:ViewResize(newX,newY)
 	vsx, vsy = newX, newY
 	widgetScale = (0.6 + (vsx*vsy / 4000000)) * customScale
-	processGuishader()
+
 	
 	local sBuilds = UnitDefs[sDefID].buildOptions
 	local numCols = math.min(#sBuilds, maxCols)

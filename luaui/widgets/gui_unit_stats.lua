@@ -179,14 +179,7 @@ local function GetTeamName(teamID)
 	return leaderName or 'Error:NoName'
 end
 
-local guishaderEnabled = false	-- not a config var
-function RemoveGuishader()
-	if guishaderEnabled and WG['guishader_api'] ~= nil then
-		WG['guishader_api'].RemoveRect('unit_stats_title')
-		WG['guishader_api'].RemoveRect('unit_stats_data')
-		guishaderEnabled = false
-	end
-end
+
 
 ------------------------------------------------------------------------------------
 -- Code
@@ -196,9 +189,7 @@ function widget:Initialize()
 	init()
 end
 
-function widget:Shutdown()
-	RemoveGuishader()
-end
+
 
 function init()
 	vsx, vsy = gl.GetViewSizes()
@@ -216,7 +207,7 @@ end
 
 function widget:DrawScreen()
 	local alt, ctrl, meta, shift = spGetModKeyState()
-	if not meta then RemoveGuishader() return end
+	if not meta then return end
 
 	local mx, my = spGetMouseState()
 	local uID
@@ -231,12 +222,12 @@ function widget:DrawScreen()
 		end
 	end
 	if not uID then
-		RemoveGuishader() return
+		 return
 	end
 	local useExp = ctrl
 	local uDefID = spGetUnitDefID(uID)
 	if not uDefID then
-		RemoveGuishader() return
+		 return
 	end
 
 	local uDef = uDefs[uDefID]
@@ -258,10 +249,7 @@ function widget:DrawScreen()
 	glColor(1,1,1,0.025)
 	RectRound(cX-bgpadding+cornersize, cY-bgpadding+cornersize, cX+(gl.GetTextWidth(text)*fontSize)+bgpadding-cornersize, cY+(fontSize/2)+bgpadding-cornersize, bgcornerSize)
 	
-	if (WG['guishader_api'] ~= nil) then
-		guishaderEnabled = true
-		WG['guishader_api'].InsertRect(cX-bgpadding, cY-bgpadding, cX+(gl.GetTextWidth(text)*fontSize)+bgpadding, cY+(fontSize/2)+bgpadding, 'unit_stats_title')
-	end
+
 	
 	glColor(1.0, 1.0, 1.0, 1.0)
 	glText(text, cX, cY, fontSize, "o")
@@ -497,10 +485,7 @@ function widget:DrawScreen()
 
 	DrawTextBuffer()
 
-	if (WG['guishader_api'] ~= nil) then
-		guishaderEnabled = true
-		WG['guishader_api'].InsertRect(cX-bgpadding, cY+(fontSize/3)+bgpadding, cX+maxWidth+bgpadding, cYstart-bgpadding, 'unit_stats_data')
-	end
+
 end
 
 ------------------------------------------------------------------------------------

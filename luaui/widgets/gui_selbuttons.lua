@@ -104,23 +104,7 @@ local font
 -------------------------------------------------------------------------------
 
 
-local function updateGuishader()
-	if (WG['guishader_api'] ~= nil) then
-		if not enabled then
-			WG['guishader_api'].RemoveRect('selectionbuttons')
-		else
-			if backgroundDimentions[1] ~= nil then
-				WG['guishader_api'].InsertRect(
-					backgroundDimentions[1],
-					backgroundDimentions[2],
-					backgroundDimentions[3],
-					backgroundDimentions[4],
-					'selectionbuttons'
-				)
-			end
-		end
-	end
-end
+
 
 local vsx, vsy = widgetHandler:GetViewSizes()
 function widget:ViewResize(viewSizeX, viewSizeY)
@@ -164,7 +148,6 @@ function widget:DrawScreen()
 		end
 	  end    
 	end
-	updateGuishader()
 end
 
 function widget:CommandsChanged()
@@ -183,7 +166,6 @@ function widget:Shutdown()
     gl.DeleteList(picList)
   end
   enabled = false
-  updateGuishader()
 end
 
 function DrawPicList()

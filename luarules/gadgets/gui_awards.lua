@@ -435,7 +435,7 @@ function ProcessAwards(_,ecoKillAward, ecoKillAwardSec, ecoKillAwardThi, ecoKill
 	drawAwards = true
 	
 	--don't show graph
-	Spring.SendCommands('endgraph 0')	
+	Spring.SendCommands("endgraph 0")	
 end
 
 
@@ -512,9 +512,7 @@ function CreateBackground()
 		glDeleteList(Background)
 	end
 	
-	if (WG ~= nil and WG['guishader_api'] ~= nil) then
-		WG['guishader_api'].InsertRect(math.floor(bx), math.floor(by), math.floor(bx + w), math.floor(by + h),'awards')
-	end
+
 	
 	Background = glCreateList(function()
 		-- background
@@ -666,10 +664,8 @@ function gadget:MousePress(x,y,button)
 			Spring.SendCommands("quitforce")
 		end
 		if (x > bx+w-graphsX-5) and (x < bx+w-graphsX+16*gl.GetTextWidth('Show Graphs')+5) and (y>by+50-5) and (y<by+50+16+5) then
-			Spring.SendCommands('endgraph 1')
-			if (WG ~= nil and WG['guishader_api'] ~= nil) then
-				WG['guishader_api'].RemoveRect('awards')
-			end
+			Spring.SendCommands("endgraph 1")
+			
 			drawAwards = false
 		end	
 	end
@@ -730,10 +726,8 @@ end
 
 
 function gadget:Shutdown()
-	Spring.SendCommands('endgraph 1')
-	if (WG ~= nil and WG['guishader_api'] ~= nil) then
-		WG['guishader_api'].RemoveRect('awards')
-	end
+	Spring.SendCommands("endgraph 1")
+	
 end
 
 end

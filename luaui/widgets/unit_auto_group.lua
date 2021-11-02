@@ -95,7 +95,7 @@ local myTeam = Spring.GetMyTeamID()
 local createdFrame = {}
 local textSize = 13.0
 
-local font, dlists, gameStarted, chobbyInterface
+local font, dlists, gameStarted
 
 -- gr = groupe selected/wanted
 
@@ -180,16 +180,10 @@ function widget:Shutdown()
 	end
 end
 
-function widget:RecvLuaMsg(msg, playerID)
-	if msg:sub(1, 18) == 'LobbyOverlayActive' then
-		chobbyInterface = (msg:sub(1, 19) == 'LobbyOverlayActive1')
-	end
-end
+
 
 function widget:DrawWorld()
-	if chobbyInterface then
-		return
-	end
+
 		local existingGroups = GetGroupList()
 end
 
