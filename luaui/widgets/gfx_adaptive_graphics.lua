@@ -16,7 +16,7 @@ local spGetFPS				= Spring.GetFPS
 local isSpec = Spring.GetSpectatingState()
 local prevnumparticles = Spring.GetConfigInt("MaxParticles",30000)
 local graphicslevel = 2
-local previmmersiveborderpreset=tonumber(Spring.GetConfigInt("immersiveborder",1))
+local previmmersiveborderpreset=tonumber(Spring.GetConfigInt("immersiveborder",0))
 local minimumenabled = 0
 
 local function RestartLightFXWidgets()
@@ -24,10 +24,8 @@ local function RestartLightFXWidgets()
    widgetHandler:DisableWidget("Light Effects")
    widgetHandler:DisableWidget("Lups")
    widgetHandler:DisableWidget("LupsManager")
-   widgetHandler:DisableWidget("Projectile lights")
    widgetHandler:EnableWidget("Deferred rendering")
    widgetHandler:EnableWidget("Light Effects")
-   widgetHandler:EnableWidget("Projectile lights")
    widgetHandler:EnableWidget("Lups")
    widgetHandler:EnableWidget("LupsManager")
 end
@@ -46,7 +44,6 @@ function widget:Shutdown()
 				   widgetHandler:DisableWidget("LupsManager")
 				   --widgetHandler:EnableWidget("Lups")
 					--widgetHandler:EnableWidget("LupsManager")
-				   widgetHandler:DisableWidget("Projectile lights")
 				 					widgetHandler: DisableWidget("SSAO_alternative")
 
 					widgetHandler: DisableWidget("Contrast Adaptive Sharpen")
@@ -123,7 +120,6 @@ function widget:GameFrame(gameFrame)
 						widgetHandler: DisableWidget("Bloom Shader Alternate")
 						widgetHandler: DisableWidget("SSAO_alternative")
 						Spring.SendCommands("Shadows 0")
-						widgetHandler:DisableWidget("Projectile lights")
 						widgetHandler:DisableWidget("Deferred rendering")
 						widgetHandler:DisableWidget("Light Effects")
 						widgetHandler:DisableWidget("Contrast Adaptive Sharpen")
@@ -138,7 +134,7 @@ function widget:GameFrame(gameFrame)
 					
 					
 						Spring.SendCommands("Shadows 0")
-						widgetHandler:DisableWidget("Projectile lights")
+					
 						widgetHandler:DisableWidget("Deferred rendering")
 						widgetHandler:DisableWidget("Light Effects")
 						widgetHandler:DisableWidget("Contrast Adaptive Sharpen")

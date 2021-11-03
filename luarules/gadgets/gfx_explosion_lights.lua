@@ -27,67 +27,11 @@ local cacheids = {}
 
 if (gadgetHandler:IsSyncedCode()) then
 
-
-
-
- --local wantedList = {}
-
-  --// find weapons which cause a shockwave
-  --[[for i=1,#WeaponDefs do
-    local wd = WeaponDefs[i]
-    local customParams = wd.customParams or {}
-	
-	if wd.reload > 1 then 
-		 wantedList[#wantedList + 1] = wd.id
-	end
-  end
-	if wantedList[wd.id] then
-		end ]]--
- 
- --[[local wantedList = {}
-		
-	local unitdefInfo = {}
-	for unitDefID, unitDef in pairs(UnitDefs) do
-		
-		
-		if unitDef.canFly then
-		
-			if unitDef.explodeas == "SMALL_BUILDING" then -- not krow
-				return
-			end
-		
-			for i = 1, #unitDef.weapons do
-				
-				local WeaponDefID = unitDef.weapons[i].weaponDef
-				local WeaponDef = WeaponDefs[WeaponDefID]
-				wantedList[#wantedList + 1] = WeaponDefID
-				--WeaponDef.reload > unitDef.reloadTime
-				
-			end
-		
-		
-		end
-		end]]--
-		--uDef.explodeas 
-		--uDef.selfdestructas
-		
---local vamp = WeaponDefNames['corvamp'].id
---local hawk = WeaponDefNames['armhawk'].id
---local armfig = WeaponDefNames['armfig'].id
---local corfig = WeaponDefNames['corveng'].id
-		
     local cannonWeapons = {}
 	 local barrelWeapons = {}
     function gadget:Initialize()
         for wdid, wd in pairs(WeaponDefs) do
-           -- if wd.type == "Flame" then
-           --     Script.SetWatchExplosion(wdid, true)     -- watch weapon so explosion gets called for flame weapons
-           -- end
-		   
-		   
-		  --if (not (wd.reload < 1 and wd.damageAreaOfEffect >= 64)) then
-			--	barrelWeapons[wdid] = true
-		  --end
+       
 		   
 				if wd.type == "Cannon" then
 					cannonWeapons[wdid] = true
@@ -99,20 +43,18 @@ if (gadgetHandler:IsSyncedCode()) then
         end
 		
 			
-cacheids[flea_ex] ='a'
-cacheids[small_unitex]='a'
-cacheids[small_unit]='a'
-cacheids[small_unit_air]='a'
-cacheids[small_unitex_air]='a'
-cacheids[big_unitex_air]='a'
-cacheids[big_unit_air]='a'
+cacheids[flea_ex] =true
+cacheids[small_unitex]=true
+cacheids[small_unit]=true
+cacheids[small_unit_air]=true
+cacheids[small_unitex_air]=true
+cacheids[big_unitex_air]=true
+cacheids[big_unit_air]=true
 		
     end
     function gadget:Shutdown()
         for wdid, wd in pairs(WeaponDefs) do
-            --if wd.type == "Flame" then
-            --    Script.SetWatchExplosion(wdid, false)     -- watch weapon so explosion gets called for flame weapons
-           -- end
+
             if wd.type == "Cannon" then
                 Script.SetWatchExplosion(wdid, false)    -- might be getting too expensive
             end
@@ -126,15 +68,7 @@ cacheids[big_unit_air]='a'
 				SendToUnsynced("explosion_light", px, py, pz, weaponID, ownerID)
 			end
     end
-	
 
-
-   -- function gadget:ProjectileCreated(projectileID, ownerID, weaponID)
-   --    if barrelWeapons[weaponID] then
-    --        local px, py, pz = Spring.GetProjectilePosition(projectileID)
-    --        SendToUnsynced("barrelfire_light", px, py, pz, weaponID, ownerID)
-    --    end
-  --  end
 
 else
 
@@ -164,19 +98,6 @@ else
             end
         end
     end
-
-   -- local function SpawnBarrelfire(_,px,py,pz, weaponID, ownerID)
-        --Spring.Echo(weaponID..'  '..math.random())
-   --     if Script.LuaUI("GadgetWeaponBarrelfire") then
-   --         if ownerID ~= nil then
-   --             if (spGetUnitAllyTeam(ownerID) == myAllyID  or  spIsPosInLos(px, py, pz, myAllyID)) then
-    --                Script.LuaUI.GadgetWeaponBarrelfire(px, py, pz, weaponID, ownerID)
-    --          end
-    --       else
-   --            Script.LuaUI.GadgetWeaponBarrelfire(px, py, pz, weaponID)
-   --         end
-   --     end
- --   end
 
     function gadget:Initialize()
         gadgetHandler:AddSyncAction("explosion_light", SpawnExplosion)

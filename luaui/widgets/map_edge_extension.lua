@@ -7,7 +7,7 @@ function widget:GetInfo()
     author    = "Pako",
     date      = "2010.10.27",
     license   = "GPL",
-    layer     = 0,
+    layer     = -3,
     enabled   = false,
     --detailsDefault = 3
   }

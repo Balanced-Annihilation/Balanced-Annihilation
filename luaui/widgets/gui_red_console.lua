@@ -497,7 +497,7 @@ local function processLine(line,g,cfg,newlinecolor)
 	-- filter rude words
 	if tonumber(Spring.GetConfigInt("ProfanityFilter",1) or 1) == 1 then
 		local line2 = string.lower(line)
-   if sfind(line2,"cunt") or sfind(line2,"fuc")or sfind(line2,"nigg")or sfind(line2,"tard")or sfind(line2,"shit")or sfind(line2,"fag")or sfind(line2,"autis")or sfind(line2,"rape")or sfind(line2,"dick")or sfind(line2,"penis")or sfind(line2,"pussy")or sfind(line2,"porn")or sfind(line2,"sex")or sfind(line2,"gay")or sfind(line2,"homo")or sfind(line2,"cancer") then
+   if sfind(line2,"cunt") or sfind(line2," fuc")or sfind(line2,"nigg")or sfind(line2,"tard")or sfind(line2,"shit")or sfind(line2,"fag")or sfind(line2,"autis")or sfind(line2,"rape")or sfind(line2,"dick")or sfind(line2,"penis")or sfind(line2,"pussy")or sfind(line2,"porn")or sfind(line2,"sex")or sfind(line2,"gay")or sfind(line2,"homo")or sfind(line2,"cancer") then
 			ignoreThisMessage = true
 	end
    end
@@ -573,10 +573,10 @@ local function processLine(line,g,cfg,newlinecolor)
 	  ignoreThisMessage = true
 	end
 	
-	if sfind(line,"->") then 
-		name = lastConnectionAttempt
-	  ignoreThisMessage = true
-	end
+	--if sfind(line,"->") then 
+	--	name = lastConnectionAttempt
+	--  ignoreThisMessage = true
+	--end
 	
 	if sfind(line,"normal quit") then  -- "Spectator " normal quit remove spectator quit spam
 		name = lastConnectionAttempt

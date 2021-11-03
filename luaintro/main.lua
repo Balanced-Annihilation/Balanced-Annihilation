@@ -73,14 +73,11 @@ if bafirstlaunchsetupiscomplete ~= "done" then
 	Spring.SetConfigString("LinkIncomingSustainedBandwidth", "262144")
 	Spring.SetConfigString("LinkIncomingPeakBandwidth", "262144")
 	Spring.SetConfigString("LinkIncomingMaxPacketRate", "2048")
-		
+
 		
 		Spring.SetConfigInt("immersiveborder", 0)
 			Spring.SetConfigInt("MSAALevel", 0)
-			Spring.SetConfigInt("AllowDeferredMapRendering", 1)
-			Spring.SetConfigInt("AllowDeferredModelRendering", 1)
-			Spring.SetConfigInt("AdvMapShading", 1)
-			Spring.SetConfigInt("AdvModelShading", 1)
+
 			
 		--widgetHandler:EnableWidget("Adaptive graphics")
 		--widgetHandler:EnableWidget("Commands FX")
@@ -109,6 +106,10 @@ if bafirstlaunchsetupiscomplete ~= "done" then
 Spring.SetConfigInt("ShadowMapSize", 4096)
 end
 
+			Spring.SetConfigInt("AllowDeferredMapRendering", 1)
+			Spring.SetConfigInt("AllowDeferredModelRendering", 1)
+			Spring.SetConfigInt("AdvMapShading", 1)
+			Spring.SetConfigInt("AdvModelShading", 1)
 Spring.SetConfigString("UnitLodDist", "99999999")
 
 Spring.SetConfigInt("HangTimeout", -1)

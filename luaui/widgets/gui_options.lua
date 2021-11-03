@@ -512,11 +512,9 @@ function applyOptionValue(i)
          Spring.SetConfigInt("WindowedEdgeMove", value)
       elseif id == "lighteffects" then
          if value ~= 0 then
-            --widgetHandler:EnableWidget("Projectile lights")
             widgetHandler:EnableWidget("Deferred rendering")
             widgetHandler:EnableWidget("Light Effects")
          else
-            --widgetHandler:DisableWidget("Projectile lights")
             widgetHandler:DisableWidget("Deferred rendering")
             widgetHandler:DisableWidget("Light Effects")
          end
@@ -579,10 +577,8 @@ function applyOptionValue(i)
          Spring.SetConfigInt("fancyunitselection", value)
       elseif id == "adaptive" then
          if value ~= 0 then
-            --widgetHandler:EnableWidget("Projectile lights")
             widgetHandler:EnableWidget("Adaptive graphics")
          else
-            --widgetHandler:DisableWidget("Projectile lights")
             widgetHandler:DisableWidget("Adaptive graphics")
          end
       elseif id == "fpstimespeed" then
@@ -768,10 +764,8 @@ local function RestartLightFXWidgets()
    widgetHandler:DisableWidget("Light Effects")
    widgetHandler:DisableWidget("Lups")
    widgetHandler:DisableWidget("LupsManager")
-   widgetHandler:DisableWidget("Projectile lights")
    widgetHandler:EnableWidget("Deferred rendering")
    widgetHandler:EnableWidget("Light Effects")
-   widgetHandler:EnableWidget("Projectile lights")
    widgetHandler:EnableWidget("Lups")
    widgetHandler:EnableWidget("LupsManager")
 end
@@ -781,7 +775,6 @@ function setGraphicsPreset(value)
        widgetHandler: DisableWidget("SSAO_alternative")
       Spring.SendCommands("Shadows 0")
       widgetHandler:DisableWidget("Deferred rendering")
-      widgetHandler:DisableWidget("Projectile lights")
       widgetHandler:DisableWidget("Light Effects")
       widgetHandler:DisableWidget("Contrast Adaptive Sharpen")
       widgetHandler:DisableWidget("LupsManager")

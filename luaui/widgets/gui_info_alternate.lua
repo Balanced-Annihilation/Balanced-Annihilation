@@ -1207,12 +1207,7 @@ local function drawUnitInfo()
 		if lines[2] and editedline and lines[4] then
 		words = lines[2].."\n"..editedline .."\n"..lines[4].."\n"
 		end
-		
-		
-		--sfind(line2,"cunt")
-		
-		
-		
+
 		-- display unit(def) info text
 		
 		if displayMode == 'unit' then

@@ -10,7 +10,7 @@ function widget:GetInfo()
 		date      = "May 2017",
 		license   = "GPL V2",
 		layer     = 99999,
-		enabled   = true,
+		enabled   = true
 	}
 end
 
@@ -203,9 +203,9 @@ function loadWeaponDefs()
 			
 			local weaponID = i
 			if weaponConf[weaponID] ~= nil and not weaponConf[weaponID].noheatdistortion and((weaponConf[weaponID].wtype ~= 'TorpedoLauncher') or WeaponDefs[weaponID].damageAreaOfEffect > 150) then --and weaponConf[weaponID].wtype == 'Cannon' then
-				cacheA[weaponID] = "a"
+				cacheA[weaponID] = true
 				if  (weaponConf[weaponID].wtype == 'Cannon' and params.radius > 80) or ((WeaponDefs[weaponID].damageAreaOfEffect > 150)) then --and Spring.IsSphereInView(px,py,pz,100)
-					cacheB[weaponID] = "a"
+					cacheB[weaponID] = true
 				end
 			end
 		end
@@ -215,7 +215,7 @@ end
 
 
 
-loadWeaponDefs()
+
 
 
 
@@ -894,7 +894,7 @@ function GadgetWeaponExplosion(px, py, pz, weaponID, ownerID)
 				size = size * 1.3
 				strength = strength*1.6
 			end
-		
+			 if lupsenabled then
 			if size*strengthMult > 5 then
 				lups.AddParticles('JitterParticles2', {
 					layer = -35,
@@ -908,7 +908,7 @@ function GadgetWeaponExplosion(px, py, pz, weaponID, ownerID)
 					force = force,
 				})
 			end
-
+			end
 	end
 end
 end
