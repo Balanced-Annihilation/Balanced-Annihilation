@@ -103,9 +103,9 @@ if bafirstlaunchsetupiscomplete ~= "done" then
 		Spring.SetConfigInt("FeatureDrawDistance", 99999999)
 		Spring.SetConfigInt("FeatureFadeDistance", 99999999)
 		Spring.SetConfigInt("Shadows", 1)
-Spring.SetConfigInt("ShadowMapSize", 4096)
-end
 
+end
+Spring.SetConfigInt("ShadowMapSize", 6144)
 			Spring.SetConfigInt("AllowDeferredMapRendering", 1)
 			Spring.SetConfigInt("AllowDeferredModelRendering", 1)
 			Spring.SetConfigInt("AdvMapShading", 1)

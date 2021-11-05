@@ -59,7 +59,7 @@ function widget:Shutdown()
 			 elseif value == 1 then
 				RestartLightFXWidgets()
 				
-				Spring.SendCommands("Shadows 1")
+				Spring.SendCommands("Shadows 1 6144")
 
 				Spring.SendCommands("AdvMapShading "..1)
 				 Spring.SetConfigInt("AdvMapShading", 1)
@@ -76,7 +76,7 @@ function widget:Shutdown()
 			 elseif value == 2 then
 				RestartLightFXWidgets()
 			
-				Spring.SendCommands("Shadows 1")
+				Spring.SendCommands("Shadows 1 6144")
 				 Spring.SendCommands("AdvMapShading "..1)
 				 Spring.SetConfigInt("AdvMapShading", 1)
 				 Spring.SendCommands("AdvModelShading "..1)
