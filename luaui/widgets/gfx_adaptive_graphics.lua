@@ -44,7 +44,7 @@ function widget:Shutdown()
 				   widgetHandler:DisableWidget("LupsManager")
 				   --widgetHandler:EnableWidget("Lups")
 					--widgetHandler:EnableWidget("LupsManager")
-				 					widgetHandler: DisableWidget("SSAO_alternative")
+				 					--widgetHandler: DisableWidget("SSAO_alternative")
 
 					widgetHandler: DisableWidget("Contrast Adaptive Sharpen")
 
@@ -55,7 +55,7 @@ function widget:Shutdown()
 				 Spring.SetConfigInt("AdvModelShading", 0)
 				 widgetHandler: DisableWidget("Bloom Shader Alternate Deferred")
 				  widgetHandler: DisableWidget("Bloom Shader Alternate")
-				 Spring.SetConfigInt("ssao", 0)
+				-- Spring.SetConfigInt("ssao", 0)
 			 elseif value == 1 then
 				RestartLightFXWidgets()
 				
@@ -72,7 +72,7 @@ function widget:Shutdown()
 				  widgetHandler: DisableWidget("Bloom Shader Alternate")
 				  widgetHandler: EnableWidget("Contrast Adaptive Sharpen")
 
-				 Spring.SetConfigInt("ssao",0)
+				-- Spring.SetConfigInt("ssao",0)
 			 elseif value == 2 then
 				RestartLightFXWidgets()
 			
@@ -112,13 +112,13 @@ function widget:GameFrame(gameFrame)
 				if graphicslevel == 2 and spGetFPS() < 20 then
 					widgetHandler: DisableWidget("Bloom Shader Alternate Deferred")
 					widgetHandler: DisableWidget("Bloom Shader Alternate")
-					widgetHandler: DisableWidget("SSAO_alternative")
+					--widgetHandler: DisableWidget("SSAO_alternative")
 					graphicslevel = graphicslevel-1
 				elseif spGetFPS() < 15 then
 					if graphicslevel == 1 then
 						widgetHandler: DisableWidget("Bloom Shader Alternate Deferred")
 						widgetHandler: DisableWidget("Bloom Shader Alternate")
-						widgetHandler: DisableWidget("SSAO_alternative")
+						--widgetHandler: DisableWidget("SSAO_alternative")
 						Spring.SendCommands("Shadows 0")
 						widgetHandler:DisableWidget("Deferred rendering")
 						widgetHandler:DisableWidget("Light Effects")

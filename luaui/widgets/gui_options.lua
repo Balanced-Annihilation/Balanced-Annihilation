@@ -772,7 +772,7 @@ end
 
 function setGraphicsPreset(value)
    if value == 0 then
-       widgetHandler: DisableWidget("SSAO_alternative")
+      -- widgetHandler: DisableWidget("SSAO_alternative")
       Spring.SendCommands("Shadows 0")
       widgetHandler:DisableWidget("Deferred rendering")
       widgetHandler:DisableWidget("Light Effects")
@@ -786,10 +786,10 @@ function setGraphicsPreset(value)
       Spring.SetConfigInt("AdvMapShading", 0)
       Spring.SendCommands("AdvModelShading " .. 0)
       Spring.SetConfigInt("AdvModelShading", 0)
-      Spring.SetConfigInt("ssao", 0)
+     -- Spring.SetConfigInt("ssao", 0)
    elseif value == 1 then
       RestartLightFXWidgets()
-	   widgetHandler:DisableWidget("SSAO_alternative")
+	   --widgetHandler:DisableWidget("SSAO_alternative")
 
       widgetHandler:EnableWidget("Contrast Adaptive Sharpen")
       widgetHandler:DisableWidget("Bloom Shader Alternate Deferred")
@@ -799,7 +799,7 @@ function setGraphicsPreset(value)
       Spring.SendCommands("AdvModelShading " .. 1)
       Spring.SetConfigInt("AdvModelShading", 1)
       Spring.SendCommands("Shadows 1 6144") -- default is 2048, 2 - skip terrian
-      Spring.SetConfigInt("ssao", 0)
+     -- Spring.SetConfigInt("ssao", 0)
      
    elseif value == 2 then
       RestartLightFXWidgets()
