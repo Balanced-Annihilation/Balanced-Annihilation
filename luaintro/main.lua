@@ -96,6 +96,7 @@ if bafirstlaunchsetupiscomplete ~= "done" then
 		Spring.SetConfigInt("MaxParticles", 30000)
 		Spring.SetConfigInt("AdvMapShading", 1)
 		Spring.SetConfigInt("AdvUnitShading", 1)
+		Spring.SetConfigInt("Smoothcam", 1)
 		Spring.SetConfigInt("EdgeMoveWidth", 0.1)
 		Spring.SetConfigString("MouseDragScrollThreshold", "0.3")
 		Spring.SetConfigInt("UnitIconDist", 200)

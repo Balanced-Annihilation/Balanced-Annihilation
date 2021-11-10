@@ -69,6 +69,11 @@ Units_I_II = {
 {"LEFT CLICK + alt + SHIFT + DRAG",   "Build structures in a box"},
 {"LEFT CLICK + ctrl + alt + SHIFT + DRAG",   "Hollow box"},
 {"ANY COMMAND ABOVE + SPACE",   "Split builders between tasks"},
+{blankLine=true}, 
+
+{"Spectator Controls", title=true},
+{"double click name",         "Track player cam"},
+{"cntrl click name",         "Mute player"},
 }
 
 Units_III = {
@@ -89,7 +94,6 @@ Units_III = {
 	{"f12",  "Screenshot"},
 	{blankLine=true}, 
 	
-
  {"Drawing", title=true},
     {"` + double click",       "Place map mark"},
     {"` + drag left mouse", "Draw on map"},
@@ -97,15 +101,15 @@ Units_III = {
 	 {"click on eraser",  "Erase all drawings and markes"},
 {blankLine=true}, 
 
-{"Sound", title=true},
-{"-/+",                 "Change volume"},
-{"f6",                  "Toggle mute"},
-{blankLine=true}, 
-
 {"Widgets", title=true},
 {"f11",  "Widget menu to enable and disable widgets"},
 {"ctrl + f11",  "Widget tweak mode"},
 {"middle mouse",  "Move selected widget in tweak mode"},
+{blankLine=true}, 
+
+{"Sound", title=true},
+{"-/+",                 "Change volume"},
+{"f6",                  "Toggle mute"},
 {blankLine=true}, 
 
 {"Replay", title=true},

@@ -568,7 +568,7 @@ local function processLine(line,g,cfg,newlinecolor)
 	  ignoreThisMessage = true
 	end
 	
-	if sfind(line,".lua") then --	Removed: widget.lua disbaled
+	if sfind(line,"%.lua") then --	Removed: widget.lua disbaled
 		name = lastConnectionAttempt
 	  ignoreThisMessage = true
 	end

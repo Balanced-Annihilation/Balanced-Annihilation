@@ -1,10 +1,10 @@
-﻿14.2.3
-07/11/2021
+﻿14.2.4
+10/11/2021
 
 ultra graphics option (default off)
 immersive map border setting (default off)
 anti aliasing setting (default off)
-new settings: selected unit rings, cursor can leave window, allow chat, show cursors, always show wrecks (default on)
+new settings: selected unit rings, cursor can leave window, allow chat, show cursors, show wrecks, smoothcam (default on)
 
 bantha and krog +3% hp
 dragon's claw and dragon's maw 10% less damage resistance when closed

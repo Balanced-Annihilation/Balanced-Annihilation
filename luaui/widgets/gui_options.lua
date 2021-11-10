@@ -654,6 +654,14 @@ function applyOptionValue(i)
             Spring.SetConfigString("LinkIncomingPeakBandwidth ", "98304")
             Spring.SetConfigString("LinkIncomingMaxPacketRate ", "128")
          end
+		   elseif id == "smoothcam" then
+         if value == 1 then
+             widgetHandler:EnableWidget("SmoothCam")
+			  Spring.SetConfigString("smoothcam", "1")
+         else
+             widgetHandler:DisableWidget("SmoothCam")
+			  Spring.SetConfigString("smoothcam", "0")
+         end
       elseif id == "advsky" then
          Spring.SetConfigInt("AdvSky", value)
       end
@@ -1088,6 +1096,15 @@ function widget:Initialize()
       Spring.SetConfigInt("fancyunitselection", 1)
    end
 
+    value = tonumber(Spring.GetConfigInt("smoothcam", 1))
+    if value == 1 then
+             widgetHandler:EnableWidget("SmoothCam")
+			  Spring.SetConfigString("smoothcam", "1")
+         else
+             widgetHandler:DisableWidget("SmoothCam")
+			  Spring.SetConfigString("smoothcam", "0")
+         end
+   
    value = tonumber(Spring.GetConfigInt("showchat", 1))
    Spring.SetConfigInt("showchat", value)
 
@@ -1165,6 +1182,7 @@ function widget:Initialize()
          value = tonumber(Spring.GetConfigInt("CamSpringScrollSpeed", 1) or 10),
          description = "How fast the camera pans when moving the screen"
       },
+	  
       --{id="fpsspeed", name="FPS mode camera speed", type="slider", min=1, max=100, step=1, value=tonumber(Spring.GetConfigInt("FPSScrollSpeed",1) or 10), description="How fast the camera move in FPS mode"},
       {
          id = "disticon",
@@ -1174,6 +1192,13 @@ function widget:Initialize()
          max = 1000,
          step = 1,
          value = tonumber(Spring.GetConfigInt("UnitIconDist", 1) or 172)
+      },
+	  	  {
+         id = "smoothcam",
+         name = "Smooth camera zoom",
+         type = "bool",
+         value = tonumber(Spring.GetConfigInt("smoothcam", 1) or 1) == 1,
+         description = "Smoothcamera on or off"
       },
       -- {id="camera type", name="Camera", type="select", options={"fps","overhead","spring","rot overhead","free"}, value=(tonumber(Spring.GetConfigInt("CamMode",1) or 2))},
       {
@@ -1263,12 +1288,7 @@ function widget:Initialize()
          options = {"basic", "reflective", "bump-mapped"},
          value = (tonumber(Spring.GetConfigInt("Water", 1) or 1) + 1)
       },
-      {
-         id = "blank1",
-         name = "",
-         type = "label",
-         value = 1
-      },
+
 	   {
          id = "blank1",
          name = "",
@@ -1361,6 +1381,7 @@ function widget:Initialize()
          value = tonumber(Spring.GetConfigInt("reduceping", 1) or 1) == 1,
          description = "Requires restart, Lowers your ping, disable this if you have an unstable connection"
       },
+
       {
          id = "sndvolmaster",
          name = "Sound volume",
