@@ -1,5 +1,5 @@
-﻿14.2.5
-12/11/2021
+﻿14.2.6
+13/11/2021
 
 ultra graphics option (default off)
 immersive map border setting (default off)

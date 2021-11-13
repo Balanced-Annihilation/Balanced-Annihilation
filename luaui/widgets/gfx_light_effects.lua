@@ -202,9 +202,11 @@ function loadWeaponDefs()
 			weaponConf[i] = params
 			
 			local weaponID = i
-			if weaponConf[weaponID] ~= nil and not weaponConf[weaponID].noheatdistortion and((weaponConf[weaponID].wtype ~= 'TorpedoLauncher') or WeaponDefs[weaponID].damageAreaOfEffect > 150) then --and weaponConf[weaponID].wtype == 'Cannon' then
+				if weaponConf[weaponID] ~= nil and not weaponConf[weaponID].noheatdistortion and((weaponConf[weaponID].wtype ~= 'MissileLauncher' and weaponConf[weaponID].wtype ~= 'TorpedoLauncher') or WeaponDefs[weaponID].damageAreaOfEffect > 150) then --and weaponConf[weaponID].wtype == 'Cannon' then
+	
 				cacheA[weaponID] = true
-				if  (weaponConf[weaponID].wtype == 'Cannon' and params.radius > 80) or ((WeaponDefs[weaponID].damageAreaOfEffect > 150)) then --and Spring.IsSphereInView(px,py,pz,100)
+						if  (weaponConf[weaponID].wtype == 'Cannon' and params.radius > 80) or ((WeaponDefs[weaponID].damageAreaOfEffect > 150)) then --and Spring.IsSphereInView(px,py,pz,100)
+
 					cacheB[weaponID] = true
 				end
 			end

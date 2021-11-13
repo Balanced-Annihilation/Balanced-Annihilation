@@ -90,7 +90,7 @@ if bafirstlaunchsetupiscomplete ~= "done" then
 		Spring.SetConfigString("chatsound", "1")
 		Spring.SetConfigString("reduceping", "1")
 		Spring.SetConfigString("GroundDecals", "1")
-		Spring.SetConfigString("LuaShaders", "1")
+		
 		Spring.SetConfigString("GroundDetail" , "80")
 		Spring.SetConfigInt("MaxNanoParticles", 3000)
 		Spring.SetConfigInt("MaxParticles", 30000)
@@ -106,9 +106,11 @@ if bafirstlaunchsetupiscomplete ~= "done" then
 		Spring.SetConfigInt("Shadows", 1)
 
 end
-Spring.SetConfigInt("ShadowMapSize", 6144)
-			Spring.SetConfigInt("AllowDeferredMapRendering", 1)
-			Spring.SetConfigInt("AllowDeferredModelRendering", 1)
+Spring.SetConfigInt("ShadowMapSize", 4096)
+
+
+
+			
 			Spring.SetConfigInt("AdvMapShading", 1)
 			Spring.SetConfigInt("AdvModelShading", 1)
 Spring.SetConfigString("UnitLodDist", "99999999")
@@ -125,6 +127,20 @@ Spring.SetConfigInt("snd_airAbsorption", 0)
 	local value = tonumber(Spring.GetConfigInt("advgraphics", 1) or 1) --set ultra graphics on first launch, otherwise to 1
 	Spring.SetConfigInt("advgraphics", value) --add 1 to advgraphics value, if there was no BA version recorded
 	
+	if (gl.CreateShader)then
+
+			Spring.SetConfigInt("LuaShaders", 1)
+			Spring.SetConfigInt("AllowDeferredMapRendering", 1)
+			Spring.SetConfigInt("AllowDeferredModelRendering", 1)
+			else
+
+				Spring.SetConfigInt("LuaShaders", 0)
+			Spring.SetConfigInt("AllowDeferredMapRendering", 0)
+			Spring.SetConfigInt("AllowDeferredModelRendering", 0)
+			Spring.SetConfigInt("advgraphics", 0)
+			Spring.SetConfigInt("AdvMapShading", 0)
+			Spring.SetConfigInt("AdvUnitShading", 0)
+			end
 	
 	local font = "FreeSansBold.otf"
 	Spring.SetConfigString("FontOutlineWeight", "25")

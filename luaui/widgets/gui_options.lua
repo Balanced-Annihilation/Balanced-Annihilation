@@ -666,7 +666,7 @@ function applyOptionValue(i)
          Spring.SetConfigInt("AdvSky", value)
       end
 
-      if options[i].widget ~= nil then
+      --[[if options[i].widget ~= nil then
          if value == 1 then
             if id == "xrayshader" or id == "snow" or id == "mapedgeextension" or id == "lighteffects" or id == "sharpen" or id == "advgraphics" or id == "immersiveborder" then
                if luaShaders ~= 1 and not enabledLuaShaders then
@@ -679,7 +679,7 @@ function applyOptionValue(i)
          else
             widgetHandler:DisableWidget(options[i].widget)
          end
-      end
+      end]]--
    elseif options[i].type == "slider" then
       local value = options[i].value
 
@@ -767,6 +767,7 @@ function IsOnRect(x, y, BLcornerX, BLcornerY, TRcornerX, TRcornerY)
    return x >= BLcornerX and x <= TRcornerX and y >= BLcornerY and y <= TRcornerY
 end
 
+
 local function RestartLightFXWidgets()
    widgetHandler:DisableWidget("Deferred rendering")
    widgetHandler:DisableWidget("Light Effects")
@@ -781,12 +782,13 @@ end
 function setGraphicsPreset(value)
    if value == 0 then
       -- widgetHandler: DisableWidget("SSAO_alternative")
+	   widgetHandler:DisableWidget("Deferred rendering")
+   widgetHandler:DisableWidget("Light Effects")
       Spring.SendCommands("Shadows 0")
       widgetHandler:DisableWidget("Deferred rendering")
       widgetHandler:DisableWidget("Light Effects")
       widgetHandler:DisableWidget("Contrast Adaptive Sharpen")
-      widgetHandler:DisableWidget("LupsManager")
-      widgetHandler:DisableWidget("Lups")
+    
 	  
       widgetHandler:DisableWidget("Bloom Shader Alternate Deferred")
       widgetHandler:DisableWidget("Bloom Shader Alternate")
@@ -794,11 +796,13 @@ function setGraphicsPreset(value)
       Spring.SetConfigInt("AdvMapShading", 0)
       Spring.SendCommands("AdvModelShading " .. 0)
       Spring.SetConfigInt("AdvModelShading", 0)
+	    widgetHandler:DisableWidget("LupsManager")
+      widgetHandler:DisableWidget("Lups")
      -- Spring.SetConfigInt("ssao", 0)
    elseif value == 1 then
-      RestartLightFXWidgets()
+  RestartLightFXWidgets()
 	   --widgetHandler:DisableWidget("SSAO_alternative")
-
+Spring.SetConfigInt("LuaShaders", 1)
       widgetHandler:EnableWidget("Contrast Adaptive Sharpen")
       widgetHandler:DisableWidget("Bloom Shader Alternate Deferred")
       widgetHandler:DisableWidget("Bloom Shader Alternate")
@@ -806,11 +810,14 @@ function setGraphicsPreset(value)
       Spring.SetConfigInt("AdvMapShading", 1)
       Spring.SendCommands("AdvModelShading " .. 1)
       Spring.SetConfigInt("AdvModelShading", 1)
-      Spring.SendCommands("Shadows 1 6144") -- default is 2048, 2 - skip terrian
+      Spring.SendCommands("Shadows 1 4096") -- default is 2048, 2 - skip terrian
      -- Spring.SetConfigInt("ssao", 0)
+	
      
    elseif value == 2 then
-      RestartLightFXWidgets()
+    RestartLightFXWidgets()
+   Spring.SetConfigInt("LuaShaders", 1)
+
       widgetHandler:EnableWidget("Contrast Adaptive Sharpen")
       widgetHandler:EnableWidget("Bloom Shader Alternate Deferred")
       widgetHandler:EnableWidget("Bloom Shader Alternate")
@@ -818,7 +825,7 @@ function setGraphicsPreset(value)
       Spring.SetConfigInt("AdvMapShading", 1)
       Spring.SendCommands("AdvModelShading " .. 1)
       Spring.SetConfigInt("AdvModelShading", 1)
-      Spring.SendCommands("Shadows 1 6144")
+      Spring.SendCommands("Shadows 1 8192")
       --Spring.SetConfigInt("ssao", 1)
    end
    -- widgetHandler: EnableWidget("SSAO_alternative")

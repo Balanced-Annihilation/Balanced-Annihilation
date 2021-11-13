@@ -1,6 +1,4 @@
-if gl.CreateShader == nil then
-	return
-end
+
 
 function widget:GetInfo()
   return {
@@ -12,10 +10,6 @@ function widget:GetInfo()
 	layer	  = 2000,
 	enabled = true,
   }
-end
-
-if gl.CreateShader == nil then
-	return
 end
 
 
@@ -148,7 +142,7 @@ local fullTexQuad
 
 function widget:Initialize()
 	if gl.CreateShader == nil then
-		Spring.Echo("CAS: createshader not supported, removing")
+		--Spring.Echo("CAS: createshader not supported, removing")
 		widgetHandler:RemoveWidget(self)
 		return
 	end
@@ -194,14 +188,24 @@ function widget:Initialize()
 end
 
 function widget:Shutdown()
+	if not(casShader == nil) then
 	gl.DeleteTexture(screenCopyTex)
 	casShader:Finalize()
 	gl.DeleteList(fullTexQuad)
+	end
 end
 
 function widget:ViewResize()
+
+	if gl.CreateShader == nil then
+		--Spring.Echo("CAS: createshader not supported, removing")
+		widgetHandler:RemoveWidget(self)
+		return
+	else
+
 	widget:Shutdown()
 	widget:Initialize()
+	end
 end
 
 function widget:DrawScreenEffects()

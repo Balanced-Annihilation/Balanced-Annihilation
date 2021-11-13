@@ -13,7 +13,7 @@ end
 --------------------------------------------------------------------------------
 -- config
 --------------------------------------------------------------------------------
-
+local glCreateShader = gl.CreateShader
 local basicAlpha = 0.2
 local globalBlursizeMult = 1.1
 
@@ -152,7 +152,7 @@ local function SetIllumThreshold()
 end
 
 local function RemoveMe(msg)
-	Spring.Echo(msg)
+	--Spring.Echo(msg)
 	widgetHandler:RemoveWidget(self)
 end
 
@@ -250,6 +250,21 @@ end
 
 local initialized = false
 function widget:Initialize()
+
+if glCreateShader == nil then
+	widgetHandler:RemoveWidget(self)
+		return
+	end
+
+	local hasdeferredmodelrendering = (Spring.GetConfigInt("AllowDeferredModelRendering")==1)
+	if hasdeferredmodelrendering == false then
+	widgetHandler:RemoveWidget(self)
+	end
+	local hasdeferredmaprendering = (Spring.GetConfigInt("AllowDeferredMapRendering")==1)
+	if hasdeferredmaprendering == false then
+	widgetHandler:RemoveWidget(self)
+	end
+
 darken = gl.CreateList(function()
 	gl.PushMatrix()
 	gl.Translate(0,0,0)
@@ -262,7 +277,7 @@ darken = gl.CreateList(function()
 
 
   if (gl.CreateShader == nil) then
-    RemoveMe("[BloomShader::Initialize] no shader support")
+	widgetHandler:RemoveWidget(self)
     return
   end
 
@@ -294,7 +309,7 @@ darken = gl.CreateList(function()
 	})
 
 	if (combineShader == nil) then
-		RemoveMe("[BloomShader::Initialize] combineShader compilation failed"); print(gl.GetShaderLog()); return
+	widgetHandler:RemoveWidget(self)
 	end
 
 
@@ -331,7 +346,7 @@ darken = gl.CreateList(function()
 	})
 
 	if (blurShaderH71 == nil) then
-		RemoveMe("[BloomShader::Initialize] blurShaderH71 compilation failed"); print(gl.GetShaderLog()); return
+	widgetHandler:RemoveWidget(self)
 	end
 
 	blurShaderV71 = gl.CreateShader({
@@ -367,7 +382,7 @@ darken = gl.CreateList(function()
 	})
 
 	if (blurShaderV71 == nil) then
-		RemoveMe("[BloomShader::Initialize] blurShaderV71 compilation failed"); print(gl.GetShaderLog()); return
+	widgetHandler:RemoveWidget(self)
 	end
 
 	brightShader = gl.CreateShader({
@@ -396,7 +411,7 @@ darken = gl.CreateList(function()
 	})
 
 	if (brightShader == nil) then
-		RemoveMe("[BloomShader::Initialize] brightShader compilation failed"); print(gl.GetShaderLog()); return
+	widgetHandler:RemoveWidget(self)
 	end
 
 	brightShaderText0Loc = glGetUniformLocation(brightShader, "texture0")

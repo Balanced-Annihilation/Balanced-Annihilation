@@ -118,11 +118,16 @@ local function SetIllumThreshold()
 end
 
 local function RemoveMe(msg)
-	Spring.Echo(msg)
+	--Spring.Echo(msg)
 	widgetHandler:RemoveWidget()
 end
 
 local function MakeBloomShaders()
+
+if glCreateShader == nil then
+	widgetHandler:RemoveWidget(self)
+		return
+	end
 
 	if (glDeleteShader) then
 		if brightShader ~= nil then glDeleteShader(brightShader or 0) end
@@ -161,7 +166,7 @@ local function MakeBloomShaders()
 	})
 
 	if (combineShader == nil) then
-		RemoveMe("[BloomShader::Initialize] combineShader compilation failed"); print(glGetShaderLog()); return
+	widgetHandler:RemoveWidget(self)
 	end
 
 	-- How about we do linear sampling instead, using the GPU's built in texture fetching linear blur hardware :)
@@ -196,7 +201,7 @@ local function MakeBloomShaders()
 	})
 
 	if (blurShaderH71 == nil) then
-		RemoveMe("[BloomShader::Initialize] blurShaderH71 compilation failed"); Spring.Echo(glGetShaderLog()); return
+	widgetHandler:RemoveWidget(self)
 	end
 
 	blurShaderV71 = glCreateShader({
@@ -227,7 +232,7 @@ local function MakeBloomShaders()
 	})
 
 	if (blurShaderV71 == nil) then
-		RemoveMe("[BloomShader::Initialize] blurShaderV71 compilation failed"); Spring.Echo(glGetShaderLog()); return
+	widgetHandler:RemoveWidget(self)
 	end
 
 	brightShader = glCreateShader({
@@ -277,7 +282,7 @@ local function MakeBloomShaders()
 	})
 
 	if (brightShader == nil) then
-		RemoveMe("[BloomShader::Initialize] brightShader compilation failed"); print(glGetShaderLog()); return
+	widgetHandler:RemoveWidget(self)
 	end
 
 
@@ -321,7 +326,7 @@ function widget:ViewResize(viewSizeX, viewSizeY)
 	if (brightTexture1 == nil or brightTexture2 == nil) then
 		if (brightTexture1 == nil ) then Spring.Echo('brightTexture1 == nil ') end
 		if (brightTexture2 == nil ) then Spring.Echo('brightTexture2 == nil ') end
-		RemoveMe("[BloomShader::ViewResize] removing widget, bad texture target")
+	widgetHandler:RemoveWidget(self)
 		return
 	end
 	MakeBloomShaders() --we are gonna reinit the the widget, in order to recompile the shaders with the static IVSX and IVSY values in the blur shaders
@@ -343,21 +348,22 @@ end
 function widget:Initialize()
 
 	if glCreateShader == nil then
-		RemoveMe("[BloomShader::Initialize] removing widget, no shader support")
+	widgetHandler:RemoveWidget(self)
 		return
 	end
 
 	local hasdeferredmodelrendering = (Spring.GetConfigInt("AllowDeferredModelRendering")==1)
-	if hasdeferredmodelrendering == false then
-		RemoveMe("[BloomShader::Initialize] removing widget, AllowDeferredModelRendering is required")
-	end
+		if hasdeferredmodelrendering == false then
+		widgetHandler:RemoveWidget(self)
+		end
 	local hasdeferredmaprendering = (Spring.GetConfigInt("AllowDeferredMapRendering")==1)
-	if hasdeferredmaprendering == false then
-		RemoveMe("[BloomShader::Initialize] removing widget, AllowDeferredMapRendering is required")
-	end
+		if hasdeferredmaprendering == false then
+		widgetHandler:RemoveWidget(self)
+		end
 	MakeBloomShaders()
 
 	loadPreset()
+	
 end
 
 function widget:Shutdown()

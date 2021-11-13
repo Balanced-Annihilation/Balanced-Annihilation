@@ -19,17 +19,6 @@ local graphicslevel = 2
 local previmmersiveborderpreset=tonumber(Spring.GetConfigInt("immersiveborder",0))
 local minimumenabled = 0
 
-local function RestartLightFXWidgets()
-   widgetHandler:DisableWidget("Deferred rendering")
-   widgetHandler:DisableWidget("Light Effects")
-   widgetHandler:DisableWidget("Lups")
-   widgetHandler:DisableWidget("LupsManager")
-   widgetHandler:EnableWidget("Deferred rendering")
-   widgetHandler:EnableWidget("Light Effects")
-   widgetHandler:EnableWidget("Lups")
-   widgetHandler:EnableWidget("LupsManager")
-end
-
 
 function widget:Shutdown()
 			value = tonumber(Spring.GetConfigInt("advgraphics", 1))
@@ -57,9 +46,10 @@ function widget:Shutdown()
 				  widgetHandler: DisableWidget("Bloom Shader Alternate")
 				-- Spring.SetConfigInt("ssao", 0)
 			 elseif value == 1 then
-				RestartLightFXWidgets()
+				 widgetHandler:EnableWidget("Deferred rendering")
+   widgetHandler:EnableWidget("Light Effects")
 				
-				Spring.SendCommands("Shadows 1 6144")
+				Spring.SendCommands("Shadows 1 4096")
 
 				Spring.SendCommands("AdvMapShading "..1)
 				 Spring.SetConfigInt("AdvMapShading", 1)
@@ -71,12 +61,15 @@ function widget:Shutdown()
 				 widgetHandler: DisableWidget("Bloom Shader Alternate Deferred")
 				  widgetHandler: DisableWidget("Bloom Shader Alternate")
 				  widgetHandler: EnableWidget("Contrast Adaptive Sharpen")
-
+Spring.SetConfigInt("LuaShaders", 1)
+   widgetHandler:EnableWidget("LupsManager")
+      widgetHandler:EnableWidget("Lups")
 				-- Spring.SetConfigInt("ssao",0)
 			 elseif value == 2 then
-				RestartLightFXWidgets()
+				 widgetHandler:EnableWidget("Deferred rendering")
+   widgetHandler:EnableWidget("Light Effects")
 			
-				Spring.SendCommands("Shadows 1 6144")
+				Spring.SendCommands("Shadows 1 8192")
 				 Spring.SendCommands("AdvMapShading "..1)
 				 Spring.SetConfigInt("AdvMapShading", 1)
 				 Spring.SendCommands("AdvModelShading "..1)
@@ -88,6 +81,10 @@ function widget:Shutdown()
 				  widgetHandler: EnableWidget("Contrast Adaptive Sharpen")
 				 --Spring.SetConfigInt("ssao", 1)
 				-- widgetHandler: EnableWidget("SSAO_alternative")
+				Spring.SetConfigInt("LuaShaders", 1)
+				   widgetHandler:EnableWidget("LupsManager")
+      widgetHandler:EnableWidget("Lups")
+
 			 end
 			 if(minimumenabled == 1) then
 				Spring.SetConfigInt("MaxParticles",prevnumparticles) --reset max particles
