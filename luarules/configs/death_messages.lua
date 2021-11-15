@@ -79,6 +79,10 @@ allyTeamDeathMessages = {
 }	
 	
 teamDeathMessages = {
+	"XX ran out of ideas for funny death messages",
+	"XX attempt to resurrect the dinosaurs was successful",
+	"XX desynced and on their screen it says they won",
+	"XX request for a botflag was rejected",
 	"XX was removed from the engine",
 	"XX ascended to the astral plane",
 	"XX socialised their losses",
