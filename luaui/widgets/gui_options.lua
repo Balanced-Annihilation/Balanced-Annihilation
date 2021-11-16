@@ -825,7 +825,7 @@ Spring.SetConfigInt("LuaShaders", 1)
       Spring.SetConfigInt("AdvMapShading", 1)
       Spring.SendCommands("AdvModelShading " .. 1)
       Spring.SetConfigInt("AdvModelShading", 1)
-      Spring.SendCommands("Shadows 1 8192")
+      Spring.SendCommands("Shadows 1 6144")
       --Spring.SetConfigInt("ssao", 1)
    end
    -- widgetHandler: EnableWidget("SSAO_alternative")

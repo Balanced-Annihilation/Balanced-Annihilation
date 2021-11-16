@@ -69,7 +69,7 @@ Spring.SetConfigInt("LuaShaders", 1)
 				 widgetHandler:EnableWidget("Deferred rendering")
    widgetHandler:EnableWidget("Light Effects")
 			
-				Spring.SendCommands("Shadows 1 8192")
+				Spring.SendCommands("Shadows 1 6144")
 				 Spring.SendCommands("AdvMapShading "..1)
 				 Spring.SetConfigInt("AdvMapShading", 1)
 				 Spring.SendCommands("AdvModelShading "..1)
