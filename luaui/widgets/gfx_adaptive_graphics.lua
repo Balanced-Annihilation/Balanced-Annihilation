@@ -49,7 +49,7 @@ function widget:Shutdown()
 				 widgetHandler:EnableWidget("Deferred rendering")
    widgetHandler:EnableWidget("Light Effects")
 				
-				Spring.SendCommands("Shadows 1 4096")
+				Spring.SendCommands("Shadows 1 6144")
 
 				Spring.SendCommands("AdvMapShading "..1)
 				 Spring.SetConfigInt("AdvMapShading", 1)

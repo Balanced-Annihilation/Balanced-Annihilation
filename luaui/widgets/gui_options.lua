@@ -810,7 +810,7 @@ Spring.SetConfigInt("LuaShaders", 1)
       Spring.SetConfigInt("AdvMapShading", 1)
       Spring.SendCommands("AdvModelShading " .. 1)
       Spring.SetConfigInt("AdvModelShading", 1)
-      Spring.SendCommands("Shadows 1 4096") -- default is 2048, 2 - skip terrian
+      Spring.SendCommands("Shadows 1 6144") -- default is 2048, 2 - skip terrian
      -- Spring.SetConfigInt("ssao", 0)
 	
      
