@@ -1,5 +1,5 @@
-﻿14.3.3
-17/11/2021
+﻿14.3.4
+18/11/2021
 
 ultra graphics option (default off)
 immersive map border setting (default off)
@@ -15,7 +15,7 @@ t3 lab +2% metal cost
 annihilator reload +1.5 seconds, doomsday -3.5% hp, tac nuke -6% hp 
 can and sumo +2% hp
 rezbots don't chain
-revert shield, revert jugg hp and weapon
+revert shield
 
 12.1.0
 20/03/2021
