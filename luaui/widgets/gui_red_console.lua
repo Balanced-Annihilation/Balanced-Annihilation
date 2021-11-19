@@ -578,6 +578,11 @@ local function processLine(line,g,cfg,newlinecolor)
 	--  ignoreThisMessage = true
 	--end
 	
+	if sfind(line,"-> User is n") then  -- "Spectator " normal quit remove spectator quit spam
+		name = lastConnectionAttempt
+	  ignoreThisMessage = true
+	end
+	
 	if sfind(line,"normal quit") then  -- "Spectator " normal quit remove spectator quit spam
 		name = lastConnectionAttempt
 	  ignoreThisMessage = true
