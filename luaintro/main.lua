@@ -118,6 +118,13 @@ Spring.SetConfigString("UnitLodDist", "99999999")
 Spring.SetConfigInt("HangTimeout", -1)
 Spring.SetConfigInt("snd_airAbsorption", 0)
 
+Spring.SetConfigInt("snd_volbattle", 100)
+Spring.SetConfigInt("snd_volgeneral", 100)
+Spring.SetConfigInt("snd_volmusic", 100)
+Spring.SetConfigInt("snd_volui", 100)
+Spring.SetConfigInt("snd_volunitreply", 100)
+
+
 	Spring.SetConfigString("GuiOpacity", "0.6")
 	Spring.SetConfigString("AdvSky", "0") --always disable this
 	Spring.SetConfigString("Vsync", "0")
