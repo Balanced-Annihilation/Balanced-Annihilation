@@ -102,10 +102,6 @@ local OPTIONS = {	-- these will be loaded when switching style, but the style wi
 ------------------------------------------------------------------------------------
 
 
-local function SetupCommandColors(state)
-	spLoadCmdColorsConfig('unitBox  0 1 0 ' .. (state and 1 or 0))
-end
-
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 
@@ -395,7 +391,7 @@ function widget:Initialize()
 		OPTIONS.teamcolorOpacity = value
 	end
 
-	SetupCommandColors(false)
+
 end
 
 
@@ -452,9 +448,7 @@ end
 
 
 function widget:Shutdown()
-	if WG['teamplatter'] == nil and WG['highlightselunits'] == nil then
-		SetupCommandColors(true)
-	end
+
 	WG['fancyselectedunits'] = nil
 
 	gl.DeleteList(clearquad)

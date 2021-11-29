@@ -1,4 +1,11 @@
-﻿14.3.8
+﻿14.3.9
+29/11/2021
+
+flash tank can fire continuously while moving
+option to hide spectator cursors & widget fixes
+enable santa hats for commanders from 1st Dec
+
+14.3.8
 19/11/2021
 
 ultra graphics option (default off)
@@ -9,7 +16,7 @@ new settings: selected unit rings, cursor can leave window, allow chat, show cur
 bantha, krog +3% hp
 dragon's claw and dragon's maw 10% less damage resistance when closed
 emp bomber -15% blast radius
-t2 transport aircraft can load up to 4 t2 units or nanos
+t2 transport aircraft can load up to 4 medium sized t2 units or nanos
 t2 bomber -3% buildtime
 t3 lab +2% metal cost
 annihilator reload +1.5 seconds, doomsday -3.5% hp, tac nuke -6% hp 

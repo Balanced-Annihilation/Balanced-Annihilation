@@ -9,7 +9,7 @@ function widget:GetInfo()
     date      = "Jul 6, 2008",
     license   = "GNU GPL, v2 or later",
     layer     = -9000,
-    enabled   = false  --  loaded by default?
+    enabled   = true  --  loaded by default?
   }
 end
 
@@ -161,11 +161,11 @@ function widget:ViewResize(viewSizeX, viewSizeY)
   calcScreenCoords()
 end
 
-
+local upper                 = string.upper
 function widget:Initialize()
 	widget:ViewResize(_,_)
 	
-	curModId = string.upper(Game.modShortName or "")
+	curModId = upper(Game.modShortName or "")
 end
 
 -- Included FactoryClear Lua widget
@@ -275,7 +275,7 @@ function getSingleFactory()
 end
 
 function saveQueue( unitId, unitDef, groupNo )
-	local unitQ = Spring.GetFactoryCommands(unitId)
+	local unitQ = Spring.GetFactoryCommands(unitId, -1)
 	if ( #unitQ <= 0 ) then
 		--queue is empty -> signal to delete preset
 		savedQueues[curModId][unitDef.id][groupNo] = nil

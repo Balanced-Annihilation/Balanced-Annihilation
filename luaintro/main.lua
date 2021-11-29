@@ -57,16 +57,11 @@ include "LuaHandler/handler.lua"
 --// print Lua & LuaUI version
 Spring.Log(LUA_NAME, "info", LUA_VERSION .. " (" .. _VERSION .. ")")
 
-
-   
-
-
-
 local bafirstlaunchsetupiscomplete = Spring.GetConfigString('bafirstlaunchsetupiscomplete', "missing") --remove later
 if bafirstlaunchsetupiscomplete ~= "done" then
    		Spring.SetConfigString("bafirstlaunchsetupiscomplete", 'done')
 		
-		
+		Spring.SetConfigString("ScrollWheelSpeed", "25")
 		Spring.SetConfigString("UseNetMessageSmoothingBuffer", "0")
 	Spring.SetConfigString("NetworkLossFactor", "2")
 	Spring.SetConfigString("LinkOutgoingBandwidth", "262144")
@@ -127,6 +122,7 @@ Spring.SetConfigInt("snd_volunitreply", 100)
 
 	Spring.SetConfigString("GuiOpacity", "0.6")
 	Spring.SetConfigString("AdvSky", "0") --always disable this
+	Spring.SetConfigString("DynamicSky", "0") --always disable this
 	Spring.SetConfigString("Vsync", "0")
 	Spring.SetConfigString("GrassDetail", "0")
 	Spring.SetConfigString("MiniMapDrawProjectiles", "0")
@@ -147,6 +143,7 @@ Spring.SetConfigInt("snd_volunitreply", 100)
 			Spring.SetConfigInt("advgraphics", 0)
 			Spring.SetConfigInt("AdvMapShading", 0)
 			Spring.SetConfigInt("AdvUnitShading", 0)
+			Spring.SetConfigInt("UseVBO", 0)
 			end
 	
 	local font = "FreeSansBold.otf"

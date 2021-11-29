@@ -273,7 +273,13 @@ function createCursorDrawList(playerID, opacityMultiplier)
     local r, g, b = spGetTeamColor(teamID)
     local wx,gy,wz = 0,0,0
     local quadSize = usedCursorSize
-    if spec then
+    
+	if spec and (Spring.GetConfigString("speccursors", "1") == "0")  then
+	
+	
+	else
+	
+	if spec then
         quadSize = usedCursorSize * 0.77
     end
 
@@ -313,6 +319,7 @@ function createCursorDrawList(playerID, opacityMultiplier)
         end
         gl.PopMatrix()
     end   
+	end
 end
 
     

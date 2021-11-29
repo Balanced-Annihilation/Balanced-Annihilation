@@ -18,7 +18,7 @@ function widget:GetInfo()
     author    = "trepan",
     date      = "Apr 16, 2007",
     license   = "GNU GPL, v2 or later",
-    layer     = 5,
+    layer     = -3,
     enabled   = false  --  loaded by default?
   }
 end
@@ -64,16 +64,7 @@ function widget:PlayerChanged() --+++
 	GetGaiaTeamID = Spring.GetGaiaTeamID () --+++
 end --+++
 
-local function SetupCommandColors(state)
-  local alpha = state and 1 or 0
-  local f = io.open('cmdcolors.tmp', 'w+')
-  if (f) then
-    f:write('unitBox  0 1 0 ' .. alpha)
-    f:close()
-    spSendCommands({'cmdcolors cmdcolors.tmp'})
-  end
-  os.remove('cmdcolors.tmp')
-end
+
 
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
@@ -113,7 +104,7 @@ function widget:Initialize()
     end)
   end)
 
-  SetupCommandColors(false)
+
 end
 
 
@@ -121,7 +112,6 @@ function widget:Shutdown()
   glDeleteList(circleLines)
   glDeleteList(circlePolys)
 
-  SetupCommandColors(true)
 end
 
 
@@ -164,8 +154,8 @@ local function GetTeamColorSet(teamID)
   end
   local r,g,b = spGetTeamColor(teamID)
   
-  colors = {{ r, g, b, 0.4 },
-            { r, g, b, 0.7 }}
+  colors = {{ r, g, b, 0.25 },
+            { r, g, b, 0.25 }}
   teamColors[teamID] = colors
   return colors
 end
@@ -223,7 +213,7 @@ function widget:DrawWorldPreUnit()
 
   glDepthTest(false)
 
-  local alpha = 0.3
+  local alpha = 0.25
   glColor(1, 1, 1, alpha)
 
   for _,unitID in ipairs(spGetSelectedUnits()) do

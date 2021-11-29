@@ -220,12 +220,12 @@ function widget:DrawWorld()
 	
 	
 
-  if (camY <2500) then 
+  if (camY <3200) then 
   
-    local opacitymult = 1-((camY - 1290)/1290)
-	if(opacitymult > 1) then
-		opacitymult = 1
-	end
+    --local opacitymult = 1-((camY - 1290)/1290)
+	--if(opacitymult > 1) then
+	--	opacitymult = 1
+	--end
   
   gl.Color(1,1,1,opacitymult)
   glDepthMask(true)

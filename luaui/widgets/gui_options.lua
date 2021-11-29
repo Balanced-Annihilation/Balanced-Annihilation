@@ -482,6 +482,18 @@ function widget:DrawScreen()
    end
 end
 
+
+local function SetupCommandColors(state)
+  local alpha = state and 1 or 0
+  local f = io.open('cmdcolors.tmp', 'w+')
+  if (f) then
+    f:write('unitBox  0 1 0 ' .. alpha)
+    f:close()
+    Spring.SendCommands({'cmdcolors cmdcolors.tmp'})
+  end
+  os.remove('cmdcolors.tmp')
+end
+
 function applyOptionValue(i)
    local id = options[i].id
 
@@ -569,8 +581,10 @@ function applyOptionValue(i)
       elseif id == "fancyunitselection" then
          --classic unit selection boxes
          if value == 1 then
+			SetupCommandColors(false)
             widgetHandler:EnableWidget("Fancy Selected Units")
          else
+			SetupCommandColors(true)
             widgetHandler:DisableWidget("Fancy Selected Units")
          end
 
@@ -619,7 +633,7 @@ function applyOptionValue(i)
       elseif id == "speccursors" then
          if value == 0 then
             Spring.SetConfigString("speccursors", "0")
-            widgetHandler:DisableWidget("AllyCursorsAll")
+            widgetHandler:EnableWidget("AllyCursorsAll")
          else
             Spring.SetConfigString("speccursors", "1")
             widgetHandler:EnableWidget("AllyCursorsAll")
@@ -1045,6 +1059,16 @@ function widget:Initialize()
 
    --set stuff initially
  
+ 
+
+
+
+	local bafirstlaunchsetupiscomplete = Spring.GetConfigString('disablewidgetsonce', "missing") --remove later
+	if bafirstlaunchsetupiscomplete ~= "done" then
+   		Spring.SetConfigString("disablewidgetsonce", 'done')
+		 widgetHandler:DisableWidget("TeamPlatter")
+	end
+ 
    value = tonumber(Spring.GetConfigString("alwaysrenderwrecksandtrees", "1"))
 
    if value == 0 then
@@ -1098,9 +1122,13 @@ function widget:Initialize()
    if value == 0 then
       widgetHandler:DisableWidget("Fancy Selected Units")
       Spring.SetConfigInt("fancyunitselection", 0)
+	  			SetupCommandColors(true)
+
    elseif value == 1 then
       widgetHandler:EnableWidget("Fancy Selected Units")
       Spring.SetConfigInt("fancyunitselection", 1)
+	  			SetupCommandColors(false)
+
    end
 
     value = tonumber(Spring.GetConfigInt("smoothcam", 1))
@@ -1355,10 +1383,10 @@ function widget:Initialize()
       },
       {
          id = "speccursors",
-         name = "Show player and spectator cursors",
+         name = "Show spectator cursors",
          type = "bool",
          value = tonumber(Spring.GetConfigInt("speccursors", 1) or 1) == 1,
-         description = "Show player and spec cursors"
+         description = "Show spec cursors"
       },
       {
          id = "showchat",

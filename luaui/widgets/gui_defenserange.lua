@@ -101,8 +101,8 @@ modConfig["BA"]["armorTags"]["ground"] = "else"
 modConfig["BA"]["dps"] = {}
 modConfig["BA"]["dps"]["ground"] = {}
 modConfig["BA"]["dps"]["air"] = {}
-modConfig["BA"]["dps"]["ground"]["min"] = 50
-modConfig["BA"]["dps"]["ground"]["max"] = 500
+modConfig["BA"]["dps"]["ground"]["min"] = 1
+modConfig["BA"]["dps"]["ground"]["max"] = 300
 modConfig["BA"]["dps"]["air"]["min"] = 80
 modConfig["BA"]["dps"]["air"]["max"] = 500
 --end of dps-colors

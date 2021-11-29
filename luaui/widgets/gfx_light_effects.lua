@@ -48,7 +48,7 @@ local doOverride = false
 
 
 
-local globalLightMult = 1.7
+local globalLightMult = 2.8
 local globalRadiusMult = 1.3
 local globalLightMultLaser = 1.4	-- gets applied on top op globalRadiusMult
 local globalRadiusMultLaser = 0.9	-- gets applied on top op globalRadiusMult
@@ -61,15 +61,7 @@ local enableThrusters = false
 local nanolaserLights = {}
 local thrusterLights = {}
 
-local gibParams = {r = 0.18*globalLightMult, g = 0.09*globalLightMult, b = 0.03*globalLightMult, radius = 100*globalRadiusMult, gib = true}
---------------------------------------------------------------------------------
---------------------------------------------------------------------------------
-
-local projectileLightTypes = {}
---[1] red
---[2] green
---[3] blue
---[4] radius
+local gibParams = {r = 0.18*globalLightMult, g = 0.09*globalLightMult, b = 0.03*globalLightMult, radius = 100*globalRadiusMult, gib = true}--[4] radius
 --[5] BEAMTYPE, true if BEAM
 
 local explosionLightsCount = 0
@@ -1040,53 +1032,4 @@ function widget:Initialize()
         enableDeferred = value
     end
 
-end
-
-
-function widget:GetConfigData(data)
-	local savedTable = {
-		globalLightMult = globalLightMult,
-		globalRadiusMult = globalRadiusMult,
-		globalLightMultLaser = globalLightMultLaser,
-		globalRadiusMultLaser = globalRadiusMultLaser,
-		globalLifeMult = globalLifeMult,
-		enableHeatDistortion = enableHeatDistortion,
-		enableDeferred = enableDeferred,
-		enableNanolaser = enableNanolaser,
-		enableThrusters = enableThrusters,
-		resetted = 1.4,
-	}
-	return savedTable
-end
-
-function widget:SetConfigData(data)
-	if data.globalLifeMult ~= nil and data.resetted ~= nil and data.resetted == 1.4 then
-		if data.globalLightMult ~= nil then
-			globalLightMult = data.globalLightMult
-		end
-		if data.globalRadiusMult ~= nil then
-			globalRadiusMult = data.globalRadiusMult
-		end
-		if data.globalLightMultLaser ~= nil then
-			globalLightMultLaser = data.globalLightMultLaser
-		end
-		if data.globalRadiusMultLaser ~= nil then
-			globalRadiusMultLaser = data.globalRadiusMultLaser
-		end
-		if data.globalLifeMult ~= nil then
-			globalLifeMult = data.globalLifeMult
-		end
-        if data.enableHeatDistortion ~= nil then
-            enableHeatDistortion = data.enableHeatDistortion
-        end
-		if data.enableDeferred ~= nil then
-			enableDeferred = data.enableDeferred
-		end
-		if data.enableNanolaser ~= nil then
-			enableNanolaser = data.enableNanolaser
-		end
-		if data.enableThrusters ~= nil then
-			enableThrusters = data.enableThrusters
-		end
-	end
 end

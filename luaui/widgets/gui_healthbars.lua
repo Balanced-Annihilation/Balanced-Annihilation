@@ -53,11 +53,12 @@ local featureHpThreshold = 0.85
 local featureResurrectVisibility = true      -- draw feature bars for resurrected features on same distance as normal unit bars
 local featureReclaimVisibility = true      -- draw feature bars for reclaimed features on same distance as normal unit bars
 
-local minPercentageDistance = 130000     -- always show health percentage text below this distance
-local infoDistance = 900000
-local maxFeatureInfoDistance = 330000    --max squared distance at which text it drawn for features
-local maxFeatureDistance = 700000    --max squared distance at which any info is drawn for features
-local maxUnitDistance = 7000000  --max squared distance at which any info is drawn for units
+local minPercentageDistance     = 130000     -- always show health percentage text below this distance
+local infoDistance              = 900000
+local maxFeatureInfoDistance    = 330000    --max squared distance at which text it drawn for features 
+local maxFeatureDistance        = 570000    --max squared distance at which any info is drawn for features 
+local maxUnitDistance           = 12000000  --max squared distance at which any info is drawn for units  MUST BE LARGER THAN FOR FEATURES!
+
 
 local minReloadTime = 4 --// in seconds
 
@@ -846,7 +847,7 @@ do
 
 	function DrawBars(fullText, scale)
 		glPushMatrix()
-		glScale(barScale * scale, barScale * scale, barScale * scale)
+		--glScale(barScale * scale, barScale * scale, barScale * scale)
 		if barsN > 1 then
 			glTranslate(0, (barsN - 1) * barHeightL, 0)
 		end
@@ -975,13 +976,13 @@ do
 		ci = unitdefInfo[unitDefID]
 
 		-- fade out when zooming out
-		local scale = 1 - ((dist - (maxUnitDistance * drawDistanceMult * 0.25)) / (maxUnitDistance * drawDistanceMult - (maxUnitDistance * drawDistanceMult * 0.25)))
-		if scale > 1 then
-			scale = 1
-		end
-		if variableBarSizes then
-			scale = scale * ci.scale
-		end
+		--local scale = 1 - ((dist - (maxUnitDistance * drawDistanceMult * 0.25)) / (maxUnitDistance * drawDistanceMult - (maxUnitDistance * drawDistanceMult * 0.25)))
+		--if scale > 1 then
+		--	scale = 1
+		--end
+		--if variableBarSizes then
+		--	scale = scale * ci.scale
+		--end
 
 
 		--// GET UNIT INFORMATION

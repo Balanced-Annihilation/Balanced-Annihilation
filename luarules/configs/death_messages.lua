@@ -79,6 +79,9 @@ allyTeamDeathMessages = {
 }	
 	
 teamDeathMessages = {
+	"XX's widgets became sentient and forced them to lose against their will",
+	"XX encountered a problem and needs to restart",
+	"XX failed successfully",
 	"XX ran out of ideas for funny death messages",
 	"XX attempt to resurrect the dinosaurs was successful",
 	"XX desynced and on their screen it says they won",
