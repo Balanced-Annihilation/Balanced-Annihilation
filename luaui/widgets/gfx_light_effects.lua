@@ -48,7 +48,7 @@ local doOverride = false
 
 
 
-local globalLightMult = 2.8
+local globalLightMult = 2.4
 local globalRadiusMult = 1.3
 local globalLightMultLaser = 1.4	-- gets applied on top op globalRadiusMult
 local globalRadiusMultLaser = 0.9	-- gets applied on top op globalRadiusMult
@@ -61,9 +61,9 @@ local enableThrusters = false
 local nanolaserLights = {}
 local thrusterLights = {}
 
-local gibParams = {r = 0.18*globalLightMult, g = 0.09*globalLightMult, b = 0.03*globalLightMult, radius = 100*globalRadiusMult, gib = true}--[4] radius
+local gibParams = {r = 0.15*globalLightMult, g = 0.075*globalLightMult, b = 0.035*globalLightMult, radius = 100*globalRadiusMult, gib = true}--[4] radius
 --[5] BEAMTYPE, true if BEAM
-
+local projectileLightTypes = {}
 local explosionLightsCount = 0
 local explosionLights = {}
 
