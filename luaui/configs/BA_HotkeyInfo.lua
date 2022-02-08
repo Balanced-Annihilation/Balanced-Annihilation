@@ -31,6 +31,7 @@ General = {
 {"G",         "Guard"},
 {"L",         "Load"},
 {"U",         "Unload"},
+{"K",   "Cloak"},
 {"Q",         "Set target on ground or unit"},
 {"ctrl + D",         "Self destruct"},
 {"H",   "Share units or resources to allies"},
@@ -50,12 +51,13 @@ Units_I_II = {
 {"ctrl + Z",         "Select all units that match selection types"},
 {"ctrl + X or double left click",        "Select visible unit matches" },
 {"ctrl + B",         "Select next idle builder"},
+{"Spacebar",         "Show unit info"},
 {blankLine=true}, 
 
 {"Unit Control Group Hotkeys", title=true},
-{"Press Number",         "Select group"},
+{"Press Number",         "Select group (or camera position)"},
 {"Double Press Number",         "Center camera on group"},
-{"ctrl + Number",         "Add selected unit to group"},
+{"ctrl + Number",         "Add selected unit to group (or save camera)"},
 {"` + ctrl + Number",         "Remove selected unit from group"},
 {"ALT + Number",         "Add selected unit type to auto group"},
 {"` + ALT + Number",     "Remove selected unit type from auto group"},
@@ -71,9 +73,10 @@ Units_I_II = {
 {"ANY COMMAND ABOVE + SPACE",   "Split builders between tasks"},
 {blankLine=true}, 
 
-{"Spectator Controls", title=true},
+{"Spectator/Replay", title=true},
 {"double click name",         "Track player cam"},
 {"cntrl click name",         "Mute player"},
+{"alt and + or -",  "Speed up or slow down replay"},
 }
 
 Units_III = {
@@ -91,6 +94,7 @@ Units_III = {
     {"f3",  "Cycle through map marks"},
     {"f4",  "Show metal map"},
     {"f5",  "Hide GUI"},
+	{"f9",  "Toggle healthbars"},
 	{"f12",  "Screenshot"},
 	{blankLine=true}, 
 	
@@ -101,18 +105,24 @@ Units_III = {
 	 {"click on eraser",  "Erase all drawings and markes"},
 {blankLine=true}, 
 
-{"Widgets", title=true},
+{"Widgets/Sound", title=true},
 {"f11",  "Widget menu to enable and disable widgets"},
 {"ctrl + f11",  "Widget tweak mode"},
 {"middle mouse",  "Move selected widget in tweak mode"},
-{blankLine=true}, 
-
-{"Sound", title=true},
 {"-/+",                 "Change volume"},
 {"f6",                  "Toggle mute"},
+
+
 {blankLine=true}, 
 
-{"Replay", title=true},
-{"alt and + or -",  "Speed up or slow down replay"},
+{"Cheat Commands", title=true},
+{"/cheat",  "Toggle cheats"},
+{"/globallos",  "See whole map"},
+{"/godmode",  "Control enemy units"},
+{"/nocost",  "Free building"},
+{"/give 10 armpw 0",  "Spawn 10 of unit armpw for team 0"},
+{"/give all 0",  "Give one of every unit to team 0"},
 }
+
+
 

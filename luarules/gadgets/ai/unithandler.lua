@@ -13,7 +13,7 @@ local inactive = {
 	armguard = true,
 	armhlt = true,
 	armllt = true,
-	armpacko = true,
+	armferret = true,
 	armpb = true,
 	armrl = true,
 	-- armvulc = true,
@@ -72,7 +72,7 @@ local inactive = {
 	armfmine3 = true,
 	armfrad = true,
 	armsonar = true,
-	
+
 	-- corbhmth = true,
 	-- corbuzz = true,
 	-- cordoom = true,

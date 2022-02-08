@@ -154,8 +154,8 @@ local function GetTeamColorSet(teamID)
   end
   local r,g,b = spGetTeamColor(teamID)
   
-  colors = {{ r, g, b, 0.25 },
-            { r, g, b, 0.25 }}
+  colors = {{ r, g, b, 0.26 },
+            { r, g, b, 0.26 }}
   teamColors[teamID] = colors
   return colors
 end
@@ -213,7 +213,7 @@ function widget:DrawWorldPreUnit()
 
   glDepthTest(false)
 
-  local alpha = 0.25
+  local alpha = 0.26
   glColor(1, 1, 1, alpha)
 
   for _,unitID in ipairs(spGetSelectedUnits()) do

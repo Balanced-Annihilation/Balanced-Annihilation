@@ -191,6 +191,7 @@ return {
 				impulsefactor = 0,
 				name = "GaussCannon",
 				noselfdamage = true,
+				noexplode = true,
 				range = 590,
 				reloadtime = 1,
 				soundhit = "xplomed2",

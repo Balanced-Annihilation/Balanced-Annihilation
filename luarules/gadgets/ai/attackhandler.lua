@@ -16,7 +16,7 @@ end
 function AttackHandler:Update()
 -- stagger targetting if multiple shards are in the game
 	local f = self.game:Frame() + self.game:GetTeamID() 
-	if math.fmod(f,15) == 0 then
+	if f % 15 == 0 then
 		self:DoTargetting()
 	end
 end
@@ -24,7 +24,7 @@ end
 function AttackHandler:UnitDead(engineunit)
 	if engineunit:Team() == self.game:GetTeamID() then
 		self.counter = self.counter - 0.2
-		self.counter = math.max(self.counter,8)
+		self.counter = (self.counter > 8 and self.counter or 8)
 		-- try and clean up dead recruits where possible
 		for i,v in ipairs(self.recruits) do
 			if v.engineID == engineunit:ID() then
@@ -67,10 +67,10 @@ function AttackHandler:DoTargetting()
 
 				if e ~= nil then
 					pos = e:GetPosition()
-					px = pos.x - math.fmod(pos.x,400)
-					pz = pos.z - math.fmod(pos.z,400)
-					px = px/400
-					pz = pz/400
+					--px = (pos.x - math.fmod(pos.x,400)) / 400
+					--pz = (pos.z - math.fmod(pos.z,400)) / 400
+					px = (pos.x - (pos.x % 400)) / 400
+					pz = (pos.z - (pos.z % 400)) / 400
 					if cells[px] == nil then
 						cells[px] = {}
 					end
@@ -113,7 +113,7 @@ function AttackHandler:DoTargetting()
 				end
 				
 				self.counter = self.counter + 0.2
-				self.counter = math.min(self.counter,20)
+				self.counter = (self.counter < 20 and self.counter or 20)
 				
 				-- remove all our recruits!
 				self.recruits = {}

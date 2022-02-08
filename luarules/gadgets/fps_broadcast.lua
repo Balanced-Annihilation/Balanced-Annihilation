@@ -15,7 +15,7 @@ end
 -- config
 --------------------------------------------------------------------------------
 
-local sendPacketEvery	= 4
+local sendPacketEvery	= 2
 
 --------------------------------------------------------------------------------
 -- synced
@@ -39,8 +39,8 @@ else
 	local GetFPS							= Spring.GetFPS
 	
 	local updateTimer					= 0
-	local avgFps							= GetFPS()
-	local numframes						= 0
+	--local avgFps							= GetFPS()
+
 	
 	function gadget:Initialize()
 		gadgetHandler:AddSyncAction("fpsBroadcast", handleFpsEvent)
@@ -58,14 +58,10 @@ else
 
 	function gadget:Update()
 		updateTimer = updateTimer + GetLastUpdateSeconds()
-		if numFrames == nil then numFrames = 0 end
-		numFrames = numFrames + 1
-		avgFps = ((avgFps*(numFrames-1))+GetFPS()) / numFrames
 		if updateTimer > sendPacketEvery then
-			SendLuaRulesMsg("@"..math.floor(avgFps+0.5))
+			SendLuaRulesMsg("@"..math.floor(GetFPS()+0.5))
 			updateTimer = 0
-			avgFps = 0
-			numFrames = 0
+			--avgFps = 0
 		end
 	end
 

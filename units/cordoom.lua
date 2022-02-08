@@ -23,7 +23,7 @@ return {
 		idleautoheal = 2,
 		idletime = 1800,
 		losemitheight = 80,
-		maxdamage = 8200,
+		maxdamage = 8250,
 		maxslope = 10,
 		maxwaterdepth = 0,
 		name = "Doomsday Machine",

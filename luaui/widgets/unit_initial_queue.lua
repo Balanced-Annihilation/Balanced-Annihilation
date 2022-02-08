@@ -550,6 +550,8 @@ function widget:SetConfigData(data)
 		if wt > vsy then 
 			wt = vsy
 		end
+		wl = vsx/15
+		wt = vsy/2
 	end
 	if Spring.GetGameSeconds() <= 0 and data.buildQueue and data.gameId and data.gameId == Game.gameID then
 		buildQueue = data.buildQueue

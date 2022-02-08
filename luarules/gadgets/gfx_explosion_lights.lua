@@ -44,8 +44,8 @@ if (gadgetHandler:IsSyncedCode()) then
 		
 			
 cacheids[flea_ex] =true
-cacheids[small_unitex]=true
-cacheids[small_unit]=true
+--cacheids[small_unitex]=true
+--cacheids[small_unit]=true
 cacheids[small_unit_air]=true
 cacheids[small_unitex_air]=true
 cacheids[big_unitex_air]=true

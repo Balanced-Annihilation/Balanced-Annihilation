@@ -24,7 +24,7 @@ function widget:CommandsChanged()
         if #selUnits > 0 then
             local selTeam = spGetUnitTeam(selUnits[1])
             if selTeam ~= spGetMyTeamID() then
-                spSendCommands('specteam ' .. selTeam)
+                spSendCommands("specteam " .. selTeam)
             end
         end
     end

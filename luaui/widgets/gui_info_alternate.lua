@@ -1187,7 +1187,7 @@ local function drawUnitInfo()
 			if (unitcount ~= 0) then
 				caption = "Selected units: "..unitcount.."\n"
 			else
-				caption = "\n"
+				caption = ""--"\n"
 			end
 		
 		
@@ -1213,7 +1213,7 @@ local function drawUnitInfo()
 		if displayMode == 'unit' then
 		
 		font:Begin()
-				font:Print(words .. caption, customInfoArea[3] - width + (bgpadding*2.4), customInfoArea[4] - contentPadding - (infoFontsize * 0.55), infoFontsize, "o") --.. caption
+				font:Print(caption .. words, customInfoArea[3] - width + (bgpadding*2.4), customInfoArea[4] - contentPadding - (infoFontsize * 0.55), infoFontsize, "o") --.. caption
 
 		--font:Print(text, customInfoArea[3] - width + (bgpadding*2.4), customInfoArea[4] - contentPadding - (infoFontsize * 0.55), infoFontsize, "o")
 		font:End()

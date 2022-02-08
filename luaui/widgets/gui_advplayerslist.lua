@@ -11,7 +11,7 @@
 
 function widget:GetInfo()
 	return {
-		name      = "AdvPlayersList",
+		name      = "AdvPlayersListApm",
 		desc      = "Playerlist. Use tweakmode (ctrl+F11) to customize.",
 		author    = "Marmoth. (spiced up by Floris)",
 		date      = "25 april 2015",
@@ -347,8 +347,8 @@ m_ID = {
 	name	  = "id",
 	spec      = true,
 	play      = true,
-	active    = false,
-	width     = 17,
+	active    = true,
+	width     = 0,
 	position  = position,
 	posX      = 0,
 	pic       = pics["idPic"],
@@ -504,9 +504,9 @@ position = position + 1
 
 modules = {
 	m_indent,
+	m_ID,
 	m_rank,
 	m_country,
-	m_ID,
 	m_name,
 	m_skill,
 	m_resources,
@@ -735,6 +735,7 @@ end]]--
 
 function widget:Initialize()
 	--widgetHandler:RegisterGlobal('getPlayerScores', RecvPlayerScores)
+	widgetHandler:RegisterGlobal('ApmEvent', ApmEvent)
 	widgetHandler:RegisterGlobal('CameraBroadcastEvent', CameraBroadcastEvent)
   widgetHandler:RegisterGlobal('ActivityEvent', ActivityEvent)
   widgetHandler:RegisterGlobal('FpsEvent', FpsEvent)
@@ -803,10 +804,18 @@ function widget:GameStart()
 	SetOriginalColourNames()
 	SortList()
 end
-
+local lastApmData = {}
+function ApmEvent(playerID, apm)
+  --lastApmData[playerID] = apm
+  if(player[playerID].team ~= nil) then
+	lastApmData[player[playerID].team] = apm
+  end
+--  player[playerID].pingLvl
+end
 
 function widget:Shutdown()
 
+  widgetHandler:DeregisterGlobal('ApmEvent')
 	widgetHandler:DeregisterGlobal('CameraBroadcastEvent')
 	widgetHandler:DeregisterGlobal('ActivityEvent')
   widgetHandler:DeregisterGlobal('FpsEvent')
@@ -1795,8 +1804,29 @@ function DrawPlayer(playerID, leader, vOffset, mouseX, mouseY)
 				end
 			end
 			gl_Color(red,green,blue,1)
+			
+				
+			
+			
 			if m_ID.active == true then
-				DrawID(team, posY, dark)
+			
+			local width17set = false
+			local width0set = false
+			
+			local spectating = Spring.GetSpectatingState()
+				if(spectating) then
+					if(not width17set) then
+						m_ID.width = 17
+						width17set = true
+					end
+					
+					DrawID(team, posY, dark)
+				else
+					if(not width0set) then
+						m_ID.width = 0
+						width0set = true
+					end
+				end
 			end
 			if m_skill.active == true then
 				DrawSkill(skill, posY, dark, name)
@@ -2197,19 +2227,38 @@ function DrawSmallName(name, team, posY, dark, playerID, alpha)
 		gl_Color(1,1,1)
 	end
 end
+local spGetPlayerInfo		= Spring.GetPlayerInfo
+--local spGetMyPlayerID		= Spring.GetMyPlayerID
 
+--(spGetPlayerInfo(spGetMyPlayerID(), false) == false)
 function DrawID(playerID, posY, dark)
+
 	local spacer = ""
 	if playerID < 10 then
 		spacer = " "
 	end
+	local apm = 0
+	
+
+	if((lastApmData[playerID] ~= nil))  then
+	
+	
+	
+
+	apm = lastApmData[playerID]
+
+	end
+	if(apm>998) then
+	apm = 999
+	end
 	--gl_Text(colourNames(playerID) .. " ".. playerID .. "", m_ID.posX + widgetPosX+4.5, posY + 5, 11, "o") 
 	gl_Color(0,0,0,0.6)
-	gl_Text(spacer .. playerID .. "", m_ID.posX + widgetPosX+4.5, posY + 4.1, 11, "n") 
+	gl_Text(spacer .. apm .. "", m_ID.posX + widgetPosX-4.5, posY +4.1, 11, "n") 
 	gl_Color(1,1,1,0.5)
-	gl_Text(spacer .. playerID .. "", m_ID.posX + widgetPosX+4.5, posY + 5, 11, "n") 
+	gl_Text(spacer .. apm .. "", m_ID.posX + widgetPosX-4.5, posY + 5, 11, "n") 
 
 	gl_Color(1,1,1)
+	
 end
 
 function DrawSkill(skill, posY, dark)
@@ -2397,6 +2446,12 @@ function PingCpuTip(mouseX, pingLvl, cpuLvl, fps, system, name)
 		end
 		if system ~= nil then 
 			tipText = "\255\000\000\000"..name.."\n\255\255\255\255"..tipText.."\n"..system
+		end
+	end
+	
+	if mouseX >= widgetPosX + (m_ID.posX  - 5) * widgetScale and mouseX <=  widgetPosX + (m_ID.posX + 11) * widgetScale then	
+		if fps ~= nil then 
+			tipText = "APM"
 		end
 	end
 end

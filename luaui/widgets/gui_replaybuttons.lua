@@ -131,7 +131,7 @@ function setReplaySpeed (speed, i)
 	--Spring.Echo ("setting speed to: " , speed , " current is " , s)
 	if (speed > s) then	--speedup
 		Spring.SendCommands ("setminspeed " .. speed)
-		Spring.SendCommands ("setminspeed " ..0.1)
+		Spring.SendCommands ("setminspeed 0.1")
 	else	--slowdown
 		wantedSpeed = speed
 	end

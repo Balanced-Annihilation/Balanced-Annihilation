@@ -11,7 +11,8 @@ function widget:GetInfo()
     date      = "19 April 2008",
     license   = "GNU GPL, v2 or later",
     layer     = 5,
-    enabled   = true  --  loaded by default?
+    enabled   = true,  --  loaded by default?
+	handler = true
   }
 end
 
@@ -36,7 +37,19 @@ function widget:Update()
     local unitArray = Spring.GetTeamUnits(Spring.GetMyTeamID())
     if (go and unitArray[1]) then
       local x, y, z = Spring.GetUnitPosition(unitArray[1])
-      Spring.SetCameraTarget(x, y, z)
+	  
+	--  value = tonumber(Spring.GetConfigInt("smoothcam", 1))
+	--	if value == 1 then
+	--				widgetHandler:DisableWidget("SmoothCam")
+	--		Spring.SetCameraTarget(x, y, z)
+	--		widgetHandler:EnableWidget("SmoothCam")
+	--	else
+	--		Spring.SetCameraTarget(x, y, z)
+	--	end
+     
+	  Spring.SetCameraTarget(x, y, z)
+
+	  
       Spring.SelectUnitArray{unitArray[1]}
       go = false
     end

@@ -1,9 +1,7 @@
-local versionNumber = "v2.6 - Doo Edit, BAR specific"
-
 function widget:GetInfo()
   return {
     name      = "Area Mex",
-    desc      = versionNumber .. " Adds a command to cap mexes in an area.",
+    desc      =" Adds a command to cap mexes in an area.",
     author    = "Google Frog, NTG (file handling), Chojin (metal map), Doo Edit on Dec 13, 2017 (multiple enhancements)",
     date      = "Oct 23, 2010",
     license   = "GNU GPL, v2 or later",
@@ -117,12 +115,12 @@ function widget:Update()
 			if Spring.GetMapDrawMode() == "los" then
 				retoggleLos = true
 			end
-			spSendCommands('ShowMetalMap')
+			spSendCommands("ShowMetalMap")
 			toggledMetal = true
 		end
 	else
 		if toggledMetal then
-			spSendCommands('ShowStandard')
+			spSendCommands("ShowStandard")
 		    if retoggleLos then
 		        Spring.SendCommands("togglelos")
 				retoggleLos = nil

@@ -37,7 +37,7 @@ local gl = Spring.Draw  --  easier to use
 --
 
 function Say(msg)
-  spSendCommands('say ' .. msg)
+  spSendCommands("say " .. msg)
 end
 
 

@@ -111,8 +111,6 @@ return {
 		},
 		weapondefs = {
 			emgx = {
-				allowNonBlockingAim = true,
-				fireTolerance =16384,
 				areaofeffect = 8,
 				avoidfeature = false,
 				--burst = 3,

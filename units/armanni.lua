@@ -117,7 +117,7 @@ return {
 				name = "ATA",
 				noselfdamage = true,
 				range = 1400,
-				reloadtime = 11.5,
+				reloadtime = 11,
 				rgbcolor = "0 0 1",
 				soundhitdry = "",
 				soundhitwet = "sizzle",

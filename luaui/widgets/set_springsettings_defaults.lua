@@ -12,11 +12,23 @@ function widget:GetInfo()
 end
 
 function widget:Initialize()
-local bafirstlaunchsetupiscomplete = Spring.GetConfigString('bafirstlaunchsetupiscomplete', "missing") --remove later
+local bafirstlaunchsetupiscomplete = Spring.GetConfigString('bafirstlaunchsetupiscomplete3', "missing") --remove later
 if bafirstlaunchsetupiscomplete ~= "done" then
-   		Spring.SetConfigString("bafirstlaunchsetupiscomplete", 'done')
-		
-		Spring.SetConfigString("ScrollWheelSpeed", "25")
+	widgetHandler:DisableWidget("TeamPlatter")
+	widgetHandler:DisableWidget("SmartSelect")
+	widgetHandler:EnableWidget("SmoothCam")
+   		Spring.SetConfigString("bafirstlaunchsetupiscomplete3", "done")
+		Spring.SetConfigString("advgraphics", "1")
+		Spring.SetConfigString("CamTimeFactor", "1")
+		Spring.SendCommands("CamTimeFactor 1")
+		 Spring.SendCommands("CamTimeExponent 4")
+		 Spring.SendCommands("viewta ")
+		--Spring.SetConfigString("ScrollWheelSpeed", "51")
+			--Spring.SetConfigString("CamSpringScrollSpeed", "51")
+			--Spring.SetConfigString("FPSScrollSpeed", "0.001")
+			
+			
+
 		Spring.SetConfigString("UseNetMessageSmoothingBuffer", "0")
 	Spring.SetConfigString("NetworkLossFactor", "2")
 	Spring.SetConfigString("LinkOutgoingBandwidth", "262144")
@@ -25,9 +37,8 @@ if bafirstlaunchsetupiscomplete ~= "done" then
 	Spring.SetConfigString("LinkIncomingMaxPacketRate", "2048")
 
 		
-		Spring.SetConfigInt("immersiveborder", 0)
+		Spring.SetConfigInt("mapborder", 1)
 			Spring.SetConfigInt("MSAALevel", 0)
-		Spring.SetConfigString("UseNetMessageSmoothingBuffer", "0")
 		Spring.SetConfigString("Water", "1")
 		Spring.SetConfigString("ProfanityFilter", "1")
 		Spring.SetConfigString("chatsound", "1")
@@ -37,20 +48,33 @@ if bafirstlaunchsetupiscomplete ~= "done" then
 		Spring.SetConfigString("GroundDetail" , "80")
 		Spring.SetConfigInt("MaxNanoParticles", 3000)
 		Spring.SetConfigInt("MaxParticles", 30000)
-		Spring.SetConfigInt("Smoothcam", 1)
+		Spring.SetConfigInt("smoothcam", 1)
 		Spring.SetConfigInt("EdgeMoveWidth", 0.1)
 		Spring.SetConfigString("MouseDragScrollThreshold", "0.3")
 		Spring.SetConfigInt("UnitIconDist", 200)
-	
-		Spring.SetConfigInt("FeatureDrawDistance", 99999999)
-		Spring.SetConfigInt("FeatureFadeDistance", 99999999)
+		       	Spring.SetConfigInt("FeatureDrawDistance", 10000000)
+		Spring.SetConfigInt("FeatureFadeDistance", 10000000)
+		 Spring.SendCommands("FeatureFadeDistance 10000000")
+		 Spring.SendCommands("FeatureDrawDistance 10000000")
 		Spring.SetConfigInt("Shadows", 1)
 
 end
+
+local value = tonumber(Spring.GetConfigInt("ScrollWheelSpeed", 25) or 25)
+if (value == 0) then
+	Spring.SetConfigInt("ScrollWheelSpeed", 25)
+end
+
 Spring.SetConfigInt("ShadowMapSize", 6144)
+Spring.SetConfigString("FPSMouseScale", Spring.SetConfigString("FPSMouseScale", "0.0025") or "0.0025") 
+Spring.SetConfigString("CamSpringScrollSpeed", Spring.SetConfigString("CamSpringScrollSpeed", "10") or "10")
 
-
-
+	--Spring.SetConfigInt("ScrollWheelSpeed", Spring.GetConfigInt("ScrollWheelSpeed", 51))
+	
+	--Spring.SetConfigInt("OverheadScrollSpeed", Spring.GetConfigInt("OverheadScrollSpeed", 51))
+	--	Spring.SetConfigInt("RotOverheadScrollSpeed", Spring.GetConfigInt("RotOverheadScrollSpeed", 51))
+	--Spring.SetConfigInt("CamFreeScrollSpeed", Spring.GetConfigInt("CamFreeScrollSpeed", 51))
+	--		Spring.SetConfigInt("CamSpringScrollSpeed", Spring.GetConfigInt("CamSpringScrollSpeed", 51))
 			
 
 Spring.SetConfigString("UnitLodDist", "99999999")
@@ -70,10 +94,24 @@ Spring.SetConfigInt("snd_volunitreply", 100)
 	Spring.SetConfigString("DynamicSky", "0") --always disable this
 	Spring.SetConfigString("Vsync", "0")
 	Spring.SetConfigString("GrassDetail", "0")
-	Spring.SetConfigString("MiniMapDrawProjectiles", "0")
+	Spring.SetConfigString("MiniMapDrawProjectiles", "1")
 	Spring.SetConfigString("UsePBO", "0")
 	local value = tonumber(Spring.GetConfigInt("advgraphics", 1) or 1) --set ultra graphics on first launch, otherwise to 1
 	Spring.SetConfigInt("advgraphics", value) --add 1 to advgraphics value, if there was no BA version recorded
+	
+	
+			
+
+
+ --value =  tonumber(Spring.GetConfigString("ScrollWheelSpeed",25))
+	--	Spring.SetConfigInt("ScrollWheelSpeed", value) --add 1 to advgraphics value, if there was no BA version recorded
+
+	--value =  tonumber(Spring.GetConfigString("CamSpringScrollSpeed", 25))
+	--	Spring.SetConfigInt("CamSpringScrollSpeed", value) --add 1 to advgraphics value, if there was no BA version recorded
+
+	--value = tonumber(Spring.GetConfigString("FPSScrollSpeed", 2))
+	--Spring.SetConfigInt("FPSScrollSpeed", value)
+
 	
 	if (gl.CreateShader)then
 			Spring.SetConfigInt("AdvMapShading", 1)
@@ -82,16 +120,15 @@ Spring.SetConfigInt("snd_volunitreply", 100)
 			Spring.SetConfigInt("AllowDeferredMapRendering", 1)
 			Spring.SetConfigInt("AllowDeferredModelRendering", 1)
 			else
-
-				Spring.SetConfigInt("LuaShaders", 0)
+			Spring.SetConfigInt("LuaShaders", 0)
 			Spring.SetConfigInt("AllowDeferredMapRendering", 0)
 			Spring.SetConfigInt("AllowDeferredModelRendering", 0)
-			Spring.SetConfigInt("advgraphics", 0)
+		
 			Spring.SetConfigInt("AdvMapShading", 0)
 			Spring.SetConfigInt("AdvUnitShading", 0)
 			Spring.SetConfigInt("UseVBO", 0)
 			Spring.SetConfigInt("advgraphics", 0)
-			Spring.SetConfigInt("immersiveborder", 0)
+			Spring.SetConfigInt("mapborder", 1)
 			end
 	
 	local font = "FreeSansBold.otf"
@@ -105,5 +142,8 @@ Spring.SetConfigInt("snd_volunitreply", 100)
 	Spring.SetConfigString("FontFile", "FreeSansBold.otf")
 	Spring.SetConfigString("ba_font", "FreeSansBold.otf")
 	Spring.SetConfigString("ba_font2", "FreeSansBold.otf")
+	
+
+
 	widgetHandler:RemoveWidget(self)
 end

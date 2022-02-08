@@ -43,6 +43,7 @@ local sGetMyAllyTeamID = Spring.GetMyAllyTeamID
 local sGetModKeyState = Spring.GetModKeyState
 local spPlaySoundFile = Spring.PlaySoundFile
 local sGetMyPlayerID = Spring.GetMyPlayerID
+local myname = Spring.GetPlayerInfo(sGetMyPlayerID())
 
 local Confignew = {
 	console = {
@@ -489,18 +490,9 @@ local function processLine(line,g,cfg,newlinecolor)
     end
 	
 	
-	-- filter shadows config changes
-	if sfind(line,"^Set \"shadows\" config(-)parameter to ") then
-		ignoreThisMessage = true
-	end
+
 	
-	-- filter rude words
-	if tonumber(Spring.GetConfigInt("ProfanityFilter",1) or 1) == 1 then
-		local line2 = string.lower(line)
-   if sfind(line2,"cunt") or sfind(line2," fuc")or sfind(line2,"nigg")or sfind(line2,"tard")or sfind(line2,"shit")or sfind(line2,"fag")or sfind(line2,"autis")or sfind(line2,"rape")or sfind(line2,"dick")or sfind(line2,"penis")or sfind(line2,"pussy")or sfind(line2,"porn")or sfind(line2,"sex")or sfind(line2,"gay")or sfind(line2,"homo")or sfind(line2,"cancer") then
-			ignoreThisMessage = true
-	end
-   end
+
 	
 	-- filter Sync error when its a spectator
 	--if sfind(line,"^Sync error for ") then
@@ -528,82 +520,105 @@ local function processLine(line,g,cfg,newlinecolor)
 		lastConnectionAttempt = name
 	  ignoreThisMessage = true
 	end
-	
-	-- filter Connection established
 	if sfind(line," Connection est") then --	if sfind(line," Connection established") then
 		name = lastConnectionAttempt
 	  ignoreThisMessage = true
 	end
 	
-	if sfind(line,"rror:") then --	if sfind(line,"Error:") then
+	-- filter Connection established
+		-- filter shadows config changes
+	if sfind(line,"^Set \"shadows\" config(-)parameter to ") then
+		ignoreThisMessage = true
+	elseif sfind(line," style camera") then --	if sfind(line," Connection established") then
+	  
+	  if sfind(line," FPS") then
+	  	widgetHandler:DisableWidget("SmoothCam")
+		widgetHandler:DisableWidget("Top Bar")
+		widgetHandler:DisableWidget("Order menu alternate")
+		widgetHandler:DisableWidget("Build menu alternate")
+		if (not Spring.IsGUIHidden()) then
+			Spring.SendCommands("ResBar")
+		end
+	  else
+		value = tonumber(Spring.GetConfigInt("smoothcam", 1))
+		if value == 1 then
+			widgetHandler:EnableWidget("SmoothCam")
+		
+		end
+			widgetHandler:EnableWidget("Top Bar")
+			widgetHandler:EnableWidget("Order menu alternate")
+			widgetHandler:EnableWidget("Build menu alternate")
+			if (Spring.IsGUIHidden()) then
+				Spring.SendCommands("ResBar")
+			end
+	  end
+	  
+
+
+
+	elseif sfind(line,"rror:") then --	if sfind(line,"Error:") then
 	  ignoreThisMessage = true
-	end
-	if sfind(line,"rver=") then --	if sfind(line,"server=") then
+	elseif sfind(line,"r::P") then --	smooth camera
 	  ignoreThisMessage = true
-	end
-	if sfind(line,"ceback:") then --	if sfind(line,"stack traceback:") then
+	elseif sfind(line,"rver=") then --	if sfind(line,"server=") then
 	  ignoreThisMessage = true
-	end
 	
-	if sfind(line,"ient=") then-- if sfind(line,"client=") then
-	  	name = lastConnectionAttempt
+	elseif sfind(line,"ceback:") then --	if sfind(line,"stack traceback:") then
 	  ignoreThisMessage = true
-	end
-	if sfind(line,"cTeamA") then 	--if sfind(line,"SpecTeamAction") then
-	name = lastConnectionAttempt
-	  ignoreThisMessage = true
-	end
-	if sfind(line,"t_select") then --	if sfind(line,"smart_select") then
-		name = lastConnectionAttempt
-	  ignoreThisMessage = true
-	end
 	
-	if sfind(line,"mpt rej") then --	Connection attempt rejected from ::ffff:186.227.58.214: Unpack failure (type)
-		name = lastConnectionAttempt
-	  ignoreThisMessage = true
-	end
 	
-	if sfind(line,"bled!") then --	model shaders is enabled!
-		name = lastConnectionAttempt
+	elseif sfind(line,"ient=") then-- if sfind(line,"client=") then
 	  ignoreThisMessage = true
-	end
 	
-	if sfind(line,"%.lua") then --	Removed: widget.lua disbaled
-		name = lastConnectionAttempt
+	elseif sfind(line,"cTeamA") then 	--if sfind(line,"SpecTeamAction") then
 	  ignoreThisMessage = true
-	end
+	
+	elseif sfind(line,"t_select") then --	if sfind(line,"smart_select") then
+	  ignoreThisMessage = true
+	
+	
+	elseif sfind(line,"mpt rej") then --	Connection attempt rejected from ::ffff:186.227.58.214: Unpack failure (type)
+	  ignoreThisMessage = true
+	
+	
+	elseif sfind(line,"bled!") then --	model shaders is enabled!
+	  ignoreThisMessage = true
+	
+	
+	elseif sfind(line,"%.lua") then --	Removed: widget.lua disbaled
+	  ignoreThisMessage = true
+	
 	
 	--if sfind(line,"->") then 
 	--	name = lastConnectionAttempt
 	--  ignoreThisMessage = true
-	--end
+	--
 	
-	if sfind(line,"-> User is n") then  -- "Spectator " normal quit remove spectator quit spam
-		name = lastConnectionAttempt
+	elseif sfind(line,"-> User is n") then  -- "Spectator " normal quit remove spectator quit spam
 	  ignoreThisMessage = true
-	end
 	
-	if sfind(line,"normal quit") then  -- "Spectator " normal quit remove spectator quit spam
-		name = lastConnectionAttempt
+	
+	elseif sfind(line,"normal quit") then  -- "Spectator " normal quit remove spectator quit spam
 	  ignoreThisMessage = true
-	end
 	
-	if sfind(line,"n attempt fr") then -- Reconnection attempt from/ reconnection attemp reestablish??
-		name = lastConnectionAttempt
+	
+	elseif sfind(line,"n attempt fr") then -- Reconnection attempt from/ reconnection attemp reestablish??
 	  ignoreThisMessage = true
-	end
 	
-	if sfind(line,"not authorized") then -- User name not authorized to connect
-		name = lastConnectionAttempt
+	
+	elseif sfind(line,"not authorized") then -- User name not authorized to connect
 	  ignoreThisMessage = true
-	end
 	
-	if sfind(line,"not reconnect") then  -- User can not reconnect
-		name = lastConnectionAttempt
+	
+	elseif sfind(line,"not reconnect") then  -- User can not reconnect
 	  ignoreThisMessage = true
-	end
+	elseif ((tonumber(Spring.GetConfigInt("ProfanityFilter",1) or 1) == 1) and (name ~= myname)) then --filter rude words
+		local line2 = string.lower(line)
+	   if sfind(line2,"cunt") or sfind(line2," fuc")or sfind(line2,"nigg")or sfind(line2,"tard")or sfind(line2,"bitch") or sfind(line2,"shit")or sfind(line2,"fag")or sfind(line2,"autis")or sfind(line2,"rape")or sfind(line2,"dick")or sfind(line2,"penis")or sfind(line2,"pussy")or sfind(line2,"porn")or sfind(line2,"sex")or sfind(line2,"gay")or sfind(line2,"homo")or sfind(line2,"cancer") then
+				ignoreThisMessage = true
+		end
+   end
 	
-
 	
 	if linetype==0 then
 		--filter out some engine messages; 

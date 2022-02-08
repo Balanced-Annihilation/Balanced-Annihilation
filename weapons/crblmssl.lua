@@ -8,7 +8,7 @@ return {
 		cratermult = 3,
 		edgeeffectiveness = 0.30000001192093,
 		energypershot = 187500,
-				explosiongenerator = "custom:AFUS_EXPLOSION",
+				explosiongenerator = "custom:FLASHNUKE1920",
 		firestarter = 0,
 		flighttime = 400,
 		impulseboost = 0.5,

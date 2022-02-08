@@ -73,7 +73,6 @@ Spring.Log(LUA_NAME, "info", LUA_VERSION .. " (" .. _VERSION .. ")")
 			Spring.SetConfigInt("AdvMapShading", 0)
 			Spring.SetConfigInt("AdvUnitShading", 0)
 			Spring.SetConfigInt("UseVBO", 0)
-			Spring.SetConfigInt("advgraphics", 0)
 			Spring.SetConfigInt("immersiveborder", 0)
 			end
 			Spring.SetConfigString("UsePBO", "0")

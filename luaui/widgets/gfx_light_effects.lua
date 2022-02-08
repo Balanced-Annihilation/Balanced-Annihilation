@@ -61,7 +61,9 @@ local enableThrusters = false
 local nanolaserLights = {}
 local thrusterLights = {}
 
+
 local gibParams = {r = 0.15*globalLightMult, g = 0.075*globalLightMult, b = 0.035*globalLightMult, radius = 100*globalRadiusMult, gib = true}--[4] radius
+
 --[5] BEAMTYPE, true if BEAM
 local projectileLightTypes = {}
 local explosionLightsCount = 0
@@ -194,7 +196,8 @@ function loadWeaponDefs()
 			weaponConf[i] = params
 			
 			local weaponID = i
-				if weaponConf[weaponID] ~= nil and not weaponConf[weaponID].noheatdistortion and((weaponConf[weaponID].wtype ~= 'MissileLauncher' and weaponConf[weaponID].wtype ~= 'TorpedoLauncher') or WeaponDefs[weaponID].damageAreaOfEffect > 150) then --and weaponConf[weaponID].wtype == 'Cannon' then
+				if weaponConf[weaponID] ~= nil and not weaponConf[weaponID].noheatdistortion and((weaponConf[weaponID].wtype ~= 'MissileLauncher' and weaponConf[weaponID].wtype ~= 'TorpedoLauncher') or WeaponDefs[weaponID].damageAreaOfEffect > 150) then --if weaponConf[weaponID] ~= nil and not weaponConf[weaponID].noheatdistortion and((weaponConf[weaponID].wtype ~= 'MissileLauncher' and weaponConf[weaponID].wtype ~= 'TorpedoLauncher') or WeaponDefs[weaponID].damageAreaOfEffect > 150) then --and weaponConf[weaponID].wtype == 'Cannon' then
+
 	
 				cacheA[weaponID] = true
 						if  (weaponConf[weaponID].wtype == 'Cannon' and params.radius > 80) or ((WeaponDefs[weaponID].damageAreaOfEffect > 150)) then --and Spring.IsSphereInView(px,py,pz,100)

@@ -147,10 +147,10 @@ local lastProgress = {0, 0}
 
 local progressByLastLine = {
 	["Parsing Map Information"] = {0, 20},
-	["Loading Weapon Definitions"] = {10, 50},
-	["Loading LuaRules"] = {40, 80},
-	["Loading LuaUI"] = {70, 95},
-	["Finalizing"] = {100, 100}
+	["Loading Weapon Definitions"] = {20, 40},
+	["Loading LuaRules"] = {40, 60},
+	["Loading LuaUI"] = {60, 80},
+	["Finalizing"] = {80, 100}
 }
 for name,val in pairs(progressByLastLine) do
 	progressByLastLine[name] = {val[1]*0.01, val[2]*0.01}
@@ -191,11 +191,11 @@ function addon.DrawLoadScreen()
 	--bar bg
 	local paddingH = 0.004
 	local paddingW = paddingH * (vsy/vsx)
-	gl.Color(0.085,0.085,0.085,0.925)
-	RectRound(0.2-paddingW,yPos-0.05-paddingH,0.8+paddingW,yPosTips+paddingH,0.007)
+	--gl.Color(0.085,0.085,0.085,0.925)
+	--RectRound(0.2-paddingW,yPos-0.05-paddingH,0.8+paddingW,yPosTips+paddingH,0.007)
 
-	gl.Color(0,0,0,0.75)
-	RectRound(0.2-paddingW,yPos-0.05-paddingH,0.8+paddingW,yPos+paddingH,0.007)
+--	gl.Color(0,0,0,0.75)
+	--RectRound(0.2-paddingW,yPos-0.05-paddingH,0.8+paddingW,yPos+paddingH,0.007)
 
     if loadvalue > 0.215 then
 	    -- loadvalue
@@ -203,8 +203,8 @@ function addon.DrawLoadScreen()
         RectRound(0.2,yPos-0.05,loadvalue,yPos,0.0055)
 
         -- loadvalue gradient
-        gl.Texture(false)
-        gl.BeginEnd(GL.QUADS, gradienth, 0.2,yPos-0.05,loadvalue,yPos, {1-(loadProgress/3)+0.2,loadProgress+0.2,0+0.08,0.14}, {0,0,0,0.14})
+       -- gl.Texture(false)
+       -- gl.BeginEnd(GL.QUADS, gradienth, 0.2,yPos-0.05,loadvalue,yPos, {1-(loadProgress/3)+0.2,loadProgress+0.2,0+0.08,0.14}, {0,0,0,0.14})
 
         -- loadvalue inner glow
         gl.Color(1-(loadProgress/3.5)+0.15,loadProgress+0.15,0+0.05,0.04)
@@ -212,7 +212,7 @@ function addon.DrawLoadScreen()
         gl.TexRect(0.2,yPos-0.05,loadvalue,yPos)
 
         -- loadvalue glow
-        local glowSize = 0.06
+        local glowSize = 0.08
         gl.Color(1-(loadProgress/3)+0.15,loadProgress+0.15,0+0.05,0.1)
         gl.Texture(":n:luaui/Images/barglow-center.png")
         gl.TexRect(0.2,	yPos-0.05-glowSize,	loadvalue,	yPos+glowSize)

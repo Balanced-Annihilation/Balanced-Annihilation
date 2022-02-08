@@ -83,7 +83,7 @@ function widget:PlayerChanged(playerID)
 end
 
 function widget:Shutdown()
-    spSendCommands('unbindkeyset Any+;')
+    spSendCommands("unbindkeyset Any+;")
     spSetLosViewColors(always, LOS, radar, jam, radar2)
 end
 
@@ -130,8 +130,8 @@ function widget:Initialize()
     widgetHandler:AddAction("losradar", toggleLOSRadars)
     widgetHandler:AddAction("loscolor", toggleLOSColors)
 
-    spSendCommands('unbindkeyset Any+;')
-    spSendCommands('bind Any+; losradar')
+    spSendCommands("unbindkeyset Any+;")
+    spSendCommands("bind Any+; losradar")
 
     always, LOS, radar, jam, radar2 = Spring.GetLosViewColors()
 

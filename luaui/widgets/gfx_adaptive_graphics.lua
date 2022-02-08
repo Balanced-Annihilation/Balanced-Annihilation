@@ -16,7 +16,7 @@ local spGetFPS				= Spring.GetFPS
 local isSpec = Spring.GetSpectatingState()
 local prevnumparticles = Spring.GetConfigInt("MaxParticles",30000)
 local graphicslevel = 2
-local previmmersiveborderpreset=tonumber(Spring.GetConfigInt("immersiveborder",0))
+local prevmapborderpreset=tonumber(Spring.GetConfigInt("mapborder",1))
 local minimumenabled = 0
 
 
@@ -26,7 +26,7 @@ function widget:Shutdown()
 				 
 				
 				 
-				 
+				  Spring.SendCommands("luarules disablecus")
 				  widgetHandler:DisableWidget("Deferred rendering")
 				   widgetHandler:DisableWidget("Light Effects")
 				   widgetHandler:DisableWidget("Lups")
@@ -38,46 +38,48 @@ function widget:Shutdown()
 					widgetHandler: DisableWidget("Contrast Adaptive Sharpen")
 
 				 Spring.SendCommands("Shadows 0")
-				 Spring.SendCommands("AdvMapShading "..0)
+				 Spring.SendCommands("AdvMapShading 0")
 				 Spring.SetConfigInt("AdvMapShading", 0)
-				 Spring.SendCommands("AdvModelShading "..0)
+				 Spring.SendCommands("AdvModelShading 0")
 				 Spring.SetConfigInt("AdvModelShading", 0)
-				 widgetHandler: DisableWidget("Bloom Shader Alternate Deferred")
-				  widgetHandler: DisableWidget("Bloom Shader Alternate")
+				 --widgetHandler: DisableWidget("Bloom Shader Alternate Deferred")
+				--  widgetHandler: DisableWidget("Bloom Shader Alternate")
 				-- Spring.SetConfigInt("ssao", 0)
 			 elseif value == 1 then
 				 widgetHandler:EnableWidget("Deferred rendering")
+				  Spring.SendCommands("luarules disablecus")
    widgetHandler:EnableWidget("Light Effects")
 				
 				Spring.SendCommands("Shadows 1 6144")
 
-				Spring.SendCommands("AdvMapShading "..1)
+				Spring.SendCommands("AdvMapShading 1")
 				 Spring.SetConfigInt("AdvMapShading", 1)
-				 Spring.SendCommands("AdvModelShading "..1)
+				 Spring.SendCommands("AdvModelShading 1")
 				 Spring.SetConfigInt("AdvModelShading", 1)
 				 
 				 				--widgetHandler: DisableWidget("SSAO_alternative")
 
-				 widgetHandler: DisableWidget("Bloom Shader Alternate Deferred")
-				  widgetHandler: DisableWidget("Bloom Shader Alternate")
+				-- widgetHandler: DisableWidget("Bloom Shader Alternate Deferred")
+				--  widgetHandler: DisableWidget("Bloom Shader Alternate")
 				  widgetHandler: EnableWidget("Contrast Adaptive Sharpen")
 Spring.SetConfigInt("LuaShaders", 1)
    widgetHandler:EnableWidget("LupsManager")
       widgetHandler:EnableWidget("Lups")
 				-- Spring.SetConfigInt("ssao",0)
 			 elseif value == 2 then
+			 Spring.SendCommands("luarules reloadcus")
 				 widgetHandler:EnableWidget("Deferred rendering")
    widgetHandler:EnableWidget("Light Effects")
 			
 				Spring.SendCommands("Shadows 1 6144")
-				 Spring.SendCommands("AdvMapShading "..1)
+				 Spring.SendCommands("AdvMapShading 1")
 				 Spring.SetConfigInt("AdvMapShading", 1)
-				 Spring.SendCommands("AdvModelShading "..1)
+				 Spring.SendCommands("AdvModelShading 1")
 				 Spring.SetConfigInt("AdvModelShading", 1)
 				 
 				 
-				 widgetHandler: EnableWidget("Bloom Shader Alternate Deferred")
-				  widgetHandler: EnableWidget("Bloom Shader Alternate")
+				-- widgetHandler: EnableWidget("Bloom Shader Alternate Deferred")
+				 -- widgetHandler: EnableWidget("Bloom Shader Alternate")
 				  widgetHandler: EnableWidget("Contrast Adaptive Sharpen")
 				 --Spring.SetConfigInt("ssao", 1)
 				-- widgetHandler: EnableWidget("SSAO_alternative")
@@ -88,7 +90,7 @@ Spring.SetConfigInt("LuaShaders", 1)
 			 end
 			 if(minimumenabled == 1) then
 				Spring.SetConfigInt("MaxParticles",prevnumparticles) --reset max particles
-				Spring.SetConfigInt("immersiveborder",previmmersiveborderpreset) 
+				Spring.SetConfigInt("mapborder",prevmapborderpreset) 
 			end
 			
 			--value = tonumber(Spring.GetConfigString("ssao", 0))
@@ -107,14 +109,16 @@ function widget:GameFrame(gameFrame)
 		if gameFrame > 1000 and gameFrame%500==0 then 
 				fps = spGetFPS()	
 				if graphicslevel == 2 and spGetFPS() < 20 then
-					widgetHandler: DisableWidget("Bloom Shader Alternate Deferred")
-					widgetHandler: DisableWidget("Bloom Shader Alternate")
+					Spring.SendCommands("luarules disablecus")
+
 					--widgetHandler: DisableWidget("SSAO_alternative")
 					graphicslevel = graphicslevel-1
-				elseif spGetFPS() < 15 then
+				elseif spGetFPS() < 20 then
 					if graphicslevel == 1 then
-						widgetHandler: DisableWidget("Bloom Shader Alternate Deferred")
-						widgetHandler: DisableWidget("Bloom Shader Alternate")
+									  Spring.SendCommands("luarules disablecus")
+
+						--widgetHandler: DisableWidget("Bloom Shader Alternate Deferred")
+						--widgetHandler: DisableWidget("Bloom Shader Alternate")
 						--widgetHandler: DisableWidget("SSAO_alternative")
 						Spring.SendCommands("Shadows 0")
 						widgetHandler:DisableWidget("Deferred rendering")
@@ -124,7 +128,8 @@ function widget:GameFrame(gameFrame)
 						graphicslevel = graphicslevel-1
 
 					elseif graphicslevel == 0 then
-						previmmersiveborderpreset=tonumber(Spring.GetConfigInt("immersiveborder",0))
+						prevmapborderpreset=tonumber(Spring.GetConfigInt("mapborder",1))
+				  Spring.SendCommands("luarules disablecus")
 
 						widgetHandler:DisableWidget("Map Edge Extension Colourful")
 						--widgetHandler:DisableWidget("Volumetric Clouds")
@@ -135,8 +140,8 @@ function widget:GameFrame(gameFrame)
 						widgetHandler:DisableWidget("Deferred rendering")
 						widgetHandler:DisableWidget("Light Effects")
 						widgetHandler:DisableWidget("Contrast Adaptive Sharpen")
-						Spring.SendCommands("AdvMapShading "..0)
-						Spring.SendCommands("AdvModelShading "..0)
+						Spring.SendCommands("AdvMapShading 0")
+						Spring.SendCommands("AdvModelShading 0")
 						   widgetHandler:DisableWidget("Lups")
 						widgetHandler:DisableWidget("LupsManager")
 						Spring.Echo("Max perfomance mode on until next game")

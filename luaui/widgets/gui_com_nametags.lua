@@ -237,10 +237,13 @@ function widget:DrawWorld()
 end
 
 --------------------------------------------------------------------------------
-
+local spGetTeamInfo         = Spring.GetTeamInfo
 function CheckCom(unitID, unitDefID, unitTeam)
   if (unitDefID and UnitDefs[unitDefID] and UnitDefs[unitDefID].customParams.iscommander) then
-      comms[unitID] = GetCommAttributes(unitID, unitDefID)
+		local _, playerID, _, isAI = Spring.GetTeamInfo(unitTeam, false)
+		if not isAI then
+		comms[unitID] = GetCommAttributes(unitID, unitDefID)
+		end
   end
 end
 
@@ -249,7 +252,11 @@ function CheckAllComs()
   for _, unitID in pairs(allUnits) do
     local unitDefID = GetUnitDefID(unitID)
     if (unitDefID and UnitDefs[unitDefID].customParams.iscommander) then
-      comms[unitID] = GetCommAttributes(unitID, unitDefID)
+		local unitTeam = GetUnitTeam(unitID)
+      	local _, playerID, _, isAI = Spring.GetTeamInfo(unitTeam, false)
+		if not isAI then
+		comms[unitID] = GetCommAttributes(unitID, unitDefID)
+		end
     end
   end
 end

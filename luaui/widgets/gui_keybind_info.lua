@@ -240,7 +240,7 @@ function DrawWindow()
     DrawTextTable(Units_III,x,y-24)
 	
     gl.Color(1,1,1,1)
-    gl.Text("These default binds can be modified in the BA hotkey widget or uikeys", screenX+12, y-screenHeight + 14, 12.5)
+    gl.Text("Binds can be modified in Spring/LuaUI/widgets/cmd_BA_hotkeys.lua or Spring/uikeys.txt", screenX+12, y-screenHeight + 14, 12.5)
 end
 
 
