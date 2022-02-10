@@ -16,13 +16,14 @@ local bafirstlaunchsetupiscomplete = Spring.GetConfigString('bafirstlaunchsetupi
 if bafirstlaunchsetupiscomplete ~= "done" then
 	widgetHandler:DisableWidget("TeamPlatter")
 	widgetHandler:DisableWidget("SmartSelect")
+	Spring.SetConfigInt("CamSetting", 1)
 	widgetHandler:EnableWidget("SmoothCam")
+	Spring.SetConfigInt("smoothcam", 1)
    		Spring.SetConfigString("bafirstlaunchsetupiscomplete3", "done")
 		Spring.SetConfigString("advgraphics", "1")
-		Spring.SetConfigString("CamTimeFactor", "1")
-		Spring.SendCommands("CamTimeFactor 1")
-		 Spring.SendCommands("CamTimeExponent 4")
-		 Spring.SendCommands("viewta ")
+		---Spring.SendCommands("CamTimeFactor 1")
+		--- Spring.SendCommands("CamTimeExponent 4")
+		-- Spring.SendCommands("viewta ")
 		--Spring.SetConfigString("ScrollWheelSpeed", "51")
 			--Spring.SetConfigString("CamSpringScrollSpeed", "51")
 			--Spring.SetConfigString("FPSScrollSpeed", "0.001")
@@ -48,14 +49,14 @@ if bafirstlaunchsetupiscomplete ~= "done" then
 		Spring.SetConfigString("GroundDetail" , "80")
 		Spring.SetConfigInt("MaxNanoParticles", 3000)
 		Spring.SetConfigInt("MaxParticles", 30000)
-		Spring.SetConfigInt("smoothcam", 1)
+		
 		Spring.SetConfigInt("EdgeMoveWidth", 0.1)
 		Spring.SetConfigString("MouseDragScrollThreshold", "0.3")
 		Spring.SetConfigInt("UnitIconDist", 200)
-		       	Spring.SetConfigInt("FeatureDrawDistance", 10000000)
-		Spring.SetConfigInt("FeatureFadeDistance", 10000000)
-		 Spring.SendCommands("FeatureFadeDistance 10000000")
-		 Spring.SendCommands("FeatureDrawDistance 10000000")
+		       	Spring.SetConfigInt("FeatureDrawDistance", 999999)
+		Spring.SetConfigInt("FeatureFadeDistance", 999999)
+		 Spring.SendCommands("FeatureFadeDistance 999999")
+		 Spring.SendCommands("FeatureDrawDistance 999999")
 		Spring.SetConfigInt("Shadows", 1)
 
 end
@@ -77,7 +78,7 @@ Spring.SetConfigString("CamSpringScrollSpeed", Spring.SetConfigString("CamSpring
 	--		Spring.SetConfigInt("CamSpringScrollSpeed", Spring.GetConfigInt("CamSpringScrollSpeed", 51))
 			
 
-Spring.SetConfigString("UnitLodDist", "99999999")
+Spring.SetConfigString("UnitLodDist", "999999")
 
 Spring.SetConfigInt("HangTimeout", -1)
 Spring.SetConfigInt("snd_airAbsorption", 0)

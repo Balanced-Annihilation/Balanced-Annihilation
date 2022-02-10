@@ -550,8 +550,8 @@ function applyOptionValue(i)
 				
 				
 					Spring.SetConfigInt("FeatureDrawDistance", 5000)
-		Spring.SetConfigInt("FeatureFadeDistance", 99999999)
-		 Spring.SendCommands("FeatureFadeDistance 99999999")
+		Spring.SetConfigInt("FeatureFadeDistance", 999999)
+		 Spring.SendCommands("FeatureFadeDistance 999999")
 		 Spring.SendCommands("FeatureDrawDistance 5000")
 				
      
@@ -559,10 +559,10 @@ function applyOptionValue(i)
          else
             Spring.SetConfigInt("alwaysrenderwrecksandtrees", 1)
 
-            	Spring.SetConfigInt("FeatureDrawDistance", 99999999)
-		Spring.SetConfigInt("FeatureFadeDistance", 99999999)
-		 Spring.SendCommands("FeatureFadeDistance 99999999")
-		 Spring.SendCommands("FeatureDrawDistance 99999999")
+            	Spring.SetConfigInt("FeatureDrawDistance", 999999)
+		Spring.SetConfigInt("FeatureFadeDistance", 999999)
+		 Spring.SendCommands("FeatureFadeDistance 999999")
+		 Spring.SendCommands("FeatureDrawDistance 999999")
            
          end
       elseif id == "mapborder" then
@@ -619,10 +619,10 @@ function applyOptionValue(i)
             widgetHandler:DisableWidget("Adaptive graphics")
          end
       elseif id == "fpstimespeed" then
-         Spring.SendCommands("fps " .. tostring(value))
-         Spring.SendCommands("clock " .. tostring(value))
-         Spring.SendCommands("speed " .. tostring(value))
-         Spring.SetConfigInt("fpstimespeed", tostring(value))
+         Spring.SendCommands("fps " .. value)
+         Spring.SendCommands("clock " .. value)
+         Spring.SendCommands("speed " .. value)
+         Spring.SetConfigInt("fpstimespeed", value)
       elseif id == "3dtrees" then
          Spring.SetConfigInt("3DTrees", tostring(value))
       elseif id == "Profanity" then
@@ -691,10 +691,22 @@ function applyOptionValue(i)
             Spring.SetConfigString("LinkIncomingPeakBandwidth ", "98304")
             Spring.SetConfigString("LinkIncomingMaxPacketRate ", "128")
          end
-		   elseif id == "smoothcam" then
-         if value == 1 then
-             widgetHandler:EnableWidget("SmoothCam")
+		   elseif id == "smoothcamid" then
+		   
+		
+		   --  local valueCamSetting = tonumber(Spring.GetConfigInt("CamSetting", 1) or 1)
+         if (value == 1) then
+                widgetHandler:EnableWidget("SmoothCam")
 			  Spring.SetConfigString("smoothcam", "1")
+				--Spring.SetConfigString("smoothcam", "1")
+			--	if(valueCamSetting == 1) then --ta
+			--		 widgetHandler:EnableWidget("SmoothCam")
+			 --Spring.SetConfigString("smoothcam", "1")
+				--elseif(valueCamSetting == 2) then --spring
+				-- widgetHandler:DisableWidget("SmoothCam")
+			  --Spring.SetConfigString("smoothcam", "0")
+			--	end
+				
          else
              widgetHandler:DisableWidget("SmoothCam")
 			  Spring.SetConfigString("smoothcam", "0")
@@ -754,8 +766,8 @@ function applyOptionValue(i)
       elseif id == "msaa" then
          Spring.SetConfigInt("MSAALevel", value)
       elseif id == "crossalpha" then
-         Spring.SendCommands("cross " .. tonumber(Spring.GetConfigInt("CrossSize", 1) or 10) .. "" .. tostring(value))
-         Spring.SetConfigInt("CrossAlpha", value)
+        -- Spring.SendCommands("cross " .. tonumber(Spring.GetConfigInt("CrossSize", 1) or 10) .. "" .. tostring(value))
+        -- Spring.SetConfigInt("CrossAlpha", value)
       elseif id == "darkenmap" then
          WG["darkenmap"].setMapDarkness(value)
       end
@@ -779,10 +791,37 @@ function applyOptionValue(i)
 
          if value == 0 then
             Spring.SendCommands("viewfps ")
-         elseif value == 1 then
-            Spring.SendCommands("viewta ")
          elseif value == 2 then
-            Spring.SendCommands("viewspring ")
+		 
+		 --  Spring.SendCommands("viewta ")
+			 local camState = Spring.GetCameraState()
+		   camState.mode = 2
+			  Spring.SetCameraState(camState,0)
+			Spring.SetConfigInt("CamSetting", value) 
+		 
+          
+			
+			--local smoothcamvalue =Spring.GetConfigInt("smoothcam", 1) or 1
+			--if smoothcamvalue == 1 then
+			--	 widgetHandler:EnableWidget("SmoothCam")
+				 -- Spring.SetConfigString("smoothcam", "1")
+			-- else
+			--	 widgetHandler:DisableWidget("SmoothCam")
+				  --Spring.SetConfigString("smoothcam", "0")
+			-- end
+			
+         elseif value == 1 then
+
+			--  widgetHandler:DisableWidget("SmoothCam")
+			 -- Spring.SetConfigString("smoothcam", "0")
+           -- Spring.SendCommands("viewspring ")
+			
+			--Spring.SendCommands("viewspring ")
+			 local camState = Spring.GetCameraState()
+		   camState.mode = 1
+			  Spring.SetCameraState(camState,0)
+			Spring.SetConfigInt("CamSetting", value) 
+			
          elseif value == 3 then
             Spring.SendCommands("viewrot ")
          elseif value == 4 then
@@ -1124,8 +1163,8 @@ function widget:Initialize()
 				
 				
 					Spring.SetConfigInt("FeatureDrawDistance", 5000)
-		Spring.SetConfigInt("FeatureFadeDistance", 10000000)
-		 Spring.SendCommands("FeatureFadeDistance 10000000")
+		Spring.SetConfigInt("FeatureFadeDistance", 999999)
+		 Spring.SendCommands("FeatureFadeDistance 999999")
 		 Spring.SendCommands("FeatureDrawDistance 5000")
 				
      
@@ -1133,10 +1172,10 @@ function widget:Initialize()
          else
             Spring.SetConfigInt("alwaysrenderwrecksandtrees", 1)
 
-            	Spring.SetConfigInt("FeatureDrawDistance", 10000000)
-		Spring.SetConfigInt("FeatureFadeDistance", 10000000)
-		 Spring.SendCommands("FeatureFadeDistance 10000000")
-		 Spring.SendCommands("FeatureDrawDistance 10000000")
+            	Spring.SetConfigInt("FeatureDrawDistance", 999999)
+		Spring.SetConfigInt("FeatureFadeDistance", 999999)
+		 Spring.SendCommands("FeatureFadeDistance 999999")
+		 Spring.SendCommands("FeatureDrawDistance 999999")
            
          end
 
@@ -1150,12 +1189,12 @@ function widget:Initialize()
 	--  Spring.SetConfigInt("ssao", 1)
   -- end
 
-   value = tonumber(Spring.GetConfigInt("advgraphics", 1))
+   value = Spring.GetConfigInt("advgraphics", 1)
    Spring.SetConfigInt("advgraphics", value)
    setGraphicsPreset(value)
 
 
-   value = tonumber(Spring.GetConfigInt("Cursorcanleavewindow", 1))
+   value = Spring.GetConfigInt("Cursorcanleavewindow", 1)
 
    if value == 1 then
       widgetHandler:DisableWidget("Grabinput")
@@ -1167,7 +1206,7 @@ function widget:Initialize()
       Spring.SetConfigInt("Cursorcanleavewindow", 0)
    end
 
-   value = tonumber(Spring.GetConfigInt("classicunitselection", 1))
+   value = Spring.GetConfigInt("classicunitselection", 1)
    Spring.SetConfigInt("classicunitselection", value)
 
    if value == 0 then
@@ -1184,7 +1223,7 @@ function widget:Initialize()
 
    end
 
-    value = tonumber(Spring.GetConfigInt("smoothcam", 1))
+    value = Spring.GetConfigInt("smoothcam", 1)
     if value == 1 then
              widgetHandler:EnableWidget("SmoothCam")
 			  Spring.SetConfigString("smoothcam", "1")
@@ -1193,7 +1232,7 @@ function widget:Initialize()
 			  Spring.SetConfigString("smoothcam", "0")
          end
    
-   value = tonumber(Spring.GetConfigInt("showchat", 1))
+   value = Spring.GetConfigInt("showchat", 1)
    Spring.SetConfigInt("showchat", value)
 
    if value == 0 then
@@ -1212,7 +1251,7 @@ function widget:Initialize()
       widgetHandler:EnableWidget("Red Console")
    end
 
-   value = tonumber(Spring.GetConfigInt("speccursors", 1))
+   value = Spring.GetConfigInt("speccursors", 1)
    Spring.SetConfigInt("speccursors", value)
 
    if value == 0 then
@@ -1237,7 +1276,7 @@ function widget:Initialize()
 	
 
 	
-	   value = tonumber(Spring.GetConfigInt("mapborder", 1))
+	   value =Spring.GetConfigInt("mapborder", 1)
 
    if value == 0 then
          widgetHandler:EnableWidget("Map Edge Extension Colourful")
@@ -1258,13 +1297,27 @@ function widget:Initialize()
 	--		Spring.SetConfigString("FPSScrollSpeed", "2")
   
 
-  local value = tonumber(Spring.GetConfigInt("CamSetting", 1) or 1)
-   Spring.SendCommands("viewta ")
-   local camState = Spring.GetCameraState()
-   camState.mode = value
-      Spring.SetCameraState(camState)
-	Spring.SetConfigInt("CamSetting", value) 
+  local value = Spring.GetConfigInt("CamSetting", 1) or 1
+  
+	if value == 2 then
+           -- Spring.SendCommands("viewta ")
+			 local camState = Spring.GetCameraState()
+		   camState.mode = 2
+			  Spring.SetCameraState(camState,0)
+			Spring.SetConfigInt("CamSetting", value) 
+			
+         elseif value == 1 then
+           -- Spring.SendCommands("viewspring ")
+			 local camState = Spring.GetCameraState()
+		   camState.mode = 1
+			  Spring.SetCameraState(camState,0)
+			Spring.SetConfigInt("CamSetting", value) 
+			
+       end
+  
 
+     
+		
 
    options = {
       {
@@ -1323,12 +1376,13 @@ function widget:Initialize()
          value = (tonumber(Spring.GetConfigInt("advgraphics", 1) or 1)) + 1,
          description = "Enable adv graphics, light effects and shadows"
       },
-	  	         {id="camera", name="Camera Style", type="select", options={"TA","Spring (Smooth)"}, value=(tonumber(Spring.GetConfigInt("CamSetting",1) or 1))},
+	  	         {id="camera", name="Camera Style", type="select", options={"TA (Classic)","Spring (Smooth)"}, value=(tonumber(Spring.GetConfigInt("CamSetting",1) or 1))
+				 },
 
 	  
 	  	  {
-         id = "smoothcam",
-         name = "Extra camera smoothing ",
+         id = "smoothcamid",
+         name = "Smooth camera ",
          type = "bool",
          value = tonumber(Spring.GetConfigInt("smoothcam", 1) or 1) == 1,
          description = "Smoothcamera on or off"

@@ -23,32 +23,9 @@ local spGetCameraState   	= Spring.GetCameraState
 local spSetCameraState   	= Spring.SetCameraState
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
+local panning = false
+
 function widget:Update(dt)
-	if( not panning) then
   local cs = spGetCameraState()
   spSetCameraState(cs, camSpeed)
-  end
 end
-
-function widget:KeyPress(key, modifier, isRepeat)
-    if modifier.ctrl then --set anchor
-		panning = true
-    else
-		panning = false
-	end
-end
-
---function widget:Initialize()
--- Spring.SendCommands("CamTimeFactor 2")
---Spring.SendCommands("CamTimeExponent 8")
---end
-
---function widget:Initialize()
--- Spring.SendCommands("CamTimeFactor 3.7")
---Spring.SendCommands("CamTimeExponent 14.8")
---end
-
---function widget:Shutdown()
---	Spring.SendCommands("CamTimeFactor 1")
---  Spring.SendCommands("CamTimeExponent 4")
---end

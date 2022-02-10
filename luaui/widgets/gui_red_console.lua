@@ -532,7 +532,8 @@ local function processLine(line,g,cfg,newlinecolor)
 	elseif sfind(line," style camera") then --	if sfind(line," Connection established") then
 	  
 	  if sfind(line," FPS") then
-	  	widgetHandler:DisableWidget("SmoothCam")
+	  	
+		widgetHandler:DisableWidget("SmoothCam")
 		widgetHandler:DisableWidget("Top Bar")
 		widgetHandler:DisableWidget("Order menu alternate")
 		widgetHandler:DisableWidget("Build menu alternate")
@@ -540,10 +541,10 @@ local function processLine(line,g,cfg,newlinecolor)
 			Spring.SendCommands("ResBar")
 		end
 	  else
-		value = tonumber(Spring.GetConfigInt("smoothcam", 1))
-		if value == 1 then
+		value = Spring.GetConfigInt("smoothcam", 1)
+
+		if (value == 1) then
 			widgetHandler:EnableWidget("SmoothCam")
-		
 		end
 			widgetHandler:EnableWidget("Top Bar")
 			widgetHandler:EnableWidget("Order menu alternate")
