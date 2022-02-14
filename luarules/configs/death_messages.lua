@@ -79,9 +79,11 @@ allyTeamDeathMessages = {
 }	
 	
 teamDeathMessages = {
-	"XX forgot to read the 115 goatly maxims of Spring",
+	"XX forgot the 115 goatly maxims of Spring",
    	"XX ran out of bags of rice they had secretly buried in their garden",
 	"XX was banned for asking to be unbanned",
+	"XX made a subaquatic unit that make floating tree while planting coconuts",
+	"XX is just going outside and may be some time",
 	"XX provided good entertainment value",
 	"XX was humbled by the truth",
 	"XX sees defeat as an opportunity for future success",

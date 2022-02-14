@@ -47,8 +47,7 @@ if bafirstlaunchsetupiscomplete ~= "done" then
 		Spring.SetConfigString("GroundDecals", "1")
 		
 		Spring.SetConfigString("GroundDetail" , "80")
-		Spring.SetConfigInt("MaxNanoParticles", 3000)
-		Spring.SetConfigInt("MaxParticles", 30000)
+	
 		
 		Spring.SetConfigInt("EdgeMoveWidth", 0.1)
 		Spring.SetConfigString("MouseDragScrollThreshold", "0.3")
@@ -65,6 +64,12 @@ local value = tonumber(Spring.GetConfigInt("ScrollWheelSpeed", 25) or 25)
 if (value == 0) then
 	Spring.SetConfigInt("ScrollWheelSpeed", 25)
 end
+
+value = tonumber(Spring.GetConfigInt("MaxParticles", 30000) or 30000)
+if ((value == 5000) and (value ~= 0)) then
+	Spring.SetConfigInt("MaxParticles", 30000)
+end
+
 
 Spring.SetConfigInt("ShadowMapSize", 6144)
 Spring.SetConfigString("FPSMouseScale", Spring.SetConfigString("FPSMouseScale", "0.0025") or "0.0025") 
@@ -97,10 +102,14 @@ Spring.SetConfigInt("snd_volunitreply", 100)
 	Spring.SetConfigString("GrassDetail", "0")
 	Spring.SetConfigString("MiniMapDrawProjectiles", "1")
 	Spring.SetConfigString("UsePBO", "0")
-	local value = tonumber(Spring.GetConfigInt("advgraphics", 1) or 1) --set ultra graphics on first launch, otherwise to 1
+	local value = tonumber(Spring.GetConfigInt("advgraphics", 1) or 1) 
 	Spring.SetConfigInt("advgraphics", value) --add 1 to advgraphics value, if there was no BA version recorded
 	
-	
+	--if(value > 0) then
+	--		local watervalue = (Spring.GetConfigInt("Water", 1) > 0)
+	--		Spring.SetConfigInt("Water", 1)
+	--		Spring.SendCommands("Water 1")
+	--end
 			
 
 

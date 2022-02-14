@@ -612,12 +612,12 @@ function applyOptionValue(i)
          end
 		  Spring.SetConfigString("nametags", value)
 		 
-      elseif id == "adaptive" then
-         if value ~= 0 then
-            widgetHandler:EnableWidget("Adaptive graphics")
-         else
-            widgetHandler:DisableWidget("Adaptive graphics")
-         end
+    --  elseif id == "adaptive" then
+    --     if value ~= 0 then
+    --        widgetHandler:EnableWidget("Adaptive graphics")
+   --      else
+   --         widgetHandler:DisableWidget("Adaptive graphics")
+   --      end
       elseif id == "fpstimespeed" then
          Spring.SendCommands("fps " .. value)
          Spring.SendCommands("clock " .. value)
@@ -654,13 +654,15 @@ function applyOptionValue(i)
             widgetHandler:EnableWidget("Red Console")
          end
       elseif id == "speccursors" then
-         if value == 0 then
-            Spring.SetConfigString("speccursors", "0")
-            widgetHandler:EnableWidget("AllyCursorsAll")
-         else
-            Spring.SetConfigString("speccursors", "1")
-            widgetHandler:EnableWidget("AllyCursorsAll")
-         end
+           if value == 0 then
+   widgetHandler:DisableWidget("AllyCursorsAll")
+      Spring.SetConfigInt("speccursors", 0)
+       widgetHandler:EnableWidget("AllyCursorsAll")
+   else
+     widgetHandler:DisableWidget("AllyCursorsAll")
+      Spring.SetConfigInt("speccursors", 1)
+    widgetHandler:EnableWidget("AllyCursorsAll")
+   end
       elseif id == "reduceping" then
          if value == 1 then
             Spring.SetConfigInt("reduceping ", 1)
@@ -1255,11 +1257,13 @@ function widget:Initialize()
    Spring.SetConfigInt("speccursors", value)
 
    if value == 0 then
+   widgetHandler:DisableWidget("AllyCursorsAll")
       Spring.SetConfigInt("speccursors", 0)
-      widgetHandler:DisableWidget("AllyCursorsAll")
+       widgetHandler:EnableWidget("AllyCursorsAll")
    else
+     widgetHandler:DisableWidget("AllyCursorsAll")
       Spring.SetConfigInt("speccursors", 1)
-      widgetHandler:EnableWidget("AllyCursorsAll")
+    widgetHandler:EnableWidget("AllyCursorsAll")
    end
    
    --	local camState = Spring.GetCameraState()
@@ -1555,13 +1559,13 @@ function widget:Initialize()
          value = tonumber(Spring.GetConfigInt("reduceping", 1) or 1) == 1,
          description = "Requires restart, Lowers your ping, disable this if you have an unstable connection"
       },
-	  	 {
-         id = "adaptive",
-         name = "Boost perfomance when FPS drops ",
-         type = "bool",
-         value = widgetHandler.orderList["Adaptive graphics"] ~= nil and (widgetHandler.orderList["Adaptive graphics"] > 0),
-         description = "Boost perfomance if FPS is low"
-      },
+	  --	 {
+     --    id = "adaptive",
+     --    name = "Boost perfomance when FPS drops ",
+    --     type = "bool",
+    --     value = widgetHandler.orderList["Adaptive graphics"] ~= nil and (widgetHandler.orderList["Adaptive graphics"] > 0),
+    --     description = "Boost perfomance if FPS is low"
+   --   },
       {
          id = "sndvolmaster",
          name = "Sound volume",

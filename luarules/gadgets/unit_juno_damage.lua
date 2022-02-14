@@ -241,9 +241,9 @@ function DrawCircle(alpha)
 		glVertex(0, 0, 0)
 		glColor(0,0,0,0)
 
-		for i=0,num_segs do 
-			glVertex(xcoords_small[i],0,zcoords_small[i])						
-		end
+		--for i=0,num_segs do 
+		--	glVertex(xcoords_small[i],0,zcoords_small[i])						
+		--end
 		
 	end)
 	end)	

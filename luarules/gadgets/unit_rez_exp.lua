@@ -7,7 +7,7 @@ function gadget:GetInfo()
 		version   = 1,
 		license   = "WTFPL",
 		layer     = -math.huge,
-		enabled   = true,  --  loaded by default?
+		enabled   = true  --  loaded by default?
 	}
 end
 

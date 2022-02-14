@@ -7,7 +7,7 @@ attackerlist = {
 	"armpw",
 	"corgator",
 	"corthud",
-	"corkorg",
+	"corkrog",
 	"armham",
 	"corraid",
 }

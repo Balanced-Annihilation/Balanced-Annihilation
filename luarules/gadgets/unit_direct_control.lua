@@ -11,11 +11,11 @@
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 
-local allowenable = false
+--local allowenable = false
 
-if tonumber(Spring.GetModOptions().mo_allowuserwidgets) == 1 then
-	allowenable = true 
-end
+--if tonumber(Spring.GetModOptions().mo_allowuserwidgets) == 1 then
+--	allowenable = true 
+--end
 
 function gadget:GetInfo()
   return {
@@ -25,7 +25,7 @@ function gadget:GetInfo()
     date      = "Jul 10, 2007",
     license   = "GNU GPL, v2 or later",
     layer     = 0,
-    enabled   = allowenable  --  loaded by default?
+    enabled   = true  --  loaded by default?
   }
 end
 

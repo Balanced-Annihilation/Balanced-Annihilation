@@ -6,7 +6,7 @@
         date      = "July 2011",
         license   = "PD",
         layer     = 0,
-        enabled   = true,
+        enabled   = true
       }
     end
      

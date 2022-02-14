@@ -15,7 +15,7 @@ function gadget:GetInfo()
 		date	= "Apr,2009",
 		license	= "GNU GPL, v2 or later",
 		layer	= 0,
-		enabled = true,
+		enabled = true
 	}
 end
 
@@ -25,7 +25,7 @@ end
 
 -- configs
 
-local sendPacketEvery	= 1
+local sendPacketEvery	= 0.8
 local numMousePos		= 2 --//num mouse pos in 1 packet
 
 --------------------------------------------------------------------------------
