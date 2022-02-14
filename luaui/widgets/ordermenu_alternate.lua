@@ -133,10 +133,6 @@ local math_min = math.min
 local isSpec = Spring.GetSpectatingState()
 local cursorTextures = {}
 
-local function convertColor(r,g,b)
-  return string.char(255, (r*255), (g*255), (b*255))
-end
-
 -------------------------------------------------------------------------------
 -------------------------------------------------------------------------------
 
@@ -556,16 +552,14 @@ function drawOrders()
       if cmd.type == 5 then  -- state cmds (fire at will, etc)
         fontHeightOffset = fontHeight*0.22
       end
-      local textColor = "\255\233\233\233"
       if colorize > 0 and cmdColor[cmd.name] then
         local part = (1/colorize)
         local grey = (0.93*(part-1))
-        textColor = convertColor((grey + cmdColor[cmd.name][1]) / part, (grey + cmdColor[cmd.name][2]) / part, (grey + cmdColor[cmd.name][3]) / part)
+        font2:SetTextColor((grey + cmdColor[cmd.name][1]) / part, (grey + cmdColor[cmd.name][2]) / part, (grey + cmdColor[cmd.name][3]) / part, 1)
+      else
+        font2:SetTextColor(0.91, 0.91, 0.91, 1)
       end
-      if isActiveCmd then
-        textColor = "\020\020\020\020"
-      end
-      font2:Print(textColor..text, cellRects[cell][1] + ((cellRects[cell][3]-cellRects[cell][1])/2), (cellRects[cell][2] - ((cellRects[cell][2]-cellRects[cell][4])/2) - fontHeightOffset), fontSize, "con")
+      font2:Print(text, cellRects[cell][1] + ((cellRects[cell][3]-cellRects[cell][1])/2), (cellRects[cell][2] - ((cellRects[cell][2]-cellRects[cell][4])/2) - fontHeightOffset), fontSize, "con")
     end
 
     -- state lights
