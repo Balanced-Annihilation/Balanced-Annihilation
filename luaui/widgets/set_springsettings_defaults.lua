@@ -12,6 +12,10 @@ function widget:GetInfo()
 end
 
 function widget:Initialize()
+
+Spring.SetConfigString("bafirstlaunchsetupiscomplete", "done")
+Spring.SetConfigString("bafirstlaunchsetupiscomplete2", "done")
+
 local bafirstlaunchsetupiscomplete = Spring.GetConfigString('bafirstlaunchsetupiscomplete3', "missing") --remove later
 if bafirstlaunchsetupiscomplete ~= "done" then
 	widgetHandler:DisableWidget("TeamPlatter")
@@ -29,7 +33,8 @@ if bafirstlaunchsetupiscomplete ~= "done" then
 			--Spring.SetConfigString("FPSScrollSpeed", "0.001")
 			
 			
-
+Spring.SetConfigInt("MaxNanoParticles", 3000)
+		Spring.SetConfigInt("MaxParticles", 30000)
 		Spring.SetConfigString("UseNetMessageSmoothingBuffer", "0")
 	Spring.SetConfigString("NetworkLossFactor", "2")
 	Spring.SetConfigString("LinkOutgoingBandwidth", "262144")
