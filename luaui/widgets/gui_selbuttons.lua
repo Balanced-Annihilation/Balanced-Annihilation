@@ -100,13 +100,13 @@ local fontSize = iconSizeY * 0.3		-- changed in ViewResize anyway
 local picList
 
 local font
+local vsx, vsy
 -------------------------------------------------------------------------------
 -------------------------------------------------------------------------------
 
 
 
 
-local vsx, vsy = widgetHandler:GetViewSizes()
 function widget:ViewResize(viewSizeX, viewSizeY)
 font = WG['fonts'].getFont(nil, 1.8, 0.45, 1.8)
   vsx = viewSizeX
@@ -158,6 +158,7 @@ function widget:CommandsChanged()
 end
 
 function widget:Initialize()
+  widget:ViewResize(widgetHandler:GetViewSizes())
   picList = gl.CreateList(DrawPicList) 
 end
 
