@@ -1,4 +1,4 @@
-﻿15.0.4
+﻿15.0.5
 15/02/2022
 
 APM is visible to spectators on the player list

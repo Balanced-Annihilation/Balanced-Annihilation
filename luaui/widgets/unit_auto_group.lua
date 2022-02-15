@@ -156,7 +156,6 @@ end
 function widget:Initialize()
 	widget:ViewResize()
 	widget:PlayerChanged()
-	unit2group = {}
 	WG['autogroup'] = {}
 	WG['autogroup'].getImmediate = function()
 		return options.immediate.value
