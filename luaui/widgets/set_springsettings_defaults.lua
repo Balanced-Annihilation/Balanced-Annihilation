@@ -57,10 +57,13 @@ Spring.SetConfigInt("MaxNanoParticles", 3000)
 		Spring.SetConfigInt("EdgeMoveWidth", 0.1)
 		Spring.SetConfigString("MouseDragScrollThreshold", "0.3")
 		Spring.SetConfigInt("UnitIconDist", 200)
-		       	Spring.SetConfigInt("FeatureDrawDistance", 999999)
-		Spring.SetConfigInt("FeatureFadeDistance", 999999)
-		 Spring.SendCommands("FeatureFadeDistance 999999")
-		 Spring.SendCommands("FeatureDrawDistance 999999")
+		 Spring.SetConfigInt("alwaysrenderwrecksandtrees", 1)
+	Spring.SetConfigString("FeatureDrawDistance", "999999")
+		Spring.SetConfigString("FeatureFadeDistance", "999999")
+	--Spring.SetConfigInt("3DTrees", 0)
+		-- Spring.SendCommands("FeatureDrawDistance 900000")
+		 --Spring.SendCommands("FeatureFadeDistance 900001")
+	--	Spring.SetConfigString("3DTrees", "0")
 		Spring.SetConfigInt("Shadows", 1)
 
 end
@@ -75,6 +78,7 @@ if ((value == 5000) and (value ~= 0)) then
 	Spring.SetConfigInt("MaxParticles", 30000)
 end
 
+Spring.SetConfigInt("TreeRadius", 9999)
 
 Spring.SetConfigInt("ShadowMapSize", 6144)
 Spring.SetConfigString("FPSMouseScale", Spring.SetConfigString("FPSMouseScale", "0.0025") or "0.0025") 

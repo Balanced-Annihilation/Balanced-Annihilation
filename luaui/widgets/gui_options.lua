@@ -546,24 +546,28 @@ function applyOptionValue(i)
 		 
       elseif id == "alwaysrenderwrecksandtrees" then
          if value == 0 then
-            Spring.SetConfigInt("alwaysrenderwrecksandtrees", 0)
+           Spring.SetConfigInt("alwaysrenderwrecksandtrees", 0)
 				
-				
-					Spring.SetConfigInt("FeatureDrawDistance", 5000)
-		Spring.SetConfigInt("FeatureFadeDistance", 999999)
-		 Spring.SendCommands("FeatureFadeDistance 999999")
-		 Spring.SendCommands("FeatureDrawDistance 5000")
-				
-     
+				Spring.SetConfigString("FeatureDrawDistance", "5000")
+		Spring.SetConfigString("FeatureFadeDistance", "999999")
+		--	Spring.SendCommands("FeatureDrawDistance 5000")
+      --  Spring.SendCommands("FeatureFadeDistance 999999")
+                         --  	Spring.SetConfigInt("TreeRadius", 999999)
+	--Spring.SetConfigInt("3DTrees", 0)
+
            
          else
             Spring.SetConfigInt("alwaysrenderwrecksandtrees", 1)
 
-            	Spring.SetConfigInt("FeatureDrawDistance", 999999)
-		Spring.SetConfigInt("FeatureFadeDistance", 999999)
-		 Spring.SendCommands("FeatureFadeDistance 999999")
-		 Spring.SendCommands("FeatureDrawDistance 999999")
-           
+					Spring.SetConfigString("FeatureDrawDistance", "999999")
+		Spring.SetConfigString("FeatureFadeDistance", "999999")
+			
+		--Spring.SendCommands("FeatureDrawDistance 99999999")
+       -- Spring.SendCommands("FeatureFadeDistance 99999999")
+                      --	Spring.SetConfigInt("TreeRadius", 999999)
+	--Spring.SetConfigInt("3DTrees", 1)
+	
+
          end
       elseif id == "mapborder" then
          if value == 0 then
@@ -1160,25 +1164,29 @@ function widget:Initialize()
  
    value = tonumber(Spring.GetConfigString("alwaysrenderwrecksandtrees", "1"))
 
-   if value == 0 then
-        Spring.SetConfigInt("alwaysrenderwrecksandtrees", 0)
+         if value == 0 then
+           Spring.SetConfigInt("alwaysrenderwrecksandtrees", 0)
 				
-				
-					Spring.SetConfigInt("FeatureDrawDistance", 5000)
-		Spring.SetConfigInt("FeatureFadeDistance", 999999)
-		 Spring.SendCommands("FeatureFadeDistance 999999")
-		 Spring.SendCommands("FeatureDrawDistance 5000")
-				
-     
+				Spring.SetConfigString("FeatureDrawDistance", "5000")
+		Spring.SetConfigString("FeatureFadeDistance", "999999")
+		--	Spring.SendCommands("FeatureDrawDistance 5000")
+      --  Spring.SendCommands("FeatureFadeDistance 999999")
+                         --  	Spring.SetConfigInt("TreeRadius", 999999)
+	--Spring.SetConfigInt("3DTrees", 0)
+
            
          else
             Spring.SetConfigInt("alwaysrenderwrecksandtrees", 1)
 
-            	Spring.SetConfigInt("FeatureDrawDistance", 999999)
-		Spring.SetConfigInt("FeatureFadeDistance", 999999)
-		 Spring.SendCommands("FeatureFadeDistance 999999")
-		 Spring.SendCommands("FeatureDrawDistance 999999")
-           
+					Spring.SetConfigString("FeatureDrawDistance", "999999")
+		Spring.SetConfigString("FeatureFadeDistance", "999999")
+			
+		--Spring.SendCommands("FeatureDrawDistance 99999999")
+       -- Spring.SendCommands("FeatureFadeDistance 99999999")
+                      --	Spring.SetConfigInt("TreeRadius", 999999)
+	--Spring.SetConfigInt("3DTrees", 1)
+	
+
          end
 
   -- value = tonumber(Spring.GetConfigString("ssao", "0"))

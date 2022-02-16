@@ -55,8 +55,8 @@ local featureReclaimVisibility = true      -- draw feature bars for reclaimed fe
 
 local minPercentageDistance     = 130000     -- always show health percentage text below this distance
 local infoDistance              = 900000
-local maxFeatureInfoDistance    = 330000    --max squared distance at which text it drawn for features 
-local maxFeatureDistance        = 570000    --max squared distance at which any info is drawn for features 
+local maxFeatureInfoDistance    = 0    --max squared distance at which text it drawn for features  //330000  //9
+local maxFeatureDistance        = 4000000    --max squared distance at which any info is drawn for features  // 570000 //6
 local maxUnitDistance           = 12000000  --max squared distance at which any info is drawn for units  MUST BE LARGER THAN FOR FEATURES!
 
 
@@ -123,7 +123,7 @@ local barColors = {
 	stock = { 0.50, 0.50, 0.50, barValueAlpha },
 	reload = { 0.05, 0.60, 0.60, barValueAlpha },
 	shield = { 0.20, 0.60, 0.60, barValueAlpha },
-	resurrect = { 1.00, 0.20, 1.00, barValueAlpha },
+	 resurrect = { 1.00,0.50,0.00,barValueAlpha },
 	reclaim = { 0.75, 0.75, 0.75, barValueAlpha },
 	dguncharge = { 1.00, 0.80, 0.00, barValueAlpha },
 }
@@ -971,12 +971,12 @@ do
 
 	function DrawUnitInfos(unitID, unitDefID, hideHealth, ux, uy, uz, dist)
 
-		local fullText = (dist < infoDistance * drawDistanceMult)
+		local fullText = (dist < infoDistance )
 
 		ci = unitdefInfo[unitDefID]
 
 		-- fade out when zooming out
-		--local scale = 1 - ((dist - (maxUnitDistance * drawDistanceMult * 0.25)) / (maxUnitDistance * drawDistanceMult - (maxUnitDistance * drawDistanceMult * 0.25)))
+		--local scale = 1 - ((dist - (maxUnitDistance  * 0.25)) / (maxUnitDistance  - (maxUnitDistance  * 0.25)))
 		--if scale > 1 then
 		--	scale = 1
 		--end
@@ -1036,7 +1036,7 @@ do
 			end
 			if drawFullHealthBars or hp100 < 100 and not (hp < 0) then
 				local infotext = ''
-				if fullText and (hp100 and hp100 <= drawBarPercentage and hp100 > 0) or dist < minPercentageDistance * drawDistanceMult then
+				if fullText and (hp100 and hp100 <= drawBarPercentage and hp100 > 0) or dist < minPercentageDistance  then
 					infotext = hp100 .. '%'
 				end
 				if alwaysDrawBarPercentageForComs then
@@ -1051,7 +1051,7 @@ do
 		--// BUILD
 		if build < 1 then
 			local infotext = ''
-			if fullText and (drawBarPercentage > 0 or dist < minPercentageDistance * drawDistanceMult) then
+			if fullText and (drawBarPercentage > 0 or dist < minPercentageDistance ) then
 				infotext = floor(build * 100) .. '%'
 			end
 			AddBar("building", build, "build", infotext or '')
@@ -1187,12 +1187,12 @@ do
 		end
 
 		-- fade out when zooming out
-		local scale = 1 - ((dist - (maxFeatureDistance * drawDistanceMult * 0.25)) / (maxFeatureDistance * drawDistanceMult - (maxFeatureDistance * drawDistanceMult * 0.25)))
-		if scale > 1 then
+		--local scale = 1 - ((dist - (maxFeatureDistance  * 0.25)) / (maxFeatureDistance  - (maxFeatureDistance  * 0.25)))
+		--if scale > 1 then
 			scale = 1
-		end
+		--end
 
-		local fullText = (dist < maxFeatureInfoDistance * drawDistanceMult)
+		local fullText = (dist < maxFeatureInfoDistance )
 
 		--// BARS //-----------------------------------------------------------------------------
 		--// HEALTH
@@ -1330,7 +1330,7 @@ do
 
 		--if the camera is too far up, higher than maxDistance on smoothmesh, dont even call any visibility checks or nothing
 		local smoothheight = GetSmoothMeshHeight(cx, cz) --clamps x and z
-		if (cy - smoothheight) ^ 2 < maxUnitDistance * drawDistanceMult then
+		if (cy - smoothheight) ^ 2 < maxUnitDistance  then
 
 			glDepthTest(true)    -- enabling this will make healthbars opague to other healthbars
 			glDepthMask(true)
@@ -1365,7 +1365,7 @@ do
 					if ux ~= nil and not ignoreUnits[unitDefID] then
 						local dx, dy, dz = ux - cx, uy - cy, uz - cz
 						local dist = dx * dx + dy * dy + dz * dz
-						if dist < maxUnitDistance * drawDistanceMult then
+						if dist < maxUnitDistance  then
 							DrawUnitInfos(unitID, unitDefID, hideHealth, ux, uy, uz, dist)
 						end
 					end
@@ -1374,7 +1374,7 @@ do
 
 			--// draw bars for features
 			local drawFeatureInfo = false
-			if (cy - smoothheight) ^ 2 < maxFeatureDistance * drawDistanceMult then
+			if (cy - smoothheight) ^ 2 < maxFeatureDistance  then
 				drawFeatureInfo = true
 			end
 			local wx, wy, wz, dx, dy, dz, dist, featureInfo, resurrect, reclaimLeft
@@ -1393,9 +1393,9 @@ do
 							wx, wy, wz = featureInfo[1], featureInfo[2], featureInfo[3]
 							dx, dy, dz = wx - cx, wy - cy, wz - cz
 							dist = dx * dx + dy * dy + dz * dz
-							if dist < maxFeatureDistance * drawDistanceMult
+							if dist < maxFeatureDistance 
 							--or (((featureResurrectVisibility and resurrect and resurrect > 0)
-							--or (featureReclaimVisibility and reclaimLeft and reclaimLeft < 1)) and dist <= maxUnitDistance * drawDistanceMult)
+							--or (featureReclaimVisibility and reclaimLeft and reclaimLeft < 1)) and dist <= maxUnitDistance )
 							then
 								DrawFeatureInfos(featureInfo[4], featureInfo[5], wx, wy, wz, dist)
 							end
@@ -1438,7 +1438,7 @@ do
 		blink = (sec % 1) < 0.5
 
 		sec1 = sec1 + dt
-		if sec1 > 1 / 4 and (cy - smoothheight) ^ 2 < maxUnitDistance * drawDistanceMult then
+		if sec1 > 1 / 4 and (cy - smoothheight) ^ 2 < maxUnitDistance  then
 			sec1 = 0
 			visibleUnits = GetVisibleUnits(-1, nil, false)    -- expensive
 		end
@@ -1464,7 +1464,7 @@ do
 		end
 
 		sec2 = sec2 + dt
-		if sec2 > 1 / 2 and (cy - smoothheight) ^ 2 < maxFeatureDistance * drawDistanceMult then
+		if sec2 > 1 / 2 and (cy - smoothheight) ^ 2 < maxFeatureDistance  then
 			sec2 = 0
 			visibleFeatures = GetVisibleFeatures(-1, nil, false, false)
 			local cnt = #visibleFeatures
