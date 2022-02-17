@@ -1,5 +1,5 @@
-﻿15.0.5
-15/02/2022
+﻿15.0.6
+17/02/2022
 
 APM is visible to spectators on the player list
 Save camera positions like unit groups, using cntrl+# (if no unit selected)
