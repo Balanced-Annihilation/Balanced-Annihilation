@@ -56,7 +56,7 @@ local featureReclaimVisibility = true      -- draw feature bars for reclaimed fe
 local minPercentageDistance     = 130000     -- always show health percentage text below this distance
 local infoDistance              = 900000
 local maxFeatureInfoDistance    = 0    --max squared distance at which text it drawn for features  //330000  //9
-local maxFeatureDistance        = 4000000    --max squared distance at which any info is drawn for features  // 570000 //6
+local maxFeatureDistance        = 3000000    --max squared distance at which any info is drawn for features  // 570000 //6
 local maxUnitDistance           = 12000000  --max squared distance at which any info is drawn for units  MUST BE LARGER THAN FOR FEATURES!
 
 

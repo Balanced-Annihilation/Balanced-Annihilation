@@ -116,7 +116,8 @@ Units_III = {
 {blankLine=true}, 
 
 {"Cheat Commands", title=true},
-{"/cheat",  "Toggle cheats"},
+{"/cheat",  "Toggle cheats in singleplayer"},
+{"!send /cheat",  "Toggle cheats if server owner"},
 {"/globallos",  "See whole map"},
 {"/godmode",  "Control enemy units"},
 {"/nocost",  "Free building"},

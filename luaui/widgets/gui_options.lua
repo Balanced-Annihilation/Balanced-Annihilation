@@ -616,12 +616,12 @@ function applyOptionValue(i)
          end
 		  Spring.SetConfigString("nametags", value)
 		 
-    --  elseif id == "adaptive" then
-    --     if value ~= 0 then
-    --        widgetHandler:EnableWidget("Adaptive graphics")
-   --      else
-   --         widgetHandler:DisableWidget("Adaptive graphics")
-   --      end
+      elseif id == "adaptive" then
+         if value ~= 0 then
+            widgetHandler:EnableWidget("Adaptive graphics")
+         else
+            widgetHandler:DisableWidget("Adaptive graphics")
+         end
       elseif id == "fpstimespeed" then
          Spring.SendCommands("fps " .. value)
          Spring.SendCommands("clock " .. value)
@@ -1567,13 +1567,13 @@ function widget:Initialize()
          value = tonumber(Spring.GetConfigInt("reduceping", 1) or 1) == 1,
          description = "Requires restart, Lowers your ping, disable this if you have an unstable connection"
       },
-	  --	 {
-     --    id = "adaptive",
-     --    name = "Boost perfomance when FPS drops ",
-    --     type = "bool",
-    --     value = widgetHandler.orderList["Adaptive graphics"] ~= nil and (widgetHandler.orderList["Adaptive graphics"] > 0),
-    --     description = "Boost perfomance if FPS is low"
-   --   },
+	  	 {
+         id = "adaptive",
+         name = "Boost perfomance when FPS drops ",
+         type = "bool",
+         value = widgetHandler.orderList["Adaptive graphics"] ~= nil and (widgetHandler.orderList["Adaptive graphics"] > 0),
+         description = "Boost perfomance if FPS is low"
+      },
       {
          id = "sndvolmaster",
          name = "Sound volume",

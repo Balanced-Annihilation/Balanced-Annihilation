@@ -79,6 +79,8 @@ allyTeamDeathMessages = {
 }	
 	
 teamDeathMessages = {
+	"XX was overjunoed",
+	"XX created a new account to ask how long they are muted",
 	"XX forgot the 115 goatly maxims of Spring",
    	"XX ran out of bags of rice they had secretly buried in their garden",
 	"XX was banned for asking to be unbanned",
@@ -113,7 +115,7 @@ teamDeathMessages = {
 	"XX seem to have run into a bit of trouble with Rapid",
 	"XX has no plans (to the best of my knowledge) to remove 3do support", 
 	"XX was mysteriously removed without warning for made up reasons",
-	"XX was notfied that Mando is banned from the lobby server",
+	"XX was notified that Mando is banned from the lobby server",
 	"XX requires a botflag",
 	"XX is operating a non-downloadable engine",
 	"XX is still waiting for their botflag to be approved",
