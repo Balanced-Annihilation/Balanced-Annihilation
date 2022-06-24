@@ -1,7 +1,7 @@
 function widget:GetInfo()
    return {
       name = "Mexclick Pro",
-      desc = "left click on metal to instantly build optimal mex (for selections up to 10 units). Applies smartguard logic to constructed mex.",
+      desc = "left click metal to instantly build optimal mex (for selections up to 10 units). Applies smartguard logic to constructed mex.",
       author = "Ares",
       license = "GNU GPL, v2 or later",
       layer = 0,
