@@ -86,7 +86,7 @@ return {
 			[39] = "armfrad",
 			[40] = "armfhlt",
 			[41] = "armfrt",
-			[42] = "armptl",
+			[42] = "armtl",
 		},
 		featuredefs = {
 			dead = {

@@ -24,7 +24,7 @@ local cfgIconCornerSize = 0.025
 local cfgRadaiconSize = 0.29
 local cfgRadariconOffset = 0.027
 local cfgPriceFontSize = 0.19
-local cfgActiveAreaMargin = 0.1 -- (# * bgpadding) space between the background border and active area
+local cfgActiveAreaMargin = 0.05 -- (# * bgpadding) space between the background border and active area
 
 local defaultColls = 5
 local dynamicIconsize = false
@@ -45,7 +45,7 @@ local showShortcuts = false
 local showTooltip = false
 local showBuildProgress = true
 
-local iconBorderOpacity = 0.09  -- lighten the icon edges
+local iconBorderOpacity = 0.1  -- lighten the icon edges
 
 local texDetailMult = 1.25   -- dont go too high, will get pixely
 local radartexDetailMult = 2   -- dont go too high, will get pixely
@@ -844,8 +844,8 @@ function widget:ViewResize()
 	activeAreaMargin = math_ceil(bgpadding * cfgActiveAreaMargin)
 
 	
-		posY = 0.566
-		posY2 = math_floor(0.14 * ui_scale * vsy) / vsy
+		posY = 0.559
+		posY2 = math_floor(0.138 * ui_scale * vsy) / vsy
 		posY2 = posY2 + ((widgetSpaceMargin*vsx)/vsy)
 		posX = 0
 		minColls = 4
@@ -979,7 +979,7 @@ function drawBuildmenuBg()
 	WG['buildmenu'].selectedID = nil
 
 	-- background
-	RectRound(backgroundRect[1], backgroundRect[2], backgroundRect[3], backgroundRect[4], bgpadding * 1.6, (posX > 0 and 1 or 0), 1, 1, 0, { 0.05, 0.05, 0.05, ui_opacity }, { 0, 0, 0, ui_opacity })
+	RectRound(backgroundRect[1], backgroundRect[2], backgroundRect[3], backgroundRect[4], bgpadding * 1.5, (posX > 0 and 1 or 0), 1, 1, 0, { 0.05, 0.05, 0.05, ui_opacity }, { 0, 0, 0, ui_opacity })
 	RectRound(backgroundRect[1] + (posX > 0 and bgpadding or 0), backgroundRect[2] + (posY2 > 0 and bgpadding or 0), backgroundRect[3] - bgpadding, backgroundRect[4] - bgpadding, bgpadding, (posX > 0 and 1 or 0), 1, (posY2 > 0 and 1 or 0), 0, { 0.3, 0.3, 0.3, ui_opacity * 0.1 }, { 1, 1, 1, ui_opacity * 0.1 })
 
 	-- gloss

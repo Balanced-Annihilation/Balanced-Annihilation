@@ -162,6 +162,8 @@ function NewPlacementHandler:CreateNewPlan(unit, utype, p)
 	local Building = (defs.isBuilding == true or string.find(defs.name, "nanotc"))
 	local cellsize = math.max(defs.xsize, defs.zsize) * 8
 	local buildtype = "ground"
+	
+	if(spiral ~=nil and p.x ~=nil and p.z ~=nil and cellsize~=ni and p.x>0 and p.z > 0 and cellsize> 0) then
 	p = self:GetClosestBuildPosition(p.x, p.z, cellsize, buildtype)
 	if p and p.x and p.y and p.z then
 		local facing = self:GetFacing(p)
@@ -187,6 +189,7 @@ function NewPlacementHandler:CreateNewPlan(unit, utype, p)
 			self.plansbyunitDefID[utype.id][planID] = newplan
 		end
 		return p, facing
+	end
 	end
 	return
 end

@@ -55,7 +55,6 @@ local spIsUnitSelected       = Spring.IsUnitSelected
 local spIsUnitVisible        = Spring.IsUnitVisible
 local spSendCommands         = Spring.SendCommands
 
-
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 
@@ -135,8 +134,16 @@ local function GetUnitDefRealRadius(udid)
 
   local scale = ud.hitSphereScale -- missing in 0.76b1+
   scale = ((scale == nil) or (scale == 0.0)) and 1.0 or scale
-  radius = dims.radius / scale
+  radius = dims.radius / scale /1.275
+  
+  if (ud.isBuilding or ud.isFactory or ud.speed==0) then
+		radius = dims.radius / scale /1.5
+	end
+  
   realRadii[udid] = radius
+  
+
+  
   return radius
 end
 
@@ -154,8 +161,8 @@ local function GetTeamColorSet(teamID)
   end
   local r,g,b = spGetTeamColor(teamID)
   
-  colors = {{ r, g, b, 0.26 },
-            { r, g, b, 0.26 }}
+  colors = {{ r, g, b, 0.235 },
+            { r, g, b, 0.235 }}
   teamColors[teamID] = colors
   return colors
 end
@@ -165,7 +172,7 @@ end
 --------------------------------------------------------------------------------
 
 function widget:DrawWorldPreUnit()
-  glLineWidth(3.0)
+  --glLineWidth(3.0)
 
   glDepthTest(true)
   
@@ -188,17 +195,12 @@ function widget:DrawWorldPreUnit()
             glDrawListAtUnit(unitID, circlePolys, false,
                              radius, 1.0, radius,
                              degrot, gz, 0, -gx)
-            glColor(colorSet[2])
-            glDrawListAtUnit(unitID, circleLines, false,
-                             radius, 1.0, radius,
-                             degrot, gz, 0, -gx)
+
           else
             glColor(colorSet[1])
             glDrawListAtUnit(unitID, circlePolys, false,
                              radius, 1.0, radius)
-            glColor(colorSet[2])
-            glDrawListAtUnit(unitID, circleLines, false,
-                             radius, 1.0, radius)
+
           end
         end
       end
@@ -206,35 +208,6 @@ function widget:DrawWorldPreUnit()
   end
 
   glPolygonOffset(false)
-
-  --
-  -- Mark selected units 
-  --
-
-  glDepthTest(false)
-
-  local alpha = 0.26
-  glColor(1, 1, 1, alpha)
-
-  for _,unitID in ipairs(spGetSelectedUnits()) do
-    local udid = spGetUnitDefID(unitID)
-    local radius = GetUnitDefRealRadius(udid)
-    if (radius) then
-      if (trackSlope and (not UnitDefs[udid].canFly)) then
-        local x, y, z = spGetUnitBasePosition(unitID)
-        local gx, gy, gz = spGetGroundNormal(x, z)
-        local degrot = math.acos(gy) * 180 / math.pi
-        glDrawListAtUnit(unitID, circlePolys, false,
-                         radius, 1.0, radius,
-                          degrot, gz, 0, -gx)
-      else
-        glDrawListAtUnit(unitID, circlePolys, false,
-                         radius, 1.0, radius)
-      end
-    end
-  end
-
-  glLineWidth(1.0)
 end
               
 

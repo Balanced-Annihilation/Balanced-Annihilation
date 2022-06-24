@@ -129,7 +129,7 @@ for unitDefID, unitDef in pairs(UnitDefs) do
 			SimpleExtractorDefs[#SimpleExtractorDefs + 1] = unitDefID
 		elseif (unitDef.energyMake > 19 and (not unitDef.energyUpkeep or unitDef.energyUpkeep < 10)) or (unitDef.windGenerator > 0 and wind > 10) or unitDef.tidalGenerator > 0 or unitDef.customParams.solar then
 			SimpleGeneratorDefs[#SimpleGeneratorDefs + 1] = unitDefID
-		elseif unitDef.customParams.energyconv_capacity and unitDef.customParams.energyconv_efficiency then
+		elseif unitDef.name == "armfmkr" or unitDef.name == "corfmkr" or unitDef.name == "armmakr" or unitDef.name == "armmmkr" or unitDef.name == "cormmkr" or unitDef.name == "coruwmmm" or unitDef.name == "armuwmmm" then
 			SimpleConverterDefs[#SimpleConverterDefs + 1] = unitDefID
 		elseif unitDef.isBuilding and #unitDef.weapons > 0 then
 			SimpleTurretDefs[#SimpleTurretDefs + 1] = unitDefID

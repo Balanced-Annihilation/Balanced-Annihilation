@@ -83,7 +83,7 @@ return {
 			[21] = "corsy",
 			[22] = "corsonar",
 			[23] = "corfdrag",
-			[24] = "corptl",
+			[24] = "cortl",
 			[25] = "corfrt",
 			[26] = "corfrad",
 		},
@@ -177,6 +177,7 @@ return {
 				craterareaofeffect = 0,
 				craterboost = 0,
 				cratermult = 0,
+				cegtag = "dgunfx",
 				--waterbounce = true, -- weapon will stick to the surface
 				groundbounce = true,
 				bounceRebound = 0, --stick the explosion to ground with 0 vertical component
@@ -206,12 +207,12 @@ return {
 					default = 99999,
 				},
 				customparams = {
-					expl_light_color = "2.8 1 0.1",
+					expl_light_color = "2.8 0.5 0.1",
 					expl_light_heat_radius_mult = 2.2,
 					expl_light_heat_strength_mult = 0.66,
 					expl_light_mult = 1.2,
-					expl_light_radius_mult = 1.75,
-					light_color = "2.8 1 0.1",
+					expl_light_radius_mult = 1.70,
+					light_color = "2.8 0.5 0.1",
 					light_mult = 2,
 					light_radius_mult = 2.55,
 				},

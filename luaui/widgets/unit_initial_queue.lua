@@ -140,8 +140,8 @@ local CORFMKR = UnitDefNames["corfmkr"].id
 local ARMFDRAG = UnitDefNames["armfdrag"].id
 local CORFDRAG = UnitDefNames["corfdrag"].id
 
-local ARMPTL = UnitDefNames["armptl"].id
-local CORPTL = UnitDefNames["corptl"].id
+local ARMTL = UnitDefNames["armtl"].id
+local CORTL = UnitDefNames["cortl"].id
 
 -- this info is used to switch buildings between factions
 local armToCore = {}
@@ -172,7 +172,7 @@ armToCore[ARMUWMS] = CORUWMS
 armToCore[ARMUWES] = CORUWES
 armToCore[ARMFMKR] = CORFMKR
 armToCore[ARMFDRAG] = CORFDRAG
-armToCore[ARMPTL] = CORPTL
+armToCore[ARMTL] = CORTL
 
 function table_invert(t)
     local s={}

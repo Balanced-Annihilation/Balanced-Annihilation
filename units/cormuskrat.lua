@@ -87,7 +87,7 @@ return {
 			[39] = "corfrad",
 			[40] = "corfhlt",
 			[41] = "corfrt",
-			[42] = "corptl",
+			[42] = "cortl",
 		},
 		featuredefs = {
 			dead = {

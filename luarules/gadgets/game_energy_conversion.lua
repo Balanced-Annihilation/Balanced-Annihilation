@@ -399,12 +399,12 @@ function gadget:UnitGiven(uID, uDefID, newTeam, oldTeam)
 end
 
 function gadget:RecvLuaMsg(msg, playerID)
-    local newLevel = tonumber(msg:match(alterLevelRegex))
-    if newLevel and newLevel >= 0 and newLevel <= 100 then
-        local _, _, playerIsSpec, playerTeam = spGetPlayerInfo(playerID)
-        if not playerIsSpec then
-            spSetTeamRulesParam(playerTeam, mmLevelParamName, newLevel / 100)
-            return true
-        end
-    end
+	local newLevel = tonumber(msg:match(alterLevelRegex))
+	if newLevel and newLevel >= 0 and newLevel <= 100 then
+		local _, _, playerIsSpec, playerTeam = spGetPlayerInfo(playerID, false)
+		if playerTeam and not playerIsSpec then
+			spSetTeamRulesParam(playerTeam, mmLevelParamName, newLevel / 100)
+			return true
+		end
+	end
 end

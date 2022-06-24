@@ -6,7 +6,7 @@ function widget:GetInfo()
 	author    = "Regret",
 	date      = "December 7, 2009", --last change December 11,2009
 	license   = "GNU GPL, v2 or later",
-	layer     = -11,
+	layer     = 9999999,
 	enabled   = true, --enabled by default
 	handler   = true, --can use widgetHandler:x()
 	}
@@ -17,10 +17,13 @@ local NeededFrameworkVersion = 8
 local CanvasX,CanvasY = 1272/rescalevalue,734/rescalevalue --resolution in which the widget was made (for 1:1 size)
 --1272,734 == 1280,768 windowed
 
+
+
+
 local Config = {
 	minimap = {
 		px = -0.5,py = -0.5, --default start position
-		sx = math.min(135*Game.mapX/Game.mapY,270),sy = 135, --background size
+		sx = 0,sy = 150, --background size
 		
 		bsx = 15,bsy = 15, --button size
 
@@ -34,7 +37,7 @@ local Config = {
 		cmovecolor = {0.9,0.9,0.9,0.8},
 		
 		cborder = {0,0,0,0},
-		cbackground = {0,0,0,0.55},
+		cbackground = {0,0,0,0}, --0.55
 		cbordersize = 3.5,
 		
 		dragbutton = {1}, --left mouse button
@@ -350,6 +353,17 @@ function widget:Initialize()
 	PassedStartupCheck = RedUIchecks()
 	if (not PassedStartupCheck) then return end
 	
+	if(Game.mapX ==Game.mapY) then
+			Config.minimap.sx = math.min(196*Game.mapX/Game.mapY,280) --background size
+			
+
+	elseif (Game.mapY > Game.mapX ) then
+					Config.minimap.sx = math.min((135*Game.mapX/Game.mapY)*1.5,320) --background size
+	else
+				Config.minimap.sx = math.min(135*Game.mapX/Game.mapY,320) --background size
+	end
+
+	
 	rMinimap = createminimap(Config.minimap)
 	
 	gl.SlaveMiniMap(true)
@@ -362,6 +376,7 @@ local lastPos = {}
 
 function widget:ViewResize(viewSizeX, viewSizeY)
 	sceduleMinimapGeometry = true
+	AutoResizeObjects()
 end
 
 

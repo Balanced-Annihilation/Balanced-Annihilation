@@ -1,17 +1,14 @@
 function widget:GetInfo()
    return {
-      name      = "Fancy Selected Units",		-- (took 'UnitShapes' widget as a base)
+      name      = "Fancy Selected Unit",		-- (took 'UnitShapes' widget as a base)
       desc      = "Shows which units are selected",
       author    = "Floris",
       date      = "04.04.2014",
       license   = "GNU GPL, v2 or later",
       layer     = -50,
-      enabled   = false
+      enabled   = true
    }
 end
-
---------------------------------------------------------------------------------
---------------------------------------------------------------------------------
 
 local currentRotationAngle			= 0
 local currentRotationAngleOpposite	= 0
@@ -28,7 +25,7 @@ local degrot = {}
 local rad_con						= 180 / math.pi
 local math_acos						= math.acos
 
-local currentClock
+local currentClock, chobbyInterface
 
 local UNITCONF						= {}
 
@@ -39,6 +36,47 @@ local maxSelectTime					= 0				--time at which units "new selection" animation w
 local maxDeselectedTime				= -1			--time at which units deselection animation will end
 
 local checkSelectionChanges			= true
+
+local OPTIONS = {	-- these will be loaded when switching style, but the style will overwrite the those values
+	showExtraComLine				= false,		-- extra circle lines for the commander unit
+	showExtraBuildingWeaponLine		= false,
+
+	teamcolorOpacity				= 0.0, --0.55,		-- how much teamcolor used for the base platter
+
+	-- opacity
+	spotterOpacity					= 1, -- 0.95,
+	baseOpacity						= 0.26,		-- setting to 0: wont be rendered --0.3 looks ok
+	firstLineOpacity				= 1,
+
+	-- animation
+	selectionStartAnimation			= true,
+	selectionStartAnimationTime		= 0.11,
+	selectionStartAnimationScale	= 0.65,
+	-- selectionStartAnimationScale	= 1.17,
+	selectionEndAnimation			= true,
+	selectionEndAnimationTime		= 0.12,
+	selectionEndAnimationScale		= 0.85,
+	--selectionEndAnimationScale	= 1.17,
+
+	-- animation
+	rotationSpeed					= 0,
+	animationSpeed					= 0.00045,	-- speed of scaling up/down inner and outer lines
+	animateSpotterSize				= false,
+	maxAnimationMultiplier			= 1.012,
+	minAnimationMultiplier			= 0.99,
+
+	-- circle shape
+	circlePieces					= 32,
+	circlePieceDetail				= 1,
+	circleSpaceUsage				= 1,
+	circleInnerOffset				= 0,
+
+	-- size
+	innersize						= 0,
+	selectinner						= 1.67,
+	outersize						= 1.8,
+}
+
 
 local glCallList					= gl.CallList
 local glDrawListAtUnit				= gl.DrawListAtUnit
@@ -54,56 +92,10 @@ local spIsGUIHidden					= Spring.IsGUIHidden
 local spGetTeamColor				= Spring.GetTeamColor
 local spIsUnitVisible				= Spring.IsUnitVisible
 
---------------------------------------------------------------------------------
---------------------------------------------------------------------------------
+local function SetupCommandColors(state)
+	spLoadCmdColorsConfig('unitBox  0 1 0 ' .. (state and 1 or 0))
+end
 
-local OPTIONS = {	-- these will be loaded when switching style, but the style will overwrite the those values
-	showExtraComLine				= true,		-- extra circle lines for the commander unit
-	showExtraBuildingWeaponLine		= true,
-
-	teamcolorOpacity				= 0.55,		-- how much teamcolor used for the base platter
-
-	-- opacity
-	spotterOpacity					= 0.95,
-	baseOpacity						= 0.15,		-- setting to 0: wont be rendered
-	firstLineOpacity				= 1,
-
-	-- animation
-	selectionStartAnimation			= true,
-	selectionStartAnimationTime		= 0.05,
-	selectionStartAnimationScale	= 0.82,
-	-- selectionStartAnimationScale	= 1.17,
-	selectionEndAnimation			= true,
-	selectionEndAnimationTime		= 0.07,
-	selectionEndAnimationScale		= 0.9,
-	--selectionEndAnimationScale	= 1.17,
-
-	-- animation
-	rotationSpeed					= 2.5,
-	animationSpeed					= 0.00045,	-- speed of scaling up/down inner and outer lines
-	animateSpotterSize				= true,
-	maxAnimationMultiplier			= 1.012,
-	minAnimationMultiplier			= 0.99,
-
-	-- circle shape
-	solidCirclePieces				= 28,
-	circlePieces					= 56,
-	circlePieceDetail				= 1,
-	circleSpaceUsage				= 1,
-	circleInnerOffset				= 0,
-
-	-- size
-	innersize						= 1.7,
-	selectinner						= 1.66,
-	outersize						= 1.8,
-}
-
-------------------------------------------------------------------------------------
-------------------------------------------------------------------------------------
-
-
---------------------------------------------------------------------------------
---------------------------------------------------------------------------------
 
 -- Creating polygons:
 local function CreateDisplayLists(callback)
@@ -116,7 +108,6 @@ local function CreateDisplayLists(callback)
 
 	return displayLists
 end
-
 
 
 local function DrawCircleLine(innersize, outersize)
@@ -148,7 +139,7 @@ end
 
 local function DrawCircleSolid(size)
 	gl.BeginEnd(GL.TRIANGLE_FAN, function()
-		local pieces = OPTIONS.solidCirclePieces
+		local pieces = OPTIONS.circlePieces
 		local radstep = (2.0 * math.pi) / pieces
 		local a1
 		gl.Vertex(0, 1, 0)
@@ -368,30 +359,9 @@ function widget:Initialize()
 
 	currentClock = os.clock()
 
-	WG['fancyselectedunits'] = {}
-	WG['fancyselectedunits'].getOpacity = function()
-		return OPTIONS.spotterOpacity
-	end
-	WG['fancyselectedunits'].setOpacity = function(value)
-		OPTIONS.spotterOpacity = value
-		OPTIONS.spotterOpacity = value
-	end
-	WG['fancyselectedunits'].getBaseOpacity = function()
-		return OPTIONS.baseOpacity
-	end
-	WG['fancyselectedunits'].setBaseOpacity = function(value)
-		OPTIONS.baseOpacity = value
-		OPTIONS.baseOpacity = value
-	end
-	WG['fancyselectedunits'].getTeamcolorOpacity = function()
-		return OPTIONS.teamcolorOpacity
-	end
-	WG['fancyselectedunits'].setTeamcolorOpacity = function(value)
-		OPTIONS.teamcolorOpacity = value
-		OPTIONS.teamcolorOpacity = value
-	end
 
 
+	SetupCommandColors(false)
 end
 
 
@@ -407,8 +377,8 @@ end
 
 function SetUnitConf()
 	-- prefer not to change because other widgets use these values too  (highlight_units, given_units, selfd_icons, ...)
-	local scaleFactor = 2 -- 2.6
-	local rectangleFactor =  3.1 --3.25
+	local scaleFactor = 2
+	local rectangleFactor = 3
 
 	local name, shape, xscale, zscale, scale, xsize, zsize, weaponcount, shapeName
 	for udid, unitDef in pairs(UnitDefs) do
@@ -421,10 +391,10 @@ function SetUnitConf()
 			shapeName = 'square'
 			shape = shapes.square
 			xscale, zscale = rectangleFactor * xsize, rectangleFactor * zsize
-		--elseif (unitDef.isAirUnit) then
-		--	shapeName = 'triangle'
-		--	shape = shapes.triangle
-		--	xscale, zscale = scale*1.07, scale*1.07
+		elseif (unitDef.isAirUnit) then
+			shapeName = 'triangle'
+			shape = shapes.triangle
+			xscale, zscale = scale*1.02, scale*1.02
 		elseif (unitDef.modCategories["ship"]) then
 			shapeName = 'circle'
 			shape = shapes.circle
@@ -436,8 +406,8 @@ function SetUnitConf()
 		end
 
 		local radius = Spring.GetUnitDefDimensions(udid).radius
-		xscale = (xscale*0.7) + (radius/5)
-		zscale = (zscale*0.7) + (radius/5)
+		xscale = (xscale*0.65) + (radius/5)
+		zscale = (zscale*0.65) + (radius/5)
 
 		weaponcount = table.getn(unitDef.weapons)
 
@@ -446,9 +416,10 @@ function SetUnitConf()
 end
 
 
-
 function widget:Shutdown()
-
+	if not (WG.selectedunits or WG.teamplatter or WG.highlightselunits) then
+		SetupCommandColors(true)
+	end
 	WG['fancyselectedunits'] = nil
 
 	gl.DeleteList(clearquad)
@@ -657,7 +628,7 @@ do
 						else
 							-- adding style for buildings with weapons
 							if drawUnitStyles and OPTIONS.showExtraBuildingWeaponLine and unit.shapeName == 'square' then
-								if (unit.weaponcount > 0) then
+								if unit.weaponcount > 0 then
 									gl.Color(r,g,b,usedAlpha*(usedAlpha+0.2))
 									usedScale = scale * 1.1
 									glDrawListAtUnit(unitID, unit.shape.select, false, (unit.xscale*usedScale*changedScale)-((unit.xscale*changedScale-10)/7.5), 1.0, (unit.zscale*usedScale*changedScale)-((unit.zscale*changedScale-10)/7.5), usedRotationAngle, 0, degrot[unitID], 0)
@@ -700,10 +671,8 @@ do
 	end
 end --// end do
 
-
-
-
 function widget:DrawWorldPreUnit()
+	if chobbyInterface then return end
 	if spIsGUIHidden() then return end
 
 	local clockDifference = (os.clock() - previousOsClock)
@@ -729,7 +698,7 @@ function widget:DrawWorldPreUnit()
 		if animationMultiplierAdd and animationMultiplier < OPTIONS.maxAnimationMultiplier then
 			animationMultiplier = animationMultiplier + addedMultiplierValue
 			animationMultiplierInner = animationMultiplierInner - addedMultiplierValue
-			if (animationMultiplier > OPTIONS.maxAnimationMultiplier) then
+			if animationMultiplier > OPTIONS.maxAnimationMultiplier then
 				animationMultiplier = OPTIONS.maxAnimationMultiplier
 				animationMultiplierInner = OPTIONS.minAnimationMultiplier
 				animationMultiplierAdd = false
@@ -761,16 +730,18 @@ function widget:DrawWorldPreUnit()
 		gl.Color(1,1,1,1)
 		glCallList(clearquad)
 
+		
+		
 		-- draw base background layer
-		if OPTIONS.baseOpacity > 0.009 then
-			if OPTIONS.teamcolorOpacity < 0.02 then
-				baseR,baseG,baseB = 1,1,1
-			else
-				baseR,baseG,baseB = spGetTeamColor(teamID)
-				baseR = 1-OPTIONS.teamcolorOpacity + (baseR*OPTIONS.teamcolorOpacity)
-				baseG = 1-OPTIONS.teamcolorOpacity + (baseG*OPTIONS.teamcolorOpacity)
-				baseB = 1-OPTIONS.teamcolorOpacity + (baseB*OPTIONS.teamcolorOpacity)
-			end
+		--if OPTIONS.baseOpacity > 0.009 then
+		--	if OPTIONS.teamcolorOpacity < 0.02 then
+				baseR,baseG,baseB = 0.1,0.2,0.1
+		--	else
+		--		baseR,baseG,baseB = spGetTeamColor(teamID)
+		--		baseR = 1-OPTIONS.teamcolorOpacity + (baseR*OPTIONS.teamcolorOpacity)
+		--		baseG = 1-OPTIONS.teamcolorOpacity + (baseG*OPTIONS.teamcolorOpacity)
+		--		baseB = 1-OPTIONS.teamcolorOpacity + (baseB*OPTIONS.teamcolorOpacity)
+		--	end
 
 			gl.Blending(GL.SRC_ALPHA, GL.ONE_MINUS_SRC_ALPHA)
 			DrawSelectionSpottersPart(teamID, 'base', baseR,baseG,baseB,0,scaleBase, false, false, false, false)
@@ -785,7 +756,7 @@ function widget:DrawWorldPreUnit()
 			gl.ColorMask(true,true,true,true)
 			gl.BlendFunc(GL.ONE_MINUS_DST_ALPHA, GL.DST_ALPHA)
 			glCallList(clearquad)
-		end
+	--	end
 
 		-- draw line layer
 		a = 1 - (OPTIONS.firstLineOpacity * OPTIONS.spotterOpacity)
@@ -798,7 +769,8 @@ function widget:DrawWorldPreUnit()
 
 		--  Here the inner of the selected spotters are removed
 		gl.BlendFunc(GL.ONE, GL.ZERO)
-		gl.Color(1,1,1,1)
+		gl.Color(0.15,0.95,0.2,1) --		gl.Color(0.15,0.95,0.2,1) --gl.Color(0.2,1,0.3,1) --gl.Color(0.15,1,0.3,1)
+
 		DrawSelectionSpottersPart(teamID, 'solid overlap', 1,1,1,a,scale, false, false, false, false)
 
 		--  Really draw the spotters now  (This could be optimised if we could say Draw as much as DST_ALPHA * SRC_ALPHA is)
@@ -814,8 +786,5 @@ function widget:DrawWorldPreUnit()
 	gl.Color(1,1,1,1)
 	gl.PopAttrib()
 end
-
-
-
 
 

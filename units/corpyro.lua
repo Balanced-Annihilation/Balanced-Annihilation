@@ -60,7 +60,7 @@ return {
 		},
 		sfxtypes = {
 			explosiongenerators = {
-				[1] = "custom:PILOT",
+				[1] = "custom:pilotlight",
 			},
 		},
 		sounds = {
@@ -94,7 +94,9 @@ return {
 				craterboost = 0,
 				cratermult = 0,
 				firestarter = 100,
-				flamegfxtime = 1.9,
+				flamegfxtime = 0.8,
+				cegtag = "flamerceg",
+				explosiongenerator = "custom:flamerexplode",
 				groundbounce = true,
 				impulseboost = 0,
 				impulsefactor = 0,

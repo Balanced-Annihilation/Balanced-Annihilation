@@ -132,7 +132,7 @@ function widget:Initialize()
 
     spSendCommands("unbindkeyset Any+;")
     spSendCommands("bind Any+; losradar")
-
+	spSendCommands('bind Any+0xf6 losradar') --umlaut for German keyboards
     always, LOS, radar, jam, radar2 = Spring.GetLosViewColors()
 
     if losWithRadarEnabled == true then

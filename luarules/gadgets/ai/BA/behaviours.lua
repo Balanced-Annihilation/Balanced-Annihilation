@@ -26,7 +26,7 @@ behaviours = {
 	armfark = {
 		TaskQueueBehaviour,
 	},
-	armconsul = {
+	consul = {
 		TaskQueueBehaviour,
 	},
 	corfast = {

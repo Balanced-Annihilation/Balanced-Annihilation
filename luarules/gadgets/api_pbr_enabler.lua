@@ -1,3 +1,5 @@
+
+
 function gadget:GetInfo()
 	return {
 		name      = "PBR enabler",
@@ -14,9 +16,10 @@ if (not gadgetHandler:IsSyncedCode()) then --unsynced gadget
 	GG.GetBrdfTexture = nil
 	GG.GetEnvTexture = nil
 
-	if gl.CreateShader == nil then
-		Spring.Echo("ERROR: PBR enabler: gl.CreateShader is nil")
-		return
+	if (not gl.CreateShader) then
+	--Spring.Log("CUS", LOG.WARNING, "Shaders not supported, disabling")
+		gadget:Shutdown()
+
 	end
 
 	if gl.CreateFBO == nil then

@@ -21,7 +21,7 @@ local minimumenabled = 0
 function widget:Shutdown()
     value = tonumber(Spring.GetConfigInt("advgraphics", 1))
     if value == 0 then
-        --widgetHandler: DisableWidget("Bloom Shader Alternate Deferred")
+        widgetHandler: DisableWidget("Bloom Shader Alternate Deferred")
         --  widgetHandler: DisableWidget("Bloom Shader Alternate")
         -- Spring.SetConfigInt("ssao", 0)
         Spring.SendCommands("luarules disablecus")
@@ -55,7 +55,7 @@ function widget:Shutdown()
 
         --widgetHandler: DisableWidget("SSAO_alternative")
 
-        -- widgetHandler: DisableWidget("Bloom Shader Alternate Deferred")
+         widgetHandler: DisableWidget("Bloom Shader Alternate Deferred")
         --  widgetHandler: DisableWidget("Bloom Shader Alternate")
         widgetHandler:EnableWidget("Contrast Adaptive Sharpen")
         Spring.SetConfigInt("LuaShaders", 1)
@@ -72,7 +72,7 @@ function widget:Shutdown()
         Spring.SendCommands("AdvModelShading 1")
         Spring.SetConfigInt("AdvModelShading", 1)
 
-        -- widgetHandler: EnableWidget("Bloom Shader Alternate Deferred")
+         widgetHandler: EnableWidget("Bloom Shader Alternate Deferred")
         -- widgetHandler: EnableWidget("Bloom Shader Alternate")
         widgetHandler:EnableWidget("Contrast Adaptive Sharpen")
         --Spring.SetConfigInt("ssao", 1)
@@ -116,7 +116,7 @@ function widget:GameFrame(gameFrame)
                 elseif graphicslevel == 1 then
                     Spring.SendCommands("luarules disablecus")
 
-                    --widgetHandler: DisableWidget("Bloom Shader Alternate Deferred")
+                    widgetHandler: DisableWidget("Bloom Shader Alternate Deferred")
                     --widgetHandler: DisableWidget("Bloom Shader Alternate")
                     --widgetHandler: DisableWidget("SSAO_alternative")
                     Spring.SendCommands("Shadows 0")

@@ -2,11 +2,9 @@ function widget:GetInfo()
     return {
         name = "Camera groups",
         desc = "Camera groups",
-        author = "",
-        date = "",
+        author = "Ares",
         license = "GNU GPL, v2 or later",
         layer = 1002,
-        handler = true,
         enabled = true
     }
 end

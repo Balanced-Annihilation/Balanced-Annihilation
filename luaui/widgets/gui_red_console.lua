@@ -57,7 +57,7 @@ local Confignew = {
 		maxlines = 6,
 		maxlinesScrollmode = 10,
 		
-		maxage = 30, --max time for a message to be displayed, in seconds
+		maxage = 15, --max time for a message to be displayed, in seconds
 		
 		margin = 6, --distance from background border
 		
@@ -228,12 +228,15 @@ local function createconsole(r)
 		self.px = background.px-fadedistance
 		self.py = background.py-fadedistance
 		
-		if (not self._mousenotover) then
+		if (not self._mousenotover ) then
+		
+		
+			local alt,ctrl,meta,shift = Spring.GetModKeyState()
+			if(ctrl) then	
 			background.active = nil --activate
 			if (vars._empty) then
 				background.sy = (r.minlines*lines.fontsize + (lines.px-background.px)*2)
 			end
-			local alt,ctrl,meta,shift = Spring.GetModKeyState()
 			if (ctrl and not vars.browsinghistory) then
 				if (vars._skipagecheck == nil) then
 					vars._forceupdate = true
@@ -256,6 +259,7 @@ local function createconsole(r)
 				vars._skipagecheck = nil
 				vars._usecounters = nil
 			end
+		end
 		end
 		
 		self._mousenotover = nil
@@ -437,17 +441,7 @@ local function processLine(line,g,cfg,newlinecolor)
 	g.vars.nextupdate = 0
 
 	local roster = sGetPlayerRoster()
-	--[[DEBUG
-	for i,el in pairs(roster) do
-		if i==1 then
-			Spring.Echo(#el)
-			for j,val in pairs(el) do
-				Spring.Echo(j,val)
-			end
-		end
-		Spring.Echo(i,el)
-	end
-	--]]
+
 	
 	local names = {}
 	for i=1,#roster do
@@ -490,47 +484,10 @@ local function processLine(line,g,cfg,newlinecolor)
     end
 	
 	
+		
+	if sfind(line,"style camera") then --	if sfind(line," Connection established") then
+	  	  ignoreThisMessage = true
 
-	
-
-	
-	-- filter Sync error when its a spectator
-	--if sfind(line,"^Sync error for ") then
-	--	name = ssub(line,16,sfind(line," in frame ")-1)
-	--	if names[name] ~= nil and names[name][2] ~= nil and names[name][2] and sGetMyPlayerID() ~= names[name][4] then	-- when spec
-	--		ignoreThisMessage = true
-	--	end
-	--end
-	
-	-- filter Sync error when its a spectator
-	--if sfind(line,"^Error: %[DESYNC WARNING%] ") then
-	--	name = ssub(line,sfind(line," %(")+2,sfind(line,"%) ")-1)
-	--	if names[name] ~= nil and names[name][2] ~= nil and names[name][2] and sGetMyPlayerID() ~= names[name][4] then	-- when spec
-	--		ignoreThisMessage = true
-	--	end
-	--end
-	
-	
-	
-
-	
-	-- filter Connection attempts
-	if sfind(line,"^Connection a") then --	if sfind(line,"^Connection attempt from ") then
-		name = ssub(line,25)
-		lastConnectionAttempt = name
-	  ignoreThisMessage = true
-	end
-	if sfind(line," Connection est") then --	if sfind(line," Connection established") then
-		name = lastConnectionAttempt
-	  ignoreThisMessage = true
-	end
-	
-	-- filter Connection established
-		-- filter shadows config changes
-	if sfind(line,"^Set \"shadows\" config(-)parameter to ") then
-		ignoreThisMessage = true
-	elseif sfind(line," style camera") then --	if sfind(line," Connection established") then
-	  
 	  if sfind(line," FPS") then
 	  	
 		widgetHandler:DisableWidget("SmoothCam")
@@ -552,21 +509,27 @@ local function processLine(line,g,cfg,newlinecolor)
 			if (Spring.IsGUIHidden()) then
 				Spring.SendCommands("ResBar")
 			end
-	  end
 	  
-
-
-
-	elseif sfind(line,"rror:") then --	if sfind(line,"Error:") then
+	end
+elseif sfind(line,"rror:") then --	if sfind(line,"Error:") then
 	  ignoreThisMessage = true
 	elseif sfind(line,"r::P") then --	smooth camera
 	  ignoreThisMessage = true
 	elseif sfind(line,"rver=") then --	if sfind(line,"server=") then
 	  ignoreThisMessage = true
-	
+	elseif sfind(line,"^Set \"shadows\" config(-)parameter to ") then
+		ignoreThisMessage = true
 	elseif sfind(line,"ceback:") then --	if sfind(line,"stack traceback:") then
 	  ignoreThisMessage = true
+	elseif sfind(line,"^Connection att") then --	if sfind(line,"^Connection attempt from ") then
+		name = ssub(line,25)
+		lastConnectionAttempt = name
+	  ignoreThisMessage = true
 	
+	elseif sfind(line," Connection est") then --	if sfind(line," Connection established") then
+		name = lastConnectionAttempt
+	  ignoreThisMessage = true
+
 	
 	elseif sfind(line,"ient=") then-- if sfind(line,"client=") then
 	  ignoreThisMessage = true
@@ -610,10 +573,10 @@ local function processLine(line,g,cfg,newlinecolor)
 	elseif sfind(line,"not authorized") then -- User name not authorized to connect
 	  ignoreThisMessage = true
 	
-	
+
 	elseif sfind(line,"not reconnect") then  -- User can not reconnect
 	  ignoreThisMessage = true
-	elseif ((tonumber(Spring.GetConfigInt("ProfanityFilter",1) or 1) == 1) and (name ~= myname)) then --filter rude words
+	elseif ((tonumber(Spring.GetConfigInt("ProfanityFilter",1) or 1) == 1) ) then --filter rude words
 		local line2 = string.lower(line)
 	   if sfind(line2,"cunt") or sfind(line2," fuc")or sfind(line2,"nigg")or sfind(line2,"tard")or sfind(line2,"bitch") or sfind(line2,"shit")or sfind(line2,"fag")or sfind(line2,"autis")or sfind(line2,"rape")or sfind(line2,"dick")or sfind(line2,"penis")or sfind(line2,"pussy")or sfind(line2,"porn")or sfind(line2,"sex")or sfind(line2,"gay")or sfind(line2,"homo")or sfind(line2,"cancer") then
 				ignoreThisMessage = true

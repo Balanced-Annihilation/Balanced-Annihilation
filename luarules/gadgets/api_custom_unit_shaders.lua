@@ -10,6 +10,8 @@
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 
+
+
 function gadget:GetInfo()
 	return {
 		name      = "CustomUnitShaders",
@@ -42,7 +44,8 @@ end
 
 if (not gl.CreateShader) then
 	--Spring.Log("CUS", LOG.WARNING, "Shaders not supported, disabling")
-	return false
+		gadget:Shutdown()
+
 end
 
 -----------------------------------------------------------------

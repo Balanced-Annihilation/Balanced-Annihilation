@@ -2,19 +2,16 @@
 function widget:GetInfo()
 	return {
 		name      = "Metalspot Finder",
-		desc      = "Finds metal spots for other widgets",
-		author    = "Niobium",
-		version   = "v1.1",
-		date      = "November 2010",
+		desc      = "Finds metal and geothermal spots for other widgets",
+		author    = "Niobium, Tarte (added geothermal)",
+		version   = "2.0",
+		date      = "November 2010: last update: April 13, 2022",
 		license   = "GNU GPL, v2 or later",
-		layer     = -30000,
+		layer     = -99999999,
 		enabled   = true
 	}
 end
 
-------------------------------------------------------------
--- Config
-------------------------------------------------------------
 local gridSize = 16 -- Resolution of metal map
 local buildGridSize = 8 -- Resolution of build positions
 
@@ -32,7 +29,7 @@ local spTestBuildOrder = Spring.TestBuildOrder
 
 local extractorRadius = Game.extractorRadius
 local extractorRadiusSqr = extractorRadius * extractorRadius
- 
+
 local buildmapSizeX = Game.mapSizeX - buildGridSize
 local buildmapSizeZ = Game.mapSizeZ - buildGridSize
 local buildmapStartX = buildGridSize
@@ -44,18 +41,71 @@ local metalmapStartX = 1.5 * gridSize
 local metalmapStartZ = 1.5 * gridSize
 
 ------------------------------------------------------------
--- Callins
+-- Find geothermal spots
 ------------------------------------------------------------
-function widget:Initialize()
-	WG.metalSpots = GetSpots()
-	WG.GetMexPositions = GetMexPositions
-	WG.IsMexPositionValid = IsMexPositionValid
-	widgetHandler:RemoveWidget(self)
+
+local function GetFootprintPos(value)	-- not entirely acurate, unsure why
+	local precision = 16		-- (footprint 1 = 16 map distance)
+	return (math.floor(value/precision)*precision)+(precision/2)
+end
+
+local function GetSpotsGeo()
+	local geoFeatureDefs = {}
+	for defID, def in pairs(FeatureDefs) do
+		if def.geoThermal then
+			geoFeatureDefs[defID] = true
+		end
+	end
+	geoSpots = {}
+	local features = Spring.GetAllFeatures()
+	local spotCount = 0
+	for i = 1, #features do
+		if geoFeatureDefs[Spring.GetFeatureDefID(features[i])] then
+			local x, y, z = Spring.GetFeaturePosition(features[i])
+			spotCount = spotCount + 1
+			geoSpots[spotCount] = {
+				x= GetFootprintPos(x),
+				y=y,
+				z= GetFootprintPos(z),
+				minX= GetFootprintPos(x),
+				maxX= GetFootprintPos(x),
+				minZ= GetFootprintPos(z),
+				maxZ= GetFootprintPos(z)
+			}
+		end
+	end
+	return geoSpots
 end
 
 ------------------------------------------------------------
 -- Shared functions
 ------------------------------------------------------------
+
+local function GetValidStrips(spot)
+	local sMinZ, sMaxZ = spot.minZ, spot.maxZ
+	local sLeft, sRight = spot.left, spot.right
+	local validLeft = {}
+	local validRight = {}
+	local maxZOffset = buildGridSize * ceil(extractorRadius / buildGridSize - 1)
+	for mz = max(sMaxZ - maxZOffset, buildmapStartZ), min(sMinZ + maxZOffset, buildmapSizeZ), buildGridSize do
+		local vLeft, vRight = buildmapStartX, buildmapSizeX
+		if spot.left and spot.right then
+			for sz = sMinZ, sMaxZ, gridSize do
+				local dz = sz - mz
+				local maxXOffset = buildGridSize * ceil(sqrt(extractorRadiusSqr - dz * dz) / buildGridSize - 1) -- Test for metal being included is dist < extractorRadius
+				local left, right = sRight[sz] - maxXOffset, sLeft[sz] + maxXOffset
+				if left  > vLeft  then vLeft  = left  end
+				if right < vRight then vRight = right end
+			end
+
+		end
+		validLeft[mz] = vLeft
+		validRight[mz] = vRight
+	end
+	spot.validLeft = validLeft
+	spot.validRight = validRight
+end
+
 function GetMexPositions(spot, uDefID, facing, testBuild)
 	
 	local positions = {}
@@ -92,13 +142,12 @@ function GetMexPositions(spot, uDefID, facing, testBuild)
 	return positions
 end
 
-function IsMexPositionValid(spot, x, z)
-	
+local function IsMexPositionValid(spot, x, z)
 	if z <= spot.maxZ - extractorRadius or
 	   z >= spot.minZ + extractorRadius then -- Test for metal being included is dist < extractorRadius
 		return false
 	end
-	
+
 	local sLeft, sRight = spot.left, spot.right
 	for sz = spot.minZ, spot.maxZ, gridSize do
 		local dz = sz - z
@@ -108,33 +157,34 @@ function IsMexPositionValid(spot, x, z)
 			return false
 		end
 	end
-	
+
 	return true
 end
 
 ------------------------------------------------------------
--- Mex finding
+-- Find metal spots
 ------------------------------------------------------------
-function GetSpots()
-	
+
+local function GetSpots()
+
 	-- Main group collection
 	local uniqueGroups = {}
-	
+
 	-- Strip info
 	local nStrips = 0
 	local stripLeft = {}
 	local stripRight = {}
 	local stripGroup = {}
-	
+
 	-- Indexes
 	local aboveIdx
 	local workingIdx
-	
+
 	-- Strip processing function (To avoid some code duplication)
 	local function DoStrip(x1, x2, z, worth)
-		
+
 		local assignedTo
-		
+
 		for i = aboveIdx, workingIdx - 1 do
 			if stripLeft[i] > x2 + gridSize then
 				break
@@ -166,11 +216,11 @@ function GetSpots()
 				aboveIdx = aboveIdx + 1
 			end
 		end
-		
+
 		nStrips = nStrips + 1
 		stripLeft[nStrips] = x1
 		stripRight[nStrips] = x2
-		
+
 		if assignedTo then
 			stripGroup[nStrips] = assignedTo
 		else
@@ -185,17 +235,17 @@ function GetSpots()
 			uniqueGroups[newGroup] = true
 		end
 	end
-	
+
 	-- Strip finding
 	workingIdx = huge
 	for mz = metalmapStartX, metalmapSizeZ, gridSize do
-		
+
 		aboveIdx = workingIdx
 		workingIdx = nStrips + 1
-		
+
 		local stripStart = nil
 		local stripWorth = 0
-		
+
 		for mx = metalmapStartZ, metalmapSizeX, gridSize do
 			local _, _, groundMetal = spGetGroundInfo(mx, mz)
 			if groundMetal > 0 then
@@ -207,16 +257,16 @@ function GetSpots()
 				stripWorth = 0
 			end
 		end
-		
+
 		if stripStart then
 			DoStrip(stripStart, metalmapSizeX, mz, stripWorth)
 		end
 	end
-	
+
 	-- Final processing
 	local spots = {}
 	for g, _ in pairs(uniqueGroups) do
-		
+
 		local gMinX, gMaxX = huge, -1
 		local gLeft, gRight = g.left, g.right
 		for iz = g.minZ, g.maxZ, gridSize do
@@ -225,38 +275,30 @@ function GetSpots()
 		end
 		g.minX = gMinX
 		g.maxX = gMaxX
-		
+
 		g.x = (gMinX + gMaxX) * 0.5
 		g.z = (g.minZ + g.maxZ) * 0.5
 		g.y = spGetGroundHeight(g.x, g.z)
+
+		g.taken = false
 		
 		spots[#spots + 1] = g
 	end
 	return spots
 end
 
-function GetValidStrips(spot)
-	
-	local sMinZ, sMaxZ = spot.minZ, spot.maxZ
-	local sLeft, sRight = spot.left, spot.right
-	
-	local validLeft = {}
-	local validRight = {}
-	
-	local maxZOffset = buildGridSize * ceil(extractorRadius / buildGridSize - 1)
-	for mz = max(sMaxZ - maxZOffset, buildmapStartZ), min(sMinZ + maxZOffset, buildmapSizeZ), buildGridSize do
-		local vLeft, vRight = buildmapStartX, buildmapSizeX
-		for sz = sMinZ, sMaxZ, gridSize do
-			local dz = sz - mz
-			local maxXOffset = buildGridSize * ceil(sqrt(extractorRadiusSqr - dz * dz) / buildGridSize - 1) -- Test for metal being included is dist < extractorRadius
-			local left, right = sRight[sz] - maxXOffset, sLeft[sz] + maxXOffset
-			if left  > vLeft  then vLeft  = left  end
-			if right < vRight then vRight = right end
-		end
-		validLeft[mz] = vLeft
-		validRight[mz] = vRight
-	end
-	
-	spot.validLeft = validLeft
-	spot.validRight = validRight
+------------------------------------------------------------
+-- Callins
+------------------------------------------------------------
+
+function widget:Initialize()
+	--make interfaces available to other widgets:
+
+	WG.metalSpots = GetSpots()
+	WG.geoSpots = GetSpotsGeo()
+	WG.GetMexPositions = GetMexPositions
+	WG.IsMexPositionValid = IsMexPositionValid
+
+	widgetHandler:RemoveWidget(self)
 end
+

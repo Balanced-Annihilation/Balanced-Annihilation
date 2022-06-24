@@ -786,7 +786,7 @@ function AllowEngineer(tqb,ai,unit,name)
 	local udid = UDN[name].id
 	local sametypecon = Spring.GetTeamUnitsByDefs(ai.id, udid)
 	local list = {
-	UDN.armconsul.id,	
+	UDN.consul.id,	
 	UDN.corfast.id,
 	UDN.armfark.id,
 	}
@@ -797,7 +797,7 @@ end
 function AllowCon(tqb,ai,unit,name)
 	if string.find(name, "ac") then
 		return AllowConT2(tqb, ai, unit, name)
-	elseif name == "armconsul" or name == "armfark" or name == "corfast" then
+	elseif name == "consul" or name == "armfark" or name == "corfast" then
 		return AllowEngineer(tqb, ai, unit, name)
 	elseif name ~= 'armrectr' or name ~= "cornecro" then
 		return AllowConT1(tqb, ai, unit, name)
@@ -2015,7 +2015,7 @@ taskqueues = {
 	armacv = armt2con,
 	armaca = armt2con,
 	--ASSIST
-	armconsul = assistqueueconsul,
+	consul = assistqueueconsul,
 	armfark = assistqueuepatrol,
 	--factories
 	armlab = lab,

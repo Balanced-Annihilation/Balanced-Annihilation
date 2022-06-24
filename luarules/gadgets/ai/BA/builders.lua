@@ -28,7 +28,7 @@ builderlist = {
 }
 
 helperlist = {
-	"armconsul",
+	"consul",
 	"armrectr",
 	"armfark",
 	"corfast",

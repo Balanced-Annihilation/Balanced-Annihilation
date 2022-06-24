@@ -44,8 +44,8 @@ local unitlist={--- Human friendly list. Automatically converted to unitdef IDs 
 {'armllt','armtl'},
 {'corllt','cortl'},
 
-{'armptl','armllt'},
-{'corptl','corllt'},
+--{'armtl','armllt'},
+--{'cortl','corllt'},
 
 -- XTA - arm
 

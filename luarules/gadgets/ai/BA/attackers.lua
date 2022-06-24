@@ -51,7 +51,7 @@ attackerlist = {
 	"armrectr",	--	Rector			/	Rez-Reclaim
 	"armaser",  --  Eraser          /   Radar Jammer Kbot
 	"armfark",  --  Fark            /   Fast Assist/Repair Kbot
-	"armconsul",--	Consul			/	Combat Engineer
+	"consul",--	Consul			/	Combat Engineer
 	"armjam",	--	Jammer			/	Radar Jammer Vehicle
 	"cornecro",	--	Necro			/ 	Rez-Reclaim
 	"corspec",	--	Spectre			/	Radar Jamming Kbot

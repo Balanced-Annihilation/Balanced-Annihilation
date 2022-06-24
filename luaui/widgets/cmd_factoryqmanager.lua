@@ -305,7 +305,7 @@ function saveQueue( unitId, unitDef, groupNo )
 end
 
 function loadQueue( unitId, unitDef, groupNo )
-	if ( savedQueues[curModId][unitDef.id] == nil ) then
+	if (savedQueues == nil or curModId == nil or unitDef == nil or unitDef.id ==nil or savedQueues[curModId][unitDef.id] == nil ) then
 		--there are no queus for this factory type
 		return
 	end

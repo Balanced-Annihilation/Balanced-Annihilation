@@ -167,10 +167,10 @@ local fontfileOutlineStrength = 1.3
 
 	if not (Spring.GetSpectatingState() or isReplay) then
 		inSpecMode = false
-		Spring.Echo("Ecostats: widget loaded in active player mode")
+		--Spring.Echo("Ecostats: widget loaded in active player mode")
 	else
 		inSpecMode = true
-		Spring.Echo("Ecostats: widget loaded in spectator mode")
+		--Spring.Echo("Ecostats: widget loaded in spectator mode")
 		setReclaimerUnits()
 	end
 	if GetGameSeconds() > 0 then gamestarted = true end
@@ -1391,11 +1391,11 @@ function widget:PlayerChanged(playerID)
 	local frame = GetGameFrame()
 	lastPlayerChange = frame
 	if not (Spring.GetSpectatingState() or isReplay) then
-		if inSpecMode then Spring.Echo("Ecostats: widget now in active player mode.") end
+		--if inSpecMode then Spring.Echo("Ecostats: widget now in active player mode.") end
 		inSpecMode = false
 		UpdateAllies()
 	else
-		if not inSpecMode then Spring.Echo("Ecostats: widget now in spectator mode.") end
+		--if not inSpecMode then Spring.Echo("Ecostats: widget now in spectator mode.") end
 		inSpecMode = true
 		setReclaimerUnits()
 		Reinit()

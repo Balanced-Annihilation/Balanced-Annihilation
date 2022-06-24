@@ -2,7 +2,7 @@ function gadget:GetInfo()
     return {
         name = "APM Broadcast",
         desc = "Broadcasts APM",
-        author = "Floris",
+        author = "Ares, Floris",
         date = "July,2016",
         license = "GNU GPL, v2 or later",
         layer = 0,
@@ -37,7 +37,13 @@ else
 
     local GetPlayerStatistics = Spring.GetPlayerStatistics
     local GetGameSeconds = Spring.GetGameSeconds
-
+    local prevapm = 0
+    local slidercounter = 1
+    local slidingwindow = {}
+    local currentapm
+    local finalapm
+	local deltaapm
+	
     function gadget:Initialize()
         gadgetHandler:AddSyncAction("apmBroadcast", handleApmEvent)
     end
@@ -57,7 +63,18 @@ else
             updateTimer = updateTimer + GetLastUpdateSeconds()
             if updateTimer > sendPacketEvery then
                 _, mc, kp, _, _ = GetPlayerStatistics(myPlayerID)
-                SendLuaRulesMsg("$" .. (math.ceil((((mc + kp) * 60) / (math.max(GetGameSeconds(), 60))) - 0.5)))
+                deltaapm = (mc + kp) - prevapm
+                finalapm = 0
+                slidingwindow[slidercounter] = deltaapm
+                for i = 1, #slidingwindow do
+                    finalapm = (finalapm + slidingwindow[i])
+                end
+                prevapm = (mc + kp)
+                slidercounter = slidercounter + 1
+                if (slidercounter == 31) then
+                    slidercounter = 1
+                end
+                SendLuaRulesMsg("$" .. (finalapm))
                 updateTimer = 0
             end
         end

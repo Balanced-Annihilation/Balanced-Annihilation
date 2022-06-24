@@ -209,26 +209,32 @@ function MakeBindsTable (swapYZ)
         "bind shift+c buildunit_cormine4",
 
 		
+	     "bind c buildunit_armatl",
+		"bind shift+c buildunit_armatl",
+		"bind c buildunit_coratl",
+        "bind shift+c buildunit_coratl",
+		
 		"bind c buildunit_armfhlt",
 		"bind shift+c buildunit_armfhlt",
 		"bind c buildunit_corfhlt",
         "bind shift+c buildunit_corfhlt",	
-		--torp
-		"bind c buildunit_armtl",
-		"bind shift+c buildunit_armtl",
-		"bind c buildunit_cortl",
-        "bind shift+c buildunit_cortl",	
 		
 		--t2 turret
 		"bind c buildunit_armpb",
         "bind shift+c buildunit_armpb",
 		"bind c buildunit_corvipe",
         "bind shift+c buildunit_corvipe",
+		
+
+		
 		--doom anni
 		"bind c buildunit_cordoom",
         "bind shift+c buildunit_cordoom",
 		"bind c buildunit_armanni",
         "bind shift+c buildunit_armanni",
+		
+
+		
 		--llt
 		"bind c buildunit_armllt",
 		"bind shift+c buildunit_armllt",
@@ -239,30 +245,28 @@ function MakeBindsTable (swapYZ)
 		"bind shift+c buildunit_hllt",
 		"bind c buildunit_tawf001",
         "bind shift+c buildunit_tawf001",
-		--claw maw
+		
+		
+	--claw maw
 		"bind c buildunit_armclaw",
 		"bind shift+c buildunit_armclaw",
 		"bind c buildunit_cormaw",
         "bind shift+c buildunit_cormaw",	
 		
-		--torp
-		"bind c buildunit_armfhlt",
-		"bind shift+c buildunit_armfhlt",
-		"bind c buildunit_corfhlt",
-        "bind shift+c buildunit_corfhlt",
+			--torp
+		"bind c buildunit_armtl",
+		"bind shift+c buildunit_armtl",
+		"bind c buildunit_cortl",
+        "bind shift+c buildunit_cortl",	
 		
-		"bind c buildunit_armatl",
-		"bind shift+c buildunit_armatl",
-		"bind c buildunit_coratl",
-        "bind shift+c buildunit_coratl",	
+	
 		
+
 		
+
 		
-		
-		"bind c buildunit_armptl",
-		"bind shift+c buildunit_armptl",
-		"bind c buildunit_corptl",
-        "bind shift+c buildunit_corptl",	
+	
+
 				
 		
 		
