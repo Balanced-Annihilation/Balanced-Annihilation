@@ -5,7 +5,7 @@ function widget:GetInfo()
       author = "Ares",
       license = "GNU GPL, v2 or later",
       layer = 0,
-      enabled = true
+      enabled = false
    }
 end
 
@@ -100,7 +100,7 @@ local mextobuildsea
 local mextobuildseaist2 = false
 local selectedbuilderscount = 0
 local metalSpots
---local circlewidth = 0
+local circlewidth = 0
 local bestPosm
 
 for udid, udef in pairs(UnitDefs) do
@@ -184,19 +184,19 @@ function widget:GameFrame(gameFrame)
          local snapradius = 0
          if cameraHeight < 2000 then
             snapradius = 10000
-            --circlewidth = 70
+            circlewidth = 70
          elseif cameraHeight >= 2000 and cameraHeight < 4000 then
             snapradius = 15000
-            --circlewidth = 80
+            circlewidth = 80
          elseif cameraHeight >= 4000 and cameraHeight < 6000 then
             snapradius = 20000
-            --circlewidth = 90
+            circlewidth = 90
          elseif cameraHeight >= 6000 and cameraHeight < 8000 then
             snapradius = 30000
-            --circlewidth = 100
+            circlewidth = 100
          elseif cameraHeight >= 6000 then
             snapradius = 40000
-            --circlewidth = 110
+            circlewidth = 110
          end
          if(bestDist < snapradius and cmdID == nil) then
             if emptyMex(bestSpot.x, bestSpot.z) then
@@ -261,9 +261,9 @@ function widget:DrawWorld()
       gl.PopMatrix()
       gl.DepthTest(false)
       gl.DepthMask(false)
-     -- gl.LineWidth(2.5)
-     -- gl.Color(0.15, 1, 0.2, 0.5)
-     -- gl.DrawGroundCircle(bestSpot.x, 0, bestSpot.z, circlewidth, 32)
+      gl.LineWidth(2.5)
+      gl.Color(0.15, 1, 0.2, 1)
+      gl.DrawGroundCircle(bestSpot.x, 0, bestSpot.z, circlewidth, 32)
    end
 end
 

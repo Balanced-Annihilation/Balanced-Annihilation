@@ -79,13 +79,26 @@ for udid, udef in pairs(UnitDefs) do
 end
 
 local desiredcommand
-local commandframenumber = 0
-local currentframenumber = 0
+local prevdesiredcommandarray = {}
+local previousselectedbuilder
+
+function widget:SelectionChanged(selectedunits, subselection)
+   if (Spring.GetSelectedUnitsCount() == 0) then
+      prevdesiredcommandarray = {}
+   end
+end
+
+function widget:MousePress(x, y, button)
+   if button == 1 or button == 2 then
+      prevdesiredcommandarray = {}
+   end
+end
 
 function widget:KeyPress(key, modifier, isRepeat)
    if not (modifier.shift or modifier.ctrl or modifier.alt or modifier.meta) then
-      if (#Spring.GetSelectedUnits() == 0) then
-         if key == KEYSYMS.Z or key == KEYSYMS.X or key == KEYSYMS.C or key == KEYSYMS.V then
+      if key == KEYSYMS.Z or key == KEYSYMS.X or key == KEYSYMS.C or key == KEYSYMS.V then
+         local bestMatchingBuilderID
+         if (Spring.GetSelectedUnitsCount() == 0) then
             local mx, my = Spring.GetMouseState()
             local _, pos = Spring.TraceScreenRay(mx, my, true, true, true, true)
             local groundheight = Spring.GetGroundHeight(pos[1], pos[3])
@@ -95,36 +108,55 @@ function widget:KeyPress(key, modifier, isRepeat)
             else
                wantLandBuilder = false
             end
-            local bestMatchingBuilderID = bestBuilderInDistance(300, pos, wantLandBuilder, false)
+            bestMatchingBuilderID = bestBuilderInDistance(300, pos, wantLandBuilder, false)
             if bestMatchingBuilderID == nil then
                bestMatchingBuilderID = bestBuilderInDistance(10000, pos, wantLandBuilder, true)
             end
-            if bestMatchingBuilderID ~= nil  then
-               Spring.SelectUnitArray({bestMatchingBuilderID}, false)
-               local unitdefid = Spring.GetUnitDefID(bestMatchingBuilderID)
-               local unit = UnitDefs[unitdefid]
-               local userSym, defSym = Spring.GetKeySymbol(key)
-               local found = false
-               for _, keybind in ipairs(Spring.GetKeyBindings(defSym)) do
-                  if found == true then break end
-                  if string.sub(keybind.command, 1, 10) == 'buildunit_' then
-                     local uDefName = string.sub(keybind.command, 11)
-                     local uDef = UnitDefNames[uDefName]
-                     for j, option in ipairs(unit.buildOptions) do
-                        if found == true then break end
-                        if (option == uDef.id) then
+         elseif (Spring.GetSelectedUnitsCount() == 1) then
+            local units = Spring.GetSelectedUnits()
+            local unitdefid = Spring.GetUnitDefID(units[1])
+            if BuilderDef[unitdefid] then
+               bestMatchingBuilderID = units[1]
+            end
+         end
+         if bestMatchingBuilderID ~= nil  then
+            Spring.SelectUnitArray({bestMatchingBuilderID}, false)
+            local unitdefid = Spring.GetUnitDefID(bestMatchingBuilderID)
+            local unit = UnitDefs[unitdefid]
+            local userSym, defSym = Spring.GetKeySymbol(key)
+            local found = false
+            local firstfounddesiredcommand = nil
+            for _, keybind in ipairs(Spring.GetKeyBindings(defSym)) do
+               if found == true then break end
+               if string.sub(keybind.command, 1, 10) == 'buildunit_' then
+                  local uDefName = string.sub(keybind.command, 11)
+                  local uDef = UnitDefNames[uDefName]
+                  for j, option in ipairs(unit.buildOptions) do
+                     if found == true then break end
+                     if (option == uDef.id) then
+                        if(firstfounddesiredcommand == nil) then
+                           firstfounddesiredcommand = keybind.command
+                        end
+                        if(not prevdesiredcommandarray[keybind.command]) then
                            desiredcommand = keybind.command
+                           prevdesiredcommandarray[desiredcommand] = true
                            found = true
                         end
                      end
                   end
                end
-
+            end
+            if(not found) then
+               prevdesiredcommandarray = {}
+               if(firstfounddesiredcommand ~= nil) then
+                  desiredcommand = firstfounddesiredcommand
+                  prevdesiredcommandarray[desiredcommand] = true
+               end
+               found = true
             end
          end
       end
    end
-   commandframenumber = currentframenumber
 end
 
 function bestBuilderInDistance(distance, pos, wantLandBuilder, selectwholemap)
@@ -237,9 +269,8 @@ function bestBuilderInDistance(distance, pos, wantLandBuilder, selectwholemap)
    return bestMatchingBuilderID
 end
 
-function widget:GameFrame(framenumber)
-   currentframenumber = framenumber
-   if desiredcommand ~= nil and currentframenumber > commandframenumber+1 then
+function widget:Update(dt)
+   if desiredcommand ~= nil then
       Spring.SetActiveCommand(desiredcommand, 1, true, false, Spring.GetModKeyState())
       desiredcommand = nil
    end

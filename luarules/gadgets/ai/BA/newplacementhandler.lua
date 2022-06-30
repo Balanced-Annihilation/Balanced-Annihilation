@@ -92,12 +92,14 @@ function NewPlacementHandler:GetClosestBuildPosition(x, z, cellsize, buildtype)
 	if buildable == true then bestID = ID end
 	while buildable ~= true and attempt <= 10200 do
 		attempt = attempt + 1
+		if spiral[attempt][1] ~= nil and spiral[attempt][2] ~= nil then
 		v = spiral[attempt][1]
 		h = spiral[attempt][2]
 		local id = ID + (v*cellsize*mapwidth) + (h*cellsize)
-		if self:GetIDBuildable(id, cellsize, buildtype) == true then
-			buildable = true
-			bestID = id
+			if self:GetIDBuildable(id, cellsize, buildtype) == true then
+				buildable = true
+				bestID = id
+			end
 		end
 	end
 	if bestID then

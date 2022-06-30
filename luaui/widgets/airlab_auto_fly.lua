@@ -1,5 +1,4 @@
---------------------------------------------------------------------------------
---------------------------------------------------------------------------------
+
 function widget:GetInfo()
     return {
         name      = "airlab_auto_fly",
@@ -9,23 +8,17 @@ function widget:GetInfo()
         license   = "GNU GPL, v2 or later",
         version   = 1,
         layer     = 5,
-        enabled   = true --  loaded by default?
+        enabled   = true
     }
 end
 
--- project page on github: https://github.com/jamerlan/unit_air_allways_fly
 
---Changelog
---
-
--------------------------------
 
 local spGiveOrderToUnit = Spring.GiveOrderToUnit
 local spGetMyTeamId = Spring.GetMyTeamID
 local spGetTeamUnits = Spring.GetTeamUnits
 local spGetUnitDefID = Spring.GetUnitDefID
 local cmdLand = 34569
---------------------------------------------------------------------------------
 
 
 function widget:Update()
@@ -76,14 +69,9 @@ function widget:Initialize()
         return false
     end
 
-    for _, unitID in ipairs(spGetTeamUnits(teamId)) do  -- init existing labs
+    for _, unitID in ipairs(spGetTeamUnits(teamId)) do 
         switchAirpadToFlyMode(unitID, spGetUnitDefID(unitID))
     end
 
     return true
 end
-
-
---------------------------------------------------------------------------------
---------------------------------------------------------------------------------
-
