@@ -57,7 +57,7 @@ local Confignew = {
 		maxlines = 6,
 		maxlinesScrollmode = 10,
 		
-		maxage = 15, --max time for a message to be displayed, in seconds
+		maxage = 30, --max time for a message to be displayed, in seconds
 		
 		margin = 6, --distance from background border
 		

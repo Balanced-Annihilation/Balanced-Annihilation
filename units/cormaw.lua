@@ -102,7 +102,7 @@ return {
 			},
 		},
 		weapondefs = {
-			dmaw = {
+			flamethrower = {
 				areaofeffect = 64,
 				avoidfeature = false,
 				burst = 12,
@@ -110,8 +110,10 @@ return {
 				craterareaofeffect = 0,
 				craterboost = 0,
 				cratermult = 0,
+				--cegtag = "flamerceg",
+				explosiongenerator = "custom:flamerexplode",
 				firestarter = 100,
-				flamegfxtime = 1.9,
+				flamegfxtime = 1.4,
 				groundbounce = true,
 				impulseboost = 0,
 				impulsefactor = 0,
@@ -144,7 +146,7 @@ return {
 		},
 		weapons = {
 			[1] = {
-				def = "DMAW",
+				def = "FLAMETHROWER",
 				onlytargetcategory = "SURFACE",
 			},
 		},

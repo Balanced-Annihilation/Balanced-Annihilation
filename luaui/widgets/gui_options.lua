@@ -5,7 +5,7 @@ function widget:GetInfo()
         author = "Floris",
         date = "September 2016",
         license = "Dental flush",
-        layer = -2,
+        layer = math.huge,
         enabled = true,
         handler = true
     }
@@ -601,7 +601,8 @@ local function SetupCommandColors(state)
         f:write("unitBox  0 1 0 " .. alpha)
         f:close()
         -- Spring.SendCommands({'cmdcolors cmdcolors.tmp'})
-        Spring.SendCommands("cmdcolors cmdcolors.tmp") -----
+        Spring.SendCommands({'cmdcolors cmdcolors.tmp'}) -----
+		--Spring.SendCommands("fps " .. value)
     end
     os.remove("cmdcolors.tmp")
 end
@@ -639,10 +640,10 @@ function applyOptionValue(i)
         -- Spring.SetConfigInt("AdvModelShading", value)
         --else
         if id == "shadows" then
-            Spring.SendCommands("Shadows " .. tostring(value))
+            Spring.SendCommands("Shadows " .. value)
             Spring.SetConfigInt("Shadows", value)
         elseif id == "fullscreen" then
-            Spring.SendCommands("Fullscreen " .. tostring(value))
+            Spring.SendCommands("Fullscreen " .. value)
         elseif id == "borderless" then
             Spring.SetConfigInt("WindowBorderless", value)
         elseif id == "screenedgemove" then
@@ -739,7 +740,7 @@ function applyOptionValue(i)
             Spring.SendCommands("speed " .. value)
             Spring.SetConfigInt("fpstimespeed", value)
         elseif id == "3dtrees" then
-            Spring.SetConfigInt("3DTrees", tostring(value))
+            Spring.SetConfigInt("3DTrees", value)
         elseif id == "Profanity" then
             if value == 0 then
                 Spring.SetConfigString("ProfanityFilter", "0")
@@ -844,10 +845,10 @@ function applyOptionValue(i)
             Spring.SetConfigInt("CamFreeScrollSpeed", value * 50) -- spring default: 500
             Spring.SetConfigInt("CamSpringScrollSpeed", value) -- spring default: 10
         elseif id == "fpsspeed" then
-            Spring.SetConfigString("FPSMouseScale", tostring(value / 10000)) -- spring default: 10
+            Spring.SetConfigString("FPSMouseScale", (value / 10000)) -- spring default: 10
         elseif id == "disticon" then
             --Spring.SetConfigInt("UnitIconDist"..value)
-            Spring.SendCommands("disticon " .. tostring(value))
+            Spring.SendCommands("disticon " .. value)
             Spring.SetConfigInt("UnitIconDist", value)
         elseif id == "treeradius" then
             Spring.SetConfigInt("TreeRadius", value)
@@ -1548,7 +1549,6 @@ function widget:Initialize()
             value = tonumber(Spring.GetConfigInt("MSAALevel", 0) or 0),
             description = "Requires restart, reduce jagged edges."
         },
-        -- {id="Water", name="Water type", type="select", options={"basic","reflective","dynamic","reflective&refractive","bump-mapped"}, value=(tonumber(Spring.GetConfigInt("Water",1) or 1)+1)},
         {
             id = "Water",
             name = "Water type",
@@ -1570,12 +1570,7 @@ function widget:Initialize()
         --   description = "Shading effect."
         --},
         --{id="blank4", name="SETTINGS", type="label", value=1}, --{id="Water2", name="aa2", type="label", value=1},
-        {
-            id = "blank1",
-            name = "",
-            type = "label",
-            value = 1
-        },
+
         {
             id = "fullscreen",
             name = "Fullscreen",

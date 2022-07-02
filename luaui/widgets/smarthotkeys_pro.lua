@@ -1,6 +1,6 @@
 function widget:GetInfo()
    return {
-      name = "Smartkeys pro",
+      name = "Smarthotkeys pro",
       desc = "zxcv hotkeys auto select the nearest highest tech builder. First it will search next to your cursor then it will search the whole map. Based on if cursor is over land or sea",
       author = "Ares",
       license = "GNU GPL, v2 or later",
@@ -89,7 +89,7 @@ function widget:SelectionChanged(selectedunits, subselection)
 end
 
 function widget:MousePress(x, y, button)
-   if button == 1 or button == 2 then
+   if button == 1 or button == 3 then
       prevdesiredcommandarray = {}
    end
 end
