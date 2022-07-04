@@ -1119,9 +1119,9 @@ function CorEnT2( tqb, ai, unit )
 	if income(ai, "energy") > 6000 and income(ai, "metal") > 100 and Spring.GetTeamRulesParam(ai.id, "mmCapacity") > income(ai, "energy")-3000 and income(ai, "energy") < ((math.max((Spring.GetGameSeconds() / 60) - 5, 1)/6) ^ 2) * 1000 and unit:Name() == "coracv" then
        	if GG.AiHelpers.NanoTC.GetClosestNanoTC(unit.id) then
 			local x, y, z = GG.AiHelpers.NanoTC.GetClosestNanoTC(unit.id)
-			return {action = "corafus", pos = {x = x, y = y, z = z}}
+			return {action = "cafus", pos = {x = x, y = y, z = z}}
 		else
-			return "corafus"
+			return "cafus"
 		end
 	elseif income(ai, "energy") > ai.aimodehandler.mintecheincome and income(ai, "metal") > ai.aimodehandler.mintechmincome and Spring.GetTeamRulesParam(ai.id, "mmCapacity") > income(ai, "energy")-1200 and income(ai, "energy") < ((math.max((Spring.GetGameSeconds() / 60) - 5, 1)/6) ^ 2) * 1000 then
        	if GG.AiHelpers.NanoTC.GetClosestNanoTC(unit.id) then
@@ -1130,12 +1130,12 @@ function CorEnT2( tqb, ai, unit )
 		else
 			return "corfus"
 		end
-	elseif income(ai, "energy") > 6000 and income(ai, "metal") > 100 and (UUDC("armafus",ai.id) + UUDC("corafus",ai.id)) < 2 and Spring.GetTeamRulesParam(ai.id, "mmCapacity") > income(ai, "energy")-3000 and timetostore(ai, "metal", UnitDefs[UnitDefNames["corafus"].id].metalCost) < 240 and unit:Name() == "coracv" then
+	elseif income(ai, "energy") > 6000 and income(ai, "metal") > 100 and (UUDC("armafus",ai.id) + UUDC("cafus",ai.id)) < 2 and Spring.GetTeamRulesParam(ai.id, "mmCapacity") > income(ai, "energy")-3000 and timetostore(ai, "metal", UnitDefs[UnitDefNames["cafus"].id].metalCost) < 240 and unit:Name() == "coracv" then
        	if GG.AiHelpers.NanoTC.GetClosestNanoTC(unit.id) then
 			local x, y, z = GG.AiHelpers.NanoTC.GetClosestNanoTC(unit.id)
-			return {action = "corafus", pos = {x = x, y = y, z = z}}
+			return {action = "cafus", pos = {x = x, y = y, z = z}}
 		else
-			return "corafus"
+			return "cafus"
 		end
 	elseif income(ai, "energy") > ai.aimodehandler.mintecheincome and income(ai, "metal") > ai.aimodehandler.mintechmincome and (UUDC("armfus",ai.id) + UUDC("corfus",ai.id)) < 2 and Spring.GetTeamRulesParam(ai.id, "mmCapacity") > income(ai, "energy")-1200 and timetostore(ai, "metal", UnitDefs[UnitDefNames["corfus"].id].metalCost) < 120 then
        	if GG.AiHelpers.NanoTC.GetClosestNanoTC(unit.id) then
@@ -1542,7 +1542,7 @@ function ArmEnT2( tqb, ai, unit )
 		else
 			return "armfus"
 		end
-	elseif income(ai, "energy") > 6000 and income(ai, "metal") > 100 and (UUDC("armafus",ai.id) + UUDC("corafus",ai.id)) < 2 and Spring.GetTeamRulesParam(ai.id, "mmCapacity") > income(ai, "energy")-3000 and timetostore(ai, "metal", UnitDefs[UnitDefNames["armafus"].id].metalCost) < 240 and unit:Name() == "armacv" then
+	elseif income(ai, "energy") > 6000 and income(ai, "metal") > 100 and (UUDC("armafus",ai.id) + UUDC("cafus",ai.id)) < 2 and Spring.GetTeamRulesParam(ai.id, "mmCapacity") > income(ai, "energy")-3000 and timetostore(ai, "metal", UnitDefs[UnitDefNames["armafus"].id].metalCost) < 240 and unit:Name() == "armacv" then
        	if GG.AiHelpers.NanoTC.GetClosestNanoTC(unit.id) then
 			local x, y, z = GG.AiHelpers.NanoTC.GetClosestNanoTC(unit.id)
 			return {action = "armafus", pos = {x = x, y = y, z = z}}

@@ -144,7 +144,6 @@ return {
 				customparams = {
 					expl_noheatdistortion = 1,
 				},
-				
 			},
 		},
 		weapons = {

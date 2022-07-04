@@ -359,31 +359,8 @@ local function Bloom()
 		glTexture(3, false)
 	glUseShader(0)
 
-	if not debugBrightShader then
-		for i = 1, presets[preset].blurPasses do
-			glUseShader(blurShaderH71)
-				--glUniformInt(blurShaderH71Text0Loc, 0)
-				glUniform(blurShaderH71FragLoc, blurAmplifier)
-				glTexture(brightTexture1)
-				glRenderToTexture(brightTexture2, gl.TexRect, -1, 1, 1, -1)
-				glTexture(false)
-			glUseShader(0)
-
-			glUseShader(blurShaderV71)
-				--glUniformInt(blurShaderV71Text0Loc, 0)
-				glUniform(blurShaderV71FragLoc, blurAmplifier)
-				glTexture(brightTexture2)
-				glRenderToTexture(brightTexture1, gl.TexRect, -1, 1, 1, -1)
-				glTexture(false)
-			glUseShader(0)
-		end
-	end
-
-	if dbgDraw == 0 then
-		gl.Blending("alpha_add")
-	else
-		gl.Blending(GL.ONE, GL.ZERO)
-	end
+	gl.Blending("alpha_add")
+	
 
 	glUseShader(combineShader)
 		glUniformInt(combineShaderDebgDrawLoc, dbgDraw)

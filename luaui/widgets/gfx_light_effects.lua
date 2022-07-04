@@ -45,7 +45,10 @@ local overrideParam = {r = 1, g = 1, b = 1, radius = 200}
 local doOverride = false
 
 local globalLightMult = 2.4
+local globalLightMultSmall = 1.9 --2.2
+
 local globalRadiusMult = 1.5
+local globalRadiusMultsmall = 1.1 --1.3
 local globalLightMultLaser = 1.4 -- gets applied on top op globalRadiusMult
 local globalRadiusMultLaser = 0.9 -- gets applied on top op globalRadiusMult
 local globalLifeMult = 0.75
@@ -101,8 +104,8 @@ function loadWeaponDefs()
          --end
          --local dmgBonus = math.sqrt(math.sqrt(math.sqrt(maxDamage)))
          params.r, params.g, params.b = 1, 0.8, 0.4
-         params.radius = (WeaponDefs[i].damageAreaOfEffect * 4.5) * globalRadiusMult
-         params.orgMult = (0.5 + (params.radius / 2400)) * globalLightMult --(0.35 + (params.radius/2400)) * globalLightMult
+         params.radius = (WeaponDefs[i].damageAreaOfEffect * 4.5) * globalRadiusMultsmall
+         params.orgMult = (0.5 + (params.radius / 2400)) * globalLightMultSmall --(0.35 + (params.radius/2400)) * globalLightMult
          params.life = (14 * (0.8 + params.radius / 1200)) * globalLifeMult
 
          if customParams.expl_light_color then
@@ -198,14 +201,18 @@ function loadWeaponDefs()
 
          weaponConf[i] = params
 
+
+	
+		 
          local weaponID = i
-         local wepconf = weaponConf[weaponID]
-         if wepconf ~= nil and not wepconf.noheatdistortion and((weaponConf[weaponID].wtype ~= "MissileLauncher" and weaponConf[weaponID].wtype ~= "TorpedoLauncher") or wepconf.aoe > 150) then
-            cacheA[weaponID] = true
-            if (wepconf.wtype == "Cannon" and wepconf.aoe > 31) or wepconf.aoe > 150 then
-               cacheB[weaponID] = true
-            end
-         end
+         local wepconf = weaponConf[weaponID] --         if wepconf ~= nil and not wepconf.noheatdistortion and((weaponConf[weaponID].wtype ~= "MissileLauncher" and weaponConf[weaponID].wtype ~= "TorpedoLauncher") or wepconf.aoe > 150) then
+         if  wepconf.noheatdistortion then
+			cacheA[weaponID] = true --not these
+         else
+		   if (wepconf.wtype == "Cannon" and wepconf.aoe > 31) or wepconf.aoe > 150 then
+               cacheB[weaponID] = true --has hea
+            end 
+		 end
 
          --local weaponID = i
          --	if weaponConf[weaponID] ~= nil and not weaponConf[weaponID].noheatdistortion and((weaponConf[weaponID].wtype ~= 'MissileLauncher' and weaponConf[weaponID].wtype ~= 'TorpedoLauncher') or WeaponDefs[weaponID].damageAreaOfEffect > 150) then --if weaponConf[weaponID] ~= nil and not weaponConf[weaponID].noheatdistortion and((weaponConf[weaponID].wtype ~= 'MissileLauncher' and weaponConf[weaponID].wtype ~= 'TorpedoLauncher') or WeaponDefs[weaponID].damageAreaOfEffect > 150) then --and weaponConf[weaponID].wtype == 'Cannon' then
@@ -614,14 +621,14 @@ local function GetProjectileLights(beamLights, beamLightCount, pointLights, poin
                            "JitterParticles2",
                            {
                               layer = -35,
-                              life = weaponConf[weaponDefID].heatlife / 2,
+                              life = weaponConf[weaponDefID].heatlife/2,
                               pos = {x, y, z},
                               size = weaponConf[weaponDefID].heatradius * 1.5,
                               sizeGrowth = 0.3,
-                              strength = (weaponConf[weaponDefID].heatstrength * 2.5) * strengthMult,
-                              animSpeed = 2,
+                              strength = (weaponConf[weaponDefID].heatstrength * 1) * strengthMult,
+                              animSpeed = 1.3,
                               heat = 1,
-                              force = {0, 0.35, 0}
+                              force = {0, 0.25, 0}
                            }
                            )
                         end
@@ -860,7 +867,7 @@ local ARM_NUKE = WeaponDefNames["nuclear_missile"].id
 
 -- function called by explosion_lights gadget
 function GadgetWeaponExplosion(px, py, pz, weaponID, ownerID)
-   if cacheA[weaponID] then
+   if not cacheA[weaponID] then
       -- local wepconf = weaponConf[weaponID]
       -- if wepconf ~= nil and(not wepconf.noheatdistortion and((weaponConf[weaponID].wtype ~= "MissileLauncher" and weaponConf[weaponID].wtype ~= "TorpedoLauncher") or wepconf.aoe > 150)) then
       local params

@@ -17,6 +17,11 @@ end
 if (gadgetHandler:IsSyncedCode()) then
     local cannonWeapons = {}
     local barrelWeapons = {}
+	
+
+	
+
+	
     function gadget:Initialize()
         for wdid, wd in pairs(WeaponDefs) do
             if wd.type == "Cannon" then
@@ -38,8 +43,10 @@ if (gadgetHandler:IsSyncedCode()) then
     end
 
     function gadget:Explosion(weaponID, px, py, pz, ownerID)
-				SendToUnsynced("explosion_light", px, py, pz, weaponID, ownerID)
-    end
+        --if weaponID ~= big_unitex_air then
+            SendToUnsynced("explosion_light", px, py, pz, weaponID, ownerID)
+     
+	end
 else
     -------------------------------------------------------------------------------
     -- Unsynced
@@ -48,6 +55,12 @@ else
     local myAllyID = Spring.GetMyAllyTeamID()
     local spGetUnitAllyTeam = Spring.GetUnitAllyTeam
     local spIsPosInLos = Spring.IsPosInLos
+	local cache = {
+   [WeaponDefNames["big_unitex_air"].id] = true,
+   [WeaponDefNames["small_unitex_air"].id] = true,
+   [WeaponDefNames["flea_ex"].id] = true
+}
+local wrongId = WeaponDefNames["big_unitex_air"].id
 
     function gadget:PlayerChanged(playerID)
         if (playerID == Spring.GetMyPlayerID()) then
@@ -56,16 +69,9 @@ else
     end
 
     local function SpawnExplosion(_, px, py, pz, weaponID, ownerID)
-        if Script.LuaUI("GadgetWeaponExplosion") then
-            if ownerID ~= nil then
-                if (spGetUnitAllyTeam(ownerID) == myAllyID or spIsPosInLos(px, py, pz, myAllyID)) then
-                    Script.LuaUI.GadgetWeaponExplosion(px, py, pz, weaponID, ownerID)
-                end
-            else
-                -- dont know when this happens and if we should show the explosion...
-                Script.LuaUI.GadgetWeaponExplosion(px, py, pz, weaponID)
-            end
-        end
+			if weaponID ~= wrongId then
+          Script.LuaUI.GadgetWeaponExplosion(px, py, pz, weaponID, ownerID)
+		     end    
     end
 
     function gadget:Initialize()

@@ -1,7 +1,7 @@
-﻿15.1.2
-02/07/2022
+﻿15.1.3
+04/07/2022
 
-New Max Graphics setting for players with good graphics cards
+New Max Graphics setting for players with good GPUs
 APM counter displays player APM over the last minute rather than the whole game
 3 new Pro Series widgets for competitive players to try (enable in f11 widget menu)
 Smarthotkeys Pro: if no selection, hotkeys zxcv select nearest highest tech builder. Searches near cursor then map (default on)
@@ -10,7 +10,7 @@ Smartguard Pro: build creator will be guarded by selected lower tech builders wh
 Chatbox re-activates by mouseover + ctrl, rather than just mouseover
 Restore Flash tank alternating barrel every 3 rounds instead of every 1 (2016)
 Restore T1 Torpedo launcher to being built above water (2013)
-Improved game smoothness, weapon effects and explosions
+New flamethrower
 Tac nuke +4% aoe
 
 15.0.8

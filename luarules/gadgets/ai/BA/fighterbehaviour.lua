@@ -15,7 +15,7 @@ function FighterBehaviour:Init()
 end
 
 function FighterBehaviour:DoPatrol(positions)
-	if #positions > 1 then
+	if positions~= nil and #positions > 1 then
 		local ct = 0
 		self.unit:Internal():ExecuteCustomCommand(CMD.STOP, {}, {})
 		for i = 1,4 do
