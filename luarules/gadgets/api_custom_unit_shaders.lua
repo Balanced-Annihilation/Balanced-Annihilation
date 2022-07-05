@@ -42,11 +42,7 @@ end
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 
-if (not gl.CreateShader) then
-	--Spring.Log("CUS", LOG.WARNING, "Shaders not supported, disabling")
-		gadget:Shutdown()
 
-end
 
 -----------------------------------------------------------------
 -- File path Constants
@@ -916,6 +912,13 @@ end
 -----------------------------------------------------------------
 
 function gadget:Initialize()
+
+
+	if (not gl.CreateShader) then
+	--Spring.Log("CUS", LOG.WARNING, "Shaders not supported, disabling")
+		gadget:Shutdown()
+	end
+
 	--// GG assignment
 	GG.CUS = {}
 
@@ -969,10 +972,16 @@ function gadget:Initialize()
 end
 
 function gadget:Shutdown()
+	if allRendering ~= nil then
 	for _, rendering in ipairs(allRendering) do
+		if rendering ~= nil then
 		_CleanupEverything(rendering)
+		end
 	end
-
+	
+	end
 	--// GG de-assignment
+	if GG.CUS ~= nil then
 	GG.CUS = nil
+	end
 end

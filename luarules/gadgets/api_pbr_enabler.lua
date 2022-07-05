@@ -16,11 +16,7 @@ if (not gadgetHandler:IsSyncedCode()) then --unsynced gadget
 	GG.GetBrdfTexture = nil
 	GG.GetEnvTexture = nil
 
-	if (not gl.CreateShader) then
-	--Spring.Log("CUS", LOG.WARNING, "Shaders not supported, disabling")
-		gadget:Shutdown()
 
-	end
 
 	if gl.CreateFBO == nil then
 		Spring.Echo("ERROR: PBR enabler: gl.CreateFBO is nil")
@@ -66,6 +62,11 @@ if (not gadgetHandler:IsSyncedCode()) then --unsynced gadget
 	end
 
 	function gadget:Initialize()
+	
+		if (not gl.CreateShader) then
+			gadget:Shutdown()
+		end
+	
 		ENVLUT_SAMPLES = Spring.GetConfigInt("ENV_SMPL_NUM", 64)
 
 		Spring.SetConfigInt("CubeTexGenerateMipMaps", 1)
@@ -91,12 +92,12 @@ if (not gadgetHandler:IsSyncedCode()) then --unsynced gadget
 	end
 
 	function gadget:Shutdown()
-		if brdfLut then
+		if brdfLut ~= nil and brdfLut then
 			brdfLut:Finalize()
 			GG.GetBrdfTexture = nil
 		end
 
-		if envLut then
+		if envLut ~= nil and envLut then
 			envLut:Finalize()
 			GG.GetEnvTexture = nil
 		end

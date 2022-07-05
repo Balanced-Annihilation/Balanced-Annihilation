@@ -18,9 +18,7 @@ if (gadgetHandler:IsSyncedCode()) then
     local cannonWeapons = {}
     local barrelWeapons = {}
 	
-
-	
-
+	local wrongId = WeaponDefNames["big_unitex_air"].id
 	
     function gadget:Initialize()
         for wdid, wd in pairs(WeaponDefs) do
@@ -43,9 +41,9 @@ if (gadgetHandler:IsSyncedCode()) then
     end
 
     function gadget:Explosion(weaponID, px, py, pz, ownerID)
-        --if weaponID ~= big_unitex_air then
+        if weaponID ~= wrongId then
             SendToUnsynced("explosion_light", px, py, pz, weaponID, ownerID)
-     
+		end
 	end
 else
     -------------------------------------------------------------------------------
@@ -55,12 +53,6 @@ else
     local myAllyID = Spring.GetMyAllyTeamID()
     local spGetUnitAllyTeam = Spring.GetUnitAllyTeam
     local spIsPosInLos = Spring.IsPosInLos
-	local cache = {
-   [WeaponDefNames["big_unitex_air"].id] = true,
-   [WeaponDefNames["small_unitex_air"].id] = true,
-   [WeaponDefNames["flea_ex"].id] = true
-}
-local wrongId = WeaponDefNames["big_unitex_air"].id
 
     function gadget:PlayerChanged(playerID)
         if (playerID == Spring.GetMyPlayerID()) then
@@ -69,7 +61,7 @@ local wrongId = WeaponDefNames["big_unitex_air"].id
     end
 
     local function SpawnExplosion(_, px, py, pz, weaponID, ownerID)
-			if weaponID ~= wrongId then
+			if Script.LuaUI("GadgetWeaponExplosion") then
           Script.LuaUI.GadgetWeaponExplosion(px, py, pz, weaponID, ownerID)
 		     end    
     end
