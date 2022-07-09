@@ -1,5 +1,5 @@
-﻿15.1.4
-05/07/2022
+﻿15.1.7
+09/07/2022
 
 New Max Graphics setting for players with good GPUs
 APM counter displays player APM over the last minute rather than the whole game

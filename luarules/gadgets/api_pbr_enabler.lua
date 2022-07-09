@@ -1,5 +1,3 @@
-
-
 function gadget:GetInfo()
 	return {
 		name      = "PBR enabler",
@@ -8,7 +6,7 @@ function gadget:GetInfo()
 		date      = "2019",
 		license   = "PD",
 		layer     = -1,
-		enabled   = true
+		enabled   = true,
 	}
 end
 
@@ -16,7 +14,10 @@ if (not gadgetHandler:IsSyncedCode()) then --unsynced gadget
 	GG.GetBrdfTexture = nil
 	GG.GetEnvTexture = nil
 
-
+	if (gl.CreateShader == nil or not gl.CreateShader)  then
+		Spring.Echo("ERROR: PBR enabler: gl.CreateShader is nil")
+		return
+	end
 
 	if gl.CreateFBO == nil then
 		Spring.Echo("ERROR: PBR enabler: gl.CreateFBO is nil")
@@ -52,6 +53,7 @@ if (not gadgetHandler:IsSyncedCode()) then --unsynced gadget
 	end
 
 	local envLutDebug = false
+	
 	function gadget:DrawWorldPreUnit() --after IBL textures are rendered into, but before units are drawn
 		if envLut then
 			envLut:Execute(envLutDebug)
@@ -59,14 +61,16 @@ if (not gadgetHandler:IsSyncedCode()) then --unsynced gadget
 				envLutDebug = false
 			end
 		end
+		gadgetHandler:RemoveCallIn("DrawWorldPreUnit")
 	end
 
 	function gadget:Initialize()
 	
-		if (not gl.CreateShader) then
+	
+		if (gl.CreateShader == nil or not gl.CreateShader) then
 			gadget:Shutdown()
 		end
-	
+
 		ENVLUT_SAMPLES = Spring.GetConfigInt("ENV_SMPL_NUM", 64)
 
 		Spring.SetConfigInt("CubeTexGenerateMipMaps", 1)
@@ -92,12 +96,12 @@ if (not gadgetHandler:IsSyncedCode()) then --unsynced gadget
 	end
 
 	function gadget:Shutdown()
-		if brdfLut ~= nil and brdfLut then
+		if brdfLut then
 			brdfLut:Finalize()
 			GG.GetBrdfTexture = nil
 		end
 
-		if envLut ~= nil and envLut then
+		if envLut then
 			envLut:Finalize()
 			GG.GetEnvTexture = nil
 		end

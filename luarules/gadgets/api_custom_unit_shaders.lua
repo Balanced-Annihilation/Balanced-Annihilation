@@ -42,7 +42,10 @@ end
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 
-
+if (gl.CreateShader == nil or not gl.CreateShader) then
+	Spring.Log("CUS", LOG.WARNING, "Shaders not supported, disabling")
+	return false
+end
 
 -----------------------------------------------------------------
 -- File path Constants
@@ -914,7 +917,7 @@ end
 function gadget:Initialize()
 
 
-	if (not gl.CreateShader) then
+	if (gl.CreateShader == nil or not gl.CreateShader) then
 	--Spring.Log("CUS", LOG.WARNING, "Shaders not supported, disabling")
 		gadget:Shutdown()
 	end

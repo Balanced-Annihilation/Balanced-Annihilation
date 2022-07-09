@@ -108,7 +108,7 @@ function widget:Initialize()
     Spring.SetConfigString("DynamicSky", "0") --always disable this
     Spring.SetConfigString("Vsync", "0")
     Spring.SetConfigString("GrassDetail", "0")
-    Spring.SetConfigString("MiniMapDrawProjectiles", "1")
+    Spring.SetConfigString("MiniMapDrawProjectiles", "0")
     Spring.SetConfigString("UsePBO", "0")
     local value = tonumber(Spring.GetConfigInt("advgraphics", 1) or 1)
     Spring.SetConfigInt("advgraphics", value) --add 1 to advgraphics value, if there was no BA version recorded
@@ -144,6 +144,7 @@ function widget:Initialize()
         Spring.SetConfigInt("UseVBO", 0)
         Spring.SetConfigInt("advgraphics", 0)
         Spring.SetConfigInt("mapborder", 1)
+		
     end
 
     local font = "FreeSansBold.otf"

@@ -258,7 +258,7 @@ end
 
 -----------------============ General LuaShader methods ============-----------------
 function LuaShader:Compile()
-	if not gl.CreateShader then
+	if (gl.CreateShader == nil or not gl.CreateShader) then
 		self:ShowError("GLSL Shaders are not supported by hardware or drivers")
 		return false
 	end
