@@ -867,7 +867,7 @@ local ARM_NUKE = WeaponDefNames["nuclear_missile"].id
 
 -- function called by explosion_lights gadget
 function GadgetWeaponExplosion(px, py, pz, weaponID, ownerID)
-   if not cacheA[weaponID] then
+   if not weaponConf[weaponID].noheatdistortion then
       -- local wepconf = weaponConf[weaponID]
       -- if wepconf ~= nil and(not wepconf.noheatdistortion and((weaponConf[weaponID].wtype ~= "MissileLauncher" and weaponConf[weaponID].wtype ~= "TorpedoLauncher") or wepconf.aoe > 150)) then
       local params
@@ -932,7 +932,8 @@ function GadgetWeaponExplosion(px, py, pz, weaponID, ownerID)
          explosionLightsCount = explosionLightsCount + 1
          explosionLights[explosionLightsCount] = params
       end
-      if cacheB[weaponID] then
+     -- if cacheB[weaponID] then
+	 if (weaponConf[weaponID].wtype == "Cannon" and weaponConf[weaponID].aoe > 31) or weaponConf[weaponID].aoe > 150 then
          --if (wepconf.wtype == "Cannon" and wepconf.aoe > 31) or wepconf.aoe > 150 then
          local strength, animSpeed, life, heat, sizeGrowth, size, force
 

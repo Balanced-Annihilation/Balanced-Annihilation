@@ -6,7 +6,7 @@ function gadget:GetInfo()
 		date      = "2019",
 		license   = "PD",
 		layer     = -1,
-		enabled   = true,
+		enabled   = true
 	}
 end
 
@@ -14,7 +14,7 @@ if (not gadgetHandler:IsSyncedCode()) then --unsynced gadget
 	GG.GetBrdfTexture = nil
 	GG.GetEnvTexture = nil
 
-	if (gl.CreateShader == nil or not gl.CreateShader)  then
+	if gl.CreateShader == nil then
 		Spring.Echo("ERROR: PBR enabler: gl.CreateShader is nil")
 		return
 	end
@@ -53,7 +53,6 @@ if (not gadgetHandler:IsSyncedCode()) then --unsynced gadget
 	end
 
 	local envLutDebug = false
-	
 	function gadget:DrawWorldPreUnit() --after IBL textures are rendered into, but before units are drawn
 		if envLut then
 			envLut:Execute(envLutDebug)
@@ -61,16 +60,9 @@ if (not gadgetHandler:IsSyncedCode()) then --unsynced gadget
 				envLutDebug = false
 			end
 		end
-		gadgetHandler:RemoveCallIn("DrawWorldPreUnit")
 	end
 
 	function gadget:Initialize()
-	
-	
-		if (gl.CreateShader == nil or not gl.CreateShader) then
-			gadget:Shutdown()
-		end
-
 		ENVLUT_SAMPLES = Spring.GetConfigInt("ENV_SMPL_NUM", 64)
 
 		Spring.SetConfigInt("CubeTexGenerateMipMaps", 1)
