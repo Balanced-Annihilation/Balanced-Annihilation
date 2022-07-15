@@ -76,6 +76,7 @@ end
 
 
 function Unit:UnitDamaged(unit,attacker,damage)
+	if(unit~=nil)then
 	if unit.engineID == self.engineID then
 		for k,v in pairs(self.behaviours) do
 			v:OwnerDamaged(attacker,damage)
@@ -84,6 +85,7 @@ function Unit:UnitDamaged(unit,attacker,damage)
 		for k,v in pairs(self.behaviours) do
 			v:UnitDamaged(unit,attacker,damage)
 		end
+	end
 	end
 end
 

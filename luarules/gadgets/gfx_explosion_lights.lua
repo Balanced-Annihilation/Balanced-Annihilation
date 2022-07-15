@@ -23,8 +23,6 @@ local small_unitex_air = WeaponDefNames['small_unitex_air'].id
 local big_unitex_air = WeaponDefNames['big_unitex_air'].id
 local big_unit_air = WeaponDefNames['big_unit_air'].id
 
-local cacheids = {}
-
 if (gadgetHandler:IsSyncedCode()) then
 
     local cannonWeapons = {}
@@ -43,13 +41,7 @@ if (gadgetHandler:IsSyncedCode()) then
         end
 		
 			
-cacheids[flea_ex] =true
---cacheids[small_unitex]=true
---cacheids[small_unit]=true
-cacheids[small_unit_air]=true
-cacheids[small_unitex_air]=true
-cacheids[big_unitex_air]=true
-cacheids[big_unit_air]=true
+
 		
     end
     function gadget:Shutdown()
@@ -69,13 +61,7 @@ cacheids[big_unit_air]=true
 	--		end
    -- end
     function gadget:Explosion(weaponID, px, py, pz, ownerID)
-			if(
-			weaponID ~= flea_ex and
-			weaponID ~= small_unit_air and
-			weaponID~= small_unitex_air and
-			weaponID ~= big_unitex_air and
-			weaponID  ~= big_unit_air
-			)then
+			if(weaponID ~= big_unitex_air)then
 				SendToUnsynced("explosion_light", px, py, pz, weaponID, ownerID)
 			end
     end

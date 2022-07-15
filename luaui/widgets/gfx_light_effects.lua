@@ -204,15 +204,7 @@ function loadWeaponDefs()
 
 	
 		 
-         local weaponID = i
-         local wepconf = weaponConf[weaponID] --         if wepconf ~= nil and not wepconf.noheatdistortion and((weaponConf[weaponID].wtype ~= "MissileLauncher" and weaponConf[weaponID].wtype ~= "TorpedoLauncher") or wepconf.aoe > 150) then
-         if  wepconf.noheatdistortion then
-			cacheA[weaponID] = true --not these
-         else
-		   if (wepconf.wtype == "Cannon" and wepconf.aoe > 31) or wepconf.aoe > 150 then
-               cacheB[weaponID] = true --has hea
-            end 
-		 end
+        
 
          --local weaponID = i
          --	if weaponConf[weaponID] ~= nil and not weaponConf[weaponID].noheatdistortion and((weaponConf[weaponID].wtype ~= 'MissileLauncher' and weaponConf[weaponID].wtype ~= 'TorpedoLauncher') or WeaponDefs[weaponID].damageAreaOfEffect > 150) then --if weaponConf[weaponID] ~= nil and not weaponConf[weaponID].noheatdistortion and((weaponConf[weaponID].wtype ~= 'MissileLauncher' and weaponConf[weaponID].wtype ~= 'TorpedoLauncher') or WeaponDefs[weaponID].damageAreaOfEffect > 150) then --and weaponConf[weaponID].wtype == 'Cannon' then
@@ -867,8 +859,9 @@ local ARM_NUKE = WeaponDefNames["nuclear_missile"].id
 
 -- function called by explosion_lights gadget
 function GadgetWeaponExplosion(px, py, pz, weaponID, ownerID)
-   if not weaponConf[weaponID].noheatdistortion then
-      -- local wepconf = weaponConf[weaponID]
+   local wepconf = weaponConf[weaponID]
+   if not wepconf.noheatdistortion then
+      -- local 
       -- if wepconf ~= nil and(not wepconf.noheatdistortion and((weaponConf[weaponID].wtype ~= "MissileLauncher" and weaponConf[weaponID].wtype ~= "TorpedoLauncher") or wepconf.aoe > 150)) then
       local params
       if weaponID == COM_BLAST then
@@ -932,8 +925,7 @@ function GadgetWeaponExplosion(px, py, pz, weaponID, ownerID)
          explosionLightsCount = explosionLightsCount + 1
          explosionLights[explosionLightsCount] = params
       end
-     -- if cacheB[weaponID] then
-	 if (weaponConf[weaponID].wtype == "Cannon" and weaponConf[weaponID].aoe > 31) or weaponConf[weaponID].aoe > 150 then
+	 if (wepconf.wtype == "Cannon" and wepconf.aoe > 31) or wepconf.aoe > 150 then
          --if (wepconf.wtype == "Cannon" and wepconf.aoe > 31) or wepconf.aoe > 150 then
          local strength, animSpeed, life, heat, sizeGrowth, size, force
 
