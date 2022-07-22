@@ -16,6 +16,7 @@ function widget:Initialize()
     Spring.SetConfigString("bafirstlaunchsetupiscomplete2", "done")
     Spring.SetConfigString("bafirstlaunchsetupiscomplete3", "done")
 
+	
     local bafirstlaunchsetupiscomplete = Spring.GetConfigString("bafirstlaunchsetupiscomplete4", "missing") --remove later
     if bafirstlaunchsetupiscomplete ~= "done" then
         widgetHandler:DisableWidget("TeamPlatter")
@@ -36,7 +37,7 @@ function widget:Initialize()
         --Spring.SetConfigString("ScrollWheelSpeed", "51")
         --Spring.SetConfigString("CamSpringScrollSpeed", "51")
         --Spring.SetConfigString("FPSScrollSpeed", "0.001")
-
+		Spring.SetConfigInt("GroundDetail", 80)   	
         Spring.SetConfigInt("MaxNanoParticles", 3000)
         Spring.SetConfigInt("MaxParticles", 30000)
         Spring.SetConfigString("UseNetMessageSmoothingBuffer", "0")
@@ -54,7 +55,7 @@ function widget:Initialize()
         Spring.SetConfigString("reduceping", "1")
         Spring.SetConfigString("GroundDecals", "1")
 
-        Spring.SetConfigString("GroundDetail", "80")
+       
 
         Spring.SetConfigInt("EdgeMoveWidth", 0.1)
         Spring.SetConfigString("MouseDragScrollThreshold", "0.3")
