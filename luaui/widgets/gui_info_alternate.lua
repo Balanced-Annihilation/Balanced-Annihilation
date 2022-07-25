@@ -64,6 +64,7 @@ local selectionHowto = tooltipTextColor .. "Left click" .. tooltipLabelTextColor
 -------------------------------------------------------------------------------
 -------------------------------------------------------------------------------
 
+local spEcho = Spring.Echo
 local spGetCurrentTooltip = Spring.GetCurrentTooltip
 local spGetSelectedUnitsCounts = Spring.GetSelectedUnitsCounts
 local spGetSelectedUnitsSorted = Spring.GetSelectedUnitsSorted
@@ -156,6 +157,18 @@ local function convertColor(r, g, b)
 	return string.char(255, (r * 255), (g * 255), (b * 255))
 end
 
+local function lookupUnitBuildPicture(unitDef, extensions)
+	for _, extension in ipairs(extensions) do
+		filename = unitDef.name .. "." .. extension
+		if VFS.FileExists('unitpics/' .. filename) then
+			spEcho("Found unit build picture " .. filename)
+			return filename
+		end
+	end
+	spEcho("Failed to find unit build picture for " .. unitDef.name)
+	return ''
+end
+
 local unitDefInfo = {}
 for unitDefID, unitDef in pairs(UnitDefs) do
 	unitDefInfo[unitDefID] = {}
@@ -231,7 +244,12 @@ for unitDefID, unitDef in pairs(UnitDefs) do
 	unitDefInfo[unitDefID].metalCost = unitDef.metalCost
 	unitDefInfo[unitDefID].health = unitDef.health
 	unitDefInfo[unitDefID].buildTime = unitDef.buildTime
+
 	unitDefInfo[unitDefID].buildPic = unitDef.buildpicname
+	if unitDefInfo[unitDefID].buildPic == '' then
+		unitDefInfo[unitDefID].buildPic = lookupUnitBuildPicture(unitDef, {'dds', 'pcx'})
+	end
+
 	if unitDef.canStockpile then
 		unitDefInfo[unitDefID].canStockpile = true
 	end

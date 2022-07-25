@@ -124,6 +124,7 @@ local preGamestartPlayer = Spring.GetGameFrame() == 0 and not isSpec
 -------------------------------------------------------------------------------
 -------------------------------------------------------------------------------
 
+local spEcho = Spring.Echo
 local spIsUnitSelected = Spring.IsUnitSelected
 local spGetSelectedUnitsCount = Spring.GetSelectedUnitsCount
 local spGetSelectedUnits = Spring.GetSelectedUnits
@@ -224,6 +225,19 @@ local unitTooltip = {}
 local unitIconType = {}
 local isMex = {}
 local unitMaxWeaponRange = {}
+
+local function lookupUnitBuildPicture(unitDef, extensions)
+	for _, extension in ipairs(extensions) do
+		filename = unitDef.name .. "." .. extension
+		if VFS.FileExists('unitpics/' .. filename) then
+			spEcho("Found unit build picture " .. filename)
+			return filename
+		end
+	end
+	spEcho("Failed to find unit build picture for " .. unitDef.name)
+	return ''
+end
+
 for unitDefID, unitDef in pairs(UnitDefs) do
 	unitHumanName[unitDefID] = unitDef.humanName
 	if unitDef.maxWeaponRange > 16 then
@@ -237,7 +251,12 @@ for unitDefID, unitDef in pairs(UnitDefs) do
 	unitEnergyCost[unitDefID] = unitDef.energyCost
 	unitMetalCost[unitDefID] = unitDef.metalCost
 	unitGroup = {}
+
 	unitBuildPic[unitDefID] = unitDef.buildpicname
+	if unitBuildPic[unitDefID] == '' then
+		unitBuildPic[unitDefID] = lookupUnitBuildPicture(unitDef, {'dds', 'pcx'})
+	end
+
 	if unitDef.buildSpeed > 0 and unitDef.buildOptions[1] then
 		isBuilder[unitDefID] = unitDef.buildOptions
 	end
