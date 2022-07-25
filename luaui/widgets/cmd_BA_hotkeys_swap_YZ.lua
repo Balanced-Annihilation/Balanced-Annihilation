@@ -1,6 +1,5 @@
 function widget:GetInfo()
 	return {
-		name = "BA Hotkeys swap YZ",
 		name = "BA Hotkeys - swap YZ",
 		desc = "Swaps Y and Z in BA Hotkeys widget" ,
 		author = "Beherith",
