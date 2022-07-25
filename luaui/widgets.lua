@@ -17,18 +17,10 @@ function pwl() -- ???  (print widget list)
   end
 end
 
-
---VFS.Include("init.lua",                              nil, VFS.ZIP)
-VFS.Include(LUAUI_DIRNAME .. "Headers/keysym.h.lua", nil, VFS.ZIP)
-VFS.Include(LUAUI_DIRNAME .. "system.lua",           nil, VFS.ZIP)
-VFS.Include(LUAUI_DIRNAME .. "callins.lua",          nil, VFS.ZIP)
-VFS.Include(LUAUI_DIRNAME .. "savetable.lua",        nil, VFS.ZIP)
-
---include("keysym.h.lua")
---include("utils.lua")
---include("system.lua")
---include("callins.lua")
---include("savetable.lua")
+include("keysym.h.lua")
+include("system.lua")
+include("callins.lua")
+include("savetable.lua")
 
 Spring.Utilities = {}
 VFS.Include("LuaRules/Utilities/tablefunctions.lua")
