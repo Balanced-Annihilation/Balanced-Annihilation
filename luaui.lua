@@ -12,7 +12,7 @@
 --------------------------------------------------------------------------------
 
 LUAUI_VERSION = "LuaUI v0.3"
-LUAUI_DIRNAME = 'luaui/'
+LUAUI_DIRNAME = 'LuaUI/'
 VFS.DEF_MODE = VFS.RAW_FIRST
 local STARTUP_FILENAME = LUAUI_DIRNAME .. 'main.lua'
 
