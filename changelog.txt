@@ -1,8 +1,10 @@
-﻿15.2.7
-27/07/2022
+﻿15.2.8
+13/08/2022
 
-- Fix widget selector not showing up on F11 on Linux.
-- Fix build pictures of some map units being white (mini fus on speed metal).
+Improved unit detail and explosions
+Fleas can shoot when close to each other and won't overlap
+Fix widget selector not showing up on F11 on Linux.
+Fix build pictures of some map units being white (mini fus on speed metal).
 
 15.2.6
 22/07/2022

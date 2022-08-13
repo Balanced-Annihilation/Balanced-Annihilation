@@ -79,6 +79,7 @@ allyTeamDeathMessages = {
 }	
 	
 teamDeathMessages = {
+	"XX is dead, but BA is forever",
 	"XX ate too much",
 	"XX is fully committed to working this out",
 	"Please hold XX is investigating the problem",
