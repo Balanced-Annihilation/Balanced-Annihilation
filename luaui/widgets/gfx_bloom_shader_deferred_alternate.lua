@@ -14,8 +14,8 @@ local version = 1.1
 
 local dbgDraw = 0               -- draw only the bloom-mask? [0 | 1]
 
-local glowAmplifier = 1            -- intensity multiplier when filtering a glow source fragment [1, n]
-local blurAmplifier = 0.8        -- intensity multiplier when applying a blur pass [1, n] (should be set close to 1)
+local glowAmplifier = 0.6            -- intensity multiplier when filtering a glow source fragment [1, n]
+local blurAmplifier = 0.6        -- intensity multiplier when applying a blur pass [1, n] (should be set close to 1)
 local illumThreshold = 0            -- how bright does a fragment need to be before being considered a glow source? [0, 1]
 
 --quality =1 : 90 fps, 9% memctrler load, 99% shader load

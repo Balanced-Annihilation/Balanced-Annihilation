@@ -1,39 +1,30 @@
-
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
 function widget:GetInfo()
   return {
-    name      = "Map Edge Extension Colourful",
-    version   = "v0.6",
+     name      = "Map Edge Extension Colourful",
+    version   = "v0.5-BA", -- WARNING: This version was customized for BA
     desc      = "Draws a mirrored map next to the edges of the real map",
     author    = "Pako",
-    date      = "2010.10.27",
+    date      = "2010.10.27 - 2011.10.29", --YYYY.MM.DD, created - updated
     license   = "GPL",
     layer     = 0,
     enabled   = false,
     --detailsDefault = 3
   }
 end
-
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
-
-local brightness = 0.3
-local curvature = true
-local fogEffect = true
-local drawForIslands = true
-
-local mapBorderStyle = 'texture'	-- either 'texture' or 'cutaway'
-
-local gridSize = 32
-local useShader = true
-local wiremap = false
-
---------------------------------------------------------------------------------
---------------------------------------------------------------------------------
+if VFS.FileExists("nomapedgewidget.txt") then
+	return
+end
 
 local spGetGroundHeight = Spring.GetGroundHeight
 local spTraceScreenRay = Spring.TraceScreenRay
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
 
-local gridTex = "LuaUI/Images/vr_grid_large.dds"
+--local gridTex = "bitmaps/PD/shield3hex.png"
 local realTex = '$grass'
 
 local dList
@@ -45,19 +36,11 @@ local ulengthX
 local ulengthZ
 local uup
 local uleft
---local ugrid
+local ugrid
 local ubrightness
-local spIsAABBInView = Spring.IsAABBInView
-local mapSizeX = Game.mapSizeX
-local mapSizeZ = Game.mapSizeZ
-local isInView = true
 
 local island = nil -- Later it will be checked and set to true of false
-local voidGround = nil
 local drawingEnabled = true
-local borderMargin = 40
-local checkInView = true
-local restoreMapBorder = true
 
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
@@ -72,26 +55,78 @@ local function ResetWidget()
 	widget:Initialize()
 end
 
---options = {
---	--when using shader the map is stored once in a DL and drawn 8 times with vertex mirroring and bending
---    --when not, the map is drawn mirrored 8 times into a display list
---	mapBorderStyle = {
---		type='radioButton',
---		name='Exterior Effect',
---		items = {
---			{name = 'Texture',  key = 'texture', desc = "Mirror the heightmap and texture.",              hotkey=nil},
---			{name = 'Grid',     key = 'grid',    desc = "Mirror the heightmap with grid texture.",        hotkey=nil},
---			{name = 'Cutaway',  key = 'cutaway', desc = "Draw the edge of the map with a cutaway effect", hotkey=nil},
---			{name = 'Disable',  key = 'disable', desc = "Draw no edge extension",                         hotkey=nil},
---		},
---		value = 'texture',  --default at start of widget is to be disabled!
---		OnChange = function(self)
---			Spring.SendCommands("mapborder " .. ((self.value == 'cutaway') and "1" or "0"))
---			drawingEnabled = (self.value == "texture") or (self.value == "grid")
---			ResetWidget()
---		end,
---	},
---}
+options_path = 'Settings/Graphics/Map Exterior'
+options_order = {'mapBorderStyle', 'drawForIslands', 'gridSize',  'fogEffect', 'curvature', 'textureBrightness', 'useShader'}
+options = {
+	--when using shader the map is stored once in a DL and drawn 8 times with vertex mirroring and bending
+    --when not, the map is drawn mirrored 8 times into a display list
+	mapBorderStyle = {
+		type='radioButton', 
+		name='Exterior Effect',
+		items = {
+			{name = 'Texture',  key = 'texture', desc = "Mirror the heightmap and texture.",              hotkey=nil},
+			{name = 'Grid',     key = 'grid',    desc = "Mirror the heightmap with grid texture.",        hotkey=nil},
+			{name = 'Cutaway',  key = 'cutaway', desc = "Draw the edge of the map with a cutaway effect", hotkey=nil},
+			{name = 'Disable',  key = 'disable', desc = "Draw no edge extension",                         hotkey=nil},
+		},
+		value = 'texture',  --default at start of widget is to be disabled!
+		OnChange = function(self)
+			Spring.SendCommands("mapborder " .. ((self.value == 'cutaway') and "1" or "0"))
+			drawingEnabled = (self.value == "texture") or (self.value == "grid") 
+			ResetWidget()
+		end,
+	},
+	drawForIslands = {
+		name = "Draw for islands",
+		type = 'bool',
+		value = true,
+		desc = "Draws mirror map when map is an island",		
+	},
+	useShader = {
+		name = "Use shader",
+		type = 'bool',
+		value = true,
+		advanced = true,
+		desc = 'Use a shader when mirroring the map',
+		OnChange = ResetWidget,
+	},
+	gridSize = {
+		name = "Heightmap tile size",
+		type = 'number',
+		min = 32, 
+		max = 512, 
+		step = 32,
+		value = 32,
+		desc = '',
+		OnChange = ResetWidget,
+	},
+	textureBrightness = {
+		name = "Texture Brightness",
+		advanced = true,
+		type = 'number',
+		min = 0, 
+		max = 1, 
+		step = 0.01,
+		value = 0.27,
+		desc = 'Sets the brightness of the realistic texture (doesn\'t affect the grid)',
+		OnChange = ResetWidget,
+	},
+	fogEffect = {
+		name = "Edge Fog Effect",
+		type = 'bool',
+		value = false,
+		desc = 'Blurs the edges of the map slightly to distinguish it from the extension.',
+		OnChange = ResetWidget,
+	},
+	curvature = {
+		name = "Curvature Effect",
+		type = 'bool',
+		value = false,
+		desc = 'Add a curvature to the extension.',
+		OnChange = ResetWidget,
+	},
+	
+}
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 
@@ -106,11 +141,13 @@ local function SetupShaderTable()
 		tex0 = 0,
 		up = 0,
 		left = 0,
-		--grid = 0,
+		grid = 0,
 		brightness = 1.0,
 	  },
-	  vertex = [[
-		#line 155
+	  vertex = (options.curvature.value and "#define curvature \n" or '')
+		.. (options.fogEffect.value and "#define edgeFog \n" or '')
+		.. [[
+		#version 120
 		// Application to vertex shader
 		uniform float mirrorX;
 		uniform float mirrorZ;
@@ -118,125 +155,77 @@ local function SetupShaderTable()
 		uniform float lengthZ;
 		uniform float left;
 		uniform float up;
+		uniform float brightness;
 
-		out float fogFactor;
-		out float alpha;
-
+		varying vec4 vertex;
+		varying vec4 color;
+  
 		void main()
 		{
 		gl_TexCoord[0]= gl_TextureMatrix[0]*gl_MultiTexCoord0;
-		vec4 worldPos = gl_Vertex;
-		worldPos.x = abs(mirrorX-worldPos.x);
-		worldPos.z = abs(mirrorZ-worldPos.z);
-
-		alpha = 1.0;
+		vertex = gl_Vertex;
+		vertex.x = abs(mirrorX-vertex.x);
+		vertex.z = abs(mirrorZ-vertex.z);
+		
+		float alpha = 1.0;
 		#ifdef curvature
-			if(mirrorX != 0.0) worldPos.y -= pow(abs(worldPos.x-left*mirrorX)/150.0, 2.0);
-			if(mirrorZ != 0.0) worldPos.y -= pow(abs(worldPos.z-up*mirrorZ)/150.0, 2.0);
-			alpha = 0.0;
-			if(mirrorX != 0.0) alpha -= pow(abs(worldPos.x-left*mirrorX)/lengthX, 2.0);
-			if(mirrorZ != 0.0) alpha -= pow(abs(worldPos.z-up*mirrorZ)/lengthZ, 2.0);
+		  if(mirrorX > 0)vertex.y -= pow(abs(vertex.x-left*mirrorX)/150.0, 2.0);
+		  if(mirrorZ > 0)vertex.y -= pow(abs(vertex.z-up*mirrorZ)/150.0, 2.0);
+		  alpha = 0.0;
+			if(mirrorX > 0) alpha -= pow(abs(vertex.x-left*mirrorX)/lengthX, 2.0);
+			if(mirrorZ > 0) alpha -= pow(abs(vertex.z-up*mirrorZ)/lengthZ, 2.0);
 			alpha = 1.0 + (6.0 * (alpha + 0.18));
-			alpha = clamp(alpha, 0.0, 1.0);
 		#endif
-
+  
 		float ff = 20000.0;
-		if((mirrorZ != 0.0 && mirrorX != 0.0))
-		  ff=ff/(pow(abs(worldPos.z-up*mirrorZ)/150.0, 2.0)+pow(abs(worldPos.x-left*mirrorX)/150.0, 2.0)+2.0);
-		else if(mirrorX != 0.0)
-		  ff=ff/(pow(abs(worldPos.x-left*mirrorX)/150.0, 2.0)+2.0);
-		else if(mirrorZ != 0.0)
-		  ff=ff/(pow(abs(worldPos.z-up*mirrorZ)/150.0, 2.0)+2.0);
-
-		gl_Position = gl_ModelViewProjectionMatrix * worldPos;
+		if(((mirrorZ > 0) && (mirrorX > 0)))
+		  ff=ff/(pow(abs(vertex.z-up*mirrorZ)/150.0, 2.0)+pow(abs(vertex.x-left*mirrorX)/150.0, 2.0)+2.0);
+		else if(mirrorX > 0)
+		  ff=ff/(pow(abs(vertex.x-left*mirrorX)/150.0, 2.0)+2.0);
+		else if(mirrorZ > 0)
+		  ff=ff/(pow(abs(vertex.z-up*mirrorZ)/150.0, 2.0)+2.0);
+  
+		gl_Position  = gl_ModelViewProjectionMatrix*vertex;
 		//gl_Position.z+ff;
-
-		fogFactor = 1.0;
+		
 		#ifdef edgeFog
-			gl_ClipVertex = gl_ModelViewMatrix * worldPos;
-			// emulate linear fog
-			float fogCoord = length(gl_ClipVertex.xyz);
-			fogFactor = (gl_Fog.end - fogCoord) * gl_Fog.scale; // gl_Fog.scale == 1.0 / (gl_Fog.end - gl_Fog.start)
-			fogFactor = clamp(fogFactor, 0.0, 1.0);
+		  gl_FogFragCoord = length((gl_ModelViewMatrix * vertex).xyz)+ff; //see how Spring shaders do the fog and copy from there to fix this
 		#endif
+		
+		gl_FrontColor = vec4(brightness * gl_Color.rgb, alpha);
 
-		worldPos = gl_Vertex;
+		color = gl_FrontColor;
+		//vertex = gl_Vertex;
 		}
 	  ]],
-	  fragment = [[
-		#line 209
-		uniform float brightness;
-		uniform float mirrorX;
-		uniform float mirrorZ;
-		uniform float lengthX;
-		uniform float lengthZ;
-		uniform float left;
-		uniform float up;
-		//uniform int grid;
-		uniform sampler2D tex0;
+	 --  fragment = [[
+	 --  uniform float mirrorX;
+	 --  uniform float mirrorZ;
+	 --  uniform float lengthX;
+	 --  uniform float lengthZ;
+		-- uniform float left;
+		-- uniform float up;
+		-- uniform int grid;
+		-- uniform sampler2D tex0;
 
-		in float fogFactor;
-		in float alpha;
+		-- varying vec4 vertex;
+		-- varying vec4 color;
 
-		const mat3 RGB2YCBCR = mat3(
-			0.2126, -0.114572, 0.5,
-			0.7152, -0.385428, -0.454153,
-			0.0722, 0.5, -0.0458471);
-
-		const mat3 YCBCR2RGB = mat3(
-			1.0, 1.0, 1.0,
-			0.0, -0.187324, 1.8556,
-			1.5748, -0.468124, -5.55112e-17);
-
-
-		void main()
-		{
-			gl_FragColor = texture2D(tex0, gl_TexCoord[0].xy);
-
-			#if 1
-				vec3 yCbCr = RGB2YCBCR * gl_FragColor.rgb;
-				yCbCr.x = clamp(yCbCr.x * brightness, 0.0, 1.0);
-				gl_FragColor.rgb = YCBCR2RGB * yCbCr;
-			#else
-				gl_FragColor.rgb *= brightness;
-			#endif
-
-			gl_FragColor = mix(gl_Fog.color, gl_FragColor, fogFactor);
-			gl_FragColor.a = alpha;
-		 }
-		]],
+		-- void main()
+		-- {
+		-- 	float alpha = 0.0;
+		-- 	if(mirrorX) alpha -= pow(abs(vertex.x-left*mirrorX)/lengthX, 2);
+		-- 	if(mirrorZ) alpha -= pow(abs(vertex.z-up*mirrorZ)/lengthZ, 2);
+		-- 	alpha = 1.0 + (4.0 * (alpha + 0.28));
+		-- 	gl_FragColor = vec4(mix(gl_Fog.color, color.rgb, clamp((gl_Fog.end - gl_FogFragCoord) * gl_Fog.scale, 0.0, 1.0)), clamp(alpha, 0.0, 1.0)) * texture2D(tex0, gl_TexCoord[0].xy);
+		-- }
+	 --  ]],
   }
 end
 
 
 local function GetGroundHeight(x, z)
 	return spGetGroundHeight(x,z)
-end
-
-
-local function IsVoidGround()
-	local sampleDist = 512
-	for i=1,Game.mapSizeX,sampleDist do
-		-- top edge
-		if select(2, Spring.GetGroundInfo(i,0)) == 'Space' then
-			return true
-		end
-		-- bottom edge
-		if select(2, Spring.GetGroundInfo(i,Game.mapSizeZ)) == 'Space' then
-			return true
-		end
-	end
-	for i=1,Game.mapSizeZ,sampleDist do
-		-- left edge
-		if select(2, Spring.GetGroundInfo(0,i)) == 'Space' then
-			return true
-		end
-		-- right edge
-		if select(2, Spring.GetGroundInfo(Game.mapSizeX,i)) == 'Space' then
-			return true
-		end
-	end
-	return false
 end
 
 local function IsIsland()
@@ -259,7 +248,7 @@ local function IsIsland()
 		-- right edge
 		if GetGroundHeight(Game.mapSizeX, i) > 0 then
 			return false
-		end
+		end	
 	end
 	return true
 end
@@ -273,7 +262,7 @@ local function DrawMapVertices(useMirrorShader)
 	gl.Color(1,1,1,1)
 
 	local function doMap(dx,dz,sx,sz)
-		local Scale = gridSize
+		local Scale = options.gridSize.value
 		local sggh = Spring.GetGroundHeight
 		local Vertex = gl.Vertex
 		local glColor = gl.Color
@@ -281,7 +270,7 @@ local function DrawMapVertices(useMirrorShader)
 		local Normal = gl.Normal
 		local GetGroundNormal = Spring.GetGroundNormal
 		local mapSizeX, mapSizeZ = Game.mapSizeX, Game.mapSizeZ
-
+	
 		local sten = {0, floor(Game.mapSizeZ/Scale)*Scale, 0}--do every other strip reverse
 		local xm0, xm1 = 0, 0
 		local xv0, xv1 = 0,math.abs(dx)+sx
@@ -293,7 +282,7 @@ local function DrawMapVertices(useMirrorShader)
 		gl.TexCoord(0, sten[2]/Game.mapSizeZ)
 		Vertex(xv1, sggh(0,sten[2]),abs(dz+sten[2])+sz)--start and end with a double vertex
 		end
-
+	
 		for x=0,Game.mapSizeX-Scale,Scale do
 			xv0, xv1 = xv1, abs(dx+x+Scale)+sx
 			xm0, xm1 = xm1, xm1+Scale
@@ -321,10 +310,10 @@ local function DrawMapVertices(useMirrorShader)
 		doMap(-Game.mapSizeX,-Game.mapSizeZ,-Game.mapSizeX,-Game.mapSizeZ)
 		doMap(0,-Game.mapSizeZ,0,-Game.mapSizeZ)
 		doMap(-Game.mapSizeX,-Game.mapSizeZ,Game.mapSizeX,-Game.mapSizeZ)
-
+	
 		doMap(-Game.mapSizeX,0,-Game.mapSizeX,0)
 		doMap(-Game.mapSizeX,0,Game.mapSizeX,0)
-
+	
 		doMap(-Game.mapSizeX,-Game.mapSizeZ,-Game.mapSizeX,Game.mapSizeZ)
 		doMap(0,-Game.mapSizeZ,0,Game.mapSizeZ)
 		doMap(-Game.mapSizeX,-Game.mapSizeZ,Game.mapSizeX,Game.mapSizeZ)
@@ -334,16 +323,15 @@ end
 local function DrawOMap(useMirrorShader)
 	gl.Blending(GL.SRC_ALPHA,GL.ONE_MINUS_SRC_ALPHA)
 	gl.DepthTest(GL.LEQUAL)
-        if mapBorderStyle == "texture" then
+        if options.mapBorderStyle.value == "texture" then 
 			gl.Texture(realTex)
-		else
-			--gl.Texture(gridTex)
+
 		end
 	gl.BeginEnd(GL.TRIANGLE_STRIP,DrawMapVertices, useMirrorShader)
 	gl.DepthTest(false)
 	gl.Color(1,1,1,1)
 	gl.Blending(GL.SRC_ALPHA,GL.ONE_MINUS_SRC_ALPHA)
-
+	
 	----draw map compass text
 	gl.PushAttrib(GL.ALL_ATTRIB_BITS)
 	gl.Texture(false)
@@ -351,91 +339,25 @@ local function DrawOMap(useMirrorShader)
 	gl.DepthTest(false)
 	gl.Color(1,1,1,1)
 	gl.PopAttrib()
-	----
-end
-
-
-local maxGroundHeights = {top=0,bottom=0,left=0,right=0}
-local minGroundHeights = {top=-50,bottom=-50,left=-50,right=-50}
-function GetMaxGroundHeights()
-	maxGroundHeights.topleft = spGetGroundHeight(0,0)
-	maxGroundHeights.topright = spGetGroundHeight(Game.mapSizeX,0)
-	maxGroundHeights.bottomleft = spGetGroundHeight(0,Game.mapSizeZ)
-	maxGroundHeights.bottomright = spGetGroundHeight(Game.mapSizeX,Game.mapSizeZ)
-
-	local sampleDist = 512
-	for i=1,Game.mapSizeX,sampleDist do
-		-- top edge
-		if spGetGroundHeight(i, 0) > maxGroundHeights.top then
-			maxGroundHeights.top = spGetGroundHeight(i,0)
-		end
-		if spGetGroundHeight(i, 0) < minGroundHeights.top then
-			minGroundHeights.top = spGetGroundHeight(i,0)
-		end
-		-- bottom edge
-		if spGetGroundHeight(i, Game.mapSizeZ) > maxGroundHeights.bottom then
-			maxGroundHeights.bottom = spGetGroundHeight(i,0)
-		end
-		if spGetGroundHeight(i, Game.mapSizeZ) < minGroundHeights.bottom then
-			minGroundHeights.bottom = spGetGroundHeight(i,0)
-		end
-	end
-	for i=1,Game.mapSizeZ,sampleDist do
-		-- left edge
-		if spGetGroundHeight(0, i) > maxGroundHeights.left then
-			maxGroundHeights.left = spGetGroundHeight(0,i)
-		end
-		if spGetGroundHeight(0, i) < minGroundHeights.left then
-			minGroundHeights.left = spGetGroundHeight(0,i)
-		end
-		-- right edge
-		if spGetGroundHeight(Game.mapSizeX, i) > maxGroundHeights.right then
-			maxGroundHeights.right = spGetGroundHeight(Game.mapSizeX,i)
-		end
-		if spGetGroundHeight(Game.mapSizeX, i) < minGroundHeights.right then
-			minGroundHeights.right = spGetGroundHeight(Game.mapSizeX,i)
-		end
-	end
-	minGroundHeights.top = minGroundHeights.top - 50
-	minGroundHeights.bottom = minGroundHeights.bottom - 50
-	minGroundHeights.left = minGroundHeights.bottom - 50
-	minGroundHeights.right = minGroundHeights.right - 50
-	minGroundHeights.topleft = math.min(minGroundHeights.top, minGroundHeights.left)
-	minGroundHeights.topright = math.min(minGroundHeights.top, minGroundHeights.right)
-	minGroundHeights.bottomleft = math.min(minGroundHeights.bottom, minGroundHeights.left)
-	minGroundHeights.bottomright = math.min(minGroundHeights.bottom, minGroundHeights.right)
+	----	
 end
 
 function widget:Initialize()
-
-
---ResetWidget()
-	--Spring.SendCommands("mapborder " .. (mapBorderStyle == 'cutaway' and "1" or "0"))
-
+	
+	if not drawingEnabled then
+		return
+	end
+	
+	
+	Spring.SendCommands("mapborder " .. ((options and (options.mapBorderStyle.value == 'cutaway')) and "1" or "0"))
+	
 	if island == nil then
 		island = IsIsland()
 	end
-	if voidGround == nil then
-		voidGround = IsVoidGround()
-	end
-	if island and voidGround then
-		restoreMapBorder = false
-		widgetHandler:RemoveWidget()
-	end
-
-	GetMaxGroundHeights()
 
 	SetupShaderTable()
-	--Spring.SendCommands("luaui disablewidget External VR Grid")
-	if gl.CreateShader and useShader then
-
-		local defs = {
-			"#version 150 compatibility \n",
-			curvature and "#define curvature \n",
-			fogEffect and "#define edgeFog \n",
-		}
-		shaderTable.definitions = defs
-
+	Spring.SendCommands("luaui disablewidget Map External VR Grid")
+	if gl.CreateShader and options.useShader.value then
 		mirrorShader = gl.CreateShader(shaderTable)
 		if (mirrorShader == nil) then
 			Spring.Log(widget:GetInfo().name, LOG.ERROR, "Map Edge Extension widget: mirror shader error: "..gl.GetShaderLog())
@@ -443,7 +365,7 @@ function widget:Initialize()
 	end
 	if not mirrorShader then
 		widget.DrawWorldPreUnit = function()
-			if (not island) or drawForIslands then
+			if (not island) or options.drawForIslands.value then
 				gl.DepthMask(true)
 				--gl.Texture(tex)
 				gl.CallList(dList)
@@ -457,7 +379,7 @@ function widget:Initialize()
 		ulengthZ = gl.GetUniformLocation(mirrorShader,"lengthZ")
 		uup = gl.GetUniformLocation(mirrorShader,"up")
 		uleft = gl.GetUniformLocation(mirrorShader,"left")
-		--ugrid = gl.GetUniformLocation(mirrorShader,"grid")
+		ugrid = gl.GetUniformLocation(mirrorShader,"grid")
 		ubrightness = gl.GetUniformLocation(mirrorShader,"brightness")
 	end
 	dList = gl.CreateList(DrawOMap, mirrorShader)
@@ -465,9 +387,7 @@ function widget:Initialize()
 end
 
 function widget:Shutdown()
-	if restoreMapBorder then
-		Spring.SendCommands('mapborder '..(restoreMapBorder and '1' or '0'))
-	end
+	Spring.SendCommands("mapborder " .. "1")
 
 	--Spring.SetDrawGround(true)
 	gl.DeleteList(dList)
@@ -476,141 +396,9 @@ function widget:Shutdown()
 	end
 end
 
--- reset needed when waterlevel has changed by gadget (modoption)
-local resetsec = 0
-local resetted = false
-local doWaterLevelCheck = false
-if Spring.GetModOptions().map_waterlevel ~= 0 then
-	doWaterLevelCheck = true
-end
-
-local inViewParts = {}
-local groundHeightPoint = Spring.GetGroundHeight(0,0)
-
-
---local function DrawMyBox(minX,minY,minZ, maxX,maxY,maxZ)
---	gl.BeginEnd(GL.QUADS, function()
---		--// top
---		gl.Vertex(minX, maxY, minZ);
---		gl.Vertex(maxX, maxY, minZ);
---		gl.Vertex(maxX, maxY, maxZ);
---		gl.Vertex(minX, maxY, maxZ);
---		--// bottom
---		gl.Vertex(minX, minY, minZ);
---		gl.Vertex(minX, minY, maxZ);
---		gl.Vertex(maxX, minY, maxZ);
---		gl.Vertex(maxX, minY, minZ);
---	end);
---	gl.BeginEnd(GL.QUAD_STRIP, function()
---		--// sides
---		gl.Vertex(minX, minY, minZ);
---		gl.Vertex(minX, maxY, minZ);
---		gl.Vertex(minX, minY, maxZ);
---		gl.Vertex(minX, maxY, maxZ);
---		gl.Vertex(maxX, minY, maxZ);
---		gl.Vertex(maxX, maxY, maxZ);
---		gl.Vertex(maxX, minY, minZ);
---		gl.Vertex(maxX, maxY, minZ);
---		gl.Vertex(minX, minY, minZ);
---		gl.Vertex(minX, maxY, minZ);
---	end);
---end
---function widget:DrawWorld()
---	--gl.Color(1,0,0,0.5)
---	--DrawMyBox(-9999,0,-9999, borderMargin,1,borderMargin)
---	--gl.Color(1,0,1,0.5)
---	--DrawMyBox(Game.mapSizeX-borderMargin,0,-9999, Game.mapSizeX*2,1,borderMargin)
---	--gl.Color(1,1,0,0.5)
---	--DrawMyBox(-9999,0,Game.mapSizeZ-borderMargin, borderMargin,1,Game.mapSizeZ*2)
---	--gl.Color(1,1,1,0.5)
---	--DrawMyBox(Game.mapSizeX-borderMargin,0,Game.mapSizeZ-borderMargin, Game.mapSizeX*2,1,Game.mapSizeZ*2)
---
---	--gl.Color(1,0,0,0.5)
---	--DrawMyBox(-9999,0,-9999, Game.mapSizeX*2,1,borderMargin)
---	--gl.Color(1,1,0,0.5)
---	--DrawMyBox(-9999,0,-borderMargin, 0,1,Game.mapSizeZ)
---	--gl.Color(0,1,0,0.5)
---	--DrawMyBox(Game.mapSizeX-borderMargin,0,-borderMargin, Game.mapSizeX*2,1,Game.mapSizeZ)
---	--gl.Color(0,0,1,0.5)
---	--DrawMyBox(-9999,0,Game.mapSizeZ*2, Game.mapSizeX*2,1,Game.mapSizeZ-borderMargin)
---	--gl.Color(1,1,1,1)
---end
-
-
 local function DrawWorldFunc() --is overwritten when not using the shader
-
-        local GamemapSizeZ, GamemapSizeX = Game.mapSizeZ,Game.mapSizeX
-
-		gl.Fog(true)
-		gl.UseShader(mirrorShader)
-		gl.PushMatrix()
-		gl.DepthMask(true)
-			gl.Texture(realTex)
-			gl.Uniform(ubrightness, brightness)
-			--gl.Uniform(ugrid, 0)
-
-
-		gl.Uniform(umirrorX, GamemapSizeX)
-		gl.Uniform(umirrorZ, GamemapSizeZ)
-		gl.Uniform(ulengthX, GamemapSizeX)
-		gl.Uniform(ulengthZ, GamemapSizeZ)
-		gl.Uniform(uleft, 1)
-		gl.Uniform(uup, 1)
-		gl.Translate(-GamemapSizeX,0,-GamemapSizeZ)
-		--if inViewParts.topleft then
-			gl.CallList(dList)
-		--end
-		gl.Uniform(uleft , 0)
-		gl.Translate(GamemapSizeX*2,0,0)
-		--if inViewParts.topright then
-			gl.CallList(dList)
-		--end
-		gl.Uniform(uup, 0)
-		gl.Translate(0,0,GamemapSizeZ*2)
-		--if inViewParts.bottomright then
-			gl.CallList(dList)
-		--end
-		gl.Uniform(uleft, 1)
-		gl.Translate(-GamemapSizeX*2,0,0)
-		--if inViewParts.bottomleft then
-			gl.CallList(dList)
-		--end
-
-		gl.Uniform(umirrorX, 0)
-		gl.Translate(GamemapSizeX,0,0)
-		--if inViewParts.bottom then
-			gl.CallList(dList)
-		--end
-		gl.Uniform(uleft, 0)
-		gl.Uniform(uup, 1)
-		gl.Translate(0,0,-GamemapSizeZ*2)
-		--if inViewParts.top then
-			gl.CallList(dList)
-		--end
-
-		gl.Uniform(uup, 0)
-		gl.Uniform(umirrorZ, 0)
-		gl.Uniform(umirrorX, GamemapSizeX)
-		gl.Translate(GamemapSizeX,0,GamemapSizeZ)
-		--if inViewParts.right then
-			gl.CallList(dList)
-		--end
-		gl.Uniform(uleft, 1)
-		gl.Translate(-GamemapSizeX*2,0,0)
-		--if inViewParts.left then
-			gl.CallList(dList)
-		--end
-
-		gl.DepthMask(false)
-		gl.Texture(false)
-		gl.PopMatrix()
-		gl.UseShader(0)
-
-		gl.Fog(false)
-end
-
-function widget:DrawWorldPreUnit()
-         local glTranslate = gl.Translate
+    if (not island) or options.drawForIslands.value then
+        local glTranslate = gl.Translate
         local glUniform = gl.Uniform
         local GamemapSizeZ, GamemapSizeX = Game.mapSizeZ,Game.mapSizeX
         
@@ -619,12 +407,16 @@ function widget:DrawWorldPreUnit()
         gl.UseShader(mirrorShader)
         gl.PushMatrix()
         gl.DepthMask(true)
-			gl.Texture(realTex)
-			gl.Uniform(ubrightness, brightness)
-			--gl.Uniform(ugrid, 0)
-
-
-		 glUniform(umirrorX, GamemapSizeX)
+        if options.mapBorderStyle.value == "texture" then 
+        		gl.Texture(realTex)
+        		glUniform(ubrightness, options.textureBrightness.value)
+        		glUniform(ugrid, 0)
+				
+				end
+        if wiremap then
+            gl.PolygonMode(GL.FRONT_AND_BACK, GL.LINE)
+        end
+        glUniform(umirrorX, GamemapSizeX)
         glUniform(umirrorZ, GamemapSizeZ)
         glUniform(ulengthX, GamemapSizeX)
         glUniform(ulengthZ, GamemapSizeZ)
@@ -658,11 +450,25 @@ function widget:DrawWorldPreUnit()
         glUniform(uleft, 1)
         glTranslate(-GamemapSizeX*2,0,0)
         gl.CallList(dList)
-		gl.DepthMask(false)
-		gl.Texture(false)
-		gl.PopMatrix()
-		gl.UseShader(0)
-
-		gl.Fog(false)
+        if wiremap then
+            gl.PolygonMode(GL.FRONT_AND_BACK, GL.FILL)
+        end
+        gl.DepthMask(false)
+        gl.Texture(false)
+        gl.PopMatrix()
+        gl.UseShader(0)
+        
+        gl.Fog(false)
+    end
 end
 
+function widget:DrawWorldPreUnit()
+	if drawingEnabled then
+		DrawWorldFunc()
+	end
+end
+function widget:DrawWorldRefraction()
+	if drawingEnabled then
+		DrawWorldFunc()
+	end
+end

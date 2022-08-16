@@ -8,7 +8,7 @@ local materials = {
 		},
 		shaderOptions = {
 			autonormal = true,
-			autoNormalParams = {0.28, 0.0012}, --autoNormalParams = {1.8, 0.0022}, autoNormalParams = {0.250, 0.001}, -- --{0.22, 0.0022} //reflection.emboss
+			autoNormalParams = {0.250, 0.001},
 		},
 		deferredOptions = {
 			materialIndex = 126,

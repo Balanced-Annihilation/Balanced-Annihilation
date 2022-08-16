@@ -1,5 +1,5 @@
-﻿15.2.8
-13/08/2022
+﻿15.3.0
+16/08/2022
 
 Improved unit detail and explosions
 Fleas can shoot when close to each other and won't overlap
@@ -10,7 +10,6 @@ Fix build pictures of some map units being white (mini fus on speed metal).
 22/07/2022
 
 New Max Graphics setting for players with good GPUs
-APM counter displays player APM over the last minute rather than the whole game
 3 new Pro Series widgets for competitive players to try (enable in f11 widget menu)
 Smarthotkeys Pro: if no selection, hotkeys zxcv select nearest highest tech builder. Searches near cursor then map (default on)
 Mexclick Pro: left clicking near a metal spot will build a mex, allows fine tuning placement (default off)
@@ -18,7 +17,6 @@ Smartguard Pro: build creator will be guarded by selected lower tech builders wh
 Chatbox re-activates by mouseover + ctrl, rather than just mouseover
 Restore Flash tank alternating barrel every 3 rounds instead of every 1 (2016)
 Restore T1 Torpedo launcher to being built above water (2013)
-New flamethrower
 Tac nuke +4% aoe
 
 15.0.8

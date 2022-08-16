@@ -141,7 +141,7 @@ local fullTexQuad
 
 
 function widget:Initialize()
-	if (gl.CreateShader == nil or not gl.CreateShader) then
+	if gl.CreateShader == nil then
 		--Spring.Echo("CAS: createshader not supported, removing")
 		widgetHandler:RemoveWidget(self)
 		return
@@ -197,7 +197,7 @@ end
 
 function widget:ViewResize()
 
-	if (gl.CreateShader == nil or not gl.CreateShader)  then
+	if gl.CreateShader == nil then
 		--Spring.Echo("CAS: createshader not supported, removing")
 		widgetHandler:RemoveWidget(self)
 		return
