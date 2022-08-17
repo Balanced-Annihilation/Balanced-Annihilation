@@ -25,7 +25,7 @@ local illumThreshold = 0            -- how bright does a fragment need to be bef
 local preset = 1
 local presets = {
 	{
-		quality = 2,
+		quality = 1,
 		blurPasses = 2,
 		blursize = 7,
 	},

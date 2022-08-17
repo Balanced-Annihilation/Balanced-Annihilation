@@ -45,10 +45,10 @@ local overrideParam = {r = 1, g = 1, b = 1, radius = 200}
 local doOverride = false
 
 local globalLightMult = 2.4
-local globalLightMultSmall = 2.4 -- 1.9 
+local globalLightMultSmall = 2.2 -- 1.9 
 
 local globalRadiusMult = 1.5
-local globalRadiusMultsmall = 1.5 --1.1 
+local globalRadiusMultsmall = 1.3 --1.1 
 local globalLightMultLaser = 1.4 -- gets applied on top op globalRadiusMult
 local globalRadiusMultLaser = 0.9 -- gets applied on top op globalRadiusMult
 local globalLifeMult = 0.75
