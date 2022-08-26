@@ -45,7 +45,7 @@ local overrideParam = {r = 1, g = 1, b = 1, radius = 200}
 local doOverride = false
 
 local globalLightMult = 2.4
-local globalLightMultSmall = 2.2 -- 1.9 
+local globalLightMultSmall = 1.7 -- 1.9 
 
 local globalRadiusMult = 1.5
 local globalRadiusMultsmall = 1.3 --1.1 
@@ -65,7 +65,7 @@ local thrusterLights = {}
 
 local gibParams = {
    r = 0.18 * globalLightMult,
-   g = 0.075 * globalLightMult,
+   g = 0.09 * globalLightMult,
    b = 0.035 * globalLightMult,
    radius = 100 * globalRadiusMult,
    gib = true
@@ -105,7 +105,7 @@ function loadWeaponDefs()
          --local dmgBonus = math.sqrt(math.sqrt(math.sqrt(maxDamage)))
          params.r, params.g, params.b = 1, 0.8, 0.4
          params.radius = (WeaponDefs[i].damageAreaOfEffect * 4.5) * globalRadiusMultsmall
-         params.orgMult = (0.5 + (params.radius / 2400)) * globalLightMultSmall --(0.35 + (params.radius/2400)) * globalLightMult
+         params.orgMult = (0.35 + (params.radius / 2400)) * globalLightMultSmall --(0.35 + (params.radius/2400)) * globalLightMult
          params.life = (14 * (0.8 + params.radius / 1200)) * globalLifeMult
 
          if customParams.expl_light_color then
@@ -853,47 +853,47 @@ function RemoveLight(lightID, life)
    end
 end
 
-local COM_BLAST = WeaponDefNames["commander_blast"].id
+--local COM_BLAST = WeaponDefNames["commander_blast"].id
 local CORE_NUKE = WeaponDefNames["crblmssl"].id
 local ARM_NUKE = WeaponDefNames["nuclear_missile"].id
 
 -- function called by explosion_lights gadget
 function GadgetWeaponExplosion(px, py, pz, weaponID, ownerID)
-   local wepconf = weaponConf[weaponID]
+    local wepconf = weaponConf[weaponID]
    if not wepconf.noheatdistortion then
       -- local 
-      -- if wepconf ~= nil and(not wepconf.noheatdistortion and((weaponConf[weaponID].wtype ~= "MissileLauncher" and weaponConf[weaponID].wtype ~= "TorpedoLauncher") or wepconf.aoe > 150)) then
+      -- if wepconf ~= nil and(not wepconf.noheatdistortion and((wepconf.wtype ~= "MissileLauncher" and wepconf.wtype ~= "TorpedoLauncher") or wepconf.aoe > 150)) then
       local params
-      if weaponID == COM_BLAST then
+      if weaponID == WeaponDefNames["commander_blast"].id then
          params = {
-            life = weaponConf[weaponID].life * 3.5,
-            orgMult = weaponConf[weaponID].orgMult * 5,
+            life = wepconf.life * 3.5,
+            orgMult = wepconf.orgMult * 5,
             frame = Spring.GetGameFrame(),
             px = px,
-            py = py + weaponConf[weaponID].yoffset,
+            py = py + wepconf.yoffset,
             pz = pz,
             param = {
                type = "explosion",
-               r = weaponConf[weaponID].r,
-               g = weaponConf[weaponID].g,
-               b = weaponConf[weaponID].b,
-               radius = weaponConf[weaponID].radius
+               r = wepconf.r,
+               g = wepconf.g,
+               b = wepconf.b,
+               radius = wepconf.radius
             }
          }
       else
          params = {
-            life = weaponConf[weaponID].life,
-            orgMult = weaponConf[weaponID].orgMult,
+            life = wepconf.life,
+            orgMult = wepconf.orgMult,
             frame = Spring.GetGameFrame(),
             px = px,
-            py = py + weaponConf[weaponID].yoffset,
+            py = py + wepconf.yoffset,
             pz = pz,
             param = {
                type = "explosion",
-               r = weaponConf[weaponID].r,
-               g = weaponConf[weaponID].g,
-               b = weaponConf[weaponID].b,
-               radius = weaponConf[weaponID].radius
+               r = wepconf.r,
+               g = wepconf.g,
+               b = wepconf.b,
+               radius = wepconf.radius
             }
          }
       end
@@ -905,16 +905,16 @@ function GadgetWeaponExplosion(px, py, pz, weaponID, ownerID)
             {
                worldspace = true,
                layer = -35,
-               life = weaponConf[weaponID].life,
+               life = wepconf.life,
                pos = {px, py + 10, pz},
-               size = weaponConf[weaponID].radius / 2.2,
+               size = wepconf.radius / 2.2,
                sizeGrowth = 0,
                colormap = {
                   {
-                     weaponConf[weaponID].r,
-                     weaponConf[weaponID].g,
-                     weaponConf[weaponID].b,
-                     weaponConf[weaponID].orgMult * 1.33
+                     wepconf.r,
+                     wepconf.g,
+                     wepconf.b,
+                     wepconf.orgMult * 1.33
                   }
                },
                texture = "LuaUI/Images/glow2.dds"
@@ -935,12 +935,12 @@ function GadgetWeaponExplosion(px, py, pz, weaponID, ownerID)
 
          animSpeed = 1
          sizeGrowth = 0.4
-         strength = weaponConf[weaponID].heatstrength
-         size = weaponConf[weaponID].heatradius
-         life = weaponConf[weaponID].heatlife
+         strength = wepconf.heatstrength
+         size = wepconf.heatradius
+         life = wepconf.heatlife
          force = {0, 0.25, 0}
          heat = 1
-         if weaponID == COM_BLAST then --comblast
+         if weaponID == WeaponDefNames["commander_blast"].id then --comblast
             life = life * 2
             size = size * 1.3
             strength = strength * 1.6

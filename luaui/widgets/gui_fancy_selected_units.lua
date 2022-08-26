@@ -446,11 +446,13 @@ function GetUsedRotationAngle(unitID, shapeName, opposite)
 	end
 end
 
+local selectedUnitCount = 0
 
 local selectedUnitsSorted = spGetSelectedUnitsSorted()
 local selectedUnitsCount = spGetSelectedUnitsCount()
 function widget:SelectionChanged(sel)
 	checkSelectionChanges = true
+	selectedUnitCount = Spring.GetSelectedUnitsCount() 
 end
 
 local function updateSelectedUnitsData()
@@ -671,48 +673,13 @@ do
 	end
 end --// end do
 
+
 function widget:DrawWorldPreUnit()
-	if chobbyInterface then return end
+
+	if selectedUnitCount < 1 then return end
 	if spIsGUIHidden() then return end
 
-	local clockDifference = (os.clock() - previousOsClock)
-	previousOsClock = os.clock()
 
-	-- animate rotation
-	if OPTIONS.rotationSpeed > 0 then
-		local angleDifference = (OPTIONS.rotationSpeed) * (clockDifference * 5)
-		currentRotationAngle = currentRotationAngle + (angleDifference*0.66)
-		if currentRotationAngle > 360 then
-		   currentRotationAngle = currentRotationAngle - 360
-		end
-
-		currentRotationAngleOpposite = currentRotationAngleOpposite - angleDifference
-		if currentRotationAngleOpposite < -360 then
-		   currentRotationAngleOpposite = currentRotationAngleOpposite + 360
-		end
-	end
-
-	-- animate scale
-	if OPTIONS.animateSpotterSize then
-		local addedMultiplierValue = OPTIONS.animationSpeed * (clockDifference * 50)
-		if animationMultiplierAdd and animationMultiplier < OPTIONS.maxAnimationMultiplier then
-			animationMultiplier = animationMultiplier + addedMultiplierValue
-			animationMultiplierInner = animationMultiplierInner - addedMultiplierValue
-			if animationMultiplier > OPTIONS.maxAnimationMultiplier then
-				animationMultiplier = OPTIONS.maxAnimationMultiplier
-				animationMultiplierInner = OPTIONS.minAnimationMultiplier
-				animationMultiplierAdd = false
-			end
-		else
-			animationMultiplier = animationMultiplier - addedMultiplierValue
-			animationMultiplierInner = animationMultiplierInner + addedMultiplierValue
-			if animationMultiplier < OPTIONS.minAnimationMultiplier then
-				animationMultiplier = OPTIONS.minAnimationMultiplier
-				animationMultiplierInner = OPTIONS.maxAnimationMultiplier
-				animationMultiplierAdd = true
-			end
-		end
-	end
 
 
 	local baseR, baseG, baseB, a, scale, scaleBase, scaleOuter
