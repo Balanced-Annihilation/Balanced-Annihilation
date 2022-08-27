@@ -15,8 +15,8 @@ buildBoxesOnShift 1
 //  Mouse Selection Box
 //
 
-mouseBoxLineWidth  1.49
-mouseBox           1.0  1.0  1.0  1.0
+mouseBoxLineWidth  1.5
+mouseBox           0.15 0.95 0.2 1.0
 mouseBoxBlendSrc   src_alpha
 mouseBoxBlendDst   one_minus_src_alpha
 
