@@ -147,7 +147,10 @@ function widget:Initialize()
         Spring.SetConfigInt("mapborder", 1)
 		
     end
-
+	
+	Spring.SetConfigInt("LuaGarbageCollectionMemLoadMult", 1)
+	Spring.SetConfigInt("LuaGarbageCollectionRunTimeMult", 1)
+	
     local font = "FreeSansBold.otf"
     Spring.SetConfigString("FontOutlineWeight", "25")
     Spring.SetConfigString("FontOutlineWidth", "3")

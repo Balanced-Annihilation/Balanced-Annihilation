@@ -1,7 +1,8 @@
-﻿15.3.6
-27/08/2022
+﻿15.3.8
+18/09/2022
 
 Improved unit detail and explosions
+New D-gun effect
 Fleas can shoot when close to each other and won't overlap
 Fix widget selector not showing up on F11 on Linux.
 Fix build pictures of some map units being white (mini fus on speed metal).
@@ -9,8 +10,6 @@ Fix build pictures of some map units being white (mini fus on speed metal).
 15.2.6
 22/07/2022
 
-New Max Graphics setting for players with good GPUs
-3 new Pro Series widgets for competitive players to try (enable in f11 widget menu)
 Smarthotkeys Pro: if no selection, hotkeys zxcv select nearest highest tech builder. Searches near cursor then map (default on)
 Mexclick Pro: left clicking near a metal spot will build a mex, allows fine tuning placement (default off)
 Smartguard Pro: build creator will be guarded by selected lower tech builders who would idle (default off)

@@ -17,5 +17,12 @@ return {
 			default = 25,
 			fighters = 10,
 		},
+		customparams = {
+            expl_light_color = "1 0.52 0.33",
+            expl_light_mult = 1.04,
+            expl_light_radius_mult = 1.04,
+            expl_light_life_mult = 1.06,
+            expl_light_heat_radius_mult = 1.1,
+        },
 	},
 }

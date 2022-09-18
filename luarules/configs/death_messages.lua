@@ -79,6 +79,8 @@ allyTeamDeathMessages = {
 }	
 	
 teamDeathMessages = {
+	"Unable to create victory, XX was unable to understand defeat",
+	"XX considered their failure as a teammate as a failure of the world",
 	"XX is dead, but BA is forever",
 	"XX ate too much",
 	"XX is fully committed to working this out",
