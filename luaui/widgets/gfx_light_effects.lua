@@ -870,18 +870,15 @@ local COMBLAST = WeaponDefNames["commander_blast"].id
 
 -- function called by explosion_lights gadget
 
- local wepconf 
-local params
- local strength, life, size
-                local cx, cy, cz 
-                local distance
-                local strengthMult
+
+
+
 
 function GadgetWeaponExplosion(px, py, pz, weaponID, ownerID)
-		wepconf = weaponConf[weaponID]
+		local wepconf = weaponConf[weaponID]
         if not wepconf.noheatdistortion then
             if weaponID == COMBLAST then
-                params = {
+                local params = {
                     life = wepconf.life * 3.5,
                     orgMult = wepconf.orgMult * 5,
                     frame = spGetGameFrame(),
@@ -941,10 +938,12 @@ function GadgetWeaponExplosion(px, py, pz, weaponID, ownerID)
                 explosionLights[explosionLightsCount] = params
             end
             if wepconf.heatwave then
-            
-                 cx, cy, cz = spGetCameraPosition()
-                 distance = math.diag(px - cx, py - cy, pz - cz)
-                 strengthMult = 1 / (distance * 0.001)
+				
+				 local strength, life, size
+				
+                 local cx, cy, cz = spGetCameraPosition()
+                 local distance = math.diag(px - cx, py - cy, pz - cz)
+                local strengthMult = 1 / (distance * 0.001)
 
                 strength = wepconf.heatstrength
                 size = wepconf.heatradius

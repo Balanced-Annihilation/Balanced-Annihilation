@@ -1302,8 +1302,6 @@ uniform vec3 sunSpecularParams; // Exponent, multiplier, bias
 			}
 			shadowMult = mix(1.0, min(nShadow, gShadow), shadowDensity);
 		}
-		
-		
         ///
         // calculate reflectance at normal incidence; if dia-electric (like plastic) use F0
         // of 0.04 and if it's a metal, use the albedo color as F0 (metallic workflow)
@@ -1402,18 +1400,9 @@ uniform vec3 sunSpecularParams; // Exponent, multiplier, bias
 			//vec3 specular = reflectionColor * mix(vec3(envBRDF.y), vec3(envBRDF.x), F);
 			vec3 specular = reflectionColor * (F0 * envBRDF.x + F90 * envBRDF.y);
 			specular *= aoTermSpec * energyCompensation;
-			
-			
-			vec3 lightSpecular = sunSpecular * pow(NdotH, sunSpecularParams.x);
-		lightSpecular *= sunSpecularParams.z * sunSpecularParams.y + texColor2.g ;
-
-		//lightSpecular *= shadowMult;
-			
-			//outSpecularColor += lightSpecular;
-//kD = clamp(kD, 0.5, 1.0);
+			outSpecularColor += specular;
             ambientContrib = (kD * diffuse + specular);
-
-            outColor = (ambientContrib + dirContrib + lightSpecular);
+            outColor = ambientContrib + dirContrib;
         }
 		// final color
 		outColor += emissiveness * albedoColor;
