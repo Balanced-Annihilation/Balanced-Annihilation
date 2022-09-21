@@ -360,7 +360,7 @@ function widget:Initialize()
 	elseif (Game.mapY > Game.mapX ) then
 					Config.minimap.sx = math.min((135*Game.mapX/Game.mapY)*1.5,320) --background size
 	else
-				Config.minimap.sx = math.min(172*Game.mapX/Game.mapY,320) --background size
+				Config.minimap.sx = math.min(172*Game.mapX/Game.mapY,312) --background size
 	end
 
 	

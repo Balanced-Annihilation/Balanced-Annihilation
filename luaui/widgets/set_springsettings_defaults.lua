@@ -148,8 +148,8 @@ function widget:Initialize()
 		
     end
 	
-	Spring.SetConfigInt("LuaGarbageCollectionMemLoadMult", 1)
-	Spring.SetConfigInt("LuaGarbageCollectionRunTimeMult", 1)
+	Spring.SetConfigString("LuaGarbageCollectionMemLoadMult", "1.33")
+	Spring.SetConfigString("LuaGarbageCollectionRunTimeMult", "5")
 	
     local font = "FreeSansBold.otf"
     Spring.SetConfigString("FontOutlineWeight", "25")

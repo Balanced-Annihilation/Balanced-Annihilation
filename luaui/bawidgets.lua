@@ -17,7 +17,9 @@ function pwl() -- ???  (print widget list)
   end
 end
 
+
 include("keysym.h.lua")
+include("utils.lua")
 include("system.lua")
 include("callins.lua")
 include("savetable.lua")
@@ -48,14 +50,14 @@ local glPushAttrib = gl.PushAttrib
 
 -- install bindings for TweakMode and the Widget Selector
 
-Spring.SendCommands(
+Spring.SendCommands({
   "unbindkeyset  Any+f11",
   "unbindkeyset Ctrl+f11",
   "bind    f11  luaui selector",
   "bind  C+f11  luaui tweakgui",
   "echo LuaUI: bound F11 to the widget selector",
   "echo LuaUI: bound CTRL+F11 to tweak mode"
-)
+})
 
 
 --------------------------------------------------------------------------------
@@ -65,7 +67,7 @@ Spring.SendCommands(
 --
 
 local allowuserwidgets = true
-if Spring.GetModOptions and (tonumber(Spring.GetModOptions().mo_allowuserwidgets) or 1) == 0 then
+if Spring.GetModOptions and (tonumber(Spring.GetModOptions().allowuserwidgets) or 1) == 0 then
   allowuserwidgets = false
 end
 
@@ -86,7 +88,7 @@ widgetHandler = {
 
   allowUserWidgets = true,
 
-  actionHandler = VFS.Include(LUAUI_DIRNAME .. "actions.lua", nil, VFS.ZIP),
+  actionHandler = include("actions.lua"),
 
   WG = {}, -- shared table for widgets
 
@@ -259,7 +261,7 @@ function widgetHandler:LoadConfigData()
 		end
 		return {}
 	elseif (chunk() == nil) then
-		Spring.Log("widgets.lua", LOG.ERROR, 'Luaui config file was blank')
+		Spring.Log("bawidgets.lua", LOG.ERROR, 'Luaui config file was blank')
 		return {}
 	end
     local tmp = {}

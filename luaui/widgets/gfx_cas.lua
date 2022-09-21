@@ -1,18 +1,16 @@
-
-
-function widget:GetInfo()
-  return {
-    name	  = "Contrast Adaptive Sharpen",
-	desc	  = "Spring port of AMD FidelityFX' Contrast Adaptive Sharpen (CAS)",
-	author	  = "martymcmodding, ivand",
-	date    = "October 2019",
-	license = "",
-	layer	  = 2000,
-	enabled = true,
-  }
+if gl.CreateShader == nil then
+	return
 end
 
-
+function widget:GetInfo()
+	return {
+		name	  = "Contrast Adaptive Sharpen",
+		desc	  = "Spring port of AMD FidelityFX' Contrast Adaptive Sharpen (CAS)",
+		author	  = "martymcmodding, ivand",
+		layer	  = 2000,
+		enabled   = true,
+	}
+end
 
 -- Shameless port from https://gist.github.com/martymcmodding/30304c4bffa6e2bd2eb59ff8bb09d135
 
@@ -23,6 +21,7 @@ end
 local GL_RGBA8 = 0x8058
 
 local SHARPNESS = 1
+local version = 1.01
 
 -----------------------------------------------------------------
 -- Lua Shortcuts
@@ -37,7 +36,7 @@ local glCopyToTexture   = gl.CopyToTexture
 -- File path Constants
 -----------------------------------------------------------------
 
-local luaShaderDir = "luaui/widgets/include/"
+local luaShaderDir = "LuaUI/Widgets/Include/"
 
 -----------------------------------------------------------------
 -- Shader Sources
@@ -141,9 +140,10 @@ local fullTexQuad
 
 
 function widget:Initialize()
+
 	if gl.CreateShader == nil then
-		--Spring.Echo("CAS: createshader not supported, removing")
-		widgetHandler:RemoveWidget(self)
+		Spring.Echo("CAS: createshader not supported, removing")
+		widgetHandler:RemoveWidget()
 		return
 	end
 
@@ -188,24 +188,14 @@ function widget:Initialize()
 end
 
 function widget:Shutdown()
-	if not(casShader == nil) then
 	gl.DeleteTexture(screenCopyTex)
 	casShader:Finalize()
 	gl.DeleteList(fullTexQuad)
-	end
 end
 
 function widget:ViewResize()
-
-	if gl.CreateShader == nil then
-		--Spring.Echo("CAS: createshader not supported, removing")
-		widgetHandler:RemoveWidget(self)
-		return
-	else
-
 	widget:Shutdown()
 	widget:Initialize()
-	end
 end
 
 function widget:DrawScreenEffects()
@@ -218,3 +208,15 @@ function widget:DrawScreenEffects()
 	glTexture(0, false)
 end
 
+function widget:GetConfigData(data)
+	return {
+		version = version,
+		SHARPNESS = SHARPNESS
+	}
+end
+
+function widget:SetConfigData(data)
+	if data.SHARPNESS ~= nil  and data.version ~= nil and data.version == version then
+		SHARPNESS = data.SHARPNESS
+	end
+end

@@ -62,7 +62,7 @@ function DrawRectRound(px,py,sx,sy,cs)
 	--end
 	--cs = math.min(cs, csy)
 
-	gl.TexCoord(0.91,0.91)
+	gl.TexCoord(0.8,0.8)
 	gl.Vertex(px+cs, py, 0)
 	gl.Vertex(sx-cs, py, 0)
 	gl.Vertex(sx-cs, sy, 0)
@@ -159,7 +159,7 @@ end
 function addon.LoadProgress(message, replaceLastLine)
 	lastLoadMessage = message
 	if message:find("Path") then -- pathing has no rigid messages so cant use the table
-		lastProgress = {0.91, 1.0}
+		lastProgress = {0.8, 1.0}
 	end
 	lastProgress = progressByLastLine[message] or lastProgress
 end
@@ -179,9 +179,9 @@ function addon.DrawLoadScreen()
 	local vbw = 3.5/vsy
 	local hsw = 0.4
 	local vsw = 0.4
-	local yPos =  0.09 --0.054
+	local yPos =  0.3 --0.054
 	local yPosTips = yPos + 0.1245
-	local loadvalue = 0.09 + (math.max(0, loadProgress) * 0.819)
+	local loadvalue = 0.2 + (math.max(0, loadProgress) * 0.6)
 
 	if not showTips then
 		yPos = 0.165
@@ -192,33 +192,33 @@ function addon.DrawLoadScreen()
 	local paddingH = 0.004
 	local paddingW = paddingH * (vsy/vsx)
 	gl.Color(0.085,0.085,0.085,0.925)
-	RectRound(0.09-paddingW,yPos-0.05-paddingH,0.91+paddingW,yPosTips+paddingH,0.007)
+	RectRound(0.2-paddingW,yPos-0.05-paddingH,0.8+paddingW,yPosTips+paddingH,0.007)
 
 	gl.Color(0,0,0,0.75)
-	RectRound(0.09-paddingW,yPos-0.05-paddingH,0.91+paddingW,yPos+paddingH,0.007)
+	RectRound(0.2-paddingW,yPos-0.05-paddingH,0.8+paddingW,yPos+paddingH,0.007)
 
     if loadvalue > 0.215 then
 	    -- loadvalue
         gl.Color(0.4-(loadProgress/7),loadProgress*0.4,0,0.4)
-        RectRound(0.09,yPos-0.05,loadvalue,yPos,0.0055)
+        RectRound(0.2,yPos-0.05,loadvalue,yPos,0.0055)
 
         -- loadvalue gradient
         gl.Texture(false)
-        gl.BeginEnd(GL.QUADS, gradienth, 0.09,yPos-0.05,loadvalue,yPos, {1-(loadProgress/3)+0.09,loadProgress+0.09,0+0.08,0.14}, {0,0,0,0.14})
+        gl.BeginEnd(GL.QUADS, gradienth, 0.2,yPos-0.05,loadvalue,yPos, {1-(loadProgress/3)+0.2,loadProgress+0.2,0+0.08,0.14}, {0,0,0,0.14})
 
         -- loadvalue inner glow
         gl.Color(1-(loadProgress/3.5)+0.15,loadProgress+0.15,0+0.05,0.04)
         gl.Texture(":n:luaui/Images/barglow-center.png")
-        gl.TexRect(0.09,yPos-0.05,loadvalue,yPos)
+        gl.TexRect(0.2,yPos-0.05,loadvalue,yPos)
 
         -- loadvalue glow
         local glowSize = 0.06
         gl.Color(1-(loadProgress/3)+0.15,loadProgress+0.15,0+0.05,0.1)
         gl.Texture(":n:luaui/Images/barglow-center.png")
-        gl.TexRect(0.09,	yPos-0.05-glowSize,	loadvalue,	yPos+glowSize)
+        gl.TexRect(0.2,	yPos-0.05-glowSize,	loadvalue,	yPos+glowSize)
 
         gl.Texture(":n:luaui/Images/barglow-edge.png")
-        gl.TexRect(0.09-(glowSize*1.3), yPos-0.05-glowSize, 0.09, yPos+glowSize)
+        gl.TexRect(0.2-(glowSize*1.3), yPos-0.05-glowSize, 0.2, yPos+glowSize)
         gl.TexRect(loadvalue+(glowSize*1.3), yPos-0.05-glowSize, loadvalue, yPos+glowSize)
     end
 
@@ -229,9 +229,9 @@ function addon.DrawLoadScreen()
 
 		--font:Print(lastLoadMessage, vsx * 0.5, vsy * 0.3, 50, "sc")
 		--font:Print(Game.gameName, vsx * 0.5, vsy * 0.95, vsy * 0.07, "sca")
-		font:Print(lastLoadMessage, vsx * 0.11, vsy * (yPos-0.017), barTextSize * 0.67, "oa")
+		font:Print(lastLoadMessage, vsx * 0.21, vsy * (yPos-0.017), barTextSize * 0.67, "oa")
 		if loadProgress>0 then
-			font:Print(("%.0f%%"):format(loadProgress * 99), vsx * 0.5, vsy * (yPos-0.0325), barTextSize, "oc")
+			font:Print(("%.0f%%"):format(loadProgress * 100), vsx * 0.5, vsy * (yPos-0.0325), barTextSize, "oc")
 		else
 			font:Print("Loading...", vsx * 0.5, vsy * (yPos-0.031), barTextSize, "oc")
 		end

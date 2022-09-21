@@ -875,6 +875,7 @@ function applyOptionValue(i)
 
         if id == "advgraphics" then
             Spring.SetConfigInt("advgraphics", value - 1)
+			 setGraphicsPreset(0)
             setGraphicsPreset(value - 1)
         elseif id == "Water" then
             --   options = {"basic", "reflective", "dynamic", "reflective&refractive", "bump-mapped"},
@@ -934,24 +935,35 @@ local function RestartLightFXWidgets()
 end
 
 function setGraphicsPreset(value)
+--Spring.Echo("setGraphicsPresetset") //light effects is launching  2x
     if ((value == 2) and not gl.CreateShader) then --check zow can launch 1st run
-        Spring.Echo("Your PC doesn't support Ultra setting")
+        Spring.Echo("Your PC doesn't support Max setting")
         value = 1
     end
 
     if value == 0 then
         -- Spring.SetConfigInt("ssao", 0)
+				
+				--if(options[9] ~= nil and options[6] ~= nil) then -- 6 min high max 9 map border
+				--if(options[6].value == 1) then
+				--local val = 0
+				--options[9].value = val
+				--applyOptionValue(9)
+				--end
+				--end
+				
+				
+				
+				
+				
+		        Spring.SendCommands("Shadows 0")
         Spring.SendCommands("luarules disablecus")
         -- widgetHandler: DisableWidget("SSAO_alternative")
         widgetHandler:DisableWidget("Deferred rendering")
         widgetHandler:DisableWidget("Light Effects")
         widgetHandler:DisableWidget("Lups")
         widgetHandler:DisableWidget("LupsManager")
-        Spring.SendCommands("Shadows 0")
-        widgetHandler:DisableWidget("Deferred rendering")
-        widgetHandler:DisableWidget("Light Effects")
         widgetHandler:DisableWidget("Contrast Adaptive Sharpen")
-
         --widgetHandler:DisableWidget("Bloom Shader Alternate Deferred")
            widgetHandler:DisableWidget("Bloom Shader Alternate")
         Spring.SendCommands("AdvMapShading 0")
@@ -1299,7 +1311,7 @@ function widget:Initialize()
         end
     end
 
-    defaultval = 2
+    local defaultval = 2
     if (gl.CreateShader) then --check zow can launch 1st run
         defaultval = 2
     else
@@ -1308,7 +1320,9 @@ function widget:Initialize()
 
     value = Spring.GetConfigInt("advgraphics", defaultval)
     Spring.SetConfigInt("advgraphics", value)
-    setGraphicsPreset(value)
+    
+	 setGraphicsPreset(0)
+	setGraphicsPreset(value)
 
     value = Spring.GetConfigInt("Cursorcanleavewindow", 1)
 
@@ -1473,7 +1487,7 @@ function widget:Initialize()
             id = "advgraphics",
             name = "Graphics",
             type = "select",
-            options = {"Minimum", "High", "Max"},
+            options = {"Minimum", "Classic", "Max"},
             value = (tonumber(Spring.GetConfigInt("advgraphics", 1) or 1)) + 1,
             description = "Enable adv graphics, light effects and shadows"
         },

@@ -45,10 +45,10 @@ local overrideParam = {r = 1, g = 1, b = 1, radius = 200}
 local doOverride = false
 
 local globalLightMult = 2.4
-local globalLightMultSmall = 1.7 -- 1.9
+local globalLightMultSmall = 1.7 --1.7 -- 1.9
 
 local globalRadiusMult = 1.5
-local globalRadiusMultsmall = 1.3 --1.1
+local globalRadiusMultsmall = 1.3 --1.3 --1.1
 local globalLightMultLaser = 1.4 -- gets applied on top op globalRadiusMult
 local globalRadiusMultLaser = 0.9 -- gets applied on top op globalRadiusMult
 local globalLifeMult = 0.75
@@ -868,17 +868,13 @@ local ARM_NUKE = WeaponDefNames["nuclear_missile"].id
 
 local COMBLAST = WeaponDefNames["commander_blast"].id
 
--- function called by explosion_lights gadget
-
-
-
-
-
+				
 function GadgetWeaponExplosion(px, py, pz, weaponID, ownerID)
 		local wepconf = weaponConf[weaponID]
         if not wepconf.noheatdistortion then
+			local params
             if weaponID == COMBLAST then
-                local params = {
+                params = {
                     life = wepconf.life * 3.5,
                     orgMult = wepconf.orgMult * 5,
                     frame = spGetGameFrame(),
@@ -939,11 +935,11 @@ function GadgetWeaponExplosion(px, py, pz, weaponID, ownerID)
             end
             if wepconf.heatwave then
 				
-				 local strength, life, size
+			local strength, life, size
 				
-                 local cx, cy, cz = spGetCameraPosition()
-                 local distance = math.diag(px - cx, py - cy, pz - cz)
-                local strengthMult = 1 / (distance * 0.001)
+                  local cx, cy, cz = spGetCameraPosition()
+                 local  distance = math.diag(px - cx, py - cy, pz - cz)
+                 local strengthMult = 1 / (distance * 0.001)
 
                 strength = wepconf.heatstrength
                 size = wepconf.heatradius

@@ -1402,7 +1402,11 @@ uniform vec3 sunSpecularParams; // Exponent, multiplier, bias
 			specular *= aoTermSpec * energyCompensation;
 			outSpecularColor += specular;
             ambientContrib = (kD * diffuse + specular);
-            outColor = ambientContrib + dirContrib;
+			
+					vec3 lightSpecular = sunSpecular * pow(NdotH, 18) * texColor2.g;
+
+			
+            outColor = ambientContrib + dirContrib + lightSpecular;
         }
 		// final color
 		outColor += emissiveness * albedoColor;

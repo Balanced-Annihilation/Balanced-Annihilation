@@ -25,7 +25,8 @@ include("savetable.lua")
 include("debug.lua")
 include("fonts.lua")
 include("layout.lua")   -- contains a simple LayoutButtons()
-VFS.Include(LUAUI_DIRNAME .. 'widgets.lua', nil, VFS.ZIP)
+VFS.Include(LUAUI_DIRNAME .. 'bawidgets.lua', nil, VFS.ZIP)
+
 
 local gl = Spring.Draw  --  easier to use
 
@@ -36,7 +37,7 @@ local gl = Spring.Draw  --  easier to use
 --
 
 function Say(msg)
-  spSendCommands("say " .. msg)
+  spSendCommands('say ' .. msg)
 end
 
 

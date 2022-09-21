@@ -881,33 +881,6 @@ return {
   
    ["dgunfx"] = {
 
-        ballb = {
-            air                = true,
-            class              = [[CSimpleParticleSystem]],
-            count              = 1,
-            ground             = true,
-            properties = {
-                airdrag            = 0.4,
-                colormap           = [[0.85 0.25 0.15 0.1 0.65 0.25 0.15 0]],
-                directional        = true,
-                emitrot            = 0,
-                emitrotspread      = 64,
-                emitvector         = [[0, 1, 0]],
-                gravity            = [[0, -0.05, 0]],
-                numparticles       = 11,
-                particlelife       = 5,
-                particlelifespread = 1,
-                particlesize       = 8,
-                   particlesizespread = 3,
-                particlespeed      = 0.5,
-                particlespeedspread = 2.5,
-                pos                = [[0, 2, 0]],
-                sizegrowth         = -0.05,
-                sizemod            = 1.0,
-                texture            = [[flare]],
-                useairlos          = false,
-            },
-        },
   groundflash_large = {
             class              = [[CSimpleGroundFlash]],
             count              = 1,
