@@ -34,9 +34,9 @@ function widget:Initialize()
 				if (origColor <= 0.2) then
 						Spring.SetTeamColor(
 							team,
-							Spring.GetConfigInt("SimpleTeamColorsEnemyR", 210) / 255,
-							Spring.GetConfigInt("SimpleTeamColorsEnemyG", 210) / 255,
-							Spring.GetConfigInt("SimpleTeamColorsEnemyB", 210) / 255
+							Spring.GetConfigInt("SimpleTeamColorsEnemyR", 250) / 255,
+							Spring.GetConfigInt("SimpleTeamColorsEnemyG", 250) / 255,
+							Spring.GetConfigInt("SimpleTeamColorsEnemyB", 250) / 255
 						)
 				end
 			end

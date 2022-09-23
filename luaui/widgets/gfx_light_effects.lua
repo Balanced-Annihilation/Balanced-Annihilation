@@ -840,13 +840,19 @@ end
 local CORE_NUKE = WeaponDefNames["crblmssl"].id
 local ARM_NUKE = WeaponDefNames["nuclear_missile"].id
 
---local COMBLAST = WeaponDefNames["commander_blast"].id
-	
+local COMBLAST = WeaponDefNames["commander_blast"].id
+local wepconf
+local params
+			local strength, life, size
+				
+                  local cx, cy, cz
+                 local  distance 
+                 local strengthMult
+				 
 function GadgetWeaponExplosion(px, py, pz, weaponID, ownerID)
-		local wepconf = weaponConf[weaponID]
+		wepconf = weaponConf[weaponID]
         if not wepconf.noheatdistortion then
-			local params
-            if weaponID == WeaponDefNames["commander_blast"].id then
+            if weaponID == COMBLAST then
                 params = {
                     life = wepconf.life * 3.5,
                     orgMult = wepconf.orgMult * 5,
@@ -907,18 +913,17 @@ function GadgetWeaponExplosion(px, py, pz, weaponID, ownerID)
                 explosionLights[explosionLightsCount] = params
             end
             if wepconf.heatwave then
+			
 				
-			local strength, life, size
-				
-                  local cx, cy, cz = spGetCameraPosition()
-                 local  distance = math.diag(px - cx, py - cy, pz - cz)
-                 local strengthMult = 1 / (distance * 0.001)
+                   cx, cy, cz = spGetCameraPosition()
+                   distance = math.diag(px - cx, py - cy, pz - cz)
+                  strengthMult = 1 / (distance * 0.001)
 
                 strength = wepconf.heatstrength
                 size = wepconf.heatradius
                 life = wepconf.heatlife
 
-                if weaponID == WeaponDefNames["commander_blast"].id then --comblast
+                if weaponID == COMBLAST then --comblast
                     life = life * 2
                     size = size * 1.3
                     strength = strength * 1.6

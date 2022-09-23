@@ -941,8 +941,7 @@ function widget:Update()
 			UpdateCircleList()
 		end
         ]]
-        
-		if(state["screenx"] > 2000) then
+		if(vsx > 2000) then
 		lineConfig["lineWidth"] = 1.5
 		else
 		lineConfig["lineWidth"] = 1
