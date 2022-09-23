@@ -877,13 +877,44 @@ function applyOptionValue(i)
             Spring.SetConfigInt("advgraphics", value - 1)
 			 setGraphicsPreset(0)
             setGraphicsPreset(value - 1)
+			
+			
+			if((value-1) == 0) then --turn off map border
+				if(options[9] ~= nil and options[6] ~= nil) then -- 6 min high max 9 map border
+				if(options[6].value == 1) then
+				local val = 0
+				options[9].value = val
+				applyOptionValue(9) --map border
+				
+				
+				local val = 1
+				options[15].value = val
+				applyOptionValue(15) --water
+				end
+				end
+			else --turn on map border
+				if(options[9] ~= nil and options[6] ~= nil) then -- 6 min high max 9 map border
+				if(options[6].value > 1) then
+				local val = 1
+				options[9].value = val
+				applyOptionValue(9)
+				applyOptionValue(9)
+				end
+				end
+				
+				local val = 2
+				options[15].value = val
+				applyOptionValue(15) --water
+			end
         elseif id == "Water" then
             --   options = {"basic", "reflective", "dynamic", "reflective&refractive", "bump-mapped"},
 
             if (value == 3) then
                 value = 5
             end
-
+			Spring.SetConfigInt("bawater", value - 1)
+			
+			
             Spring.SendCommands("Water " .. tostring((value - 1)))
         elseif id == "camera" then
             if value == 0 then
@@ -1389,6 +1420,8 @@ function widget:Initialize()
         Spring.SetConfigInt("speccursors", 1)
         widgetHandler:EnableWidget("AllyCursorsAll")
     end
+	
+	Spring.SetConfigInt("Water", Spring.GetConfigInt("bawater", 1))
 
     if (Spring.GetConfigInt("Water", 1) == 2) or (Spring.GetConfigInt("Water", 1) == 3) then
         Spring.SetConfigInt("Water", 1)
@@ -1398,6 +1431,15 @@ function widget:Initialize()
         Spring.SetConfigInt("Water", 2)
     end
 
+	Spring.SendCommands("Water ".. Spring.GetConfigInt("bawater", 1))
+	--local val = 1
+	--options[15].value = Spring.GetConfigInt("bawater", 1)
+	--applyOptionValue(15) --water
+	--end
+				
+				
+	
+	
     value = Spring.GetConfigInt("mapborder", 1)
 
     if value == 1 then
@@ -1747,6 +1789,8 @@ function widget:Initialize()
 
     options = processedOptions
     --Spring.SetConfigString("advgraphics", value)
+	
+
 end
 
 function widget:Shutdown()

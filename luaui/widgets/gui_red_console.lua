@@ -564,7 +564,8 @@ elseif sfind(line,"rror:") then --	if sfind(line,"Error:") then
 	
 	elseif sfind(line,"normal quit") then  -- "Spectator " normal quit remove spectator quit spam
 	  ignoreThisMessage = true
-	
+	elseif sfind(line,"water rend") then  -- "Spectator " normal quit remove spectator quit spam
+	  ignoreThisMessage = true
 	
 	elseif sfind(line,"n attempt fr") then -- Reconnection attempt from/ reconnection attemp reestablish??
 	  ignoreThisMessage = true
@@ -572,7 +573,8 @@ elseif sfind(line,"rror:") then --	if sfind(line,"Error:") then
 	
 	elseif sfind(line,"not authorized") then -- User name not authorized to connect
 	  ignoreThisMessage = true
-	
+	elseif sfind(line,"rlap redu") then -- User name not authorized to connect
+	  ignoreThisMessage = true
 
 	elseif sfind(line,"not reconnect") then  -- User can not reconnect
 	  ignoreThisMessage = true

@@ -424,10 +424,7 @@ end
 --------------------------------------------------------------------------------
 -- Projectile Collection
 
-local function GetCameraHeight()
-    local camX, camY, camZ = spGetCameraPosition()
-    return camY - math.max(spGetGroundHeight(camX, camZ), 0)
-end
+
 
 local function ProjectileLevelOfDetailCheck(param, proID, fps, height)
     if param.cameraHeightLimit and param.cameraHeightLimit < height then
@@ -548,9 +545,9 @@ local function GetProjectileLights(beamLights, beamLightCount, pointLights, poin
     if (not projectileFade) and projectileCount == 0 then
         return beamLights, beamLightCount, pointLights, pointLightCount
     end
-
+	
     --local fps = Spring.GetFPS()
-    local cameraHeight = math.floor(GetCameraHeight() * 0.01) * 100
+    local cameraHeight = math.floor((cy - math.max(spGetGroundHeight(cx, cz), 0)) * 0.01) * 100
     --Spring.Echo("cameraHeight", cameraHeight, "fps", fps)
     local projectilePresent = {}
     local projectileDrawParams = projectileFade and {}
@@ -611,30 +608,7 @@ local function GetProjectileLights(beamLights, beamLightCount, pointLights, poin
                         if projectileDrawParams then
                             projectileDrawParams[#projectileDrawParams + 1] = drawParams
                         end
-                        if enableHeatDistortion and lupsenabled then
-                            local weaponDefID = spGetProjectileDefID(pID)
-                            if weaponDefID and weaponConf[weaponDefID] then --and not weaponConf[weaponDefID].noheatdistortion and Spring.IsSphereInView(x,y,z,100)
-                                if weaponConf[weaponDefID].wtype == "DGun" then
-                                    local distance = math.diag(x - cx, y - cy, z - cz)
-                                    local strengthMult = 1 / (distance * 0.001)
 
-                                    lups.AddParticles(
-                                        "JitterParticles2",
-                                        {
-                                            layer = -35,
-                                            life = weaponConf[weaponDefID].heatlife / 2,
-                                            pos = {x, y, z},
-                                            size = weaponConf[weaponDefID].heatradius * 1.5,
-                                            sizeGrowth = 0.3,
-                                            strength = (weaponConf[weaponDefID].heatstrength * 1) * strengthMult,
-                                            animSpeed = 1.3,
-                                            heat = 1,
-                                            force = {0, 0.25, 0}
-                                        }
-                                    )
-                                end
-                            end
-                        end
                     end
                 end
             end
@@ -866,14 +840,13 @@ end
 local CORE_NUKE = WeaponDefNames["crblmssl"].id
 local ARM_NUKE = WeaponDefNames["nuclear_missile"].id
 
-local COMBLAST = WeaponDefNames["commander_blast"].id
-
-				
+--local COMBLAST = WeaponDefNames["commander_blast"].id
+	
 function GadgetWeaponExplosion(px, py, pz, weaponID, ownerID)
 		local wepconf = weaponConf[weaponID]
         if not wepconf.noheatdistortion then
 			local params
-            if weaponID == COMBLAST then
+            if weaponID == WeaponDefNames["commander_blast"].id then
                 params = {
                     life = wepconf.life * 3.5,
                     orgMult = wepconf.orgMult * 5,
@@ -945,7 +918,7 @@ function GadgetWeaponExplosion(px, py, pz, weaponID, ownerID)
                 size = wepconf.heatradius
                 life = wepconf.heatlife
 
-                if weaponID == COMBLAST then --comblast
+                if weaponID == WeaponDefNames["commander_blast"].id then --comblast
                     life = life * 2
                     size = size * 1.3
                     strength = strength * 1.6

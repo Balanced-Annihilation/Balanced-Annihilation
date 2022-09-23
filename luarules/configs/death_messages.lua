@@ -79,6 +79,10 @@ allyTeamDeathMessages = {
 }	
 	
 teamDeathMessages = {
+	"Scholars will ponder where did XX go wrong?",
+	"XX's perfomance was a scientific anomaly",
+	"XX accepted their new reality",
+	"XX tried putting the square peg in the round hole",
 	"XX was humbled by the exponential curve of progress",
 	"Unable to create victory, XX was unable to understand defeat",
 	"XX considered their failure as a teammate as a failure of the world",

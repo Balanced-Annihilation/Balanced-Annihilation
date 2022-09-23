@@ -1,5 +1,5 @@
-﻿15.4.1
-21/09/2022
+﻿15.4.2
+23/09/2022
 
 Improved unit detail and explosions
 Fleas can shoot when close to each other and won't overlap

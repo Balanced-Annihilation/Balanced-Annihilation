@@ -114,6 +114,15 @@ function widget:Initialize()
     local value = tonumber(Spring.GetConfigInt("advgraphics", 1) or 1)
     Spring.SetConfigInt("advgraphics", value) --add 1 to advgraphics value, if there was no BA version recorded
 
+	value = tonumber(Spring.GetConfigInt("GroundDetail", 60) or 60)
+	if(value == 60) then
+	Spring.SendCommands("GroundDetail 80")
+	Spring.SetConfigInt("GroundDetail", 80) 
+	end	
+	
+
+	
+	
     --if(value > 0) then
     --		local watervalue = (Spring.GetConfigInt("Water", 1) > 0)
     --		Spring.SetConfigInt("Water", 1)
