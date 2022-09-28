@@ -129,7 +129,7 @@ function widget:DrawWorld()
 	WG.MexSnap.curPosition = bestPos
 	gl.DepthTest(false)
 	
-	gl.LineWidth(1.49)
+	gl.LineWidth(1.5)
     gl.Color(1, 1, 0, 0.5)
     gl.BeginEnd(GL.LINE_STRIP, DoLine, bx, by, bz, bestPos[1], bestPos[2], bestPos[3])
 	gl.LineWidth(1.0)

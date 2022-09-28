@@ -55,7 +55,7 @@ return {
 			[7] = "cormex",
 			[8] = "corexp",
 			[9] = "cormakr",
-			[10] = "corasp",
+			[10] = "corsy",
 			[11] = "coraap",
 			[12] = "corlab",
 			[13] = "corvp",
@@ -76,7 +76,7 @@ return {
 			[28] = "cordl",
 			[29] = "corjamt",
 			[30] = "cjuno",
-			[31] = "corsy",
+			[31] = "corasp",
 		},
 		sounds = {
 			build = "nanlath2",

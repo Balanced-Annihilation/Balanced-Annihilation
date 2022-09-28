@@ -77,9 +77,25 @@ allyTeamDeathMessages = {
 	"XX has been sectioned",
 
 }	
-	
+
 teamDeathMessages = {
-	"Scholars will ponder where did XX go wrong?",
+	"XX became an idea, like some forbidden knowledge, of what really is the truth",
+	"XX chased two rabbits and caught neither",
+	"XX selfd by accident while trying to delete their wind gens",
+	"XX is free",
+	"XX made their last stand",
+	"XX returned to their reality of origin",
+	"XX was held captive in a time loop",
+	"XX held a tiger by the tail",
+	"With no one left to blame, XX learned to blame themself",
+	"XX didn't take it personally",
+	"XX has left the matrix",
+	"XX was eaten by a giant sand worm",
+	"XX told you so, you fools",
+	"XX's debts will be forgiven",
+	"XX knows their rights, they want their phone call",
+	"XX was left between the roses and the cabbages",
+	"Scholars will ponder XX's mistakes",
 	"XX's perfomance was a scientific anomaly",
 	"XX accepted their new reality",
 	"XX tried putting the square peg in the round hole",

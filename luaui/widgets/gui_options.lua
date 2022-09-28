@@ -773,11 +773,17 @@ function applyOptionValue(i)
             if value == 0 then
                 widgetHandler:DisableWidget("AllyCursorsAll")
                 Spring.SetConfigInt("speccursors", 0)
-                widgetHandler:EnableWidget("AllyCursorsAll")
             else
-                widgetHandler:DisableWidget("AllyCursorsAll")
                 Spring.SetConfigInt("speccursors", 1)
                 widgetHandler:EnableWidget("AllyCursorsAll")
+            end
+		elseif id == "commandsfx" then
+			if value == 0 then
+                widgetHandler:DisableWidget("Commands FX")
+                Spring.SetConfigInt("commandsfx", 0)
+            else
+                Spring.SetConfigInt("commandsfx", 1)
+                widgetHandler:EnableWidget("Commands FX")
             end
         elseif id == "reduceping" then
             if value == 1 then
@@ -1408,18 +1414,27 @@ function widget:Initialize()
         widgetHandler:EnableWidget("Red Console")
     end
 
-    value = Spring.GetConfigInt("speccursors", 1)
+    value = Spring.GetConfigInt("speccursors", 1) or 1
     Spring.SetConfigInt("speccursors", value)
 
     if value == 0 then
         widgetHandler:DisableWidget("AllyCursorsAll")
         Spring.SetConfigInt("speccursors", 0)
-        widgetHandler:EnableWidget("AllyCursorsAll")
     else
-        widgetHandler:DisableWidget("AllyCursorsAll")
         Spring.SetConfigInt("speccursors", 1)
         widgetHandler:EnableWidget("AllyCursorsAll")
     end
+	
+	 value = Spring.GetConfigInt("commandsfx", 1) or 1
+    Spring.SetConfigInt("commandsfx", value)
+
+    if value == 0 then
+                widgetHandler:DisableWidget("Commands FX")
+                Spring.SetConfigInt("commandsfx", 0)
+            else
+                Spring.SetConfigInt("commandsfx", 1)
+                widgetHandler:EnableWidget("Commands FX")
+            end
 	
 	Spring.SetConfigInt("Water", Spring.GetConfigInt("bawater", 1))
 
@@ -1658,9 +1673,9 @@ function widget:Initialize()
         {
             id = "commandsfx",
             widget = "Commands FX",
-            name = "Show Ally Commands",
+            name = "Show orders of allies and players",
             type = "bool",
-            value = widgetHandler.orderList["Commands FX"] ~= nil and (widgetHandler.orderList["Commands FX"] > 0),
+            value = tonumber(Spring.GetConfigInt("commandsfx", 1) or 1) == 1,
             description = "Shows unit command target lines when you give orders\n\nAlso see the commands your teammates are giving to their units"
         },
         --{id="treeradius", name="Tree render distance", type="slider", min=0, max=2000, value=tonumber(Spring.GetConfigInt("TreeRadius",1) or 1000), description="Applies to SpringRTS engine default trees\n\n"}, --{id="crossalpha", name="Mouse cross alpha", type="slider", min=0, max=1, value=tonumber(Spring.GetConfigInt("CrossAlpha",1) or 1), description="Opacity of mouse icon in center of screen when you are in camera pan mode\n\n(\"icon\" looks like: dot in center with 4 arrowed pointing in all directions) "}, --{id="border", name="Immersive map border", type="bool", value=tonumber(Spring.GetConfigInt("chatsound",1) or 1) == 1, description="Adds cloudy border."}, --{id="grounddetail", name="Ground mesh detail", type="slider", min=20, max=100,step=1, value=tonumber(Spring.GetConfigInt("GroundDetail",1) or 50), description="Ground mesh detail (polygon detail of the map)"}, --  {id="mapedgeextension", widget="Map Edge Extension", name="Map edge extension", type="bool", value=widgetHandler.orderList["Map Edge Extension"] ~= nil and (widgetHandler.orderList["Map Edge Extension"] > 0), description="Mirrors the map at screen edges and darkens and decolorizes them\n\nHave shaders enabled for best result"}, --{id="advsky", name="AdvSky", type="bool", value=tonumber(Spring.GetConfigInt("AdvSky",1) or 1) == 1, description="Enables high resolution clouds\n\n"}, --   {id="snow", widget="Snow", name="Snow", type="bool", value=widgetHandler.orderList["Snow"] ~= nil and (widgetHandler.orderList["Snow"] > 0), description="Lets it snow on winter maps, auto reduces when your fps gets lower + unitcount higher\n\nYou can give the command /snow to toggle snow for the current map (it remembers)"}, -- {id="3dtrees", name="3DTrees", type="bool", value=tonumber(Spring.GetConfigInt("3DTrees",1) or 1) == 1, description="3d trees, it looks better disabled"}, --{id="fpstimespeed", name="Display FPS, GameTime and Speed", type="bool", value=tonumber(Spring.GetConfigInt("ShowFPS",1) or 1) == 1, description="Located at the top right of the screen\n\nIndividually toggle them with /fps /clock /speed"},
@@ -1716,11 +1731,11 @@ function widget:Initialize()
         },
         {
             id = "adaptive",
-            name = "Boost perfomance when FPS drops ",
+            name = "Boost perfomance if FPS is low ",
             type = "bool",
             value = widgetHandler.orderList["Adaptive graphics"] ~= nil and
                 (widgetHandler.orderList["Adaptive graphics"] > 0),
-            description = "Boost perfomance if FPS is low"
+            description = "Boost perfomance if FPS is low (under 20)"
         },
         {
             id = "sndvolmaster",

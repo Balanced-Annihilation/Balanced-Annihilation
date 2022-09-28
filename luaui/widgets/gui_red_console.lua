@@ -561,7 +561,8 @@ elseif sfind(line,"rror:") then --	if sfind(line,"Error:") then
 	elseif sfind(line,"-> User is n") then  -- "Spectator " normal quit remove spectator quit spam
 	  ignoreThisMessage = true
 	
-	
+	elseif sfind(line,"cmdcolors.tmp") then --
+	  ignoreThisMessage = true
 	elseif sfind(line,"normal quit") then  -- "Spectator " normal quit remove spectator quit spam
 	  ignoreThisMessage = true
 	elseif sfind(line,"water rend") then  -- "Spectator " normal quit remove spectator quit spam
@@ -573,7 +574,7 @@ elseif sfind(line,"rror:") then --	if sfind(line,"Error:") then
 	
 	elseif sfind(line,"not authorized") then -- User name not authorized to connect
 	  ignoreThisMessage = true
-	elseif sfind(line,"rlap redu") then -- User name not authorized to connect
+	elseif sfind(line,"rlap redu") then --
 	  ignoreThisMessage = true
 
 	elseif sfind(line,"not reconnect") then  -- User can not reconnect

@@ -7,6 +7,7 @@ function widget:GetInfo()
       license   = "GNU GPL, v2 or later",
       layer     = 2,
       enabled   = true,
+	  handler = true
    }
 end
 
@@ -16,6 +17,7 @@ end
 
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
+local lockPlayerID
 
 local CMD_ATTACK = CMD.ATTACK --icon unit or map
 local CMD_CAPTURE = CMD.CAPTURE --icon unit or area
@@ -194,6 +196,9 @@ local spIsUnitSelected = Spring.IsUnitSelected
 local spGetUnitDefID = Spring.GetUnitDefID
 local spLoadCmdColorsConfig	= Spring.LoadCmdColorsConfig
 local spGetFPS = Spring.GetFPS
+local spGetSpectatingState	= Spring.GetSpectatingState
+local IsSpec = spGetSpectatingState()
+
 
 local GL_SRC_ALPHA = GL.SRC_ALPHA
 local GL_ONE_MINUS_SRC_ALPHA = GL.ONE_MINUS_SRC_ALPHA
@@ -253,7 +258,6 @@ local function setCmdLineColors(alpha)
 end
 
 function widget:Initialize()
-	--SetUnitConf()
 	
 	--spLoadCmdColorsConfig('useQueueIcons  0 ')
 	spLoadCmdColorsConfig('queueIconScale  0.66 ')
@@ -261,6 +265,9 @@ function widget:Initialize()
 	
 	setCmdLineColors(1.0)
 end
+
+
+
 
 function widget:Shutdown()
 
@@ -424,7 +431,12 @@ function widget:UnitCommand(unitID, unitDefID, teamID, cmdID, _, _)
 	if string.sub(UnitDefs[unitDefID].name, 1, 7) == "critter" then return end
 	--Spring.Echo("spGetMyTeamID: " .. spGetMyTeamID() .. " myplayerID: " .. myPlayerID .. " teamID: " .. teamID)
 
-	if spGetMyTeamID() ~= teamID and unitID and (CONFIG[cmdID] or cmdID == CMD_INSERT or cmdID < 0) then
+--if spGetMyTeamID() ~= teamID and unitID and (CONFIG[cmdID] or cmdID == CMD_INSERT or cmdID < 0) then
+
+	
+-- Spring.GetSelectedUnitsCount() == 0 --spGetMyTeamID() ~= teamID --IsSpec
+
+if (IsSpec and (WG['advplayerlist_api'].GetLockPlayerID() ~= teamID)) or (spGetMyTeamID() ~= teamID and unitID and (CONFIG[cmdID] or cmdID == CMD_INSERT or cmdID < 0)) then
 		local el = {ID=cmdID,time=os.clock(),unitID=unitID,draw=false,selected=spIsUnitSelected(unitID),udid=spGetUnitDefID(unitID)} -- command queue is not updated until next gameframe
 		maxCommand = maxCommand + 1
 		--Spring.Echo("Adding " .. maxCommand)

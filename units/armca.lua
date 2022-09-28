@@ -54,7 +54,7 @@ return {
 			[7] = "armmex",
 			[8] = "armamex",
 			[9] = "armmakr",
-			[10] = "armasp",
+			[10] = "armsy",
 			[11] = "armaap",
 			[12] = "armlab",
 			[13] = "armvp",
@@ -75,7 +75,7 @@ return {
 			[28] = "armdl",
 			[29] = "armjamt",
 			[30] = "ajuno",
-			[31] = "armsy",
+			[31] = "armasp",
 		},
 		sounds = {
 			build = "nanlath1",

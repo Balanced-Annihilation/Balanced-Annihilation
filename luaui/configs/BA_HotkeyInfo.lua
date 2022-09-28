@@ -38,7 +38,7 @@ General = {
 }
 
 Units_I_II = {
-{"Builder Hotkeys", title=true},
+{"Builder Hotkeys (Auto selects builder)", title=true},
 {"z",         "Cycle through metal production buildings, anti, sheild"},
     {"x",         "Cycle through energy production buildings"},
     {"c",         "Cycle through ground turrets"},
