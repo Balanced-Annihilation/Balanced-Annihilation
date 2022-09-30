@@ -79,6 +79,8 @@ allyTeamDeathMessages = {
 }	
 
 teamDeathMessages = {
+	"When XX looked through their future, their future looked back through them",
+	"XX forgot to leave their ego at the door",
 	"XX became an idea, like some forbidden knowledge, of what really is the truth",
 	"XX chased two rabbits and caught neither",
 	"XX selfd by accident while trying to delete their wind gens",

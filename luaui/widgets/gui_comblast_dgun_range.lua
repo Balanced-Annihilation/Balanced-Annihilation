@@ -249,6 +249,13 @@ end
 
 function widget:Initialize()
 
+	 local allyTeamList = Spring.GetAllyTeamList()
+    local numteams = #Spring.GetTeamList() - 1 -- minus gaia
+    local numallyteams = #Spring.GetAllyTeamList() - 1 -- minus gaia
+    if ((numteams == 2) and (numallyteams == 2)) then
+		widgetHandler:DisableWidget("Comblast & Dgun Range")
+	end
+	
 	resize()
 
     detectSpectatorView()
