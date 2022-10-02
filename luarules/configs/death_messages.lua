@@ -79,6 +79,7 @@ allyTeamDeathMessages = {
 }	
 
 teamDeathMessages = {
+	"Defeat is an illusion, but XX lost because they believed it was real",
 	"When XX looked through their future, their future looked back through them",
 	"XX forgot to leave their ego at the door",
 	"XX became an idea, like some forbidden knowledge, of what really is the truth",

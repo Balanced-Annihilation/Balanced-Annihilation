@@ -87,7 +87,9 @@ end
 
 
 --------------------------------------------------------------------------------
-
+local Spring_GetTeamInfo         = Spring.GetTeamInfo
+  local disableFPS = false
+  
 function gadget:Initialize()
   Spring.SendCommands("unbind ctrl+o controlunit")
   Spring.SendCommands("bind ctrl+o controlunit")
@@ -95,6 +97,31 @@ function gadget:Initialize()
   local help = " [0|1]:  direct unit control blocking"
   gadgetHandler:AddChatAction(cmd, ChatControl, help)
   Script.AddActionFallback(cmd .. ' ', help)
+  
+  
+    local allyTeamList = Spring.GetAllyTeamList()
+  local numteams = #Spring.GetTeamList() - 1 -- minus gaia
+  local numallyteams = #Spring.GetAllyTeamList() - 1 -- minus gaia
+  
+  
+  if ((numteams == 2) and (numallyteams == 2)) then
+
+  local aiFound = false
+   for _, team in ipairs(Spring.GetTeamList()) do
+			local _,_, isDead, isAI, tside, tallyteam = Spring_GetTeamInfo(team)
+			if isAI == true then
+				aiFound = true
+			end
+	end
+  
+	
+	if(aiFound == false) then
+		disableFPS = true
+	end
+
+ 
+  end
+  
 end
 
 
@@ -108,6 +135,11 @@ end
 
 
 function gadget:AllowDirectUnitControl(unitID, unitDefID, unitTeam, playerID)
+  
+if disableFPS then
+	return false
+end
+  
   if (not enabled) then
     return true
   end
