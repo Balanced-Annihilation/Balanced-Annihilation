@@ -1,4 +1,4 @@
-﻿15.4.7
+﻿15.5.0
 12/10/2022
 
 Improved unit detail and explosions
