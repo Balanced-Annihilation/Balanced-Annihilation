@@ -38,8 +38,17 @@ function widget:Initialize()
         --Spring.SetConfigString("CamSpringScrollSpeed", "51")
         --Spring.SetConfigString("FPSScrollSpeed", "0.001")
 		Spring.SetConfigInt("GroundDetail", 80)   	
-        Spring.SetConfigInt("MaxNanoParticles", 3000)
-        Spring.SetConfigInt("MaxParticles", 30000)
+        
+		Spring.SetConfigInt("MaxParticles", 30000)
+		 Spring.SetConfigInt("BAMaxParticles", 30000)
+		 
+		  Spring.SetConfigString("GroundDecals", "1")
+		  Spring.SetConfigString("BAGroundDecals", "1")
+		  
+		  Spring.SetConfigInt("MaxNanoParticles", 3000)
+		 Spring.SetConfigInt("BAMaxNanoParticles", 3000)
+		  
+		  
         Spring.SetConfigString("UseNetMessageSmoothingBuffer", "0")
         Spring.SetConfigString("NetworkLossFactor", "2")
         Spring.SetConfigString("LinkOutgoingBandwidth", "262144")
@@ -49,15 +58,14 @@ function widget:Initialize()
 
         Spring.SetConfigInt("mapborder", 1)
         Spring.SetConfigInt("MSAALevel", 0)
-        Spring.SetConfigString("Water", "1")
+
         Spring.SetConfigString("ProfanityFilter", "1")
         Spring.SetConfigString("chatsound", "1")
         Spring.SetConfigString("reduceping", "1")
-        Spring.SetConfigString("GroundDecals", "1")
-
+       
+		
        
 
-        Spring.SetConfigInt("EdgeMoveWidth", 0.1)
         Spring.SetConfigString("MouseDragScrollThreshold", "0.3")
         Spring.SetConfigInt("UnitIconDist", 200)
         Spring.SetConfigInt("alwaysrenderwrecksandtrees", 1)
@@ -75,11 +83,11 @@ function widget:Initialize()
         Spring.SetConfigInt("ScrollWheelSpeed", 25)
     end
 
-    value = tonumber(Spring.GetConfigInt("MaxParticles", 30000) or 30000)
-    if ((value == 5000) and (value ~= 0)) then
-        Spring.SetConfigInt("MaxParticles", 30000)
-    end
+   
 
+	
+
+	
     Spring.SetConfigInt("TreeRadius", 9999)
 
     Spring.SetConfigInt("ShadowMapSize", 6144)
@@ -93,6 +101,9 @@ function widget:Initialize()
     --Spring.SetConfigInt("CamFreeScrollSpeed", Spring.GetConfigInt("CamFreeScrollSpeed", 51))
     --		Spring.SetConfigInt("CamSpringScrollSpeed", Spring.GetConfigInt("CamSpringScrollSpeed", 51))
 
+			Spring.SetConfigInt("EdgeMoveDynamic", 0)
+        Spring.SetConfigInt("EdgeMoveWidth", 0.1)
+	
     Spring.SetConfigString("UnitLodDist", "999999")
 
     Spring.SetConfigInt("HangTimeout", -1)
@@ -105,8 +116,6 @@ function widget:Initialize()
     Spring.SetConfigInt("snd_volunitreply", 100)
 
     Spring.SetConfigString("GuiOpacity", "0.6")
-    Spring.SetConfigString("AdvSky", "0") --always disable this
-    Spring.SetConfigString("DynamicSky", "0") --always disable this
     Spring.SetConfigString("Vsync", "0")
     Spring.SetConfigString("GrassDetail", "0")
     Spring.SetConfigString("MiniMapDrawProjectiles", "0")
@@ -153,12 +162,10 @@ function widget:Initialize()
         Spring.SetConfigInt("AdvUnitShading", 0)
         Spring.SetConfigInt("UseVBO", 0)
         Spring.SetConfigInt("advgraphics", 0)
-        Spring.SetConfigInt("mapborder", 1)
-		
+        Spring.SetConfigInt("mapborder", 1)	
     end
 	
-	Spring.SetConfigString("LuaGarbageCollectionMemLoadMult", "1.33")
-	Spring.SetConfigString("LuaGarbageCollectionRunTimeMult", "5")
+
 	
     local font = "FreeSansBold.otf"
     Spring.SetConfigString("FontOutlineWeight", "25")

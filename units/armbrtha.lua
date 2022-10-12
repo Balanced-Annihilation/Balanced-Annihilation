@@ -9,6 +9,9 @@ return {
 		buildtime = 85185,
 		category = "ALL NOTLAND WEAPON NOTSUB NOTSHIP NOTAIR NOTHOVER SURFACE",
 		corpse = "DEAD",
+		collisionvolumeoffsets = "0 0 0",
+		collisionvolumescales = "48 100 48",
+		collisionvolumetype = "CylY",
 		description = "Long Range Plasma Cannon",
 		explodeas = "ATOMIC_BLAST",
 		footprintx = 4,
@@ -25,7 +28,6 @@ return {
 		selfdestructas = "ATOMIC_BLAST",
 		sightdistance = 273,
 		usebuildinggrounddecal = false,
-		usepiececollisionvolumes = 1,
 		yardmap = "oooooooooooooooo",
 		customparams = {
 			canareaattack = 1,

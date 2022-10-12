@@ -125,9 +125,7 @@ vertex = [[
 	/***********************************************************************/
 	// Misc functions
 
-
 	float Perlin3D( vec3 P ) {
-		//return 0.5;
 		//  https://github.com/BrianSharpe/Wombat/blob/master/Perlin3D.glsl
 
 		// establish our grid cell and unit position
@@ -189,11 +187,10 @@ vertex = [[
 	/***********************************************************************/
 	// Auxilary functions
 
-	vec2 GetWind(float period) {
+	vec2 GetWind(int period) {
 		vec2 wind;
-		wind = sin( vec2 (0, 1.56) + period * 5.0);
-		//wind.x = sin(period * 5.0);
-		//wind.y = cos(period * 5.0);
+		wind.x = sin(period * 5.0);
+		wind.y = cos(period * 5.0);
 		return wind * 10.0f;
 	}
 
@@ -1160,24 +1157,33 @@ uniform vec3 sunSpecularParams; // Exponent, multiplier, bias
 	// Fragment shader main()
 	void main(void){
 		#line 30540
+
 		vec2 myUV = gl_TexCoord[0].xy;
+
+		if (BITMASK_FIELD(bitOptions, OPTION_NORMALMAP_FLIP)) {
+			myUV.y = 1.0 - myUV.y;
+		}
+
 		mat3 worldTBN = mat3(worldTangent, worldBitangent, worldNormal);
+
 		// N - worldFragNormal
 		vec3 N;
+
 		vec4 normalTexVal;
 		if (BITMASK_FIELD(bitOptions, OPTION_NORMALMAPPING) || BITMASK_FIELD(bitOptions, OPTION_HEALTH_TEXCHICKS)) {
 			normalTexVal = texture(normalTex, myUV);
 		}
+
 		float healthMix;
 		vec3 seedVec;
-		#ifdef ENABLE_OPTION_HEALTH_TEXTURING
 		if (BITMASK_FIELD(bitOptions, OPTION_HEALTH_TEXTURING) || BITMASK_FIELD(bitOptions, OPTION_HEALTH_TEXCHICKS)) {
 			seedVec = modelVertexPosOrig.xyz * 0.6;
-			seedVec.y += 1024.0 * hash11(float(unitID));
-			healthMix = SNORM2NORM(Perlin3D(seedVec.xyz)) * (2.0 - baseVertexDisplacement);
-			healthMix = smoothstep(0.0, healthMix, max((1.0 - healthFraction) + baseVertexDisplacement, 0.0));
+			seedVec.y += 1024.0 * hash11(float(intOptions[0]));
+
+			healthMix = SNORM2NORM(Perlin3D(seedVec.xyz)) * (2.0 - floatOptions[1]);
+			healthMix = smoothstep(0.0, healthMix, max(floatOptions[0] + floatOptions[1], 0.0));
 		}
-		#endif
+
 		vec3 tbnNormal;
 		if (BITMASK_FIELD(bitOptions, OPTION_NORMALMAPPING)) {
 			tbnNormal = NORM2SNORM(normalTexVal.xyz);
@@ -1196,39 +1202,25 @@ uniform vec3 sunSpecularParams; // Exponent, multiplier, bias
 		} else {
 			tbnNormal = vec3(0.0, 0.0, 1.0);
 		}
+
+
+		if (BITMASK_FIELD(bitOptions, OPTION_NORMALMAP_FLIP)) {
+			myUV.y = 1.0 - myUV.y;
+		}
+
 		vec4 texColor1 = texture(texture1, myUV);
 		vec4 texColor2 = texture(texture2, myUV);
-		
-		#ifdef SHIFT_RGBHSV
-			if (BITMASK_FIELD(bitOptions, OPTION_SHIFT_RGBHSV)){
-				vec3 hsvColor1 = rgb2hsv(texColor1.rgb) + userDefined2.rgb;
-				hsvColor1.r = fract(hsvColor1.r);
-				//hsvColor1.gb = clamp(hsvColor1.gb, 0.0, 1.0);
-				texColor1.rgb = hsv2rgb(hsvColor1);
-			}
-		#endif
-		#ifdef TREE_RANDOMIZATION
-			float funitID = float(unitID);
-			vec3 randluma = (funitID * vec3(0.01,0.013, 0.017) - 0.5);
-			float saturation =  clamp(dot(abs(texColor1.rgb - texColor1.gbr), vec3( 1.0)), 0.0, 1.0);
-			randluma = fract(randluma)*( saturation) + 1.0;
-			texColor1.rgb *= randluma;
-		#endif
-		#ifdef ENABLE_OPTION_HEALTH_TEXTURING
-			#if (RENDERING_MODE == 0)
-			// disable this in deferred mode
-				if (BITMASK_FIELD(bitOptions, OPTION_HEALTH_TEXTURING)) {
-					if (healthMix > 0.05){
-						vec4 texColor1w = texture(texture1w, myUV);
-						vec4 texColor2w = texture(texture2w, myUV);
-						healthMix *= (1.0 - 0.9 * texColor2.r); //emissive parts don't get too damaged
-						texColor1 = mix(texColor1, texColor1w, healthMix);
-						texColor2.xyz = mix(texColor2.xyz, texColor2w.xyz, healthMix);
-						texColor2.z += 0.5 * healthMix; //additional roughness
-					}
-				}
-			#endif
-		#endif
+
+		if (BITMASK_FIELD(bitOptions, OPTION_HEALTH_TEXTURING)) {
+			vec4 texColor1w = texture(texture1w, myUV);
+			vec4 texColor2w = texture(texture2w, myUV);
+			healthMix *= (1.0 - 0.9 * texColor2.r); //emissive parts don't get too damaged
+			texColor1 = mix(texColor1, texColor1w, healthMix);
+			texColor2.xyz = mix(texColor2.xyz, texColor2w.xyz, healthMix);
+			texColor2.z += 0.5 * healthMix; //additional roughness
+		}
+
+
 		#ifdef LUMAMULT
 		{
 			vec3 yCbCr = RGB2YCBCR * texColor1.rgb;
@@ -1236,7 +1228,9 @@ uniform vec3 sunSpecularParams; // Exponent, multiplier, bias
 			texColor1.rgb = YCBCR2RGB * yCbCr;
 		}
 		#endif
+
 		vec3 albedoColor = SRGBtoLINEAR(mix(texColor1.rgb, teamColor.rgb, texColor1.a));
+
 		if (BITMASK_FIELD(bitOptions, OPTION_HEALTH_TEXCHICKS)) {
 			float texHeight = normalTexVal.a;
 			float healthyness = clamp(healthMix * 2.0 - 0.5, 0.0, 1.0); //healthyness of 0 is near dead, 1 is fully healthy
@@ -1248,60 +1242,94 @@ uniform vec3 sunSpecularParams; // Exponent, multiplier, bias
 				albedoColor.rgb = mix(vec3(0.4, 0.0, 0.01), vec3(0.12, 0.0, 0.0), bloodRedDeepness);
 			}
 		}
+
+
 		N = normalize(worldTBN * tbnNormal);
-		float emissiveness = texColor2.r;
+
+		// PBR Params
+		#ifdef EMISSIVENESS
+			float emissiveness = EMISSIVENESS;
+		#else
+			float emissiveness = texColor2.r;
+		#endif
+
 		emissiveness = clamp(selfIllumMod * emissiveness, 0.0, 1.0);
+
 		#ifdef METALNESS
 			float metalness = METALNESS;
 		#else
 			float metalness = texColor2.g;
 		#endif
+
 		//metalness = SNORM2NORM( sin(simFrame * 0.05) );
 		//metalness = 1.0;
+
 		metalness = clamp(metalness, 0.0, 1.0);
+
 		#ifdef ROUGHNESS
 			float roughness = ROUGHNESS;
 		#else
 			float roughness = texColor2.b;
 		#endif
+
 		//roughness = SNORM2NORM( sin(simFrame * 0.25) );
 		//roughness = 0.5;
+
 		// this is great to remove specular aliasing on the edges.
 		#ifdef ROUGHNESS_AA
 			roughness = mix(roughness, AdjustRoughnessByNormalMap(roughness, tbnNormal), ROUGHNESS_AA);
 		#endif
+
 		roughness = clamp(roughness, MIN_ROUGHNESS, 1.0);
+
 		float roughness2 = roughness * roughness;
 		float roughness4 = roughness2 * roughness2;
+
 		// L - worldLightDir
 		/// Sun light is considered infinitely far, so it stays same no matter worldVertexPos.xyz
-		vec3 L = normalize(sunDir.xyz); //from fragment to light, world space
+		vec3 L = normalize(sunDir); //from fragment to light, world space
+
 		// V - worldCameraDir
 		vec3 V = normalize(worldCameraDir);
+
 		// H - worldHalfVec
 		vec3 H = normalize(L + V); //half vector
+
 		// R - reflection of worldCameraDir against worldFragNormal
 		vec3 Rv = -reflect(V, N);
+
 		// dot products
 		float NdotLu = dot(N, L);
 		float NdotL = clamp(NdotLu, 0.0, 1.0);
 		float NdotH = clamp(dot(H, N), 0.0, 1.0);
 		float NdotV = clamp(dot(N, V), EPS, 1.0);
 		float VdotH = clamp(dot(V, H), 0.0, 1.0);
+
+
 		#if defined(ROUGHNESS_PERTURB_COLOR)
 			float colorPerturbScale = mix(0.0, ROUGHNESS_PERTURB_COLOR, roughness);
 			albedoColor *= (1.0 + colorPerturbScale * rndValue); //try cheap way first (no RGB2YCBCR / YCBCR2RGB)
 		#endif
+
+
 		/// shadows
 		float shadowMult;
-		float gShadow = 1.0; // shadow mapping
-		float nShadow = smoothstep(0.0, 0.35, NdotLu); //normal based shadowing, always on
 		{
+			float nShadow = smoothstep(0.0, 0.35, NdotLu); //normal based shadowing, always on
+			float gShadow = 1.0; // shadow mapping  ////
 			if (BITMASK_FIELD(bitOptions, OPTION_SHADOWMAPPING)) {
 				gShadow = GetShadowPCFRandom(NdotL);
 			}
 			shadowMult = mix(1.0, min(nShadow, gShadow), shadowDensity);
-		}
+		}	
+
+		// sunSpecularParams = (exponent, multiplier, bias)
+		vec3 lightSpecular = sunSpecular * pow(NdotH, sunSpecularParams.x);
+		lightSpecular *= sunSpecularParams.z * sunSpecularParams.y + texColor2.g ;
+
+		lightSpecular *= shadowMult;
+
+
         ///
         // calculate reflectance at normal incidence; if dia-electric (like plastic) use F0
         // of 0.04 and if it's a metal, use the albedo color as F0 (metallic workflow)
@@ -1309,46 +1337,64 @@ uniform vec3 sunSpecularParams; // Exponent, multiplier, bias
 		vec3 F90;
 		{
 			F0 = mix(F0, albedoColor, metalness);
+
 			float reflectance = max(F0.r, max(F0.g, F0.b));
+
 			// Anything less than 2% is physically impossible and is instead considered to be shadowing. Compare to "Real-Time-Rendering" 4th editon on page 325.
 			F90 = vec3(clamp(reflectance * 50.0, 0.0, 1.0));
 		}
+
 		vec2 envBRDF = textureLod(brdfLUT, vec2(NdotV, roughness), 0.0).rg;
+
 		vec3 energyCompensation = clamp(1.0 + F0 * (1.0 / max(envBRDF.x, EPS) - 1.0), vec3(1.0), vec3(2.0));
+
+
 		//// Direct (sun) PBR lighting
         vec3 dirContrib = vec3(0.0);
 		vec3 outSpecularColor = vec3(0.0);
+
 		if (any( greaterThan(vec2(NdotL, NdotV), vec2(EPS)) )) {
 			// Cook-Torrance BRDF
+
 			vec3 F = FresnelSchlick(F0, F90, VdotH);
 			float Vis = VisibilityOcclusion(NdotL, NdotV, roughness2, roughness4);
 			float D = MicrofacetDistribution(NdotH, roughness4);
 			outSpecularColor = F * Vis * D /* * PI */;
+
 			vec3 maxSun = mix(sunSpecular, sunDiffuse, step(dot(sunSpecular, LUMA), dot(sunDiffuse, LUMA)));
 			#ifdef SUNMULT
 				maxSun *= SUNMULT;
 			#endif
+
 			outSpecularColor *= maxSun;
 			outSpecularColor *= NdotL * shadowMult;
+
             // Scale the specular lobe to account for multiscattering
             // https://google.github.io/filament/Filament.md.html#toc4.7.2
 			outSpecularColor *= energyCompensation;
+
 			 // kS is equal to Fresnel
 			//vec3 kS = F;
+
 			// for energy conservation, the diffuse and specular light can't
 			// be above 1.0 (unless the surface emits light); to preserve this
 			// relationship the diffuse component (kD) should equal 1.0 - kS.
 			vec3 kD = vec3(1.0) - F;
+
 			// multiply kD by the inverse metalness such that only non-metals
 			// have diffuse lighting, or a linear blend if partly metal (pure metals
 			// have no diffuse light).
 			kD *= 1.0 - metalness;
+
 			// add to outgoing radiance dirContrib
 			dirContrib  = maxSun * (kD * albedoColor /* PI */) * NdotL * shadowMult;
 			dirContrib += outSpecularColor;
         }
+
 		// getSpecularDominantDirection (Filament)
 		Rv = mix(Rv, N, roughness4);
+
+
 		// Indirect and ambient lighting
         vec3 outColor;
 		vec3 ambientContrib;
@@ -1356,25 +1402,29 @@ uniform vec3 sunSpecularParams; // Exponent, multiplier, bias
         {
             // ambient lighting (we now use IBL as the ambient term)
 			vec3 F = FresnelWithRoughness(F0, F90, VdotH, roughness, envBRDF);
+
             //vec3 kS = F;
             vec3 kD = 1.0 - F;
             kD *= 1.0 - metalness;
+
             ///
 			#if (USE_ENVIRONMENT_DIFFUSE == 1) || (USE_ENVIRONMENT_SPECULAR == 1)
-				#if (RENDERING_MODE == 0)
-					//TextureEnvBlured(N, Rv, iblDiffuse, iblSpecular);
-				#endif
+				TextureEnvBlured(N, Rv, iblDiffuse, iblSpecular);
 			#endif
             ///
+
             #if (USE_ENVIRONMENT_DIFFUSE == 1)
 			{
 				#if 0
 					vec3 iblDiffuseYCbCr = RGB2YCBCR * iblDiffuse;
 					float sunAmbientLuma = dot(LUMA, sunAmbient);
+
 					vec2 sunAmbientLumaLeeway = vec2(pbrParams[5]);
+
 					iblDiffuseYCbCr.x = smoothclamp(iblDiffuseYCbCr.x,
 						(1.0 - sunAmbientLumaLeeway.x) * sunAmbientLuma,
 						(1.0 + sunAmbientLumaLeeway.y) * sunAmbientLuma);
+
 					iblDiffuse = YCBCR2RGB * iblDiffuseYCbCr;
 				#else
 					iblDiffuse = mix(sunAmbient, iblDiffuse, pbrParams[5]);
@@ -1383,82 +1433,79 @@ uniform vec3 sunSpecularParams; // Exponent, multiplier, bias
 			#else
 				iblDiffuse = sunAmbient;
             #endif
-			//vec4 debugColor = vec4(albedoColor.rgb ,1.0);
+
             vec3 diffuse = iblDiffuse * albedoColor * aoTerm;
+
             // sample both the pre-filter map and the BRDF lut and combine them together as per the Split-Sum approximation to get the IBL specular part.
-			#if (RENDERING_MODE == 0)
-				vec3 reflectionColor = SampleEnvironmentWithRoughness(Rv, roughness);
-			#else
-				vec3 reflectionColor = vec3(0.0);
-			#endif
+            vec3 reflectionColor = SampleEnvironmentWithRoughness(Rv, roughness);
+
 			#if (USE_ENVIRONMENT_SPECULAR == 1)
 				reflectionColor = mix(reflectionColor, iblSpecular, roughness);
 			#endif
+
             //vec3 specular = reflectionColor * (F * envBRDF.x + (1.0 - F) * envBRDF.y);
+
 			// specular ambient occlusion (see Filament)
-			float aoTermSpec = ComputeSpecularAOFilament(NdotV, aoTerm, roughness2);
+			float aoTermSpec = ComputeSpecularAO(NdotV, aoTerm, roughness2);
 			//vec3 specular = reflectionColor * mix(vec3(envBRDF.y), vec3(envBRDF.x), F);
 			vec3 specular = reflectionColor * (F0 * envBRDF.x + F90 * envBRDF.y);
 			specular *= aoTermSpec * energyCompensation;
-			outSpecularColor += specular;
+
+
+			outSpecularColor += lightSpecular;
+kD = clamp(kD, 0.5, 1.0);
             ambientContrib = (kD * diffuse + specular);
-            outColor = ambientContrib + dirContrib;
+
+            outColor = (ambientContrib + dirContrib + lightSpecular);
+			
+
         }
+
 		// final color
-		outColor += emissiveness * albedoColor;
-		//vec3 debugloscolor;
+		outColor += emissiveness * albedoColor; //
+
 		#ifdef USE_LOSMAP
 			vec2 losMapUV = worldVertexPos.xz;
-			losMapUV /= mapSize.zw; //xz, xzPO2
-			//debugloscolor = texture(losMapTex, losMapUV).rgb * 2.0 ;
-			float losValue =  texture(losMapTex, losMapUV).r * 2.0;
-			losValue = clamp(losValue,0.5, 1.0);
+			//losMapUV /= exp2(ceil(log2((mapSize)))); // $infomap is next power of two of mapSize
+			losMapUV /= vec2(NPOT( ivec2(mapSize) ));
+			float losValue = 0.5 + texture(losMapTex, losMapUV).r;
+			losValue = mix(1.0, losValue, inLosMode);
+
 			outColor *= losValue;
 			outSpecularColor.rgb *= losValue;
 			emissiveness *= losValue;
 		#endif
-		vec4 debugColor = vec4(outColor.rgb ,1.0);
+
 		#ifdef EXPOSURE
 			outSpecularColor.rgb *= EXPOSURE;
 			outColor *= EXPOSURE;
 		#endif
+
 		outColor = TONEMAP(outColor);
 
 		if (BITMASK_FIELD(bitOptions, OPTION_MODELSFOG)) {
 			outColor = mix(gl_Fog.color.rgb, outColor, fogFactor);
 		}
-		#ifdef REFLECT_DISCARD
-			if ((uint(drawPass) & 4u ) == 4u){ // reflections
-				if (worldVertexPos.y < -2.0) discard; 
-			}
+
+		// debug hook
+		#if 0
+			//outColor = dirContrib + ambientContrib;
+			//outColor = vec3( NdotV );
+			//outColor = LINEARtoSRGB(FresnelSchlick(F0, F90, NdotV));
+			outColor = vec3(normalTexVal.aaa);
 		#endif
+
 		#if (RENDERING_MODE == 0)
 			fragData[0] = vec4(outColor, texColor2.a);
-			//fragData[0] = vec4(vec3(aoTerm/1.3), texColor2.a);
-			//fragData[0] = vec4(vec3(fract((shadowVertexPos.xyz )  ))	, 1.0); //debug
-			//fragData[0] = vec4(vec3(fract(healthMix	))	, 1.0); //debug
-			//fragData[0] = vec4(debugloscolor	, 1.0); //debug
-			//fragData[0] = vec4(cameraView[0].z,cameraView[1].z,cameraView[2].z, 1.0); //debug
-			//fragData[0] = vec4(SNORM2NORM(V), 1.0); //debug
-			//fragData[0] = vec4(NORM2SNORM(worldNormal), 1.0); //debug
-			#ifdef HASALPHASHADOWS
-				if (texColor2.a < 0.5) discard;
-			#endif
 		#elif (RENDERING_MODE == 1)
 			float alphaBin = (texColor2.a < 0.5) ? 0.0 : 1.0;
+
 			outSpecularColor = TONEMAP(outSpecularColor);
-			#ifdef HASALPHASHADOWS
-				if (texColor2.a < 0.5) {
-					discard;
-					return;
-				}
-			#endif
+
 			fragData[GBUFFER_NORMTEX_IDX] = vec4(SNORM2NORM(N), alphaBin);
 			fragData[GBUFFER_DIFFTEX_IDX] = vec4(outColor, alphaBin);
 			fragData[GBUFFER_SPECTEX_IDX] = vec4(outSpecularColor, alphaBin);
-			#ifndef HASALPHASHADOWS
-				fragData[GBUFFER_EMITTEX_IDX] = vec4(vec3(albedoColor * emissiveness * 2.0) + outSpecularColor * 0.3, alphaBin);
-			#endif
+			fragData[GBUFFER_EMITTEX_IDX] = vec4(vec3(emissiveness), alphaBin);
 			fragData[GBUFFER_MISCTEX_IDX] = vec4(float(materialIndex) / 255.0, 0.0, 0.0, alphaBin);
 		#endif
 	}
@@ -1758,24 +1805,13 @@ local function SunChanged(luaShader)
 	luaShader:SetUniformAlways("sunDiffuse", gl.GetSun("diffuse" ,"unit"))
 	luaShader:SetUniformAlways("sunSpecular", gl.GetSun("specular" ,"unit"))
 
-	--luaShader:SetUniformFloatArrayAlways("pbrParams", {
-     --   Spring.GetConfigFloat("tonemapA", 4.75),
-    --    Spring.GetConfigFloat("tonemapB", 0.75),
-    --    Spring.GetConfigFloat("tonemapC", 3.5),
-    --    Spring.GetConfigFloat("tonemapD", 0.85),
-    --    Spring.GetConfigFloat("tonemapE", 1.0),
-    --    Spring.GetConfigFloat("envAmbient", 0.25),
-    --    Spring.GetConfigFloat("unitSunMult", 1.0),
-    --    Spring.GetConfigFloat("unitExposureMult", 1.0),
-	--})
-	
 	luaShader:SetUniformFloatArrayAlways("pbrParams", {
-        Spring.GetConfigFloat("tonemapA", 4.85),
-        Spring.GetConfigFloat("tonemapB", 0.85),
+        Spring.GetConfigFloat("tonemapA", 4.75),
+        Spring.GetConfigFloat("tonemapB", 0.75),
         Spring.GetConfigFloat("tonemapC", 3.5),
         Spring.GetConfigFloat("tonemapD", 0.85),
         Spring.GetConfigFloat("tonemapE", 1.0),
-        Spring.GetConfigFloat("envAmbient", 0.23),
+        Spring.GetConfigFloat("envAmbient", 0.25),
         Spring.GetConfigFloat("unitSunMult", 1.0),
         Spring.GetConfigFloat("unitExposureMult", 1.0),
 	})

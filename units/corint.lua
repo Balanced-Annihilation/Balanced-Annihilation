@@ -7,6 +7,9 @@ return {
 		buildcostmetal = 4617,
 		buildpic = "CORINT.DDS",
 		buildtime = 93237,
+		collisionvolumeoffsets = "0 0 0",
+		collisionvolumescales = "75 100 48",
+		collisionvolumetype = "CylY",
 		category = "ALL NOTLAND WEAPON NOTSUB NOTSHIP NOTAIR NOTHOVER SURFACE",
 		corpse = "DEAD",
 		description = "Long Range Plasma Cannon",
@@ -25,7 +28,6 @@ return {
 		selfdestructas = "ATOMIC_BLAST",
 		sightdistance = 273,
 		usebuildinggrounddecal = false,
-		usepiececollisionvolumes = 1,
 		yardmap = "ooooooooooooooooooooooooo",
 		customparams = {
 			canareaattack = 1,

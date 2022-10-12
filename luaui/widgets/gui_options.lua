@@ -658,13 +658,6 @@ function applyOptionValue(i)
             --		widgetHandler: EnableWidget("SSAO_alternative")
             --		Spring.SetConfigInt("ssao", 1)
             --end
-            if value ~= 0 then
-                widgetHandler:EnableWidget("Deferred rendering")
-                widgetHandler:EnableWidget("Light Effects")
-            else
-                widgetHandler:DisableWidget("Deferred rendering")
-                widgetHandler:DisableWidget("Light Effects")
-            end
         elseif id == "alwaysrenderwrecksandtrees" then
             if value == 0 then
                 --	Spring.SendCommands("FeatureDrawDistance 5000")
@@ -842,6 +835,7 @@ function applyOptionValue(i)
         if id == "fsaa" then
             Spring.SetConfigInt("FSAALevel", value)
         elseif id == "decals" then
+		    Spring.SetConfigInt("BAGroundDecals ", value)
             Spring.SetConfigInt("GroundDecals ", value)
         elseif id == "zoomspeed" then
             Spring.SetConfigInt("ScrollWheelSpeed", value)
@@ -860,8 +854,11 @@ function applyOptionValue(i)
             Spring.SetConfigInt("TreeRadius", value)
         elseif id == "particles" then
             Spring.SetConfigInt("MaxParticles", value)
+			Spring.SetConfigInt("BAMaxParticles", value)
+
         elseif id == "nanoparticles" then
             Spring.SetConfigInt("MaxNanoParticles", value)
+			Spring.SetConfigInt("BAMaxNanoParticles", value)
         elseif id == "grassdetail" then
             Spring.SetConfigInt("GrassDetail", value)
         elseif id == "grounddetail" then
@@ -996,10 +993,13 @@ function setGraphicsPreset(value)
 		        Spring.SendCommands("Shadows 0")
         Spring.SendCommands("luarules disablecus")
         -- widgetHandler: DisableWidget("SSAO_alternative")
+		 widgetHandler:DisableWidget("LupsManager")
+		widgetHandler:DisableWidget("Lups")
+       
+		 widgetHandler:DisableWidget("Light Effects")
         widgetHandler:DisableWidget("Deferred rendering")
-        widgetHandler:DisableWidget("Light Effects")
-        widgetHandler:DisableWidget("Lups")
-        widgetHandler:DisableWidget("LupsManager")
+       
+        
         widgetHandler:DisableWidget("Contrast Adaptive Sharpen")
         --widgetHandler:DisableWidget("Bloom Shader Alternate Deferred")
            widgetHandler:DisableWidget("Bloom Shader Alternate")
@@ -1014,10 +1014,11 @@ function setGraphicsPreset(value)
 
         Spring.SetConfigInt("LuaShaders", 1)
         Spring.SendCommands("luarules disablecus")
+		    widgetHandler:EnableWidget("Lups")
+        widgetHandler:EnableWidget("LupsManager")
         widgetHandler:EnableWidget("Deferred rendering")
         widgetHandler:EnableWidget("Light Effects")
-        widgetHandler:EnableWidget("Lups")
-        widgetHandler:EnableWidget("LupsManager")
+    
 
         widgetHandler:EnableWidget("Contrast Adaptive Sharpen")
        -- widgetHandler:DisableWidget("Bloom Shader Alternate Deferred")
@@ -1033,11 +1034,11 @@ function setGraphicsPreset(value)
         Spring.SendCommands("luarules reloadcus")
 
         Spring.SetConfigInt("LuaShaders", 1)
-
+		widgetHandler:EnableWidget("Lups")
+        widgetHandler:EnableWidget("LupsManager")
         widgetHandler:EnableWidget("Deferred rendering")
         widgetHandler:EnableWidget("Light Effects")
-        widgetHandler:EnableWidget("Lups")
-        widgetHandler:EnableWidget("LupsManager")
+       
 
         widgetHandler:EnableWidget("Contrast Adaptive Sharpen")
         --widgetHandler:EnableWidget("Bloom Shader Alternate Deferred")
@@ -1358,7 +1359,7 @@ function widget:Initialize()
     value = Spring.GetConfigInt("advgraphics", defaultval)
     Spring.SetConfigInt("advgraphics", value)
     
-	 setGraphicsPreset(0)
+	setGraphicsPreset(0)
 	setGraphicsPreset(value)
 
     value = Spring.GetConfigInt("Cursorcanleavewindow", 1)
@@ -1586,17 +1587,17 @@ function widget:Initialize()
             min = 0,
             max = 60000,
             step = 1,
-            value = tonumber(Spring.GetConfigInt("MaxParticles", 1) or 30000),
+            value = tonumber(Spring.GetConfigInt("BAMaxParticles", 1) or 30000),
             description = "How many explosion particles can exist"
         },
         {
-            id = "nanoparticles",
+           id = "nanoparticles",
             name = "Max nano particles",
             type = "slider",
             min = 0,
             max = 10000,
             step = 1,
-            value = tonumber(Spring.GetConfigInt("MaxNanoParticles", 1) or 500),
+            value = tonumber(Spring.GetConfigInt("BAMaxNanoParticles", 1) or 3000),
             description = ""
         },
         {
@@ -1606,7 +1607,7 @@ function widget:Initialize()
             min = 0,
             max = 10,
             step = 1,
-            value = tonumber(Spring.GetConfigInt("GroundDecals", 1) or 1),
+            value = tonumber(Spring.GetConfigInt("BAGroundDecals", 1) or 1),
             description = "Set how much/duration map decals will be drawn\n\n(unit footsteps/tracks, darkening under buildings and scorches ground at explosions)"
         },
         -- {id="grassdetail", name="Grass", type="slider", min=0, max=10, step=1, value=tonumber(Spring.GetConfigInt("GrassDetail",1) or 0), description="Amount of grass displayed\n\n"}, -- only one of these shadow options are shown, depending if"Shadow Quality Manager" widget is active --{id="shadowslider", name="Shadows", type="slider", min=0, max=6000, step=1,value=tonumber(Spring.GetConfigInt("ShadowMapSize",1) or 1000), description="Set shadow detail\nSlider positioned the very left means shadows will be disabled\n\nShadows requires"Advanced map shading" option to be enabled"}, --{id="fsaa", name="Anti Aliasing", type="slider", min=0, max=8, step=1, value=tonumber(Spring.GetConfigInt("FSAALevel",1) or 0), description=""},

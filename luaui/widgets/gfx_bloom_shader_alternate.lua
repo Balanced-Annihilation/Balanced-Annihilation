@@ -251,7 +251,14 @@ end
 local initialized = false
 function widget:Initialize()
 
-
+darken = gl.CreateList(function()
+	gl.PushMatrix()
+	gl.Translate(0,0,0)
+	gl.Rotate(90,1,0,0)
+	gl.Rect(-mapMargin, -mapMargin, msx+mapMargin, msz+mapMargin)
+	gl.PopMatrix()
+  end)
+  
   SetIllumThreshold()
 
 
@@ -532,6 +539,14 @@ end
 function widget:DrawScreenEffects()
 	--if initialized == false then return end
 	Bloom()
+end
+
+function widget:DrawWorldPreUnit()
+	--if darken ~= nil then
+		gl.Color(0,0,0,0.14)
+		gl.CallList(darken)
+		gl.Color(1,1,1,1)
+	--end
 end
 
 

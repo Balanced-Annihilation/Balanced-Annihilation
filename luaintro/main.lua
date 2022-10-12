@@ -53,30 +53,11 @@ VFS.Include("LuaHandler/Utilities/utils.lua", nil, VFS.DEF_MODE)
 
 --// the addon handler
 include "LuaHandler/handler.lua"
+include "springconfig.lua"
 
 --// print Lua & LuaUI version
 Spring.Log(LUA_NAME, "info", LUA_VERSION .. " (" .. _VERSION .. ")")
 
 
-	if (gl.CreateShader)then
-			Spring.SetConfigInt("AdvMapShading", 1)
-			Spring.SetConfigInt("AdvModelShading", 1)
-			Spring.SetConfigInt("LuaShaders", 1)
-			Spring.SetConfigInt("AllowDeferredMapRendering", 1)
-			Spring.SetConfigInt("AllowDeferredModelRendering", 1)
-			else
-
-				Spring.SetConfigInt("LuaShaders", 0)
-			Spring.SetConfigInt("AllowDeferredMapRendering", 0)
-			Spring.SetConfigInt("AllowDeferredModelRendering", 0)
-			Spring.SetConfigInt("advgraphics", 0)
-			Spring.SetConfigInt("AdvMapShading", 0)
-			Spring.SetConfigInt("AdvUnitShading", 0)
-			Spring.SetConfigInt("UseVBO", 0)
-			Spring.SetConfigInt("immersiveborder", 0)
-			end
-			Spring.SetConfigString("UsePBO", "0")
-Spring.SetConfigString("AdvSky", "0") --always disable this
-Spring.SetConfigString("DynamicSky", "0") --always disable this
 -------------------------------------------------------------------------------
 -------------------------------------------------------------------------------
