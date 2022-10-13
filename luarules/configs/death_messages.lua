@@ -79,6 +79,7 @@ allyTeamDeathMessages = {
 }	
 
 teamDeathMessages = {
+	"XX.exe stopped responding",
 	"XX mapped out fortune's hand and let slip what was in their own",
 	"All of XX's toil was for an inscription on an epitaph",
 	"XX deceived themselves as gladly as if they deceived fate at the same time",
