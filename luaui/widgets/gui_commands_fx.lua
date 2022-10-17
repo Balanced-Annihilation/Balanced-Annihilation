@@ -197,8 +197,6 @@ local spGetUnitDefID = Spring.GetUnitDefID
 local spLoadCmdColorsConfig	= Spring.LoadCmdColorsConfig
 local spGetFPS = Spring.GetFPS
 local spGetSpectatingState	= Spring.GetSpectatingState
-local IsSpec = spGetSpectatingState()
-
 
 local GL_SRC_ALPHA = GL.SRC_ALPHA
 local GL_ONE_MINUS_SRC_ALPHA = GL.ONE_MINUS_SRC_ALPHA
@@ -436,7 +434,7 @@ function widget:UnitCommand(unitID, unitDefID, teamID, cmdID, _, _)
 	
 -- Spring.GetSelectedUnitsCount() == 0 --spGetMyTeamID() ~= teamID --IsSpec
 
-if (IsSpec and (WG['advplayerlist_api'].GetLockPlayerID() ~= teamID)) or (spGetMyTeamID() ~= teamID and unitID and (CONFIG[cmdID] or cmdID == CMD_INSERT or cmdID < 0)) then
+if (spGetSpectatingState() and (WG['advplayerlist_api'].GetLockPlayerID() ~= teamID)) or (spGetMyTeamID() ~= teamID and unitID and (CONFIG[cmdID] or cmdID == CMD_INSERT or cmdID < 0)) then
 		local el = {ID=cmdID,time=os.clock(),unitID=unitID,draw=false,selected=spIsUnitSelected(unitID),udid=spGetUnitDefID(unitID)} -- command queue is not updated until next gameframe
 		maxCommand = maxCommand + 1
 		--Spring.Echo("Adding " .. maxCommand)
