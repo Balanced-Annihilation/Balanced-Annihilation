@@ -253,7 +253,8 @@ function widget:Initialize()
     local numteams = #Spring.GetTeamList() - 1 -- minus gaia
     local numallyteams = #Spring.GetAllyTeamList() - 1 -- minus gaia
     if ((numteams == 2) and (numallyteams == 2)) then
-		widgetHandler:DisableWidget("Comblast & Dgun Range")
+		--widgetHandler:DisableWidget("Comblast & Dgun Range")
+		widgetHandler:RemoveWidget(self)
 	end
 	
 	resize()

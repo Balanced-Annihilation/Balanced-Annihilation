@@ -1,7 +1,7 @@
 function widget:GetInfo()
     return {
         name = "fix colors",
-        desc = "fix colors",
+        desc = "replace dark colors with a light one in 1v1s",
         author = "Ivan Sirko",
         date = "2020",
         license = "GPL v2",
@@ -30,8 +30,10 @@ function widget:Initialize()
 	if not IsSpec then
         for _, team in ipairs(Spring.GetTeamList()) do
 			if(myTeamID ~= team) then 
-            local origColor = Spring.GetTeamOrigColor(team)
-				if (origColor <= 0.2) then
+            local origColorR, origColorG, origColorB = Spring.GetTeamOrigColor(team)
+			Spring.Echo("cows " .. (origColorR +origColorG +origColorB))
+			Spring.Echo("cows " .. " " .. origColorR .. " ".. origColorG .." ".. origColorB)
+				if ((origColorR <= 0.5 and origColorG <= 0.5 and origColorB <= 0.5) or (origColorR +origColorG +origColorB)<=0.5) then
 						Spring.SetTeamColor(
 							team,
 							Spring.GetConfigInt("SimpleTeamColorsEnemyR", 250) / 255,

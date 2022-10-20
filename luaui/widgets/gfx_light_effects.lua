@@ -1182,8 +1182,8 @@ local function GadgetWeaponBarrelfire(px, py, pz, weaponID, ownerID)
     local params
     if wepconf.wtype == "Cannon" then
         params = {
-            life = (3 + (wepconf.life * 0.5)) * globalLifeMult,
-            orgMult = 0.3 + (wepconf.orgMult * 0.2),
+            life = (2.6 + (wepconf.life * 0.5)) * globalLifeMult,
+            orgMult = 0.6 + (wepconf.orgMult * 0.1),
             frame = spGetGameFrame(),
             px = px,
             py = py,
@@ -1193,13 +1193,13 @@ local function GadgetWeaponBarrelfire(px, py, pz, weaponID, ownerID)
                 r = 1,
                 g = 0.8,
                 b = 0.4,
-                radius = 2 + (wepconf.radius)
+                radius = 1.3 + (wepconf.radius)
             }
         }
     elseif wepconf.wtype == "BeamLaser" then
         params = {
             life = (1 + (wepconf.life * 0.5)) * globalLifeMult,
-            orgMult = 0.3,
+            orgMult = 0.4,
             frame = spGetGameFrame(),
             px = px,
             py = py,
@@ -1209,7 +1209,7 @@ local function GadgetWeaponBarrelfire(px, py, pz, weaponID, ownerID)
                 r = (wepconf.r + 1),
                 g = (wepconf.g + 1),
                 b = (wepconf.b + 1),
-                radius = 2 + (wepconf.radius)
+                radius = 1.8 + (wepconf.radius)
             }
         }
     end

@@ -13,7 +13,7 @@ return {
 		collisionvolumescales = "118 40 119",
 		collisionvolumetype = "Box",
 		corpse = "DEAD",
-		description = "Produces Amphibious/Underwater Units",
+		description = "Produces Amphibious Units",
 		energystorage = 150,
 		explodeas = "LARGE_BUILDINGEX",
 		footprintx = 8,

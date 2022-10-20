@@ -31,7 +31,6 @@ local sgsub = string.gsub
 local sfind = string.find
 local sformat = string.format
 local schar = string.char
-local sgsub = string.gsub
 local mfloor = math.floor
 local sbyte = string.byte
 local sreverse = string.reverse

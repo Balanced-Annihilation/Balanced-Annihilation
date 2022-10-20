@@ -1597,7 +1597,7 @@ function widget:Initialize()
             min = 0,
             max = 10000,
             step = 1,
-            value = tonumber(Spring.GetConfigInt("BAMaxNanoParticles", 1) or 3000),
+            value = tonumber(Spring.GetConfigInt("BAMaxNanoParticles", 1) or 4000),
             description = ""
         },
         {

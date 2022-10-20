@@ -45,8 +45,8 @@ function widget:Initialize()
 		  Spring.SetConfigString("GroundDecals", "1")
 		  Spring.SetConfigString("BAGroundDecals", "1")
 		  
-		  Spring.SetConfigInt("MaxNanoParticles", 3000)
-		 Spring.SetConfigInt("BAMaxNanoParticles", 3000)
+		  Spring.SetConfigInt("MaxNanoParticles", 4000)
+		 Spring.SetConfigInt("BAMaxNanoParticles", 4000)
 		  
 		  
         Spring.SetConfigString("UseNetMessageSmoothingBuffer", "0")

@@ -51,7 +51,7 @@ local value = tonumber(Spring.GetConfigInt("BAMaxParticles", 30000) or 30000)
 Spring.SetConfigInt("MaxParticles", value)
 Spring.SetConfigInt("BAMaxParticles", value)
 
-value = tonumber(Spring.GetConfigInt("BAMaxNanoParticles", 3000) or 3000)
+value = tonumber(Spring.GetConfigInt("BAMaxNanoParticles", 4000) or 4000)
 Spring.SetConfigInt("MaxNanoParticles", value)
 Spring.SetConfigInt("BAMaxNanoParticles", value)
 
