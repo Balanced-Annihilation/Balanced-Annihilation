@@ -174,6 +174,11 @@ function RectRound(px,py,sx,sy,cs, tl,tr,br,bl, c1,c2)		-- (coordinates work dif
 	gl.BeginEnd(GL.QUADS, DrawRectRound, px,py,sx,sy,cs, tl,tr,br,bl, c1,c2)
 end
 
+local gameMaxUnits = math.min(Spring.GetModOptions().maxunits, math.floor(32000 / #Spring.GetTeamList()))
+
+local spGetTeamUnitCount = Spring.GetTeamUnitCount
+local spGetMyTeamID = Spring.GetMyTeamID
+
 local function updateValues()
 
 	local textsize = 11*widgetScale
@@ -207,8 +212,14 @@ local function updateValues()
 		elseif minutes > 9 then
 			extraSpacing = 0.7
 		end
-
-		font:Print(titleColor..' x'..valueColor..gamespeed..titleColor..'      fps '..valueColor..fps, left+textXPadding+(textsize*(3.2+extraSpacing)), bottom+(0.3*widgetHeight*widgetScale), textsize, 'no')
+		local totalUnits = gameMaxUnits - spGetTeamUnitCount(spGetMyTeamID())
+		
+		local fpsDigits = math.floor(math.log10(fps)+1)
+		if(fpsDigits >= 3) then
+		font:Print(titleColor..' x'..valueColor..gamespeed..titleColor..'      fps '..valueColor..fps..'      unit '..valueColor..totalUnits, left+textXPadding+(textsize*(3.2+extraSpacing)), bottom+(0.3*widgetHeight*widgetScale), textsize, 'no')
+		else
+		font:Print(titleColor..' x'..valueColor..gamespeed..titleColor..'      fps '..valueColor..fps..'        unit '..valueColor..totalUnits, left+textXPadding+(textsize*(3.2+extraSpacing)), bottom+(0.3*widgetHeight*widgetScale), textsize, 'no')
+		end
 		font:End()
     end)
 end

@@ -1209,7 +1209,7 @@ local function GadgetWeaponBarrelfire(px, py, pz, weaponID, ownerID)
                 r = (wepconf.r + 1),
                 g = (wepconf.g + 1),
                 b = (wepconf.b + 1),
-                radius = 1.8 + (wepconf.radius)
+                radius = 1.7 + (wepconf.radius)
             }
         }
     end
