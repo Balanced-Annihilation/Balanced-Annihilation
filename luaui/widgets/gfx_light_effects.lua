@@ -256,6 +256,9 @@ function loadWeaponDefs()
         end
     end
 
+	
+
+	
      --[[  for i = 1, #weaponConf do
          local weaponConf = weaponConf[i]
         if weaponConf.barrelflare then
@@ -676,9 +679,12 @@ local function GetProjectileLights(beamLights, beamLightCount, pointLights, poin
                     if lupsenabled then
                         local weaponDefID = spGetProjectileDefID(pID)
                       --  if weaponDefID and weaponConf[weaponDefID] then --and not weaponConf[weaponDefID].noheatdistortion and Spring.IsSphereInView(x,y,z,100)
-                            
-							local weaponcnf = weaponConf[weaponDefID]
+                            local weaponcnf = weaponConf[weaponDefID]
 							if weaponcnf.isdgun then
+							--if dgunCache[weaponDefID] then
+							
+								--local weaponcnf = weaponConf[weaponDefID]
+
                                 local distance = math.diag(x - cx, y - cy, z - cz)
                                 local strengthMult = 1 / (distance * 0.001)
                                 lups.AddParticles(
@@ -1173,17 +1179,12 @@ end
 	end
 ]]--
 
-local function GadgetWeaponBarrelfire(px, py, pz, weaponID, ownerID)
-
-    --if barrelFlareCache[weaponID] then
-    --local wepconf = barrelFlareCacheWeaponconf[weaponID]
-    local wepconf = weaponConf[weaponID]
-	
-    local params
+local function GadgetWeaponBarrelfire(px, py, pz, weaponID, ownerID)  
+	local wepconf = weaponConf[weaponID]
     if wepconf.wtype == "Cannon" then
         params = {
-            life = (2.6 + (wepconf.life * 0.5)) * globalLifeMult,
-            orgMult = 0.6 + (wepconf.orgMult * 0.1),
+            life = (3 + (wepconf.life * 0.5)) * globalLifeMult,
+            orgMult = 0.3 + (wepconf.orgMult * 0.2),
             frame = spGetGameFrame(),
             px = px,
             py = py,
@@ -1193,13 +1194,13 @@ local function GadgetWeaponBarrelfire(px, py, pz, weaponID, ownerID)
                 r = 1,
                 g = 0.8,
                 b = 0.4,
-                radius = 1.3 + (wepconf.radius)
+                radius = 2 + (wepconf.radius)
             }
         }
     elseif wepconf.wtype == "BeamLaser" then
         params = {
             life = (1 + (wepconf.life * 0.5)) * globalLifeMult,
-            orgMult = 0.4,
+            orgMult = 0.3,
             frame = spGetGameFrame(),
             px = px,
             py = py,
@@ -1209,16 +1210,15 @@ local function GadgetWeaponBarrelfire(px, py, pz, weaponID, ownerID)
                 r = (wepconf.r + 1),
                 g = (wepconf.g + 1),
                 b = (wepconf.b + 1),
-                radius = 1.7 + (wepconf.radius)
+                radius = 2 + (wepconf.radius)
             }
         }
     end
     explosionLightsCount = explosionLightsCount + 1
     explosionLights[explosionLightsCount] = params
-    --end
 end
---------------------------------------------------------------------------------
---------------------------------------------------------------------------------
+    --if barrelFlareCache[weaponID] then
+   -- local wepconf = barrelFlareCacheWeaponconf[weaponID]
 
 function widget:Shutdown()
     WG["lighteffects"] = nil

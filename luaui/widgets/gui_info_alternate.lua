@@ -429,7 +429,7 @@ function widget:ViewResize()
 
 	vsx, vsy = Spring.GetViewGeometry()
 
-	width = 0.2125
+	width = 0.184
 	height = 0.14 * ui_scale
 	width = width / (vsx / vsy) * 1.78        -- make smaller for ultrawide screens
 	width = width * ui_scale
@@ -1067,9 +1067,17 @@ local function drawUnitInfo()
 
 	-- unit name
 	font2:Begin()
-	font2:Print(unitNameColor .. unitDefInfo[displayUnitDefID].humanName, backgroundRect[3] - width + bgpadding, backgroundRect[4] - contentPadding - (fontSize * 0.89), fontSize * 1.12, "o")
 	--font2:End()
+	local nameLength = string.len(unitDefInfo[displayUnitDefID].humanName)
+	if(nameLength>24) then
+		font2:Print(unitNameColor .. unitDefInfo[displayUnitDefID].humanName, backgroundRect[3] - width + bgpadding, backgroundRect[4] - contentPadding - (fontSize * 0.89), fontSize * 0.95, "o")
 
+	else
+		font2:Print(unitNameColor .. unitDefInfo[displayUnitDefID].humanName, backgroundRect[3] - width + bgpadding, backgroundRect[4] - contentPadding - (fontSize * 0.89), fontSize * 1.12, "o")
+
+	end
+	  --width = 0.184
+	
 	-- custom unit info area
 	customInfoArea = { math_floor(backgroundRect[3] - width - bgpadding), math_floor(backgroundRect[2]), math_floor(backgroundRect[3] - bgpadding), math_floor(backgroundRect[2] + height) }
 
@@ -1218,14 +1226,23 @@ local function drawUnitInfo()
 						table.insert(lines, s)
 					end
 		
+		--width = 0.2125  --width = 0.184
 		
 		local editedline = lines[3]
 		if lines[3] and (sfind(lines[3],'Range')) then
 			editedline = lines[3]:match("^[^R]+")
 		end
+		
+	
 
 		if lines[2] and editedline and lines[4] then
-		words = lines[2].."\n"..editedline .."\n"..lines[4].."\n"
+		local myString = lines[4]
+		
+		myString = string.gsub(myString, "Metal", "M")
+		 myString = string.gsub(myString,"Energy", "E")
+		
+		
+		words = lines[2].."\n"..editedline .."\n"..myString.."\n"
 		end
 
 		-- display unit(def) info text

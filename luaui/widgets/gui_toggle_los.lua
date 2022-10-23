@@ -29,7 +29,7 @@ local mouseover = false
 
 local usedImgSize = iconSize
 
-local isSpec = false
+local isSpec = Spring.GetSpectatingState()
 ---------------------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------------------
 
@@ -80,7 +80,7 @@ function updatePosition(force)
 end
 
 function widget:Initialize()
-	WG.clearmapmarks = {}
+	WG.togglelos = {}
 	updatePosition(true)
 end
 
@@ -88,7 +88,7 @@ function widget:Shutdown()
 	if drawlist[1] ~= nil then
 		glDeleteList(drawlist[1])
 	end
-	WG.clearmapmarks = nil
+	WG.togglelos = nil
 end
 
 local sec = 0

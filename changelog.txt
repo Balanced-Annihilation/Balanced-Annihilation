@@ -1,13 +1,14 @@
-﻿15.5.4
-21/10/2022
+﻿15.5.5
+23/10/2022
 
 Fleas can shoot when close to each other and won't overlap
 Sneaky Petes automatically cloak when finished
 Big Bertha barrels are less likely to get stuck in each other
 New D-gun effect
-New widget gfx_los_view, specs can click eye at bottom left of playerlist to view selected team's fog of war
-Remaining unit limit can be viewed at the top of the playerlist
-New widget cmd_fix_colors replaces dark enemy colors with white in 1v1 (default off)
+A warning appears at the top of the playerlist when only 100 unitcap remains
+New widget los_view, specs can click eye at bottom left of playerlist to view selected team's fog of war
+New widget key_tracker shows an onscreen keyboard, useful for streamers (default off)
+New widget fix_colors replaces dark enemy colors with white in 1v1 (default off)
 Fix widget selector not showing up on F11 on Linux.
 Fix build pictures of some map units being white (mini fus on speed metal).
 

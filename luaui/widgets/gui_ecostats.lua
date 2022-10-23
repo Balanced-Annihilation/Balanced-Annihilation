@@ -714,10 +714,10 @@ local function DrawBackground(posY, allyID, sideimagesWidth)
 
 
 	area[1] = area[1]+(widgetWidth/12)
-	if WG['tooltip'] ~= nil and (tooltipAreas['ecostats_'..allyID] == nil or tooltipAreas['ecostats_'..allyID] ~= area[1]..'_'..area[2]..'_'..area[3]..'_'..area[4]) then
-		WG['tooltip'].AddTooltip('ecostats_'..allyID, area, "Team metal/energy income\n(Lighter part of the bar is reclaim income)")
-		tooltipAreas['ecostats_'..allyID] = area[1]..'_'..area[2]..'_'..area[3]..'_'..area[4]
-	end
+	--if WG['tooltip'] ~= nil and (tooltipAreas['ecostats_'..allyID] == nil or tooltipAreas['ecostats_'..allyID] ~= area[1]..'_'..area[2]..'_'..area[3]..'_'..area[4]) then
+	--	WG['tooltip'].AddTooltip('ecostats_'..allyID, area, "Team metal/energy income\n(Lighter part of the bar is reclaim income)")
+	--	tooltipAreas['ecostats_'..allyID] = area[1]..'_'..area[2]..'_'..area[3]..'_'..area[4]
+	--end
 	glColor(1,1,1,1)
 end
 
@@ -866,9 +866,9 @@ local function DrawSideImage(sideImage, hOffset, vOffset, r, g, b, a, small, mou
 		Button["player"][tID]["y2"] = area[4]
 		Button["player"][tID]["pID"] = tID
 	end
-	if WG['tooltip'] then
-		WG['tooltip'].AddTooltip('ecostats_team_'..tID, area, teamData[tID]["leaderName"])
-	end
+	--if WG['tooltip'] then
+	--	WG['tooltip'].AddTooltip('ecostats_team_'..tID, area, teamData[tID]["leaderName"])
+	--end
 	--glTexture(sideImage)
 	glTexRect(area[1],area[2]+(borderPadding*0.5),area[3],area[4]+(borderPadding*0.5))
 	glTexture(false)

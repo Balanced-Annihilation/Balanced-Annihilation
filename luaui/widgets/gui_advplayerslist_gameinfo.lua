@@ -51,7 +51,7 @@ local advplayerlistPos = {}
 local widgetHeight = 22
 local top, left, bottom, right = 0,0,0,0
 
-
+local isSpec = Spring.GetSpectatingState()
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 
@@ -176,9 +176,6 @@ end
 
 local gameMaxUnits = math.min(Spring.GetModOptions().maxunits, math.floor(32000 / #Spring.GetTeamList()))
 
-local spGetTeamUnitCount = Spring.GetTeamUnitCount
-local spGetMyTeamID = Spring.GetMyTeamID
-
 local function updateValues()
 
 	local textsize = 11*widgetScale
@@ -212,16 +209,48 @@ local function updateValues()
 		elseif minutes > 9 then
 			extraSpacing = 0.7
 		end
-		local totalUnits = gameMaxUnits - spGetTeamUnitCount(spGetMyTeamID())
+		local myTeamId = Spring.GetMyTeamID()
+		local totalUnits = gameMaxUnits - Spring.GetTeamUnitCount(myTeamId)
 		
 		local fpsDigits = math.floor(math.log10(fps)+1)
+		if(not isSpec) then
 		if(fpsDigits >= 3) then
-		font:Print(titleColor..' x'..valueColor..gamespeed..titleColor..'      fps '..valueColor..fps..'      unit '..valueColor..totalUnits, left+textXPadding+(textsize*(3.2+extraSpacing)), bottom+(0.3*widgetHeight*widgetScale), textsize, 'no')
+			if(totalUnits<101)then
+				font:Print(titleColor..' x'..valueColor..gamespeed..titleColor..'      fps '..valueColor..fps..'      unit '..valueColor.."\255\255\001\001"..totalUnits.."\255\255\001\001", left+textXPadding+(textsize*(3.2+extraSpacing)), bottom+(0.3*widgetHeight*widgetScale), textsize, 'no')
+			else
+				font:Print(titleColor..' x'..valueColor..gamespeed..titleColor..'      fps '..valueColor..fps, left+textXPadding+(textsize*(3.2+extraSpacing)), bottom+(0.3*widgetHeight*widgetScale), textsize, 'no')
+			end
 		else
-		font:Print(titleColor..' x'..valueColor..gamespeed..titleColor..'      fps '..valueColor..fps..'        unit '..valueColor..totalUnits, left+textXPadding+(textsize*(3.2+extraSpacing)), bottom+(0.3*widgetHeight*widgetScale), textsize, 'no')
+			if(totalUnits<101)then
+				font:Print(titleColor..' x'..valueColor..gamespeed..titleColor..'      fps '..valueColor..fps..'        unit '..valueColor.."\255\255\001\001"..totalUnits.."\255\255\001\001", left+textXPadding+(textsize*(3.2+extraSpacing)), bottom+(0.3*widgetHeight*widgetScale), textsize, 'no')
+			else
+				font:Print(titleColor..' x'..valueColor..gamespeed..titleColor..'      fps '..valueColor..fps, left+textXPadding+(textsize*(3.2+extraSpacing)), bottom+(0.3*widgetHeight*widgetScale), textsize, 'no')
+			end
+		end
+		else
+				font:Print(titleColor..' x'..valueColor..gamespeed..titleColor..'      fps '..valueColor..fps, left+textXPadding+(textsize*(3.2+extraSpacing)), bottom+(0.3*widgetHeight*widgetScale), textsize, 'no')
 		end
 		font:End()
     end)
+end
+
+function widget:GameStart()
+	myPlayerID = Spring.GetMyPlayerID()
+	if Spring.GetSpectatingState() then
+		isSpec = true
+	else
+		isSpec = false
+	end
+end
+
+function widget:PlayerChanged(playerID)
+	if Spring.GetGameFrame() > 0 then
+		if playerID == myPlayerID then
+			if Spring.GetSpectatingState() then
+				isSpec = true
+			end
+		end
+	end
 end
 
 local function createList()

@@ -147,7 +147,7 @@ function widget:Initialize()
     --value = tonumber(Spring.GetConfigString("FPSScrollSpeed", 2))
     --Spring.SetConfigInt("FPSScrollSpeed", value)
 
-    if (gl.CreateShader) then
+  --[[  if (gl.CreateShader) then
         Spring.SetConfigInt("AdvMapShading", 1)
         Spring.SetConfigInt("AdvModelShading", 1)
         Spring.SetConfigInt("LuaShaders", 1)
@@ -163,7 +163,7 @@ function widget:Initialize()
         Spring.SetConfigInt("UseVBO", 0)
         Spring.SetConfigInt("advgraphics", 0)
         Spring.SetConfigInt("mapborder", 1)	
-    end
+    end]]--
 	
 
 	

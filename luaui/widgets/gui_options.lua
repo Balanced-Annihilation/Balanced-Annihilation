@@ -1577,7 +1577,7 @@ function widget:Initialize()
             name = "Always show wrecks and trees",
             type = "bool",
             value = tonumber(Spring.GetConfigInt("alwaysrenderwrecksandtrees", 1) or 1) == 1,
-            description = "Always show wrecks and trees"
+            description = "Always render wrecks and trees"
         },
         --{id="advmapshading", name="Advanced map shading", type="bool", value=tonumber(Spring.GetConfigInt("AdvMapShading",1) or 1) == 1, description="When disabled: shadows are disabled too"}, --{id="advmodelshading", name="Advanced model shading", type="bool", value=tonumber(Spring.GetConfigInt("AdvModelShading",1) or 1) == 1}, --{id="lighteffects", group="gfx", name="Advanced lighting ", type="bool", value=widgetHandler.orderList["Light Effects"] ~= nil and (widgetHandler.orderList["Light Effects"] > 0), description="Adds lights to projectiles, lasers and explosions.\n\nRequires shaders."}, --    {id="sharpen", group="gfx", name="Sharpen ", type="bool", value=widgetHandler.orderList["Contrast Adaptive Sharpen"] ~= nil and (widgetHandler.orderList["Contrast Adaptive Sharpen"] > 0), description="Sharpen all visible textures"}, --{id="lups", widget="LupsManager", name="Special effects ", type="bool", value=widgetHandler.orderList["LupsManager"] ~= nil and (widgetHandler.orderList["LupsManager"] > 0), description="Toggle unit particle effects: jet beams, ground flashes, fusion energy balls"}, --{id="shadows", name="Shadows ", type="bool", value=tonumber(Spring.GetConfigInt("Shadows",1) or 1) == 1, description="Shadow detail is currently controlled by"Shadow Quality Manager" widget\n...this widget will auto reduce detail when fps gets low.\n\nShadows requires"Advanced map shading" option to be enabled"},
         {
