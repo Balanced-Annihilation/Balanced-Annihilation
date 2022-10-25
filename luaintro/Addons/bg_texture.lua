@@ -46,9 +46,8 @@ function addon.DrawLoadScreen()
     end
 
 	-- background
-	gl.Color(1,1,1,1)
 	gl.Texture(backgroundTexture)
-	gl.TexRect(0+xDiv,0+yDiv,1-xDiv,1-yDiv)
+	Spring.Draw.Rectangle(xDiv, yDiv, 1-xDiv, 1-yDiv)
 	gl.Texture(false)
 end
 

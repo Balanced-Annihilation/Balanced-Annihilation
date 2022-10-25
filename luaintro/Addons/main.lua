@@ -48,100 +48,6 @@ file = nil
 local loadedFontSize = 70
 local font = gl.LoadFont("FreeSansBold.otf", 70, 22, 1.15)
 
-function DrawRectRound(px,py,sx,sy,cs)
-
-	--local csx = cs
-	--local csy = cs
-	--if sx-px < (cs*2) then
-	--	csx = (sx-px)/2
-	--	if csx < 0 then csx = 0 end
-	--end
-	--if sy-py < (cs*2) then
-	--	csy = (sy-py)/2
-	--	if csy < 0 then csy = 0 end
-	--end
-	--cs = math.min(cs, csy)
-
-	gl.TexCoord(0.91,0.91)
-	gl.Vertex(px+cs, py, 0)
-	gl.Vertex(sx-cs, py, 0)
-	gl.Vertex(sx-cs, sy, 0)
-	gl.Vertex(px+cs, sy, 0)
-
-	gl.Vertex(px, py+cs, 0)
-	gl.Vertex(px+cs, py+cs, 0)
-	gl.Vertex(px+cs, sy-cs, 0)
-	gl.Vertex(px, sy-cs, 0)
-	
-	gl.Vertex(sx, py+cs, 0)
-	gl.Vertex(sx-cs, py+cs, 0)
-	gl.Vertex(sx-cs, sy-cs, 0)
-	gl.Vertex(sx, sy-cs, 0)
-	
-	local offset = 0.05		-- texture offset, because else gaps could show
-	local o = offset
-	
-	-- top left
-	--if py <= 0 or px <= 0 then o = 0.5 else o = offset end
-	gl.TexCoord(o,o)
-	gl.Vertex(px, py, 0)
-	gl.TexCoord(o,1-o)
-	gl.Vertex(px+cs, py, 0)
-	gl.TexCoord(1-o,1-o)
-	gl.Vertex(px+cs, py+cs, 0)
-	gl.TexCoord(1-o,o)
-	gl.Vertex(px, py+cs, 0)
-	-- top right
-	--if py <= 0 or sx >= vsx then o = 0.5 else o = offset end
-	gl.TexCoord(o,o)
-	gl.Vertex(sx, py, 0)
-	gl.TexCoord(o,1-o)
-	gl.Vertex(sx-cs, py, 0)
-	gl.TexCoord(1-o,1-o)
-	gl.Vertex(sx-cs, py+cs, 0)
-	gl.TexCoord(1-o,o)
-	gl.Vertex(sx, py+cs, 0)
-	-- bottom left
-	--if sy >= vsy or px <= 0 then o = 0.5 else o = offset end
-	gl.TexCoord(o,o)
-	gl.Vertex(px, sy, 0)
-	gl.TexCoord(o,1-o)
-	gl.Vertex(px+cs, sy, 0)
-	gl.TexCoord(1-o,1-o)
-	gl.Vertex(px+cs, sy-cs, 0)
-	gl.TexCoord(1-o,o)
-	gl.Vertex(px, sy-cs, 0)
-	-- bottom right
-	--if sy >= vsy or sx >= vsx then o = 0.5 else o = offset end
-	gl.TexCoord(o,o)
-	gl.Vertex(sx, sy, 0)
-	gl.TexCoord(o,1-o)
-	gl.Vertex(sx-cs, sy, 0)
-	gl.TexCoord(1-o,1-o)
-	gl.Vertex(sx-cs, sy-cs, 0)
-	gl.TexCoord(1-o,o)
-	gl.Vertex(sx, sy-cs, 0)
-end
-
-function RectRound(px,py,sx,sy,cs)
-	--local px,py,sx,sy,cs = math.floor(px),math.floor(py),math.ceil(sx),math.ceil(sy),math.floor(cs)
-	
-	gl.Texture(":n:luaui/Images/bgcorner.png")
-	--gl.Texture(":n:luaui/Images/bgcorner.png")
-	gl.BeginEnd(GL.QUADS, DrawRectRound, px,py,sx,sy,cs)
-	gl.Texture(false)
-end
-
-function gradienth(px,py,sx,sy, c1,c2)
-	gl.Color(c1)
-	gl.Vertex(sx, sy, 0)
-	gl.Vertex(sx, py, 0)
-	gl.Color(c2)
-	gl.Vertex(px, py, 0)
-	gl.Vertex(px, sy, 0)
-end
-
-
 local lastLoadMessage = ""
 local lastProgress = {0, 0}
 
@@ -191,40 +97,37 @@ function addon.DrawLoadScreen()
 	--bar bg
 	local paddingH = 0.004
 	local paddingW = paddingH * (vsy/vsx)
-	gl.Color(0.085,0.085,0.085,0.925)
-	RectRound(0.09-paddingW,yPos-0.05-paddingH,0.91+paddingW,yPosTips+paddingH,0.007)
-
-	gl.Color(0,0,0,0.75)
-	RectRound(0.09-paddingW,yPos-0.05-paddingH,0.91+paddingW,yPos+paddingH,0.007)
+	Spring.Draw.Rectangle(0.09-paddingW, yPos-0.05-paddingH, 0.91+paddingW, yPosTips+paddingH, {color={0.085,0.085,0.085,0.925}, radius=0.007})
+	Spring.Draw.Rectangle(0.09-paddingW, yPos-0.05-paddingH, 0.91+paddingW, yPos+paddingH, {color={0,0,0,0.75}, radius=0.007})
 
     if loadvalue > 0.215 then
-	    -- loadvalue
-        gl.Color(0.4-(loadProgress/7),loadProgress*0.4,0,0.4)
-        RectRound(0.09,yPos-0.05,loadvalue,yPos,0.0055)
+	-- loadvalue
+	Spring.Draw.Rectangle(0.09, yPos-0.05, loadvalue, yPos, {color={0.4-(loadProgress/7),loadProgress*0.4,0,0.4}, radius=0.0055})
 
         -- loadvalue gradient
         gl.Texture(false)
-        gl.BeginEnd(GL.QUADS, gradienth, 0.09,yPos-0.05,loadvalue,yPos, {1-(loadProgress/3)+0.09,loadProgress+0.09,0+0.08,0.14}, {0,0,0,0.14})
+	gl.Blending("modulate")
+	local c1 = {0,0,0,0.14}
+	local c2 = {1-(loadProgress/3)+0.09,loadProgress+0.09,0.08,0.14}
+	Spring.Draw.Rectangle(0.09, yPos-0.05, loadvalue, yPos, {colors={c1,c2,c2,c1}})
+	gl.Blending("reset")
 
         -- loadvalue inner glow
-        gl.Color(1-(loadProgress/3.5)+0.15,loadProgress+0.15,0+0.05,0.04)
+	local gc = {1-(loadProgress/3.5)+0.15,loadProgress+0.15,0+0.05}
         gl.Texture(":n:luaui/Images/barglow-center.png")
-        gl.TexRect(0.09,yPos-0.05,loadvalue,yPos)
+	Spring.Draw.Rectangle(0.09, yPos-0.05, loadvalue, yPos, {color={gc[1],gc[2],gc[3],0.04}})
 
         -- loadvalue glow
         local glowSize = 0.06
-        gl.Color(1-(loadProgress/3)+0.15,loadProgress+0.15,0+0.05,0.1)
         gl.Texture(":n:luaui/Images/barglow-center.png")
-        gl.TexRect(0.09,	yPos-0.05-glowSize,	loadvalue,	yPos+glowSize)
+	Spring.Draw.Rectangle(0.09, yPos-0.05-glowSize, loadvalue, yPos+glowSize, {color={gc[1],gc[2],gc[3],0.1}})
 
         gl.Texture(":n:luaui/Images/barglow-edge.png")
-        gl.TexRect(0.09-(glowSize*1.3), yPos-0.05-glowSize, 0.09, yPos+glowSize)
-        gl.TexRect(loadvalue+(glowSize*1.3), yPos-0.05-glowSize, loadvalue, yPos+glowSize)
+	Spring.Draw.Rectangle(0.09-(glowSize*1.3), yPos-0.05-glowSize, 0.09, yPos+glowSize, {color={gc[1],gc[2],gc[3],0.1}})
+	Spring.Draw.Rectangle(loadvalue+(glowSize*1.3), yPos-0.05-glowSize, loadvalue, yPos+glowSize, {color={gc[1],gc[2],gc[3],0.1}, texcoords="xflip"})
     end
 
 	-- progressbar text
-	gl.PushMatrix()
-		gl.Scale(1/vsx,1/vsy,1)
 		local barTextSize = vsy * 0.026
 
 		--font:Print(lastLoadMessage, vsx * 0.5, vsy * 0.3, 50, "sc")
@@ -235,9 +138,6 @@ function addon.DrawLoadScreen()
 		else
 			font:Print("Loading...", vsx * 0.5, vsy * (yPos-0.031), barTextSize, "oc")
 		end
-	gl.PopMatrix()
-
-
 end
 
 
