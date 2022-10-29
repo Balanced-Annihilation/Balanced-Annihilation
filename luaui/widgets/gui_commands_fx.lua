@@ -456,7 +456,7 @@ local spGetSpectatingState	= Spring.GetSpectatingState
 function addUnitCommand(unitID, unitDefID, cmdID, teamID)
 	-- record that a command was given (note: cmdID is not used, but useful to record for debugging)
 	--Spring.Echo(spGetMyTeamID() .. " " .. teamID)
-	if (spGetSpectatingState() or (spGetMyTeamID() ~= teamID)) and unitID and (CONFIG[cmdID] or cmdID==CMD_INSERT or cmdID<0) then
+	if ((spGetSpectatingState() and (WG['advplayerlist_api'].GetLockPlayerID() ~= teamID)) or (spGetMyTeamID() ~= teamID)) and unitID and (CONFIG[cmdID] or cmdID==CMD_INSERT or cmdID<0) then
 		unprocessedCommandsNum = unprocessedCommandsNum + 1
 		unprocessedCommands[unprocessedCommandsNum] = {ID=cmdID,time=os.clock(),unitID=unitID,draw=false,selected=spIsUnitSelected(unitID),udid=unitDefID} -- command queue is not updated until next gameframe
 	end
