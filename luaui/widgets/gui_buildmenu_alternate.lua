@@ -1126,8 +1126,11 @@ local function drawCell(cellRectID, usedZoom, cellColor, progress, highlightColo
 	--end
 
 	-- debug order value
+	font2:Begin()
 	if showOrderDebug and smartOrderUnits and unitOrderDebug[uDefID] then
 		local text = unitOrderDebug[uDefID]
+
+	
 		font2:Print("\255\175\175\175" .. text, cellRects[cellRectID][1] + cellPadding + (cellInnerSize * 0.05), cellRects[cellRectID][4] - cellPadding - priceFontSize, priceFontSize * 0.82, "o")
 	end
 
@@ -1152,7 +1155,9 @@ local function drawCell(cellRectID, usedZoom, cellColor, progress, highlightColo
 			cellRects[cellRectID][2] + cellPadding + (cellInnerSize * 0.715) - pad2,
 			cellInnerSize * 0.29, "ro"
 		)
+		
 	end
+	font2:End()
 end
 
 
@@ -1247,7 +1252,7 @@ function drawBuildmenu()
 	if maxCellRectID > cmdsCount then
 		maxCellRectID = cmdsCount
 	end
-	font2:Begin()
+
 	local iconCount = 0
 	for row = 1, rows do
 		if cellRectID >= maxCellRectID then
@@ -1329,13 +1334,13 @@ function drawBuildmenu()
 		glBlending(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
 
 
-		
+		font2:Begin()
 		font2:Print("\255\245\245\245" .. currentPage .. "  \\  " .. pages, contentWidth * 0.5, activeArea[2] + (paginatorCellHeight * 0.5) - (paginatorFontSize * 0.25), paginatorFontSize, "co")
-
+		font2:End()
 		
 end
 
-	font2:End()
+	
 end
 
 

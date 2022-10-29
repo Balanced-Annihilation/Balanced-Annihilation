@@ -862,106 +862,6 @@ local function drawSelectionCell(cellID, uDefID, usedZoom, highlightColor)
 	end
 end
 
-local function getSelectionTotals(cells)
-	local descriptionColor = '\255\240\240\240'
-	local metalColor = '\255\245\245\245'
-	local energyColor = '\255\255\255\000'
-	local healthColor = '\255\100\255\100'
-
-	local labelColor = '\255\205\205\205'
-	local valueColor = '\255\255\255\255'
-	local valuePlusColor = '\255\180\255\180'
-	local valueMinColor = '\255\255\180\180'
-
-	local statsIndent = ''
-	local stats = ''
-
-	-- description
-	if cellHovered then
-		local text, numLines = font:WrapText(unitDefInfo[selectionCells[cellHovered]].tooltip, (backgroundRect[3] - backgroundRect[1]) * (loadedFontSize / 16))
-		stats = stats .. statsIndent .. tooltipTextColor .. text .. '\n\n'
-	end
-
-	-- loop all unitdefs/cells (but not individual unitID's)
-	local totalMetalValue = 0
-	local totalEnergyValue = 0
-	local totalDpsValue = 0
-	for _, unitDefID in pairs(cells) do
-		-- metal cost
-		if unitDefInfo[unitDefID].metalCost then
-			totalMetalValue = totalMetalValue + (unitDefInfo[unitDefID].metalCost * selUnitsCounts[unitDefID])
-		end
-		-- energy cost
-		if unitDefInfo[unitDefID].energyCost then
-			totalEnergyValue = totalEnergyValue + (unitDefInfo[unitDefID].energyCost * selUnitsCounts[unitDefID])
-		end
-		-- DPS
-		if unitDefInfo[unitDefID].dps then
-			totalDpsValue = totalDpsValue + (unitDefInfo[unitDefID].dps * selUnitsCounts[unitDefID])
-		end
-	end
-
-	-- loop all unitID's
-	local totalMaxHealthValue = 0
-	local totalHealth = 0
-	local totalMetalMake, totalMetalUse, totalEnergyMake, totalEnergyUse = 0, 0, 0, 0
-	for _, unitID in pairs(cellHovered and selUnitsSorted[selectionCells[cellHovered]] or selectedUnits) do
-		-- resources
-		local metalMake, metalUse, energyMake, energyUse = spGetUnitResources(unitID)
-		if metalMake then
-			totalMetalMake = totalMetalMake + metalMake
-			totalMetalUse = totalMetalUse + metalUse
-			totalEnergyMake = totalEnergyMake + energyMake
-			totalEnergyUse = totalEnergyUse + energyUse
-		end
-		-- health
-		local health, maxHealth, _, _, buildProgress = spGetUnitHealth(unitID)
-		if health and maxHealth then
-			totalMaxHealthValue = totalMaxHealthValue + maxHealth
-			totalHealth = totalHealth + health
-		end
-	end
-
-	-- resources
-	stats = stats .. statsIndent .. tooltipLabelTextColor .. "M: " .. (totalMetalMake > 0 and valuePlusColor .. '+' .. (totalMetalMake < 10 and round(totalMetalMake, 1) or round(totalMetalMake, 0)) .. ' ' or '... ') .. (totalMetalUse > 0 and valueMinColor .. '-' .. (totalMetalUse < 10 and round(totalMetalUse, 1) or round(totalMetalUse, 0)) or tooltipLabelTextColor .. '... ')
-	stats = stats .. '\n' .. statsIndent
-	stats = stats .. tooltipLabelTextColor .. "E: " .. (totalEnergyMake > 0 and valuePlusColor .. '+' .. (totalEnergyMake < 10 and round(totalEnergyMake, 1) or round(totalEnergyMake, 0)) .. ' ' or '... ') .. (totalEnergyUse > 0 and valueMinColor .. '-' .. (totalEnergyUse < 10 and round(totalEnergyUse, 1) or round(totalEnergyUse, 0)) or tooltipLabelTextColor .. '... ')
-
-	-- metal cost
-	if totalMetalValue > 0 then
-		stats = stats .. '\n' .. statsIndent .. tooltipLabelTextColor .. "Cost M: " .. tooltipValueWhiteColor .. totalMetalValue .. "   "
-	end
-	stats = stats .. '\n' .. statsIndent
-
-	-- energy cost
-	if totalEnergyValue > 0 then
-		stats = stats .. tooltipLabelTextColor .. "Cost E: " .. tooltipValueYellowColor .. totalEnergyValue .. "   "
-	end
-
-	-- health
-	totalMaxHealthValue = math_floor(totalMaxHealthValue)
-	if totalMaxHealthValue > 0 then
-		totalHealth = math_floor(totalHealth)
-		local percentage = math_floor((totalHealth / totalMaxHealthValue) * 100)
-		stats = stats .. '\n' .. statsIndent .. tooltipLabelTextColor .. "Health: " .. tooltipValueColor .. percentage .. "%"
-		stats = stats .. "\n" .. tooltipDarkTextColor .. " (" ..tooltipLabelTextColor .. totalHealth .. tooltipDarkTextColor .. ' of ' .. tooltipLabelTextColor .. totalMaxHealthValue .. tooltipDarkTextColor .. ")"
-	end
-
-	-- DPS
-	if totalDpsValue > 0 then
-		stats = stats .. '\n' .. statsIndent .. tooltipLabelTextColor .. "DPS: " .. tooltipValueRedColor .. totalDpsValue .. "   "
-	end
-
-	if stats ~= '' then
-		stats = '\n' .. stats
-		if not cellHovered then
-			stats = '\n' .. stats
-		end
-	end
-
-	return stats
-end
-
 local sGetSelectedUnitsCount = Spring.GetSelectedUnitsCount
 
 local function drawUnitInfo()
@@ -971,6 +871,7 @@ local function drawUnitInfo()
 	local iconPadding = math.floor(fontSize * 0.32)
 
 	glColor(1, 1, 1, 1)
+	font:Begin()
 	if unitDefInfo[displayUnitDefID].buildPic then
 		local iconX = backgroundRect[1] + iconPadding
 		local iconY =  backgroundRect[4] - iconPadding - bgpadding
@@ -1008,6 +909,7 @@ local function drawUnitInfo()
 	iconSize = iconSize + iconPadding
 
 	local dps, metalExtraction, stockpile, maxRange, exp, metalMake, metalUse, energyMake, energyUse
+	
 	local text, unitDescriptionLines = font:WrapText(unitDefInfo[displayUnitDefID].tooltip, (contentWidth - iconSize) * (loadedFontSize / fontSize))
 
 
@@ -1061,7 +963,7 @@ local function drawUnitInfo()
 	local height = (backgroundRect[4] - backgroundRect[2]) * (unitDescriptionLines > 1 and 0.495 or 0.6)
 
 	-- unit tooltip
-	font:Begin()
+	
 	font:Print(descriptionColor .. text, backgroundRect[3] - width + bgpadding, backgroundRect[4] - contentPadding - (fontSize * 2.17), fontSize * 0.98, "o")
 	font:End()
 
@@ -1071,11 +973,10 @@ local function drawUnitInfo()
 	local nameLength = string.len(unitDefInfo[displayUnitDefID].humanName)
 	if(nameLength>24) then
 		font2:Print(unitNameColor .. unitDefInfo[displayUnitDefID].humanName, backgroundRect[3] - width + bgpadding, backgroundRect[4] - contentPadding - (fontSize * 0.89), fontSize * 0.95, "o")
-
 	else
 		font2:Print(unitNameColor .. unitDefInfo[displayUnitDefID].humanName, backgroundRect[3] - width + bgpadding, backgroundRect[4] - contentPadding - (fontSize * 0.89), fontSize * 1.12, "o")
-
 	end
+	font2:End()
 	  --width = 0.184
 	
 	-- custom unit info area
@@ -1166,6 +1067,7 @@ local function drawUnitInfo()
 	-- metal
 	local fontSize2 = fontSize * 0.87
 	local contentPaddingLeft = contentPaddingLeft + texSize + (contentPadding * 0.5)
+	font2:Begin()
 	font2:Print(valueY1, backgroundRect[1] + contentPaddingLeft, posY1 - (fontSize2 * 0.31), fontSize2, "o")
 	-- energy
 	font2:Print(valueY2, backgroundRect[1] + contentPaddingLeft, posY2 - (fontSize2 * 0.31), fontSize2, "o")
@@ -1193,7 +1095,7 @@ local function drawUnitInfo()
 		end
 
 
-
+		font:Begin()
 		local text, _ = font:WrapText(text, ((backgroundRect[3] - bgpadding - bgpadding - bgpadding) - (backgroundRect[1] + contentPaddingLeft)) * (loadedFontSize / infoFontsize))
 
 		-- prune number of lines
@@ -1249,7 +1151,7 @@ local function drawUnitInfo()
 		
 		if displayMode == 'unit' then
 		
-		font:Begin()
+		
 				font:Print(caption .. words, customInfoArea[3] - width + (bgpadding*2.4), customInfoArea[4] - contentPadding - (infoFontsize * 0.55), infoFontsize, "o") --.. caption
 
 		--font:Print(text, customInfoArea[3] - width + (bgpadding*2.4), customInfoArea[4] - contentPadding - (infoFontsize * 0.55), infoFontsize, "o")
