@@ -64,7 +64,6 @@ local fontfile ="LuaUI/Fonts/FreeSansBold.otf"
 local barGlowCenterTexture = ":l:LuaUI/Images/barglow-center.png"
 local barGlowEdgeTexture   = ":l:LuaUI/Images/barglow-edge.png"
 
-local soundButton = 'LuaUI/Sounds/buildbar_waypoint.wav'
 
 local uiOpacity = tonumber(Spring.GetConfigFloat("ui_opacity", 0.66) or 0.66)
 local uiScale = tonumber(Spring.GetConfigFloat("ui_scale", 1) or 1)
@@ -513,7 +512,7 @@ local function drawCell(cell, zoom)
 					end
 				end
 			end
-			font:Begin()
+
 			local fontSize = cellInnerWidth / font:GetTextWidth('  '..text..' ') * math_min(1, (cellInnerHeight/(rows*6)))
 			  if fontSize > cellInnerWidth / 6.3 then
 				fontSize = cellInnerWidth / 6.3
@@ -533,9 +532,7 @@ local function drawCell(cell, zoom)
 			  else
 				font:SetTextColor(0.91, 0.91, 0.91, 1)
 			  end
-			  
 			  font:Print(text, cellRects[cell][1] + ((cellRects[cell][3]-cellRects[cell][1])/2), (cellRects[cell][2] - ((cellRects[cell][2]-cellRects[cell][4])/2) - fontHeightOffset), fontSize, "con")
-			  font:End()
 			end
 
 		-- state lights
@@ -608,9 +605,11 @@ local function drawOrders()
 	UiElement(backgroundRect[1], backgroundRect[2], backgroundRect[3], backgroundRect[4], ((posX <= 0) and 0 or 1), 1, ((posY-height > 0 or posX <= 0) and 1 or 0), ((posY-height > 0 and posX > 0) and 1 or 0))
 
 	if #commands > 0 then
+		font:Begin()
 		for cell = 1, #commands do
 			drawCell(cell, cellZoom)
 		end
+		font:End()
 	end
 end
 

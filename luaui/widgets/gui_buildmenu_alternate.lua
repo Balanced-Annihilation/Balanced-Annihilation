@@ -75,9 +75,6 @@ local buildKeys = {
 	112, -- P
 }
 
-local sound_queue_add = 'LuaUI/Sounds/buildbar_add.wav'
-local sound_queue_rem = 'LuaUI/Sounds/buildbar_rem.wav'
---local sound_button = 'LuaUI/Sounds/buildbar_waypoint.wav'
 
 	local fontfile ="LuaUI/Fonts/FreeSansBold.otf"
 
@@ -1126,11 +1123,8 @@ local function drawCell(cellRectID, usedZoom, cellColor, progress, highlightColo
 	--end
 
 	-- debug order value
-	font2:Begin()
 	if showOrderDebug and smartOrderUnits and unitOrderDebug[uDefID] then
 		local text = unitOrderDebug[uDefID]
-
-	
 		font2:Print("\255\175\175\175" .. text, cellRects[cellRectID][1] + cellPadding + (cellInnerSize * 0.05), cellRects[cellRectID][4] - cellPadding - priceFontSize, priceFontSize * 0.82, "o")
 	end
 
@@ -1155,9 +1149,7 @@ local function drawCell(cellRectID, usedZoom, cellColor, progress, highlightColo
 			cellRects[cellRectID][2] + cellPadding + (cellInnerSize * 0.715) - pad2,
 			cellInnerSize * 0.29, "ro"
 		)
-		
 	end
-	font2:End()
 end
 
 
@@ -1252,7 +1244,7 @@ function drawBuildmenu()
 	if maxCellRectID > cmdsCount then
 		maxCellRectID = cmdsCount
 	end
-
+	font2:Begin()
 	local iconCount = 0
 	for row = 1, rows do
 		if cellRectID >= maxCellRectID then
@@ -1334,13 +1326,13 @@ function drawBuildmenu()
 		glBlending(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
 
 
-		font2:Begin()
+		
 		font2:Print("\255\245\245\245" .. currentPage .. "  \\  " .. pages, contentWidth * 0.5, activeArea[2] + (paginatorCellHeight * 0.5) - (paginatorFontSize * 0.25), paginatorFontSize, "co")
-		font2:End()
+
 		
 end
 
-	
+	font2:End()
 end
 
 
@@ -1822,7 +1814,6 @@ function widget:MousePress(x, y, button)
 				for cellRectID, cellRect in pairs(cellRects) do
 					if cmds[cellRectID].id and unitHumanName[-cmds[cellRectID].id] and IsOnRect(x, y, cellRect[1], cellRect[2], cellRect[3], cellRect[4]) then
 						if button ~= 3 then
-							--Spring.PlaySoundFile(sound_queue_add, 0.75, 'ui')
 							if preGamestartPlayer then
 								setPreGamestartDefID(cmds[cellRectID].id * -1)
 							elseif spGetCmdDescIndex(cmds[cellRectID].id) then
@@ -1831,7 +1822,6 @@ function widget:MousePress(x, y, button)
 						else
 							if cmds[cellRectID].params[1] then
 								-- has queue
-								--Spring.PlaySoundFile(sound_queue_rem, 0.75, 'ui')
 							end
 							if preGamestartPlayer then
 								setPreGamestartDefID(cmds[cellRectID].id * -1)

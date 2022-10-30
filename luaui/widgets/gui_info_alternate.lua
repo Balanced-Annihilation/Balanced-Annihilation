@@ -871,7 +871,6 @@ local function drawUnitInfo()
 	local iconPadding = math.floor(fontSize * 0.32)
 
 	glColor(1, 1, 1, 1)
-	font:Begin()
 	if unitDefInfo[displayUnitDefID].buildPic then
 		local iconX = backgroundRect[1] + iconPadding
 		local iconY =  backgroundRect[4] - iconPadding - bgpadding
@@ -909,7 +908,6 @@ local function drawUnitInfo()
 	iconSize = iconSize + iconPadding
 
 	local dps, metalExtraction, stockpile, maxRange, exp, metalMake, metalUse, energyMake, energyUse
-	
 	local text, unitDescriptionLines = font:WrapText(unitDefInfo[displayUnitDefID].tooltip, (contentWidth - iconSize) * (loadedFontSize / fontSize))
 
 
@@ -963,7 +961,7 @@ local function drawUnitInfo()
 	local height = (backgroundRect[4] - backgroundRect[2]) * (unitDescriptionLines > 1 and 0.495 or 0.6)
 
 	-- unit tooltip
-	
+	font:Begin()
 	font:Print(descriptionColor .. text, backgroundRect[3] - width + bgpadding, backgroundRect[4] - contentPadding - (fontSize * 2.17), fontSize * 0.98, "o")
 	font:End()
 
@@ -973,10 +971,11 @@ local function drawUnitInfo()
 	local nameLength = string.len(unitDefInfo[displayUnitDefID].humanName)
 	if(nameLength>24) then
 		font2:Print(unitNameColor .. unitDefInfo[displayUnitDefID].humanName, backgroundRect[3] - width + bgpadding, backgroundRect[4] - contentPadding - (fontSize * 0.89), fontSize * 0.95, "o")
+
 	else
 		font2:Print(unitNameColor .. unitDefInfo[displayUnitDefID].humanName, backgroundRect[3] - width + bgpadding, backgroundRect[4] - contentPadding - (fontSize * 0.89), fontSize * 1.12, "o")
+
 	end
-	font2:End()
 	  --width = 0.184
 	
 	-- custom unit info area
@@ -1067,7 +1066,6 @@ local function drawUnitInfo()
 	-- metal
 	local fontSize2 = fontSize * 0.87
 	local contentPaddingLeft = contentPaddingLeft + texSize + (contentPadding * 0.5)
-	font2:Begin()
 	font2:Print(valueY1, backgroundRect[1] + contentPaddingLeft, posY1 - (fontSize2 * 0.31), fontSize2, "o")
 	-- energy
 	font2:Print(valueY2, backgroundRect[1] + contentPaddingLeft, posY2 - (fontSize2 * 0.31), fontSize2, "o")
@@ -1095,7 +1093,7 @@ local function drawUnitInfo()
 		end
 
 
-		font:Begin()
+
 		local text, _ = font:WrapText(text, ((backgroundRect[3] - bgpadding - bgpadding - bgpadding) - (backgroundRect[1] + contentPaddingLeft)) * (loadedFontSize / infoFontsize))
 
 		-- prune number of lines
@@ -1151,7 +1149,7 @@ local function drawUnitInfo()
 		
 		if displayMode == 'unit' then
 		
-		
+		font:Begin()
 				font:Print(caption .. words, customInfoArea[3] - width + (bgpadding*2.4), customInfoArea[4] - contentPadding - (infoFontsize * 0.55), infoFontsize, "o") --.. caption
 
 		--font:Print(text, customInfoArea[3] - width + (bgpadding*2.4), customInfoArea[4] - contentPadding - (infoFontsize * 0.55), infoFontsize, "o")
