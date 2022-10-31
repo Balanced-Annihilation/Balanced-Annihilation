@@ -23,7 +23,7 @@ local CanvasX,CanvasY = 1272/rescalevalue,734/rescalevalue --resolution in which
 local Config = {
 	minimap = {
 		px = -0.5,py = -0.5, --default start position
-		sx = 0,sy = 150, --background size
+		sx = 0,sy = 145, --background size
 		
 		bsx = 15,bsy = 15, --button size
 
@@ -360,7 +360,7 @@ function widget:Initialize()
 	elseif (Game.mapY > Game.mapX ) then
 					Config.minimap.sx = math.min((135*Game.mapX/Game.mapY)*1.5,320) --background size
 	else
-				Config.minimap.sx = math.min(172*Game.mapX/Game.mapY,312) --background size
+				Config.minimap.sx = math.min(172*Game.mapX/Game.mapY,270) --background size
 	end
 
 	
