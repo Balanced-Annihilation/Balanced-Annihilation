@@ -28,7 +28,8 @@ end
 
 function widget:Initialize() 
 		--Spring.SendCommands("unbind Ctrl+X select AllMap+_InPrevSel_Not_InHotkeyGroup+_SelectAll+")
-
+	Spring.SendCommands("unbindkeyset any+x")
+	Spring.SendCommands("unbindkeyset x")
 	Spring.SendCommands("unbind Ctrl+X select")
 	Spring.SendCommands("bind Ctrl+X select Visible+_InPrevSel+_ClearSelection_SelectAll+")
 
