@@ -1,7 +1,7 @@
 
 function widget:GetInfo()
 	return {
-		name = "SmartSelect",
+		name = "SmartSelectOld",
 		desc = "Selects units as you drag over them. (SHIFT: select all, Z: same type, SPACE: new idle units, CTRL: invert selection)",
 		author = "aegis (Ryan Hileman)",
 		date = "Jan 2, 2011",
@@ -13,7 +13,7 @@ end
 
 local selectBuildingsWithMobile = false		-- whether to select buildings when mobile units are inside selection rectangle
 local includeNanosAsMobile = true
-local includeBuilders = false
+local includeBuilders = true
 local sameSelectKey = 'z'	-- only select new units identical to those already selected
 local idleSelectKey = 'space'	-- only select new idle units
 
@@ -48,15 +48,14 @@ local combatFilter = {}
 local builderFilter = {}
 local buildingFilter = {}
 local mobileFilter = {}
-
-
 for udid, udef in pairs(UnitDefs) do
 	if udef.modCategories['object'] or udef.customParams.objectify then
 		ignoreUnits[udid] = true
 	end
 
 	local mobile = (udef.canMove and udef.speed > 0.000001)  or  (includeNanosAsMobile and (udef.name == "armnanotc" or udef.name == "cornanotc"))
-	local builder = (udef.canReclaim and udef.reclaimSpeed > 0)  or  (udef.canResurrect and udef.resurrectSpeed > 0)  or  (udef.canRepair and udef.repairSpeed > 0) or (udef.buildOptions and udef.buildOptions[1])	local building = (mobile == false)
+	local builder = (udef.canReclaim and udef.reclaimSpeed > 0)  or  (udef.canResurrect and udef.resurrectSpeed > 0)  or  (udef.canRepair and udef.repairSpeed > 0)
+	local building = (mobile == false)
 	local combat = (builder == false) and (mobile == true) and (#udef.weapons > 0)
 
 	combatFilter[udid] = combat
@@ -72,14 +71,6 @@ local mapWidth, mapHeight = Game.mapSizeX, Game.mapSizeZ
 
 local lastCoords, lastMeta, filtered, lastSelection, minimapRect
 local referenceCoords, referenceScreenCoords, referenceSelection, referenceSelectionTypes
-
-local spec, fullview = Spring.GetSpectatingState()
-local myTeamID = Spring.GetMyTeamID()
-
-function widget:PlayerChanged(playerID)
-	spec, fullview = Spring.GetSpectatingState()
-	myTeamID = Spring.GetMyTeamID()
-end
 
 local function sort(v1, v2)
 	if v1 > v2 then
@@ -176,8 +167,6 @@ function widget:MousePress(x, y, button)
 	end
 end
 
-local spGetUnitNoSelect = Spring.GetUnitNoSelect
-
 function widget:Update()
 
 	WG['smartselect'].updateSelection = true
@@ -217,23 +206,13 @@ function widget:Update()
 			local newSelection = {}
 			local uid, udid, tmp
 
-						-- filter unselectable units
-			tmp = {}
-			for i = 1, #mouseSelection do
-				uid = mouseSelection[i]
-				if not spGetUnitNoSelect(uid) then
-					tmp[#tmp + 1] = uid
-				end
-			end
-			mouseSelection = tmp
-				
 			-- filter gaia units + ignored units (objects)
 			if not Spring.IsGodModeEnabled() then
 				tmp = {}
 				for i = 1, #mouseSelection do
 					uid = mouseSelection[i]
-					if spGetUnitTeam(uid) ~= GaiaTeamID and not ignoreUnits[spGetUnitDefID(uid)] and (spec or spGetUnitTeam(uid) == myTeamID) then
-					tmp[#tmp + 1] = uid
+					if spGetUnitTeam(uid) ~= GaiaTeamID and not ignoreUnits[spGetUnitDefID(uid)] then
+						tmp[#tmp + 1] = uid
 					end
 				end
 				mouseSelection = tmp
