@@ -414,7 +414,7 @@ local function DrawStartBoxes()
 
     -- Cleanup stencil buffer.
     gl.StencilMask(0xFF);
-    gl.Clear(GL.GL_STENCIL_BUFFER_BIT, 0)
+    gl.Clear(GL.STENCIL_BUFFER_BIT, 0)
 end
 
 local function DrawStartCones()
@@ -513,6 +513,7 @@ function widget:DrawInMiniMap(sx, sz)
     -- only show at the beginning
     if (Spring.GetGameFrame() > 1) then
         widgetHandler:RemoveWidget(self)
+        return
     end
 
     local minY, maxY = Spring.GetGroundExtremes()
