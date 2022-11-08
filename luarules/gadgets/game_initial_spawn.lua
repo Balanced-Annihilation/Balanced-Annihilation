@@ -447,9 +447,7 @@ end
 else
 ----------------------------------------------------------------
 
-local bgcorner = ":n:LuaRules/Images/bgcorner.png"
 local customScale = 1.15
-local uiScale = customScale
 local myPlayerID = Spring.GetMyPlayerID()
 local _,_,spec,myTeamID = Spring.GetPlayerInfo(myPlayerID) 
 local amNewbie
@@ -466,125 +464,20 @@ local timer = 0
 local timer2 = 0
 
 local vsx, vsy = Spring.GetViewGeometry()
-function gadget:ViewResize()
-  vsx,vsy = Spring.GetViewGeometry()
-end
-
 local readyX = vsx * 0.8
 local readyY = vsy * 0.8 
+
+function gadget:ViewResize()
+  vsx, vsy = Spring.GetViewGeometry()
+  readyX = vsx * 0.8
+  readyY = vsy * 0.8 
+end
+
 local readyH = 35
 local readyW = 100
 local bgMargin = 2.5
 
 local pStates = {} --local copy of playerStates table
-
-
-local function DrawRectRound(px,py,sx,sy,cs, tl,tr,br,bl, c1,c2)
-	local csyMult = 1 / ((sy-py)/cs)
-
-	if c2 then
-		gl.Color(c1[1],c1[2],c1[3],c1[4])
-	end
-	gl.Vertex(px+cs, py, 0)
-	gl.Vertex(sx-cs, py, 0)
-	if c2 then
-		gl.Color(c2[1],c2[2],c2[3],c2[4])
-	end
-	gl.Vertex(sx-cs, sy, 0)
-	gl.Vertex(px+cs, sy, 0)
-
-	-- left side
-	if c2 then
-		gl.Color(c1[1]*(1-csyMult)+(c2[1]*csyMult),c1[2]*(1-csyMult)+(c2[2]*csyMult),c1[3]*(1-csyMult)+(c2[3]*csyMult),c1[4]*(1-csyMult)+(c2[4]*csyMult))
-	end
-	gl.Vertex(px, py+cs, 0)
-	gl.Vertex(px+cs, py+cs, 0)
-	if c2 then
-		gl.Color(c2[1]*(1-csyMult)+(c1[1]*csyMult),c2[2]*(1-csyMult)+(c1[2]*csyMult),c2[3]*(1-csyMult)+(c1[3]*csyMult),c2[4]*(1-csyMult)+(c1[4]*csyMult))
-	end
-	gl.Vertex(px+cs, sy-cs, 0)
-	gl.Vertex(px, sy-cs, 0)
-
-	-- right side
-	if c2 then
-		gl.Color(c1[1]*(1-csyMult)+(c2[1]*csyMult),c1[2]*(1-csyMult)+(c2[2]*csyMult),c1[3]*(1-csyMult)+(c2[3]*csyMult),c1[4]*(1-csyMult)+(c2[4]*csyMult))
-	end
-	gl.Vertex(sx, py+cs, 0)
-	gl.Vertex(sx-cs, py+cs, 0)
-	if c2 then
-		gl.Color(c2[1]*(1-csyMult)+(c1[1]*csyMult),c2[2]*(1-csyMult)+(c1[2]*csyMult),c2[3]*(1-csyMult)+(c1[3]*csyMult),c2[4]*(1-csyMult)+(c1[4]*csyMult))
-	end
-	gl.Vertex(sx-cs, sy-cs, 0)
-	gl.Vertex(sx, sy-cs, 0)
-
-	local offset = 0.15		-- texture offset, because else gaps could show
-
-	-- bottom left
-	if c2 then
-		gl.Color(c1[1],c1[2],c1[3],c1[4])
-	end
-	if ((py <= 0 or px <= 0)  or (bl ~= nil and bl == 0)) and bl ~= 2   then
-		gl.Vertex(px, py, 0)
-	else
-		gl.Vertex(px+cs, py, 0)
-	end
-	gl.Vertex(px+cs, py, 0)
-	if c2 then
-		gl.Color(c1[1]*(1-csyMult)+(c2[1]*csyMult),c1[2]*(1-csyMult)+(c2[2]*csyMult),c1[3]*(1-csyMult)+(c2[3]*csyMult),c1[4]*(1-csyMult)+(c2[4]*csyMult))
-	end
-	gl.Vertex(px+cs, py+cs, 0)
-	gl.Vertex(px, py+cs, 0)
-	-- bottom right
-	if c2 then
-		gl.Color(c1[1],c1[2],c1[3],c1[4])
-	end
-	if ((py <= 0 or sx >= vsx) or (br ~= nil and br == 0)) and br ~= 2 then
-		gl.Vertex(sx, py, 0)
-	else
-		gl.Vertex(sx-cs, py, 0)
-	end
-	gl.Vertex(sx-cs, py, 0)
-	if c2 then
-		gl.Color(c1[1]*(1-csyMult)+(c2[1]*csyMult),c1[2]*(1-csyMult)+(c2[2]*csyMult),c1[3]*(1-csyMult)+(c2[3]*csyMult),c1[4]*(1-csyMult)+(c2[4]*csyMult))
-	end
-	gl.Vertex(sx-cs, py+cs, 0)
-	gl.Vertex(sx, py+cs, 0)
-	-- top left
-	if c2 then
-		gl.Color(c2[1],c2[2],c2[3],c2[4])
-	end
-	if ((sy >= vsy or px <= 0) or (tl ~= nil and tl == 0)) and tl ~= 2 then
-		gl.Vertex(px, sy, 0)
-	else
-		gl.Vertex(px+cs, sy, 0)
-	end
-	gl.Vertex(px+cs, sy, 0)
-	if c2 then
-		gl.Color(c2[1]*(1-csyMult)+(c1[1]*csyMult),c2[2]*(1-csyMult)+(c1[2]*csyMult),c2[3]*(1-csyMult)+(c1[3]*csyMult),c2[4]*(1-csyMult)+(c1[4]*csyMult))
-	end
-	gl.Vertex(px+cs, sy-cs, 0)
-	gl.Vertex(px, sy-cs, 0)
-	-- top right
-	if c2 then
-		gl.Color(c2[1],c2[2],c2[3],c2[4])
-	end
-	if ((sy >= vsy or sx >= vsx)  or (tr ~= nil and tr == 0)) and tr ~= 2 then
-		gl.Vertex(sx, sy, 0)
-	else
-		gl.Vertex(sx-cs, sy, 0)
-	end
-	gl.Vertex(sx-cs, sy, 0)
-	if c2 then
-		gl.Color(c2[1]*(1-csyMult)+(c1[1]*csyMult),c2[2]*(1-csyMult)+(c1[2]*csyMult),c2[3]*(1-csyMult)+(c1[3]*csyMult),c2[4]*(1-csyMult)+(c1[4]*csyMult))
-	end
-	gl.Vertex(sx-cs, sy-cs, 0)
-	gl.Vertex(sx, sy-cs, 0)
-end
-function RectRound(px,py,sx,sy,cs, tl,tr,br,bl, c1,c2)		-- (coordinates work differently than the RectRound func in other widgets)
-	gl.Texture(false)
-	gl.BeginEnd(GL.QUADS, DrawRectRound, px,py,sx,sy,cs, tl,tr,br,bl, c1,c2)
-end
-
 
 function StartPointChosen(_,playerID)
 	if playerID == myPlayerID then
@@ -640,19 +533,22 @@ function gadget:GameSetup(state,ready,playerStates)
 	return true, ready
 end
 
-
-function correctMouseForScaling(x,y)
-	local buttonScreenCenterPosX = (readyX+(readyW/2))/vsx
-	local buttonScreenCenterPosY = (readyY+(readyH/2))/vsy
-	x = x - (((x/vsx)-buttonScreenCenterPosX) * vsx)*((uiScale-1)/uiScale)
-	y = y - (((y/vsy)-buttonScreenCenterPosY) * vsy)*((uiScale-1)/uiScale)
-	return x,y
+local function getButtonCoords()
+	local uiScale = (0.75 + (vsx*vsy / 7500000)) * customScale
+	local buttonWidth = readyW * uiScale
+	local buttonHeight = readyH * uiScale
+	local x1 = readyX-(buttonWidth/2)-bgMargin
+	local y1 = readyY-(buttonHeight/2)-bgMargin
+	local x2 = readyX+(buttonWidth/2)+bgMargin
+	local y2 = readyY+(buttonHeight/2)+bgMargin
+	return x1, y1, x2, y2, buttonWidth, buttonHeight
 end
 
 function gadget:MousePress(sx,sy)
+	local x1, y1, x2, y2 = getButtonCoords()
+
 	-- pressing ready
-	sx,sy = correctMouseForScaling(sx,sy)
-	if sx > readyX-bgMargin and sx < readyX+readyW+bgMargin and sy > readyY-bgMargin and sy < readyY+readyH+bgMargin and Spring.GetGameFrame() <= 0 and Game.startPosType == 2 and gameStarting==nil and not spec then
+	if sx > x1 and sx < x2 and sy > y1 and sy < y2 and Spring.GetGameFrame() <= 0 and Game.startPosType == 2 and gameStarting == nil and not spec then
 		if startPointChosen then
 			readied = true
 			return true
@@ -660,7 +556,7 @@ function gadget:MousePress(sx,sy)
 			Spring.Echo("Please choose a start point!")
 		end
 	end
-	
+
 	-- message when trying to place startpoint but can't
 	if amNewbie then
 		local target,_ = Spring.TraceScreenRay(sx,sy)
@@ -677,74 +573,44 @@ end
 function gadget:Initialize()
 	-- add function to receive when startpoints were chosen
 	gadgetHandler:AddSyncAction("StartPointChosen", StartPointChosen)
-	
-		-- create ready button
-	readyButton = gl.CreateList(function()
-		-- draws background rectangle
-		gl.Color(0,0,0,0.75)
-		RectRound(-((readyW/2)+bgMargin), -((readyH/2)+bgMargin), ((readyW/2)+bgMargin), ((readyH/2)+bgMargin), 4, 2,2,2,2, {0.05,0.05,0.05,0.75}, {0,0,0,0.75})
-		RectRound(-readyW/2, -readyH/2, readyW/2, readyH/2, 3, 2,2,2,2, {1,1,1,0}, {1,1,1,0.1})
-		-- gloss
-		gl.Blending(GL.SRC_ALPHA, GL.ONE)
-		RectRound(-readyW/2, 0, readyW/2, readyH/2, 3, 2,2,0,0, {1,1,1,0.035}, {1,1,1,0.11})
-		RectRound(-readyW/2, -readyH/2, readyW/2, -readyH/4, 3, 0,0,2,2, {1,1,1,0.045}, {1,1,1,0})
-		gl.Blending(GL.SRC_ALPHA, GL.ONE_MINUS_SRC_ALPHA)
-		gl.Color(1,1,1,1)
-	end)
-	-- create ready button
-	readyButtonHover = gl.CreateList(function()
-		-- draws background rectangle
-		gl.Color(0.15,0.12,0,0.75)
-		RectRound(-((readyW/2)+bgMargin), -((readyH/2)+bgMargin), ((readyW/2)+bgMargin), ((readyH/2)+bgMargin), 4, 2,2,2,2)
-		RectRound(-readyW/2, -readyH/2, readyW/2, readyH/2, 3, 2,2,2,2,{1,1,1,0}, {1,1,1,0.22})
-		-- gloss
-		gl.Blending(GL.SRC_ALPHA, GL.ONE)
-		RectRound(-readyW/2, 0, readyW/2, readyH/2, 3, 2,2,0,0, {1,1,1,0.05}, {1,1,1,0.18})
-		RectRound(-readyW/2, -readyH/2, readyW/2, -readyH/4, 3, 0,0,2,2, {1,1,1,0.07}, {1,1,1,0})
-		gl.Blending(GL.SRC_ALPHA, GL.ONE_MINUS_SRC_ALPHA)
-		gl.Color(1,1,1,1)
-	end)
 end
 
 function gadget:DrawScreen()
-  uiScale = (0.75 + (vsx*vsy / 7500000)) * customScale
-	gl.PushMatrix()
-		gl.Translate(readyX+(readyW/2),readyY+(readyH/2),0)
-		gl.Scale(uiScale, uiScale, 1)
-			
-		if not readied and readyButton and Game.startPosType == 2 and gameStarting==nil and not spec and not isReplay then
-		--if not readied and readyButton and not spec and not isReplay then
-			
-			-- draw ready button and text
-			local x,y = Spring.GetMouseState()
-			x,y = correctMouseForScaling(x,y)
-			if x > readyX-bgMargin and x < readyX+readyW+bgMargin and y > readyY-bgMargin and y < readyY+readyH+bgMargin then
-				gl.CallList(readyButtonHover)
-				colorString = "\255\255\222\0"
-			else
-				gl.CallList(readyButton)
-	      timer2 = timer2 + Spring.GetLastUpdateSeconds()
-	      if timer2 % 0.75 <= 0.375 then
-	        colorString = "\255\233\215\20"
-	      else
-	        colorString = "\255\255\255\255"
-	      end
-			end
-			gl.Text(colorString .. "Ready", -((readyW/2)-12.5), -((readyH/2)-9.5), 25, "o")
-			gl.Color(1,1,1,1)
-		end
-			
-		if gameStarting and not isReplay then
-			timer = timer + Spring.GetLastUpdateSeconds()
-			if timer % 0.75 <= 0.375 then
-				colorString = "\255\233\233\20"
+	if not readied and Game.startPosType == 2 and gameStarting == nil and not spec and not isReplay then
+
+		local x1, y1, x2, y2, buttonWidth, buttonHeight = getButtonCoords()
+		local x,y = Spring.GetMouseState()
+
+		-- draw ready button and text
+		if x > x1 and x < x2 and y > y1 and y < y2 then
+			local c1 = {0.35,0.32,0,0.75}
+			local c2 = {0.5,0.5,0.5,0.75}
+			Spring.Draw.Rectangle(x1, y1, x2, y2, {colors={c1,c1,c2,c2}, border=bgMargin*customScale, bordercolor={0,0,0,0.75}})
+			colorString = "\255\255\222\0"
+		else
+			Spring.Draw.Rectangle(x1, y1, x2, y2, {color={0,0,0,0.6}, border=bgMargin*customScale, bordercolor={0,0,0,0.75}})
+
+			timer2 = timer2 + Spring.GetLastUpdateSeconds()
+			if timer2 % 0.75 <= 0.375 then
+				colorString = "\255\233\215\20"
 			else
 				colorString = "\255\255\255\255"
 			end
-			local text = colorString .. "Game starting in " .. math.max(1,3-math.floor(timer)) .. " seconds..."
-			gl.Text(text, vsx*0.5 - gl.GetTextWidth(text)/2*20, vsy*0.71, 20, "o")
 		end
-	gl.PopMatrix()
+
+		gl.Text(colorString .. "Ready", readyX, readyY, 25*customScale, "cvo")
+	end
+			
+	if gameStarting and not isReplay then
+		timer = timer + Spring.GetLastUpdateSeconds()
+		if timer % 0.75 <= 0.375 then
+			colorString = "\255\233\233\20"
+		else
+			colorString = "\255\255\255\255"
+		end
+		local text = colorString .. "Game starting in " .. math.max(1,3-math.floor(timer)) .. " seconds..."
+		gl.Text(text, vsx*0.5 - gl.GetTextWidth(text)/2*20, vsy*0.71, 20, "o")
+	end
 	
 	--remove if after gamestart
 	if Spring.GetGameFrame() > 0 then
@@ -753,12 +619,6 @@ function gadget:DrawScreen()
 	end
 end
 
-function gadget:Shutdown()
-		gl.DeleteList(readyButton)
-		gl.DeleteList(readyButtonHover)
-end
-
 ----------------------------------------------------------------
 end
 ----------------------------------------------------------------
-
