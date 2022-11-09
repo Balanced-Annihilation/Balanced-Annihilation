@@ -34,19 +34,4 @@ function widget:CommandNotify(id, params, options)
 			return true
 		end
 	end	
-	
-	if id == CMD_MOVE_STATE then
-		if params[1] == 2 then
-			local units = spGetSelectedUnits()
-			for i=1,#units do
-				if (excludedUnitsMovestate[spGetUnitDefID(sid)] == nil) then
-					spGiveOrderToUnit(units[i], CMD_MOVE_STATE, { 0 }, 0)
-				else
-					spGiveOrderToUnit(units[i], CMD_MOVE_STATE, { 2 }, 0)
-				end
-			end
-			return true
-		end
-	end
-
 end

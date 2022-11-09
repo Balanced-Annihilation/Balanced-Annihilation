@@ -18,7 +18,6 @@ local cellHoverZoom = 1.035
 
 local showIcons = false
 local colorize = 0
-local playSounds = false
 local stickToBottom = false
 local alwaysShow = false
 
@@ -77,22 +76,20 @@ local commands = {}
 local rows = 0
 local cols = 0
 local disableInput = false
-local math_isInRect = math.isInRect
 
-local font, backgroundPadding, widgetSpaceMargin, chobbyInterface, displayListOrders, displayListGuiShader
+local font, backgroundPadding, widgetSpaceMargin, displayListOrders, displayListGuiShader
 local clickedCell, clickedCellTime, clickedCellDesiredState, cellWidth, cellHeight
 local buildmenuBottomPosition = false
 local activeCommand, previousActiveCommand, doUpdate, doUpdateClock
 
 local hiddenCommands = {
-	[CMD.LOAD_ONTO] = true,
-	[CMD.SELFD] = true,
-	[CMD.GATHERWAIT] = true,
-	[CMD.SQUADWAIT] = true,
-	[CMD.DEATHWAIT] = true,
-	[CMD.TIMEWAIT] = true,
-	[39812] = true, -- raw move
-	[34922] = true, -- set unit target
+  [76] = true, --load units clone
+  [65] = true, --selfd
+  [9] = true, --gatherwait
+  [8] = true, --squadwait
+  [7] = true, --deathwait
+  [6] = true, --timewait
+  [34922] = true, -- set unit target
 }
 
 local hiddenCommandTypes = {
@@ -100,6 +97,11 @@ local hiddenCommandTypes = {
 	[CMDTYPE.PREV] = true,
 	[CMDTYPE.NEXT] = true,
 }
+
+function IsOnRect(x, y, BLcornerX, BLcornerY,TRcornerX,TRcornerY)
+  return x >= BLcornerX and x <= TRcornerX and y >= BLcornerY and y <= TRcornerY
+end
+
 
 local spGetActiveCommand = Spring.GetActiveCommand
 local spGetActiveCmdDescs = Spring.GetActiveCmdDescs
@@ -130,20 +132,6 @@ local function convertColor(r, g, b)
 	return string.char(255, (r * 255), (g * 255), (b * 255))
 end
 
-local function checkGuiShader(force)
-	if WG['guishader'] then
-		if force and displayListGuiShader then
-			displayListGuiShader = gl.DeleteList(displayListGuiShader)
-		end
-		if not displayListGuiShader then
-			displayListGuiShader = gl.CreateList(function()
-				RectRound(backgroundRect[1], backgroundRect[2], backgroundRect[3], backgroundRect[4], elementCorner * uiScale, ((posX <= 0) and 0 or 1), 1, ((posY-height > 0 or posX <= 0) and 1 or 0), ((posY-height > 0 and posX > 0) and 1 or 0))
-			end)
-		end
-	elseif displayListGuiShader then
-		displayListGuiShader = gl.DeleteList(displayListGuiShader)
-	end
-end
 
 function widget:PlayerChanged(playerID)
 	isSpectating = Spring.GetSpectatingState()
@@ -228,12 +216,13 @@ local function refreshCommands()
 	local stateCommandsCount = 0
 	local otherCommandsCount = 0
 	for index, command in pairs(spGetActiveCmdDescs()) do
-		if type(command) == "table" and not disabledCommand[command.name] then
-			if command.type == CMDTYPE.ICON_MODE then
+		if type(command) == "table" then
+			if command.type == 5 then
 				isStateCommand[command.id] = true
 			end
-			if not hiddenCommands[command.id] and not hiddenCommandTypes[command.type] and command.action ~= nil and not command.disabled then
-				if command.type == CMDTYPE.ICON_BUILDING or (string.sub(command.action, 1, 10) == 'buildunit_') then
+			--if not hiddenCommands[command.id] and not hiddenCommandTypes[command.type] and command.action ~= nil and not command.disabled then
+			if not hiddenCommands[command.id] and command.action ~= nil and command.type ~= 21 and command.type ~= 18 and command.type ~= 17 and not command.disabled then
+				if command.type == 20 or (string.sub(command.action, 1, 10) == 'buildunit_') then
 					-- intentionally empty, no action to take
 				elseif isStateCommand[command.id] then
 					stateCommandsCount = stateCommandsCount + 1
@@ -316,7 +305,6 @@ function widget:ViewResize()
 	}
 	displayListOrders = gl.DeleteList(displayListOrders)
 
-	checkGuiShader(true)
 	setupCellGrid(true)
 	doUpdate = true
 end
@@ -382,7 +370,7 @@ function widget:Update(dt)
 	sec = sec + dt
 	if sec > 0.5 then
 		sec = 0
-		checkGuiShader()
+		
 
 		if WG['buildmenu'] and WG['buildmenu'].getBottomPosition then
 			local prevbuildmenuBottomPos = buildmenuBottomPos
@@ -615,9 +603,6 @@ end
 
 local clickCountDown = 2
 function widget:DrawScreen()
-	if chobbyInterface then
-		return
-	end
 	clickCountDown = clickCountDown - 1
 	if clickCountDown == 0 then
 		doUpdate = true
@@ -631,11 +616,11 @@ function widget:DrawScreen()
 	local x, y, b = Spring.GetMouseState()
 	local cellHovered
 	if not WG['topbar'] or not WG['topbar'].showingQuit() then
-		if math_isInRect(x, y, backgroundRect[1], backgroundRect[2], backgroundRect[3], backgroundRect[4]) then
+		if IsOnRect(x, y, backgroundRect[1], backgroundRect[2], backgroundRect[3], backgroundRect[4]) then
 			Spring.SetMouseCursor('cursornormal')
 			for cell = 1, #cellRects do
 				if commands[cell] then
-					if math_isInRect(x, y, cellRects[cell][1], cellRects[cell][2], cellRects[cell][3], cellRects[cell][4]) then
+					if IsOnRect(x, y, cellRects[cell][1], cellRects[cell][2], cellRects[cell][3], cellRects[cell][4]) then
 						local cmd = commands[cell]
 
 						cellHovered = cell
@@ -769,52 +754,42 @@ function widget:DrawScreen()
 end
 
 function widget:MousePress(x, y, button)
-	if Spring.IsGUIHidden() then
-		return
-	end
-	if math_isInRect(x, y, backgroundRect[1], backgroundRect[2], backgroundRect[3], backgroundRect[4]) then
-		if #commands > 0 then
-			if not disableInput then
-				for cell = 1, #cellRects do
-					local cmd = commands[cell]
-					if cmd then
-						if math_isInRect(x, y, cellRects[cell][1], cellRects[cell][2], cellRects[cell][3], cellRects[cell][4]) then
-							clickCountDown = 2
-							clickedCell = cell
-							clickedCellTime = os_clock()
+  if #commands > 0 and IsOnRect(x, y, backgroundRect[1], backgroundRect[2], backgroundRect[3], backgroundRect[4]) then
+    if not disableInput then
+      for cell=1, #cellRects do
+        local cmd = commands[cell]
+        if cmd then
+          if IsOnRect(x, y, cellRects[cell][1], cellRects[cell][2], cellRects[cell][3], cellRects[cell][4]) then
+            clickCountDown = 2
+            clickedCell = cell
+            clickedCellTime = os_clock()
 
-							-- remember desired state: only works for a single cell at a time, because there is no way to re-identify a cell when the selection changes
-							if isStateCommand[cmd.id] then
-								if button == 1 then
-									clickedCellDesiredState = cmd.params[1] + 1
-									if clickedCellDesiredState >= #cmd.params - 1 then
-										clickedCellDesiredState = 0
-									end
-								else
-									clickedCellDesiredState = cmd.params[1] - 1
-									if clickedCellDesiredState < 0 then
-										clickedCellDesiredState = #cmd.params - 1
-									end
-								end
-								doUpdate = true
-							end
+            -- remember desired state: only works for a single cell at a time, because there is no way to re-identify a cell when the selection changes
+            if cmd.type == 5 then
+              if button == 1 then
+                clickedCellDesiredState = cmd.params[1]+1
+                if clickedCellDesiredState >= #cmd.params-1 then
+                  clickedCellDesiredState = 0
+                end
+              else
+                clickedCellDesiredState = cmd.params[1]-1
+                if clickedCellDesiredState < 0 then
+                  clickedCellDesiredState = #cmd.params-1
+                end
+              end
+              doUpdate = true
+            end
 
-
-							if cmd.id and Spring.GetCmdDescIndex(cmd.id) then
-								Spring.SetActiveCommand(Spring.GetCmdDescIndex(cmd.id), button, true, false, Spring.GetModKeyState())
-							end
-							break
-						end
-					else
-						break
-					end
-				end
-			end
-			return true
-		elseif alwaysShow and Spring.GetGameFrame() > 0 then
-			return true
-		end
-	end
+            Spring.SetActiveCommand(Spring.GetCmdDescIndex(cmd.id),button,true,false,Spring.GetModKeyState())
+            break
+          end
+        else
+          break
+        end
+      end
+    end
+    return true
+  end
 end
 
 function widget:UnitCommand(unitID, unitDefID, unitTeam, cmdID, cmdOpts, cmdParams, cmdTag)
