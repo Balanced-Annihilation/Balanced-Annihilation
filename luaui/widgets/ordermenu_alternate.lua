@@ -64,8 +64,8 @@ local barGlowCenterTexture = ":l:LuaUI/Images/barglow-center.png"
 local barGlowEdgeTexture   = ":l:LuaUI/Images/barglow-edge.png"
 
 
-local uiOpacity = tonumber(Spring.GetConfigFloat("ui_opacity", 0.66) or 0.66)
-local uiScale = tonumber(Spring.GetConfigFloat("ui_scale", 1) or 1)
+local uiOpacity = 0.66
+local uiScale = 1
 
 local backgroundRect = {}
 local activeRect = {}
@@ -77,7 +77,7 @@ local rows = 0
 local cols = 0
 local disableInput = false
 
-local font, backgroundPadding, widgetSpaceMargin, displayListOrders, displayListGuiShader
+local font, backgroundPadding, widgetSpaceMargin, displayListOrders
 local clickedCell, clickedCellTime, clickedCellDesiredState, cellWidth, cellHeight
 local buildmenuBottomPosition = false
 local activeCommand, previousActiveCommand, doUpdate, doUpdateClock
@@ -356,19 +356,20 @@ function widget:Initialize()
 end
 
 function widget:Shutdown()
-	if WG['guishader'] and displayListGuiShader then
-		WG['guishader'].DeleteDlist('ordermenu')
-		displayListGuiShader = nil
-	end
+
 	displayListOrders = gl.DeleteList(displayListOrders)
 	WG['ordermenu'] = nil
 end
+local pendingActivePassiveClick = false
 
 local buildmenuBottomPos = false
 local sec = 0
 function widget:Update(dt)
 	sec = sec + dt
-	if sec > 0.5 then
+	if sec > 0.3 and pendingActivePassiveClick then
+		doUpdate = true
+		pendingActivePassiveClick = false
+	elseif sec > 0.5 then
 		sec = 0
 		
 
@@ -379,14 +380,14 @@ function widget:Update(dt)
 				widget:ViewResize()
 			end
 		end
-		if uiScale ~= Spring.GetConfigFloat("ui_scale", 1) then
-			uiScale = Spring.GetConfigFloat("ui_scale", 1)
+		if uiScale ~= 1 then
+			uiScale = 1
 			widget:ViewResize()
 			setupCellGrid(true)
 			doUpdate = true
 		end
-		if uiOpacity ~= Spring.GetConfigFloat("ui_opacity", 0.66) then
-			uiOpacity = Spring.GetConfigFloat("ui_opacity", 0.66)
+		if uiOpacity ~= 0.66 then
+			uiOpacity = 0.66
 			doUpdate = true
 		end
 
@@ -402,6 +403,8 @@ function widget:Update(dt)
 		end
 	end
 end
+
+
 
 local function RectQuad(px, py, sx, sy, offset)
 	gl.TexCoord(offset, 1 - offset)
@@ -453,14 +456,9 @@ local function drawCell(cell, zoom)
 			color1 = {0,0,0,0.95}
 			color2 = {0.9,0,0,0.95}
 		else
-			if WG['guishader'] then
-				color1 = (cmd.type == 5) and {0.1,0.1,0.1,1} or {0.1,0.1,0.1,1}				color1[4] = math_max(0, math_min(0.35, (uiOpacity-0.3)))
-				color2 = {0.4,0.4,0.4,0.95}
-			else
 				color1 = {0,0,0,0.85}
 				color1[4] = math_max(0, math_min(0.4, (uiOpacity-0.3)))
 				color2 = {0,0,0,0.75}
-			end
 			if color1[4] > 0.06 then
 				-- white bg (outline)
 				RectRound(cellRects[cell][1] + leftMargin, cellRects[cell][2] + bottomMargin, cellRects[cell][3] - rightMargin, cellRects[cell][4] - topMargin, cellWidth * 0.021, 2, 2, 2, 2, color1, color2)
@@ -601,6 +599,8 @@ local function drawOrders()
 	end
 end
 
+
+
 local clickCountDown = 2
 function widget:DrawScreen()
 	clickCountDown = clickCountDown - 1
@@ -647,13 +647,9 @@ function widget:DrawScreen()
 	end
 
 	if #commands == 0 and (not alwaysShow or Spring.GetGameFrame() == 0) then	-- dont show pregame because factions interface is shown
-		if displayListGuiShader and WG['guishader'] then
-			WG['guishader'].RemoveDlist('ordermenu')
-		end
+
 	else
-		if displayListGuiShader and WG['guishader'] then
-			WG['guishader'].InsertDlist(displayListGuiShader, 'ordermenu')
-		end
+
 		if doUpdate then
 			displayListOrders = gl.DeleteList(displayListOrders)
 		end
@@ -754,6 +750,11 @@ function widget:DrawScreen()
 end
 
 function widget:MousePress(x, y, button)
+
+	if button == 1 then
+			sec = 0
+		end
+
   if #commands > 0 and IsOnRect(x, y, backgroundRect[1], backgroundRect[2], backgroundRect[3], backgroundRect[4]) then
     if not disableInput then
       for cell=1, #cellRects do
@@ -778,6 +779,11 @@ function widget:MousePress(x, y, button)
                 end
               end
               doUpdate = true
+			  
+			  
+				if(cmd.id == 34571) then
+					pendingActivePassiveClick = true
+				end
             end
 
             Spring.SetActiveCommand(Spring.GetCmdDescIndex(cmd.id),button,true,false,Spring.GetModKeyState())
@@ -791,6 +797,8 @@ function widget:MousePress(x, y, button)
     return true
   end
 end
+
+
 
 function widget:UnitCommand(unitID, unitDefID, unitTeam, cmdID, cmdOpts, cmdParams, cmdTag)
 	if isStateCommand[cmdID] then
