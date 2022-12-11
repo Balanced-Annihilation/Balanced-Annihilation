@@ -37,7 +37,6 @@ end
 
 include("colors.h.lua")
 include("keysym.h.lua")
-include("fonts.lua")
 
 local cutomScale = 1
 local sizeMultiplier = 1

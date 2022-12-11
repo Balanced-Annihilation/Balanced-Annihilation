@@ -198,7 +198,6 @@ local function DrawEtaText(timeLeft,yoffset)
   gl.Translate(0, yoffset,10)
   gl.Billboard()
   gl.Translate(0, 5 ,0)
-  --fontHandler.DrawCentered(etaStr)
   gl.Text(etaStr, 0, 0, 5.75, "c")
 end
 
@@ -207,7 +206,6 @@ function widget:DrawWorld()
 	  gl.DepthTest(true)
 
 	  gl.Color(1, 1, 1,0.1)
-	  --fontHandler.UseDefaultFont()
 	  local cx, cy, cz = Spring.GetCameraPosition()
 	  for unitID, bi in pairs(etaTable) do
 		local ux,uy,uz = Spring.GetUnitViewPosition(unitID)

@@ -49,9 +49,6 @@ include("colors.h.lua")
 local floor = math.floor
 
 
---local font = "LuaUI/Fonts/FreeSansBold.otf"
---local fh = fontHandler.UseFont(font)
-
 local vsx, vsy = widgetHandler:GetViewSizes()
 function widget:ViewResize(viewSizeX, viewSizeY)
 		font = WG['fonts'].getFont(nil, 1.4, 0.35, 1.4)

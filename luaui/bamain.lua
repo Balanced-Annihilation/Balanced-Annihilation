@@ -23,7 +23,6 @@ include("setupdefs.lua")
 include("savetable.lua")
 
 include("debug.lua")
-include("fonts.lua")
 include("layout.lua")   -- contains a simple LayoutButtons()
 VFS.Include(LUAUI_DIRNAME .. 'bawidgets.lua', nil, VFS.ZIP)
 

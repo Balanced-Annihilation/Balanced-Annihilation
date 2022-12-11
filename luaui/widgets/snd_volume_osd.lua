@@ -31,7 +31,6 @@ local minuskey2								= KEYSYMS.KP_MINUS
 -- SETTINGS, internal, don't edit
 --------------------------------------------------------------------------------
 local volume
---local TextDraw            		 			= fontHandler.Draw
 local vsx,vsy                    			= gl.GetViewSizes()
 local widgetPosX 							= vsx/2.5
 local widgetPosY 							= vsy/7.5
@@ -57,7 +56,6 @@ local blue									= 0 -- volume bar colour, 0 to 1.
 
 function widget:Initialize()
   volume = Spring.GetConfigInt("snd_volmaster", 60)
-  --fontHandler.UseFont(font)
 end
 
 function widget:KeyPress(key, mods, isRepeat)
@@ -116,8 +114,6 @@ function widget:DrawScreen()
 	local ostime = os.clock()
 	local t = ostime - dt
 	local boxwidth = widgetWidth/rectangles
-	
-	--fontHandler.UseFont(font)
 	
 	if t < dtime and dt >= 0 then --dtime = 3
 		local alpha
