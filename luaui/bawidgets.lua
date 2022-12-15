@@ -26,6 +26,7 @@ include("savetable.lua")
 
 Spring.Utilities = {}
 VFS.Include("LuaRules/Utilities/tablefunctions.lua")
+VFS.Include("luashared/resourcemanager.lua")
 
 
 local gl = gl
@@ -771,6 +772,7 @@ function widgetHandler:InsertWidget(widget)
   end
 
   SafeWrapWidget(widget)
+  EnableResourceManager(widget)
 
   ArrayInsert(self.widgets, true, widget)
   for _,listname in ipairs(callInLists) do

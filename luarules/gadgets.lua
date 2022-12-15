@@ -39,6 +39,7 @@ VFS.Include(HANDLER_DIR .. 'setupdefs.lua', nil, VFSMODE)
 VFS.Include(HANDLER_DIR .. 'system.lua',    nil, VFSMODE)
 VFS.Include(HANDLER_DIR .. 'callins.lua',   nil, VFSMODE)
 VFS.Include(SCRIPT_DIR .. 'utilities.lua', nil, VFSMODE)
+VFS.Include("luashared/resourcemanager.lua", nil, VFSMODE)
 
 local actionHandler = VFS.Include(HANDLER_DIR .. 'actions.lua', nil, VFSMODE)
 
@@ -465,6 +466,10 @@ end
 function gadgetHandler:InsertGadget(gadget)
   if (gadget == nil) then
     return
+  end
+
+  if not IsSyncedCode() then
+    EnableResourceManager(gadget)
   end
 
   ArrayInsert(self.gadgets, true, gadget)
