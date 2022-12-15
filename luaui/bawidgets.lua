@@ -350,6 +350,8 @@ local zipOnly = {
 }
 
 function widgetHandler:Initialize()
+  self.xViewSize, self.yViewSize = Spring.GetViewGeometry()
+
   self:LoadConfigData()
 
   -- do we allow userland widgets?
@@ -781,10 +783,18 @@ function widgetHandler:InsertWidget(widget)
       ArrayInsert(self[listname..'List'], func, widget)
     end
   end
+
   self:UpdateCallIns()
 
   if (widget.Initialize) then
     widget:Initialize()
+  end
+
+  if self.knownWidgets[widget.whInfo.name].active then
+    -- Widget initialized successfully and did not remove itself.
+    if widget.ViewResize then
+      widget:ViewResize(self.xViewSize, self.yViewSize)
+    end
   end
 end
 
