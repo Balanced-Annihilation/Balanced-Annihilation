@@ -939,7 +939,6 @@ function gadgetHandler:ViewResize(view)
   for _,g in ipairs(self.ViewResizeList) do
     g:ViewResize(self.xViewSize, self.yViewSize)
   end
-  return
 end
 
 

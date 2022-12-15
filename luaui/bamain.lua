@@ -27,8 +27,6 @@ include("layout.lua")   -- contains a simple LayoutButtons()
 VFS.Include(LUAUI_DIRNAME .. 'bawidgets.lua', nil, VFS.ZIP)
 
 
-local gl = Spring.Draw  --  easier to use
-
 --------------------------------------------------------------------------------
 -------------------------------------------------------------------------------
 --
