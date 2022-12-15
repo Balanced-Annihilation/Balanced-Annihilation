@@ -58,9 +58,9 @@ local function WrapAddon(addon, resource, allocator, deallocator)
     end
 
     local shutdown = addon.Shutdown
-    addon.Shutdown = function()
+    addon.Shutdown = function(...)
         if (shutdown) then
-            shutdown()
+            shutdown(...)
         end
         if #addon.resources[resource] > 0 then
             Spring.Echo("Resource manager: Deleting " .. #addon.resources[resource] .. " leftover " .. resource)
