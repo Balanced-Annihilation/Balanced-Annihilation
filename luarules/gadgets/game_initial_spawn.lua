@@ -447,9 +447,9 @@ end
 else
 ----------------------------------------------------------------
 
-local customScale = 1.15
+local scale = 1
 local myPlayerID = Spring.GetMyPlayerID()
-local _,_,spec,myTeamID = Spring.GetPlayerInfo(myPlayerID) 
+local _,_,spec,myTeamID = Spring.GetPlayerInfo(myPlayerID)
 local amNewbie
 local ffaMode = (tonumber(Spring.GetModOptions().mo_ffa) or 0) == 1
 local isReplay = Spring.IsReplay()
@@ -463,45 +463,42 @@ local gameStarting
 local timer = 0
 local timer2 = 0
 
-local vsx, vsy = Spring.GetViewGeometry()
-local readyX = vsx * 0.8
-local readyY = vsy * 0.8 
+local fontSize = 29
+local font
 
-function gadget:ViewResize()
-  vsx, vsy = Spring.GetViewGeometry()
-  readyX = vsx * 0.8
-  readyY = vsy * 0.8 
-end
+local vsx, vsy
 
-local readyH = 35
-local readyW = 100
-local bgMargin = 2.5
+local readyText = "Ready"
+local readyPadding = 0.5
+local readyX = 0.8
+local readyY = 0.8
+local readyX1, readyX2, readyY1, readyY2
 
 local pStates = {} --local copy of playerStates table
 
 function StartPointChosen(_,playerID)
-	if playerID == myPlayerID then
-		startPointChosen = true 
-		if not readied and Script.LuaUI("PlayerReadyStateChanged") then
-			Script.LuaUI.PlayerReadyStateChanged(playerID, 4)
-		end
-	end
+    if playerID == myPlayerID then
+        startPointChosen = true
+        if not readied and Script.LuaUI("PlayerReadyStateChanged") then
+            Script.LuaUI.PlayerReadyStateChanged(playerID, 4)
+        end
+    end
 end
 
 function gadget:GameSetup(state,ready,playerStates)
-	-- check when the 3.2.1 countdown starts
-	if gameStarting==nil and ((Spring.GetPlayerTraffic(SYSTEM_ID, NETMSG_STARTPLAYING) or 0) > 0) then --ugly but effective (can also detect by parsing state string)
-		gameStarting = true
-	end
-	
-	-- if we can't choose startpositions, no need for ready button etc
-	if Game.startPosType ~= 2 or ffaMode then
-		return true,true
-	end
-	
-	-- notify LuaUI if readyStates have changed
-	for playerID,readyState in pairs(playerStates) do
-		if pStates[playerID] ~= readyState then
+    -- check when the 3.2.1 countdown starts
+    if gameStarting==nil and ((Spring.GetPlayerTraffic(SYSTEM_ID, NETMSG_STARTPLAYING) or 0) > 0) then --ugly but effective (can also detect by parsing state string)
+        gameStarting = true
+    end
+
+    -- if we can't choose startpositions, no need for ready button etc
+    if Game.startPosType ~= 2 or ffaMode then
+        return true,true
+    end
+
+    -- notify LuaUI if readyStates have changed
+    for playerID,readyState in pairs(playerStates) do
+        if pStates[playerID] ~= readyState then
             if Script.LuaUI("PlayerReadyStateChanged") then
                 if readyState == "ready" then
                     Script.LuaUI.PlayerReadyStateChanged(playerID, 1)
@@ -511,112 +508,121 @@ function gadget:GameSetup(state,ready,playerStates)
                     Script.LuaUI.PlayerReadyStateChanged(playerID, 0) --unready
                 end
             end
-			pStates[playerID] = readyState
-		end
-	end
-	
-	-- set my readyState to true if i am a newbie, or if ffa 
-	if not readied or not ready then 
-		amNewbie = (Spring.GetTeamRulesParam(myTeamID, 'isNewbie') == 1)
-		if amNewbie or ffaMode then
-			readied = true
-			return true, true 
-		end
-	end
-	
-	if not ready and readied then -- check if we just readied
-		ready = true
-	elseif ready and not readied then	-- check if we just reconnected/dropped
-		ready = false
-	end
-	
-	return true, ready
+            pStates[playerID] = readyState
+        end
+    end
+
+    -- set my readyState to true if i am a newbie, or if ffa
+    if not readied or not ready then
+        amNewbie = (Spring.GetTeamRulesParam(myTeamID, 'isNewbie') == 1)
+        if amNewbie or ffaMode then
+            readied = true
+            return true, true
+        end
+    end
+
+    if not ready and readied then -- check if we just readied
+        ready = true
+    elseif ready and not readied then    -- check if we just reconnected/dropped
+        ready = false
+    end
+
+    return true, ready
 end
 
-local function getButtonCoords()
-	local uiScale = (0.75 + (vsx*vsy / 7500000)) * customScale
-	local buttonWidth = readyW * uiScale
-	local buttonHeight = readyH * uiScale
-	local x1 = readyX-(buttonWidth/2)-bgMargin
-	local y1 = readyY-(buttonHeight/2)-bgMargin
-	local x2 = readyX+(buttonWidth/2)+bgMargin
-	local y2 = readyY+(buttonHeight/2)+bgMargin
-	return x1, y1, x2, y2, buttonWidth, buttonHeight
+function gadget:MousePress(x, y)
+    x = x / vsx
+    y = y / vsy
+
+    -- pressing ready
+    if x > readyX1 and x < readyX2 and y > readyY1 and y < readyY2 and Spring.GetGameFrame() <= 0 and Game.startPosType == 2 and gameStarting == nil and not spec then
+        if startPointChosen then
+            readied = true
+            return true
+        else
+            Spring.Echo("Please choose a start point!")
+        end
+    end
+
+    -- message when trying to place startpoint but can't
+    if amNewbie then
+        local target,_ = Spring.TraceScreenRay(x * vsx, y * vsy)
+        if target == "ground" then
+            Spring.Echo("In this match, newbies (rank 0) will have a faction and startpoint chosen for them!")
+        end
+    end
 end
 
-function gadget:MousePress(sx,sy)
-	local x1, y1, x2, y2 = getButtonCoords()
-
-	-- pressing ready
-	if sx > x1 and sx < x2 and sy > y1 and sy < y2 and Spring.GetGameFrame() <= 0 and Game.startPosType == 2 and gameStarting == nil and not spec then
-		if startPointChosen then
-			readied = true
-			return true
-		else
-			Spring.Echo("Please choose a start point!")
-		end
-	end
-
-	-- message when trying to place startpoint but can't
-	if amNewbie then
-		local target,_ = Spring.TraceScreenRay(sx,sy)
-		if target == "ground" then
-			Spring.Echo("In this match, newbies (rank 0) will have a faction and startpoint chosen for them!")
-		end
-	end
-end
-
-function gadget:MouseRelease(x,y)
-	return false
+function gadget:MouseRelease(x, y)
+    return false
 end
 
 function gadget:Initialize()
-	-- add function to receive when startpoints were chosen
-	gadgetHandler:AddSyncAction("StartPointChosen", StartPointChosen)
+    -- add function to receive when startpoints were chosen
+    gadgetHandler:AddSyncAction("StartPointChosen", StartPointChosen)
+
+    font = gl.LoadFont("LuaUI/Fonts/FreeSansBold.otf", fontSize, 2, 10.0, true)
+end
+
+function gadget:ViewResize(width, height)
+    vsx, vsy = width, height
+
+    local textWidth = font:GetTextWidth(readyText)
+    local textHeight, descender = font:GetTextHeight(readyText)
+    local w = (textWidth + readyPadding) * font.size * scale / vsx
+    local h = (textHeight - descender + readyPadding) * font.size * scale / vsy
+
+    readyX1 = readyX - w / 2;
+    readyX2 = readyX + w / 2;
+    readyY1 = readyY - h / 2;
+    readyY2 = readyY + h / 2;
 end
 
 function gadget:DrawScreen()
-	if not readied and Game.startPosType == 2 and gameStarting == nil and not spec and not isReplay then
+    if not readied and Game.startPosType == 2 and gameStarting == nil and not spec and not isReplay then
 
-		local x1, y1, x2, y2, buttonWidth, buttonHeight = getButtonCoords()
-		local x,y = Spring.GetMouseState()
+        local x, y = Spring.GetMouseState()
+        x = x / vsx
+        y = y / vsy
 
-		-- draw ready button and text
-		if x > x1 and x < x2 and y > y1 and y < y2 then
-			local c1 = {0.35,0.32,0,0.75}
-			local c2 = {0.5,0.5,0.5,0.75}
-			Spring.Draw.Rectangle(x1, y1, x2, y2, {colors={c1,c1,c2,c2}, border=bgMargin*customScale, bordercolor={0,0,0,0.75}})
-			colorString = "\255\255\222\0"
-		else
-			Spring.Draw.Rectangle(x1, y1, x2, y2, {color={0,0,0,0.6}, border=bgMargin*customScale, bordercolor={0,0,0,0.75}})
+        local border = 0.002 * scale
 
-			timer2 = timer2 + Spring.GetLastUpdateSeconds()
-			if timer2 % 0.75 <= 0.375 then
-				colorString = "\255\233\215\20"
-			else
-				colorString = "\255\255\255\255"
-			end
-		end
+        -- draw ready button and text
+        if x > readyX1 and x < readyX2 and y > readyY1 and y < readyY2 then
+            local c1 = {0.35,0.32,0,0.75}
+            local c2 = {0.5,0.5,0.5,0.75}
+            Spring.Draw.Rectangle(readyX1, readyY1, readyX2, readyY2, {relative=true, colors={c1,c1,c2,c2}, border=border, bordercolor={0,0,0,0.75}})
+            colorString = "\255\255\222\0"
+        else
+            Spring.Draw.Rectangle(readyX1, readyY1, readyX2, readyY2, {relative=true, color={0,0,0,0.6}, border=border, bordercolor={0,0,0,0.75}})
 
-		gl.Text(colorString .. "Ready", readyX, readyY, 25*customScale, "cvo")
-	end
-			
-	if gameStarting and not isReplay then
-		timer = timer + Spring.GetLastUpdateSeconds()
-		if timer % 0.75 <= 0.375 then
-			colorString = "\255\233\233\20"
-		else
-			colorString = "\255\255\255\255"
-		end
-		local text = colorString .. "Game starting in " .. math.max(1,3-math.floor(timer)) .. " seconds..."
-		gl.Text(text, vsx*0.5 - gl.GetTextWidth(text)/2*20, vsy*0.71, 20, "o")
-	end
-	
-	--remove if after gamestart
-	if Spring.GetGameFrame() > 0 then
-		gadgetHandler:RemoveGadget(self)
-		return
-	end
+            timer2 = timer2 + Spring.GetLastUpdateSeconds()
+            if timer2 % 0.75 <= 0.375 then
+                colorString = "\255\233\215\20"
+            else
+                colorString = "\255\255\255\255"
+            end
+        end
+
+        font:Print(colorString .. readyText, readyX, readyY, scale, "NcvoS")
+    end
+
+    if gameStarting and not isReplay then
+        timer = timer + Spring.GetLastUpdateSeconds()
+        if timer % 0.75 <= 0.375 then
+            colorString = "\255\233\233\20"
+        else
+            colorString = "\255\255\255\255"
+        end
+        local text = colorString .. "Game starting in " .. math.max(1,3-math.floor(timer)) .. " seconds..."
+        font:Print(text, 0.5, 0.71, scale, "NcvoS")
+    end
+
+    --remove if after gamestart
+    if Spring.GetGameFrame() > 0 then
+        gadgetHandler:RemoveGadget(self)
+        return
+    end
 end
 
 ----------------------------------------------------------------
