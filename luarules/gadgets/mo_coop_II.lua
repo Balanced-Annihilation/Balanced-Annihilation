@@ -240,24 +240,20 @@ else
 	----------------------------------------------------------------
 	-- Unsynced Var
 	----------------------------------------------------------------
-	local coneList
-	
 	local playerNames = {} -- playerNames[playerID] = playerName
 	local playerTeams = {} -- playerTeams[playerID] = playerTeamID
 	local coopStartPoints = {}
-	
+
+	local shaderCone
+	local shaderConeViewLocation
+	local shaderConeProjLocation
+
+	local font
+	local heightOffset = 120
+
 	----------------------------------------------------------------
 	-- Unsynced speedup
 	----------------------------------------------------------------
-	local glPushMatrix = gl.PushMatrix
-	local glPopMatrix = gl.PopMatrix
-	local glTranslate = gl.Translate
-	local glColor = gl.Color
-	local glCallList = gl.CallList
-	local glBeginText = gl.BeginText
-	local glEndText = gl.EndText
-	local glText = gl.Text
-	local spGetTeamColor = Spring.GetTeamColor
 	local spWorldToScreenCoords = Spring.WorldToScreenCoords
 	local spGetMyPlayerID = Spring.GetMyPlayerID
 	local spGetSpectatingState = Spring.GetSpectatingState
@@ -271,26 +267,104 @@ else
 		return string.char(c)
 	end
 	
-	local teamColorStrs = {}
-	local function GetTeamColorStr(teamID)
-		
-		local colorStr = teamColorStrs[teamID]
-		if colorStr then
-			return colorStr
-		end
-		
-		local r, g, b = Spring.GetTeamColor(teamID)
-		local colorStr = '\255' .. ColorChar(r) .. ColorChar(g) .. ColorChar(b)
-		teamColorStrs[teamID] = colorStr
-		return colorStr
-	end
-	
 	local function CoopStartPoint(epicwtf, playerID, x, y, z) --this epicwtf param is used because it seem that when a registered function is locaal, then the registration name is  passed too. if the function is part of gadget: then it is not passed.
 		--Spring.Echo('coop dbg5',epicwtf,playerID,x,y,z,to_string(coopStartPoints))
 			
 		coopStartPoints[playerID] = {x, y, z}
 	end
-	
+
+	local function CreateShaders()
+
+		-- Cone shader taken from map_startbox.lua.
+		shaderCone = gl.CreateShader({
+			vertex = [[
+				//VERTEX SHADER
+				#version 400
+
+				layout(location = 0) in vec3 inPosition;
+				layout(location = 1) in vec4 inColor;
+
+				out VertexData {
+					vec4 color;
+				} outData;
+
+				void main() {
+					gl_Position = vec4(inPosition, 1.0f);
+					outData.color = inColor;
+				}
+			]],
+
+			geometry = [[
+				//GEOMETRY SHADER
+				#version 400
+
+				#define pi 3.14159265358979
+
+				uniform mat4 viewMatrix;
+				uniform mat4 projMatrix;
+
+				layout (points) in;
+				layout (triangle_strip, max_vertices = 96) out;
+
+				in VertexData {
+					vec4 color;
+				} inData[1];
+
+				out VertexData {
+					vec4 color;
+				} outData;
+
+				void main() {
+					outData.color = inData[0].color;
+
+					float h = 100.0f;
+					float r = 25.0f;
+					int divs = 32;
+
+					vec4 top = projMatrix * viewMatrix * (gl_in[0].gl_Position + vec4(0.0f, h, 0.0f, 0.0f));
+					float a;
+
+					for (int i=0; i<divs; ++i) {
+						gl_Position = top;
+						EmitVertex();
+
+						a = i * (pi * 2 / divs);
+						gl_Position = projMatrix * viewMatrix * (gl_in[0].gl_Position + vec4(r * sin(a), 0, r * cos(a), 0.0f));
+						EmitVertex();
+
+						a = (i + 1) * (pi * 2 / divs);
+						gl_Position = projMatrix * viewMatrix * (gl_in[0].gl_Position + vec4(r * sin(a), 0, r * cos(a), 0.0f));
+						EmitVertex();
+
+						EndPrimitive();
+					}
+				}
+			]],
+
+			fragment = [[
+				//FRAGMENT SHADER
+				#version 400
+
+				in VertexData {
+					vec4 color;
+				} inData;
+
+				layout(location = 0) out vec4 outColor;
+
+				void main() {
+					outColor = inData.color;
+				}
+			]],
+		})
+
+		if (shaderCone == nil) then
+			Spring.Echo("Cone shader log: ".. gl.GetShaderLog())
+		end
+
+		shaderConeViewLocation = gl.GetUniformLocation(shaderCone, "viewMatrix")
+		shaderConeProjLocation = gl.GetUniformLocation(shaderCone, "projMatrix")
+	end
+
 	----------------------------------------------------------------
 	-- Unsynced Callins
 	----------------------------------------------------------------
@@ -305,30 +379,35 @@ else
 			playerTeams[playerID] = teamID
 			--Spring.Echo('coop dbg2',i,playerName,playerID,teamID,#playerList)
 		end
-		
-		-- Cone code taken directly from minimap_startbox.lua
-		coneList = gl.CreateList(function()
-				local h = 100
-				local r = 25
-				local divs = 32
-				gl.BeginEnd(GL.TRIANGLE_FAN, function()
-						gl.Vertex( 0, h,  0)
-						for i = 0, divs do
-							local a = i * ((math.pi * 2) / divs)
-							local cosval = math.cos(a)
-							local sinval = math.sin(a)
-							gl.Vertex(r * sinval, 0, r * cosval)
-						end
-					end)
-			end)
+
+		font = gl.LoadFont("LuaUI/Fonts/FreeSansBold.otf", 25, 4, 10, true)
+
+		CreateShaders()
 	end
-	
+
+	local teamColors = {}
+
+	local function GetTeamColor(teamID)
+		local color = teamColors[teamID]
+		if (color) then
+			return color
+		end
+		local r, g, b = Spring.GetTeamColor(teamID)
+
+		color = { r, g, b }
+		teamColors[teamID] = color
+		return color
+	end
+
 	function gadget:Shutdown()
-		gl.DeleteList(coneList)
 		gadgetHandler:RemoveSyncAction("CoopStartPoint")
 	end
 	
 	function gadget:DrawWorld()
+		gl.UseShader(shaderCone)
+		gl.UniformMatrix(shaderConeViewLocation, "view")
+		gl.UniformMatrix(shaderConeProjLocation, "projection")
+
 		local areSpec = spGetSpectatingState()
 		local myPlayerID = spGetMyPlayerID()
 		for playerID, startPosition in pairs(coopStartPoints) do
@@ -337,19 +416,19 @@ else
 				local sx, sy, sz = startPosition[1], startPosition[2], startPosition[3]
 				if sx > 0 or sz > 0 then
 					--Spring.Echo('coop dbg',playerID,playerTeams[playerID])
-					local tr, tg, tb = spGetTeamColor(playerTeams[playerID])
-					glPushMatrix()
-						glTranslate(sx, sy, sz)
-						glColor(tr, tg, tb, 0.5) -- Alpha would oscillate, but gadgets can't get time
-						glCallList(coneList)
-					glPopMatrix()
+					local color = GetTeamColor(playerTeams[playerID])
+					-- Alpha would oscillate, but gadgets can't get time
+					local alpha = 0.5 -- + math.abs(((time * 3) % 1) - 0.5)
+					Spring.Draw.Vertices(1, {sx, sy+20, sz}, {color[1], color[2], color[3], alpha})
 				end
 			end
 		end
+
+		gl.UseShader(0)
 	end
 	
 	function gadget:DrawScreenEffects()
-		glBeginText()
+		font:Begin()
 		local areSpec = spGetSpectatingState()
 		local myPlayerID = spGetMyPlayerID()
 		for playerID, startPosition in pairs(coopStartPoints) do
@@ -358,17 +437,27 @@ else
 			if areSpec or spArePlayersAllied(myPlayerID, playerID) then
 				local sx, sy, sz = startPosition[1], startPosition[2], startPosition[3]
 				if sx > 0 or sz > 0 then
-					local scx, scy, scz = spWorldToScreenCoords(sx, sy + 120, sz)
+					local scx, scy, scz = spWorldToScreenCoords(sx, sy + heightOffset, sz)
 					if scz < 1 then
-						local colorStr, outlineStr = GetTeamColorStr(playerTeams[playerID])
-						glText(colorStr .. playerNames[playerID], scx, scy, 18, 'cs')
+						local color = GetTeamColor(playerTeams[playerID])
+						local outlineColor = { 0, 0, 0, 1 }
+						if (color[1] + color[2] * 1.2 + color[3] * 0.4) < 0.8 then
+							outlineColor = { 1, 1, 1, 1 }
+						end
+						font:SetTextColor(color)
+						font:SetOutlineColor(outlineColor)
+						font:Print(playerNames[playerID], scx, scy, 18, 'con')
 					end
 				end
 			end
 		end
-		glEndText()
+		font:End()
 	end
-	
+
+--	-- FIXME: Also draw coop start positions in minimap, see map_startbox.lua.
+--	function gadget:DrawInMiniMap(sx, sz)
+--	end
+
 	function gadget:RecvFromSynced(arg1, ...)
 		if arg1 == 'RemoveGadget' then
 			gadgetHandler:RemoveGadget(self)
