@@ -100,14 +100,33 @@ local buttonFontSize = 14
 local buttonHeight = 20
 local buttonTop = 20 -- offset between top of buttons and bottom of widget
 
+local titleFont
+local buttonFont
+local entryFont
+
 -------------------------------------------------------------------------------
 
-function widget:Initialize()
-    if not WG.fonts then
-        Spring.Echo(widget:GetInfo().name .. " depends on Font Cache")
-        widgetHandler:RemoveWidget(self)
-        return
+local dynamicCallIns = {'DrawScreen', 'IsAbove', 'GetTooltip'}
+local function UpdateVisibility()
+    local func
+    if show then
+        func = widgetHandler.UpdateWidgetCallIn
+    else
+        func = widgetHandler.RemoveWidgetCallIn
     end
+
+    for i = 1, #dynamicCallIns, 1 do
+        func(widgetHandler, dynamicCallIns[i], widget)
+    end
+end
+
+function widget:Initialize()
+  titleFont = gl.LoadFont(fontFile, titleFontSize, 4, 2, true)
+
+  buttonFont = gl.LoadFont(fontFile, buttonFontSize, 4, 2, true)
+  buttonFont:SetAutoOutlineColor(true)
+
+  entryFont = gl.LoadFont(fontFile, fontSize, 4, 2, true)
 
   widgetHandler.knownChanged = true
   Spring.SendCommands("unbindkeyset f11")
@@ -118,8 +137,8 @@ function widget:Initialize()
     buttons[3] = "Allow User Widgets"
   end
 
-    widget:ViewResize(Spring.GetViewGeometry())
-    UpdateList()
+  UpdateList()
+  UpdateVisibility()
 end
 
 -------------------------------------------------------------------------------
@@ -258,6 +277,7 @@ function widget:KeyPress(key, mods, isRepeat)
       ((key == KEYSYMS.F11) and not isRepeat and
        not (mods.alt or mods.ctrl or mods.meta or mods.shift))) then
     show = not show
+    UpdateVisibility()
     return true
   end
   if (show and key == KEYSYMS.PAGEUP) then
@@ -272,18 +292,8 @@ function widget:KeyPress(key, mods, isRepeat)
 end
 
 function widget:DrawScreen()
-  if not show then
-
-    return
-  end
+  if not show then return end
   UpdateList()
-
-  titleFont = WG.fonts.getFont(fontFile, titleFontSize, 4, 2)
-
-  buttonFont = WG.fonts.getFont(fontFile, buttonFontSize, 4, 2)
-  buttonFont:SetAutoOutlineColor(true)
-
-  entryFont = WG.fonts.getFont(fontFile, fontSize, 4, 2)
 
   -- draw the header
   titleFont:Print("Widget Selector", midx, maxy + ((8 + bgPadding)*sizeMultiplier), titleFontSize*sizeMultiplier, "oc")
@@ -485,6 +495,7 @@ function widget:MousePress(x, y, button)
   local namedata = self:AboveLabel(x, y)
   if (not namedata) then
     show = false
+    UpdateVisibility()
     return false
   end
 
