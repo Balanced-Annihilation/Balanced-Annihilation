@@ -78,11 +78,6 @@ local function GiveNotifyingOrder(cmdID, cmdParams, cmdOpts)
 	Spring.GiveOrder(cmdID, cmdParams, cmdOpts.coded)
 end
 
-local function DoLine(x1, y1, z1, x2, y2, z2)
-    gl.Vertex(x1, y1, z1)
-    gl.Vertex(x2, y2, z2)
-end
-
 ------------------------------------------------------------
 -- Callins
 ------------------------------------------------------------
@@ -99,6 +94,10 @@ function widget:Initialize()
 			widgetHandler:RemoveWidget(self)
 		end
 	end
+end
+
+function widget:Shutdown()
+	WG.MexSnap = nil
 end
 
 function widget:DrawWorld()
@@ -122,30 +121,21 @@ function widget:DrawWorld()
 	local bestPos = GetClosestMexPosition(closestSpot, bx, bz, -cmdID, bface)
 	if not bestPos then
 		WG.MexSnap.curPosition = nil
-		return 
+		return
 	end
-	
+
 	-- Draw !
 	WG.MexSnap.curPosition = bestPos
 	gl.DepthTest(false)
-	
-	gl.LineWidth(1.5)
-    gl.Color(1, 1, 0, 0.5)
-    gl.BeginEnd(GL.LINE_STRIP, DoLine, bx, by, bz, bestPos[1], bestPos[2], bestPos[3])
-	gl.LineWidth(1.0)
-	
+	gl.Texture(false)
+	Spring.Draw.Lines(bx, by, bz, bestPos[1], bestPos[2], bestPos[3], {width=1.5, color={1,1,0,0.5}})
 	gl.DepthTest(true)
-	gl.DepthMask(true)
-	
-	gl.Color(1, 1, 1, 0.5)
+
 	gl.PushMatrix()
-		gl.Translate(bestPos[1], bestPos[2], bestPos[3])
-		gl.Rotate(90 * bface, 0, 1, 0)
-		gl.UnitShape(-cmdID, Spring.GetMyTeamID(), false, true, false)
+	gl.Translate(bestPos[1], bestPos[2], bestPos[3])
+	gl.Rotate(90 * bface, 0, 1, 0)
+	gl.UnitShape(-cmdID, Spring.GetMyTeamID(), false, true, false)
 	gl.PopMatrix()
-	
-	gl.DepthTest(false)
-	gl.DepthMask(false)
 end
 
 function widget:CommandNotify(cmdID, cmdParams, cmdOpts)
