@@ -243,131 +243,32 @@ end
 else -- begin unsynced section
 -----------------------------
 
-
-local bgcorner = ":n:LuaRules/Images/bgcorner.png"
-local customScale = 1.15
-local uiScale = customScale
-local x = 500
-local y = 500
-
+local scale = 1
 local myPlayerID = Spring.GetMyPlayerID()
 local spec,_ = Spring.GetSpectatingState()
 local isReplay = Spring.IsReplay()
 
+local font
+
+local vsx, vsy
+
+local buttonOfferText = "Offer to play"
+local buttonWithdrawText = "Withdraw offer"
+local buttonPadding = 0.5
+local buttonX = 0.8
+local buttonY = 0.8
+local buttonX1, buttonX2, buttonY1, buttonY2
+
 local eligible
-
-local vsx, vsy = Spring.GetViewGeometry()
-function gadget:ViewResize()
-  vsx,vsy = Spring.GetViewGeometry()
-end
-
-local subsButton, subsButtonHover
-local bX = vsx * 0.8
-local bY = vsy * 0.8 
-local bH = 30
-local bW = 140
-local bgMargin = 2.5
 local offer = false
-
-local function DrawRectRound(px,py,sx,sy,cs, tl,tr,br,bl)
-	gl.TexCoord(0.8,0.8)
-	gl.Vertex(px+cs, py, 0)
-	gl.Vertex(sx-cs, py, 0)
-	gl.Vertex(sx-cs, sy, 0)
-	gl.Vertex(px+cs, sy, 0)
-	
-	gl.Vertex(px, py+cs, 0)
-	gl.Vertex(px+cs, py+cs, 0)
-	gl.Vertex(px+cs, sy-cs, 0)
-	gl.Vertex(px, sy-cs, 0)
-	
-	gl.Vertex(sx, py+cs, 0)
-	gl.Vertex(sx-cs, py+cs, 0)
-	gl.Vertex(sx-cs, sy-cs, 0)
-	gl.Vertex(sx, sy-cs, 0)
-	
-	local offset = 0.07		-- texture offset, because else gaps could show
-	local o = offset
-	
-	-- bottom left
-	--if ((py <= 0 or px <= 0)  or (bl ~= nil and bl == 0)) and bl ~= 2   then o = 0.5 else o = offset end
-	gl.TexCoord(o,o)
-	gl.Vertex(px, py, 0)
-	gl.TexCoord(o,1-o)
-	gl.Vertex(px+cs, py, 0)
-	gl.TexCoord(1-o,1-o)
-	gl.Vertex(px+cs, py+cs, 0)
-	gl.TexCoord(1-o,o)
-	gl.Vertex(px, py+cs, 0)
-	-- bottom right
-	--if ((py <= 0 or sx >= vsx) or (br ~= nil and br == 0)) and br ~= 2   then o = 0.5 else o = offset end
-	gl.TexCoord(o,o)
-	gl.Vertex(sx, py, 0)
-	gl.TexCoord(o,1-o)
-	gl.Vertex(sx-cs, py, 0)
-	gl.TexCoord(1-o,1-o)
-	gl.Vertex(sx-cs, py+cs, 0)
-	gl.TexCoord(1-o,o)
-	gl.Vertex(sx, py+cs, 0)
-	-- top left
-	--if ((sy >= vsy or px <= 0) or (tl ~= nil and tl == 0)) and tl ~= 2   then o = 0.5 else o = offset end
-	gl.TexCoord(o,o)
-	gl.Vertex(px, sy, 0)
-	gl.TexCoord(o,1-o)
-	gl.Vertex(px+cs, sy, 0)
-	gl.TexCoord(1-o,1-o)
-	gl.Vertex(px+cs, sy-cs, 0)
-	gl.TexCoord(1-o,o)
-	gl.Vertex(px, sy-cs, 0)
-	-- top right
-	--if ((sy >= vsy or sx >= vsx)  or (tr ~= nil and tr == 0)) and tr ~= 2   then o = 0.5 else o = offset end
-	gl.TexCoord(o,o)
-	gl.Vertex(sx, sy, 0)
-	gl.TexCoord(o,1-o)
-	gl.Vertex(sx-cs, sy, 0)
-	gl.TexCoord(1-o,1-o)
-	gl.Vertex(sx-cs, sy-cs, 0)
-	gl.TexCoord(1-o,o)
-	gl.Vertex(sx, sy-cs, 0)
-end
-function RectRound(px,py,sx,sy,cs, tl,tr,br,bl)		-- (coordinates work differently than the RectRound func in other widgets)
-	gl.Texture(bgcorner)
-	gl.BeginEnd(GL.QUADS, DrawRectRound, px,py,sx,sy,cs, tl,tr,br,bl)
-	gl.Texture(false)
-end
-
-function correctMouseForScaling(x,y)
-	local buttonScreenCenterPosX = (bX+(bW/2))/vsx
-	local buttonScreenCenterPosY = (bY+(bH/2))/vsy
-	x = x - (((x/vsx)-buttonScreenCenterPosX) * vsx)*((uiScale-1)/uiScale)
-	y = y - (((y/vsy)-buttonScreenCenterPosY) * vsy)*((uiScale-1)/uiScale)
-	return x,y
-end
-
-function MakeButton()
-	subsButton = gl.CreateList(function()
-		-- draws background rectangle
-		gl.Color(0,0,0,0.8)
-		RectRound(-((bW/2)+bgMargin), -((bH/2)+bgMargin), ((bW/2)+bgMargin), ((bH/2)+bgMargin), 6)
-		gl.Color(1,1,1,0.13)
-		RectRound(-bW/2, -bH/2, bW/2, bH/2, 4)
-		gl.Color(1,1,1,1)
-	end)
-	subsButtonHover = gl.CreateList(function()
-		-- draws background rectangle 
-		gl.Color(0.15,0.12,0,0.8)
-		RectRound(-((bW/2)+bgMargin), -((bH/2)+bgMargin), ((bW/2)+bgMargin), ((bH/2)+bgMargin), 6)
-		gl.Color(1,0.8,0.3,0.33)
-		RectRound(-bW/2, -bH/2, bW/2, bH/2, 4)
-		gl.Color(1,1,1,1)
-	end)
-end
 
 function gadget:Initialize()
   if isReplay or (tonumber(Spring.GetModOptions().mo_ffa) or 0) == 1 then
       gadgetHandler:RemoveGadget() -- don't run in FFA mode
       return 
   end
+
+  font = gl.LoadFont("LuaUI/Fonts/FreeSansBold.otf", 29, 2, 10.0, true)
 
   gadgetHandler:AddSyncAction("MarkStartPoint", MarkStartPoint)
   gadgetHandler:AddSyncAction("ForceSpec", ForceSpec)
@@ -379,66 +280,77 @@ function gadget:Initialize()
   ts = tsMu and tonumber(tsMu:match("%d+%.?%d*"))
   tsSigma = tonumber(tsSigma)
   eligible = tsMu and tsSigma and (tsSigma<=2) and (not string.find(tsMu, ")")) and spec
-  
-  MakeButton()
 end
 
+function gadget:ViewResize(width, height)
+    vsx, vsy = width, height
+
+    local textWidth = math.max(font:GetTextWidth(buttonOfferText), font:GetTextWidth(buttonWithdrawText))
+    local textHeightOffer, descenderOffer = font:GetTextHeight(buttonOfferText)
+    local textHeightWithdraw, descenderWithdraw = font:GetTextHeight(buttonWithdrawText)
+    local textHeight = math.max(textHeightOffer, textHeightWithdraw)
+    local descender = math.min(descenderOffer, descenderWithdraw)
+
+    local w = (textWidth + buttonPadding) * font.size * scale / vsx
+    local h = (textHeight - descender + buttonPadding) * font.size * scale / vsy
+
+    buttonX1 = buttonX - w / 2;
+    buttonX2 = buttonX + w / 2;
+    buttonY1 = buttonY - h / 2;
+    buttonY2 = buttonY + h / 2;
+end
 
 function gadget:DrawScreen()
-  if eligible then
-	  -- ask each spectator if they would like to replace an absent player
+    if eligible then
+        -- ask each spectator if they would like to replace an absent player
 
-  	uiScale = (0.75 + (vsx*vsy / 7500000)) * customScale
-		gl.PushMatrix()
-			gl.Translate(bX+(bW/2),bY+(bH/2),0)
-			gl.Scale(uiScale, uiScale, 1)
-		
-			-- draw button and its text
-			local x,y = Spring.GetMouseState()
-			x,y = correctMouseForScaling(x,y)
-			if x > bX-bgMargin and x < bX+bW+bgMargin and y > bY-bgMargin and y < bY+bH+bgMargin then
-				gl.CallList(subsButtonHover)
-				colorString = "\255\255\222\0"
-			else
-				gl.CallList(subsButton)
-				colorString = "\255\255\255\255"
-			end
-		  local textString
-		  if not offer then
-		    textString = "Offer to play"
-		  else
-		    textString = "Withdraw offer"
-		  end
-			gl.Text(colorString .. textString, -((bW/2)-12.5), -((bH/2)-9.5), 20, "o")
-			gl.Color(1,1,1,1)
-		gl.PopMatrix()
-  else
-    gadgetHandler:RemoveCallIn("DrawScreen") -- no need to waste cycles
-  end
+        -- draw button and its text
+        local x,y = Spring.GetMouseState()
+        x = x / vsx
+        y = y / vsy
+
+        local border = 0.002 * scale
+
+        if x > buttonX1 and x < buttonX2 and y > buttonY1 and y < buttonY2 then
+            local c1 = {0.35,0.32,0,0.75}
+            local c2 = {0.5,0.5,0.5,0.75}
+            Spring.Draw.Rectangle(buttonX1, buttonY1, buttonX2, buttonY2, {relative=true, colors={c1,c1,c2,c2}, border=border, bordercolor={0,0,0,0.75}})
+            colorString = "\255\255\222\0"
+        else
+            Spring.Draw.Rectangle(buttonX1, buttonY1, buttonX2, buttonY2, {relative=true, color={0,0,0,0.6}, border=border, bordercolor={0,0,0,0.75}})
+            colorString = "\255\255\255\255"
+        end
+
+        local buttonText
+        if not offer then
+            buttonText = buttonOfferText
+        else
+            buttonText = buttonWithdrawText
+        end
+        font:Print(colorString .. buttonText, buttonX, buttonY, scale, "NcvoS")
+    else
+        gadgetHandler:RemoveCallIn("DrawScreen") -- no need to waste cycles
+    end
 end
 
-function gadget:MousePress(sx,sy)
-	-- pressing b
-	sx,sy = correctMouseForScaling(sx,sy)
-	if sx > bX-bgMargin and sx < bX+bW+bgMargin and sy > bY-bgMargin and sy < bY+bH+bgMargin and eligible then
-    --Spring.Echo("sent", myPlayerID, ts)
-    if not offer then
-        Spring.SendLuaRulesMsg('\144')
-        Spring.Echo("If player(s) are afk when the game starts, you might be used as a substitute")
-        offer = true
-        bW = 160
-        MakeButton()
-        return true
-    else
-        Spring.SendLuaRulesMsg('\145')
-        Spring.Echo("Your offer to substitute has been withdrawn")
-        offer = false
-        bW = 140
-        MakeButton()
+function gadget:MousePress(x, y)
+    x = x / vsx
+    y = y / vsy
+
+    -- pressing button
+    if eligible and x > buttonX1 and x < buttonX2 and y > buttonY1 and y < buttonY2 then
+        if not offer then
+            Spring.SendLuaRulesMsg('\144')
+            Spring.Echo("If player(s) are afk when the game starts, you might be used as a substitute")
+            offer = true
+        else
+            Spring.SendLuaRulesMsg('\145')
+            Spring.Echo("Your offer to substitute has been withdrawn")
+            offer = false
+        end
         return true
     end
-	end
-  return false
+    return false
 end
 
 function gadget:MouseRelease(x,y)
@@ -493,8 +405,6 @@ end
 end]]
 
 function gadget:Shutdown()
-    gl.DeleteList(subsButton)
-    gl.DeleteList(subsButtonHover)
     gadgetHandler:RemoveSyncAction("MarkStartPoint")
     gadgetHandler:RemoveSyncAction("ForceSpec")
 end
