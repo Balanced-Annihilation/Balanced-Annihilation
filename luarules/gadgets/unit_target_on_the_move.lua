@@ -632,19 +632,7 @@ else
 	--------------------------------------------------------------------------------
 	--------------------------------------------------------------------------------
 
-	local glVertex = gl.Vertex
-	local glPushAttrib = gl.PushAttrib
-	local glLineStipple = gl.LineStipple
 	local glDepthTest = gl.DepthTest
-	local glLineWidth = gl.LineWidth
-	local glColor = gl.Color
-	local glBeginEnd = gl.BeginEnd
-	local glPopAttrib = gl.PopAttrib
-	local glCreateList = gl.CreateList
-	local glCallList = gl.CallList
-	local glDeleteList = gl.DeleteList
-	local GL_LINE_STRIP = GL.LINE_STRIP
-	local GL_LINES = GL.LINES
 
 	local spIsUnitInLos = Spring.IsUnitInLos
 	local spIsUnitInRadar = Spring.IsUnitInRadar
@@ -667,7 +655,7 @@ else
 	local myPlayerID = Spring.GetMyPlayerID()
 	local _, fullview = spGetSpectatingState()
 
-	local lineWidth = 1.4 --1.5
+	local lineWidth = 1.4
 	local queueColour = { 1, 0.75, 0, 0.7 }
 	local commandColour = { 1, 0.5, 0, 0.7 }
 
@@ -741,26 +729,13 @@ else
 		return true
 	end
 
-	--function handleTargetChangeEvent(_,unitID,dataA,dataB,dataC)
-	--	if not dataB then
-	--		--single unitID format
-	--		unitTargets[unitID] = dataA
-	--	elseif dataA and dataB and dataC then
-	--		--3d coordinates format
-	--		unitTargets[unitID] = {dataA,dataB,dataC}
-	--	end
-	--    return true
-	--end
-
-	local function drawTargetCommand(targetData, myTeam, myAllyTeam)
-
+	local function getTargetPosition(targetData, myTeam, myAllyTeam)
 		if targetData then
-
 			if targetData.userTarget and tonumber(targetData.target) and spValidUnitID(targetData.target) then
 				--single unit target
 				if fullview then
 					local _, _, _, _, _, _, x2, y2, z2 = spGetUnitPosition(targetData.target, true, true)
-					glVertex(x2, y2, z2)
+					return {x2, y2, z2}
 				else
 					local los = spGetUnitLosState(targetData.target, myAllyTeam, true)
 					if not los then
@@ -769,62 +744,53 @@ else
 					local _, _, _, _, _, _, x2, y2, z2 = spGetUnitPosition(targetData.target, true, true)
 					if los % 2 == 1 then
 						-- in los
-						glVertex(x2, y2, z2)
+						return {x2, y2, z2}
 					elseif spIsUnitInRadar(targetData.target, myAllyTeam) then
 						local dx, dy, dz = Spring.GetUnitPosErrorParams(targetData.target)
 						local size = Spring.GetRadarErrorParams(myAllyTeam)
-						glVertex(x2 + dx * size, y2 + dy * size, z2 + dz * size)
+						return {x2 + dx * size, y2 + dy * size, z2 + dz * size}
 					end
 				end
 			elseif targetData.userTarget and not tonumber(targetData.target) and targetData.target then
 				-- 3d coordinate target
-				glVertex(targetData.target)
+				return targetData.target
 			end
 		end
 	end
 
 	local function drawCurrentTarget(unitID, unitData, myTeam, myAllyTeam)
 		local _, _, _, x1, y1, z1 = spGetUnitPosition(unitID, true)
-		glVertex(x1, y1, z1)
-		--TODO: show cursor animation at target point
-		drawTargetCommand(unitData.targets[unitData.targetIndex], myTeam, myAllyTeam)
+		local vertices = {}
+		vertices[#vertices+1] = {x1, y1, z1}
+		vertices[#vertices+1] = getTargetPosition(unitData.targets[unitData.targetIndex], myTeam, myAllyTeam)
+		Spring.Draw.Lines(vertices, {width=lineWidth, color=commandColour})
 	end
 
 	local function drawTargetQueue(unitID, unitData, myTeam, myAllyTeam)
 		local _, _, _, x1, y1, z1 = spGetUnitPosition(unitID, true)
-		glVertex(x1, y1, z1)
+		local vertices = {}
+		vertices[#vertices+1] = {x1, y1, z1}
 		for _, targetData in ipairs(unitData.targets) do
-			drawTargetCommand(targetData, myTeam, myAllyTeam)
+			vertices[#vertices+1] = getTargetPosition(targetData, myTeam, myAllyTeam)
 		end
+		Spring.Draw.Lines(vertices, {width=lineWidth, color=queueColour})
 	end
 
 	function gadget:DrawWorld()
 		_, fullview = spGetSpectatingState()
-		local init = false
+		gl.Texture(false)
+		glDepthTest(false)
 		for unitID, unitData in pairs(targetList) do
 			if drawTarget[unitID] or drawAllTargets[spGetUnitTeam(unitID)] or spIsUnitSelected(unitID) then
 				if fullview or spGetUnitAllyTeam(unitID) == myAllyTeam then
-					if not init then
-						init = true
-						glPushAttrib(GL.LINE_BITS)
-						glLineStipple("any") -- use spring's default line stipple pattern, moving
-						glDepthTest(false)
-						glLineWidth(lineWidth)
-					end
-					glColor(queueColour)
-					glBeginEnd(GL_LINE_STRIP, drawTargetQueue, unitID, unitData, myTeam, myAllyTeam)
+					drawTargetQueue(unitID, unitData, myTeam, myAllyTeam)
 					if unitData.targetIndex then
-						glColor(commandColour)
-						glBeginEnd(GL_LINES, drawCurrentTarget, unitID, unitData, myTeam, myAllyTeam)
+						drawCurrentTarget(unitID, unitData, myTeam, myAllyTeam)
 					end
 				end
 			end
 		end
-		if init then
-			glColor(1, 1, 1, 1)
-			glLineStipple(false)
-			glPopAttrib()
-		end
+		glDepthTest(true)
 		drawTarget = {}
 	end
 
