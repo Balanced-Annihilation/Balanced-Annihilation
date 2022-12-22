@@ -1,13 +1,13 @@
 function widget:GetInfo()
-	return {
-		name = "BA Hotkeys - swap YZ",
-		desc = "Swaps Y and Z in BA Hotkeys widget" ,
-		author = "Beherith",
-		date = "23 march 2012",
-		license = "GNU LGPL, v2.1 or later",
-		layer = 100, --should load AFTER BA hotkeys
-		enabled = false
-	}
+    return {
+        name = "BA Hotkeys - swap YZ",
+        desc = "Swaps Y and Z in BA Hotkeys widget" ,
+        author = "Beherith",
+        date = "23 march 2012",
+        license = "GNU LGPL, v2.1 or later",
+        layer = 100, --should load AFTER BA hotkeys
+        enabled = false
+    }
 end
 
 function widget:Initialize()
