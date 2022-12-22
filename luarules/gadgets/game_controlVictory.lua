@@ -25,7 +25,7 @@ The control point config is structured like this (cv_Iammas Prime - v01.lua):
 ////
 
 return {
-	points = { 
+	points = {
 		[1] = {x = 4608, y = 0, z = 3048},
 		[2] = {x = 4265, y = 0, z = 1350},
 		[3] = {x = 4950, y = 0, z = 4786},
@@ -82,7 +82,7 @@ return buildableUnits
 Here are all of the modoptions in a neat copy pastable form... Place these modoptions in modoptions.lua in your base game folder:
 
 ////
--- Control Victory Options	
+-- Control Victory Options
 	{
 		key    = 'controlvictoryoptions',
 		name   = 'Control Victory Options',
@@ -102,7 +102,7 @@ Here are all of the modoptions in a neat copy pastable form... Place these modop
 			{key="tugofwar", name="Tug of War", desc="A Control Point steals enemy score, zero means defeat."},
 			{key="domination", name="Domination", desc="Holding all Control Points will grant 1000 score, first to reach the score limit wins."},
 		}
-	},	
+	},
 	{
 		key    = 'limitscore',
 		name   = 'Total Score',
@@ -236,7 +236,6 @@ buildableUnits = VFS.Include"LuaRules/Configs/cv_buildableUnits.lua"
 
 --local pointMarker = FeatureDefNames.xelnotgawatchtower.id -- Feature marking a point- This doesn't do anything atm
 
-	
 local captureRadius = tonumber(Spring.GetModOptions().captureradius) or 500 -- Radius around a point in which to capture it
 local captureTime = tonumber(Spring.GetModOptions().capturetime) or 30 -- Time to capture a point
 local captureBonus = tonumber(Spring.GetModOptions().capturebonus) or.5 -- speedup from adding more units
@@ -297,7 +296,7 @@ if (gadgetHandler:IsSyncedCode()) then
 			end
 		end
 	end
-	
+
 	-- functions to be registered as globals
 
 	local function gControlPoints()
@@ -307,7 +306,7 @@ if (gadgetHandler:IsSyncedCode()) then
 	local function gNonCapturingUnits()
 		return nonCapturingUnits or {}
 	end
-	
+
 	local function gBuildableUnits()
 		return buildableUnits or {}
 	end
@@ -362,7 +361,7 @@ if (gadgetHandler:IsSyncedCode()) then
 			points[7] = {
 				x=mapx/2,
 				y=0,
-				z=mapz/2, 
+				z=mapz/2,
 				owner=nil,
 				aggressor=nil,
 				capture=0,
@@ -471,7 +470,7 @@ if (gadgetHandler:IsSyncedCode()) then
 					Spring.AddTeamResource(ateams[i], "energy", owned[allyTeamID] * energyPerPoint) -- adjust the 5
 				end
 			end
-			
+
 			if scoreMode == 1 then -- Countdown
 				for owner, count in pairs(owned) do
 					for _, allyTeamID in ipairs(Spring.GetAllyTeamList()) do
@@ -551,248 +550,194 @@ if (gadgetHandler:IsSyncedCode()) then
 		return true
 	end
 
+	function gadget:GameOver()
+		gadgetHandler:RemoveCallIn("GameFrame")
+	end
+
 else -- UNSYNCED
 
-	local pieces = math.floor(captureRadius / 20)
-	local OPTIONS = {
-		circlePieces					= pieces,
-		circlePieceDetail			= math.floor(pieces/4),
-		circleSpaceUsage			= 0.88,
-		circleInnerOffset			= 0,
-		rotationSpeed					= 0.5,
-	}
-	pieces = nil
+	local font
+	local shaderCircle
+	local shaderCircleViewLocation
+	local shaderCircleProjLocation
 
-	local Text = gl.Text
-	local Color = gl.Color
-	local DrawGroundCircle = gl.DrawGroundCircle
-	local glLineWidth = gl.LineWidth
-	local PushMatrix = gl.PushMatrix
-	local PopMatrix = gl.PopMatrix
-	local Translate = gl.Translate
-	local BeginEnd = gl.BeginEnd
-	local CreateList = gl.CreateList
-	local CallList = gl.CallList
-	local Scale = gl.Scale
-	local Rotate = gl.Rotate
-	local Rect = gl.Rect
-	local Vertex = gl.Vertex
-	local Billboard = gl.Billboard
-	local QUADS = GL.QUADS
-	local TRIANGLE_FAN = GL.TRIANGLE_FAN
-	local PolygonOffset = gl.PolygonOffset
-	local playerListEntry = {}
+	-- The geometry shader can only output 128 vertices. This limits the circle resolution.
+	local maxPieces = 42
+
+	local OPTIONS = {
+		circlePieces = math.min(math.floor(captureRadius / 20), maxPieces),
+		rotationSpeed = 0.5,
+	}
+
+	local teamList
 	local capturePoints = {}
-	local controlPointSolidList = {}
-	
-	local uiScale =1
-	
+
 	local prevTimer = Spring.GetTimer()
 	local currentRotationAngle = 0
-	local currentRotationAngleOpposite = 0
-	
+
 	local ringThickness = 3.5
-	local capturePieParts = 4 + math.floor(captureRadius / 8)
-	
+	local capturePieParts = math.min(4 + math.floor(captureRadius / 8), maxPieces)
+
 	local outerRingDistance = 4.5
 	local outerRingScale = (captureRadius - (ringThickness) - outerRingDistance) / captureRadius
-	
+
 	-----------------------------------------------------------------------------------------
-	-- creates initial player listing 
+	-- creates initial team listing
 	-----------------------------------------------------------------------------------------
-	local function CreatePlayerList()
-		local playerEntries = {}
-		for allyTeamID, teamScore in spairs(SYNCED.score) do
-			-- note to self, allyTeamID +1 = ally team number	
-			--if allyTeamID ~= gaia then					
-			--does this allyteam have a table? if not, make one
-			if playerEntries[allyTeamID] == nil then 
-				playerEntries[allyTeamID] = {}
-				--	Spring.Echo("creating allyTeamID table")
+	local function CreateTeamList()
+		local result = {}
+		for _, allyTeamID in ipairs(Spring.GetAllyTeamList()) do
+			if not result[allyTeamID] then
+				result[allyTeamID] = {}
 			end
-		
-			for _,teamId in pairs(Spring.GetTeamList(allyTeamID))do	
-				local playerList = Spring.GetPlayerList(teamId, true)	
-				-- does this team have an entry? if not, make one!
-				if playerEntries[allyTeamID][teamId] == nil then 
-					playerEntries[allyTeamID][teamId] = {}	
-				--	Spring.Echo("creating team table")
+
+			for _, teamID in pairs(Spring.GetTeamList(allyTeamID))do
+				local playerList = Spring.GetPlayerList(teamID, true)
+				if result[allyTeamID][teamID] == nil then
+					result[allyTeamID][teamID] = {}
 				end
-				local r, g, b 			= Spring.GetTeamColor(teamId)
-				local playerTeamColor	= string.char("255",r*255,g*255,b*255)
-				for k,v in pairs(playerList)do
-					-- does this player have an entry? if not, make one!
-					if playerEntries[allyTeamID][teamId][v] == nil then 
-						playerEntries[allyTeamID][teamId][v] = {}	
-					--	Spring.Echo("creating player table")
+
+				local r, g, b = Spring.GetTeamColor(teamID)
+				result[allyTeamID]["color"] = {r, g, b, 1}
+
+				local name
+				for _, playerID in pairs(Spring.GetPlayerList(teamID)) do
+					name = Spring.GetPlayerInfo(playerID) .. "'s Team (" .. teamID .. ")"
+					if name then break end
+				end
+				if not name then
+					aiName = Spring.GetTeamLuaAI(teamID)
+					if aiName then
+						if aiName == "" then
+							aiName = "Evil Machine"
+						end
+						name = aiName
 					end
-					
-				--	if Spring.Echo(playerEntries[allyTeamID][teamId][v]) then
-					--	Spring.Echo("waffles")
-					--end
-					playerEntries[allyTeamID][teamId][v]["name"] = Spring.GetPlayerInfo(v)
-					playerEntries[allyTeamID][teamId][v]["color"] = playerTeamColor
-				end -- end playerId
-			end -- end teamId
-		end -- allyTeamID		
-		return playerEntries
-	end	
-	
-	local function DrawCircleLine(innersize, outersize)
-		BeginEnd(QUADS, function()
-			local detailPartWidth, a1,a2,a3,a4
-			local width = OPTIONS.circleSpaceUsage
-			local detail = OPTIONS.circlePieceDetail
-
-			local radstep = (2.0 * math.pi) / OPTIONS.circlePieces
-			for i = 1, OPTIONS.circlePieces do
-				for d = 1, detail do
-					
-					detailPartWidth = ((width / detail) * d)
-					a1 = ((i+detailPartWidth - (width / detail)) * radstep)
-					a2 = ((i+detailPartWidth) * radstep)
-					a3 = ((i+OPTIONS.circleInnerOffset+detailPartWidth - (width / detail)) * radstep)
-					a4 = ((i+OPTIONS.circleInnerOffset+detailPartWidth) * radstep)
-					
-					--outer (fadein)
-					Vertex(math.sin(a4)*innersize, 0, math.cos(a4)*innersize)
-					Vertex(math.sin(a3)*innersize, 0, math.cos(a3)*innersize)
-					--outer (fadeout)
-					Vertex(math.sin(a1)*outersize, 0, math.cos(a1)*outersize)
-					Vertex(math.sin(a2)*outersize, 0, math.cos(a2)*outersize)
 				end
-			end
-		end)
-	end
-
-	function DrawCircleSolid(size, pieces, drawPieces, innercolor, outercolor, revert)
-		BeginEnd(TRIANGLE_FAN, function()
-			local radstep = (2.0 * math.pi) / pieces
-			local a1
-			if (innercolor) then
-				Color(innercolor)
-			end
-			Vertex(0, 0, 0)
-			if (outercolor) then
-				Color(outercolor)
-			end
-			for i = 0, drawPieces do
-				if revert then
-					a1 = -(i * radstep)
-				else
-					a1 = (i * radstep)
+				if not name then
+					name = "Team " .. teamID
 				end
-				Vertex(math.sin(a1)*size, 0, math.cos(a1)*size)
-			end
-		end)
-	end
-	
-	
-	local function DrawRectRound(px,py,sx,sy,cs, tl,tr,br,bl)
-		
-		gl.TexCoord(0.8,0.8)
-		gl.Vertex(px+cs, py, 0)
-		gl.Vertex(sx-cs, py, 0)
-		gl.Vertex(sx-cs, sy, 0)
-		gl.Vertex(px+cs, sy, 0)
-		
-		gl.Vertex(px, py+cs, 0)
-		gl.Vertex(px+cs, py+cs, 0)
-		gl.Vertex(px+cs, sy-cs, 0)
-		gl.Vertex(px, sy-cs, 0)
-		
-		gl.Vertex(sx, py+cs, 0)
-		gl.Vertex(sx-cs, py+cs, 0)
-		gl.Vertex(sx-cs, sy-cs, 0)
-		gl.Vertex(sx, sy-cs, 0)
-		
-		local offset = 0.07		-- texture offset, because else gaps could show
-		
-		-- bottom left
-		if ((py <= 0 or px <= 0)  or (bl ~= nil and bl == 0)) and bl ~= 2   then o = 0.5 else o = offset end
-		gl.TexCoord(o,o)
-		gl.Vertex(px, py, 0)
-		gl.TexCoord(o,1-o)
-		gl.Vertex(px+cs, py, 0)
-		gl.TexCoord(1-o,1-o)
-		gl.Vertex(px+cs, py+cs, 0)
-		gl.TexCoord(1-o,o)
-		gl.Vertex(px, py+cs, 0)
-		-- bottom right
-		if ((py <= 0 or sx >= vsx) or (br ~= nil and br == 0)) and br ~= 2   then o = 0.5 else o = offset end
-		gl.TexCoord(o,o)
-		gl.Vertex(sx, py, 0)
-		gl.TexCoord(o,1-o)
-		gl.Vertex(sx-cs, py, 0)
-		gl.TexCoord(1-o,1-o)
-		gl.Vertex(sx-cs, py+cs, 0)
-		gl.TexCoord(1-o,o)
-		gl.Vertex(sx, py+cs, 0)
-		-- top left
-		if ((sy >= vsy or px <= 0) or (tl ~= nil and tl == 0)) and tl ~= 2   then o = 0.5 else o = offset end
-		gl.TexCoord(o,o)
-		gl.Vertex(px, sy, 0)
-		gl.TexCoord(o,1-o)
-		gl.Vertex(px+cs, sy, 0)
-		gl.TexCoord(1-o,1-o)
-		gl.Vertex(px+cs, sy-cs, 0)
-		gl.TexCoord(1-o,o)
-		gl.Vertex(px, sy-cs, 0)
-		-- top right
-		if ((sy >= vsy or sx >= vsx)  or (tr ~= nil and tr == 0)) and tr ~= 2   then o = 0.5 else o = offset end
-		gl.TexCoord(o,o)
-		gl.Vertex(sx, sy, 0)
-		gl.TexCoord(o,1-o)
-		gl.Vertex(sx-cs, sy, 0)
-		gl.TexCoord(1-o,1-o)
-		gl.Vertex(sx-cs, sy-cs, 0)
-		gl.TexCoord(1-o,o)
-		gl.Vertex(sx, sy-cs, 0)
-	end
-	function RectRound(px,py,sx,sy,cs, tl,tr,br,bl)		-- (coordinates work differently than the RectRound func in other widgets)
-		gl.Texture(":n:LuaRules/Images/bgcorner.png")
-		gl.BeginEnd(GL.QUADS, DrawRectRound, px,py,sx,sy,cs, tl,tr,br,bl)
-		gl.Texture(false)
-	end
-
-
-	function gadget:Initialize()
-		playerListEntry = CreatePlayerList(playerEntries)
-		
-		controlPointList = CreateList(DrawCircleLine, captureRadius-(ringThickness/2), captureRadius+(ringThickness/2))
-	end
-
-	function gadget:DrawInMiniMap()
-		PushMatrix()
-			gl.LoadIdentity()
-			Translate(0, 1, 0)
-			Scale(1 / Game.mapSizeX, 1 / Game.mapSizeZ, 0)
-			Rotate(90, 1, 0, 0)
-			DrawPoints(true)
-		PopMatrix()
-	end
-	
-	function gadget:Update()
-		clockDifference = Spring.DiffTimers(Spring.GetTimer(), prevTimer)
-		prevTimer = Spring.GetTimer()
-		
-		-- animate rotation
-		if OPTIONS.rotationSpeed > 0 then
-			local angleDifference = (OPTIONS.rotationSpeed) * (clockDifference * 5)
-			currentRotationAngle = currentRotationAngle + (angleDifference*0.6)
-			if currentRotationAngle > 360 then
-			   currentRotationAngle = currentRotationAngle - 360
-			end
-		
-			currentRotationAngleOpposite = currentRotationAngleOpposite - angleDifference
-			if currentRotationAngleOpposite < -360 then
-			   currentRotationAngleOpposite = currentRotationAngleOpposite + 360
+				result[allyTeamID]["name"] = name
 			end
 		end
+		return result
 	end
-	
+
+	local function CreateShaders()
+		shaderCircle = gl.CreateShader({
+			vertex = [[
+				//VERTEX SHADER
+				#version 400
+
+				layout(location = 0) in vec3 inPosition;
+				layout(location = 1) in float inRadius;
+				layout(location = 2) in float inPieces;
+				layout(location = 3) in float inDrawPieces;
+				layout(location = 4) in vec4 inInnerColor;
+				layout(location = 5) in vec4 inOuterColor;
+				layout(location = 6) in float inDirection;
+
+				out VertexData {
+					float radius;
+					float pieces;
+					float drawPieces;
+					vec4 innerColor;
+					vec4 outerColor;
+					float direction;
+				} outData;
+
+				void main() {
+					gl_Position = vec4(inPosition, 1.0f);
+					outData.radius = inRadius;
+					outData.pieces = inPieces;
+					outData.drawPieces = inDrawPieces;
+					outData.innerColor = inInnerColor;
+					outData.outerColor = inOuterColor;
+					outData.direction = inDirection;
+				}
+			]],
+
+			geometry = [[
+				//GEOMETRY SHADER
+				#version 400
+
+				#define pi 3.14159265358979
+
+				uniform mat4 viewMatrix;
+				uniform mat4 projMatrix;
+
+				layout (points) in;
+				layout (triangle_strip, max_vertices = 128) out;
+
+				in VertexData {
+					float radius;
+					float pieces;
+					float drawPieces;
+					vec4 innerColor;
+					vec4 outerColor;
+					float direction;
+				} inData[1];
+
+				out VertexData {
+					vec4 color;
+				} outData;
+
+				void main() {
+					vec4 center = projMatrix * viewMatrix * gl_in[0].gl_Position;
+
+					float radstep = (pi * 2 / inData[0].pieces);
+					float a;
+
+					for (int i=0; i<inData[0].drawPieces; ++i) {
+						outData.color = inData[0].innerColor;
+						gl_Position = center;
+						EmitVertex();
+
+						outData.color = inData[0].outerColor;
+						a = inData[0].direction * i * radstep;
+						gl_Position = projMatrix * viewMatrix * (gl_in[0].gl_Position + vec4(inData[0].radius * sin(a), 0, inData[0].radius * cos(a), 0.0f));
+						EmitVertex();
+
+						a = inData[0].direction * (i + 1) * radstep;
+						gl_Position = projMatrix * viewMatrix * (gl_in[0].gl_Position + vec4(inData[0].radius * sin(a), 0, inData[0].radius * cos(a), 0.0f));
+						EmitVertex();
+
+						EndPrimitive();
+					}
+				}
+			]],
+
+			fragment = [[
+				//FRAGMENT SHADER
+				#version 400
+
+				in VertexData {
+					vec4 color;
+				} inData;
+
+				layout(location = 0) out vec4 outColor;
+
+				void main() {
+					outColor = inData.color;
+				}
+			]],
+		})
+
+		if shaderCircle == nil then
+			Spring.Echo("Circle shader log: ".. gl.GetShaderLog())
+		end
+
+		shaderCircleViewLocation = gl.GetUniformLocation(shaderCircle, "viewMatrix")
+		shaderCircleProjLocation = gl.GetUniformLocation(shaderCircle, "projMatrix")
+	end
+
+	function gadget:Initialize()
+		font = gl.LoadFont("LuaUI/Fonts/FreeSansBold.otf", 18, 3, 5.0)
+		CreateShaders()
+		teamList = CreateTeamList()
+	end
+
 	function gadget:GameFrame()
-		
 		for i, capturePoint in spairs(SYNCED.points) do
 			if capturePoints[i] == nil then
 				capturePoints[i] = {}
@@ -815,143 +760,133 @@ else -- UNSYNCED
 			capturePoints[i].capture = capturePoint.capture
 		end
 	end
-	
-	function DrawPoints(simplified)
+
+	local function DrawPoints(minimap)
+		gl.DepthTest(false)
+
+		gl.UseShader(shaderCircle)
+
+		if minimap then
+			gl.UniformMatrix(shaderCircleViewLocation, "mmview")
+			gl.UniformMatrix(shaderCircleProjLocation, "mmproj")
+		else
+			gl.UniformMatrix(shaderCircleViewLocation, "view")
+			gl.UniformMatrix(shaderCircleProjLocation, "projection")
+		end
+
 		local capturedAlpha = 0.22
 		local capturingAlpha = 0.33
-		local prefix = ''
-		if simplified then	-- for minimap
+		if minimap then
 			capturedAlpha = 0.4
 			capturingAlpha = 0.6
-			prefix = 'm_'		-- so it uses different displaylists
 		end
-	  for i,point in pairs(capturePoints) do
-   		PushMatrix()
-	   		Translate(point.x, point.y, point.z)
-	   		-- owner circle backgroundcolor
-	   		if controlPointSolidList[prefix..point.color[1]..'_'..point.color[2]..'_'..point.color[3]] == nil then
-	   			controlPointSolidList[prefix..point.color[1]..'_'..point.color[2]..'_'..point.color[3]] = gl.CreateList(DrawCircleSolid, captureRadius - (ringThickness/2), (OPTIONS.circlePieces * OPTIONS.circlePieceDetail), (OPTIONS.circlePieces * OPTIONS.circlePieceDetail), {0,0,0,0}, {point.color[1], point.color[2], point.color[3], capturedAlpha})
-	   		end
-	   		CallList(controlPointSolidList[prefix..point.color[1]..'_'..point.color[2]..'_'..point.color[3]])
-	   		
-	   		-- captured percentage
-	   		if point.capture > 0 then
-	   			local revert = false
-	   			if point.aggressorColor[1]..'_'..point.aggressorColor[2]..'_'..point.aggressorColor[3] == '1_1_1' then
-	   				revert = true
-	   			end
-	   			local piesize = math.floor(((point.capture/captureTime) / (1/capturePieParts))+0.5)
-		   		if controlPointSolidList[prefix..point.aggressorColor[1]..'_'..point.aggressorColor[2]..'_'..point.aggressorColor[3]..'_'..piesize] == nil then
-		   			controlPointSolidList[prefix..point.aggressorColor[1]..'_'..point.aggressorColor[2]..'_'..point.aggressorColor[3]..'_'..piesize] = gl.CreateList(DrawCircleSolid, captureRadius, capturePieParts, piesize, {0,0,0,0}, {point.aggressorColor[1], point.aggressorColor[2], point.aggressorColor[3], capturingAlpha}, revert)
-		   		end
-		   		CallList(controlPointSolidList[prefix..point.aggressorColor[1]..'_'..point.aggressorColor[2]..'_'..point.aggressorColor[3]..'_'..piesize])
-	   		end
-	   		if not simplified then	-- not for minimap
-		   		--ring
-		   		Color(1,1,1, 0.6)
-		   		Rotate(currentRotationAngle,0,1,0)
-		   		--CallList(controlPointList)
-		   		--outer ring
-		   		Rotate(currentRotationAngleOpposite,0,1,0)
-		   		Scale(outerRingScale,outerRingScale,outerRingScale)
-		   		Color(1,1,1, 0.4)
-		   		CallList(controlPointList)
-	   		end
-			PopMatrix()
-	  end
-	end
-	
-	function gadget:DrawWorldPreUnit()
-		PolygonOffset(-10000, -1)  -- draw on top of water/map - sideeffect: will shine through terrain/mountains
-	  DrawPoints(false)		-- Todo: use DrawWorldPreUnit make it so that it colorizes the map/ground
-		PolygonOffset(false)
-	end
-	
-	local screenX = 0.75
-	local screenY = 0.66
-	local screenHeight = 100
-	local screenWidth = 150
-	function gadget:DrawScreen(vsx, vsy)
 
-	  vsx,vsy = Spring.GetViewGeometry()
-	  uiScale = (0.75 + (vsx*vsy / 7500000))
-	  
-  	PushMatrix()
-			local frame = Spring.GetGameFrame()
-			if frame / 1800 > startTime then
-				local n = 1
-				local dominator 		= SYNCED.dom.dominatorwa
-				local dominationTime 	= SYNCED.dom.dominationTime
-				local white				= string.char("255","255","255","255")	
-				local allyCounter = 0
-				local scoreMode = Spring.GetModOptions().scoremode or "Countdown"
-	
-				--Make it look Pretty
-				if scoreMode == "countdown" then scoreMode = "Countdown" end
-				if scoreMode == "tugofwar" then scoreMode = "Tug of War" end
-				if scoreMode == "domination" then scoreMode = "Domination" end
-				
-				Text(white .. "Scoring Mode: " .. scoreMode, vsx - 280, vsy * .58 - 38 * -0.75, 18, "lo")
-				
-				-- for all the scores with a team.
-				for allyTeamID, allyScore in spairs(SYNCED.score) do
-					--Spring.Echo("at allied team ID", allyTeamID)
-					-- note to self, allyTeamID +1 = ally team number	
-					local allyTeamMembers = Spring.GetTeamList(allyTeamID)
-					if allyTeamID ~= gaia and allyTeamMembers and (#allyTeamMembers > 0) then
-						local allyFound = false
-						local name = "Some Bot"
-						local team = allyTeamMembers[1]
-						
-						for _,teamId in pairs(Spring.GetTeamList(allyTeamID))do
-							--Spring.Echo("\tat team ID", teamId)
-							
-							local playerList = Spring.GetPlayerList(teamId)
-							--Spring.Echo("\t\t\tplayerList", #playerList)
-							for _,playerId in pairs(playerList)do
-								local _, _, spectator = Spring.GetPlayerInfo(playerId)
-								--Spring.Echo("\t\t\t\tplayer")
-								--Spring.Echo("allied team ID", allyTeamID, "\t", "team ID", teamId, Spring.GetPlayerInfo(playerId))
-								--Spring.Echo(Spring.GetPlayerInfo(_, _, spectator))
-								if not spectator and not allyFound then
-									name = Spring.GetPlayerInfo(playerId)
-									team = teamId
-									allyFound = true
-								end
-							end -- end playerId
-						end -- end teamId
-						
-						if allyFound == false then
-							if Spring.GetTeamLuaAI(team) == "" then
-								name = "Evil Machine"
-							else
-								name = Spring.GetTeamLuaAI(team)
-							end
-							--get AI info?
-						end
-						
-						local r, g, b = Spring.GetTeamColor(team)
-						color = string.char("255",r*255,g*255,b*255)
-						Text(color .. name .. "'s Team (" .. team .. ")" .. white, vsx - 280, vsy * .58 - 38 * allyCounter, 16, "lo")
-						Text(white .. "Score: " .. allyScore, vsx - 250, vsy * .5625 - 38 * allyCounter, 16, "lo")
-						
-						allyCounter = allyCounter + 1
-					end -- not gaia
-				end -- end allyTeamID
-	
-				if dominator and dominationTime > Spring.GetGameFrame() then
-				--	Text( playerListEntry[dominator]["color"] .. "<" .. playerListEntry[dominator] .. "> will score a --Domination in " .. 
-				--		math.floor((dominationTime - Spring.GetGameFrame()) / 30) .. 
-				--		" seconds!", vsx *.5, vsy *.7, 24, "oc")
+		for _, point in pairs(capturePoints) do
+			-- owner circle backgroundcolor
+			Spring.Draw.Vertices(1, {point.x, point.y, point.z}, {captureRadius - ringThickness / 2}, {OPTIONS.circlePieces}, {OPTIONS.circlePieces}, {0, 0, 0, 0}, {point.color[1], point.color[2], point.color[3], capturedAlpha}, {1})
+
+			-- captured percentage
+			if point.capture > 0 then
+				local direction = 1
+				if point.aggressorColor[1]..'_'..point.aggressorColor[2]..'_'..point.aggressorColor[3] == '1_1_1' then
+					direction = -1
 				end
-			else
-				Text("Capturing points begins in:", vsx - 280, vsy *.58, 18, "lo")
-				local timeleft = startTime * 60 - frame / 30
-				timeleft = timeleft - timeleft % 1
-				Text(timeleft .. " seconds", vsx - 280, vsy *.58 - 25, 18, "lo")
+				local piesize = math.floor(((point.capture/captureTime) / (1/capturePieParts))+0.5)
+				Spring.Draw.Vertices(1, {point.x, point.y, point.z}, {captureRadius}, {capturePieParts}, {piesize}, {0, 0, 0, 0}, {point.aggressorColor[1], point.aggressorColor[2], point.aggressorColor[3], capturingAlpha}, {direction})
 			end
-			
-		PopMatrix()
+
+		end
+
+		gl.UseShader(0)
+
+		if not minimap then
+			-- animate rotation
+			if OPTIONS.rotationSpeed > 0 then
+				clockDifference = Spring.DiffTimers(Spring.GetTimer(), prevTimer)
+				prevTimer = Spring.GetTimer()
+
+				currentRotationAngle = currentRotationAngle + OPTIONS.rotationSpeed * clockDifference * 0.2
+				if currentRotationAngle > 360 then
+				   currentRotationAngle = currentRotationAngle - 360
+				end
+			end
+
+			-- outer ring
+			local radius = captureRadius + outerRingDistance
+			local detail = OPTIONS.circlePieces * 2
+			detail = detail + detail % 2
+			local radstep = math.pi * 2 / detail
+			local c = {{1,1,1,0.4}, {0,0,0,0.4}}
+
+			for _, point in pairs(capturePoints) do
+				local vertices = {}
+				local colors = {}
+				
+				for i = 0, detail do
+					local a = i * radstep + currentRotationAngle
+					vertices[i+1] = {point.x + radius * math.sin(a), point.y, point.z + radius * math.cos(a)}
+					colors[i+1] = c[i%2+1]
+				end
+				Spring.Draw.Lines(vertices, {width=ringThickness, colors=colors})
+			end
+		end
+
+		gl.DepthTest(true)
+	end
+
+	function gadget:DrawInMiniMap()
+		DrawPoints(true)
+	end
+
+	function gadget:DrawWorldPreUnit()
+		DrawPoints(false) -- Todo: use DrawWorldPreUnit make it so that it colorizes the map/ground
+	end
+
+	function gadget:DrawScreen(vsx, vsy)
+		local frame = Spring.GetGameFrame()
+		if frame / 1800 > startTime then
+			local n = 1
+			local dominator = SYNCED.dom.dominator
+			local dominationTime = SYNCED.dom.dominationTime
+			local allyCounter = 0
+
+			--Make it look Pretty
+			local scoreMode = Spring.GetModOptions().scoremode or "Countdown"
+			if scoreMode == "countdown" then scoreMode = "Countdown" end
+			if scoreMode == "tugofwar" then scoreMode = "Tug of War" end
+			if scoreMode == "domination" then scoreMode = "Domination" end
+			font:Print("Scoring Mode: " .. scoreMode, vsx - 280, vsy * .58 - 38 * -0.75, 18, "lo")
+
+			-- for all the scores with a team.
+			for allyTeamID, allyScore in spairs(SYNCED.score) do
+				if allyTeamID ~= gaia then
+					local teamName = teamList[allyTeamID]["name"]
+					local color = teamList[allyTeamID]["color"]
+
+					if #Spring.GetTeamList(allyTeamID) == 0 then
+						color = {0.5, 0.5, 0.5, 1}
+					end
+
+					font:SetTextColor(color)
+					font:Print(teamName, vsx - 280, vsy * .58 - 38 * allyCounter, 16, "lo")
+
+					if allyTeamID == dominator and dominationTime > Spring.GetGameFrame() then
+						font:Print(teamName .. " will score a domination in " ..  math.floor((dominationTime - Spring.GetGameFrame()) / 30) .. " seconds!", vsx *.5, vsy *.7, 24, "oc")
+					end
+
+					font:SetTextColor(1, 1, 1, 1)
+					font:Print("Score: " .. allyScore, vsx - 250, vsy * .5625 - 38 * allyCounter, 16, "lo")
+
+					allyCounter = allyCounter + 1
+				end
+			end
+
+		else
+			font:Print("Capturing points begins in:", vsx - 280, vsy *.58, 18, "lo")
+			local timeleft = startTime * 60 - frame / 30
+			timeleft = timeleft - timeleft % 1
+			font:Print(timeleft .. " seconds", vsx - 280, vsy *.58 - 25, 18, "lo")
+		end
 	end
 
 end
