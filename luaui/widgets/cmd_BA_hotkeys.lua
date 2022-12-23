@@ -37,6 +37,8 @@ function MakeBindsTable (swapYZ)
     local Z = swapYZ and "y" or "z"
 
     local _binds = {
+        "bind k wantcloak",
+
         -- building hotkeys
 
         -- Z X C V B
