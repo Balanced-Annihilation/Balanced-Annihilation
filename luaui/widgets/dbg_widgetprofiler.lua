@@ -15,8 +15,8 @@ function widget:GetInfo()
 	}
 end
 
+local font
 local usePrefixedNames = true
-
 local tick = 0.1
 local averageTime = 0.5
 
@@ -117,6 +117,7 @@ end
 
 local userWidgets = {}
 function widget:Initialize()
+	font = gl.LoadFont("LuaUI/Fonts/FreeSansBold.otf", 11, 2, 4.0)
 	for name, wData in pairs(widgetHandler.knownWidgets) do
 		userWidgets[name] = (not wData.fromZip)
 	end
@@ -398,7 +399,7 @@ function DrawWidgetList(list, name, x, y, j, fontSize, lineSpace, maxLines, colW
 		j = 0;
 	end
 	j = j + 1
-	gl.Text(title_colour .. name .. " WIDGETS", x + 152, y - lineSpace * j, fontSize, "no")
+	font:Print(title_colour .. name .. " WIDGETS", x + 152, y - lineSpace * j, fontSize, "no")
 	j = j + 2
 
 	for i = 1, #list do
@@ -414,16 +415,16 @@ function DrawWidgetList(list, name, x, y, j, fontSize, lineSpace, maxLines, colW
 		local sLoad = v.sLoad
 		local tColour = v.timeColourString
 		local sColour = v.spaceColourString
-		gl.Text(tColour .. ('%.3f%%'):format(tLoad), x, y - lineSpace * j, fontSize, "no")
-		gl.Text(sColour .. ('%.1f'):format(sLoad) .. 'kB/s', x + dataColWidth, y - lineSpace * j, fontSize, "no")
-		gl.Text(wname, x + dataColWidth * 2, y - lineSpace * j, fontSize, "no")
+		font:Print(tColour .. ('%.3f%%'):format(tLoad), x, y - lineSpace * j, fontSize, "no")
+		font:Print(sColour .. ('%.1f'):format(sLoad) .. 'kB/s', x + dataColWidth, y - lineSpace * j, fontSize, "no")
+		font:Print(wname, x + dataColWidth * 2, y - lineSpace * j, fontSize, "no")
 
 		j = j + 1
 	end
 
-	gl.Text(totals_colour .. ('%.2f%%'):format(list.allOverTime), x, y - lineSpace * j, fontSize, "no")
-	gl.Text(totals_colour .. ('%.0f'):format(list.allOverSpace) .. 'kB/s', x + dataColWidth, y - lineSpace * j, fontSize, "no")
-	gl.Text(totals_colour .. "totals (" .. string.lower(name) .. ")", x + dataColWidth * 2, y - lineSpace * j, fontSize, "no")
+	font:Print(totals_colour .. ('%.2f%%'):format(list.allOverTime), x, y - lineSpace * j, fontSize, "no")
+	font:Print(totals_colour .. ('%.0f'):format(list.allOverSpace) .. 'kB/s', x + dataColWidth, y - lineSpace * j, fontSize, "no")
+	font:Print(totals_colour .. "totals (" .. string.lower(name) .. ")", x + dataColWidth * 2, y - lineSpace * j, fontSize, "no")
 	j = j + 1
 
 	return x, j
@@ -541,8 +542,7 @@ function widget:DrawScreen()
 	local maxLines = math.max(20, math.floor(y / lineSpace) - 3)
 	local j = -1 --line number
 
-	gl.Color(1, 1, 1, 1)
-	gl.BeginText()
+	font:Begin()
 
 	x, j = DrawWidgetList(gameList, "GAME", x, y, j, fontSize, lineSpace, maxLines, colWidth, dataColWidth)
 	x, j = DrawWidgetList(userList, "USER", x, y, j, fontSize, lineSpace, maxLines, colWidth, dataColWidth)
@@ -552,36 +552,36 @@ function widget:DrawScreen()
 		j = -1;
 	end
 	j = j + 1
-	gl.Text(title_colour .. "ALL", x + dataColWidth * 2, y - lineSpace * j, fontSize, "no")
+	font:Print(title_colour .. "ALL", x + dataColWidth * 2, y - lineSpace * j, fontSize, "no")
 	j = j + 1
 
 	j = j + 1
-	gl.Text(totals_colour .. "total percentage of running time spent in luaui callins", x + dataColWidth * 2, y - lineSpace * j, fontSize, "no")
-	gl.Text(totals_colour .. ('%.1f%%'):format(allOverTime), x + dataColWidth, y - lineSpace * j, fontSize, "no")
+	font:Print(totals_colour .. "total percentage of running time spent in luaui callins", x + dataColWidth * 2, y - lineSpace * j, fontSize, "no")
+	font:Print(totals_colour .. ('%.1f%%'):format(allOverTime), x + dataColWidth, y - lineSpace * j, fontSize, "no")
 	j = j + 1
-	gl.Text(totals_colour .. "total rate of mem allocation by luaui callins", x + dataColWidth * 2, y - lineSpace * j, fontSize, "no")
-	gl.Text(totals_colour .. ('%.0f'):format(allOverSpace) .. 'kB/s', x + dataColWidth, y - lineSpace * j, fontSize, "no")
-
-	j = j + 2
-	gl.Text(totals_colour .. 'total lua memory usage is ' .. ('%.0f'):format(gm / 1000) .. 'MB, of which:', x, y - lineSpace * j, fontSize, "no")
-	j = j + 1
-	gl.Text(totals_colour .. '  ' .. ('%.0f'):format(100 * lm / gm) .. '% is from luaui', x, y - lineSpace * j, fontSize, "no")
-	j = j + 1
-	gl.Text(totals_colour .. '  ' .. ('%.0f'):format(100 * um / gm) .. '% is from unsynced states (luarules+luagaia+luaui)', x, y - lineSpace * j, fontSize, "no")
-	j = j + 1
-	gl.Text(totals_colour .. '  ' .. ('%.0f'):format(100 * sm / gm) .. '% is from synced states (luarules+luagaia)', x, y - lineSpace * j, fontSize, "no")
+	font:Print(totals_colour .. "total rate of mem allocation by luaui callins", x + dataColWidth * 2, y - lineSpace * j, fontSize, "no")
+	font:Print(totals_colour .. ('%.0f'):format(allOverSpace) .. 'kB/s', x + dataColWidth, y - lineSpace * j, fontSize, "no")
 
 	j = j + 2
-	gl.Text(title_colour .. "All data excludes load from garbage collection & executing GL calls", x, y - lineSpace * j, fontSize, "no")
+	font:Print(totals_colour .. 'total lua memory usage is ' .. ('%.0f'):format(gm / 1000) .. 'MB, of which:', x, y - lineSpace * j, fontSize, "no")
 	j = j + 1
-	gl.Text(title_colour .. "Callins in brackets are heaviest per widget for (time,allocs)", x, y - lineSpace * j, fontSize, "no")
+	font:Print(totals_colour .. '  ' .. ('%.0f'):format(100 * lm / gm) .. '% is from luaui', x, y - lineSpace * j, fontSize, "no")
+	j = j + 1
+	font:Print(totals_colour .. '  ' .. ('%.0f'):format(100 * um / gm) .. '% is from unsynced states (luarules+luagaia+luaui)', x, y - lineSpace * j, fontSize, "no")
+	j = j + 1
+	font:Print(totals_colour .. '  ' .. ('%.0f'):format(100 * sm / gm) .. '% is from synced states (luarules+luagaia)', x, y - lineSpace * j, fontSize, "no")
 
 	j = j + 2
-	gl.Text(title_colour .. "Tick time: " .. tick .. "s", x, y - lineSpace * j, fontSize, "no")
+	font:Print(title_colour .. "All data excludes load from garbage collection & executing GL calls", x, y - lineSpace * j, fontSize, "no")
 	j = j + 1
-	gl.Text(title_colour .. "Smoothing time: " .. averageTime .. "s", x, y - lineSpace * j, fontSize, "no")
+	font:Print(title_colour .. "Callins in brackets are heaviest per widget for (time,allocs)", x, y - lineSpace * j, fontSize, "no")
 
-	gl.EndText()
+	j = j + 2
+	font:Print(title_colour .. "Tick time: " .. tick .. "s", x, y - lineSpace * j, fontSize, "no")
+	j = j + 1
+	font:Print(title_colour .. "Smoothing time: " .. averageTime .. "s", x, y - lineSpace * j, fontSize, "no")
+
+	font:End()
 end
 
 
