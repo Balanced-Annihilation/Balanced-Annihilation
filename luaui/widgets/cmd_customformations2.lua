@@ -126,18 +126,6 @@ local MiniMapFullProxy = (Spring.GetConfigInt("MiniMapFullProxy", 0) == 1)
 --------------------------------------------------------------------------------
 -- Speedups
 --------------------------------------------------------------------------------
-local GL_LINE_STRIP = GL.LINE_STRIP
-local glVertex = gl.Vertex
-local glLineStipple = gl.LineStipple
-local glLineWidth = gl.LineWidth
-local glColor = gl.Color
-local glBeginEnd = gl.BeginEnd
-local glPushMatrix = gl.PushMatrix
-local glPopMatrix = gl.PopMatrix
-local glScale = gl.Scale
-local glTranslate = gl.Translate
-local glLoadIdentity = gl.LoadIdentity
-
 local spGetActiveCommand = Spring.GetActiveCommand
 local spSetActiveCommand = Spring.SetActiveCommand
 local spGetDefaultCommand = Spring.GetDefaultCommand
@@ -240,12 +228,12 @@ local function GetUnitFinalPosition(uID)
 
     return ux, uy, uz
 end
-local function SetColor(cmdID, alpha)
-    if     cmdID == CMD_MOVE       then glColor(0.5, 1.0, 0.5, alpha) -- Green
-    elseif cmdID == CMD_ATTACK     then glColor(1.0, 0.2, 0.2, alpha) -- Red
-    elseif cmdID == CMD_UNLOADUNIT then glColor(1.0, 1.0, 0.0, alpha) -- Yellow
-    elseif cmdID == CMD_SETTARGET  then glColor(1.0, 0.7, 0.0, alpha) -- Orange
-    else                                glColor(0.5, 0.5, 1.0, alpha) -- Blue
+local function GetColor(cmdID, alpha)
+    if     cmdID == CMD_MOVE       then return {0.5, 1.0, 0.5, alpha} -- Green
+    elseif cmdID == CMD_ATTACK     then return {1.0, 0.2, 0.2, alpha} -- Red
+    elseif cmdID == CMD_UNLOADUNIT then return {1.0, 1.0, 0.0, alpha} -- Yellow
+    elseif cmdID == CMD_SETTARGET  then return {1.0, 0.7, 0.0, alpha} -- Orange
+    else                                return {0.5, 0.5, 1.0, alpha} -- Blue
     end
 end
 local function CanUnitExecute(uID, cmdID)
@@ -279,7 +267,7 @@ local function AddFNode(pos)
 
     local n = #fNodes
     if n == 0 then
-        fNodes[1] = pos
+        fNodes[1] = {pos[1], pos[2], pos[3]}
         fDists[1] = 0
     else
         local prevNode = fNodes[n]
@@ -289,7 +277,7 @@ local function AddFNode(pos)
             return false
         end
 
-        fNodes[n + 1] = pos
+        fNodes[n + 1] = {pos[1], pos[2], pos[3]}
         fDists[n + 1] = fDists[n] + sqrt(distSq)
         lineLength = lineLength+distSq^0.5
     end
@@ -689,54 +677,39 @@ end
 --------------------------------------------------------------------------------
 -- Drawing
 --------------------------------------------------------------------------------
-local function tVerts(verts)
-    for i = 1, #verts do
-        local v = verts[i]
-        glVertex(v[1], v[2], v[3])
-    end
-end
-local function tVertsMinimap(verts)
-    for i = 1, #verts do
-        local v = verts[i]
-        glVertex(v[1], v[3], 1)
-    end
-end
-
-local function DrawGroundquad(x,y,z,size)
-    gl.TexCoord(0,0)
-    gl.Vertex(x-size,y,z-size)
-    gl.TexCoord(0,1)
-    gl.Vertex(x-size,y,z+size)
-    gl.TexCoord(1,1)
-    gl.Vertex(x+size,y,z+size)
-    gl.TexCoord(1,0)
-    gl.Vertex(x+size,y,z-size)
-end
-
-local function DrawFilledCircleOutFading(pos, size, cornerCount)
-    SetColor(usingCmd, 1)
-	local lengthPerUnit = lineLength / (selectedUnitsCount-1)
+local function DrawFilledCircleOutFading(pos, size)
+    local color = GetColor(usingCmd, 1)
+    local lengthPerUnit = lineLength / (selectedUnitsCount-1)
     local lengthUnitNext = lengthPerUnit
-	if (lengthPerUnit < 48) and (usingCmd == CMD.UNLOAD_UNIT) then
-		glColor(1.0,0.3,0.0,1.0)
-	end
+    if (lengthPerUnit < 48) and (usingCmd == CMD.UNLOAD_UNIT) then
+        color = {1.0,0.3,0.0,1.0}
+    end
+
+    local x = pos[1]
+    local y = pos[2]
+    local z = pos[3]
+
     gl.Texture(dotImage)
-    gl.BeginEnd(GL.QUADS,DrawGroundquad, pos[1], pos[2], pos[3], size)
+    Spring.Draw.Rectangle(
+        x-size, y, z-size,
+        x+size, y, z-size,
+        x+size, y, z+size,
+        x-size, y, z+size,
+        {color=color}
+    )
     gl.Texture(false)
 end
 
-
-local function DrawFormationDots(vertFunction, zoomY)
-	gl.PushAttrib(GL.ALL_ATTRIB_BITS)
+local function DrawFormationDots(zoomY)
     local currentLength = 0
     local lengthPerUnit = lineLength / (selectedUnitsCount-1)
     local lengthUnitNext = lengthPerUnit
     local dotSize = sqrt(zoomY*0.24)
     if (#fNodes > 1) and (selectedUnitsCount > 1) then
-        SetColor(usingCmd, 0.6)
-		if (lengthPerUnit < 48) and (usingCmd == CMD.UNLOAD_UNIT) then
-			glColor(1.0,0.3,0.0,0.6)
-		end
+        local color = GetColor(usingCmd, 0.6)
+        if (lengthPerUnit < 48) and (usingCmd == CMD.UNLOAD_UNIT) then
+            color = {1.0,0.3,0.0,0.6}
+        end
         DrawFilledCircleOutFading(fNodes[1], dotSize)
         if (#fNodes > 2) then
             for i=1, #fNodes-1 do
@@ -761,22 +734,43 @@ local function DrawFormationDots(vertFunction, zoomY)
         end
         DrawFilledCircleOutFading(fNodes[#fNodes], dotSize)
     end
-	gl.PopAttrib(GL.ALL_ATTRIB_BITS)
 end
 
-local function DrawFormationLines(vertFunction, lineStipple)
-    glLineStipple(lineStipple, 4369)
-    glLineWidth(2.0)
+local function SampleNodes(nodes, numSamples)
+    local stride = math.max(math.ceil(#nodes / (numSamples - 1)), 1)
+
+    local result = {}
+    result[1] = nodes[1]
+
+    local n = 2
+    local numNodes = #nodes
+    for i = stride, numNodes, stride do
+        result[n] = nodes[i]
+        n = n + 1
+    end
+    result[n] = nodes[#nodes]
+
+    return result
+end
+
+local maxLineVertices = 30
+local function DrawFormationLines()
+    gl.Texture(false)
+    gl.DepthTest(false)
+
     if #fNodes > 1 then
-        SetColor(usingCmd, 1.0)
-        glBeginEnd(GL_LINE_STRIP, vertFunction, fNodes)
+        local vertices = SampleNodes(fNodes, maxLineVertices)
+        local color = GetColor(usingCmd, 1.0)
+        Spring.Draw.Lines(vertices, {width=5, color=color})
     end
+
     if #dimmNodes > 1 then
-        SetColor(dimmCmd, dimmAlpha)
-        glBeginEnd(GL_LINE_STRIP, vertFunction, dimmNodes)
+        local vertices = SampleNodes(dimmNodes, maxLineVertices)
+        local color = GetColor(dimmCmd, dimmAlpha)
+        Spring.Draw.Lines(vertices, {width=5, color=color})
     end
-    glLineWidth(1.0)
-    glLineStipple(false)
+
+    gl.DepthTest(true)
 end
 
 local Xs, Ys = spGetViewGeometry()
@@ -790,7 +784,7 @@ function widget:DrawWorld()
     if #fNodes > 1 or #dimmNodes > 1 then
         local camX, camY, camZ = spGetCameraPosition()
         local at, p = spTraceScreenRay(Xs,Ys,true,false,false)
-		local zoomY
+        local zoomY
         if at == "ground" then
             local dx, dy, dz = camX-p[1], camY-p[2], camZ-p[3]
             --zoomY = ((dx*dx + dy*dy + dz*dz)*0.01)^0.25	--tests show that sqrt(sqrt(x)) is faster than x^0.25
@@ -801,20 +795,13 @@ function widget:DrawWorld()
         end
         if zoomY < 6 then zoomY = 6 end
         if lineLength > 0 then  --don't try and draw if the command was cancelled by having two mouse buttons pressed at once
-            DrawFormationDots(tVerts, zoomY)
+            DrawFormationDots(zoomY)
         end
-		glColor(1,1,1,1)
     end
 end
 
---TODO maybe include minimap drawing again
 function widget:DrawInMiniMap()
-    glPushMatrix()
-    glLoadIdentity()
-    glTranslate(0, 1, 0)
-    glScale(1 / mapSizeX, -1 / mapSizeZ, 1)
-    DrawFormationLines(tVertsMinimap, 1)
-    glPopMatrix()
+    DrawFormationLines()
 end
 
 function widget:Update(deltaTime)
