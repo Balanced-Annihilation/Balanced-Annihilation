@@ -22,12 +22,6 @@ minTimeToTake = Spring.GetModOptions().startpostype == 2 and 1 or minTimeToTake
 local AFKMessage = 'idleplayers '
 local AFKMessageSize = #AFKMessage
 
-local errorKeys = {
-	shareAFK = 'shareAFK',
-	takeEnemies = 'takeEnemies',
-	nothingToTake = 'nothingToTake',
-}
-
 if gadgetHandler:IsSyncedCode() then
 	
 	-----------------
@@ -147,7 +141,7 @@ if gadgetHandler:IsSyncedCode() then
 
 	local function takeTeam(cmd, line, words, playerID)
 		if not CheckPlayerState(playerID) then
-			SendToUnsynced("NotifyError", playerID, errorKeys.shareAFK)
+			SendToUnsynced("NotifyError", playerID, "Cannot share to idle players")
 			return -- exclude taking rights from lagged players, etc
 		end
 		local targetTeam = tonumber(words[1])
@@ -156,7 +150,7 @@ if gadgetHandler:IsSyncedCode() then
 		if targetTeam then
 			if select(6,GetTeamInfo(targetTeam,false)) ~= allyTeamID then
 				--don't let enemies take
-				SendToUnsynced("NotifyError", playerID, errorKeys.takeEnemies)
+				SendToUnsynced("NotifyError", playerID, "Cannot take enemy players")
 				return
 			end
 			teamList = {targetTeam}
@@ -180,7 +174,7 @@ if gadgetHandler:IsSyncedCode() then
 			end
 		end
 		if numToTake == 0 then
-			SendToUnsynced("NotifyError", playerID, errorKeys.nothingToTake)
+			SendToUnsynced("NotifyError", playerID, "Nothing to take")
 		end
 	end
 
@@ -303,9 +297,8 @@ else
 		end
 	end
 
-	local function notifyError(_, playerID, errorKey)
-		local translationKey = 'ui.idlePlayers.' .. errorKey
-		Spring.SendMessageToPlayer(playerID, Spring.I18N(translationKey))
+	local function notifyError(_, playerID, message)
+		Spring.SendMessageToPlayer(playerID, message)
 	end
 
 	local function playerLagging(_, playerName)
