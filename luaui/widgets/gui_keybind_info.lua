@@ -8,11 +8,12 @@ return {
 	license = "Mouthwash",
 	layer   = -1,
 	enabled = true,
+	hidden  = true,
 }
 end
 
 local loadedFontSize = 32
-local font = gl.LoadFont(LUAUI_DIRNAME.."Fonts/FreeSansBold.otf", loadedFontSize, 16,2)
+local font
 
 local bgcorner = ":n:"..LUAUI_DIRNAME.."Images/bgcorner.png"
 local closeButtonTex = ":n:"..LUAUI_DIRNAME.."Images/close.dds"
@@ -53,14 +54,11 @@ local GL_FRONT_AND_BACK = GL.FRONT_AND_BACK
 local GL_LINE_STRIP = GL.LINE_STRIP
 
 local widgetScale = 1
-local vsx, vsy = Spring.GetViewGeometry()
+local vsx, vsy
+local screenX, screenY
 
-local vsx,vsy = Spring.GetViewGeometry()
-local screenX = (vsx*0.5) - (screenWidth/2)
-local screenY = (vsy*0.5) + (screenHeight/2)
-  
-function widget:ViewResize()
-  vsx,vsy = Spring.GetViewGeometry()
+function widget:ViewResize(width, height)
+  vsx, vsy = width, height
   screenX = (vsx*0.5) - (screenWidth/2)
   screenY = (vsy*0.5) + (screenHeight/2)
   widgetScale = (0.75 + (vsx*vsy / 7500000)) * customScale
@@ -343,6 +341,7 @@ function mouseEvent(x, y, button, release)
 end
 
 function widget:Initialize()
+	font = gl.LoadFont(LUAUI_DIRNAME.."Fonts/FreeSansBold.otf", loadedFontSize, 16, 2)
 
 	WG['keybinds'] = {}
 	WG['keybinds'].toggle = function(state)
@@ -355,7 +354,7 @@ function widget:Initialize()
 	WG['keybinds'].isvisible = function()
 		return show
 	end
-	widget:ViewResize()
+	widget:ViewResize(Spring.GetViewGeometry())
 end
 
 function widget:Shutdown()

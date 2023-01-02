@@ -6,7 +6,8 @@ function widget:GetInfo()
 		date = "April 2020",
 		license = "GNU GPL, v2 or later",
 		layer = 1,
-		enabled = true
+		enabled = true,
+		hidden = true,
 	}
 end
 
@@ -270,21 +271,6 @@ function widget:ViewResize()
 	width = math.floor(width * viewSizeX) / viewSizeX
 	height = math.floor(height * viewSizeY) / viewSizeY
 
-
-	font = WG['fonts'].getFont(fontFile)
-
-	--[[local fontfileOutlineSize = 7
-	local fontfileOutlineStrength = 1.1
-	local fontfileSize = 40
-	local vsx,vsy = Spring.GetViewGeometry()
-	  local newFontfileScale = (0.5 + (vsx*vsy / 5700000))
-	  if fontfileScale ~= newFontfileScale then
-		fontfileScale = newFontfileScale
-		gl.DeleteFont(font)
-		font = gl.LoadFont(fontfile, fontfileSize*fontfileScale, fontfileOutlineSize*fontfileScale, fontfileOutlineStrength)
-		loadedFontSize = fontfileSize*fontfileScale
-	  end]]--
-	
 	elementCorner = WG.FlowUI.elementCorner
 	backgroundPadding = WG.FlowUI.elementPadding
 
@@ -325,6 +311,8 @@ end
 
 
 function widget:Initialize()
+	font = gl.LoadFont(fontfile, 20, 4, 1.1, true)
+
 	widget:ViewResize()
 	widget:SelectionChanged()
 

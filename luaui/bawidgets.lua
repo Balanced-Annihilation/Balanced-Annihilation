@@ -471,6 +471,11 @@ function widgetHandler:LoadWidget(filename, fromZip)
     self.orderList[name] = 1  -- always load the widget selector
   end
 
+  if widget.whInfo.hidden then
+    Spring.Echo('Ignoring hidden widget: ' .. name)
+    return nil
+  end
+
   err = self:ValidateWidget(widget)
   if (err) then
     Spring.Echo('Failed to load: ' .. basename .. '  (' .. err .. ')')
@@ -626,6 +631,7 @@ function widgetHandler:FinalizeWidget(widget, filename, basename)
     wi.author  = info.author  or ""
     wi.license = info.license or ""
     wi.enabled = info.enabled or false
+    wi.hidden = info.hidden or false
   end
 
   widget.whInfo = {}  --  a proxy table

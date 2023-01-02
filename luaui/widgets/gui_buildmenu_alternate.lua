@@ -8,6 +8,7 @@ function widget:GetInfo()
 		layer = 0,
 		enabled = true,
 		handler = true,
+		hidden = true,
 	}
 end
 
@@ -79,7 +80,8 @@ local sound_queue_add = 'LuaUI/Sounds/buildbar_add.wav'
 local sound_queue_rem = 'LuaUI/Sounds/buildbar_rem.wav'
 --local sound_button = 'LuaUI/Sounds/buildbar_waypoint.wav'
 
-	local fontfile ="LuaUI/Fonts/FreeSansBold.otf"
+local fontFile ="LuaUI/Fonts/FreeSansBold.otf"
+local font2
 
 local vsx, vsy = Spring.GetViewGeometry()
 
@@ -173,7 +175,6 @@ local GL_DST_ALPHA = GL.DST_ALPHA
 local GL_ONE_MINUS_SRC_COLOR = GL.ONE_MINUS_SRC_COLOR
 local glDepthTest = gl.DepthTest
 
---local glCreateTexture = gl.CreateTexture
 --local glActiveTexture = gl.ActiveTexture
 --local glCopyToTexture = gl.CopyToTexture
 --local glRenderToTexture = gl.RenderToTexture
@@ -847,10 +848,8 @@ local function RefreshCommands()
 	end
 end
 
-function widget:ViewResize()
-	vsx, vsy = Spring.GetViewGeometry()
-
-	font2 = WG['fonts'].getFont(fontFile, 1.2, 0.22, 1.5)
+function widget:ViewResize(width, height)
+	vsx, vsy = width, height
 
 	if WG['minimap'] then
 		minimapEnlarged = WG['minimap'].getEnlarged()
@@ -928,7 +927,8 @@ function widget:Initialize()
 		end
 	end
 
-	widget:ViewResize()
+	font2 = gl.LoadFont(fontFile, 16, 1, 1.5, true)
+
 	widget:SelectionChanged(spGetSelectedUnits())
 
 	WG['buildmenu'] = {}
@@ -970,7 +970,7 @@ function widget:Update(dt)
 		if ui_scale ~= Spring.GetConfigFloat("ui_scale", 1) then
 			ui_scale = Spring.GetConfigFloat("ui_scale", 1)
 			refreshUnitIconCache()
-			widget:ViewResize()
+			widget:ViewResize(Spring.GetViewGeometry())
 			doUpdate = true
 		end
 		if ui_opacity ~= Spring.GetConfigFloat("ui_opacity", 0.66) then
@@ -981,7 +981,7 @@ function widget:Update(dt)
 		end
 		if WG['minimap'] and minimapEnlarged ~= WG['minimap'].getEnlarged() then
 			refreshUnitIconCache()
-			widget:ViewResize()
+			widget:ViewResize(Spring.GetViewGeometry())
 			doUpdate = true
 		end
 

@@ -11,6 +11,7 @@ function widget:GetInfo()
     layer     = 0,
     enabled   = false,
     --detailsDefault = 3
+    hidden    = true,
   }
 end
 --------------------------------------------------------------------------------

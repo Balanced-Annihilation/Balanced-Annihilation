@@ -8,6 +8,7 @@ function widget:GetInfo()
 		license   = "GNU GPL, v2 or later",
 		layer     = -9999999999,
 		enabled   = true,  --  loaded by default?
+		hidden    = true,
 	}
 end
 
@@ -32,7 +33,7 @@ Use 'ShowTooltip' to directly show a tooltip, the name you give should be unique
 -- Config
 ------------------------------------------------------------------------------------
 
-local vsx,vsy = Spring.GetViewGeometry()
+local vsx, vsy
 
 local defaultDelay = 0.4
 local cfgFontSize = 14
@@ -178,12 +179,12 @@ function RectRound(px,py,sx,sy,cs, tl,tr,br,bl, c1,c2)		-- (coordinates work dif
 end
 
 function widget:Initialize()
-	widget:ViewResize()
+	font = gl.LoadFont(fontfile, 44, 8, 1.3, true)
+	widget:ViewResize(Spring.GetViewGeometry())
 	init()
 end
 
 function widget:Shutdown()
-
 	WG['tooltip'] = nil
 end
 
@@ -230,22 +231,13 @@ function widget:Update(dt)
 		uiSec = 0
 		if ui_scale ~= 1 then
 			ui_scale = 1
-			widget:ViewResize(vsx,vsy)
+			widget:ViewResize(Spring.GetViewGeometry())
 		end
 	end
 end
 
-function widget:ViewResize(x,y)
-	vsx,vsy = Spring.GetViewGeometry()
-
-	local fontfile ="LuaUI/Fonts/FreeSansBold.otf"
-local vsx,vsy = Spring.GetViewGeometry()
-local fontfileScale = (0.7 + (vsx*vsy / 7000000))
-local fontfileSize = 44
-local fontfileOutlineSize = 8
-local fontfileOutlineStrength = 1.3
- font = gl.LoadFont(fontfile, fontfileSize*fontfileScale, fontfileOutlineSize*fontfileScale, fontfileOutlineStrength)
-
+function widget:ViewResize(width, height)
+	vsx, vsy = width, height
 	init()
 end
 

@@ -7,7 +7,8 @@ function widget:GetInfo()
     date      = "29 may 2015",
     license   = "GNU GPL, v2 or later",
     layer     = -24,
-    enabled   = true  --  loaded by default?
+    enabled   = true,
+    hidden    = true,
   }
 end
 
@@ -141,8 +142,6 @@ local glCreateList         = gl.CreateList
 local glDeleteList         = gl.DeleteList
 local glTexture            = gl.Texture
 local glGetShaderLog       = gl.GetShaderLog
-local glCreateShader       = gl.CreateShader
-local glDeleteShader       = gl.DeleteShader
 local glUseShader          = gl.UseShader
 local glUniformMatrix      = gl.UniformMatrix
 local glUniformInt         = gl.UniformInt
@@ -171,7 +170,7 @@ end
 function removeSnow()
 	removeParticleLists()
 	if shader ~= nil then
-		glDeleteShader(shader)
+		gl.DeleteShader(shader)
 	end
 end
 
@@ -225,13 +224,13 @@ function init()
 	if enabled == false then return end
 	
 	
-	if (glCreateShader == nil) then
+	if (gl.CreateShader == nil) then
 		Spring.Echo("[Snow widget:Initialize] no shader support")
 		widgetHandler:RemoveWidget()
 		return
 	end
 	
-	shader = glCreateShader({
+	shader = gl.CreateShader({
 		vertex = [[
 			uniform float time;
 			uniform float scale;

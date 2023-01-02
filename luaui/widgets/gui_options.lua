@@ -7,13 +7,14 @@ function widget:GetInfo()
         license = "Dental flush",
         layer = math.huge,
         enabled = true,
-        handler = true
+        handler = true,
+        hidden = true,
     }
 end
 
 --local show = true
 local loadedFontSize = 32
-local font = gl.LoadFont(LUAUI_DIRNAME .. "Fonts/FreeSansBold.otf", loadedFontSize, 16, 2)
+local font
 local bgcorner = ":n:" .. LUAUI_DIRNAME .. "Images/bgcorner.png"
 local bgcorner1 = ":n:" .. LUAUI_DIRNAME .. "Images/bgcorner1.png"
 local closeButtonTex = ":n:" .. LUAUI_DIRNAME .. "Images/close.dds"
@@ -22,9 +23,8 @@ local closeButtonSize = 30
 local screenHeight = 520 - bgMargin - bgMargin -- change menu size
 local screenWidth = 1050 - bgMargin - bgMargin
 local customScale = 1
-local vsx, vsy = Spring.GetViewGeometry()
-local screenX = (vsx * 0.5) - (screenWidth / 2)
-local screenY = (vsy * 0.5) + (screenHeight / 2)
+local vsx, vsy
+local screenX, screenY
 local spIsGUIHidden = Spring.IsGUIHidden
 local glColor = gl.Color
 local glLineWidth = gl.LineWidth
@@ -56,8 +56,8 @@ local fullWidgetsList = {}
 local addedWidgetOptions = false
 local luaShaders = tonumber(Spring.GetConfigInt("LuaShaders", 1) or 0)
 
-function widget:ViewResize()
-    vsx, vsy = Spring.GetViewGeometry()
+function widget:ViewResize(width, height)
+    vsx, vsy = width, height
     screenX = (vsx * 0.5) - (screenWidth / 2)
     screenY = (vsy * 0.5) + (screenHeight / 2)
     widgetScale = (0.75 + (vsx * vsy / 7500000)) * customScale
@@ -1284,6 +1284,10 @@ function mouseEvent(x, y, button, release)
 end
 
 function widget:Initialize()
+    font = gl.LoadFont(LUAUI_DIRNAME .. "Fonts/FreeSansBold.otf", loadedFontSize, 16, 2)
+
+    widget:ViewResize(Spring.GetViewGeometry())
+
     WG["options"] = {}
 
     WG["options"].toggle = function(state)

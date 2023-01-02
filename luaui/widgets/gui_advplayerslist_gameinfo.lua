@@ -20,6 +20,7 @@ function widget:GetInfo()
 		license	= "GNU GPL, v2 or later",
 		layer	= -3,
 		enabled	= true,	--	loaded by default?
+		hidden	= true,
 	}
 end
 
@@ -28,6 +29,7 @@ end
 --------------------------------------------------------------------------------
 
 local fontfile ="LuaUI/Fonts/FreeSansBold.otf"
+local font
 
 local ui_opacity =  0.66
 local ui_scale = 1
@@ -46,6 +48,7 @@ local GL_SRC_ALPHA = GL.SRC_ALPHA
 local GL_ONE_MINUS_SRC_ALPHA = GL.ONE_MINUS_SRC_ALPHA
 local GL_ONE = GL.ONE
 
+local vsx, vsy
 local drawlist = {}
 local advplayerlistPos = {}
 local widgetHeight = 22
@@ -56,7 +59,8 @@ local isSpec = Spring.GetSpectatingState()
 --------------------------------------------------------------------------------
 
 function widget:Initialize()
-	widget:ViewResize()
+	font = gl.LoadFont(fontfile, 44, 8, 1.3, true)
+
 	updatePosition()
 	WG['displayinfo'] = {}
 	WG['displayinfo'].GetPosition = function()
@@ -174,7 +178,7 @@ function RectRound(px,py,sx,sy,cs, tl,tr,br,bl, c1,c2)		-- (coordinates work dif
 	gl.BeginEnd(GL.QUADS, DrawRectRound, px,py,sx,sy,cs, tl,tr,br,bl, c1,c2)
 end
 
-local gameMaxUnits = math.min(Spring.GetModOptions().maxunits, math.floor(32000 / #Spring.GetTeamList()))
+local gameMaxUnits = math.min(Spring.GetModOptions().maxunits or 32000, math.floor(32000 / #Spring.GetTeamList()))
 
 local function updateValues()
 
@@ -309,7 +313,7 @@ function widget:Update(dt)
 		uiOpacitySec = 0
 		if ui_scale ~= 1 then
 			ui_scale =1
-			widget:ViewResize()
+			widget:ViewResize(Spring.GetViewGeometry())
 		end
 		uiOpacitySec = 0
 		if ui_opacity ~= 0.66 then
@@ -352,17 +356,9 @@ function updatePosition(force)
 	end
 end
 
-function widget:ViewResize(newX,newY)
+function widget:ViewResize(width, height)
 	local prevVsx, prevVsy = vsx, vsy
-	vsx, vsy = Spring.GetViewGeometry()
-
-	local fontfile ="LuaUI/Fonts/FreeSansBold.otf"
-local vsx,vsy = Spring.GetViewGeometry()
-local fontfileScale = (0.7 + (vsx*vsy / 7000000))
-local fontfileSize = 44
-local fontfileOutlineSize = 8
-local fontfileOutlineStrength = 1.3
- font = gl.LoadFont(fontfile, fontfileSize*fontfileScale, fontfileOutlineSize*fontfileScale, fontfileOutlineStrength)
+	vsx, vsy = width, height
 
 	local widgetSpaceMargin = math.floor(0.0045 * vsy * ui_scale) / vsy
 	bgpadding = math.ceil(widgetSpaceMargin * 0.66 * vsy)

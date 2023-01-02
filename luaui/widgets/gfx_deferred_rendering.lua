@@ -10,7 +10,8 @@ function widget:GetInfo()
 	date      = "2015 Sept.",
 	license   = "GPL V2",
 	layer     = -99999990,
-	enabled   = true
+	enabled   = true,
+	hidden    = true,
   }
 end
 
@@ -24,10 +25,6 @@ local glCallList             = gl.CallList
 local glClear								 = gl.Clear
 local glColor                = gl.Color
 local glCreateList           = gl.CreateList
-local glCreateShader         = gl.CreateShader
-local glCreateTexture        = gl.CreateTexture
-local glDeleteShader         = gl.DeleteShader
-local glDeleteTexture        = gl.DeleteTexture
 local glDepthMask            = gl.DepthMask
 local glDepthTest            = gl.DepthTest
 local glGetShaderLog         = gl.GetShaderLog
@@ -293,7 +290,7 @@ end
 
 function widget:Initialize()
 	
-	if (glCreateShader == nil) then
+	if (gl.CreateShader == nil) then
 		Spring.Echo('Deferred Rendering requires shader support!') 
 		widgetHandler:RemoveWidget(self)
 		return
@@ -308,13 +305,13 @@ function widget:Initialize()
 		return
 	end
 	if ((not forceNonGLSL) and Spring.GetMiniMapDualScreen() ~= 'left') then --FIXME dualscreen
-		if (not glCreateShader) then
+		if (not gl.CreateShader) then
 			spEcho("gfx_deferred_rendering.lua: Shaders not found, removing self.")
 			GLSLRenderer = false
 			widgetHandler:RemoveWidget(self)
 			return
 		else
-			depthPointShader = depthPointShader or glCreateShader({
+			depthPointShader = depthPointShader or gl.CreateShader({
 				defines = {
 					"#version 150 compatibility\n",
 					"#define BEAM_LIGHT 0\n",
@@ -344,7 +341,7 @@ function widget:Initialize()
 				uniformViewPrjInvPoint = glGetUniformLocation(depthPointShader, 'viewProjectionInv')
 			end
 			--fragSrc = "#define BEAM_LIGHT \n" .. fragSrc
-			depthBeamShader = depthBeamShader or glCreateShader({
+			depthBeamShader = depthBeamShader or gl.CreateShader({
 				defines = {
 					"#version 150 compatibility\n",
 					"#define BEAM_LIGHT 1\n",
@@ -388,9 +385,9 @@ end
 
 function widget:Shutdown()
 	if (GLSLRenderer) then
-		if (glDeleteShader) then
-			glDeleteShader(depthPointShader)
-			glDeleteShader(depthBeamShader)
+		if (gl.DeleteShader) then
+			gl.DeleteShader(depthPointShader)
+			gl.DeleteShader(depthBeamShader)
 		end
 	end
 end

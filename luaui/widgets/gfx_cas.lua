@@ -9,6 +9,7 @@ function widget:GetInfo()
 	license = "",
 	layer	  = 2000,
 	enabled = true,
+    hidden = true,
   }
 end
 

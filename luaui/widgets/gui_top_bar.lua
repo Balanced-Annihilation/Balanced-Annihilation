@@ -8,6 +8,7 @@ function widget:GetInfo()
 		layer = -999999,
 		enabled = true, --enabled by default
 		handler = true, --can use widgetHandler:x()
+		hidden = true,
 	}
 end
 
@@ -258,8 +259,8 @@ local function DrawRect(px, py, sx, sy, zoom)
 	gl.BeginEnd(GL.QUADS, RectQuad, px, py, sx, sy, zoom)
 end
 
-function widget:ViewResize()
-	vsx, vsy = gl.GetViewSizes()
+function widget:ViewResize(width, height)
+	vsx, vsy = width, height
 	widgetScale = (vsy / height) * 0.0425
 	widgetScale = widgetScale * ui_scale
 	xPos = math_floor(vsx * relXpos)
@@ -275,9 +276,6 @@ function widget:ViewResize()
 
 	bgtexSize = bgpadding * bgtexScale
 	buttonBgtexSize = bgpadding * buttonBgtexScale
-
-	font = WG['fonts'].getFont(fontfile)
-	font2 = WG['fonts'].getFont(fontfile2)
 
 	for n, _ in pairs(dlistWindText) do
 		dlistWindText[n] = glDeleteList(dlistWindText[n])
@@ -2174,7 +2172,10 @@ function widget:Initialize()
 		hideWindows()
 	end
 
-	widget:ViewResize()
+	font = gl.LoadFont(fontfile, 32, 2, 1.05, true)
+	font2 = gl.LoadFont(fontfile2, 32, 2, 1.05, true)
+
+	widget:ViewResize(Spring.GetViewGeometry())
 
 	if gameFrame > 0 then
 		widget:GameStart()

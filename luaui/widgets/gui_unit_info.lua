@@ -8,6 +8,7 @@ return {
 	license = "Dental flush",
 	layer   = -2,
 	enabled = true,
+	hidden  = true,
 }
 end
 local triggerKey = 117	-- 117 = U   (+ ctrl)
@@ -15,7 +16,7 @@ local triggerKey = 117	-- 117 = U   (+ ctrl)
 local show = false
 
 local loadedFontSize = 32
-local font = gl.LoadFont(LUAUI_DIRNAME.."Fonts/FreeSansBold.otf", loadedFontSize, 16,2)
+local font
 
 local bgcorner = ":n:"..LUAUI_DIRNAME.."Images/bgcorner.png"
 local closeButtonTex = ":n:"..LUAUI_DIRNAME.."Images/close.dds"
@@ -33,10 +34,9 @@ local customScale = 1
 local startLine = 1
 
 local rot = 0
-local vsx,vsy = Spring.GetViewGeometry()
-local screenX = (vsx*0.5) - (screenWidth/2)
-local screenY = (vsy*0.5) + (screenHeight/2)
-  
+local vsx, vsy
+local screenX, screenY
+
 local spIsGUIHidden = Spring.IsGUIHidden
 local showHelp = false
 
@@ -64,7 +64,6 @@ local sformat = string.format
 
 local widgetScale = 1
 local endPosX = 0.1
-local vsx, vsy = Spring.GetViewGeometry()
 
 local unitNames = {}
 local fileContentLines = {}
@@ -75,8 +74,8 @@ local spGetSelectedUnitsCount	= Spring.GetSelectedUnitsCount
 local spGetUnitDefID			= Spring.GetUnitDefID
 
 
-function widget:ViewResize()
-  vsx,vsy = Spring.GetViewGeometry()
+function widget:ViewResize(width, height)
+  vsx, vsy = width, height
   screenX = (vsx*0.5) - (screenWidth/2)
   screenY = (vsy*0.5) + (screenHeight/2)
   widgetScale = (0.75 + (vsx*vsy / 7500000)) * customScale
@@ -677,6 +676,8 @@ function lines(str)
 end
 
 function widget:Initialize()
+	font = gl.LoadFont(LUAUI_DIRNAME.."Fonts/FreeSansBold.otf", loadedFontSize, 16, 2)
+
 	for udid, unitDef in pairs(UnitDefs) do
 		unitNames[unitDef.name] = udid
 	end

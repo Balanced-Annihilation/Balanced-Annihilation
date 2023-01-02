@@ -6,7 +6,7 @@ function gadget:GetInfo()
     date      = "2016",
     license   = "penguin",
     layer     = -100, --negative, otherwise critters spawned by gadget do not disappear on death (spawned with /give they always die)
-    enabled   = true
+    enabled   = false
 	}
 end
 

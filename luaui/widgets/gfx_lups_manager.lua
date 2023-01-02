@@ -19,6 +19,7 @@ function widget:GetInfo()
     layer     = 10,
     enabled   = false,
     handler   = true,
+    hidden    = true,
   }
 end
 

@@ -8,13 +8,14 @@ return {
 	license = "Dental flush",
 	layer   = -1,
 	enabled = true,
+	hidden = true,
 }
 end
 
 --local show = true
 
 local loadedFontSize = 32
-local font = gl.LoadFont(LUAUI_DIRNAME.."Fonts/FreeSansBold.otf", loadedFontSize, 16,2)
+local font
 
 local bgcorner = ":n:"..LUAUI_DIRNAME.."Images/bgcorner.png"
 local closeButtonTex = ":n:"..LUAUI_DIRNAME.."Images/close.dds"
@@ -656,7 +657,8 @@ end
 
 function widget:Initialize()
 	if changelogFile then
-		
+		font = gl.LoadFont(LUAUI_DIRNAME.."Fonts/FreeSansBold.otf", loadedFontSize, 16, 2)
+
 		WG['changelog'] = {}
 		WG['changelog'].toggle = function(state)
 			if state ~= nil then

@@ -6,7 +6,8 @@ function widget:GetInfo()
 		date = "April 2020",
 		license = "GNU GPL, v2 or later",
 		layer = 1,
-		enabled = true
+		enabled = true,
+		hidden = true,
 	}
 end
 
@@ -30,10 +31,13 @@ local showSelectionTotals = true
 -------------------------------------------------------------------------------
 
 
-	local fontfile ="LuaUI/Fonts/FreeSansBold.otf"
-	local fontfile2 ="LuaUI/Fonts/FreeSansBold.otf"
+local fontfile ="LuaUI/Fonts/FreeSansBold.otf"
+local fontfile2 ="LuaUI/Fonts/FreeSansBold.otf"
+local font
+local loadedFontSize
+local font2
 
-local vsx, vsy = Spring.GetViewGeometry()
+local vsx, vsy
 
 local barGlowCenterTexture = ":l:LuaUI/Images/barglow-center.png"
 local barGlowEdgeTexture = ":l:LuaUI/Images/barglow-edge.png"
@@ -424,10 +428,10 @@ function widget:PlayerChanged(playerID)
 	myTeamID = Spring.GetMyTeamID()
 end
 
-function widget:ViewResize()
+function widget:ViewResize(width, height)
 	ViewResizeUpdate = true
 
-	vsx, vsy = Spring.GetViewGeometry()
+	vsx, vsy = width, height
 
 	width = 0.184
 	height = 0.14 * ui_scale
@@ -457,10 +461,6 @@ function widget:ViewResize()
 	if unitIconSize2 > 256 then
 		unitIconSize2 = 256
 	end
-
-
-	font, loadedFontSize = WG['fonts'].getFont(fontfile)
-	font2 = WG['fonts'].getFont(fontfile2)
 end
 
 function GetColor(colormap, slider)
@@ -486,7 +486,11 @@ function GetColor(colormap, slider)
 end
 
 function widget:Initialize()
-	widget:ViewResize()
+	font = gl.LoadFont(fontfile, 16, 1, 1.5, true)
+	loadedFontSize = font.size
+	font2 = gl.LoadFont(fontfile2, 16, 1, 1.5, true)
+
+	widget:ViewResize(Spring.GetViewGeometry())
 
 	WG['info'] = {}
 	WG['info'].displayUnitID = function(unitID)
@@ -539,14 +543,14 @@ function widget:Update(dt)
 			if not addonWidth then
 				addonWidth = 0
 			end
-			widget:ViewResize()
+			widget:ViewResize(Spring.GetViewGeometry())
 		elseif addonWidth > 0 then
 			addonWidth = 0
-			widget:ViewResize()
+			widget:ViewResize(Spring.GetViewGeometry())
 		end
 		if ui_scale ~= Spring.GetConfigFloat("ui_scale", 1) then
 			ui_scale = Spring.GetConfigFloat("ui_scale", 1)
-			widget:ViewResize()
+			widget:ViewResize(Spring.GetViewGeometry())
 			refreshUnitIconCache()
 		end
 		if ui_opacity ~= Spring.GetConfigFloat("ui_opacity", 0.66) then
