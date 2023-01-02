@@ -104,6 +104,7 @@ local maxHungarianUnits = defaultHungarianUnits -- Also set when loading config
 local fNodes = {} -- Formation nodes, filled as we draw
 local fDists = {} -- fDists[i] = distance from node 1 to node i
 local totaldxy = 0 -- Measure of distance mouse has moved, used to unjag lines drawn in minimap
+local unloadShort = false -- Flag to indicate that there is not enough spacing for unloading in a line.
 
 local dimmCmd = nil -- The dimming command (Used for color)
 local dimmNodes = {} -- The current nodes of dimming line
@@ -383,6 +384,60 @@ function widget:SelectionChanged(sel)
     selectedUnitsCount = Spring.GetSelectedUnitsCount()
 end
 
+local function GetFormationDots()
+    local result = {}
+
+    local numDots = selectedUnitsCount
+
+    if usingCmd == CMD.UNLOAD_UNIT then
+        local units = GetExecutingUnits(usingCmd)
+        if #units == 1 then
+            local cargo = Spring.GetUnitIsTransporting(units[1])
+            if cargo then
+                numDots = #cargo
+            end
+        else
+            numDots = #units
+        end
+    end
+
+    local currentLength = 0
+    local lengthPerUnit = lineLength / (numDots-1)
+    local lengthUnitNext = lengthPerUnit
+
+    if (#fNodes > 1) and (numDots >= 1) then
+        result[1] = fNodes[1]
+        if (#fNodes > 2) and (numDots >= 2) then
+            for i=1, #fNodes-1 do
+                local x = fNodes[i][1]
+                local y = fNodes[i][3]
+                local x2 = fNodes[i+1][1]
+                local y2 = fNodes[i+1][3]
+                local dx = x - x2
+                local dy = y - y2
+                local length = sqrt((dx*dx)+(dy*dy))
+                while (currentLength + length >= lengthUnitNext) do
+                    local factor = (lengthUnitNext - currentLength) / length
+                    local factorPos = {
+                        fNodes[i][1] + ((fNodes[i+1][1] - fNodes[i][1]) * factor),
+                        fNodes[i][2] + ((fNodes[i+1][2] - fNodes[i][2]) * factor),
+                        fNodes[i][3] + ((fNodes[i+1][3] - fNodes[i][3]) * factor),
+                    }
+                    result[#result+1] = factorPos
+                    lengthUnitNext = lengthUnitNext + lengthPerUnit
+                end
+                currentLength = currentLength + length
+
+                if #result == numDots-1 then
+                    break
+                end
+            end
+            result[#result+1] = fNodes[#fNodes]
+        end
+    end
+
+    return result
+end
 
 --------------------------------------------------------------------------------
 -- Mouse/keyboard Callins
@@ -458,7 +513,7 @@ function widget:MousePress(mx, my, mButton)
     if not AddFNode(pos) then return false end
 
     -- Is this line a path candidate (We don't do a path off an overriden command)
-    pathCandidate = (not overriddenCmd) and (selectedUnitsCount==1 or (alt and not requiresAlt[usingCmd]))
+    pathCandidate = (not overriddenCmd) and ((selectedUnitsCount == 1 and usingCmd ~= CMD_UNLOADUNIT) or (alt and not requiresAlt[usingCmd]))
 
     -- We handled the mouse press
     return true
@@ -583,7 +638,7 @@ function widget:MouseRelease(mx, my, mButton)
 
         -- Single click ? (no line drawn)
         --if (#fNodes == 1) then
-        if fDists[#fNodes] < minFormationLength or (usingCmd == CMD.UNLOAD_UNIT and fDists[#fNodes] < 48*(selectedUnitsCount - 1)) then
+        if fDists[#fNodes] < minFormationLength or (usingCmd == CMD.UNLOAD_UNIT and unloadShort) then
             -- We should check if any units are able to execute it,
             -- but the order is small enough network-wise that the tiny bug potential isn't worth it.
 
@@ -603,6 +658,9 @@ function widget:MouseRelease(mx, my, mButton)
                 GiveNotifyingOrder(usingCmd, {targetID}, cmdOpts)
             elseif usingCmd == CMD_MOVE then
                 GiveNotifyingOrder(usingCmd, {fNodes[1][1],fNodes[1][2],fNodes[1][3]}, cmdOpts)
+            elseif usingCmd == CMD_UNLOADUNIT then
+                GiveNotifyingOrder(CMD_UNLOADUNITS, {fNodes[1][1], fNodes[1][2], fNodes[1][3]}, cmdOpts)
+                spSetActiveCommand(0)
             else
                 -- Deselect command, select default command instead
                 spSetActiveCommand(0)
@@ -615,37 +673,63 @@ function widget:MouseRelease(mx, my, mButton)
 
             if #mUnits > 0 then
 
-                local interpNodes = GetInterpNodes(mUnits)
+                if usingCmd == CMD.UNLOAD_UNIT and #mUnits == 1 then
+                    -- Single transport unload line.
+                    local transport = mUnits[1]
+                    local pos = GetFormationDots()
 
-                local orders
-                if (#mUnits <= maxHungarianUnits) then
-                    orders = GetOrdersHungarian(interpNodes, mUnits, #mUnits, shift and not meta)
-                else
-                    orders = GetOrdersNoX(interpNodes, mUnits, #mUnits, shift and not meta)
-                end
-
-                local unitArr = {}
-                local orderArr = {}
-                if meta then
-                    local altOpts = GetCmdOpts(true, false, false, false, false)
-                    for i = 1, #orders do
-                        local orderPair = orders[i]
-                        local orderPos = orderPair[2]
-                        GiveNotifyingOrderToUnit(unitArr, orderArr, orderPair[1], CMD_INSERT, {0, usingCmd, cmdOpts.coded, orderPos[1], orderPos[2], orderPos[3]}, altOpts)
-                        if (i == #orders and #unitArr > 0) or #unitArr >= 100 then
-                            Spring.GiveOrderArrayToUnitArray(unitArr, orderArr, true)
-                            unitArr = {}
-                            orderArr = {}
+                    if meta then
+                        -- Enqueue unload commands at front.
+                        local altOpts = GetCmdOpts(true, false, false, false, false)
+                        for i = #pos, 1, -1 do
+                            Spring.GiveOrderToUnit(transport, CMD.INSERT, {0, CMD.UNLOAD_UNIT, cmdOpts.coded, pos[i][1], pos[i][2], pos[i][3]}, altOpts)
+                        end
+                    else
+                        -- Enqueue unload commands.
+                        Spring.GiveOrderToUnit(transport, CMD.UNLOAD_UNIT, {pos[1][1], pos[1][2], pos[1][3]}, cmdOpts)
+                        cmdOpts[#cmdOpts + 1] = "shift"
+                        for i = 2, #pos do
+                            Spring.GiveOrderToUnit(transport, CMD.UNLOAD_UNIT, {pos[i][1], pos[i][2], pos[i][3]}, cmdOpts)
                         end
                     end
                 else
-                    for i = 1, #orders do
-                        local orderPair = orders[i]
-                        GiveNotifyingOrderToUnit(unitArr, orderArr, orderPair[1], usingCmd, orderPair[2], cmdOpts)
-                        if (i == #orders and #unitArr > 0) or #unitArr >= 100 then
-                            Spring.GiveOrderArrayToUnitArray(unitArr, orderArr, true)
-                            unitArr = {}
-                            orderArr = {}
+                    -- Regular formation line.
+                    if usingCmd == CMD.UNLOAD_UNIT then
+                        usingCmd = CMD.UNLOAD_UNITS
+                    end
+
+                    local interpNodes = GetInterpNodes(mUnits)
+
+                    local orders
+                    if (#mUnits <= maxHungarianUnits) then
+                        orders = GetOrdersHungarian(interpNodes, mUnits, #mUnits, shift and not meta)
+                    else
+                        orders = GetOrdersNoX(interpNodes, mUnits, #mUnits, shift and not meta)
+                    end
+
+                    local unitArr = {}
+                    local orderArr = {}
+                    if meta then
+                        local altOpts = GetCmdOpts(true, false, false, false, false)
+                        for i = 1, #orders do
+                            local orderPair = orders[i]
+                            local orderPos = orderPair[2]
+                            GiveNotifyingOrderToUnit(unitArr, orderArr, orderPair[1], CMD_INSERT, {0, usingCmd, cmdOpts.coded, orderPos[1], orderPos[2], orderPos[3]}, altOpts)
+                            if (i == #orders and #unitArr > 0) or #unitArr >= 100 then
+                                Spring.GiveOrderArrayToUnitArray(unitArr, orderArr, true)
+                                unitArr = {}
+                                orderArr = {}
+                            end
+                        end
+                    else
+                        for i = 1, #orders do
+                            local orderPair = orders[i]
+                            GiveNotifyingOrderToUnit(unitArr, orderArr, orderPair[1], usingCmd, orderPair[2], cmdOpts)
+                            if (i == #orders and #unitArr > 0) or #unitArr >= 100 then
+                                Spring.GiveOrderArrayToUnitArray(unitArr, orderArr, true)
+                                unitArr = {}
+                                orderArr = {}
+                            end
                         end
                     end
                 end
@@ -677,14 +761,7 @@ end
 --------------------------------------------------------------------------------
 -- Drawing
 --------------------------------------------------------------------------------
-local function DrawFilledCircleOutFading(pos, size)
-    local color = GetColor(usingCmd, 1)
-    local lengthPerUnit = lineLength / (selectedUnitsCount-1)
-    local lengthUnitNext = lengthPerUnit
-    if (lengthPerUnit < 48) and (usingCmd == CMD.UNLOAD_UNIT) then
-        color = {1.0,0.3,0.0,1.0}
-    end
-
+local function DrawFilledCircleOutFading(pos, size, color)
     local x = pos[1]
     local y = pos[2]
     local z = pos[3]
@@ -701,38 +778,23 @@ local function DrawFilledCircleOutFading(pos, size)
 end
 
 local function DrawFormationDots(zoomY)
-    local currentLength = 0
-    local lengthPerUnit = lineLength / (selectedUnitsCount-1)
-    local lengthUnitNext = lengthPerUnit
     local dotSize = sqrt(zoomY*0.24)
-    if (#fNodes > 1) and (selectedUnitsCount > 1) then
-        local color = GetColor(usingCmd, 0.6)
-        if (lengthPerUnit < 48) and (usingCmd == CMD.UNLOAD_UNIT) then
-            color = {1.0,0.3,0.0,0.6}
-        end
-        DrawFilledCircleOutFading(fNodes[1], dotSize)
-        if (#fNodes > 2) then
-            for i=1, #fNodes-1 do
-                local x = fNodes[i][1]
-                local y = fNodes[i][3]
-                local x2 = fNodes[i+1][1]
-                local y2 = fNodes[i+1][3]
-                local dx = x - x2
-                local dy = y - y2
-                local length = sqrt((dx*dx)+(dy*dy))
-                while (currentLength + length >= lengthUnitNext) do
-                    local factor = (lengthUnitNext - currentLength) / length
-                    local factorPos =
-                    {fNodes[i][1] + ((fNodes[i+1][1] - fNodes[i][1]) * factor),
-                        fNodes[i][2] + ((fNodes[i+1][2] - fNodes[i][2]) * factor),
-                        fNodes[i][3] + ((fNodes[i+1][3] - fNodes[i][3]) * factor)}
-                    DrawFilledCircleOutFading(factorPos, dotSize)
-                    lengthUnitNext = lengthUnitNext + lengthPerUnit
-                end
-                currentLength = currentLength + length
-            end
-        end
-        DrawFilledCircleOutFading(fNodes[#fNodes], dotSize)
+
+    local dots = GetFormationDots()
+
+    local alpha = 0.6
+    local color = GetColor(usingCmd, alpha)
+
+    local lengthPerUnit = lineLength / (#dots-1)
+    if usingCmd == CMD.UNLOAD_UNIT and lengthPerUnit < 50 then
+        unloadShort = true
+        color = {1.0,0.3,0.0,alpha}
+    else
+        unloadShort = false
+    end
+
+    for i = 1, #dots do
+        DrawFilledCircleOutFading(dots[i], dotSize, color)
     end
 end
 
@@ -781,6 +843,10 @@ function widget:ViewResize(viewSizeX, viewSizeY)
 end
 
 function widget:DrawWorld()
+    if draggingPath then
+        return
+    end
+
     if #fNodes > 1 or #dimmNodes > 1 then
         local camX, camY, camZ = spGetCameraPosition()
         local at, p = spTraceScreenRay(Xs,Ys,true,false,false)
