@@ -57,13 +57,10 @@ end
 -------------------------------------------------------------------
 -- Callins
 -------------------------------------------------------------------
-function widget:UnitCommand(uID, uDefID, uTeam)
-	if isTransport[uDefID] and uTeam == spGetMyTeamID() and GetTransportTarget(uID) then
+function widget:UnitCommand(uID, uDefID, uTeam, cmdID)
+	if isTransport[uDefID] and uTeam == spGetMyTeamID() and cmdID == CMD.LOAD_UNITS then
 		watchList[uID] = true
 	end
-end
-function widget:UnitCmdDone(uID, uDefID, uTeam)
-	widget:UnitCommand(uID, uDefID, uTeam)
 end
 
 function widget:GameFrame(n)
@@ -94,7 +91,11 @@ function widget:GameFrame(n)
 end
 
 function widget:UnitTaken(uID)
-	watchList[uID] = nil
+    watchList[uID] = nil
+end
+
+function widget:UnitDestroyed(uID)
+    watchList[uID] = nil
 end
 
 function maybeRemoveSelf()
