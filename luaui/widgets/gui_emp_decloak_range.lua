@@ -26,7 +26,7 @@ end
 
 local onlyDrawRangeWhenSelected	= true
 local fadeOnCameraDistance		= true
-local showLineGlow 				= true		-- a ticker but faint 2nd line will be drawn underneath	
+local showLineGlow 				= false		-- a ticker but faint 2nd line will be drawn underneath	
 local opacityMultiplier			= 1.3
 local fadeMultiplier			= 1.2		-- lower value: fades out sooner
 local circleDivs				= 64		-- detail of range circle
@@ -35,8 +35,6 @@ local autoCloackSpy				= true
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 
-local glColor 				= gl.Color
-local glLineWidth 			= gl.LineWidth
 local glDepthTest			= gl.DepthTest
 local glDrawGroundCircle	= gl.DrawGroundCircle
 local GetUnitDefID			= Spring.GetUnitDefID
@@ -221,11 +219,7 @@ function widget:DrawWorldPreUnit()
         local x,y,z = spGetUnitPosition(unitID)
 		if ((onlyDrawRangeWhenSelected and spIsUnitSelected(unitID)) or onlyDrawRangeWhenSelected == false) and spIsSphereInView(x,y,z,math.max(property[1],property[2])) then
 			local camDistance = diag(camX-x, camY-y, camZ-z) 
-			
-			local lineWidthMinus = (camDistance/2000)
-			if lineWidthMinus > 2 then
-				lineWidthMinus = 2
-			end
+
 			local lineOpacityMultiplier = 0.9
 			if fadeOnCameraDistance then
 				lineOpacityMultiplier = (1100/camDistance)*fadeMultiplier
@@ -235,24 +229,18 @@ function widget:DrawWorldPreUnit()
 			end
 			if lineOpacityMultiplier > 0.15 then
 				if showLineGlow then
-					glLineWidth(10)
 					if property[1] > 0 then
-						glColor(1, .6, .3, .03*lineOpacityMultiplier*opacityMultiplier)
-						glDrawGroundCircle(x, y, z, property[1], circleDivs)
+						glDrawGroundCircle(x, y, z, property[1], circleDivs, 1, 0.6, 0.3, 0.03 * lineOpacityMultiplier * opacityMultiplier, 10)
 					end
 					if property[2] > 0 then
-						glColor(0, 0, 1, .03*lineOpacityMultiplier*opacityMultiplier)
-						glDrawGroundCircle(x, y, z, property[2], circleDivs)
+						glDrawGroundCircle(x, y, z, property[2], circleDivs, 0, 0, 1, 0.03 * lineOpacityMultiplier * opacityMultiplier, 10)
 					end
 				end
-				glLineWidth(2.2-lineWidthMinus)
 				if property[1] > 0 then
-					glColor(1, .6, .3, .44*lineOpacityMultiplier*opacityMultiplier)
-					glDrawGroundCircle(x, y, z, property[1], circleDivs)
+					glDrawGroundCircle(x, y, z, property[1], circleDivs, 1, 0.6, 0.3, 0.44 * lineOpacityMultiplier * opacityMultiplier)
 				end
 				if property[2] > 0 then
-					glColor(0, 0, 1, .44*lineOpacityMultiplier*opacityMultiplier)
-					glDrawGroundCircle(x, y, z, property[2], circleDivs)
+					glDrawGroundCircle(x, y, z, property[2], circleDivs, 1, 0.6, 0.3, 0.44 * lineOpacityMultiplier * opacityMultiplier)
 				end
 			end
 		end
