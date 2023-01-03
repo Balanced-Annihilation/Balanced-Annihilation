@@ -53,9 +53,7 @@ local core_anti					= UnitDefNames.corfmd.id
 local core_mobile_anti			= UnitDefNames.cormabm.id
 local core_mobile_anti_water	= UnitDefNames.corcarry.id
 
-local glColor					= gl.Color
 local glDepthTest				= gl.DepthTest
-local glLineWidth				= gl.LineWidth
 local glDrawGroundCircle		= gl.DrawGroundCircle
 
 
@@ -168,15 +166,10 @@ function drawCircle(uID, coverageRange, x, y, z, camX, camY, camZ)
 		end
 		
 		glDepthTest(true)
-		--[[
 		if showLineGlow2 then
-			glLineWidth(10)
-			glColor(circleColor[1],circleColor[2],circleColor[3], .016*lineOpacityMultiplier)
-			glDrawGroundCircle(x, y, z, coverageRange, 128)
-		end]]--
-		glColor(circleColor[1],circleColor[2],circleColor[3], .5*lineOpacityMultiplier)
-		glLineWidth(3-lineWidthMinus)
-		glDrawGroundCircle(x, y, z, coverageRange, 128)
+			glDrawGroundCircle(x, y, z, coverageRange, 128, circleColor[1], circleColor[2], circleColor[3], 0.08 * lineOpacityMultiplier, 10)
+		end
+		glDrawGroundCircle(x, y, z, coverageRange, 128, circleColor[1], circleColor[2], circleColor[3], 0.5 * lineOpacityMultiplier, 3 - lineWidthMinus)
 	end
 end
 
