@@ -20,7 +20,7 @@ function widget:GetInfo()
         date = "2007-2009",
         license = "GNU GPL, v2 or later",
         layer = 0,
-        enabled = true  --  loaded by default?
+        enabled = true,
     }
 end
 
@@ -42,16 +42,14 @@ end
 --
 
 local fontfile = "fonts/" .. Spring.GetConfigString("ba_font", "FreeSansBold.otf")
-local vsx, vsy = Spring.GetViewGeometry()
-local fontfileScale = 0.5 + (vsx * vsy / 5700000)
-local fontfileSize = 50
-local fontfileOutlineSize = 8
+local fontfile2 = "fonts/" .. Spring.GetConfigString("ba_font2", "FreeSansBold.otf")
+local fontfileSize = 25
+local fontfileOutlineSize = 4
 local fontfileOutlineStrength = 1.65
 local fontfileOutlineStrength2 = 10
-local font = gl.LoadFont(fontfile, fontfileSize * fontfileScale, fontfileOutlineSize * fontfileScale, fontfileOutlineStrength)
-local shadowFont = gl.LoadFont(fontfile, fontfileSize * fontfileScale, 35 * fontfileScale, 1.5)
-local fontfile2 = "fonts/" .. Spring.GetConfigString("ba_font2", "FreeSansBold.otf")
-local font2 = gl.LoadFont(fontfile2, fontfileSize * fontfileScale, fontfileOutlineSize * fontfileScale, fontfileOutlineStrength2)
+local font
+local shadowFont
+local font2
 
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
@@ -64,12 +62,9 @@ local shadowOpacity = 0.35
 
 local infotext = "Pick a starting position and click the Ready button"
 local infotextBoxes = "Pick a starting position within the green area, and click the Ready button"
-local infotextFontsize = 13
 
 local drawShadow = fontShadow
 local usedFontSize = fontSize
-
-local widgetScale = (1 + (vsx * vsy / 5500000))
 
 local shaderPoint
 local shaderPointViewLocation
@@ -287,16 +282,11 @@ function widget:Initialize()
         gaiaAllyTeamID = select(6, Spring.GetTeamInfo(gaiaTeamID, false))
     end
 
+    font = gl.LoadFont(fontfile, 16, fontfileOutlineSize, fontfileOutlineStrength, true)
+    shadowFont = gl.LoadFont(fontfile, fontfileSize, 18, 1.5, true)
+    font2 = gl.LoadFont(fontfile2, fontfileSize, fontfileOutlineSize, fontfileOutlineStrength2, true)
+
     CreateShaders()
-end
-
-function widget:Shutdown()
-    gl.DeleteFont(font)
-    gl.DeleteFont(font2)
-    gl.DeleteFont(shadowFont)
-
-    gl.DeleteShader(shaderPoint)
-    gl.DeleteShader(shaderCone)
 end
 
 --------------------------------------------------------------------------------
@@ -501,7 +491,7 @@ function widget:DrawScreen()
     if not isSpec then
         font:Begin()
         font:SetTextColor(0.9, 0.9, 0.9, 1)
-        font:Print(hasStartbox and infotextBoxes or infotext, vsx/2, vsy/6.2, infotextFontsize * widgetScale, "cno")
+        font:Print(hasStartbox and infotextBoxes or infotext, 0.5, 0.16, 1, "NcvoS")
         font:End()
     end
 end
@@ -565,22 +555,6 @@ function widget:DrawInMiniMap(sx, sz)
     end
 
     gl.UseShader(0)
-end
-
-function widget:ViewResize(x, y)
-    vsx, vsy = x, y
-    widgetScale = (0.75 + (vsx * vsy / 7500000))
-    usedFontSize = fontSize * widgetScale
-    local newFontfileScale = (0.5 + (vsx * vsy / 5700000))
-    if (fontfileScale ~= newFontfileScale) then
-        fontfileScale = newFontfileScale
-        gl.DeleteFont(font)
-        gl.DeleteFont(font2)
-        gl.DeleteFont(shadowFont)
-        font = gl.LoadFont(fontfile, fontfileSize * fontfileScale, fontfileOutlineSize * fontfileScale, fontfileOutlineStrength)
-        font2 = gl.LoadFont(fontfile2, fontfileSize * fontfileScale, fontfileOutlineSize * fontfileScale, fontfileOutlineStrength2)
-        shadowFont = gl.LoadFont(fontfile, fontfileSize * fontfileScale, 35 * fontfileScale, 1.6)
-    end
 end
 
 --------------------------------------------------------------------------------
