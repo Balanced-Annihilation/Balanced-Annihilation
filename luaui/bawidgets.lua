@@ -31,7 +31,7 @@ VFS.Include("luashared/resourcemanager.lua")
 
 local gl = gl
 
-local CONFIG_FILENAME    = LUAUI_DIRNAME .. 'Config/' .. Game.gameShortName .. '.lua'
+local CONFIG_FILENAME    = LUAUI_DIRNAME .. 'Config/BA-106.lua'
 local WIDGET_DIRNAME     = LUAUI_DIRNAME .. 'widgets/'
 local WIDGET_DIRNAME_MAP = LUAUI_DIRNAME .. 'widgets/'
 
