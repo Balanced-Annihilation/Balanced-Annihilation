@@ -87,7 +87,7 @@ function widget:GetInfo()
 		date = "30 July 2009",
 		license = "GNU LGPL, v2.1 or later",
 		layer = 1,
-		enabled = true
+		enabled = false,
 	}
 end
 local TestBuildOrder		= Spring.TestBuildOrder

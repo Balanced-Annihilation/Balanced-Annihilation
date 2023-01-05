@@ -5,7 +5,7 @@ function widget:GetInfo()
         author = "Ares",
         license = "GNU GPL, v2 or later",
         layer = 1002,
-        enabled = true
+        enabled = false,
     }
 end
 

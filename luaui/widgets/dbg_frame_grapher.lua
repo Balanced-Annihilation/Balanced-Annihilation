@@ -5,7 +5,7 @@ function widget:GetInfo()
     author    = "Beherith",
     date      = "2020",
     layer     = -10000000000000000000,
-    enabled   = false,  --  loaded by default
+    enabled   = false,
   }
 end
 --------------------------------------------------------------------------------
