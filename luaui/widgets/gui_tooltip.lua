@@ -40,7 +40,7 @@ local cfgFontSize = 14
 local xOffset = 35
 local yOffset = -xOffset
 
-local fontfile ="LuaUI/Fonts/FreeSansBold.otf"
+local fontfile ="fonts/FreeSansBold.otf"
 
 local widgetScale = 1
 local usedFontSize = cfgFontSize
@@ -238,7 +238,7 @@ end
 function widget:ViewResize(x,y)
 	vsx,vsy = Spring.GetViewGeometry()
 
-	local fontfile ="LuaUI/Fonts/FreeSansBold.otf"
+	local fontfile ="fonts/FreeSansBold.otf"
 local vsx,vsy = Spring.GetViewGeometry()
 local fontfileScale = (0.7 + (vsx*vsy / 7000000))
 local fontfileSize = 44

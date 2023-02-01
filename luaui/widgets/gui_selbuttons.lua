@@ -29,7 +29,7 @@ end
 
 -- Automatically generated local definitions
 
-local fontfile ="LuaUI/Fonts/FreeSansBold.otf"
+local fontfile ="fonts/FreeSansBold.otf"
 local vsx,vsy = Spring.GetViewGeometry()
 local fontfileScale = (0.75 + (vsx*vsy / 7000000))
 local fontfileSize = 36

@@ -58,7 +58,7 @@ local disabledCommand = {}
 
 local viewSizeX, viewSizeY = Spring.GetViewGeometry()
 
-local fontfile ="LuaUI/Fonts/FreeSansBold.otf"
+local fontfile ="fonts/FreeSansBold.otf"
 
 local barGlowCenterTexture = ":l:LuaUI/Images/barglow-center.png"
 local barGlowEdgeTexture   = ":l:LuaUI/Images/barglow-edge.png"

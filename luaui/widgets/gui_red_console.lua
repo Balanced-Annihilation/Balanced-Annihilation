@@ -570,8 +570,8 @@ elseif sfind(line,"rror:") then --	if sfind(line,"Error:") then
 	
 	elseif sfind(line,"n attempt fr") then -- Reconnection attempt from/ reconnection attemp reestablish??
 	  ignoreThisMessage = true
-	
-	
+	elseif sfind(line,"shed (id") then -- connection restablished
+	  ignoreThisMessage = true
 	elseif sfind(line,"not authorized") then -- User name not authorized to connect
 	  ignoreThisMessage = true
 	elseif sfind(line,"rlap redu") then --

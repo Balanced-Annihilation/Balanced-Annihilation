@@ -60,7 +60,7 @@ return {
 			armair_torpedo = {
 				avoidGround = false,
 				collideFeature = false,
-				flighttime = 1.5,
+				flighttime = 4,
 				areaofeffect = 16,
 				avoidfeature = false,
 				avoidfriendly = false,

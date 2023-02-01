@@ -157,7 +157,7 @@ local images			= {
 
 function widget:Initialize()
 
-	local fontfile ="LuaUI/Fonts/FreeSansBold.otf"
+	local fontfile ="fonts/FreeSansBold.otf"
 local vsx,vsy = Spring.GetViewGeometry()
 local fontfileScale = (0.7 + (vsx*vsy / 7000000))
 local fontfileSize = 44
@@ -1598,7 +1598,7 @@ function widget:ViewResize()
 	widgetSpaceMargin = math.floor((0.0045 * (vsy/vsx))*vsx * ui_scale)
 	bgpadding = math.ceil(widgetSpaceMargin * 0.66)
 
-	local fontfile ="LuaUI/Fonts/FreeSansBold.otf"
+	local fontfile ="fonts/FreeSansBold.otf"
 local vsx,vsy = Spring.GetViewGeometry()
 local fontfileScale = (0.7 + (vsx*vsy / 7000000))
 local fontfileSize = 44

@@ -24,7 +24,7 @@ return {
 		maxdamage = 4650,
 		maxslope = 10,
 		maxwaterdepth = 0,
-		name = "Fusion Reactor",
+		name = "Decoy Fusion Reactor",
 		objectname = "ARMFUS",
 		seismicsignature = 0,
 		selfdestructas = "MEDIUM_BUILDING",

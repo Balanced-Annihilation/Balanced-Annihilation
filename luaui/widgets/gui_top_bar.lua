@@ -419,16 +419,16 @@ local function updateButtons()
 	local text = '    '
 
 	if gameIsOver then
-		text = text .. 'Graph' .. '   '
+		text = text .. 'Graph' .. '  '
 	end
 	if WG['teamstats'] ~= nil then
-		text = text .. 'Stats' .. '   '
+		text = text .. 'Stats' .. '  '
 	end
 	if WG['keybinds'] ~= nil then
-		text = text .. 'Keys' .. '   '
+		text = text .. 'Binds' .. '  '
 	end
 	if WG['changelog'] ~= nil then
-		text = text .. 'Changes' .. '   '
+		text = text .. 'Changes' .. '  '
 	end
 	if WG['options'] ~= nil then
 		text = text .. 'Settings' .. '   '

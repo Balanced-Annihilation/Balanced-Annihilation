@@ -27,7 +27,7 @@ end
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 
-local fontfile ="LuaUI/Fonts/FreeSansBold.otf"
+local fontfile ="fonts/FreeSansBold.otf"
 
 local ui_opacity =  0.66
 local ui_scale = 1
@@ -356,7 +356,7 @@ function widget:ViewResize(newX,newY)
 	local prevVsx, prevVsy = vsx, vsy
 	vsx, vsy = Spring.GetViewGeometry()
 
-	local fontfile ="LuaUI/Fonts/FreeSansBold.otf"
+	local fontfile ="fonts/FreeSansBold.otf"
 local vsx,vsy = Spring.GetViewGeometry()
 local fontfileScale = (0.7 + (vsx*vsy / 7000000))
 local fontfileSize = 44

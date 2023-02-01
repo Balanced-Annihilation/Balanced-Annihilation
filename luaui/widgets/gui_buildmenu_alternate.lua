@@ -76,7 +76,7 @@ local buildKeys = {
 }
 
 
-	local fontfile ="LuaUI/Fonts/FreeSansBold.otf"
+	local fontfile ="fonts/FreeSansBold.otf"
 
 local vsx, vsy = Spring.GetViewGeometry()
 

@@ -1,17 +1,23 @@
-﻿15.6.6
+﻿15.6.7
+01/02/2023
+
+Crown for PRO_rANDY the new BA Governor, winner of Crown Cup 5
+New higher quality unit graphics
+Torpedos will travel all the way to their target instead of running out of fuel early
+Arm Flash and Peewee each cost 4% less, equiv to 1 free per 25 made (was 6% less in 2011)
+Flash turret fire arc +12 degrees, to track targets better while maneuvering
+Revert Flea footprint change as it prevented Fleas fitting through 1x1 spaces
+Big Bertha barrels are less likely to get stuck in each other
+Widget fix_colors now replaces enemy color with red in 1v1, unless you are red (default off)
+Add widgets to disable alt + shift mousewheel (default off)
+
+15.6.6
 10/11/2022
 
-Fleas can shoot when close to each other and won't overlap
 Sneaky Petes automatically cloak when finished
-Big Bertha barrels are less likely to get stuck in each other
-New D-gun effect
-A warning appears at the top of the playerlist when only 100 unitcap remains
-New widget los_view, specs can click eye at bottom left of playerlist to view selected team's fog of war
+A warning appears at the top of the playerlist when 100 unitcap remains
+Specs can click eye at bottom left of playerlist to view selected team's fog of war
 New widget key_tracker shows an onscreen keyboard, useful for streamers (default off)
-New widget fix_colors replaces dark enemy colors with white in 1v1 (default off)
-New widget state_remover skips over rarely used return fire state (default off)
-Fix widget selector not showing up on F11 on Linux.
-Fix build pictures of some map units being white (mini fus on speed metal).
 
 15.2.6
 22/07/2022

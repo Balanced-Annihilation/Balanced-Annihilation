@@ -10,7 +10,7 @@ return {
 		buildtime = 12958,
 		category = "ALL WEAPON NOTSUB NOTAIR NOTHOVER SURFACE",
 		corpse = "DEAD",
-		description = "Bomb-Resistant Medium-Range Missile Battery",
+		description = "Bomb-Resistant Mid-Range AA Missile Battery",
 		explodeas = "LARGE_BUILDINGEX",
 		footprintx = 4,
 		footprintz = 4,

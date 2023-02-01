@@ -12,14 +12,14 @@ function widget:GetInfo()
 	}
 end
 
-local fontfile ="LuaUI/Fonts/FreeSansBold.otf"
+local fontfile ="fonts/FreeSansBold.otf"
 local vsx,vsy = Spring.GetViewGeometry()
 local fontfileScale = (0.7 + (vsx*vsy / 7000000))
 local fontfileSize = 44
 local fontfileOutlineSize = 8
 local fontfileOutlineStrength = 1.3
 local font = gl.LoadFont(fontfile, fontfileSize*fontfileScale, fontfileOutlineSize*fontfileScale, fontfileOutlineStrength)
-local fontfile2 =  "LuaUI/Fonts/FreeSansBold.otf"
+local fontfile2 =  "fonts/FreeSansBold.otf"
 local font2 = gl.LoadFont(fontfile2, fontfileSize*fontfileScale, fontfileOutlineSize*fontfileScale, fontfileOutlineStrength)
 
 local useRoundedRectangles = true

@@ -30,8 +30,8 @@ local showSelectionTotals = true
 -------------------------------------------------------------------------------
 
 
-	local fontfile ="LuaUI/Fonts/FreeSansBold.otf"
-	local fontfile2 ="LuaUI/Fonts/FreeSansBold.otf"
+	local fontfile ="fonts/FreeSansBold.otf"
+	local fontfile2 ="fonts/FreeSansBold.otf"
 
 local vsx, vsy = Spring.GetViewGeometry()
 
