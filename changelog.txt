@@ -1,14 +1,13 @@
-﻿15.6.7
-01/02/2023
+﻿15.6.8
+05/02/2023
 
 Crown for PRO_rANDY the new BA Governor, winner of Crown Cup 5
-New higher quality unit graphics
 Torpedos will travel all the way to their target instead of running out of fuel early
 Arm Flash and Peewee each cost 4% less, equiv to 1 free per 25 made (was 6% less in 2011)
 Flash turret fire arc +12 degrees, to track targets better while maneuvering
 Revert Flea footprint change as it prevented Fleas fitting through 1x1 spaces
 Big Bertha barrels are less likely to get stuck in each other
-Widget fix_colors now replaces enemy color with red in 1v1, unless you are red (default off)
+Widget fix_colors replaces enemy color with red in 1v1. If you are red, enemy is green (default off)
 Add widgets to disable alt + shift mousewheel (default off)
 
 15.6.6

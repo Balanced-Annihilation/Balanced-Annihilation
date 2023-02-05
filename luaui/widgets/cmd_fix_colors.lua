@@ -61,7 +61,14 @@ function widget:Initialize()
                   0,
                   0
                   )
-               end
+               else
+					Spring.SetTeamColor(
+                  team,
+                  0,
+                  1,
+                  0
+                  )
+			   end
                --end
             end
          end

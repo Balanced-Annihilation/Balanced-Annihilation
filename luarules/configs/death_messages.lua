@@ -79,6 +79,9 @@ allyTeamDeathMessages = {
 }	
 
 teamDeathMessages = {
+	"XX's walls came tumbling down",
+	"XX's world was made of sand",
+	"XX experienced a force majeure event",
 	"XX flew too close to the sun",
 	"XX never asked for this",
 	"XX was trying new meta",
