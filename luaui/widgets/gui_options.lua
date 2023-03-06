@@ -1736,7 +1736,7 @@ function widget:Initialize()
             type = "bool",
             value = widgetHandler.orderList["Adaptive graphics"] ~= nil and
                 (widgetHandler.orderList["Adaptive graphics"] > 0),
-            description = "Boost perfomance if FPS is low (under 20)"
+            description = "Boost perfomance if FPS is low (under 15)"
         },
         {
             id = "sndvolmaster",

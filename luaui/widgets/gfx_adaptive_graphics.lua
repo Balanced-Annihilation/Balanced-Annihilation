@@ -108,7 +108,7 @@ function widget:GameFrame(gameFrame)
         if WG["topbar"] and not WG["topbar"].showingRejoining() and not select(6, Spring.GetMouseState()) then --	-- mouse not offscreen
             fps = spGetFPS()
 
-            if spGetFPS() < 20 then
+            if spGetFPS() < 15 then
                 if graphicslevel == 2 then
                     Spring.SendCommands("luarules disablecus")
                     --widgetHandler: DisableWidget("SSAO_alternative")

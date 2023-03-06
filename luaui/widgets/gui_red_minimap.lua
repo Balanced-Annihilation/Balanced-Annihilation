@@ -361,6 +361,7 @@ function widget:Initialize()
 					Config.minimap.sx = math.min((135*Game.mapX/Game.mapY)*1.5,320) --background size
 	else
 				Config.minimap.sx = math.min(172*Game.mapX/Game.mapY,270) --background size
+				Config.minimap.sy = 135
 	end
 
 	

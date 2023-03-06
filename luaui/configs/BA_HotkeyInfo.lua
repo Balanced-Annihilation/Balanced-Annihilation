@@ -50,6 +50,7 @@ Units_I_II = {
 {"ctrl + A",         "Select all units"},
 {"ctrl + Z",         "Select all units that match selection types"},
 {"ctrl + X or double left click",        "Select visible unit matches" },
+{"ctrl + V",        "Select visible units except air and cons" },
 {"ctrl + B",         "Select next idle builder"},
 {"Spacebar",         "Show unit info"},
 {blankLine=true}, 

@@ -212,7 +212,7 @@ function widget:Shutdown()
     UnloadBindings()
     WG.Reload_BA_Hotkeys = nil
 
-    if widgetHandler.orderList and (widgetHandler.orderList["BA Hotkeys -- swap YZ"] or 0) > 0 then
-        widgetHandler:DisableWidget("BA Hotkeys -- swap YZ")
+    if widgetHandler.orderList and (widgetHandler.orderList["BA Hotkeys swap YZ"] or 0) > 0 then
+        widgetHandler:DisableWidget("BA Hotkeys swap YZ")
     end
 end

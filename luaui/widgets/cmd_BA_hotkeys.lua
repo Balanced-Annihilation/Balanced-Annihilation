@@ -287,10 +287,10 @@ function MakeBindsTable (swapYZ)
         "bind v buildunit_corrad",
         "bind shift+v buildunit_corrad",
 		--rad w
-        "bind v buildunit_armfrad",
-        "bind shift+v buildunit_armfrad",
-        "bind v buildunit_corfrad",
-        "bind shift+v buildunit_corfrad",
+       -- "bind v buildunit_armfrad",
+       -- "bind shift+v buildunit_armfrad",
+       -- "bind v buildunit_corfrad",
+       -- "bind shift+v buildunit_corfrad",
 		
 		--pako sucks only sam
 		"bind v buildunit_madsam",
@@ -445,7 +445,7 @@ function widget:Shutdown()
     UnloadBindings()
     WG.Reload_BA_Hotkeys = nil
 
-    if widgetHandler.orderList and (widgetHandler.orderList["BA Hotkeys -- swap YZ"] or 0) > 0 then
-        widgetHandler:DisableWidget("BA Hotkeys -- swap YZ")
+    if widgetHandler.orderList and (widgetHandler.orderList["BA Hotkeys swap YZ"] or 0) > 0 then
+        widgetHandler:DisableWidget("BA Hotkeys swap YZ")
     end
 end

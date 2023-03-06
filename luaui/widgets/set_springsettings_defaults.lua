@@ -25,7 +25,6 @@ function widget:Initialize()
         widgetHandler:EnableWidget("SmoothCam")
         Spring.SetConfigInt("smoothcam", 1)
         Spring.SetConfigString("bafirstlaunchsetupiscomplete4", "done")
-
         if (gl.CreateShader) then
             Spring.SetConfigString("advgraphics", "2")
         else
@@ -178,6 +177,7 @@ function widget:Initialize()
     Spring.SetConfigString("FontFile", "fonts/FreeSansBold.otf")
     Spring.SetConfigString("ba_font", "FreeSansBold.otf")
     Spring.SetConfigString("ba_font2", "FreeSansBold.otf")
-
+	Spring.SendCommands("unbind Ctrl+V select")
+	Spring.SendCommands("unbindkeyset c")
     widgetHandler:RemoveWidget(self)
 end
