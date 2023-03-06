@@ -19,6 +19,7 @@ function widget:Initialize()
 	
     local bafirstlaunchsetupiscomplete = Spring.GetConfigString("bafirstlaunchsetupiscomplete4", "missing") --remove later
     if bafirstlaunchsetupiscomplete ~= "done" then
+		Spring.SetConfigString("comnametags", "1")
         widgetHandler:DisableWidget("TeamPlatter")
         widgetHandler:DisableWidget("SmartSelect")
         Spring.SetConfigInt("CamSetting", 1)

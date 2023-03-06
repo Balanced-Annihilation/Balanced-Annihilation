@@ -711,16 +711,15 @@ function applyOptionValue(i)
             end
 
             Spring.SetConfigInt("newunitselectionboxstyle", value)
-        elseif id == "nametags" then
+        elseif id == "comnametags" then
             --classic unit selection boxes
             if value == 1 then
-                widgetHandler:DisableWidget("Commander Name Tags")
-                Spring.SetConfigString("nametags", "1")
-            else
                 widgetHandler:EnableWidget("Commander Name Tags")
-                Spring.SetConfigString("nametags", "0")
+                Spring.SetConfigString("comnametags", "1")
+            else
+				widgetHandler:DisableWidget("Commander Name Tags")
+                Spring.SetConfigString("comnametags", "0")
             end
-            Spring.SetConfigString("nametags", value)
         elseif id == "adaptive" then
             if value ~= 0 then
                 widgetHandler:EnableWidget("Adaptive graphics")
@@ -1454,6 +1453,14 @@ function widget:Initialize()
 	--end
 				
 				
+	value = Spring.GetConfigInt("comnametags", 1)
+	 if value == 1 then
+                widgetHandler:EnableWidget("Commander Name Tags")
+                Spring.SetConfigString("comnametags", "1")
+            else
+				widgetHandler:DisableWidget("Commander Name Tags")
+                Spring.SetConfigString("comnametags", "0")
+            end
 	
 	
     value = Spring.GetConfigInt("mapborder", 1)
@@ -1710,10 +1717,10 @@ function widget:Initialize()
             description = "When green, rude text will be filtered"
         },
         {
-            id = "nametags",
-            name = "Hide commander name tags",
+            id = "comnametags",
+            name = "Show commander name tags",
             type = "bool",
-            value = tonumber(Spring.GetConfigInt("nametags", 1) or 1) == 1,
+            value = tonumber(Spring.GetConfigInt("comnametags", 1) or 1) == 1,
             description = "Commander name tags"
         },
         {
