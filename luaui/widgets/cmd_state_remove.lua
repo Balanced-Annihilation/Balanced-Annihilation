@@ -1,7 +1,7 @@
 function widget:GetInfo()
   return {
     name      = "State Remover",
-    desc      = "Removes 'return fire' and 'roam' states",
+    desc      = "Removes 'return fire' states",
     author    = "Google Frog",
     date      = "Oct 2, 2009",
     license   = "GNU GPL, v2 or later",
