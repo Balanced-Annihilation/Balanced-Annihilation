@@ -71,7 +71,7 @@ else
 -- Unsynced
 -------------------------------------------------------------------------------
 	local spGetMyAllyTeamID    	= Spring.GetMyAllyTeamID
-    local myAllyID = spGetMyAllyTeamID
+    local myAllyID = spGetMyAllyTeamID()
 	local spGetMyPlayerID		= Spring.GetMyPlayerID
     local spGetUnitAllyTeam = Spring.GetUnitAllyTeam
 	local spIsPosInLos = Spring.IsPosInLos
