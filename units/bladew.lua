@@ -7,7 +7,7 @@ return {
 		buildpic = "BLADEW.DDS",
 		buildtime = 2073,
 		canfly = true, 
- 
+  turnradius =0,
 		canmove = true,
 		category = "ALL WEAPON VTOL NOTSUB NOTHOVER",
 		collide = false,

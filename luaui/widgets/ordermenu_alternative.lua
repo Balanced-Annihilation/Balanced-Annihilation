@@ -1,6 +1,6 @@
 function widget:GetInfo()
 	return {
-		name = "Order menu alternate",
+		name = "Order menu alternative",
 		desc = "",
 		author = "Floris",
 		date = "April 2020",

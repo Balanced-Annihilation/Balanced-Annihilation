@@ -7,7 +7,7 @@ return {
 		buildpic = "ARMSB.DDS",
 		buildtime = 27684,
 		canfly = true, 
- 
+ turnradius =0,
 		canmove = true,
 		cansubmerge = true,
 		category = "ALL NOTLAND MOBILE WEAPON NOTSUB ANTIFLAME ANTIEMG ANTILASER VTOL NOTSHIP NOTHOVER",
@@ -30,13 +30,13 @@ return {
 		maxvelocity = 8.91,
 		maxwaterdepth = 255,
 		name = "Tsunami",
-		noautofire = true,
 		nochasecategory = "VTOL",
 		objectname = "ARMSB",
 		seismicsignature = 0,
 		selfdestructas = "big_unit_AIR",
 		sightdistance = 455,
 		turnrate = 392,
+		blocking = false,
 		sounds = {
 			build = "nanlath1",
 			canceldestruct = "cancel2",

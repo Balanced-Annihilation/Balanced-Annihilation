@@ -106,7 +106,7 @@ deactivatescr()
 		sleep 455;
 	}
 	sleep 90;
-	return (0);
+	
 }
 
 SmokeUnit(healthpercent, sleeptime, smoketype)
@@ -134,7 +134,7 @@ SmokeUnit(healthpercent, sleeptime, smoketype)
 		}
 		sleep sleeptime;
 	}
-	return (0);
+	
 }
 
 OpenYard()
@@ -147,7 +147,7 @@ OpenYard()
 		set YARD_OPEN to 1;
 	}
 	set BUGGER_OFF to 0;
-	return (0);
+	
 }
 
 CloseYard()
@@ -160,7 +160,7 @@ CloseYard()
 		set YARD_OPEN to 0;
 	}
 	set BUGGER_OFF to 0;
-	return (0);
+	
 }
 
 Go()
@@ -175,7 +175,7 @@ Go()
 	call-script activatescr();
 	call-script OpenYard();
 	set INBUILDSTANCE to 1;
-	return (0);
+	
 }
 
 Stop()
@@ -190,14 +190,14 @@ Stop()
 	cache pad;
 	cache section1;
 	cache section2;
-	return (0);
+	
 }
 
 InitState()
 {
 	statechg_DesiredState = TRUE;
 	statechg_StateChanging = FALSE;
-	return (0);
+	
 }
 
 RequestState(requestedstate, currentstate)
@@ -206,6 +206,7 @@ RequestState(requestedstate, currentstate)
 	{
 		statechg_DesiredState = requestedstate;
 		return (0);
+		
 	}
 	statechg_StateChanging = TRUE;
 	currentstate = statechg_DesiredState;
@@ -224,7 +225,7 @@ RequestState(requestedstate, currentstate)
 		}
 	}
 	statechg_StateChanging = FALSE;
-	return (0);
+	
 }
 
 Create()
@@ -247,7 +248,7 @@ Create()
 		sleep 1000;
 	}
 	spin dish around y-axis speed <150.03297>;
-	return (0);
+	
 }
 
 QueryNanoPiece(piecenum)
@@ -255,26 +256,28 @@ QueryNanoPiece(piecenum)
 	if( spray == 0 )
 	{
 		piecenum = beama;
+		spray = 1;
+		return (0);
 	}
 	if( spray != 0 )
 	{
 		piecenum = beamb;
+		spray = 0;
 	}
-	spray = !spray;
-	return (0);
+	
 }
 
 Demo()
 {
 	unitviewer = TRUE;
-	return (0);
+	
 }
 
 Activate()
 {
 	signal SIG_ACTIVATE;
 	start-script RequestState(0);
-	return (0);
+	
 }
 
 Deactivate()
@@ -287,31 +290,29 @@ Deactivate()
 	}
 	set-signal-mask 0;
 	start-script RequestState(1);
-	return (0);
+	
 }
 
 StartBuilding()
 {
-	spin pad around y-axis speed <30.00549>;
 	return (0);
 }
 
 StopBuilding()
 {
-	stop-spin pad around y-axis;
 	return (0);
 }
 
 QueryBuildInfo(piecenum)
 {
 	piecenum = pad;
-	return (0);
+	
 }
 
 SweetSpot(piecenum)
 {
 	piecenum = base;
-	return (0);
+	
 }
 
 Killed(severity, corpsetype)

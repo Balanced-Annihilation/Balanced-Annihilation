@@ -29,20 +29,7 @@ else
     --------------------------------------------------------------------------------
     -- unsynced
     --------------------------------------------------------------------------------
-    local GetLastUpdateSeconds = Spring.GetLastUpdateSeconds
-    local SendLuaRulesMsg = Spring.SendLuaRulesMsg
-    local myPlayerID = GetMyPlayerID()
-
-    local updateTimer = 0
-
-    local GetPlayerStatistics = Spring.GetPlayerStatistics
-    local GetGameSeconds = Spring.GetGameSeconds
-    local prevapm = 0
-    local slidercounter = 1
-    local slidingwindow = {}
-    local currentapm
-    local finalapm
-	local deltaapm
+    
 	
     function gadget:Initialize()
         gadgetHandler:AddSyncAction("apmBroadcast", handleApmEvent)
@@ -57,6 +44,17 @@ else
             Script.LuaUI.ApmEvent(playerID, apm)
         end
     end
+	
+	local GetLastUpdateSeconds = Spring.GetLastUpdateSeconds
+    local SendLuaRulesMsg = Spring.SendLuaRulesMsg
+    local myPlayerID = GetMyPlayerID()
+    local updateTimer = 0
+    local GetPlayerStatistics = Spring.GetPlayerStatistics
+    local prevapm = 0
+    local slidercounter = 1
+    local slidingwindow = {}
+    local finalapm
+	local deltaapm
 
     function gadget:Update()
         if not Spring.GetSpectatingState() then

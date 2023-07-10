@@ -7,7 +7,7 @@ return {
 		buildpic = "ARMDFLY.DDS",
 		buildtime = 16022,
 		canfly = true, 
- 
+ turnradius =0,
 		canmove = true,
 		category = "ALL NOTLAND MOBILE NOTSUB VTOL NOWEAPON NOTSHIP NOTHOVER",
 		collide = false,

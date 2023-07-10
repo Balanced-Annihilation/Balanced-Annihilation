@@ -8,7 +8,7 @@ return {
 		buildpic = "ARMHAWK.DDS",
 		buildtime = 7685,
 		canfly = true, 
- 
+ turnradius =0,
 		canmove = true,
 		category = "ALL NOTLAND MOBILE WEAPON NOTSUB ANTIFLAME ANTIEMG ANTILASER VTOL NOTSHIP NOTHOVER",
 		collide = false,

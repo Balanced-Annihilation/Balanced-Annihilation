@@ -39,8 +39,8 @@ function widget:Initialize()
         --Spring.SetConfigString("FPSScrollSpeed", "0.001")
 		Spring.SetConfigInt("GroundDetail", 80)   	
         
-		Spring.SetConfigInt("MaxParticles", 30000)
-		 Spring.SetConfigInt("BAMaxParticles", 30000)
+		Spring.SetConfigInt("MaxParticles", 35000)
+		 Spring.SetConfigInt("BAMaxParticles", 35000)
 		 
 		  Spring.SetConfigString("GroundDecals", "1")
 		  Spring.SetConfigString("BAGroundDecals", "1")

@@ -8,7 +8,7 @@ local materials = {
 		},
 		shaderOptions = {
 			autonormal = true,
-			autoNormalParams = {0.250, 0.001},
+			autoNormalParams = {0.5, 0.001},
 		},
 		deferredOptions = {
 			materialIndex = 126,

@@ -1,14 +1,24 @@
-﻿15.7.3
+﻿15.7.5
+10/07/2023
+
+Crown for BA Governor Goopy, winner of Crown Cup 6
+Revert Arm Flash and Peewee 4% cost decrease, to 2% decrease.
+DontMoveComs widget sets commander and decoy commanders to hold position by default (default on)
+SelectVisibleUnitsExceptAirAndCons widget, Ctrl+s or cntrl+v select visible units except air and cons (default off)
+Planes always depart airlabs the same direction relative to the plant (default is downwards)
+Planes follow orders better (put airlab waypoint further away or above factory to land successfully)
+Re-enable plane crashing
+Add X-Ray shader widget that highlights units with team colour (default off)
+
+15.7.4
 18/03/2023
 
 Crown for BA Governor PRO_rANDY, winner of Crown Cup 5
-Torpedos will travel all the way to their target instead of running out of fuel early
 Arm Flash and Peewee each cost 4% less, equiv to 1 free per 25 made (was 6% less in 2011)
 Flash turret fire arc +12 degrees, to track targets better while maneuvering
 Revert Flea footprint change as it prevented Fleas fitting through 1x1 spaces
 Big Bertha barrels are less likely to get stuck in each other
 Widget fix_colors replaces enemy color with red in 1v1. If you are red, enemy is green (default off)
-Ctrl+s select visible units except air and cons, unit_select_visible_units_except_air_and_cons (default on)
 Ctrl+x select visible units of same type as selection, unit_select_visible_units_of_same_type (default on)
 Widgets to disable alt + shift mousewheel and add TAG keybinds (default off)
 

@@ -47,7 +47,7 @@ Spring.SetConfigInt("MiniMapDrawCommands", 1)
 Spring.SetConfigInt("BlockCompositing", 0)
 Spring.SetConfigInt("HardwareCursor", 1)
 
-local value = tonumber(Spring.GetConfigInt("BAMaxParticles", 30000) or 30000)
+local value = tonumber(Spring.GetConfigInt("BAMaxParticles", 35000) or 35000)
 Spring.SetConfigInt("MaxParticles", value)
 Spring.SetConfigInt("BAMaxParticles", value)
 

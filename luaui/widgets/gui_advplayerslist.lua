@@ -34,7 +34,7 @@ end
 -- v11.4 (Bluestone): Mute people with ctrl+click on their name
 -- v12   (Floris): Restyled looks + added imageDirectory var + HD-ified rank and some other icons
 -- v13   (Floris): Added scale buttons. Added grey cpu/ping icons for spectators. Resized elements. Textured bg. Spec label click to unfold/fold. Added . Lockcamera on doubleclick. Ping in ms/sec/min. Shows dot icon in front of tracked player. HD-ified lots of other icons. Speccing/dead player keep their color. Improved e/m share gui responsiveness. + removed the m_spec option
--- v14   (Floris): Added country flags + Added camera icons for locked camera + specs show bright when they are broadcasting new lockcamera positions + bugfixed lockcamera for specs. Added small gaps between in tweakui icons. Auto scales with resolution changes.
+-- v14   (Floris): Added countrys flags + Added camera icons for locked camera + specs show bright when they are broadcasting new lockcamera positions + bugfixed lockcamera for specs. Added small gaps between in tweakui icons. Auto scales with resolution changes.
 -- v15   (Floris): Integrated LockCamers widget code
 -- v16	 (Floris): Added chips next to gambling-spectators for betting system
 -- v17	 (Floris): Added alliances display and button and /cputext option
@@ -134,7 +134,7 @@ local pics = {
 	seespecPic      = imageDirectory.."seespec.png",
 	indentPic       = imageDirectory.."indent.png",
 	cameraPic       = imageDirectory.."camera.dds",
-	countryPic      = imageDirectory.."country.dds",
+	countrysPic      = imageDirectory.."country.dds",
 	readyTexture    = imageDirectory.."indicator.dds",
 	drawPic         = imageDirectory.."draw.dds",
 	allyPic         = imageDirectory.."ally.dds",
@@ -368,16 +368,16 @@ m_rank = {
 }
 position = position + 1
 
-m_country = {
-	name	  = "country",
+m_countrys = {
+	name	  = "countrys",
 	spec      = true,
 	play      = true,
-	active    = true,
-	default   = true,
+	active    = false,
+	default   = false,
 	width     = 20,
 	position  = position,
 	posX      = 0,
-	pic       = pics["countryPic"],
+	pic       = pics["countrysPic"],
 }
 position = position + 1
 
@@ -506,7 +506,7 @@ modules = {
 	m_indent,
 	m_ID,
 	m_rank,
-	m_country,
+	m_countrys,
 	m_name,
 	m_skill,
 	m_resources,
@@ -954,7 +954,7 @@ end
 function CreatePlayer(playerID)
 	
 	--generic player data
-	local tname,_, tspec, tteam, tallyteam, tping, tcpu, tcountry, trank = Spring_GetPlayerInfo(playerID)
+	local tname,_, tspec, tteam, tallyteam, tping, tcpu, tcountrys, trank = Spring_GetPlayerInfo(playerID)
 	local _,_,_,_, tside, tallyteam                                      = Spring_GetTeamInfo(tteam)
 	local tred, tgreen, tblue  										     = Spring_GetTeamColor(tteam)
 	
@@ -996,7 +996,7 @@ function CreatePlayer(playerID)
 		cpuLvl           = tcpuLvl,
 		ping             = tping,
 		cpu              = tcpu,
-		country          = tcountry,
+		countrys          = tcountrys,
 		tdead            = false,
 		spec             = tspec,
 		ai               = false,
@@ -1731,7 +1731,7 @@ function DrawPlayer(playerID, leader, vOffset, mouseX, mouseY)
 	local cpuLvl         = player[playerID].cpuLvl
 	local ping           = player[playerID].ping
 	local cpu            = player[playerID].cpu
-	local country        = player[playerID].country
+	local countrys        = player[playerID].countrys
 	local spec           = player[playerID].spec
 	local totake         = player[playerID].totake
 	local needm          = player[playerID].needm
@@ -1838,8 +1838,8 @@ function DrawPlayer(playerID, leader, vOffset, mouseX, mouseY)
 		if m_rank.active == true then
 			DrawRank(rank, posY)
 		end
-		if m_country.active == true and country ~= "" then
-			DrawCountry(country, posY)
+		if m_countrys.active == true and countrys ~= "" then
+			Drawcountrys(countrys, posY)
 		end
 		--gl_Color(red,green,blue,1)
 		gl_Color(1,1,1,0.45)
@@ -2074,11 +2074,11 @@ function DrawAlly(posY, team)
 	DrawRect(m_alliance.posX + widgetPosX + 3, posY+1, m_alliance.posX + widgetPosX + 17, posY + 15)
 end
 
-function DrawCountry(country, posY)
-	if country ~= nil and country ~= "??" then
-		gl_Texture(flagsDirectory..string.upper(country)..".dds")
+function Drawcountrys(countrys, posY)
+	if countrys ~= nil and countrys ~= "??" then
+		gl_Texture(flagsDirectory..string.upper(countrys)..".dds")
 		gl_Color(1,1,1)
-		DrawRect(m_country.posX + widgetPosX + 3, posY+1, m_country.posX + widgetPosX + 17, posY + 15)
+		DrawRect(m_countrys.posX + widgetPosX + 3, posY+1, m_countrys.posX + widgetPosX + 17, posY + 15)
 	end
 end
 
@@ -3200,7 +3200,7 @@ end
 function CheckPlayersChange()
 	local sorting = false
 	for i = 0,63 do
-		local name,active,spec,teamID,allyTeamID,pingTime,cpuUsage, country, rank = Spring_GetPlayerInfo(i)
+		local name,active,spec,teamID,allyTeamID,pingTime,cpuUsage, countrys, rank = Spring_GetPlayerInfo(i)
 		if active == false then
 			if player[i].name ~= nil then                                             -- NON SPEC PLAYER LEAVING
 				if player[i].spec==false then

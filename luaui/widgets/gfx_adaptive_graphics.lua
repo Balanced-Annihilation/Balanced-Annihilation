@@ -13,7 +13,7 @@ end
 
 local spGetFPS = Spring.GetFPS
 local isSpec = Spring.GetSpectatingState()
-local prevnumparticles = Spring.GetConfigInt("MaxParticles", 30000)
+local prevnumparticles = Spring.GetConfigInt("MaxParticles", 35000)
 local graphicslevel = 2
 local prevmapborderpreset = tonumber(Spring.GetConfigInt("mapborder", 1))
 local minimumenabled = 0
@@ -105,10 +105,10 @@ end
 
 function widget:GameFrame(gameFrame)
     if (gameFrame % 600 == 0) and (gameFrame > 1000) then
-        if WG["topbar"] and not WG["topbar"].showingRejoining() and not select(6, Spring.GetMouseState()) then --	-- mouse not offscreen
+        if (WG["topbar"] and (not WG["topbar"].showingRejoining())) then -- or mouse offscreen
             fps = spGetFPS()
 
-            if spGetFPS() < 15 then
+            if spGetFPS() < 10 then
                 if graphicslevel == 2 then
                     Spring.SendCommands("luarules disablecus")
                     --widgetHandler: DisableWidget("SSAO_alternative")
@@ -143,7 +143,7 @@ function widget:GameFrame(gameFrame)
                     widgetHandler:DisableWidget("LupsManager")
                     Spring.Echo("Max perfomance mode on until next game due to low fps")
                     graphicslevel = graphicslevel - 1
-                    prevnumparticles = Spring.GetConfigInt("MaxParticles", 30000)
+                    prevnumparticles = Spring.GetConfigInt("MaxParticles", 35000)
                     if prevnumparticles > 10000 then
                         Spring.SetConfigInt("MaxParticles", 10000)
                     end

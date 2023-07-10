@@ -300,12 +300,12 @@ Deactivate()
 
 StartBuilding()
 {
-	spin pad around y-axis speed <30.005495>;
+return (0);
 }
 
 StopBuilding()
 {
-	stop-spin pad around y-axis;
+return (0);
 }
 
 QueryBuildInfo(piecenum)

@@ -22,10 +22,6 @@ local unitSet = {}
 
 local unitArray = {
 
-  --comms
-  "armcom",
-  "corcom",
-
   "armmerl",
   "corvroc",
 	"armmart",

@@ -1,6 +1,6 @@
 function widget:GetInfo()
 	return {
-		name = "Info alternate",
+		name = "Info alternative",
 		desc = "",
 		author = "Floris",
 		date = "April 2020",

@@ -485,8 +485,8 @@ local function processLine(line,g,cfg,newlinecolor)
 	
 	
 		
-	if sfind(line,"style camera") then --	if sfind(line," Connection established") then
-	  	  ignoreThisMessage = true
+if sfind(line,"style camera") then --	if sfind(line," Connection established") then
+	  ignoreThisMessage = true
 
 	  if sfind(line," FPS") then
 	  	
@@ -503,13 +503,12 @@ local function processLine(line,g,cfg,newlinecolor)
 		if (value == 1) then
 			widgetHandler:EnableWidget("SmoothCam")
 		end
-			widgetHandler:EnableWidget("Top Bar")
-			widgetHandler:EnableWidget("Order menu alternate")
-			widgetHandler:EnableWidget("Build menu alternate")
-			if (Spring.IsGUIHidden()) then
-				Spring.SendCommands("ResBar")
-			end
-	  
+		widgetHandler:EnableWidget("Top Bar")
+		widgetHandler:EnableWidget("Order menu alternate")
+		widgetHandler:EnableWidget("Build menu alternate")
+		if (Spring.IsGUIHidden()) then
+			Spring.SendCommands("ResBar")
+		end
 	end
 elseif sfind(line,"rror:") then --	if sfind(line,"Error:") then
 	  ignoreThisMessage = true
@@ -529,7 +528,9 @@ elseif sfind(line,"rror:") then --	if sfind(line,"Error:") then
 	elseif sfind(line," Connection est") then --	if sfind(line," Connection established") then
 		name = lastConnectionAttempt
 	  ignoreThisMessage = true
-
+	elseif sfind(line," ct password") then --	if sfind(line," Connection established") then
+		name = lastConnectionAttempt
+	  ignoreThisMessage = true
 	
 	elseif sfind(line,"ient=") then-- if sfind(line,"client=") then
 	  ignoreThisMessage = true

@@ -7,7 +7,7 @@ return {
 		buildpic = "ARMSL.DDS",
 		buildtime = 15289,
 		canfly = true, 
- 
+  turnradius =0,
 		canmove = true,
 		category = "ALL NOTSUB VTOL NOWEAPON NOTHOVER",
 		collide = false,

@@ -513,6 +513,7 @@ function widget:GetConfigData()
 	local _, _, _, _, mySide = Spring.GetTeamInfo(Spring.GetMyTeamID())
 	if Spring.GetGameSeconds() <= 0 and  mySide ~= "" then
 		local startUnitName = Spring.GetSideData(mySide)
+		if((startUnitName ~= nil) and (UnitDefNames[startUnitName] ~= nil) and (UnitDefNames[startUnitName].id ~= nil)) then
 		local sDefID = UnitDefNames[startUnitName].id
 		local sBuilds = UnitDefs[sDefID].buildOptions
 		local numCols = math.min(#sBuilds, maxCols)
@@ -528,6 +529,7 @@ function widget:GetConfigData()
 		savedTable.bgwidth		= bgwidth
 		savedTable.gameid		= Game.gameID
 		return savedTable
+	end
 	end
 end
 function widget:SetConfigData(data)

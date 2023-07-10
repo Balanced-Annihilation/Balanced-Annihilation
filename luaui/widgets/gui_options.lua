@@ -1594,7 +1594,7 @@ function widget:Initialize()
             min = 0,
             max = 60000,
             step = 1,
-            value = tonumber(Spring.GetConfigInt("BAMaxParticles", 1) or 30000),
+            value = tonumber(Spring.GetConfigInt("BAMaxParticles", 1) or 35000),
             description = "How many explosion particles can exist"
         },
         {
@@ -1659,10 +1659,10 @@ function widget:Initialize()
         --{id="borderless", name="Borderless", type="bool", value=tonumber(Spring.GetConfigInt("WindowBorderless",1) or 1) == 1},
         {
             id = "Cursorcanleavewindow",
-            name = "Cursor can leave window",
+            name = "Lock cursor to current window",
             type = "bool",
             value = tonumber(Spring.GetConfigInt("Cursorcanleavewindow", 1) or 1) == 1,
-            description = "Cursor can leave window"
+            description = "Lock cursor to current window"
         },
         {
             id = "screenedgemove",
@@ -1739,11 +1739,11 @@ function widget:Initialize()
         },
         {
             id = "adaptive",
-            name = "Boost perfomance if FPS is low ",
+            name = "Decrease graphics if FPS is low ",
             type = "bool",
             value = widgetHandler.orderList["Adaptive graphics"] ~= nil and
                 (widgetHandler.orderList["Adaptive graphics"] > 0),
-            description = "Boost perfomance if FPS is low (under 15)"
+            description = "Decrease graphics if FPS is low (under 10)"
         },
         {
             id = "sndvolmaster",

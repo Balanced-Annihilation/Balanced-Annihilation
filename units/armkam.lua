@@ -7,7 +7,7 @@ return {
 		buildpic = "ARMKAM.DDS",
 		buildtime = 5046,
 		canfly = true, 
- 
+ turnradius =0,
 		canmove = true,
 		category = "ALL WEAPON NOTSUB VTOL NOTHOVER",
 		collide = false,

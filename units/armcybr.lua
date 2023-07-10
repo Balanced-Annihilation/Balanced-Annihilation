@@ -8,8 +8,6 @@ return {
 		buildtime = 56203,
 		canfly = true, 
   
-
-		
 		canmove = true,
 		category = "ALL WEAPON NOTSUB VTOL NOTHOVER",
 		collide = false,
@@ -20,7 +18,6 @@ return {
 		description = "Atomic Bomber",
 		energyuse = 40,
 		explodeas = "SMALL_BUILDING",
-		firestate = 0,
 		footprintx = 3,
 		footprintz = 3,
 		icontype = "air",
@@ -39,7 +36,7 @@ return {
 		sightdistance = 455,
 		turnrate = 535,
 		blocking = false,
-		turnradius =250,
+		turnradius =0,
 		sounds = {
 			canceldestruct = "cancel2",
 			underattack = "warning1",

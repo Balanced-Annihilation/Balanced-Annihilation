@@ -7,7 +7,7 @@ return {
 		buildpic = "ARMLANCE.DDS",
 		buildtime = 15096,
 		canfly = true, 
- 
+ turnradius =0,
 		canmove = true,
 		category = "ALL NOTLAND MOBILE WEAPON NOTSUB ANTIFLAME ANTIEMG ANTILASER VTOL NOTSHIP NOTHOVER",
 		collide = false,
@@ -35,6 +35,7 @@ return {
 		selfdestructas = "big_unit_AIR",
 		sightdistance = 455,
 		turnrate = 462,
+		blocking = false,
 		sounds = {
 			canceldestruct = "cancel2",
 			underattack = "warning1",
