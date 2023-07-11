@@ -1,5 +1,5 @@
-﻿15.7.6
-10/07/2023
+﻿15.7.7
+11/07/2023
 
 Crown for BA Governor Goopy, winner of Crown Cup 6
 Revert Arm Flash and Peewee 4% cost decrease, to 2% decrease.
