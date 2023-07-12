@@ -7,7 +7,7 @@ return {
 		buildpic = "ARMATLAS.DDS",
 		buildtime = 3850,
 		canfly = true, 
- turnradius =0,
+ 
 		canmove = true,
 		category = "ALL MOBILE WEAPON NOTLAND NOTSUB ANTIFLAME ANTIEMG ANTILASER VTOL NOTSHIP NOTHOVER",
 		collide = false,

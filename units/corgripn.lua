@@ -7,7 +7,7 @@ return {
 		buildpic = "CORGRIPN.DDS",
 		buildtime = 21522,
 		canfly = true, 
- turnradius =0,
+ 
 		canmove = true,
 		category = "ALL MOBILE WEAPON VTOL NOTSUB NOTHOVER",
 		collide = false,

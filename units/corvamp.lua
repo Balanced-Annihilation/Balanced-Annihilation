@@ -8,7 +8,7 @@ return {
 		buildpic = "CORVAMP.DDS",
 		buildtime = 6554,
 		canfly = true, 
-  turnradius =0,
+ 
 		canmove = true,
 		category = "ALL NOTLAND MOBILE WEAPON VTOL ANTIFLAME ANTIEMG ANTILASER NOTSUB NOTSHIP NOTHOVER",
 		collide = false,

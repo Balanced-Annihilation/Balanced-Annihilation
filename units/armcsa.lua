@@ -9,7 +9,7 @@ return {
 		buildpic = "ARMCSA.DDS",
 		buildtime = 20098,
 		canfly = true, 
- turnradius =0,
+ 
 		canmove = true,
 		cansubmerge = true,
 		category = "ALL NOTLAND MOBILE NOTSUB ANTIFLAME ANTIEMG ANTILASER VTOL NOWEAPON NOTSHIP NOTHOVER",

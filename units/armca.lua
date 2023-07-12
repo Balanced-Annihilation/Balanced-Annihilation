@@ -9,7 +9,7 @@ return {
 		buildpic = "ARMCA.DDS",
 		buildtime = 8844,
 		canfly = true, 
- turnradius =0,
+ 
 		canmove = true,
 		collisionvolumeoffsets = "0 0 0",
 		collisionvolumescales = "24 16 24",

@@ -7,7 +7,7 @@ return {
 		buildpic = "CORSHAD.DDS",
 		buildtime = 5054,
 		canfly = true, 
-  turnradius =0,
+ 
 		canmove = true,
 		category = "ALL MOBILE WEAPON NOTLAND VTOL ANTIFLAME ANTIEMG ANTILASER NOTSUB NOTSHIP NOTHOVER",
 		collide = false,
@@ -29,6 +29,7 @@ return {
 		maxvelocity = 7.8,
 		maxwaterdepth = 0,
 		name = "Shadow",
+		noautofire = true,
 		nochasecategory = "VTOL",
 		objectname = "CORSHAD",
 		seismicsignature = 0,

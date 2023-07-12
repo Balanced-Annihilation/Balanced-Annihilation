@@ -7,7 +7,7 @@ return {
 		buildpic = "ARMAWAC.DDS",
 		buildtime = 12819,
 		canfly = true, 
- turnradius =0,
+ 
 		canmove = true,
 		category = "ALL ANTIEMG NOTLAND MOBILE NOTSUB ANTIFLAME ANTILASER VTOL NOWEAPON NOTSHIP NOTHOVER",
 		collide = false,

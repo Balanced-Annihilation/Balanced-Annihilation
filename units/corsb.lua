@@ -7,7 +7,7 @@ return {
 		buildpic = "CORSB.DDS",
 		buildtime = 25022,
 		canfly = true, 
-  turnradius =0,
+ 
 		canmove = true,
 		cansubmerge = true,
 		category = "ALL NOTLAND MOBILE WEAPON VTOL ANTIFLAME ANTIEMG ANTILASER NOTSUB NOTSHIP NOTHOVER",
@@ -30,6 +30,7 @@ return {
 		maxvelocity = 8,
 		maxwaterdepth = 255,
 		name = "Dam Buster",
+		noautofire = true,
 		nochasecategory = "VTOL",
 		objectname = "CORSB",
 		seismicsignature = 0,

@@ -8,7 +8,7 @@ return {
 		buildpic = "CORCRW.DDS",
 		buildtime = 84229,
 		canfly = true, 
-  turnradius =0,
+ 
 		canmove = true,
 		category = "ALL WEAPON VTOL NOTSUB NOTHOVER",
 		collide = false,

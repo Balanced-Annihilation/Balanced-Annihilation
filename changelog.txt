@@ -1,12 +1,10 @@
-﻿15.7.7
-11/07/2023
+﻿15.7.8
+12/07/2023
 
 Crown for BA Governor Goopy, winner of Crown Cup 6
 Revert Arm Flash and Peewee 4% cost decrease, to 2% decrease.
 DontMoveComs widget sets commander and decoy commanders to hold position by default (default on)
 SelectVisibleUnitsExceptAirAndCons widget, Ctrl+s or cntrl+v select visible units except air and cons (default off)
-Planes always depart airlabs the same direction relative to the plant (default is downwards)
-Planes follow orders better (put airlab waypoint further away or above factory to land successfully)
 Re-enable plane crashing
 Add X-Ray shader widget that highlights units with team colour (default off)
 

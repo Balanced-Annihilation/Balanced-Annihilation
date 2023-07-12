@@ -7,7 +7,7 @@ return {
 		buildpic = "CORHUNT.DDS",
 		buildtime = 9512,
 		canfly = true, 
-  turnradius =0,
+ 
 		canmove = true,
 		cansubmerge = true,
 		category = "ALL ANTIEMG NOTLAND MOBILE NOTSUB ANTIFLAME ANTILASER VTOL NOWEAPON NOTSHIP NOTHOVER",

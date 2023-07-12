@@ -8,7 +8,7 @@ return {
 		buildpic = "CORSFIG.DDS",
 		buildtime = 6915,
 		canfly = true, 
-  turnradius =0,
+ 
 		canmove = true,
 		cansubmerge = true,
 		category = "ALL NOTLAND MOBILE WEAPON VTOL ANTIFLAME ANTIEMG ANTILASER NOTSUB NOTSHIP NOTHOVER",

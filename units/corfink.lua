@@ -7,7 +7,7 @@ return {
 		buildpic = "CORFINK.DDS",
 		buildtime = 2156,
 		canfly = true, 
-  turnradius =0,
+ 
 		canmove = true,
 		category = "ALL MOBILE NOTLAND NOTSUB ANTIFLAME ANTIEMG ANTILASER VTOL NOWEAPON NOTSHIP NOTHOVER LIGHTAIRSCOUT",
 		collide = false,

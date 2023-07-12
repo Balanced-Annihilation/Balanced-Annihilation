@@ -7,7 +7,7 @@ return {
 		buildpic = "CORSEAP.DDS",
 		buildtime = 10698,
 		canfly = true, 
-  turnradius =0,
+ 
 		canmove = true,
 		cansubmerge = true,
 		category = "ALL NOTLAND MOBILE WEAPON VTOL ANTIFLAME ANTIEMG ANTILASER NOTSUB NOTSHIP NOTHOVER",
