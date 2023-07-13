@@ -492,8 +492,8 @@ if sfind(line,"style camera") then --	if sfind(line," Connection established") t
 	  	
 		widgetHandler:DisableWidget("SmoothCam")
 		widgetHandler:DisableWidget("Top Bar")
-		widgetHandler:DisableWidget("Order menu alternate")
-		widgetHandler:DisableWidget("Build menu alternate")
+		widgetHandler:DisableWidget("Order menu alternative")
+		widgetHandler:DisableWidget("Build menu alternative")
 		if (not Spring.IsGUIHidden()) then
 			Spring.SendCommands("ResBar")
 		end
@@ -504,8 +504,8 @@ if sfind(line,"style camera") then --	if sfind(line," Connection established") t
 			widgetHandler:EnableWidget("SmoothCam")
 		end
 		widgetHandler:EnableWidget("Top Bar")
-		widgetHandler:EnableWidget("Order menu alternate")
-		widgetHandler:EnableWidget("Build menu alternate")
+		widgetHandler:EnableWidget("Order menu alternative")
+		widgetHandler:EnableWidget("Build menu alternative")
 		if (Spring.IsGUIHidden()) then
 			Spring.SendCommands("ResBar")
 		end
