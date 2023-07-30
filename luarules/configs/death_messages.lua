@@ -79,6 +79,8 @@ allyTeamDeathMessages = {
 }	
 
 teamDeathMessages = {
+	"XX went below zero",
+	"XX was distracted by Perl scripts",
 	"XX's returned to stardust",
 	"XX's fate was sealed",
 	"XX encountered an unexpected error",

@@ -14,8 +14,6 @@ end
 
 -- table of stuff that we unbind on load
 local unbinds={
-    "bind any+c controlunit",
-    "bind c controlunit",
     "bind any+x  buildspacing dec",
     "bind x  buildspacing dec",
     "bindaction buildspacing dec",

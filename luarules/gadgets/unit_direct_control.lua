@@ -91,6 +91,8 @@ local Spring_GetTeamInfo         = Spring.GetTeamInfo
   local disableFPS = false
   
 function gadget:Initialize()
+	Spring.SendCommands("unbind c controlunit")
+	Spring.SendCommands("unbind any+c controlunit")
   Spring.SendCommands("unbind ctrl+o controlunit")
   Spring.SendCommands("bind ctrl+o controlunit")
   local cmd  = "fpsctrl"

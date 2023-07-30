@@ -1743,7 +1743,7 @@ function widget:Initialize()
             type = "bool",
             value = widgetHandler.orderList["Adaptive graphics"] ~= nil and
                 (widgetHandler.orderList["Adaptive graphics"] > 0),
-            description = "Decrease graphics if FPS is low (under 10)"
+            description = "Decrease graphics if FPS is low (under 5)"
         },
         {
             id = "sndvolmaster",
