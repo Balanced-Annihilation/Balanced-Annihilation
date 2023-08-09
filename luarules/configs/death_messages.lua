@@ -81,7 +81,7 @@ allyTeamDeathMessages = {
 teamDeathMessages = {
 	"XX went below zero",
 	"XX was distracted by Perl scripts",
-	"XX's returned to stardust",
+	"XX returned to stardust",
 	"XX's fate was sealed",
 	"XX encountered an unexpected error",
 	"XX passed the event horizon",
@@ -89,7 +89,7 @@ teamDeathMessages = {
 	"XX's heart turned cold",
 	"XX was waiting for a moment that never came",
 	"XX can face the demons on their own",
-	"XX's had their last laugh",
+	"XX had their last laugh",
 	"XX should keep their commander safe",
 	"XX was banished to Tartarus",
 	"XX left and isn't coming back",
